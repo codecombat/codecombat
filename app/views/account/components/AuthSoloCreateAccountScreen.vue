@@ -15,7 +15,7 @@
         <p>You're one step away from coding.</p>
       </div>
 
-      <!-- SSO first -->
+      <!-- SSO first: Google + Facebook -->
       <div class="provider-row">
         <button
           class="provider-btn"
@@ -28,7 +28,17 @@
             alt="Google"
           >
         </button>
-        <!-- TODO: Apple auth not wired -->
+        <button
+          class="provider-btn"
+          type="button"
+          @click="$emit('facebook-signup')"
+        >
+          <img
+            class="provider-wordmark provider-wordmark--fb"
+            src="/images/pages/modal/auth/facebook-logo-wordmark.svg"
+            alt="Facebook"
+          >
+        </button>
       </div>
 
       <div class="divider">
@@ -222,10 +232,18 @@ p {
   cursor: pointer;
 }
 
+.provider-btn {
+  flex: 1;
+}
+
 .provider-wordmark {
-  width: 88px;
+  width: 80px;
   height: 22px;
   object-fit: contain;
+}
+
+.provider-wordmark--fb {
+  width: 90px;
 }
 
 .divider {

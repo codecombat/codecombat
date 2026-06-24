@@ -53,6 +53,7 @@
         @update-form="updateSoloCreateForm"
         @submit="submitSoloCreateAccount"
         @google-signup="signupWithGoogle"
+        @facebook-signup="signupWithFacebook"
       />
       <AuthCoppaScreen
         v-else-if="currentScreen === 'coppa'"
@@ -70,7 +71,10 @@
         :error-message="errorMessage"
         @login="submitLogin"
         @google-login="loginWithGoogle"
+        @facebook-login="loginWithFacebook"
         @clever-login="loginWithClever"
+        @schoology-login="loginWithSchoology"
+        @classlink-login="loginWithClassLink"
         @create-account="goToChooser"
       />
     </div>
@@ -91,6 +95,8 @@ const contact = require('core/contact')
 const utils = require('core/utils')
 const { me } = require('core/auth')
 const { logInWithClever } = require('core/social-handlers/CleverHandler')
+const ClassLinkHandler = require('core/social-handlers/ClassLinkHandler')
+const SchoologyHandler = require('core/social-handlers/SchoologyHandler')
 
 export default Vue.extend({
   name: 'PageAuth',
@@ -139,7 +145,7 @@ export default Vue.extend({
       return this.screen || 'welcome'
     },
     canGoBack () {
-      return this.currentScreen !== 'welcome' && this.currentScreen !== 'login'
+      return true
     },
   },
   mounted () {
@@ -189,7 +195,8 @@ export default Vue.extend({
       if (screen === 'birthday') return this.goToChooser()
       if (screen === 'create-account') return this.goToBirthday()
       if (screen === 'coppa') return this.goToBirthday()
-      return this.goToWelcome()
+      // welcome and login are flow entry points — back exits the flow
+      return this.handleClose()
     },
     handleClose () {
       window.location.href = '/'
@@ -279,6 +286,58 @@ export default Vue.extend({
     signupWithGoogle () {
       this.resetMessages()
       noty({ text: 'Google signup coming next pass; use email signup for now.', layout: 'topCenter', type: 'info', timeout: 3500, killer: false, dismissQueue: true })
+    },
+    signupWithFacebook () {
+      this.resetMessages()
+      noty({ text: 'Facebook signup coming next pass; use email signup for now.', layout: 'topCenter', type: 'info', timeout: 3500, killer: false, dismissQueue: true })
+    },
+    loginWithFacebook () {
+      this.resetMessages()
+      const User = require('models/User')
+      return application.facebookHandler.connect({
+        context: this,
+        success: (response) => {
+          return application.facebookHandler.loadPerson({
+            context: this,
+            success: (facebookAttrs) => {
+              const existingUser = new User()
+              return existingUser.fetchFacebookUser(facebookAttrs.facebookID, response?.authResponse?.accessToken, {
+                success: () => {
+                  return me.loginFacebookUser(facebookAttrs.facebookID, response?.authResponse?.accessToken, {
+                    success: () => { window.location.href = '/' },
+                    error: () => { this.errorMessage = 'Facebook login failed. Check your account.' },
+                  })
+                },
+                error: () => { this.errorMessage = 'No CodeCombat account found for that Facebook login.' },
+              })
+            },
+          })
+        },
+      })
+    },
+    loginWithSchoology () {
+      this.resetMessages()
+      const handler = new SchoologyHandler()
+      handler.connect({
+        context: this,
+        success: () => {
+          this.errorMessage = 'No CodeCombat account found for that Schoology login.'
+        },
+      }).catch((err) => {
+        this.errorMessage = err?.message || 'Schoology login failed.'
+      })
+    },
+    loginWithClassLink () {
+      this.resetMessages()
+      const handler = new ClassLinkHandler()
+      handler.connect({
+        context: this,
+        success: () => {
+          this.errorMessage = 'No CodeCombat account found for that ClassLink login.'
+        },
+      }).catch((err) => {
+        this.errorMessage = err?.message || 'ClassLink login failed.'
+      })
     },
     submitParentEmail (email) {
       this.resetMessages()

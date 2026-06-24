@@ -14,44 +14,74 @@
         <p>Log in to keep coding where you left off.</p>
       </div>
 
-      <!-- SSO first — primary path -->
-      <div class="provider-row">
+      <!-- SSO — primary, stacked rows -->
+      <div class="provider-list">
         <button
-          class="provider-btn"
+          class="provider-row"
           type="button"
           :disabled="googleLoading"
           @click="$emit('google-login')"
         >
-          <img
-            class="provider-wordmark"
-            src="/images/pages/modal/auth/google-logo-wordmark.svg"
-            alt="Google"
-          >
-          <span
-            v-if="googleLoading"
-            class="provider-loading"
-          >…</span>
+          <span class="prov-icon prov-icon--google">G</span>
+          <span class="prov-label">{{ googleLoading ? 'Connecting…' : 'Continue with Google' }}</span>
         </button>
+
         <button
-          class="provider-btn"
+          class="provider-row"
+          type="button"
+          @click="$emit('facebook-login')"
+        >
+          <img
+            class="prov-icon prov-img"
+            src="/images/pages/modal/auth/facebook_small.png"
+            alt=""
+          >
+          <span class="prov-label">Continue with Facebook</span>
+        </button>
+
+        <button
+          class="provider-row"
           type="button"
           @click="$emit('clever-login')"
         >
+          <span class="prov-icon prov-icon--clever">C</span>
+          <span class="prov-label">Continue with Clever</span>
+        </button>
+
+        <button
+          class="provider-row"
+          type="button"
+          @click="$emit('schoology-login')"
+        >
           <img
-            class="provider-wordmark provider-wordmark--clever"
-            src="/images/pages/modal/auth/clever-logo-blue.png"
-            alt="Clever"
+            class="prov-icon prov-img"
+            src="/images/pages/modal/auth/schoology.png"
+            alt=""
           >
+          <span class="prov-label">Continue with Schoology</span>
+        </button>
+
+        <button
+          class="provider-row"
+          type="button"
+          @click="$emit('classlink-login')"
+        >
+          <img
+            class="prov-icon prov-img"
+            src="/images/pages/modal/auth/classlink-logo-small.png"
+            alt=""
+          >
+          <span class="prov-label">Continue with ClassLink</span>
         </button>
       </div>
 
-      <!-- Email form — secondary path -->
+      <!-- Email — secondary -->
       <div class="divider">
         <span>or</span>
       </div>
 
       <form
-        class="login-form"
+        class="email-form"
         @submit.prevent="emitLogin"
       >
         <label
@@ -66,7 +96,7 @@
           autocomplete="username"
         >
 
-        <div class="password-row">
+        <div class="pw-row">
           <label
             class="field-label"
             for="auth-password"
@@ -158,7 +188,7 @@ export default Vue.extend({
 .auth-card {
   background: rgba(255, 255, 255, 0.98);
   border-radius: 28px;
-  padding: 24px 20px 20px;
+  padding: 20px 18px 18px;
 }
 
 .wordmark-row {
@@ -167,7 +197,7 @@ export default Vue.extend({
 }
 
 .wordmark {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
 }
 
@@ -175,72 +205,98 @@ export default Vue.extend({
 :deep(.wordmark .mixed-color-label__highlight) { color: #7a65fc; }
 
 .copy-block {
-  margin-top: 14px;
+  margin-top: 10px;
   text-align: center;
 }
 
 h1 {
   margin: 0;
   color: #17314d;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 800;
   line-height: 1.1;
 }
 
 p {
-  margin: 6px 0 0;
+  margin: 4px 0 0;
   color: #5b6b7c;
-  font-size: 15px;
+  font-size: 13px;
   line-height: 1.4;
 }
 
-/* SSO row - primary */
-.provider-row {
+/* SSO provider stack */
+.provider-list {
+  margin-top: 14px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-top: 18px;
+  gap: 7px;
 }
 
-.provider-btn {
+.provider-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border-radius: 14px;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
   border: 1px solid #d9ddf6;
   background: #fff;
-  padding: 12px 14px;
-  color: #17314d;
-  font-size: 15px;
-  font-weight: 700;
+  text-align: left;
   cursor: pointer;
 }
 
-.provider-wordmark {
-  width: 88px;
+.provider-row:hover,
+.provider-row:focus-visible {
+  border-color: rgba(122, 101, 252, 0.45);
+  background: #faf9ff;
+}
+
+.provider-row:disabled {
+  opacity: 0.55;
+}
+
+/* Icon slot — 22×22, consistent size */
+.prov-icon {
+  width: 22px;
   height: 22px;
+  border-radius: 5px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.prov-img {
   object-fit: contain;
 }
 
-.provider-wordmark--clever {
-  width: 68px;
+.prov-icon--google {
+  background: #fff;
+  border: 1px solid #dadce0;
+  color: #4285f4;
+  font-size: 13px;
+  font-weight: 900;
 }
 
-.provider-loading {
+.prov-icon--clever {
+  background: #1165ca;
+  color: #fff;
+}
+
+.prov-label {
+  color: #17314d;
   font-size: 14px;
-  color: #8b95a7;
-}
-
-.provider-btn:disabled {
-  opacity: 0.55;
+  font-weight: 600;
+  line-height: 1;
 }
 
 /* Divider */
 .divider {
   position: relative;
   text-align: center;
-  margin: 16px 0 14px;
+  margin: 12px 0 10px;
 }
 
 .divider::before {
@@ -255,84 +311,79 @@ p {
 
 .divider span {
   position: relative;
-  padding: 0 12px;
+  padding: 0 10px;
   background: rgba(255, 255, 255, 0.98);
   color: #8b95a7;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
 }
 
-/* Form */
+/* Email form */
 .field-label {
   display: block;
   color: #17314d;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
-.password-row {
+.pw-row {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 .field-input {
   width: 100%;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid #d9ddf6;
   background: #fbfbff;
-  padding: 12px 14px;
+  padding: 10px 12px;
   color: #17314d;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.3;
 }
 
 .field-input:focus {
-  outline: 2px solid rgba(122, 101, 252, 0.25);
+  outline: 2px solid rgba(122, 101, 252, 0.22);
   border-color: #7a65fc;
 }
 
 .forgot-link {
   color: #8b95a7;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
   text-decoration: none;
 }
 
-.forgot-link:hover {
-  color: #6d5df6;
-}
-
 .error-copy {
   color: #cc3846;
-  font-size: 13px;
-  line-height: 1.4;
-  margin-top: 8px;
+  font-size: 12px;
+  margin-top: 6px;
 }
 
 .primary-action {
   width: 100%;
-  margin-top: 14px;
+  margin-top: 10px;
   border: 0;
-  border-radius: 14px;
-  padding: 13px 20px;
+  border-radius: 12px;
+  padding: 11px 20px;
   background: #7a65fc;
   color: #fff;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
 }
 
 .primary-action:disabled {
-  opacity: 0.55;
+  opacity: 0.5;
 }
 
 .footer-copy {
-  margin-top: 14px;
+  margin-top: 12px;
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
   color: #516173;
 }
 
@@ -343,6 +394,6 @@ p {
   color: #6d5df6;
   font-weight: 700;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12px;
 }
 </style>
