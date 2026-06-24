@@ -23,10 +23,10 @@
           @click="$emit('google-signup')"
         >
           <img
+            class="provider-wordmark"
             src="/images/pages/modal/auth/google-logo-wordmark.svg"
             alt="Google"
           >
-          <span>Google</span>
         </button>
         <!-- TODO: Apple auth not wired -->
       </div>
@@ -222,9 +222,9 @@ p {
   cursor: pointer;
 }
 
-.provider-btn img {
-  width: 20px;
-  height: 20px;
+.provider-wordmark {
+  width: 88px;
+  height: 22px;
   object-fit: contain;
 }
 

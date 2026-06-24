@@ -23,10 +23,14 @@
           @click="$emit('google-login')"
         >
           <img
+            class="provider-wordmark"
             src="/images/pages/modal/auth/google-logo-wordmark.svg"
             alt="Google"
           >
-          <span>{{ googleLoading ? 'Google…' : 'Google' }}</span>
+          <span
+            v-if="googleLoading"
+            class="provider-loading"
+          >…</span>
         </button>
         <button
           class="provider-btn"
@@ -34,10 +38,10 @@
           @click="$emit('clever-login')"
         >
           <img
+            class="provider-wordmark provider-wordmark--clever"
             src="/images/pages/modal/auth/clever-logo-blue.png"
             alt="Clever"
           >
-          <span>Clever</span>
         </button>
       </div>
 
@@ -213,10 +217,19 @@ p {
   cursor: pointer;
 }
 
-.provider-btn img {
-  width: 22px;
+.provider-wordmark {
+  width: 88px;
   height: 22px;
   object-fit: contain;
+}
+
+.provider-wordmark--clever {
+  width: 68px;
+}
+
+.provider-loading {
+  font-size: 14px;
+  color: #8b95a7;
 }
 
 .provider-btn:disabled {

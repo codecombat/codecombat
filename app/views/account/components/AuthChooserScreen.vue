@@ -37,7 +37,7 @@
             <span class="row-desc">{{ option.description }}</span>
           </div>
           <span
-            class="row-chevron"
+            class="row-arrow"
             aria-hidden="true"
           >›</span>
         </button>
@@ -64,6 +64,10 @@
           <div class="card-copy">
             <span class="card-title">{{ option.title }}</span>
             <span class="card-desc">{{ option.description }}</span>
+            <span
+              class="card-arrow"
+              aria-hidden="true"
+            >›</span>
           </div>
         </button>
       </div>
@@ -230,10 +234,24 @@ p {
   line-height: 1.4;
 }
 
-.row-chevron {
-  color: #b0b8c7;
-  font-size: 22px;
+.row-arrow {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(122, 101, 252, 0.09);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #7a65fc;
+  font-size: 18px;
   line-height: 1;
+  transition: background 0.15s;
+}
+
+.choice-row:hover .row-arrow,
+.choice-row:focus-visible .row-arrow {
+  background: rgba(122, 101, 252, 0.18);
 }
 
 /* ======= DESKTOP CARDS ======= */
@@ -270,6 +288,12 @@ p {
   .choice-card:hover,
   .choice-card:focus-visible {
     border-color: rgba(122, 101, 252, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(100, 80, 200, 0.10);
+  }
+
+  .choice-card {
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
   }
 
   .card-image-shell {
@@ -289,6 +313,7 @@ p {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    position: relative;
   }
 
   .card-title {
@@ -302,6 +327,29 @@ p {
     color: #617283;
     font-size: 12px;
     line-height: 1.4;
+  }
+
+  .card-arrow {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(122, 101, 252, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9d8ffa;
+    font-size: 16px;
+    line-height: 1;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .choice-card:hover .card-arrow,
+  .choice-card:focus-visible .card-arrow {
+    background: rgba(122, 101, 252, 0.18);
+    color: #7a65fc;
   }
 }
 
