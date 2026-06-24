@@ -425,6 +425,7 @@ _.extend(UserSchema.properties, {
       'end-of-trial-promotion-modal': [c.date(), { type: 'boolean' }],
       'hp-junior-modal': [c.date(), { type: 'boolean' }],
       'ai-league-tour': [c.date(), { type: 'boolean' }],
+      'teacher-class-tour': [c.date(), { type: 'boolean' }],
     },
   },
 

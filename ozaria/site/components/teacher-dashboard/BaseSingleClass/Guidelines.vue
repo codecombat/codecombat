@@ -279,6 +279,7 @@ export default {
       <div class="spacer">
         <div
           v-if="showContentGuide"
+          id="content-guides"
           class="grid-container"
           :class="guideContainer.classes"
         >
