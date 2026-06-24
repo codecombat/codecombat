@@ -54,7 +54,6 @@ class AuthView extends RootView {
   }
 
   initialize (options = {}) {
-    super.initialize(options)
     this.utils = utils
     this.onFacebookLoginError = this.onFacebookLoginError.bind(this)
     this.signupState = new State({
@@ -94,6 +93,7 @@ class AuthView extends RootView {
     })
     this.hideEmail = isCodeCombat ? userUtils.shouldHideEmail() : false
     this.showLibraryIdInsteadOfUsername = isCodeCombat ? userUtils.shouldShowLibraryLoginModal() : false
+    super.initialize(options)
     this.listenTo(this.signupState, 'change', () => this.render())
     this.listenTo(this.state, 'change', () => this.render())
   }
