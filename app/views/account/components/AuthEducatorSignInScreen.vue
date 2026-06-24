@@ -66,7 +66,7 @@
         <span>or</span>
       </div>
 
-      <!-- Email sign-up row — leads to form screen -->
+      <!-- Email sign-up row - leads to form screen -->
       <button
         class="email-row"
         type="button"
@@ -119,7 +119,7 @@ export default Vue.extend({
   text-align: center;
 }
 
-/* Educator pill — purple tone */
+/* Educator pill - purple tone */
 .path-pill {
   display: inline-flex;
   align-items: center;

@@ -59,6 +59,23 @@
         :last-name="educatorForm.lastName"
         :class-code="educatorClassCode"
       />
+      <AuthParentCreateAccountScreen
+        v-else-if="currentScreen === 'parent-create'"
+        :submitting="submitting"
+        :error-message="errorMessage"
+        @submit="submitParentCreate"
+        @google-signup="signupWithGoogle"
+        @facebook-signup="signupWithFacebook"
+      />
+      <AuthParentAddChildScreen
+        v-else-if="currentScreen === 'parent-add-child'"
+        :submitting="submitting"
+        :error-message="errorMessage"
+        @submit="submitParentAddChild"
+      />
+      <AuthParentSuccessScreen
+        v-else-if="currentScreen === 'parent-success'"
+      />
       <AuthBirthdayScreen
         v-else-if="currentScreen === 'birthday'"
         :birthday="birthday"
@@ -110,6 +127,9 @@ import AuthCoppaScreen from './components/AuthCoppaScreen.vue'
 import AuthLoginScreen from './components/AuthLoginScreen.vue'
 import AuthEducatorSignInScreen from './components/AuthEducatorSignInScreen.vue'
 import AuthEducatorCreateAccountScreen from './components/AuthEducatorCreateAccountScreen.vue'
+import AuthParentCreateAccountScreen from './components/AuthParentCreateAccountScreen.vue'
+import AuthParentAddChildScreen from './components/AuthParentAddChildScreen.vue'
+import AuthParentSuccessScreen from './components/AuthParentSuccessScreen.vue'
 import AuthEducatorClassReadyScreen from './components/AuthEducatorClassReadyScreen.vue'
 const User = require('models/User')
 const forms = require('core/forms')
@@ -133,6 +153,9 @@ export default Vue.extend({
     AuthEducatorSignInScreen,
     AuthEducatorCreateAccountScreen,
     AuthEducatorClassReadyScreen,
+    AuthParentCreateAccountScreen,
+    AuthParentAddChildScreen,
+    AuthParentSuccessScreen,
   },
   props: {
     mode: {
@@ -168,6 +191,10 @@ export default Vue.extend({
         password: '',
       },
       educatorClassCode: 'FROG-1284',
+      parentForm: {
+        email: '',
+        password: '',
+      },
     }
   },
   computed: {
@@ -231,11 +258,26 @@ export default Vue.extend({
       if (screen === 'educator-signin') return this.goToChooser()
       if (screen === 'educator-create') return this.goToEducatorSignIn()
       if (screen === 'educator-class-ready') return this.goToChooser()
-      // welcome and login are flow entry points — back exits the flow
+      if (screen === 'parent-create') return this.goToChooser()
+      if (screen === 'parent-add-child') return this.goToParentCreate()
+      if (screen === 'parent-success') return this.goToChooser()
+      // welcome and login are flow entry points - back exits the flow
       return this.handleClose()
     },
     handleClose () {
       window.location.href = '/'
+    },
+    goToParentCreate () {
+      this.resetMessages()
+      this.updateRoute('/signup', { screen: 'parent-create' })
+    },
+    goToParentAddChild () {
+      this.resetMessages()
+      this.updateRoute('/signup', { screen: 'parent-add-child' })
+    },
+    goToParentSuccess () {
+      this.resetMessages()
+      this.updateRoute('/signup', { screen: 'parent-success' })
     },
     goToEducatorSignIn () {
       this.resetMessages()
@@ -256,11 +298,13 @@ export default Vue.extend({
       if (path === 'educator') {
         return this.goToEducatorSignIn()
       }
+      if (path === 'parent') {
+        return this.goToParentCreate()
+      }
       return this.onSelectPlaceholder(path)
     },
     onSelectPlaceholder (path) {
       const titles = {
-        parent: 'Parent path arrives in next slice.',
         classroom: 'With a Class path arrives in next slice.',
       }
       noty({ text: titles[path] || 'Next step arrives in next slice.', layout: 'topCenter', type: 'info', timeout: 3000, killer: false, dismissQueue: true })
@@ -388,6 +432,44 @@ export default Vue.extend({
       }).catch((err) => {
         this.errorMessage = err?.message || 'ClassLink login failed.'
       })
+    },
+    submitParentCreate ({ email, password }) {
+      this.resetMessages()
+      if (password.length < 8) {
+        this.errorMessage = 'Password must be at least 8 characters.'
+        return
+      }
+      this.parentForm = { email, password }
+      this.submitting = true
+      const name = email.split('@')[0]
+      return me.signupWithPassword(name, email, password, {
+        success: () => {
+          me.set('role', 'parent')
+          me.save({ role: 'parent' })
+          this.goToParentAddChild()
+        },
+        error: (res, jqxhr = {}) => {
+          const errorID = jqxhr.responseJSON?.errorID
+          if (errorID === 'email-exists') {
+            this.errorMessage = 'An account already uses that email.'
+          } else if (errorID === 'name-exists') {
+            this.errorMessage = 'That name is taken - try a different email address.'
+          } else {
+            this.errorMessage = 'Sign up failed. Please try again.'
+            errors.showNotyNetworkError(res, jqxhr)
+          }
+        },
+      }).always(() => {
+        this.submitting = false
+      })
+    },
+    submitParentAddChild ({ childFirstName, childUsername, grade }) {
+      this.resetMessages()
+      // Child creation (linking a student account to parent) is backend territory
+      // that requires a separate student account, class, and parent-child relationship.
+      // Stubbed for now - advance UI to success.
+      noty({ text: 'Child profile saved! (Note: full backend creation coming in next slice.)', layout: 'topCenter', type: 'success', timeout: 3500, killer: false, dismissQueue: true })
+      this.goToParentSuccess()
     },
     submitEducatorCreate ({ firstName, lastName, email, password }) {
       this.resetMessages()

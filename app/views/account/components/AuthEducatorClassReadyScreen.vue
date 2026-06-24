@@ -7,7 +7,7 @@
 
       <h1>Welcome, {{ displayName }}!</h1>
       <p class="subcopy">
-        Your first class is ready. Students join in seconds — no email required.
+        Your first class is ready. Students join in seconds - no email required.
       </p>
 
       <!-- Class card -->

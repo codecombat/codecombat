@@ -14,7 +14,7 @@
         <p>Log in to keep coding where you left off.</p>
       </div>
 
-      <!-- SSO — primary, stacked rows -->
+      <!-- SSO - primary, stacked rows -->
       <div class="provider-list">
         <button
           class="provider-row"
@@ -75,7 +75,7 @@
         </button>
       </div>
 
-      <!-- Email — secondary -->
+      <!-- Email - secondary -->
       <div class="divider">
         <span>or</span>
       </div>
@@ -254,7 +254,7 @@ p {
   opacity: 0.55;
 }
 
-/* Icon slot — 22×22, consistent size */
+/* Icon slot - 22x22, consistent size */
 .prov-icon {
   width: 22px;
   height: 22px;

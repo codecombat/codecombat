@@ -12,7 +12,7 @@
       <div class="copy-block">
         <span class="path-pill">Solo Learner</span>
         <h1>When's your birthday?</h1>
-        <p>Parents, please enter your own birthday — we'll set the right experience.</p>
+        <p>Parents, please enter your own birthday - we'll set the right experience.</p>
       </div>
 
       <div class="birthday-grid">
