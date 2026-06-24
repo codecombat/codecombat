@@ -355,12 +355,12 @@ body.auth-route-standalone #page-container > .content {
 
 @media screen and (min-width: $screen-md-min) {
   .auth-page-shell {
-    padding: 40px 24px 64px;
+    padding: 64px 24px 88px;
     align-items: center;
   }
 
   .auth-page-card {
-    width: min(100%, 720px);
+    width: min(100%, 520px);
   }
 }
 </style>

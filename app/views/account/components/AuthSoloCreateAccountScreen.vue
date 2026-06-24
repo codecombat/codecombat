@@ -31,7 +31,7 @@
           src="/images/pages/modal/auth/google-logo-wordmark.svg"
           alt="Google"
         >
-        <span>Continue with Google</span>
+        <span>Google</span>
       </button>
       <!-- TODO: Apple auth not wired -->
 
@@ -154,10 +154,8 @@ export default Vue.extend({
 @import "app/styles/component_variables.scss";
 
 .auth-shell-card {
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(122, 101, 252, 0.12);
+  background: rgba(255, 255, 255, 0.98);
   border-radius: 32px;
-  box-shadow: 0 26px 60px rgba(65, 50, 140, 0.12);
   padding: 20px 20px 28px;
 }
 .brand-row { display: flex; justify-content: center; }
@@ -167,8 +165,9 @@ export default Vue.extend({
 .path-pill { display: inline-flex; margin-bottom: 14px; padding: 9px 14px; border-radius: 999px; background: #fff2e8; color: #e98632; font-size: 14px; font-weight: 800; }
 h1 { margin: 0; color: #17314d; font-size: 36px; line-height: 1.08; font-weight: 800; }
 p { margin: 12px 0 0; color: #5b6b7c; font-size: 17px; line-height: 1.5; }
-.provider-button { width: 100%; margin-top: 24px; display: flex; align-items: center; justify-content: center; gap: 12px; border-radius: 18px; border: 1px solid #d9ddf6; background: #fff; padding: 16px 18px; color: #17314d; font-size: 17px; font-weight: 700; }
-.provider-button img { width: 120px; height: 28px; object-fit: contain; }
+.provider-button { width: 100%; margin-top: 24px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 18px; border: 1px solid #d9ddf6; background: #fff; padding: 16px 18px; color: #17314d; font-size: 17px; font-weight: 700; }
+.provider-button img { width: 76px; height: 24px; object-fit: contain; }
+.provider-button span { line-height: 1; }
 .divider { position: relative; text-align: center; margin: 22px 0 18px; }
 .divider::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: #e3e6f8; }
 .divider span { position: relative; padding: 0 14px; background: #fff; color: #8b95a7; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; }

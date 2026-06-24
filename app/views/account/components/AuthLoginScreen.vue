@@ -80,7 +80,7 @@
             src="/images/pages/modal/auth/google-logo-wordmark.svg"
             alt="Google"
           >
-          <span>{{ googleLoading ? 'Connecting to Google…' : 'Continue with Google' }}</span>
+          <span>{{ googleLoading ? 'Google…' : 'Google' }}</span>
         </button>
         <button
           class="provider-button"
@@ -91,7 +91,7 @@
             src="/images/pages/modal/auth/clever-logo-blue.png"
             alt="Clever"
           >
-          <span>Continue with Clever</span>
+          <span>Clever</span>
         </button>
       </div>
 
@@ -149,10 +149,8 @@ export default Vue.extend({
 @import "app/styles/component_variables.scss";
 
 .auth-shell-card {
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(122, 101, 252, 0.12);
+  background: rgba(255, 255, 255, 0.98);
   border-radius: 32px;
-  box-shadow: 0 26px 60px rgba(65, 50, 140, 0.12);
   padding: 20px 20px 28px;
 }
 
@@ -253,7 +251,7 @@ p {
   border: 0;
   border-radius: 18px;
   padding: 16px 20px;
-  background: linear-gradient(135deg, #7a65fc 0%, #6b59f7 100%);
+  background: #7a65fc;
   color: #fff;
   font-size: 18px;
   line-height: 1.3;
@@ -293,6 +291,7 @@ p {
 
 .provider-stack {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -300,7 +299,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
   border-radius: 18px;
   border: 1px solid #d9ddf6;

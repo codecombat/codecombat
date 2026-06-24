@@ -103,7 +103,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 @import "app/styles/component_variables.scss";
 
-.auth-shell-card { background: rgba(255, 255, 255, 0.94); border: 1px solid rgba(122, 101, 252, 0.12); border-radius: 32px; box-shadow: 0 26px 60px rgba(65, 50, 140, 0.12); padding: 20px 20px 28px; }
+.auth-shell-card { background: rgba(255, 255, 255, 0.98); border-radius: 32px; padding: 20px 20px 28px; }
 .brand-row { display: flex; justify-content: center; }
 .wordmark { font-size: 24px; font-weight: 800; color: #17314d; }
 .copy-block { margin-top: 16px; text-align: center; }

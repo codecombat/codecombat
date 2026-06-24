@@ -75,10 +75,8 @@ export default Vue.extend({
 @import "app/styles/component_variables.scss";
 
 .auth-shell-card {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(122, 101, 252, 0.14);
+  background: rgba(255, 255, 255, 0.98);
   border-radius: 32px;
-  box-shadow: 0 26px 60px rgba(65, 50, 140, 0.12);
   padding: 24px 20px 28px;
 }
 
