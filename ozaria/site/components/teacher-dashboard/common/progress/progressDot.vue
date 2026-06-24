@@ -123,6 +123,11 @@ export default {
       type: Array,
       default: () => [],
     },
+    flag: {
+      type: String,
+      default: '',
+      required: false,
+    },
   },
 
   computed: {
@@ -157,6 +162,8 @@ export default {
         'border-red': this.border === 'red',
         'border-purple': this.border === 'purple',
         'border-gray': this.border === 'gray',
+        'border-yellow': this.border === 'yellow',
+        'border-green': this.border === 'green',
         selected: this.selected,
         hovered: this.hovered,
         'has-active-practice-levels': this.activePracticeLevels.length > 0,
@@ -182,9 +189,9 @@ export default {
       }[this.levelAccessStatus] || this.levelAccessStatus
 
       const status = $.i18n.t(`teacher_dashboard.${label}`) + (!this.isSkipped && date ? ' ' + $.i18n.t('teacher_dashboard.until_date', { date: dateString }) : '')
-
+      const flag = this.flag ? `(${this.flag})` : ''
       return `
-        ${status}
+        ${status} ${flag}
         ${this.tooltipName ? `<br><strong>${this.tooltipName}</strong>` : ''}
         ${this.playedOn ? `<br>${$.i18n.t('user.last_played')}: ${moment(this.playedOn).format('lll')}` : ''}
         ${this.status === 'complete' && this.completionDate ? `<br>${$.i18n.t('teacher.completed')}: ${moment(this.completionDate).format('lll')}` : ''}
@@ -426,6 +433,14 @@ export default {
 
 .border-gray {
   border: 1px solid #828282;
+}
+
+.border-yellow {
+  border: 2px solid #f7d047;
+}
+
+.border-green {
+  border: 1px solid #2dcd38;
 }
 
 .has-active-practice-levels {
