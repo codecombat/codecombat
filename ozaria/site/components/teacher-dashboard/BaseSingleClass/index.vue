@@ -759,6 +759,7 @@ export default {
               normalizedOriginal: scenario.original,
               normalizedType: type,
               contentLevelSlug: scenario.slug,
+              slug: scenario.slug,
               isPractice: false,
             }
           }),
