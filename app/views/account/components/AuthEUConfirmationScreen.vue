@@ -1,5 +1,5 @@
 <template>
-  <section class="auth-coppa-screen">
+  <section class="auth-eu-confirmation-screen">
     <div class="auth-card">
       <div class="wordmark-row">
         <mixed-color-label
@@ -14,50 +14,51 @@
           class="path-pill"
           :class="pillClass"
         >{{ pathLabel }}</span>
-        <h1>{{ title }}</h1>
+        <h1>Before we create your account</h1>
       </div>
 
-      <label
-        class="sr-only"
-        for="parent-email"
-      >Parent email</label>
-      <input
-        id="parent-email"
-        v-model.trim="localEmail"
-        class="field-input"
-        type="email"
-        placeholder="parent@email.com"
-        autocomplete="email"
-      >
+      <div class="consent-box">
+        <label
+          class="checkbox-row"
+          for="eu-confirmation-checkbox"
+        >
+          <input
+            id="eu-confirmation-checkbox"
+            v-model="granted"
+            type="checkbox"
+          >
+          <span>I agree to allow CodeCombat to store my data on US servers.</span>
+        </label>
 
-      <div class="info-box">
-        <p>
-          We're excited for you to start coding! Your parent will get an email with
-          instructions to create your account. Questions?
-          <a href="mailto:team@codecombat.com">team@codecombat.com</a>
+        <p class="helper-copy">
+          <a
+            href="/privacy#place-of-processing"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Learn more about the possible risks</a>
+        </p>
+
+        <p
+          v-if="pathKind === 'class'"
+          class="note-copy"
+        >
+          If you are not sure, ask your teacher.
+        </p>
+        <p
+          v-else-if="pathKind === 'solo'"
+          class="note-copy"
+        >
+          If you do not want us to store your data on US servers, you can keep playing anonymously without saving your code.
         </p>
       </div>
-
-      <p
-        v-if="errorMessage"
-        class="error-copy"
-      >
-        {{ errorMessage }}
-      </p>
-      <p
-        v-if="successMessage"
-        class="success-copy"
-      >
-        {{ successMessage }}
-      </p>
 
       <button
         class="primary-action"
         type="button"
-        :disabled="submitting || !localEmail"
-        @click="$emit('submit', localEmail)"
+        :disabled="!granted"
+        @click="$emit('continue')"
       >
-        {{ submitting ? 'Sending…' : 'Send to my parent' }}
+        Continue
       </button>
     </div>
   </section>
@@ -67,13 +68,9 @@
 import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
 
 export default Vue.extend({
-  name: 'AuthCoppaScreen',
+  name: 'AuthEUConfirmationScreen',
   components: { MixedColorLabel },
   props: {
-    parentEmail: {
-      type: String,
-      default: '',
-    },
     pathKind: {
       type: String,
       default: 'solo',
@@ -82,36 +79,15 @@ export default Vue.extend({
       type: String,
       default: 'Solo Learner',
     },
-    title: {
-      type: String,
-      default: "What's your parent's email?",
-    },
-    submitting: {
-      type: Boolean,
-      default: false,
-    },
-    errorMessage: {
-      type: String,
-      default: '',
-    },
-    successMessage: {
-      type: String,
-      default: '',
-    },
   },
   data () {
     return {
-      localEmail: this.parentEmail,
+      granted: false,
     }
   },
   computed: {
     pillClass () {
       return `pill-${this.pathKind}`
-    },
-  },
-  watch: {
-    localEmail (value) {
-      this.$emit('update:parent-email', value)
     },
   },
 })
@@ -163,59 +139,62 @@ export default Vue.extend({
   color: #1a9e98;
 }
 
+.pill-educator {
+  background: rgba(122, 101, 252, 0.12);
+  color: #6d5df6;
+}
+
+.pill-parent {
+  background: rgba(47, 123, 196, 0.12);
+  color: #2f7bc4;
+}
+
 h1 {
   margin: 0;
   color: #17314d;
-  font-size: 24px;
+  font-size: 25px;
   font-weight: 800;
   line-height: 1.15;
 }
 
-.field-input {
-  width: 100%;
+.consent-box {
   margin-top: 18px;
-  border-radius: 12px;
-  border: 1px solid #d9ddf6;
-  background: #fbfbff;
-  padding: 12px 14px;
+  border-radius: 18px;
+  background: #f7f6ff;
+  padding: 16px;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
   color: #17314d;
-  font-size: 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: pointer;
 }
 
-.info-box {
-  margin-top: 14px;
-  border-radius: 16px;
-  background: #f1edff;
-  padding: 14px 16px;
+.checkbox-row input {
+  margin-top: 2px;
+  flex-shrink: 0;
 }
 
-.info-box p {
-  margin: 0;
+.helper-copy,
+.note-copy {
+  margin: 12px 0 0;
   color: #5b6b7c;
   font-size: 13px;
-  line-height: 1.55;
+  line-height: 1.5;
 }
 
-.info-box a {
+.helper-copy a {
   color: #6d5df6;
   font-weight: 700;
 }
 
-.error-copy {
-  color: #cc3846;
-  font-size: 13px;
-  margin-top: 10px;
-}
-
-.success-copy {
-  color: #2e7d55;
-  font-size: 13px;
-  margin-top: 10px;
-}
-
 .primary-action {
   width: 100%;
-  margin-top: 16px;
+  margin-top: 18px;
   border: 0;
   border-radius: 14px;
   padding: 13px 20px;

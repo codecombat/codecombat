@@ -10,9 +10,12 @@
       </div>
 
       <div class="copy-block">
-        <span class="path-pill">Solo Learner</span>
-        <h1>When's your birthday?</h1>
-        <p>Parents, please enter your own birthday - we'll set the right experience.</p>
+        <span
+          class="path-pill"
+          :class="pillClass"
+        >{{ pathLabel }}</span>
+        <h1>{{ title }}</h1>
+        <p>{{ description }}</p>
       </div>
 
       <div class="birthday-grid">
@@ -93,7 +96,7 @@
         type="button"
         @click="$emit('under-13')"
       >
-        I'm under 13
+        {{ underAgeLabel }}
       </button>
     </div>
   </section>
@@ -115,6 +118,26 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    pathKind: {
+      type: String,
+      default: 'solo',
+    },
+    pathLabel: {
+      type: String,
+      default: 'Solo Learner',
+    },
+    title: {
+      type: String,
+      default: "When's your birthday?",
+    },
+    description: {
+      type: String,
+      default: "Parents, please enter your own birthday - we'll set the right experience.",
+    },
+    underAgeLabel: {
+      type: String,
+      default: "I'm under 13",
+    },
   },
   data () {
     const currentYear = new Date().getFullYear()
@@ -131,6 +154,9 @@ export default Vue.extend({
   computed: {
     isComplete () {
       return Boolean(this.localBirthday.month && this.localBirthday.day && this.localBirthday.year)
+    },
+    pillClass () {
+      return `pill-${this.pathKind}`
     },
   },
   methods: {
@@ -173,10 +199,18 @@ export default Vue.extend({
   margin-bottom: 10px;
   padding: 6px 14px;
   border-radius: 999px;
-  background: #fff2e8;
-  color: #e98632;
   font-size: 12px;
   font-weight: 800;
+}
+
+.pill-solo {
+  background: #fff2e8;
+  color: #e98632;
+}
+
+.pill-class {
+  background: rgba(61, 184, 178, 0.14);
+  color: #1a9e98;
 }
 
 h1 {

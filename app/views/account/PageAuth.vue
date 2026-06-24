@@ -45,7 +45,7 @@
         @clever-signin="educatorLoginWithClever"
         @schoology-signin="educatorLoginWithSchoology"
         @classlink-signin="educatorLoginWithClassLink"
-        @email-signup="goToEducatorCreate"
+        @email-signup="startEducatorEmailSignup"
       />
       <AuthEducatorCreateAccountScreen
         v-else-if="currentScreen === 'educator-create'"
@@ -81,6 +81,12 @@
         :error-message="errorMessage"
         @submit="submitClassCode"
       />
+      <AuthEUConfirmationScreen
+        v-else-if="currentScreen === 'eu-confirmation'"
+        :path-kind="currentPathKind"
+        :path-label="currentPathLabel"
+        @continue="submitEUConfirmation"
+      />
       <AuthClassUsernameScreen
         v-else-if="currentScreen === 'class-username'"
         :class-code="classCode"
@@ -93,9 +99,14 @@
       />
       <AuthBirthdayScreen
         v-else-if="currentScreen === 'birthday'"
-        :birthday="birthday"
+        :birthday="currentBirthday"
+        :path-kind="currentPathKind"
+        :path-label="currentPathLabel"
+        :title="currentBirthdayTitle"
+        :description="currentBirthdayDescription"
+        :under-age-label="currentUnderAgeLabel"
         @continue="handleBirthdayContinue"
-        @under-13="goToCoppa"
+        @under-13="handleBirthdayUnderAge"
       />
       <AuthSoloCreateAccountScreen
         v-else-if="currentScreen === 'create-account'"
@@ -109,6 +120,9 @@
       />
       <AuthCoppaScreen
         v-else-if="currentScreen === 'coppa'"
+        :path-kind="currentPathKind"
+        :path-label="currentPathLabel"
+        :title="currentCoppaTitle"
         :parent-email="parentEmail"
         :submitting="submitting"
         :error-message="errorMessage"
@@ -143,6 +157,7 @@ import AuthLoginScreen from './components/AuthLoginScreen.vue'
 import AuthEducatorSignInScreen from './components/AuthEducatorSignInScreen.vue'
 import AuthEducatorCreateAccountScreen from './components/AuthEducatorCreateAccountScreen.vue'
 import AuthParentCreateAccountScreen from './components/AuthParentCreateAccountScreen.vue'
+import AuthEUConfirmationScreen from './components/AuthEUConfirmationScreen.vue'
 import AuthClassCodeScreen from './components/AuthClassCodeScreen.vue'
 import AuthClassUsernameScreen from './components/AuthClassUsernameScreen.vue'
 import AuthClassSuccessScreen from './components/AuthClassSuccessScreen.vue'
@@ -174,6 +189,7 @@ export default Vue.extend({
     AuthParentCreateAccountScreen,
     AuthParentAddChildScreen,
     AuthParentSuccessScreen,
+    AuthEUConfirmationScreen,
     AuthClassCodeScreen,
     AuthClassUsernameScreen,
     AuthClassSuccessScreen,
@@ -199,6 +215,11 @@ export default Vue.extend({
         day: '',
         year: '',
       },
+      classBirthday: {
+        month: '',
+        day: '',
+        year: '',
+      },
       soloCreateForm: {
         username: '',
         email: '',
@@ -217,6 +238,12 @@ export default Vue.extend({
         password: '',
       },
       classCode: '',
+      euConsentGranted: {
+        solo: false,
+        class: false,
+        educator: false,
+        parent: false,
+      },
     }
   },
   computed: {
@@ -225,6 +252,38 @@ export default Vue.extend({
         return 'login'
       }
       return this.screen || 'welcome'
+    },
+    currentPathKind () {
+      return this.$route?.query?.pathKind || 'solo'
+    },
+    currentPathLabel () {
+      const labels = {
+        solo: 'Solo Learner',
+        class: 'With a Class',
+        educator: 'Educator',
+        parent: 'Parent',
+      }
+      return labels[this.currentPathKind] || 'Solo Learner'
+    },
+    currentBirthday () {
+      return this.currentPathKind === 'class' ? this.classBirthday : this.birthday
+    },
+    currentBirthdayTitle () {
+      return this.currentPathKind === 'class' ? "When's your birthday?" : "When's your birthday?"
+    },
+    currentBirthdayDescription () {
+      return this.currentPathKind === 'class'
+        ? "Parents, please enter your own birthday - we'll set the right classroom experience."
+        : "Parents, please enter your own birthday - we'll set the right experience."
+    },
+    currentUnderAgeLabel () {
+      return `I'm under ${this.ageThreshold}`
+    },
+    currentCoppaTitle () {
+      return this.currentPathKind === 'class' ? "What's your parent's email?" : "What's your parent's email?"
+    },
+    ageThreshold () {
+      return utils.ageOfConsent(me.get('country'), 13)
     },
     canGoBack () {
       return true
@@ -255,17 +314,21 @@ export default Vue.extend({
       this.resetMessages()
       this.updateRoute('/signup', { screen: 'chooser' })
     },
-    goToBirthday () {
+    goToBirthday (pathKind = 'solo') {
       this.resetMessages()
-      this.updateRoute('/signup', { screen: 'birthday' })
+      this.updateRoute('/signup', { screen: 'birthday', pathKind })
     },
     goToCreateAccount () {
       this.resetMessages()
       this.updateRoute('/signup', { screen: 'create-account' })
     },
-    goToCoppa () {
+    goToCoppa (pathKind = 'solo') {
       this.resetMessages()
-      this.updateRoute('/signup', { screen: 'coppa' })
+      this.updateRoute('/signup', { screen: 'coppa', pathKind })
+    },
+    goToEUConfirmation (pathKind, nextScreen) {
+      this.resetMessages()
+      this.updateRoute('/signup', { screen: 'eu-confirmation', pathKind, nextScreen })
     },
     goToLogin () {
       this.resetMessages()
@@ -274,9 +337,9 @@ export default Vue.extend({
     handleBack () {
       const screen = this.currentScreen
       if (screen === 'chooser') return this.goToWelcome()
-      if (screen === 'birthday') return this.goToChooser()
-      if (screen === 'create-account') return this.goToBirthday()
-      if (screen === 'coppa') return this.goToBirthday()
+      if (screen === 'birthday') return this.currentPathKind === 'class' ? this.goToClassCode() : this.goToChooser()
+      if (screen === 'create-account') return this.goToBirthday('solo')
+      if (screen === 'coppa') return this.goToBirthday(this.currentPathKind)
       if (screen === 'educator-signin') return this.goToChooser()
       if (screen === 'educator-create') return this.goToEducatorSignIn()
       if (screen === 'educator-class-ready') return this.goToChooser()
@@ -284,8 +347,14 @@ export default Vue.extend({
       if (screen === 'parent-add-child') return this.goToParentCreate()
       if (screen === 'parent-success') return this.goToChooser()
       if (screen === 'class-code') return this.goToChooser()
-      if (screen === 'class-username') return this.goToClassCode()
+      if (screen === 'class-username') return this.currentPathKind === 'class' ? this.goToBirthday('class') : this.goToClassCode()
       if (screen === 'class-success') return this.goToChooser()
+      if (screen === 'eu-confirmation') {
+        if (this.currentPathKind === 'educator') return this.goToEducatorSignIn()
+        if (this.currentPathKind === 'parent') return this.goToChooser()
+        if (this.currentPathKind === 'class') return this.goToBirthday('class')
+        return this.goToBirthday('solo')
+      }
       // welcome and login are flow entry points - back exits the flow
       return this.handleClose()
     },
@@ -298,7 +367,7 @@ export default Vue.extend({
     },
     goToClassUsername () {
       this.resetMessages()
-      this.updateRoute('/signup', { screen: 'class-username' })
+      this.updateRoute('/signup', { screen: 'class-username', pathKind: 'class' })
     },
     goToClassSuccess () {
       this.resetMessages()
@@ -330,13 +399,13 @@ export default Vue.extend({
     },
     handleChooserPath (path) {
       if (path === 'individual') {
-        return this.goToBirthday()
+        return this.goToBirthday('solo')
       }
       if (path === 'educator') {
         return this.goToEducatorSignIn()
       }
       if (path === 'parent') {
-        return this.goToParentCreate()
+        return this.maybeGoToEUConfirmation('parent', 'parent-create')
       }
       if (path === 'classroom') {
         return this.goToClassCode()
@@ -348,18 +417,30 @@ export default Vue.extend({
       noty({ text: titles[path] || 'Next step arrives in next slice.', layout: 'topCenter', type: 'info', timeout: 3000, killer: false, dismissQueue: true })
     },
     handleBirthdayContinue (birthday) {
-      this.birthday = { ...birthday }
+      const pathKind = this.currentPathKind
+      if (pathKind === 'class') {
+        this.classBirthday = { ...birthday }
+      } else {
+        this.birthday = { ...birthday }
+      }
       const birthDate = new Date(Date.UTC(Number(birthday.year), Number(birthday.month) - 1, Number(birthday.day)))
       const age = (new Date().getTime() - birthDate.getTime()) / 365.4 / 24 / 60 / 60 / 1000
       if (_.isNaN(birthDate.getTime())) {
         this.errorMessage = 'Please complete your birthday.'
         return
       }
-      if (age > utils.ageOfConsent(me.get('country'), 13)) {
-        this.goToCreateAccount()
+      if (age > this.ageThreshold) {
+        if (pathKind === 'class') {
+          this.maybeGoToEUConfirmation('class', 'class-username')
+        } else {
+          this.maybeGoToEUConfirmation('solo', 'create-account')
+        }
       } else {
-        this.goToCoppa()
+        this.goToCoppa(pathKind)
       }
+    },
+    handleBirthdayUnderAge () {
+      this.goToCoppa(this.currentPathKind)
     },
     updateSoloCreateForm (form) {
       this.soloCreateForm = { ...form }
@@ -398,6 +479,13 @@ export default Vue.extend({
       this.submitting = true
       return me.signupWithPassword(username, email, password, {
         success: () => {
+          if (this.euConfirmationRequired()) {
+            this.applyEUMarketingOptOut()
+            const jqxhr = me.save({ emails: me.get('emails'), unsubscribedFromMarketingEmails: me.get('unsubscribedFromMarketingEmails') })
+            if (jqxhr?.then) {
+              return jqxhr.then(() => { window.location.href = '/' })
+            }
+          }
           window.location.href = '/'
         },
         error: (res, jqxhr = {}) => {
@@ -414,6 +502,9 @@ export default Vue.extend({
       }).always(() => {
         this.submitting = false
       })
+    },
+    startEducatorEmailSignup () {
+      return this.maybeGoToEUConfirmation('educator', 'educator-create')
     },
     signupWithGoogle () {
       this.resetMessages()
@@ -477,9 +568,8 @@ export default Vue.extend({
         this.errorMessage = 'Enter all 6 characters of your class code.'
         return
       }
-      // Class code lookup is backend territory - stub: accept code, advance to username screen
       this.classCode = code
-      this.goToClassUsername()
+      this.goToBirthday('class')
     },
     submitClassUsername ({ username, password }) {
       this.resetMessages()
@@ -492,6 +582,36 @@ export default Vue.extend({
       noty({ text: 'Account created! (Note: full classroom join coming in next slice.)', layout: 'topCenter', type: 'success', timeout: 3000, killer: false, dismissQueue: true })
       this.goToClassSuccess()
     },
+    submitEUConfirmation () {
+      const pathKind = this.currentPathKind
+      this.$set(this.euConsentGranted, pathKind, true)
+      const nextScreen = this.$route?.query?.nextScreen
+      if (nextScreen === 'class-username') return this.goToClassUsername()
+      if (nextScreen === 'create-account') return this.goToCreateAccount()
+      if (nextScreen === 'educator-create') return this.goToEducatorCreate()
+      if (nextScreen === 'parent-create') return this.goToParentCreate()
+      return this.goToCreateAccount()
+    },
+    maybeGoToEUConfirmation (pathKind, nextScreen) {
+      if (this.euConfirmationRequired() && !this.euConsentGranted[pathKind]) {
+        return this.goToEUConfirmation(pathKind, nextScreen)
+      }
+      if (nextScreen === 'class-username') return this.goToClassUsername()
+      if (nextScreen === 'create-account') return this.goToCreateAccount()
+      if (nextScreen === 'educator-create') return this.goToEducatorCreate()
+      if (nextScreen === 'parent-create') return this.goToParentCreate()
+    },
+    euConfirmationRequired () {
+      return typeof me.inEU === 'function' ? me.inEU(true) : true
+    },
+    applyEUMarketingOptOut () {
+      if (!this.euConfirmationRequired()) return
+      const emails = _.assign({}, me.get('emails'))
+      if (emails.generalNews == null) { emails.generalNews = {} }
+      emails.generalNews.enabled = false
+      me.set('emails', emails)
+      me.set('unsubscribedFromMarketingEmails', true)
+    },
     submitParentCreate ({ email, password }) {
       this.resetMessages()
       if (password.length < 8) {
@@ -503,8 +623,11 @@ export default Vue.extend({
       const name = email.split('@')[0]
       return me.signupWithPassword(name, email, password, {
         success: () => {
+          if (this.euConfirmationRequired()) {
+            this.applyEUMarketingOptOut()
+          }
           me.set('role', 'parent')
-          me.save({ role: 'parent' })
+          me.save({ role: 'parent', emails: me.get('emails'), unsubscribedFromMarketingEmails: me.get('unsubscribedFromMarketingEmails') })
           this.goToParentAddChild()
         },
         error: (res, jqxhr = {}) => {
@@ -541,11 +664,13 @@ export default Vue.extend({
       const name = `${firstName} ${lastName}`.trim()
       return me.signupWithPassword(name, email, password, {
         success: () => {
-          // Mark role as teacher after account creation
+          if (this.euConfirmationRequired()) {
+            this.applyEUMarketingOptOut()
+          }
           me.set('firstName', firstName)
           me.set('lastName', lastName)
           me.set('role', 'teacher')
-          me.save({ firstName, lastName, role: 'teacher' })
+          me.save({ firstName, lastName, role: 'teacher', emails: me.get('emails'), unsubscribedFromMarketingEmails: me.get('unsubscribedFromMarketingEmails') })
           this.goToEducatorClassReady()
         },
         error: (res, jqxhr = {}) => {
@@ -553,7 +678,7 @@ export default Vue.extend({
           if (errorID === 'email-exists') {
             this.errorMessage = 'An account already uses that email.'
           } else if (errorID === 'name-exists') {
-            this.errorMessage = 'That name is already taken — try adding a middle initial.'
+            this.errorMessage = 'That name is already taken - try adding a middle initial.'
           } else {
             this.errorMessage = 'Sign up failed. Please try again.'
             errors.showNotyNetworkError(res, jqxhr)
@@ -728,7 +853,7 @@ body.auth-route-standalone #site-content-area {
   padding: 0 16px;
 }
 
-/* Desktop Back — outside card, upper-left relative to the card column */
+/* Desktop Back - outside card, upper-left relative to the card column */
 .back-desktop {
   display: none;
 }
