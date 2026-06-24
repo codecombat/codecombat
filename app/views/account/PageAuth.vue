@@ -39,6 +39,26 @@
         @select-path="handleChooserPath"
         @login="goToLogin"
       />
+      <AuthEducatorSignInScreen
+        v-else-if="currentScreen === 'educator-signin'"
+        @google-signin="educatorLoginWithGoogle"
+        @clever-signin="educatorLoginWithClever"
+        @schoology-signin="educatorLoginWithSchoology"
+        @classlink-signin="educatorLoginWithClassLink"
+        @email-signup="goToEducatorCreate"
+      />
+      <AuthEducatorCreateAccountScreen
+        v-else-if="currentScreen === 'educator-create'"
+        :submitting="submitting"
+        :error-message="errorMessage"
+        @submit="submitEducatorCreate"
+      />
+      <AuthEducatorClassReadyScreen
+        v-else-if="currentScreen === 'educator-class-ready'"
+        :first-name="educatorForm.firstName"
+        :last-name="educatorForm.lastName"
+        :class-code="educatorClassCode"
+      />
       <AuthBirthdayScreen
         v-else-if="currentScreen === 'birthday'"
         :birthday="birthday"
@@ -88,6 +108,9 @@ import AuthBirthdayScreen from './components/AuthBirthdayScreen.vue'
 import AuthSoloCreateAccountScreen from './components/AuthSoloCreateAccountScreen.vue'
 import AuthCoppaScreen from './components/AuthCoppaScreen.vue'
 import AuthLoginScreen from './components/AuthLoginScreen.vue'
+import AuthEducatorSignInScreen from './components/AuthEducatorSignInScreen.vue'
+import AuthEducatorCreateAccountScreen from './components/AuthEducatorCreateAccountScreen.vue'
+import AuthEducatorClassReadyScreen from './components/AuthEducatorClassReadyScreen.vue'
 const User = require('models/User')
 const forms = require('core/forms')
 const errors = require('core/errors')
@@ -107,6 +130,9 @@ export default Vue.extend({
     AuthSoloCreateAccountScreen,
     AuthCoppaScreen,
     AuthLoginScreen,
+    AuthEducatorSignInScreen,
+    AuthEducatorCreateAccountScreen,
+    AuthEducatorClassReadyScreen,
   },
   props: {
     mode: {
@@ -135,6 +161,13 @@ export default Vue.extend({
         password: '',
       },
       parentEmail: '',
+      educatorForm: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+      },
+      educatorClassCode: 'FROG-1284',
     }
   },
   computed: {
@@ -195,21 +228,38 @@ export default Vue.extend({
       if (screen === 'birthday') return this.goToChooser()
       if (screen === 'create-account') return this.goToBirthday()
       if (screen === 'coppa') return this.goToBirthday()
+      if (screen === 'educator-signin') return this.goToChooser()
+      if (screen === 'educator-create') return this.goToEducatorSignIn()
+      if (screen === 'educator-class-ready') return this.goToChooser()
       // welcome and login are flow entry points — back exits the flow
       return this.handleClose()
     },
     handleClose () {
       window.location.href = '/'
     },
+    goToEducatorSignIn () {
+      this.resetMessages()
+      this.updateRoute('/signup', { screen: 'educator-signin' })
+    },
+    goToEducatorCreate () {
+      this.resetMessages()
+      this.updateRoute('/signup', { screen: 'educator-create' })
+    },
+    goToEducatorClassReady () {
+      this.resetMessages()
+      this.updateRoute('/signup', { screen: 'educator-class-ready' })
+    },
     handleChooserPath (path) {
       if (path === 'individual') {
         return this.goToBirthday()
+      }
+      if (path === 'educator') {
+        return this.goToEducatorSignIn()
       }
       return this.onSelectPlaceholder(path)
     },
     onSelectPlaceholder (path) {
       const titles = {
-        educator: 'Educator path arrives in next slice.',
         parent: 'Parent path arrives in next slice.',
         classroom: 'With a Class path arrives in next slice.',
       }
@@ -328,6 +378,96 @@ export default Vue.extend({
       })
     },
     loginWithClassLink () {
+      this.resetMessages()
+      const handler = new ClassLinkHandler()
+      handler.connect({
+        context: this,
+        success: () => {
+          this.errorMessage = 'No CodeCombat account found for that ClassLink login.'
+        },
+      }).catch((err) => {
+        this.errorMessage = err?.message || 'ClassLink login failed.'
+      })
+    },
+    submitEducatorCreate ({ firstName, lastName, email, password }) {
+      this.resetMessages()
+      if (password.length < 4) {
+        this.errorMessage = 'Password must be at least 4 characters.'
+        return
+      }
+      this.educatorForm = { firstName, lastName, email, password }
+      this.submitting = true
+      const name = `${firstName} ${lastName}`.trim()
+      return me.signupWithPassword(name, email, password, {
+        success: () => {
+          // Mark role as teacher after account creation
+          me.set('firstName', firstName)
+          me.set('lastName', lastName)
+          me.set('role', 'teacher')
+          me.save({ firstName, lastName, role: 'teacher' })
+          this.goToEducatorClassReady()
+        },
+        error: (res, jqxhr = {}) => {
+          const errorID = jqxhr.responseJSON?.errorID
+          if (errorID === 'email-exists') {
+            this.errorMessage = 'An account already uses that email.'
+          } else if (errorID === 'name-exists') {
+            this.errorMessage = 'That name is already taken — try adding a middle initial.'
+          } else {
+            this.errorMessage = 'Sign up failed. Please try again.'
+            errors.showNotyNetworkError(res, jqxhr)
+          }
+        },
+      }).always(() => {
+        this.submitting = false
+      })
+    },
+    educatorLoginWithGoogle () {
+      this.resetMessages()
+      this.googleLoading = true
+      forms.clearFormAlerts?.($(this.$el))
+      return application.gplusHandler.connect({
+        context: this,
+        success: (resp = {}) => {
+          return application.gplusHandler.loadPerson({
+            resp,
+            context: this,
+            success: (gplusAttrs) => {
+              const existingUser = new User()
+              return existingUser.fetchGPlusUser(gplusAttrs.gplusID, gplusAttrs.email, {
+                success: () => {
+                  return me.loginGPlusUser(gplusAttrs.gplusID, {
+                    success: () => { window.location.href = '/teachers/classes' },
+                    error: this.onGoogleLoginError,
+                  })
+                },
+                error: (res, jqxhr) => this.onGoogleLoginError(res, jqxhr),
+              })
+            },
+          })
+        },
+        error: (err) => {
+          this.googleLoading = false
+          this.errorMessage = err?.message || 'Google login failed.'
+        },
+      })
+    },
+    educatorLoginWithClever () {
+      logInWithClever()
+    },
+    educatorLoginWithSchoology () {
+      this.resetMessages()
+      const handler = new SchoologyHandler()
+      handler.connect({
+        context: this,
+        success: () => {
+          this.errorMessage = 'No CodeCombat account found for that Schoology login.'
+        },
+      }).catch((err) => {
+        this.errorMessage = err?.message || 'Schoology login failed.'
+      })
+    },
+    educatorLoginWithClassLink () {
       this.resetMessages()
       const handler = new ClassLinkHandler()
       handler.connect({
