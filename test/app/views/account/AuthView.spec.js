@@ -42,7 +42,7 @@ describe('AuthView', function () {
 
   it('toggles from signup to login in-page', function () {
     renderAt('/signup')
-    jasmine.spyOn(application.router, 'navigate')
+    spyOn(application.router, 'navigate')
 
     view.$('.auth-mode-link').click()
 
@@ -51,7 +51,7 @@ describe('AuthView', function () {
 
   it('routes chooser cards to current destinations', function () {
     renderAt('/signup')
-    jasmine.spyOn(application.router, 'navigate')
+    spyOn(application.router, 'navigate')
 
     view.$('.teacher-path-button').click()
     expect(application.router.navigate).toHaveBeenCalledWith('/teachers/signup', { trigger: true })

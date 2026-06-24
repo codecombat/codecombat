@@ -26,7 +26,7 @@ describe('CreateAccountModal COPPA parent email flow', function () {
       birthday,
     })
     const view = new SegmentCheckView({ signupState })
-    jasmine.spyOn(view, 'trigger')
+    spyOn(view, 'trigger')
 
     view.onSubmitSegmentCheck({ preventDefault () {} })
 
@@ -40,7 +40,7 @@ describe('CreateAccountModal COPPA parent email flow', function () {
   it('marks parent email as sent after successful handoff', function (done) {
     const signupState = new State({ path: 'individual' })
     const view = new CoppaDenyView({ signupState })
-    jasmine.spyOn(contact, 'sendParentSignupInstructions').and.returnValue(Promise.resolve())
+    spyOn(contact, 'sendParentSignupInstructions').and.returnValue(Promise.resolve())
 
     view.state.set({ parentEmail: 'parent@example.com' })
     view.onClickSendParentEmailButton({ preventDefault () {} })
@@ -60,7 +60,7 @@ describe('CreateAccountModal COPPA parent email flow', function () {
   it('rejects invalid parent emails before sending', function () {
     const signupState = new State({ path: 'individual' })
     const view = new CoppaDenyView({ signupState })
-    jasmine.spyOn(contact, 'sendParentSignupInstructions')
+    spyOn(contact, 'sendParentSignupInstructions')
 
     view.state.set({ parentEmail: 'not-an-email' })
     view.onClickSendParentEmailButton({ preventDefault () {} })
