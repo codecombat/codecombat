@@ -214,8 +214,8 @@ p {
 }
 
 .provider-btn img {
-  width: 60px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   object-fit: contain;
 }
 
