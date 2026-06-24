@@ -336,7 +336,7 @@ export default {
       }
       if (this.triggerTDGuideTour()) {
         storage.save(`${SEEN_AUTO_TD_TOUR_KEY}-${me.get('_id')}`, true)
-        me.setSeenPromotion('auto-td-tour')
+        me.setSeenPromotion('teacher-class-tour')
         me.save()
       }
     },
