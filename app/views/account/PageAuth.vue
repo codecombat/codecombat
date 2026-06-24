@@ -425,11 +425,12 @@ export default Vue.extend({
       }
       const birthDate = new Date(Date.UTC(Number(birthday.year), Number(birthday.month) - 1, Number(birthday.day)))
       const age = (new Date().getTime() - birthDate.getTime()) / 365.4 / 24 / 60 / 60 / 1000
+      const ageThreshold = utils.ageOfConsent(me.get('country'), 13)
       if (_.isNaN(birthDate.getTime())) {
         this.errorMessage = 'Please complete your birthday.'
         return
       }
-      if (age > this.ageThreshold) {
+      if (age > ageThreshold) {
         if (pathKind === 'class') {
           this.maybeGoToEUConfirmation('class', 'class-username')
         } else {
