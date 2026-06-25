@@ -848,6 +848,7 @@ module.exports = {
       coming_soon: 'Coming soon!',
       continue: 'Continue', // When used as an action verb, like "Continue forward"
       next: 'Next',
+      dismiss: 'Dismiss',
       default_code: 'Default Code',
       loading: 'Loading...',
       overview: 'Overview',

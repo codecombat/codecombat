@@ -126,6 +126,11 @@ const WELCOME_STEP = {
   title: $.i18n.t('teacher_dashboard.welcome_tour_title'),
   buttons: [{
     action () {
+      return this.cancel()
+    },
+    text: $.i18n.t('common.dismiss'),
+  }, {
+    action () {
       return this.next()
     },
     text: $.i18n.t('common.next'),
@@ -141,6 +146,11 @@ const ALL_STUDENTS_STEP = {
   title: $.i18n.t('teacher_dashboard.all_students_title'),
   buttons: [{
     action () {
+      return this.cancel()
+    },
+    text: $.i18n.t('common.dismiss'),
+  }, {
+    action () {
       return this.next()
     },
     text: $.i18n.t('common.next'),
@@ -155,6 +165,11 @@ const CONTENT_SYMBOL_STEP = {
   text: $.i18n.t('teacher_dashboard.content_symbol_desc'),
   title: $.i18n.t('teacher_dashboard.content_symbol_title'),
   buttons: [{
+    action () {
+      return this.cancel()
+    },
+    text: $.i18n.t('common.dismiss'),
+  }, {
     action () {
       return this.next()
     },
@@ -180,6 +195,11 @@ const PROGRESS_DOT_STEP = createStepWithFallbackAttaches([
   title: $.i18n.t('teacher_dashboard.progress_dot_title'),
   buttons: [{
     action () {
+      return this.cancel()
+    },
+    text: $.i18n.t('common.dismiss'),
+  }, {
+    action () {
       return this.next()
     },
     text: $.i18n.t('common.next'),
@@ -194,6 +214,11 @@ const ASSIGN_CONTENT_STEP = {
   text: $.i18n.t('teacher_dashboard.assign_content_desc'),
   title: $.i18n.t('teacher_dashboard.assign_content_title'),
   buttons: [{
+    action () {
+      return this.cancel()
+    },
+    text: $.i18n.t('common.dismiss'),
+  }, {
     action () {
       return this.next()
     },
@@ -213,6 +238,11 @@ const APPLY_LICENSES_STEP = {
   title: $.i18n.t('teacher_dashboard.apply_licenses_title'),
   buttons: [{
     action () {
+      return this.cancel()
+    },
+    text: $.i18n.t('common.dismiss'),
+  }, {
+    action () {
       return this.next()
     },
     text: $.i18n.t('common.next'),
@@ -227,6 +257,11 @@ const LOCK_CONTENT_STEP = {
   text: $.i18n.t('teacher_dashboard.lock_content_desc'),
   title: $.i18n.t('teacher_dashboard.lock_content_title'),
   buttons: [{
+    action () {
+      return this.cancel()
+    },
+    text: $.i18n.t('common.dismiss'),
+  }, {
     action () {
       return this.next()
     },
