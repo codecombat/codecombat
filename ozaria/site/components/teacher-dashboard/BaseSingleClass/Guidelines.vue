@@ -124,6 +124,13 @@ const hackstackContentGuideItems = [
     text: $.i18n.t('teacher_dashboard.learn_levels'),
   },
   {
+    tooltip: $.i18n.t('teacher_dashboard.practice_tooltip'),
+    classes: 'practice-icon',
+    icon: 'ai-practice',
+    iconStyle: 'width: 22px;',
+    text: $.i18n.t('teacher_dashboard.practice'),
+  },
+  {
     tooltip: $.i18n.t('teacher_dashboard.use_tooltip'),
     classes: 'use-icon',
     icon: 'ai-use',
@@ -454,8 +461,8 @@ export default {
 
     &.hackstack-container {
       grid-template-areas:
-        "type-title type-title"
-        "learn-icon use-icon";
+        "type-title type-title type-title"
+        "learn-icon practice-icon use-icon";
     }
 
   ::v-deep {
