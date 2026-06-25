@@ -138,6 +138,7 @@ export default {
 
 <template>
   <div
+    id="module-grid"
     class="moduleGrid"
     :class="{'collapsed': collapsed}"
     :style="cssVariables"
