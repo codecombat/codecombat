@@ -354,7 +354,7 @@ export default {
           classes: 'shepherd-dashboard-theme',
           cancelIcon: {
             enabled: true,
-            label: $.i18n.t('common.dismiss'),
+            label: $.i18n.t('teacher_dashboard.click_dismiss'),
           },
         },
       })
