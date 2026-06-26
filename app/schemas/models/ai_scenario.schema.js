@@ -21,7 +21,7 @@ _.extend(AIScenarioSchema.properties, {
     title: 'Mode',
     type: 'string',
     description: 'Which mode this scenario is for (learn to use, practice using, etc.)',
-    enum: ['learn to use', 'practice using', 'use', 'teach how to use'],
+    enum: ['learn to use', 'use', 'practice'],
   },
   tool: {
     title: 'Tool',

@@ -43,6 +43,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
       selectedStudentIds: 'baseSingleClass/selectedStudentIds',
       selectedOriginals: 'baseSingleClass/selectedOriginals',
       classroom: 'teacherDashboard/getCurrentClassroom',
@@ -167,6 +168,13 @@ export default {
       <!-- TODO - enable and use jQuery to scroll. -->
       <!-- TODO - use the store to send the signal. -->
       <!-- <dropdown label-text="Go To" class="dropdowns" /> -->
+      <icon-button-with-text
+        id="replay-tour-btn"
+        class="icon-with-text larger-icon"
+        :icon-name="'IconPlay'"
+        :text="$t('teacher_dashboard.replay_tour')"
+        @click="$emit('replay-td-tour')"
+      />
     </div>
     <div class="title-card">
       <span style="width: 59px">{{ $t('teacher_dashboard.manage_class') }}</span>
@@ -174,6 +182,7 @@ export default {
     <div class="spacer align-to-left">
       <div class="manage-container">
         <primary-button
+          id="grant-course-btn"
           class="primary-btn"
           :inactive="displayOnly"
           @click="$emit('assignContent')"
@@ -182,6 +191,7 @@ export default {
         </primary-button>
         <icon-button-with-text
           v-if="showLicenses"
+          id="apply-license-btn"
           class="icon-with-text larger-icon"
           :icon-name="displayOnly ? 'IconLicenseApply_Gray' : 'IconLicenseApply'"
           :text="$t('teacher.apply_licenses')"
