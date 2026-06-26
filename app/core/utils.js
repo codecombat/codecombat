@@ -1872,6 +1872,7 @@ const AI_MODE_ICON_MAP = {
   use: 'ai-use',
   practice: 'ai-practice',
   'learn to use': 'ai-learn',
+  capstone: 'ai-capstone'
 }
 
 module.exports.aiProjectModes = Object.keys(AI_MODE_ICON_MAP)
