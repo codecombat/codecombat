@@ -98,12 +98,13 @@ mixin studentRow(student)
         - var courseLabelsArray = view.helper.courseLabelsArray(courses);
         each trimCourse, index in view.sortedCourses
           - var course = view.courses.get(trimCourse._id);
-          - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
-          if instance && instance.hasMember(student)
-            - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, user: student })
-            - var levelsTotal = _.reject(_.reject(trimCourse.levels, 'practice'), 'assessment').length
-            - var label = courseLabelsArray[index];
-            +studentCourseProgressDot(progress, levelsTotal, label, student, course, instance)
+          if course
+            - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
+            if instance && instance.hasMember(student)
+              - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, user: student })
+              - var levelsTotal = _.reject(_.reject(trimCourse.levels, 'practice'), 'assessment').length
+              - var label = courseLabelsArray[index];
+              +studentCourseProgressDot(progress, levelsTotal, label, student, course, instance)
     if !state.get('readOnly')
       td
         .pull-right

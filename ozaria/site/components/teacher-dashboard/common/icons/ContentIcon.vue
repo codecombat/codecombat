@@ -46,7 +46,7 @@ export default {
   >
     <IconCutscene v-if="icon=='cutscene'" />
     <IconCinematic v-else-if="icon=='cinematic'" />
-    <IconCapstone v-else-if="['capstone'].includes(icon)" />
+    <IconCapstone v-else-if="['capstone', 'ai-capstone'].includes(icon)" />
     <IconInteractive v-else-if="icon=='interactive'" />
     <IconPracticeLevel v-else-if="icon=='practicelvl'" />
     <IconChallengeLevel v-else-if="['challengelvl', 'hero'].includes(icon)" />
