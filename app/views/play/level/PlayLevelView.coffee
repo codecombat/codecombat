@@ -634,7 +634,6 @@ module.exports = class PlayLevelView extends RootView
     if @level.isLadder()
       simulatorOptions.levelID = @level.get('slug')
     if @simulateAILeagueFinals and @simulateAILeagueLevelOriginalId
-      simulatorOptions.levelID = @simulateAILeagueLeveID
       simulatorOptions.levelOriginal = @simulateAILeagueLevelOriginalId
       simulatorOptions.singleLadder = true
     @simulator = new Simulator simulatorOptions
@@ -657,7 +656,6 @@ module.exports = class PlayLevelView extends RootView
     endSimulateDate = new Date('2026-06-25')
     @simulateAILeagueFinals = currentDate.getTime() < endSimulateDate.getTime()
     @simulateAILeagueLevelOriginalId = '69415fa85459d73effdd5c51' # use any of championship or regular - doesn't matter
-    @simulateAILeagueLeveID = 'devour-dash'
 
     return false unless @simulateAILeagueFinals
 
