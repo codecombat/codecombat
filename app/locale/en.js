@@ -4760,6 +4760,7 @@ module.exports = {
       learn_to_use_tooltip: '<h3>Learn</h3><p>Students follow guided steps to learn how to craft effective AI prompts, building skills through structured practice.</p>',
       practice_tooltip: '<h3>Practice</h3><p>Students apply their prompting skills with light teacher guidance, bridging structured learning and open-ended creation.</p>',
       use_tooltip: '<h3>Create</h3><p>Students freely apply their prompting skills with open-ended access to the AI model.</p>',
+      ai_capstone_tooltip: '<h3>AI Capstone</h3><p>A summative assessment at the end of each module where students build a project from scratch using all the prompting skills from the module.</p>',
       concept_checks: 'Concept Checks',
       practice_level: 'Practice Level',
       practice_levels: 'Practice Levels',

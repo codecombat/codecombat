@@ -329,6 +329,8 @@ export function internationalizeContentType (type) {
       return $.i18n.t('play_level.learn_to_use')
     case 'ai-practice':
       return $.i18n.t('play_level.level_type_practice')
+    case 'ai-capstone':
+      return $.i18n.t('play_level.level_type_capstone')
     default:
       return $.i18n.t(isCodeCombat ? 'play_level.level_type_level' : 'play_level.level_type_challenge') // show everything else as "challenge" for now
   }
