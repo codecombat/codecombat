@@ -154,15 +154,14 @@ export default Vue.extend({
   text-align: center;
 }
 
-/* Parent pill - blue tone */
 .path-pill {
   display: inline-flex;
   align-items: center;
   margin-bottom: 10px;
   padding: 6px 14px;
   border-radius: 999px;
-  background: rgba(47, 123, 196, 0.12);
-  color: #2f7bc4;
+  background: rgba(122, 101, 252, 0.12);
+  color: #6d5df6;
   font-size: 12px;
   font-weight: 800;
 }

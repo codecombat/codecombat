@@ -9,13 +9,17 @@
         />
       </div>
 
+      <auth-step-progress
+        :current-step="1"
+        :total-steps="4"
+      />
+
       <div class="copy-block">
         <span class="path-pill">Educator</span>
         <h1>Create your teacher account</h1>
         <p>Sign in with the account your school already provides.</p>
       </div>
 
-      <!-- School SSO providers -->
       <div class="provider-list">
         <button
           class="provider-row"
@@ -66,7 +70,6 @@
         <span>or</span>
       </div>
 
-      <!-- Email sign-up row - leads to form screen -->
       <button
         class="email-row"
         type="button"
@@ -85,10 +88,14 @@
 
 <script>
 import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
+import AuthStepProgress from './AuthStepProgress.vue'
 
 export default Vue.extend({
   name: 'AuthEducatorSignInScreen',
-  components: { MixedColorLabel },
+  components: {
+    MixedColorLabel,
+    AuthStepProgress,
+  },
 })
 </script>
 
@@ -119,7 +126,6 @@ export default Vue.extend({
   text-align: center;
 }
 
-/* Educator pill - purple tone */
 .path-pill {
   display: inline-flex;
   align-items: center;
@@ -148,7 +154,6 @@ p {
   line-height: 1.4;
 }
 
-/* SSO stack */
 .provider-list {
   margin-top: 14px;
   display: grid;
@@ -211,7 +216,6 @@ p {
   line-height: 1;
 }
 
-/* Divider */
 .divider {
   position: relative;
   text-align: center;
@@ -237,7 +241,6 @@ p {
   font-weight: 600;
 }
 
-/* Email row */
 .email-row {
   display: flex;
   align-items: center;

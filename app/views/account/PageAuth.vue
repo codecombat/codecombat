@@ -3,7 +3,6 @@
     id="page-auth"
     :class="`screen-${currentScreen}`"
   >
-    <!-- Desktop Back (upper-left, outside card) -->
     <div
       v-if="canGoBack"
       class="back-desktop"
@@ -18,7 +17,6 @@
     </div>
 
     <div class="auth-shell">
-      <!-- Mobile X close (inside top-right of card, hidden on desktop) -->
       <button
         class="close-x"
         type="button"
@@ -49,15 +47,13 @@
       />
       <AuthEducatorCreateAccountScreen
         v-else-if="currentScreen === 'educator-create'"
+        :form="educatorForm"
+        :current-step="educatorCreateStep"
         :submitting="submitting"
         :error-message="errorMessage"
+        @update-form="updateEducatorForm"
+        @step-change="setEducatorCreateStep"
         @submit="submitEducatorCreate"
-      />
-      <AuthEducatorClassReadyScreen
-        v-else-if="currentScreen === 'educator-class-ready'"
-        :first-name="educatorForm.firstName"
-        :last-name="educatorForm.lastName"
-        :class-code="educatorClassCode"
       />
       <AuthParentCreateAccountScreen
         v-else-if="currentScreen === 'parent-create'"
@@ -73,9 +69,7 @@
         :error-message="errorMessage"
         @submit="submitParentAddChild"
       />
-      <AuthParentSuccessScreen
-        v-else-if="currentScreen === 'parent-success'"
-      />
+      <AuthParentSuccessScreen v-else-if="currentScreen === 'parent-success'" />
       <AuthClassCodeScreen
         v-else-if="currentScreen === 'class-code'"
         :error-message="errorMessage"
@@ -94,9 +88,7 @@
         :error-message="errorMessage"
         @submit="submitClassUsername"
       />
-      <AuthClassSuccessScreen
-        v-else-if="currentScreen === 'class-success'"
-      />
+      <AuthClassSuccessScreen v-else-if="currentScreen === 'class-success'" />
       <AuthBirthdayScreen
         v-else-if="currentScreen === 'birthday'"
         :birthday="currentBirthday"
@@ -163,8 +155,8 @@ import AuthClassUsernameScreen from './components/AuthClassUsernameScreen.vue'
 import AuthClassSuccessScreen from './components/AuthClassSuccessScreen.vue'
 import AuthParentAddChildScreen from './components/AuthParentAddChildScreen.vue'
 import AuthParentSuccessScreen from './components/AuthParentSuccessScreen.vue'
-import AuthEducatorClassReadyScreen from './components/AuthEducatorClassReadyScreen.vue'
 const User = require('models/User')
+const TrialRequest = require('models/TrialRequest')
 const forms = require('core/forms')
 const errors = require('core/errors')
 const contact = require('core/contact')
@@ -173,6 +165,23 @@ const { me } = require('core/auth')
 const { logInWithClever } = require('core/social-handlers/CleverHandler')
 const ClassLinkHandler = require('core/social-handlers/ClassLinkHandler')
 const SchoologyHandler = require('core/social-handlers/SchoologyHandler')
+
+const EDUCATOR_DESTINATIONS = {
+  junior: '/teachers/guide/junior',
+  codecombat: '/teachers/guide/codecombat',
+  ozaria: '/teachers/guide/ozaria',
+  hackstack: '/teachers/guide/hackstack',
+}
+
+const EDUCATOR_ROLE_MAP = {
+  Teacher: 'teacher',
+  'Technology coordinator': 'technology coordinator',
+  'School administrator': 'principal',
+  'District administrator': 'superintendent',
+  Librarian: 'teacher',
+  'Learning center educator': 'teacher',
+  Other: 'teacher',
+}
 
 export default Vue.extend({
   name: 'PageAuth',
@@ -185,7 +194,6 @@ export default Vue.extend({
     AuthLoginScreen,
     AuthEducatorSignInScreen,
     AuthEducatorCreateAccountScreen,
-    AuthEducatorClassReadyScreen,
     AuthParentCreateAccountScreen,
     AuthParentAddChildScreen,
     AuthParentSuccessScreen,
@@ -226,13 +234,24 @@ export default Vue.extend({
         password: '',
       },
       parentEmail: '',
+      educatorCreateStep: 2,
       educatorForm: {
         firstName: '',
         lastName: '',
         email: '',
         password: '',
+        primaryRole: '',
+        schoolName: '',
+        districtName: '',
+        city: '',
+        stateRegion: '',
+        country: '',
+        studentsPlaying: '',
+        phoneNumber: '',
+        selectedProduct: '',
+        requestDemo: false,
+        requestQuote: false,
       },
-      educatorClassCode: 'FROG-1284',
       parentForm: {
         email: '',
         password: '',
@@ -269,7 +288,7 @@ export default Vue.extend({
       return this.currentPathKind === 'class' ? this.classBirthday : this.birthday
     },
     currentBirthdayTitle () {
-      return this.currentPathKind === 'class' ? "When's your birthday?" : "When's your birthday?"
+      return "When's your birthday?"
     },
     currentBirthdayDescription () {
       return this.currentPathKind === 'class'
@@ -341,8 +360,13 @@ export default Vue.extend({
       if (screen === 'create-account') return this.goToBirthday('solo')
       if (screen === 'coppa') return this.goToBirthday(this.currentPathKind)
       if (screen === 'educator-signin') return this.goToChooser()
-      if (screen === 'educator-create') return this.goToEducatorSignIn()
-      if (screen === 'educator-class-ready') return this.goToChooser()
+      if (screen === 'educator-create') {
+        if (this.educatorCreateStep > 2) {
+          this.educatorCreateStep -= 1
+          return
+        }
+        return this.goToEducatorSignIn()
+      }
       if (screen === 'parent-create') return this.goToChooser()
       if (screen === 'parent-add-child') return this.goToParentCreate()
       if (screen === 'parent-success') return this.goToChooser()
@@ -355,7 +379,6 @@ export default Vue.extend({
         if (this.currentPathKind === 'class') return this.goToBirthday('class')
         return this.goToBirthday('solo')
       }
-      // welcome and login are flow entry points - back exits the flow
       return this.handleClose()
     },
     handleClose () {
@@ -387,15 +410,19 @@ export default Vue.extend({
     },
     goToEducatorSignIn () {
       this.resetMessages()
+      this.educatorCreateStep = 2
       this.updateRoute('/signup', { screen: 'educator-signin' })
     },
     goToEducatorCreate () {
       this.resetMessages()
+      this.educatorCreateStep = 2
       this.updateRoute('/signup', { screen: 'educator-create' })
     },
-    goToEducatorClassReady () {
-      this.resetMessages()
-      this.updateRoute('/signup', { screen: 'educator-class-ready' })
+    setEducatorCreateStep (step) {
+      this.educatorCreateStep = step
+    },
+    updateEducatorForm (form) {
+      this.educatorForm = { ...this.educatorForm, ...form }
     },
     handleChooserPath (path) {
       if (path === 'individual') {
@@ -403,9 +430,6 @@ export default Vue.extend({
       }
       if (path === 'educator') {
         return this.goToEducatorSignIn()
-      }
-      if (path === 'parent') {
-        return this.maybeGoToEUConfirmation('parent', 'parent-create')
       }
       if (path === 'classroom') {
         return this.goToClassCode()
@@ -578,8 +602,6 @@ export default Vue.extend({
         this.errorMessage = 'Password must be at least 4 characters.'
         return
       }
-      // Creating a student account + joining the classroom requires a Classroom model API call.
-      // Stubbed: show a noty and advance to success.
       noty({ text: 'Account created! (Note: full classroom join coming in next slice.)', layout: 'topCenter', type: 'success', timeout: 3000, killer: false, dismissQueue: true })
       this.goToClassSuccess()
     },
@@ -646,33 +668,85 @@ export default Vue.extend({
         this.submitting = false
       })
     },
-    submitParentAddChild ({ childFirstName, childUsername, grade }) {
+    submitParentAddChild () {
       this.resetMessages()
-      // Child creation (linking a student account to parent) is backend territory
-      // that requires a separate student account, class, and parent-child relationship.
-      // Stubbed for now - advance UI to success.
       noty({ text: 'Child profile saved! (Note: full backend creation coming in next slice.)', layout: 'topCenter', type: 'success', timeout: 3500, killer: false, dismissQueue: true })
       this.goToParentSuccess()
     },
-    submitEducatorCreate ({ firstName, lastName, email, password }) {
+    getEducatorDestination (selectedProduct) {
+      return EDUCATOR_DESTINATIONS[selectedProduct] || '/teachers/guide/codecombat'
+    },
+    getEducatorUserRole (primaryRole) {
+      return EDUCATOR_ROLE_MAP[primaryRole] || 'teacher'
+    },
+    saveEducatorTrialRequest (form) {
+      const trialRequest = new TrialRequest({
+        type: 'course',
+        properties: {
+          siteOrigin: 'standalone educator signup',
+          role: form.primaryRole,
+          phoneNumber: form.phoneNumber,
+          country: form.country,
+          state: form.stateRegion,
+          city: form.city,
+          district: form.districtName,
+          organization: form.schoolName,
+          numStudents: form.studentsPlaying,
+          numStudentsTotal: form.studentsPlaying,
+        },
+      })
+      trialRequest.notyErrors = false
+      const jqxhr = trialRequest.save()
+      if (jqxhr?.then) {
+        return new Promise((resolve) => {
+          jqxhr.then(() => resolve(null), () => resolve(null))
+        })
+      }
+      return Promise.resolve()
+    },
+    submitEducatorCreate (form) {
       this.resetMessages()
-      if (password.length < 4) {
+      if (form.password.length < 4) {
         this.errorMessage = 'Password must be at least 4 characters.'
         return
       }
-      this.educatorForm = { firstName, lastName, email, password }
+      if (!form.selectedProduct) {
+        this.errorMessage = 'Select a product before continuing.'
+        return
+      }
+      this.educatorForm = { ...this.educatorForm, ...form }
       this.submitting = true
-      const name = `${firstName} ${lastName}`.trim()
-      return me.signupWithPassword(name, email, password, {
+      const name = `${form.firstName} ${form.lastName}`.trim()
+      const teacherRole = this.getEducatorUserRole(form.primaryRole)
+      return me.signupWithPassword(name, form.email, form.password, {
         success: () => {
           if (this.euConfirmationRequired()) {
             this.applyEUMarketingOptOut()
           }
-          me.set('firstName', firstName)
-          me.set('lastName', lastName)
-          me.set('role', 'teacher')
-          me.save({ firstName, lastName, role: 'teacher', emails: me.get('emails'), unsubscribedFromMarketingEmails: me.get('unsubscribedFromMarketingEmails') })
-          this.goToEducatorClassReady()
+          const educatorAttrs = {
+            firstName: form.firstName,
+            lastName: form.lastName,
+            role: teacherRole,
+            schoolName: form.schoolName,
+            school: {
+              name: form.schoolName,
+              city: form.city,
+              district: form.districtName,
+              state: form.stateRegion,
+              country: form.country,
+            },
+            country: form.country,
+            emails: me.get('emails'),
+            unsubscribedFromMarketingEmails: me.get('unsubscribedFromMarketingEmails'),
+          }
+          me.set(educatorAttrs)
+          const saveUser = me.save(educatorAttrs)
+          Promise.resolve(saveUser?.then ? saveUser : null)
+            .catch(() => null)
+            .then(() => this.saveEducatorTrialRequest(form))
+            .finally(() => {
+              window.location.href = this.getEducatorDestination(form.selectedProduct)
+            })
         },
         error: (res, jqxhr = {}) => {
           const errorID = jqxhr.responseJSON?.errorID
@@ -820,7 +894,6 @@ export default Vue.extend({
 <style lang="scss">
 @import "app/styles/component_variables.scss";
 
-/* Hide site chrome when auth route is active */
 body.auth-route-standalone #main-nav,
 body.auth-route-standalone #site-nav,
 body.auth-route-standalone #site-footer,
@@ -854,7 +927,6 @@ body.auth-route-standalone #site-content-area {
   padding: 0 16px;
 }
 
-/* Desktop Back - outside card, upper-left relative to the card column */
 .back-desktop {
   display: none;
 }
@@ -884,9 +956,8 @@ body.auth-route-standalone #site-content-area {
   max-width: 440px;
 }
 
-/* Chooser gets wider on desktop only */
 #page-auth.screen-chooser .auth-shell {
-  max-width: 440px; /* mobile default, overridden on desktop */
+  max-width: 440px;
 }
 
 @media screen and (min-width: $screen-md-min) {
@@ -902,7 +973,6 @@ body.auth-route-standalone #site-content-area {
     max-width: 720px;
   }
 
-  /* Desktop: hide mobile X, show Back outside card */
   .close-x {
     display: none;
   }

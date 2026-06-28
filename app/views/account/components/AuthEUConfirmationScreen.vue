@@ -129,24 +129,12 @@ export default Vue.extend({
   font-weight: 800;
 }
 
-.pill-solo {
-  background: #fff2e8;
-  color: #e98632;
-}
-
-.pill-class {
-  background: rgba(61, 184, 178, 0.14);
-  color: #1a9e98;
-}
-
-.pill-educator {
+.pill-solo,
+.pill-class,
+.pill-educator,
+.pill-parent {
   background: rgba(122, 101, 252, 0.12);
   color: #6d5df6;
-}
-
-.pill-parent {
-  background: rgba(47, 123, 196, 0.12);
-  color: #2f7bc4;
 }
 
 h1 {

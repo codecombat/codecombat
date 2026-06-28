@@ -14,7 +14,6 @@
         <p>Please select the option that best describes you.</p>
       </div>
 
-      <!-- Mobile: rows -->
       <div class="choice-list choice-list--rows">
         <button
           v-for="option in options"
@@ -43,7 +42,6 @@
         </button>
       </div>
 
-      <!-- Desktop: cards grid -->
       <div class="choice-list choice-list--cards">
         <button
           v-for="option in options"
@@ -98,25 +96,18 @@ const options = [
     iconBg: 'rgba(122, 101, 252, 0.12)',
   },
   {
-    key: 'parent',
-    title: "I'm a Parent",
-    description: "Invest in your child's future with live online coding classes.",
-    image: '/images/pages/account/create/parent.png',
-    iconBg: 'rgba(91, 164, 245, 0.15)',
-  },
-  {
     key: 'classroom',
     title: "I'm With a Class",
     description: "Learn with your classroom. You'll need a class code to join.",
     image: '/images/pages/account/create/student.png',
-    iconBg: 'rgba(75, 188, 178, 0.15)',
+    iconBg: 'rgba(122, 101, 252, 0.1)',
   },
   {
     key: 'individual',
     title: "I'm a Solo Learner",
     description: 'Master coding from home and advance to web development.',
     image: '/images/pages/account/create/individual.png',
-    iconBg: 'rgba(245, 168, 66, 0.18)',
+    iconBg: 'rgba(122, 101, 252, 0.08)',
   },
 ]
 
@@ -171,7 +162,6 @@ p {
   line-height: 1.4;
 }
 
-/* ======= MOBILE ROWS ======= */
 .choice-list--cards {
   display: none;
 }
@@ -254,7 +244,6 @@ p {
   background: rgba(122, 101, 252, 0.18);
 }
 
-/* ======= DESKTOP CARDS ======= */
 @media screen and (min-width: $screen-md-min) {
   .auth-card {
     padding: 24px 20px 20px;
@@ -268,7 +257,7 @@ p {
 
   .choice-list--cards {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     margin-top: 16px;
   }
@@ -283,6 +272,7 @@ p {
     overflow: hidden;
     cursor: pointer;
     padding: 0;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
   }
 
   .choice-card:hover,
@@ -290,10 +280,6 @@ p {
     border-color: rgba(122, 101, 252, 0.5);
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(100, 80, 200, 0.10);
-  }
-
-  .choice-card {
-    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
   }
 
   .card-image-shell {

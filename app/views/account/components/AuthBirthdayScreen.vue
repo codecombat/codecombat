@@ -9,11 +9,13 @@
         />
       </div>
 
+      <auth-step-progress
+        :current-step="progressStep"
+        :total-steps="progressTotal"
+      />
+
       <div class="copy-block">
-        <span
-          class="path-pill"
-          :class="pillClass"
-        >{{ pathLabel }}</span>
+        <span class="path-pill">{{ pathLabel }}</span>
         <h1>{{ title }}</h1>
         <p>{{ description }}</p>
       </div>
@@ -104,6 +106,7 @@
 
 <script>
 import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
+import AuthStepProgress from './AuthStepProgress.vue'
 
 const months = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -112,7 +115,10 @@ const months = [
 
 export default Vue.extend({
   name: 'AuthBirthdayScreen',
-  components: { MixedColorLabel },
+  components: {
+    MixedColorLabel,
+    AuthStepProgress,
+  },
   props: {
     birthday: {
       type: Object,
@@ -155,8 +161,11 @@ export default Vue.extend({
     isComplete () {
       return Boolean(this.localBirthday.month && this.localBirthday.day && this.localBirthday.year)
     },
-    pillClass () {
-      return `pill-${this.pathKind}`
+    progressStep () {
+      return this.pathKind === 'class' ? 2 : 1
+    },
+    progressTotal () {
+      return this.pathKind === 'class' ? 3 : 2
     },
   },
   methods: {
@@ -201,16 +210,8 @@ export default Vue.extend({
   border-radius: 999px;
   font-size: 12px;
   font-weight: 800;
-}
-
-.pill-solo {
-  background: #fff2e8;
-  color: #e98632;
-}
-
-.pill-class {
-  background: rgba(61, 184, 178, 0.14);
-  color: #1a9e98;
+  background: rgba(122, 101, 252, 0.12);
+  color: #6d5df6;
 }
 
 h1 {
@@ -244,6 +245,11 @@ p {
   color: #17314d;
   font-size: 15px;
   appearance: none;
+}
+
+.field-input:focus {
+  outline: 2px solid rgba(122, 101, 252, 0.22);
+  border-color: #7a65fc;
 }
 
 .primary-action {

@@ -9,9 +9,13 @@
         />
       </div>
 
-      <!-- Class info banner -->
+      <auth-step-progress
+        :current-step="3"
+        :total-steps="3"
+      />
+
       <div class="class-banner">
-        <span class="banner-icon">&#x1F9D1;&#x200D;&#x1F3EB;</span>
+        <span class="banner-icon">Class</span>
         <div class="banner-text">
           <span class="banner-main">You're joining <strong>Ms. Rivera's</strong> class</span>
           <span class="banner-sub">Period 3 - Intro to CS</span>
@@ -76,10 +80,14 @@
 
 <script>
 import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
+import AuthStepProgress from './AuthStepProgress.vue'
 
 export default Vue.extend({
   name: 'AuthClassUsernameScreen',
-  components: { MixedColorLabel },
+  components: {
+    MixedColorLabel,
+    AuthStepProgress,
+  },
   props: {
     classCode: {
       type: String,
@@ -137,7 +145,6 @@ export default Vue.extend({
 :deep(.wordmark .mixed-color-label__normal) { color: #17314d; }
 :deep(.wordmark .mixed-color-label__highlight) { color: #7a65fc; }
 
-/* Class info banner */
 .class-banner {
   margin-top: 14px;
   display: flex;
@@ -145,21 +152,19 @@ export default Vue.extend({
   gap: 10px;
   padding: 11px 14px;
   border-radius: 14px;
-  background: rgba(61, 184, 178, 0.1);
-  border: 1px solid rgba(61, 184, 178, 0.2);
+  background: rgba(122, 101, 252, 0.1);
+  border: 1px solid rgba(122, 101, 252, 0.2);
 }
 
 .banner-icon {
-  font-size: 22px;
   flex-shrink: 0;
-  width: 36px;
-  height: 36px;
+  padding: 9px 10px;
   border-radius: 10px;
-  background: #3db8b2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
+  background: #7a65fc;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .banner-text {
@@ -226,8 +231,8 @@ p {
 }
 
 .field-input:focus {
-  outline: 2px solid rgba(61, 184, 178, 0.25);
-  border-color: #3db8b2;
+  outline: 2px solid rgba(122, 101, 252, 0.25);
+  border-color: #7a65fc;
 }
 
 .hint-copy {
@@ -248,16 +253,11 @@ p {
   border: 0;
   border-radius: 12px;
   padding: 13px 20px;
-  background: #3db8b2;
+  background: #7a65fc;
   color: #fff;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.15s;
-}
-
-.primary-action:hover {
-  background: #2fa8a2;
 }
 
 .primary-action:disabled {

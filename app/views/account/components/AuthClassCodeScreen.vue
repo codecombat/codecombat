@@ -9,13 +9,17 @@
         />
       </div>
 
+      <auth-step-progress
+        :current-step="1"
+        :total-steps="3"
+      />
+
       <div class="copy-block">
         <span class="path-pill">With a Class</span>
         <h1>Enter your class code</h1>
         <p>Ask your teacher for the 6-character code.</p>
       </div>
 
-      <!-- 6-box code input -->
       <div class="code-row">
         <input
           v-for="n in 6"
@@ -55,10 +59,14 @@
 
 <script>
 import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
+import AuthStepProgress from './AuthStepProgress.vue'
 
 export default Vue.extend({
   name: 'AuthClassCodeScreen',
-  components: { MixedColorLabel },
+  components: {
+    MixedColorLabel,
+    AuthStepProgress,
+  },
   props: {
     errorMessage: {
       type: String,
@@ -154,15 +162,14 @@ export default Vue.extend({
   text-align: center;
 }
 
-/* With a Class pill - teal */
 .path-pill {
   display: inline-flex;
   align-items: center;
   margin-bottom: 10px;
   padding: 6px 14px;
   border-radius: 999px;
-  background: rgba(61, 184, 178, 0.14);
-  color: #1a9e98;
+  background: rgba(122, 101, 252, 0.12);
+  color: #6d5df6;
   font-size: 12px;
   font-weight: 800;
 }
@@ -182,7 +189,6 @@ p {
   line-height: 1.4;
 }
 
-/* 6-box code input */
 .code-row {
   margin-top: 22px;
   display: flex;
@@ -201,14 +207,14 @@ p {
   font-weight: 800;
   color: #17314d;
   line-height: 1;
-  caret-color: #3db8b2;
+  caret-color: #7a65fc;
   transition: border-color 0.12s;
 }
 
 .code-box:focus {
   outline: none;
-  border-color: #3db8b2;
-  background: rgba(61, 184, 178, 0.04);
+  border-color: #7a65fc;
+  background: rgba(122, 101, 252, 0.04);
 }
 
 .error-copy {
@@ -224,16 +230,11 @@ p {
   border: 0;
   border-radius: 12px;
   padding: 13px 20px;
-  background: #3db8b2;
+  background: #7a65fc;
   color: #fff;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.15s;
-}
-
-.primary-action:hover {
-  background: #2fa8a2;
 }
 
 .primary-action:disabled {

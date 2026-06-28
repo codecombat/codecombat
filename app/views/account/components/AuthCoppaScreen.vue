@@ -153,14 +153,10 @@ export default Vue.extend({
   font-weight: 800;
 }
 
-.pill-solo {
-  background: #fff2e8;
-  color: #e98632;
-}
-
+.pill-solo,
 .pill-class {
-  background: rgba(61, 184, 178, 0.14);
-  color: #1a9e98;
+  background: rgba(122, 101, 252, 0.12);
+  color: #6d5df6;
 }
 
 h1 {
@@ -208,7 +204,7 @@ h1 {
 }
 
 .success-copy {
-  color: #2e7d55;
+  color: #6d5df6;
   font-size: 13px;
   margin-top: 10px;
 }

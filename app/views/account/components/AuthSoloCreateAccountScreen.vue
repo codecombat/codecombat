@@ -9,13 +9,17 @@
         />
       </div>
 
+      <auth-step-progress
+        :current-step="2"
+        :total-steps="2"
+      />
+
       <div class="copy-block">
         <span class="path-pill">Solo Learner</span>
         <h1>Create your account</h1>
         <p>You're one step away from coding.</p>
       </div>
 
-      <!-- SSO first: Google + Facebook -->
       <div class="provider-row">
         <button
           class="provider-btn"
@@ -109,10 +113,14 @@
 
 <script>
 import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
+import AuthStepProgress from './AuthStepProgress.vue'
 
 export default Vue.extend({
   name: 'AuthSoloCreateAccountScreen',
-  components: { MixedColorLabel },
+  components: {
+    MixedColorLabel,
+    AuthStepProgress,
+  },
   props: {
     form: {
       type: Object,
@@ -189,8 +197,8 @@ export default Vue.extend({
   margin-bottom: 8px;
   padding: 5px 12px;
   border-radius: 999px;
-  background: #fff2e8;
-  color: #e98632;
+  background: rgba(122, 101, 252, 0.12);
+  color: #6d5df6;
   font-size: 12px;
   font-weight: 800;
 }
@@ -210,7 +218,6 @@ p {
   line-height: 1.4;
 }
 
-/* SSO */
 .provider-row {
   margin-top: 14px;
   display: flex;
@@ -230,10 +237,13 @@ p {
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+  flex: 1;
 }
 
-.provider-btn {
-  flex: 1;
+.provider-btn:hover,
+.provider-btn:focus-visible {
+  border-color: rgba(122, 101, 252, 0.4);
+  background: #faf9ff;
 }
 
 .provider-wordmark {
