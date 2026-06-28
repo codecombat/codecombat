@@ -645,6 +645,12 @@ export default Vue.extend({
               background: lighten($dark-grey-2, 10%);
             }
           }
+
+          // Raise the dropdown description subtitle's contrast in dark mode;
+          // the shared light-page rule keeps $dark-grey-2 for marketing/home.
+          .text-p>.text-description {
+            color: $light-grey-2;
+          }
         }
       }
     }
