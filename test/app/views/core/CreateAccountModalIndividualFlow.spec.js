@@ -1,6 +1,7 @@
 const SegmentCheckView = require('views/core/CreateAccountModal/SegmentCheckView')
 const BasicInfoView = require('views/core/CreateAccountModal/BasicInfoView')
 const ChooseAccountTypeView = require('views/core/CreateAccountModal/ChooseAccountTypeView')
+const CoppaDenyView = require('views/core/CreateAccountModal/CoppaDenyView')
 const State = require('models/State')
 
 describe('CreateAccountModal individual flow tracking', function () {
@@ -39,6 +40,39 @@ describe('CreateAccountModal individual flow tracking', function () {
       'CreateAccountModal Individual Step 2 Next Clicked',
       { category: 'Individuals', action: 'submit-clicked' },
     )
+  })
+
+  it('routes the under-13 action to the coppa-deny screen', function () {
+    const signupState = new State({ path: 'individual' })
+    const view = new SegmentCheckView({ signupState })
+    const onNavForward = jasmine.createSpy('nav-forward')
+    view.on('nav-forward', onNavForward)
+
+    view.onClickUnder13()
+
+    expect(onNavForward).toHaveBeenCalledWith('coppa-deny')
+  })
+
+  it('does not emit individual tracking events on a non-individual path', function () {
+    const signupState = new State({ path: 'student' })
+    const view = new SegmentCheckView({ signupState })
+
+    view.trackIndividualStepNext('basic-info')
+
+    expect(window.tracker.trackEvent).not.toHaveBeenCalled()
+  })
+})
+
+describe('CreateAccountModal coppa-deny', function () {
+  it('leaves a usable play CTA after the parent email is sent', function () {
+    const signupState = new State({ path: 'individual' })
+    const view = new CoppaDenyView({ signupState })
+    view.state.set({ parentEmailSent: true }, { silent: true })
+    view.render()
+
+    const cta = view.$('.history-nav-buttons .play-without-saving-button')
+    expect(cta.length).toBe(1)
+    expect(cta.attr('href')).toBe('/play')
   })
 })
 
