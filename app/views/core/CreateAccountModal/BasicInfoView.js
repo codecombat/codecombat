@@ -60,6 +60,7 @@ module.exports = (BasicInfoView = (function () {
         'click #clever-signup-btn': 'onClickSsoSignupButton',
         'click #schoology-signup-btn': 'onClickSsoSignupButton',
         'click #classlink-signup-btn': 'onClickSsoSignupButton',
+        'click #google-signup-btn': 'onClickSsoSignupButton',
       }
     }
 
@@ -118,11 +119,11 @@ module.exports = (BasicInfoView = (function () {
     afterRender () {
       this.$el.find('#first-name-input').focus()
       if (!me.showChinaRegistration()) {
-        application.gplusHandler.loadAPI({
-          success: () => {
-            return this.handleSSOConnect(application.gplusHandler, 'gplus')
-          }
-        })
+        // Load the Google Identity script so the styled Google row can trigger
+        // sign-in on click (#google-signup-btn -> onClickSsoSignupButton ->
+        // handleSSOConnect -> gplusHandler.connect). We no longer auto-render
+        // the GSI outline button or auto-prompt here.
+        application.gplusHandler.loadAPI()
       }
       return super.afterRender()
     }
