@@ -146,6 +146,13 @@ export default {
         return '/images/ozaria/teachers/dashboard/svg_icons/IconLock.svg'
       }
     },
+    fallbackSummaryProgress () {
+      if (this.classSummaryProgress.length) {
+        return this.classSummaryProgress
+      } else {
+        return this.listOfContent.map(() => ({ border: '', status: 'unassigned' }))
+      }
+    },
   },
 
   mounted () {
@@ -345,7 +352,7 @@ export default {
       </v-popover>
     </div>
     <div
-      v-for="({ status, border }, idx) of classSummaryProgress"
+      v-for="({ status, border }, idx) of fallbackSummaryProgress"
       :key="idx"
       class="golden-backer"
     >

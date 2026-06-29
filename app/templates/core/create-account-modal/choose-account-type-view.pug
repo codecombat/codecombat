@@ -7,7 +7,9 @@ mixin account-type-card(type, buttonText, description, imageAlt, imageSRC)
 
 if view.utils.isCodeCombat
   .modal-body-content.choose-account-shell
-    h2.choose-type-title(data-i18n="nav.create_free_account")
+    .choose-type-header
+      h2.choose-type-title(data-i18n="nav.create_free_account")
+      p.choose-type-subtitle Please select the option that best describes you.
     if me.showIndividualRegister()
       .choose-type-grid
         +account-type-card("teacher-path-button","new_home.im_an_educator", "new_home.im_an_educator_description", '[alt]new_home.for_educators', '/images/pages/account/create/educator.png')
@@ -18,6 +20,10 @@ if view.utils.isCodeCombat
       .choose-type-grid
         +account-type-card("teacher-path-button","new_home.im_an_educator", "new_home.im_an_educator_description", '[alt]new_home.for_educators', '/images/pages/account/create/educator.png')
         +account-type-card("student-path-button","new_home.im_a_student", "new_home.im_a_student_description", '[alt]new_home.for_students', '/images/pages/account/create/student.png')
+    p.choose-type-footer
+      span Already have an account?
+      = ' '
+      a.login-link(href="#" role="button" tabindex="0") Sign in
 
 else
   form.modal-body.choose-account-type

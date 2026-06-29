@@ -119,7 +119,7 @@ export default Vue.extend({
     },
 
     useDarkMode () {
-      return /^\/(roblox|hackstack|league|play|ai\/play)/.test(document.location.pathname)
+      return /^\/(roblox|hackstack|league|play|ai\/play|ai\/starlab)/.test(document.location.pathname)
     },
 
     homeLink () {

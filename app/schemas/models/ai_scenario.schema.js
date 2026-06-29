@@ -21,7 +21,7 @@ _.extend(AIScenarioSchema.properties, {
     title: 'Mode',
     type: 'string',
     description: 'Which mode this scenario is for (learn to use, practice using, etc.)',
-    enum: ['learn to use', 'practice using', 'use', 'teach how to use'],
+    enum: ['learn to use', 'use', 'practice'],
   },
   tool: {
     title: 'Tool',
@@ -90,6 +90,20 @@ _.extend(AIScenarioSchema.properties, {
       type: 'string',
       format: 'markdown',
     },
+  },
+  evaluationRules: {
+    title: 'Evalualtion Rules',
+    description: 'Evaluation Rules in System prompts for evaluating the project',
+    type: 'array',
+    items: {
+      type: 'string',
+      format: 'markdown',
+    },
+  },
+  evaluationPhase: {
+    title: 'Evaluation Phase',
+    enum: ['internalRelease', 'released', 'draft'],
+    description: "How far along the evaluationRules' development is, determining who sees it.",
   },
   minMsgs: {
     title: 'Minimum messages for completion',
