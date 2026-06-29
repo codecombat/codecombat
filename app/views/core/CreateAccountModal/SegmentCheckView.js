@@ -42,8 +42,10 @@ module.exports = (SegmentCheckView = (function () {
       this.fetchAndApplyClassCodeDebounced = _.debounce(this.fetchAndApplyClassCode, 1000)
       this.fetchClassByCode = _.memoize(this.fetchClassByCode)
       this.classroom = new Classroom()
+      // Seed from persisted signupState so the continue button isn't stuck disabled when returning to this step with a birthday already entered.
+      const birthdayComplete = Boolean(this.signupState.get('birthdayYear') && this.signupState.get('birthdayMonth') && this.signupState.get('birthdayDay'))
       this.state = new State({
-        birthdayComplete: false,
+        birthdayComplete,
       })
       if (this.signupState.get('classCode')) {
         if (utils.isCodeCombat) {
