@@ -86,6 +86,46 @@ function removeLibraryKeys () {
   localStorage.remove(isCreatedViaLibraryKey())
 }
 
+function getActivityStatusCacheKey (userId) {
+  return `coco-activity-status-${userId}`
+}
+
+function readActivityStatusCache (userId) {
+  const key = getActivityStatusCacheKey(userId)
+  return localStorage.load(key, false) || localStorage.load(key) || {}
+}
+
+function readActivityStatusFromCache (userId, activityName) {
+  const seenAt = readActivityStatusCache(userId)[activityName]
+  return seenAt != null ? seenAt : null
+}
+
+function writeActivityStatusToCache (userId, activityName, seenAt) {
+  const key = getActivityStatusCacheKey(userId)
+  const cache = readActivityStatusCache(userId)
+  const existing = cache[activityName]
+  if (existing != null && existing >= seenAt) { return }
+  cache[activityName] = seenAt
+  localStorage.save(key, cache, 0)
+}
+
+function clearActivityStatusCache (userId, { prefix } = {}) {
+  const key = getActivityStatusCacheKey(userId)
+  if (!prefix) {
+    localStorage.remove(key, false)
+    localStorage.remove(key)
+    return
+  }
+  const cache = readActivityStatusCache(userId)
+  const filtered = _.pickBy(cache, (v, k) => !k.startsWith(prefix))
+  if (_.isEmpty(filtered)) {
+    localStorage.remove(key, false)
+    localStorage.remove(key)
+  } else {
+    localStorage.save(key, filtered, 0)
+  }
+}
+
 async function levelChatCreditsString () {
   const res = await usersApi.getUserCredits('LEVEL_CHAT_BOT')
   const credits = res?.result
@@ -177,4 +217,8 @@ module.exports = {
   getStorageExam,
   levelsOfExam,
   levelNumberInExam,
+  getActivityStatusCacheKey,
+  readActivityStatusFromCache,
+  writeActivityStatusToCache,
+  clearActivityStatusCache,
 }

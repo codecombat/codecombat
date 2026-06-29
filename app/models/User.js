@@ -653,6 +653,80 @@ module.exports = (User = (function () {
       })
     }
 
+    /**
+     * Pure read of activity status — checks local cache then remote activity.
+     * Never writes to localStorage (use resolveActivityStatus to hydrate cache).
+     */
+    peekActivityStatus (activityName) {
+      const userId = this.get('_id') || this.id
+      if (!userId) { return { seen: false, source: 'none' } }
+
+      const localSeenAt = userUtils.readActivityStatusFromCache(userId, activityName)
+      if (localSeenAt != null) {
+        return { seen: true, seenAt: localSeenAt, source: 'local' }
+      }
+
+      const remoteActivity = this.get('activity')?.[activityName]
+      if (remoteActivity?.first) {
+        const seenAt = new Date(remoteActivity.first).getTime()
+        return { seen: true, seenAt, source: 'remote' }
+      }
+
+      return { seen: false, source: 'none' }
+    }
+
+    /**
+     * Read activity status with side effects — may hydrate local cache from remote.
+     * Prefer this for "show once" UX checks before displaying tutorials, hints, etc.
+     */
+    resolveActivityStatus (activityName) {
+      const userId = this.get('_id') || this.id
+      if (!userId) { return { seen: false, source: 'none' } }
+
+      const localSeenAt = userUtils.readActivityStatusFromCache(userId, activityName)
+      if (localSeenAt != null) {
+        return { seen: true, seenAt: localSeenAt, source: 'local' }
+      }
+
+      const remoteActivity = this.get('activity')?.[activityName]
+      if (remoteActivity?.first) {
+        const seenAt = new Date(remoteActivity.first).getTime()
+        userUtils.writeActivityStatusToCache(userId, activityName, seenAt)
+        return { seen: true, seenAt, source: 'remote', hydrated: true }
+      }
+
+      return { seen: false, source: 'none' }
+    }
+
+    /**
+     * Mark an activity as seen — writes local cache immediately, then persists via trackActivity.
+     * Call when something is shown, not when the user completes an action.
+     */
+    markActivitySeen (activityName, seenAt = Date.now()) {
+      const userId = this.get('_id') || this.id
+      if (!userId) { return }
+
+      const existingSeenAt = userUtils.readActivityStatusFromCache(userId, activityName)
+      const shouldTrack = existingSeenAt == null || seenAt > existingSeenAt
+
+      userUtils.writeActivityStatusToCache(userId, activityName, seenAt)
+
+      if (this.id && shouldTrack) {
+        return this.trackActivity(activityName)
+      }
+    }
+
+    /**
+     * Dev/internal: clear per-user activity status local cache. Does not delete server activity.
+     * Gated behind isInternal() or non-production environment.
+     */
+    clearActivityStatusCache ({ prefix } = {}) {
+      if (!this.isInternal() && globalVar.application?.isProduction()) { return }
+      const userId = this.get('_id') || this.id
+      if (!userId) { return }
+      userUtils.clearActivityStatusCache(userId, { prefix })
+    }
+
     saveCookieConsent (action, description = '') {
       // Save cookie consent to user's consentHistory
       // action: 'allow', 'deny', or 'dismiss'
@@ -949,7 +1023,9 @@ module.exports = (User = (function () {
 
     clearUserSpecificLocalStorage () {
       for (const key of ['hoc-campaign']) { storage.remove(key) }
-      return userUtils.removeLibraryKeys()
+      userUtils.removeLibraryKeys()
+      const userId = this.get('_id') || this.id
+      if (userId) { userUtils.clearActivityStatusCache(userId) }
     }
 
     signupWithPassword (name, email, password, options = {}) {
