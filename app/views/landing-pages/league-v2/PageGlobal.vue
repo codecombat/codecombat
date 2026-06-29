@@ -69,7 +69,11 @@ export default {
       }
     },
     createTournament () {
-      return application.router.navigate(`/league/ladders/${this.clanIdOrSlug}`, { trigger: true })
+      let url = '/league/ladders'
+      if (this.clanIdOrSlug) {
+        url += '/' + this.clanIdOrSlug
+      }
+      return application.router.navigate(url, { trigger: true })
       // todo: check me.js isPaidTeacher to go clan or by license modal
     },
 

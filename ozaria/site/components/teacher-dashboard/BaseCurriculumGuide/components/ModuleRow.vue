@@ -1,10 +1,10 @@
 <script>
 import ContentIcon from '../../common/icons/ContentIcon'
 import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
-import { getImageFromAiTool } from 'app/core/utils.js'
+import { getImageFromAiTool, aiProjectIcons } from 'app/core/utils.js'
 import marked from 'marked'
 
-const aiProjectTypes = ['ai-use', 'ai-learn']
+const aiProjectTypes = aiProjectIcons
 
 export default {
   components: {
@@ -16,8 +16,11 @@ export default {
       type: String,
       required: true,
       validator: value => {
-        return ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev', 'ladder', 'challenge', 'ai-use', 'ai-learn'].indexOf(value) !== -1
-      }
+        return ['cutscene', 'cinematic', 'capstone', 'interactive',
+                'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder',
+                'game-dev', 'web-dev', 'ladder', 'challenge', ...aiProjectTypes,
+        ].indexOf(value) !== -1
+      },
     },
 
     nameType: {

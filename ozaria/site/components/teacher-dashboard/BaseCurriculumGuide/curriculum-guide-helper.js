@@ -2,9 +2,12 @@ import utils from '../../../../../app/core/utils'
 
 export function getLevelUrl ({ ozariaType, introLevelSlug, courseId, codeLanguage, slug, introContent, moduleNum, _id }) {
   if (utils.HACKSTACK_COURSE_IDS.includes(courseId)) {
-    return `/ai/scenario/${slug}`
-  } else if (utils.showOzaria() && !ozariaType && introLevelSlug) {
-    return `/play/intro/${introLevelSlug}?course=${courseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
+    return `/ai/play/scenario/${slug}`
+  } else if ((utils.isCodeCombat && utils.OZ_COURSE_IDS.includes(courseId)) || utils.showOzaria()) {
+    if (!ozariaType && introLevelSlug) {
+      return `/play/intro/${introLevelSlug}?course=${courseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
+    }
+    return `/play/ozaria/level/${slug}?course=${courseId}&codeLanguage=${codeLanguage}`
   } else if (slug) {
     let url = `/play/level/${slug}?course=${courseId}&codeLanguage=${codeLanguage}`
     if (courseId === utils.courseIDs.JUNIOR) {

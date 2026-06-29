@@ -21,14 +21,14 @@ module.exports = (LevelSessionCollection = (function () {
     fetchForCourseInstance (courseInstanceID, options) {
       const userID = (options != null ? options.userID : undefined) || me.id
       options = _.extend({
-        url: `/db/course_instance/${courseInstanceID}/course-level-sessions/${userID}`
+        url: `/db/course_instance/${courseInstanceID}/course-level-sessions/${userID}`,
       }, options)
       return this.fetch(options)
     }
 
     fetchForCampaign (campaignHandle, options) {
       options = _.extend({
-        url: `/db/campaign/${campaignHandle}/sessions`
+        url: `/db/campaign/${campaignHandle}/sessions`,
       }, options)
       return this.fetch(options)
     }
@@ -39,7 +39,7 @@ module.exports = (LevelSessionCollection = (function () {
         url = `${url}?userId=${userId}`
       }
       options = _.extend({
-        url
+        url,
       }, options)
       return this.fetch(options)
     }
@@ -47,7 +47,11 @@ module.exports = (LevelSessionCollection = (function () {
     fetchForClassroomMembers (classroomID, options) {
       // Params: memberSkip, memberLimit
       options = _.extend({
-        url: `/db/classroom/${classroomID}/member-sessions`
+        url: `/db/classroom/${classroomID}/member-sessions`,
+        dataFilter: (data, type) => {
+          const json = JSON.parse(data)
+          return JSON.stringify(json.sessions)
+        },
       }, options)
       return this.fetch(options)
     }
@@ -75,7 +79,7 @@ module.exports = (LevelSessionCollection = (function () {
       // Params: slug, limit, codeLanguage
       if (options == null) { options = {} }
       options = _.extend({
-        url: '/db/level.session/-/recent'
+        url: '/db/level.session/-/recent',
       }, options)
       return this.fetch(options)
     }
@@ -83,7 +87,7 @@ module.exports = (LevelSessionCollection = (function () {
     fetchForLevelSlug (levelSlug, options) {
       if (options == null) { options = {} }
       options = _.extend({
-        url: `/db/level/${levelSlug}/my_sessions`
+        url: `/db/level/${levelSlug}/my_sessions`,
       }, options)
       return this.fetch(options)
     }
