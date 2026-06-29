@@ -18,17 +18,17 @@ mixin use-social-signon
       .sso-header(data-i18n="signup.sign_up_with")
 
       .auth-network-logins.text-center
-        a#google-signup-btn.network-login.sso-row(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
+        a#google-signup-btn.network-login.sso-row(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus", aria-label="Google")
           img.sso-logo.sso-logo-google(src="/images/pages/modal/auth/google-logo-wordmark.svg", draggable="false")
         if !/(teacher|student)/.test(view.signupState.get('path'))
-          a#facebook-signup-btn.network-login.sso-row(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
+          a#facebook-signup-btn.network-login.sso-row(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook", aria-label="Facebook")
             img.sso-logo.sso-logo-facebook(src="/images/pages/modal/auth/facebook-logo-wordmark.svg", draggable="false")
         if /(teacher|student)/.test(view.signupState.get('path'))
-          a#clever-signup-btn.network-login.sso-row(data-sso-used="clever")
+          a#clever-signup-btn.network-login.sso-row(data-sso-used="clever", aria-label="Clever")
             img.sso-logo.sso-logo-clever(src="/images/pages/modal/auth/clever-logo-blue.png", draggable="false")
-          a#schoology-signup-btn.network-login.sso-row(data-sso-used="schoology")
+          a#schoology-signup-btn.network-login.sso-row(data-sso-used="schoology", aria-label="Schoology")
             img.sso-logo.sso-logo-schoology(src="/images/pages/modal/auth/schoology-logo-wordmark.svg")
-          a#classlink-signup-btn.network-login.sso-row(data-sso-used="classlink")
+          a#classlink-signup-btn.network-login.sso-row(data-sso-used="classlink", aria-label="ClassLink")
             img.sso-logo.sso-logo-classlink(src="/images/pages/modal/auth/classlink-logo-text.png")
 
 
@@ -136,7 +136,6 @@ form#basic-info-form.modal-body.basic-info
           +error-area
         else if me.useSocialSignOn()
           +use-social-signon
-          +error-area
     else
       if !view.utils.isCodeCombat && me.useSocialSignOn()
         +use-social-signon
