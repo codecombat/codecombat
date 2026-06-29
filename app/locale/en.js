@@ -812,6 +812,8 @@ module.exports = {
       sign_up_with: 'Sign up with',
       other_signin_options: '← Other sign-in options',
       already_have_account: 'Already have a CodeCombat or Ozaria account',
+      already_have_account_q: 'Already have an account?',
+      choose_account_subtitle: 'Please select the option that best describes you.',
       select_your_role: 'Select your role',
       select_your_state: 'Select your state',
       password_requirements: '4 to 64 characters with no repeating',

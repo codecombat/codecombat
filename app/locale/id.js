@@ -810,6 +810,8 @@ module.exports = {
       educator_signup_list_3_desc: '[AI_TRANSLATION]Coba unit pertama dengan kelasmu secara gratis',
       signup_with_email: '[AI_TRANSLATION]Daftar dengan Email',
       already_have_account: '[AI_TRANSLATION]Sudah punya akun CodeCombat atau Ozaria',
+      //    already_have_account_q: "Already have an account?",
+      //    choose_account_subtitle: "Please select the option that best describes you.",
       select_your_role: '[AI_TRANSLATION]Pilih peran kamu',
       select_your_state: '[AI_TRANSLATION]Pilih keadaanmu',
       password_requirements: '8 hingga 64 karakter tanpa pengulangan',
