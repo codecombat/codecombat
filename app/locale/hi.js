@@ -810,6 +810,8 @@ module.exports = {
       educator_signup_list_3_desc: '[AI_TRANSLATION]अपनी कक्षा के साथ पहले यूनिट को मुफ्त में आज़माएं',
       signup_with_email: '[AI_TRANSLATION]ईमेल के साथ साइन अप करें',
       already_have_account: '[AI_TRANSLATION]पहले से ही CodeCombat या Ozaria खाता है',
+      //    already_have_account_q: "Already have an account?",
+      //    choose_account_subtitle: "Please select the option that best describes you.",
       select_your_role: '[AI_TRANSLATION]अपनी भूमिका चुनें',
       select_your_state: '[AI_TRANSLATION]अपना राज्य चुनो।',
       password_requirements: '[AI_TRANSLATION]4 से 64 वर्ण बिना दोहराव के  ',

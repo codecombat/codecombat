@@ -810,6 +810,8 @@ module.exports = {
       educator_signup_list_3_desc: 'Gel gur svefg havg jvgu lbhe pynff sbe serr',
       signup_with_email: 'Fvta hc jvgu Rznvy',
       already_have_account: 'Nyernql unir n PbqrPbzong be Bmnevn nppbhag',
+      already_have_account_q: 'Nyernql unir na nppbhag?',
+      choose_account_subtitle: 'Cyrnfr fryrpg gur bcgvba gung orfg qrfpevorf lbh.',
       select_your_role: 'Fryrpg lbhe ebyr',
       select_your_state: 'Fryrpg lbhe fgngr',
       password_requirements: '4 gb 64 punenpgref jvgu ab ercrngvat',

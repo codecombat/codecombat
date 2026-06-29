@@ -810,6 +810,8 @@ module.exports = {
       educator_signup_list_3_desc: '[AI_TRANSLATION]너희 반 첫 유닛을 무료로 시도해봐',
       signup_with_email: '[AI_TRANSLATION]이메일로 가입하기',
       already_have_account: '[AI_TRANSLATION]이미 CodeCombat 또는 Ozaria 계정이 있어',
+      //    already_have_account_q: "Already have an account?",
+      //    choose_account_subtitle: "Please select the option that best describes you.",
       select_your_role: '[AI_TRANSLATION]역할을 선택하세요.',
       select_your_state: '[AI_TRANSLATION]자신의 상태를 선택하세요.',
       password_requirements: '반복되지 않는 8~64문자',
