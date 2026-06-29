@@ -71,7 +71,9 @@
       max-width: 100%
       min-width: 0
       min-height: auto
+      // vh first as fallback; dvh keeps the footer/login-link visible under mobile browser chrome
       max-height: calc(100vh - 24px)
+      max-height: calc(100dvh - 24px)
 
   // General modal stuff
 
