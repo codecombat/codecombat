@@ -84,7 +84,7 @@ form.modal-body.segment-check
         // TODO
       when 'individual'
         .individual-flow-panel
-          span.sr-only Step 1 of 2
+          span.sr-only(data-i18n="signup.step_1_of_2")
           .individual-flow-progress(aria-hidden="true")
             .individual-flow-progress-step.active
             .individual-flow-progress-step
@@ -112,7 +112,7 @@ form.modal-body.segment-check
                   - var thisYear = new Date().getFullYear()
                   for year in _.range(thisYear, thisYear - 100, -1)
                     option(selected=(year === view.signupState.get('birthdayYear'))) #{year}
-            button.under-13-button(type='button') I'm under 13
+            button.under-13-button(type='button' data-i18n="signup.im_under_13")
 
       default
         p(class=view.utils.isOzaria ? "medium-gray" : '')

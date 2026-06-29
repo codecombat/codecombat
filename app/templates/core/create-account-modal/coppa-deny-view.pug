@@ -7,9 +7,9 @@ form.modal-body.coppa-deny
       .individual-flow-card.parent-email-card
         if !view.state.get('parentEmailSent')
           .individual-flow-heading
-            h4 What's your parent's email?
+            h4(data-i18n="signup.parent_email_header")
           .form-group.parent-email-input-group
-            label.sr-only(for="parent-email-input") Parent email
+            label.sr-only(for="parent-email-input" data-i18n="signup.parent_email_label")
             input#parent-email-input.form-control.input-lg(type="email" name="parentEmail" placeholder="parent@email.com" value=state.get('parentEmail'))
           if state.get('error')
             p.small.error
@@ -18,7 +18,7 @@ form.modal-body.coppa-deny
             p.error
               span(data-i18n="signup.dont_use_our_email_silly")
           .parent-email-blurb.render
-            span We&rsquo;re excited for you to start coding! Your parent will get an email with instructions to create your account. Questions?
+            span(data-i18n="signup.parent_email_excited_blurb")
             = ' '
             a(href="mailto:team@codecombat.com") team@codecombat.com
         else
@@ -26,19 +26,19 @@ form.modal-body.coppa-deny
             .parent-email-confirmation-mark
               span.glyphicon.glyphicon-ok
             .individual-flow-heading
-              h4 Check your parent's inbox
+              h4(data-i18n="signup.parent_email_check_inbox")
             p.parent-email-sent-copy
               span(data-i18n="signup.parent_email_sent")
-            p.parent-email-blurb Your parent needs to open the email and finish creating your account before you can save progress.
+            p.parent-email-blurb(data-i18n="signup.parent_email_finish_blurb")
 
   .history-nav-buttons
     if !state.get('parentEmailSent')
       button.send-parent-email-button.btn.btn-lg.btn-navy(type='submit', disabled=state.get('parentEmailSending') || state.get('dontUseOurEmailSilly'))
         if state.get('parentEmailSending')
-          span Sending...
+          span(data-i18n="common.sending")
         else
-          span Send to my parent
+          span(data-i18n="signup.send_to_parent")
       button.back-btn.btn.btn-lg.btn-navy-alt(type='button')
         span(data-i18n="common.back")
     else
-      a.play-without-saving-button.btn.btn-lg.btn-navy(href="/play" data-dismiss="modal") Play without saving
+      a.play-without-saving-button.btn.btn-lg.btn-navy(href="/play" data-dismiss="modal" data-i18n="signup.play_without_saving")
