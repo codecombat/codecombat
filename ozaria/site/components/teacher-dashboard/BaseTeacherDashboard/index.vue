@@ -352,6 +352,10 @@ export default {
         scrollTo: true,
         defaultStepOptions: {
           classes: 'shepherd-dashboard-theme',
+          cancelIcon: {
+            enabled: true,
+            label: $.i18n.t('teacher_dashboard.click_dismiss'),
+          },
         },
       })
 

@@ -1868,8 +1868,18 @@ module.exports.getJuniorUrl = function () {
   return `${cocoBaseURL()}${juniorPath}`
 }
 
+const AI_MODE_ICON_MAP = {
+  use: 'ai-use',
+  practice: 'ai-practice',
+  'learn to use': 'ai-learn',
+  capstone: 'ai-capstone'
+}
+
+module.exports.aiProjectModes = Object.keys(AI_MODE_ICON_MAP)
+module.exports.aiProjectIcons = Object.values(AI_MODE_ICON_MAP)
+
 module.exports.scenarioMode2Icon = (mode) => {
-  return mode === 'use' ? 'ai-use' : 'ai-learn'
+  return AI_MODE_ICON_MAP[mode]
 }
 
 module.exports.aiTranslate = async (modelName, docId, langs) => {
