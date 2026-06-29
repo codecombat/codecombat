@@ -61,8 +61,6 @@
     // One header labels the whole set ("Sign up with"); each row below simply
     // centers the provider's own logo and lets it carry its own recognition.
     .sso-header
-      // clear the absolutely-positioned "or" label that overhangs the .hr-text line
-      margin-top: 50px
       margin-bottom: 12px
       text-align: center
       font-size: 13px
@@ -70,6 +68,11 @@
       letter-spacing: 0.04em
       text-transform: uppercase
       color: #5a6b7b
+
+    // Individual only (Teacher/Student lack this wrapper): clears the absolute
+    // "or" span that overhangs ~34px below the rule, leaving a ~10px gap.
+    .individual-flow-social .sso-header
+      margin-top: 44px
 
     .auth-network-logins
       display: flex
