@@ -95,17 +95,36 @@ function readActivityStatusCache (userId) {
   return localStorage.load(key, false) || localStorage.load(key) || {}
 }
 
-function readActivityStatusFromCache (userId, activityName) {
-  const seenAt = readActivityStatusCache(userId)[activityName]
-  return seenAt != null ? seenAt : null
+function activityFromRemote (remoteActivity) {
+  if (!remoteActivity?.first) { return null }
+  return {
+    first: new Date(remoteActivity.first).getTime(),
+    last: remoteActivity.last ? new Date(remoteActivity.last).getTime() : undefined,
+    count: remoteActivity.count,
+  }
 }
 
-function writeActivityStatusToCache (userId, activityName, seenAt) {
+function normalizeCacheEntry (value) {
+  if (value == null) { return null }
+  if (typeof value === 'number') {
+    return { first: value, last: value, count: 1 }
+  }
+  if (value.first == null) { return null }
+  return {
+    first: typeof value.first === 'number' ? value.first : new Date(value.first).getTime(),
+    last: value.last != null ? (typeof value.last === 'number' ? value.last : new Date(value.last).getTime()) : undefined,
+    count: value.count,
+  }
+}
+
+function readActivityFromCache (userId, activityName) {
+  return normalizeCacheEntry(readActivityStatusCache(userId)[activityName])
+}
+
+function writeActivityToCache (userId, activityName, activity) {
   const key = getActivityStatusCacheKey(userId)
   const cache = readActivityStatusCache(userId)
-  const existing = cache[activityName]
-  if (existing != null && existing >= seenAt) { return }
-  cache[activityName] = seenAt
+  cache[activityName] = activity
   localStorage.save(key, cache, 0)
 }
 
@@ -218,7 +237,8 @@ module.exports = {
   levelsOfExam,
   levelNumberInExam,
   getActivityStatusCacheKey,
-  readActivityStatusFromCache,
-  writeActivityStatusToCache,
+  readActivityFromCache,
+  writeActivityToCache,
+  activityFromRemote,
   clearActivityStatusCache,
 }

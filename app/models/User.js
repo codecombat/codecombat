@@ -654,48 +654,32 @@ module.exports = (User = (function () {
     }
 
     /**
-     * Pure read of activity status — checks local cache then remote activity.
-     * Never writes to localStorage (use resolveActivityStatus to hydrate cache).
+     * Pure read — local cache first, then me.activity. Never writes.
+     * @returns {{ first: number, last?: number, count?: number } | null}
      */
     peekActivityStatus (activityName) {
       const userId = this.get('_id') || this.id
-      if (!userId) { return { seen: false, source: 'none' } }
+      if (!userId) { return null }
 
-      const localSeenAt = userUtils.readActivityStatusFromCache(userId, activityName)
-      if (localSeenAt != null) {
-        return { seen: true, seenAt: localSeenAt, source: 'local' }
-      }
-
-      const remoteActivity = this.get('activity')?.[activityName]
-      if (remoteActivity?.first) {
-        const seenAt = new Date(remoteActivity.first).getTime()
-        return { seen: true, seenAt, source: 'remote' }
-      }
-
-      return { seen: false, source: 'none' }
+      return userUtils.readActivityFromCache(userId, activityName) ??
+        userUtils.activityFromRemote(this.get('activity')?.[activityName])
     }
 
     /**
-     * Read activity status with side effects — may hydrate local cache from remote.
-     * Prefer this for "show once" UX checks before displaying tutorials, hints, etc.
+     * Read activity — hydrates local cache from me.activity when missing.
+     * @returns {{ first: number, last?: number, count?: number } | null}
      */
     resolveActivityStatus (activityName) {
       const userId = this.get('_id') || this.id
-      if (!userId) { return { seen: false, source: 'none' } }
+      if (!userId) { return null }
 
-      const localSeenAt = userUtils.readActivityStatusFromCache(userId, activityName)
-      if (localSeenAt != null) {
-        return { seen: true, seenAt: localSeenAt, source: 'local' }
+      let activity = userUtils.readActivityFromCache(userId, activityName)
+      if (!activity) {
+        activity = userUtils.activityFromRemote(this.get('activity')?.[activityName])
+        if (activity) { userUtils.writeActivityToCache(userId, activityName, activity) }
       }
 
-      const remoteActivity = this.get('activity')?.[activityName]
-      if (remoteActivity?.first) {
-        const seenAt = new Date(remoteActivity.first).getTime()
-        userUtils.writeActivityStatusToCache(userId, activityName, seenAt)
-        return { seen: true, seenAt, source: 'remote', hydrated: true }
-      }
-
-      return { seen: false, source: 'none' }
+      return activity
     }
 
     /**
@@ -706,12 +690,17 @@ module.exports = (User = (function () {
       const userId = this.get('_id') || this.id
       if (!userId) { return }
 
-      const existingSeenAt = userUtils.readActivityStatusFromCache(userId, activityName)
-      const shouldTrack = existingSeenAt == null || seenAt > existingSeenAt
+      const existing = userUtils.readActivityFromCache(userId, activityName)
+      if (existing?.last != null && seenAt <= existing.last) { return }
 
-      userUtils.writeActivityStatusToCache(userId, activityName, seenAt)
+      const activity = {
+        first: existing?.first ?? seenAt,
+        last: seenAt,
+        count: existing?.first ? (existing.count ?? 0) + 1 : 1,
+      }
+      userUtils.writeActivityToCache(userId, activityName, activity)
 
-      if (this.id && shouldTrack) {
+      if (this.id) {
         return this.trackActivity(activityName)
       }
     }
