@@ -44,6 +44,13 @@
       gap: 20px
       justify-content: flex-start
 
+    .choose-type-header
+      display: flex
+      flex-direction: column
+      gap: 10px
+      align-items: center
+      text-align: center
+
     .choose-type-title
       margin: 0
       color: $navy
@@ -53,6 +60,13 @@
 
       @media (max-width: 767px)
         font-size: 28px
+
+    .choose-type-subtitle
+      margin: 0
+      max-width: 460px
+      color: $gray
+      font-size: 15px
+      line-height: 1.45
 
     .choose-type-grid
       width: 100%
@@ -77,9 +91,18 @@
       align-items: stretch
       text-align: left
 
+      transition: transform 0.12s ease, filter 0.12s ease
+
       &:hover,
       &:focus-visible
         text-decoration: none
+
+      &:hover
+        transform: translateY(-2px)
+        filter: brightness(1.02)
+
+      &:active
+        transform: scale(0.98)
 
       &:focus-visible
         outline: 3px solid rgba(118, 90, 255, 0.35)
@@ -116,3 +139,42 @@
 
       @media (max-width: 767px)
         font-size: 14px
+
+    .choose-type-footer
+      margin: 4px 0 0
+      text-align: center
+      color: $gray
+      font-size: 14px
+      line-height: 1.5
+
+      .login-link
+        color: $navy
+        font-weight: 700
+        text-decoration: underline
+        cursor: pointer
+
+    // Tighten vertical rhythm on phones so more than ~2 cards fit on a 390px screen
+    @media (max-width: 767px)
+      .choose-account-shell
+        padding: 20px 16px 16px
+        gap: 14px
+
+      .choose-type-grid
+        gap: 14px
+
+      .path-option
+        gap: 6px
+
+      .path-option-image
+        aspect-ratio: 2 / 1
+        border-radius: 16px
+        box-shadow: 0 8px 18px rgba(28, 42, 74, 0.13)
+
+      .path-option-cta
+        min-height: 44px
+        padding: 10px 16px
+        font-size: 16px
+
+      .path-option-description
+        font-size: 13px
+        line-height: 1.35
