@@ -121,6 +121,16 @@ function readActivityFromCache (userId, activityName) {
   return normalizeCacheEntry(readActivityStatusCache(userId)[activityName])
 }
 
+function reconcileActivity (localActivity, remoteActivity) {
+  const remote = activityFromRemote(remoteActivity)
+  if (!localActivity) { return remote }
+  if (!remote) { return localActivity }
+  if ((remote.count ?? 0) > (localActivity.count ?? 0)) { return remote }
+  if ((remote.count ?? 0) < (localActivity.count ?? 0)) { return localActivity }
+  if ((remote.last ?? 0) > (localActivity.last ?? 0)) { return remote }
+  return localActivity
+}
+
 function writeActivityToCache (userId, activityName, activity) {
   const key = getActivityStatusCacheKey(userId)
   const cache = readActivityStatusCache(userId)
@@ -136,7 +146,7 @@ function clearActivityStatusCache (userId, { prefix } = {}) {
     return
   }
   const cache = readActivityStatusCache(userId)
-  const filtered = _.pickBy(cache, (v, k) => !k.startsWith(prefix))
+  const filtered = _.pick(cache, _.filter(_.keys(cache), k => !k.startsWith(prefix)))
   if (_.isEmpty(filtered)) {
     localStorage.remove(key, false)
     localStorage.remove(key)
@@ -238,6 +248,7 @@ module.exports = {
   levelNumberInExam,
   getActivityStatusCacheKey,
   readActivityFromCache,
+  reconcileActivity,
   writeActivityToCache,
   activityFromRemote,
   clearActivityStatusCache,

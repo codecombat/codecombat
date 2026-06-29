@@ -661,22 +661,24 @@ module.exports = (User = (function () {
       const userId = this.get('_id') || this.id
       if (!userId) { return null }
 
-      return userUtils.readActivityFromCache(userId, activityName) ??
-        userUtils.activityFromRemote(this.get('activity')?.[activityName])
+      return userUtils.reconcileActivity(
+        userUtils.readActivityFromCache(userId, activityName),
+        this.get('activity')?.[activityName],
+      )
     }
 
     /**
-     * Read activity — hydrates local cache from me.activity when missing.
+     * Read activity — hydrates local cache from me.activity when missing or stale.
      * @returns {{ first: number, last?: number, count?: number } | null}
      */
     resolveActivityStatus (activityName) {
       const userId = this.get('_id') || this.id
       if (!userId) { return null }
 
-      let activity = userUtils.readActivityFromCache(userId, activityName)
-      if (!activity) {
-        activity = userUtils.activityFromRemote(this.get('activity')?.[activityName])
-        if (activity) { userUtils.writeActivityToCache(userId, activityName, activity) }
+      const local = userUtils.readActivityFromCache(userId, activityName)
+      const activity = userUtils.reconcileActivity(local, this.get('activity')?.[activityName])
+      if (activity && (!local || local.count !== activity.count || local.last !== activity.last || local.first !== activity.first)) {
+        userUtils.writeActivityToCache(userId, activityName, activity)
       }
 
       return activity
@@ -690,7 +692,10 @@ module.exports = (User = (function () {
       const userId = this.get('_id') || this.id
       if (!userId) { return }
 
-      const existing = userUtils.readActivityFromCache(userId, activityName)
+      const existing = userUtils.reconcileActivity(
+        userUtils.readActivityFromCache(userId, activityName),
+        this.get('activity')?.[activityName],
+      )
       if (existing?.last != null && seenAt <= existing.last) { return }
 
       const activity = {
