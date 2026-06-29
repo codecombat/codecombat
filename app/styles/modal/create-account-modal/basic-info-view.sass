@@ -31,16 +31,6 @@
     line-height: 1.5
     color: #35506f
 
-  .individual-flow-heading
-    margin-bottom: 20px
-
-    h4
-      margin: 0
-      font-size: 28px
-      line-height: 1.15
-      font-weight: 700
-      color: #17314d
-
   .individual-basic-info-fields
     display: flex
     flex-direction: column
@@ -56,6 +46,10 @@
   .individual-flow-social
     margin-top: 18px
 
+    // legacy .hr-text hr is a fixed 430px; constrain it to the narrow card column
+    .hr-text hr
+      width: 100%
+
   @if $is-codecombat
     .network-login
       transition: filter 0.1s linear
@@ -67,6 +61,8 @@
     // One header labels the whole set ("Sign up with"); each row below simply
     // centers the provider's own logo and lets it carry its own recognition.
     .sso-header
+      // clear the absolutely-positioned "or" label that overhangs the .hr-text line
+      margin-top: 50px
       margin-bottom: 12px
       text-align: center
       font-size: 13px
@@ -238,10 +234,6 @@
     .individual-basic-info-card
       padding: 24px 18px
       border-radius: 20px
-
-    .individual-flow-heading
-      h4
-        font-size: 24px
 
     .individual-flow-social
       .auth-network-logins

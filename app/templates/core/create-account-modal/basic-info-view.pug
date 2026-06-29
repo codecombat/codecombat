@@ -77,8 +77,6 @@ form#basic-info-form.modal-body.basic-info
         .individual-flow-card.individual-basic-info-card
           if view.signupState.get('subModalContinue')
             .individual-flow-note(data-i18n="signup.sign_in_to_continue")
-          .individual-flow-heading
-            h4(data-i18n="signup.create_individual_header")
           .individual-basic-info-fields
             if view.utils.isOzaria || !view.hideEmail
               .form-group
