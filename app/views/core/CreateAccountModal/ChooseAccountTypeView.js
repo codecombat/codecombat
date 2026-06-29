@@ -36,12 +36,15 @@ module.exports = (ChooseAccountTypeView = (function () {
     }
 
     onClickLoginLink (e) {
-      if (e) { e.preventDefault() }
+      // stopPropagation: modal has its own delegated `click .login-link`; without this the click both bubbles there and fires our `login` event, double-dispatching.
+      if (e) { e.preventDefault(); e.stopPropagation() }
       return this.trigger('login')
     }
 
     onKeydownLoginLink (e) {
       if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) {
+        // preventDefault: an <a href> fires a native click on Enter, which would re-enter onClickLoginLink.
+        e.preventDefault()
         return this.onClickLoginLink(e)
       }
     }
