@@ -609,6 +609,8 @@ module.exports = (BasicInfoView = (function () {
 
     handleSSOConnect (handler, ssoUsed) {
       if (me.showChinaRegistration()) { return }
+      // gplusHandler.connect() touches window.google.accounts.id immediately; ignore clicks until loadAPI() has finished so an early click can't throw.
+      if (ssoUsed === 'gplus' && !handler.apiLoaded) { return }
       return handler.connect({
         context: this,
         success (resp) {
