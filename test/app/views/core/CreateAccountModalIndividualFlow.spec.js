@@ -1,5 +1,6 @@
 const SegmentCheckView = require('views/core/CreateAccountModal/SegmentCheckView')
 const BasicInfoView = require('views/core/CreateAccountModal/BasicInfoView')
+const ChooseAccountTypeView = require('views/core/CreateAccountModal/ChooseAccountTypeView')
 const State = require('models/State')
 
 describe('CreateAccountModal individual flow tracking', function () {
@@ -38,5 +39,18 @@ describe('CreateAccountModal individual flow tracking', function () {
       'CreateAccountModal Individual Step 2 Next Clicked',
       { category: 'Individuals', action: 'submit-clicked' },
     )
+  })
+})
+
+describe('CreateAccountModal chooser sign-in', function () {
+  it('emits a login event when the sign-in link is clicked', function () {
+    const signupState = new State({})
+    const view = new ChooseAccountTypeView({ signupState })
+    const onLogin = jasmine.createSpy('login')
+    view.on('login', onLogin)
+
+    view.onClickLoginLink()
+
+    expect(onLogin).toHaveBeenCalled()
   })
 })
