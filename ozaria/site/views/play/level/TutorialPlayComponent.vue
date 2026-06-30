@@ -714,7 +714,7 @@ export default Vue.extend({
     background-repeat: no-repeat
     background-size: cover
 
-  .shepherd-has-title .shepherd-header
+  .shepherd-rectangle.shepherd-has-title .shepherd-header
     background: transparent !important
 
   .shepherd-header-portrait-right
