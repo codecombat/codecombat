@@ -965,6 +965,9 @@ module.exports = {
       here: 'here',
       from: 'From',
       classrooms: 'Classrooms',
+      domain_banner_warning: 'Warning: You may be on a fraudulent site.',
+      domain_banner_message: 'This does not appear to be the official CodeCombat website.',
+      domain_banner_link: 'Go to the real codecombat.com →',
     },
 
     units: {
