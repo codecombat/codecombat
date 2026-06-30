@@ -86,6 +86,75 @@ function removeLibraryKeys () {
   localStorage.remove(isCreatedViaLibraryKey())
 }
 
+function getActivityStatusCacheKey (userId) {
+  return `coco-activity-status-${userId}`
+}
+
+function readActivityStatusCache (userId) {
+  const key = getActivityStatusCacheKey(userId)
+  return localStorage.load(key, false) || localStorage.load(key) || {}
+}
+
+function activityFromRemote (remoteActivity) {
+  if (!remoteActivity?.first) { return null }
+  return {
+    first: new Date(remoteActivity.first).getTime(),
+    last: remoteActivity.last ? new Date(remoteActivity.last).getTime() : undefined,
+    count: remoteActivity.count,
+  }
+}
+
+function normalizeCacheEntry (value) {
+  if (value == null) { return null }
+  if (typeof value === 'number') {
+    return { first: value, last: value, count: 1 }
+  }
+  if (value.first == null) { return null }
+  return {
+    first: typeof value.first === 'number' ? value.first : new Date(value.first).getTime(),
+    last: value.last != null ? (typeof value.last === 'number' ? value.last : new Date(value.last).getTime()) : undefined,
+    count: value.count,
+  }
+}
+
+function readActivityFromCache (userId, activityName) {
+  return normalizeCacheEntry(readActivityStatusCache(userId)[activityName])
+}
+
+function reconcileActivity (localActivity, remoteActivity) {
+  const remote = activityFromRemote(remoteActivity)
+  if (!localActivity) { return remote }
+  if (!remote) { return localActivity }
+  if ((remote.count ?? 0) > (localActivity.count ?? 0)) { return remote }
+  if ((remote.count ?? 0) < (localActivity.count ?? 0)) { return localActivity }
+  if ((remote.last ?? 0) > (localActivity.last ?? 0)) { return remote }
+  return localActivity
+}
+
+function writeActivityToCache (userId, activityName, activity) {
+  const key = getActivityStatusCacheKey(userId)
+  const cache = readActivityStatusCache(userId)
+  cache[activityName] = activity
+  localStorage.save(key, cache, 0)
+}
+
+function clearActivityStatusCache (userId, { prefix } = {}) {
+  const key = getActivityStatusCacheKey(userId)
+  if (!prefix) {
+    localStorage.remove(key, false)
+    localStorage.remove(key)
+    return
+  }
+  const cache = readActivityStatusCache(userId)
+  const filtered = _.pick(cache, _.filter(_.keys(cache), k => !k.startsWith(prefix)))
+  if (_.isEmpty(filtered)) {
+    localStorage.remove(key, false)
+    localStorage.remove(key)
+  } else {
+    localStorage.save(key, filtered, 0)
+  }
+}
+
 async function levelChatCreditsString () {
   const res = await usersApi.getUserCredits('LEVEL_CHAT_BOT')
   const credits = res?.result
@@ -177,4 +246,10 @@ module.exports = {
   getStorageExam,
   levelsOfExam,
   levelNumberInExam,
+  getActivityStatusCacheKey,
+  readActivityFromCache,
+  reconcileActivity,
+  writeActivityToCache,
+  activityFromRemote,
+  clearActivityStatusCache,
 }
