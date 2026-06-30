@@ -29,7 +29,7 @@ export default {
       <div class="dot-border">
         <div class="dot green-dot" />
       </div>
-      <span>{{ $t('courses.complete') }}</span>
+      <span>{{ $t('teacher_dashboard.complete') }}</span>
     </div>
     <div class="img-subtext">
       <div class="dot-border">
@@ -71,7 +71,7 @@ export default {
     >
       <progress-dot
         status="complete"
-        :border="'purple'"
+        :border="'yellow'"
       />
       <span>{{ $t('teacher_dashboard.warning') }}</span>
     </div>

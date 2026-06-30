@@ -569,16 +569,16 @@ export default {
       classSummaryProgress[index].status = 'progress'
     },
 
-    setUnsafeFlag (details, aiProjects) {
+    setUnsafeFlag (aiProjects) {
       if (!Array.isArray(aiProjects)) {
         return
       }
       if (aiProjects.some(project => project.unsafeChatMessages?.length > 0)) {
-        details.flag = 'unsafe'
+        return 'unsafe'
       }
     },
 
-    setProjectWarningFlag (details, aiProjects) {
+    setProjectWarningFlag (aiProjects) {
       if (!Array.isArray(aiProjects)) {
         return
       }
@@ -591,8 +591,18 @@ export default {
         }, {})
         return Object.values(counts).some(v => v > 1)
       })) {
-        details.flag = 'ai-project-warning'
+        return 'ai-project-warning'
       }
+    },
+
+    aiEvaluationFlag (aiProjects) {
+      const latestProject = aiProjects[aiProjects.length - 1]
+      const evaluations = latestProject.evaluations || []
+      if (evaluations.length === 0) return
+      // const _latestEvaluation = evaluations[evaluations.length - 1]
+      // TODO: check for completion
+      const passedAiEvaluation = false
+      return passedAiEvaluation ? 'ai-complete' : 'ai-unsure'
     },
 
     setClickHandler (details, student, moduleNum, aiScenario, aiProjects) {
@@ -621,23 +631,25 @@ export default {
     },
 
     createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum }) {
-      const details = {}
+      const details = { mode: aiScenario.mode }
       classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
       const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario.original]
 
       if (aiProjects) {
         this.setProgressDetails(details, classSummaryProgress, index)
         this.setClickHandler(details, student, moduleNum, aiScenario, aiProjects)
-        const completed = this.checkIfComplete(aiScenario, aiProjects)
-        this.setProjectWarningFlag(details, aiProjects)
+        let flag = this.aiEvaluationFlag(aiProjects)
+        flag = this.setProjectWarningFlag(aiProjects) || flag
         // idealy a project won't have both warning and unsafe flag.
         // but in that case we should use unsafe to overwrite warning.
-        this.setUnsafeFlag(details, aiProjects)
+        flag = this.setUnsafeFlag(aiProjects) || flag
+        details.flag = flag
 
         const playedOn = this.findLatestChanged(aiProjects)
         if (playedOn) {
           details.playedOn = playedOn
         }
+        const completed = this.checkIfComplete(aiScenario, aiProjects)
         if (completed) {
           details.status = 'complete'
         }
