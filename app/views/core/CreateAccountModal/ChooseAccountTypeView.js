@@ -22,9 +22,9 @@ module.exports = (ChooseAccountTypeView = (function () {
         'click .teacher-path-button' () { return this.trigger('choose-path', utils.isOzaria ? 'teacher' : 'oz-vs-coco') },
         'click .student-path-button' () { return this.trigger('choose-path', 'student') },
         'click .individual-path-button' () { return this.trigger('choose-path', 'individual') },
-        'input .class-code-input': 'onInputClassCode',
-        'submit form.choose-account-type': 'onSubmitStudent',
         'click .parent-path-button' () { return this.trigger('choose-path', 'individual') },
+        'click .login-link': 'onClickLoginLink',
+        'keydown .login-link': 'onKeydownLoginLink',
       }
     }
 
@@ -33,19 +33,15 @@ module.exports = (ChooseAccountTypeView = (function () {
       return this.utils = utils
     }
 
-    getClassCode () { return this.$('.class-code-input').val() || this.signupState.get('classCode') }
-
-    onInputClassCode () {
-      const classCode = this.getClassCode()
-      return this.signupState.set({ classCode }, { silent: true })
+    onClickLoginLink (e) {
+      if (e) { e.preventDefault() }
+      return this.trigger('login')
     }
 
-    onSubmitStudent (e) {
-      e.preventDefault()
-
-      this.onInputClassCode()
-      this.trigger('choose-path', 'student')
-      return false
+    onKeydownLoginLink (e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) {
+        return this.onClickLoginLink(e)
+      }
     }
   }
   ChooseAccountTypeView.initClass()

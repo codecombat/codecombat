@@ -1,4 +1,69 @@
 #segment-check-view
+  .individual-flow-panel
+    width: min(100%, 560px)
+    padding: 8px 20px 0
+
+  .individual-flow-card
+    border-radius: 24px
+    padding: 28px 24px
+    background: linear-gradient(180deg, #fffdf6 0%, #fff7d9 100%)
+    box-shadow: 0 20px 50px rgb(15 23 42 / 12%)
+
+  .individual-flow-progress
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    gap: 10px
+    margin-bottom: 16px
+
+  .individual-flow-progress-step
+    height: 8px
+    border-radius: 999px
+    background: rgb(28 54 87 / 12%)
+
+    &.active
+      background: linear-gradient(90deg, #f97316 0%, #ea580c 100%)
+
+  .individual-flow-heading
+    margin-bottom: 20px
+
+    h4
+      margin: 0 0 8px
+      font-size: 28px
+      line-height: 1.15
+      font-weight: 700
+      color: #17314d
+
+  .individual-flow-note
+    margin-bottom: 16px
+    font-size: 15px
+    line-height: 1.5
+    color: #35506f
+
+  .individual-birthday-form
+    margin-bottom: 0
+
+  .birthday-select-grid
+    display: grid
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr) minmax(0, 1fr)
+    gap: 12px
+    margin-bottom: 18px
+
+    select
+      width: 100%
+      height: 48px
+
+  .under-13-button
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    padding: 0
+    border: none
+    background: none
+    color: #6f5dff
+    font-size: 15px
+    font-weight: 600
+    text-decoration: underline
+
   .class-code-input-group
     display: flex
     flex-direction: row
@@ -12,8 +77,10 @@
       font-size: 30px
 
   .parent_birthdate
-    font-size: 11pt
-    margin-top: 20px
+    margin: 0
+    font-size: 14px
+    line-height: 1.5
+    color: #4b637c
 
   &.student
     .modal-body-content
@@ -97,3 +164,22 @@
       & a
         color: #232323
         text-decoration: underline
+
+  .next-button[disabled]
+    opacity: 0.5
+    cursor: not-allowed
+
+  @media (max-width: 767px)
+    .individual-flow-panel
+      padding: 0 16px
+
+    .individual-flow-card
+      padding: 24px 18px
+      border-radius: 20px
+
+    .individual-flow-heading
+      h4
+        font-size: 24px
+
+    .birthday-select-grid
+      grid-template-columns: 1fr
