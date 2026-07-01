@@ -1,7 +1,8 @@
 mixin coco-student-section
   .modal-student-contents
     .class-code-section
-      p(data-i18n="signup.yes_i_have_classcode")
+      if !me.showChinaResourceInfo()
+        p(data-i18n="signup.yes_i_have_classcode")
       label(for='classCode' data-i18n="signup.enter_it_here")
 
       .class-code-input-group.form-group
@@ -13,8 +14,9 @@ mixin coco-student-section
                 span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
               else
                 span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
-        button.primary-oz-button.next-button(type="submit" disabled=!state.get('classCodeValid'))
-          span(data-i18n="common.continue")
+        if !me.showChinaResourceInfo()
+          button.primary-oz-button.next-button(type="submit" disabled=!state.get('classCodeValid'))
+            span(data-i18n="common.continue")
 
       div.render
         if state.get('classCodeValid')
@@ -32,19 +34,24 @@ mixin coco-student-section
               span.spr(data-i18n="signup.activation_code_used")
             else
               span.spr(data-i18n="signup.classroom_not_found")
-              span.spr(data-i18n="signup.ask_teacher_2")
-              a.individual-path-button
-                span(data-i18n="signup.ask_teacher_3")
-              span.spl(data-i18n="signup.ask_teacher_4")
+              if !me.showChinaResourceInfo()
+                span.spr(data-i18n="signup.ask_teacher_2")
+                a.individual-path-button
+                  span(data-i18n="signup.ask_teacher_3")
+                span.spl(data-i18n="signup.ask_teacher_4")
 
     .divider-line
 
-    .play-now-section
-      div
-        p(data-i18n="signup.want_to_play_codecombat")
-      div
-        button.primary-oz-button.play-now
-          span(data-i18n="new_home.play_now")
+    if me.showChinaResourceInfo()
+      button.primary-oz-button.next-button(type="submit" disabled=!state.get('classCodeValid'))
+        span(data-i18n="common.continue")
+    else
+      .play-now-section
+        div
+          p(data-i18n="signup.want_to_play_codecombat")
+        div
+          button.primary-oz-button.play-now
+            span(data-i18n="new_home.play_now")
 
 mixin ozar-student-section
   span(data-i18n="signup.enter_class_code")
