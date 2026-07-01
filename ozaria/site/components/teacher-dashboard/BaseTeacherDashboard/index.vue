@@ -18,7 +18,7 @@ import utils from 'core/utils'
 import storage from 'core/storage'
 
 import { mapMutations, mapGetters, mapActions } from 'vuex'
-import { FIRST_CLASS_STEPS, CREATE_CLASS_STEPS } from './teacherDashboardTours'
+import { FIRST_CLASS_STEPS, CREATE_CLASS_STEPS, HS_GUIDE_TOUR_STEPS } from './teacherDashboardTours'
 import ModalTeacherDetails from '../modals/ModalTeacherDetails'
 import { hasSeenTeacherDetailModalRecently, markTeacherDetailsModalAsSeen } from '../../../common/utils'
 import TryOzariaModal from 'app/components/teacher/TryOzariaModal.vue'
@@ -29,6 +29,7 @@ const VueShepherd = require('vue-shepherd')
 const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
 const TRY_OZ_MODAL_VIEWED_KEY = 'try-oz-modal-viewed'
 const SIDEBAR_COLLAPSED_KEY = 'teacher-dashboard-sidebar-collapsed'
+const SEEN_AUTO_TD_TOUR_KEY = 'auto-td-tour-seen'
 
 export default {
   name: 'BaseTeacherDashboardIndex',
@@ -70,7 +71,7 @@ export default {
       editCurrent: false,
       editClassroomObject: {},
       showTryOzariaModal: false,
-      newClassroomAsClub: false
+      newClassroomAsClub: false,
     }
   },
 
@@ -161,7 +162,7 @@ export default {
       if (this.isCodeCombat && newVal) {
         this.closeOnboardingModal()
       }
-    }
+    },
   },
   beforeCreate () {
     Vue.use(VueShepherd)
@@ -179,7 +180,7 @@ export default {
 
   metaInfo () {
     return {
-      title: $.i18n.t(`nav.${utils.getProduct()}_teacher_dashboard`)
+      title: $.i18n.t(`nav.${utils.getProduct()}_teacher_dashboard`),
     }
   },
 
@@ -319,14 +320,51 @@ export default {
       const tour = this.$shepherd({
         useModalOverlay: true,
         defaultStepOptions: {
-          classes: 'shepherd-dashboard-theme'
-        }
+          classes: 'shepherd-dashboard-theme',
+        },
       })
 
       tour.addSteps(CREATE_CLASS_STEPS)
       tour.start()
 
       this.runningTour = tour
+    },
+
+    conditionalPlayTDTour () {
+      if (storage.load(`${SEEN_AUTO_TD_TOUR_KEY}-${me.get('_id')}`)) {
+        return
+      }
+      if (this.triggerTDGuideTour()) {
+        storage.save(`${SEEN_AUTO_TD_TOUR_KEY}-${me.get('_id')}`, true)
+        me.setSeenPromotion('teacher-class-tour')
+        me.save()
+      }
+    },
+
+    triggerTDGuideTour () {
+      if (this.isAllClassesPage) {
+        return false
+      }
+      this.runningTour?.complete?.()
+
+      const tour = this.$shepherd({
+        useModalOverlay: true,
+        scrollTo: true,
+        defaultStepOptions: {
+          classes: 'shepherd-dashboard-theme',
+          cancelIcon: {
+            enabled: true,
+            label: $.i18n.t('teacher_dashboard.click_dismiss'),
+          },
+        },
+      })
+
+      tour.addSteps(HS_GUIDE_TOUR_STEPS)
+      tour.start()
+      window?.tracker?.trackEvent('Watch Teacher Dashboard Guide Tour', { category: 'Teachers' })
+
+      this.runningTour = tour
+      return true
     },
 
     triggerFirstClassTour () {
@@ -344,8 +382,8 @@ export default {
         useModalOverlay: true,
         scrollTo: true,
         defaultStepOptions: {
-          classes: 'shepherd-dashboard-theme'
-        }
+          classes: 'shepherd-dashboard-theme',
+        },
       })
 
       tour.addSteps(FIRST_CLASS_STEPS)
@@ -464,6 +502,8 @@ export default {
           @addStudents="showAddStudentsModal = true"
           @removeStudents="showRemoveStudentsModal = true"
           @applyLicenses="dynamicShowingApplyLicenseModal"
+          @replay-td-tour="triggerTDGuideTour"
+          @auto-play-td-tour="conditionalPlayTDTour"
         />
       </div>
     </div>

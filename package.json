@@ -187,7 +187,7 @@
     "vue-phone-number-input": "^1.12.13",
     "vue-router": "~3.5.4",
     "vue-scrollto": "^2.18.1",
-    "vue-shepherd": "0.0.1",
+    "vue-shepherd": "^0.2.1",
     "vue-youtube": "^1.3.5",
     "vuedraggable": "^2.21.0",
     "vuejs-datepicker": "^1.6.2",

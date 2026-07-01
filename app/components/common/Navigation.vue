@@ -127,7 +127,7 @@ export default Vue.extend({
     },
 
     useDarkMode () {
-      return /^\/(roblox|hackstack|league|play|ai\/play)/.test(document.location.pathname)
+      return /^\/(roblox|hackstack|league|play|ai\/play|ai\/starlab)/.test(document.location.pathname)
     },
 
     homeLink () {
@@ -745,6 +745,11 @@ export default Vue.extend({
             &:hover {
               background: lighten($dark-grey-2, 10%);
             }
+          }
+
+          // Extra specific to handle use in both dark and light backgrounds
+          .text-p>.text-description {
+            color: $light-grey-2;
           }
         }
       }

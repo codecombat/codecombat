@@ -57,6 +57,10 @@ export default Vue.extend({
     errorMsg: '',
   }),
   computed: {
+    showRosterCsv () {
+      if (me.isCodeNinja()) return false
+      return true
+    },
     classroomUrl () {
       return `${document.location.origin}/students?_cc=${this.classroomCode}`
     },
@@ -227,7 +231,10 @@ export default Vue.extend({
       </div>
       <span class="sub-text"> {{ $t("teachers.class_url_desc") }} </span>
       <hr>
-      <div class="roster-container">
+      <div
+        v-if="showRosterCsv"
+        class="roster-container"
+      >
         <tertiary-button
           class="cta-button roster-button"
           @click="rosterViaCsv"
