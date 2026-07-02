@@ -1,5 +1,6 @@
 <template>
   <div id="page-home">
+    <domain-banner />
     <banner-component />
     <div class="container">
       <header-component class="container__header">
@@ -244,6 +245,7 @@ import ModalJunior from './ModalJunior'
 import ModalHackStack from './ModalHackStack'
 import HackstackAutoPromotion from '../ai/HackstackAutoPromotion'
 import BannerComponent from '../../components/common/elements/BannerComponent.vue'
+import DomainBanner from '../../components/common/DomainBanner.vue'
 import { getJuniorUrl } from 'core/utils'
 
 const utils = require('core/utils')
@@ -272,6 +274,7 @@ export default Vue.extend({
     ModalHackStack,
     HackstackAutoPromotion,
     BannerComponent,
+    DomainBanner,
   },
   data () {
     return {
