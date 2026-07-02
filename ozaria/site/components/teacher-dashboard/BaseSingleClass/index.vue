@@ -740,6 +740,7 @@ export default {
 
     generateHackStackModules (modules) {
       const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
+      const courseShowNumbers = course?.showLevelNumbers ?? true
       return Object.entries(modules).map(([moduleNum, moduleContent]) => {
         const classSummaryProgress = []
         const module = course?.modules?.[moduleNum] || {}
@@ -750,7 +751,7 @@ export default {
           contentList: moduleContent.map((scenario, index) => {
             const type = utils.scenarioMode2Icon(scenario.mode)
             let tooltipName = scenario.name
-            if (course?.numbering ?? true) {
+            if (courseShowNumbers) {
               const levelNumber = this.getLevelNumber(scenario.original)
               tooltipName = `${levelNumber}: ${scenario.name}`
             }
@@ -772,7 +773,7 @@ export default {
           studentSessions: this.students.reduce((studentSessions, student) => {
             studentSessions[student._id] = moduleContent.map((aiScenario, index) => {
               let tooltipName = aiScenario.name
-              if (course?.numbering ?? true) {
+              if (courseShowNumbers) {
                 const levelNumber = this.getLevelNumber(aiScenario.original)
                 tooltipName = `${levelNumber}: ${aiScenario.name}`
               }
