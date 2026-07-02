@@ -70,7 +70,7 @@ export default {
     },
 
     courseShowNumbering () {
-      return this.getCurrentCourse?.showLevelNumbers ?? true
+      return this.getCurrentCourse?.showLevelNumbers
     },
 
     isJunior () {
