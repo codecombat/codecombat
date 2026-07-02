@@ -69,6 +69,10 @@ export default {
       return this.getCurrentCourse?.name || ''
     },
 
+    courseShowNumbering () {
+      return this.getCurrentCourse?.numbering ?? true
+    },
+
     isJunior () {
       return utils.JUNIOR_COURSE_IDS.includes(this.getCurrentCourse?._id)
     },
@@ -183,7 +187,7 @@ export default {
       return this.isContentAccessible(moduleInfo.access)
     },
     getCurrentLevelNumber (original, icon, _id) {
-      if (this.isHackstack) {
+      if (this.isHackstack && !this.courseShowNumbering) {
         return ''
       }
       if (this.isOzariaNoCodeLevel(icon)) {
