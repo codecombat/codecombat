@@ -645,6 +645,11 @@ export default Vue.extend({
               background: lighten($dark-grey-2, 10%);
             }
           }
+
+          // Extra specific to handle use in both dark and light backgrounds
+          .text-p>.text-description {
+            color: $light-grey-2;
+          }
         }
       }
     }
