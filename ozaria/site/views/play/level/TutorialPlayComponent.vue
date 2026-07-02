@@ -303,6 +303,7 @@ export default Vue.extend({
             ...details,
             id: index,
             text: '', // Text is animated with DialogueAnimator when the step is shown
+            title: ' ',
             textIdentifier: tutorialStep.message,
             buttons,
             fontSize: 19
@@ -713,6 +714,9 @@ export default Vue.extend({
     background-repeat: no-repeat
     background-size: cover
 
+  .shepherd-rectangle.shepherd-has-title .shepherd-header
+    background: transparent !important
+
   .shepherd-header-portrait-right
     left: unset !important
     right: -50px !important
@@ -1043,38 +1047,38 @@ export default Vue.extend({
     border-color: transparent !important
     background-image: url($PointerCenter)
 
-  .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow
-    transform: rotate(270deg)
-    top: 40.5%
-    left: 87.9%
-  .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow
-    transform: rotate(90deg)
-    top: 22%
-    left: -17.4%
-  .shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow
-    transform: rotate(180deg)
-    top: -28%
-    left: 46.6%
-  .shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow
-    transform: rotate(0deg)
-    top: 88%
-    left: 34.6%
+  .shepherd-element[data-popper-placement^="left"] .shepherd-arrow
+    transform: rotate(270deg) !important
+    top: 40.5% !important
+    left: 87.9% !important
+  .shepherd-element[data-popper-placement^="right"] .shepherd-arrow
+    transform: rotate(90deg) !important
+    top: 22% !important
+    left: -17.4% !important
+  .shepherd-element[data-popper-placement^="bottom"] .shepherd-arrow
+    transform: rotate(180deg) !important
+    top: -28% !important
+    left: 46.6% !important
+  .shepherd-element[data-popper-placement^="top"] .shepherd-arrow
+    transform: rotate(0deg) !important
+    top: 88% !important
+    left: 34.6% !important
 
   // These are set as important in order to properly cascade for each .shepherd-element box:
   .element-attached-top
-    top: -155px !important
+    translate: 0 -155px !important
   .element-attached-right
-    left: 55px !important
+    translate: 55px 0 !important
   .element-attached-bottom
-    top: 75px !important
+    translate: 0 75px !important
   .element-attached-left
-    left: -55px !important
+    translate: -55px 0 !important
 
   .shepherd-element
     border-radius: unset
 
   .shepherd-element-intro
-    left: -33px !important // TODO: More exact adjustment to center of screen since we are making the dialogue larger
+    margin-left: -33px !important // TODO: More exact adjustment to center of screen since we are making the dialogue larger
     min-height: 227px
     min-width: 507px
 
@@ -1131,7 +1135,7 @@ export default Vue.extend({
       max-width: unset !important
       width: 100% !important
       height: 94%
-      margin: 1% 1% 1% 8%
+      margin: 1% 1% 1% 8% !important
       flex-direction: column
       justify-content: center
       align-items: center
