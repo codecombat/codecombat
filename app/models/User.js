@@ -653,6 +653,74 @@ module.exports = (User = (function () {
       })
     }
 
+    /**
+     * Pure read — local cache first, then me.activity. Never writes.
+     * @returns {{ first: number, last?: number, count?: number } | null}
+     */
+    peekActivityStatus (activityName) {
+      const userId = this.get('_id') || this.id
+      if (!userId) { return null }
+
+      return userUtils.reconcileActivity(
+        userUtils.readActivityFromCache(userId, activityName),
+        this.get('activity')?.[activityName],
+      )
+    }
+
+    /**
+     * Read activity — hydrates local cache from me.activity when missing or stale.
+     * @returns {{ first: number, last?: number, count?: number } | null}
+     */
+    resolveActivityStatus (activityName) {
+      const userId = this.get('_id') || this.id
+      if (!userId) { return null }
+
+      const local = userUtils.readActivityFromCache(userId, activityName)
+      const activity = userUtils.reconcileActivity(local, this.get('activity')?.[activityName])
+      if (activity && (!local || local.count !== activity.count || local.last !== activity.last || local.first !== activity.first)) {
+        userUtils.writeActivityToCache(userId, activityName, activity)
+      }
+
+      return activity
+    }
+
+    /**
+     * Mark an activity as seen — writes local cache immediately, then persists via trackActivity.
+     * Call when something is shown, not when the user completes an action.
+     */
+    markActivitySeen (activityName, seenAt = Date.now()) {
+      const userId = this.get('_id') || this.id
+      if (!userId) { return }
+
+      const existing = userUtils.reconcileActivity(
+        userUtils.readActivityFromCache(userId, activityName),
+        this.get('activity')?.[activityName],
+      )
+      if (existing?.last != null && seenAt <= existing.last) { return }
+
+      const activity = {
+        first: existing?.first ?? seenAt,
+        last: seenAt,
+        count: existing?.first ? (existing.count ?? 0) + 1 : 1,
+      }
+      userUtils.writeActivityToCache(userId, activityName, activity)
+
+      if (this.id) {
+        return this.trackActivity(activityName)
+      }
+    }
+
+    /**
+     * Dev/internal: clear per-user activity status local cache. Does not delete server activity.
+     * Gated behind isInternal() or non-production environment.
+     */
+    clearActivityStatusCache ({ prefix } = {}) {
+      if (!this.isInternal() && globalVar.application?.isProduction()) { return }
+      const userId = this.get('_id') || this.id
+      if (!userId) { return }
+      userUtils.clearActivityStatusCache(userId, { prefix })
+    }
+
     saveCookieConsent (action, description = '') {
       // Save cookie consent to user's consentHistory
       // action: 'allow', 'deny', or 'dismiss'
@@ -949,7 +1017,9 @@ module.exports = (User = (function () {
 
     clearUserSpecificLocalStorage () {
       for (const key of ['hoc-campaign']) { storage.remove(key) }
-      return userUtils.removeLibraryKeys()
+      userUtils.removeLibraryKeys()
+      const userId = this.get('_id') || this.id
+      if (userId) { userUtils.clearActivityStatusCache(userId) }
     }
 
     signupWithPassword (name, email, password, options = {}) {
