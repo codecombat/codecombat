@@ -810,6 +810,8 @@ module.exports = {
       educator_signup_list_3_desc: '[AI_TRANSLATION]Próbáld ki az első egységet az osztályoddal ingyen',
       signup_with_email: '[AI_TRANSLATION]Regisztráció Email-lel',
       already_have_account: '[AI_TRANSLATION]Már van CodeCombat vagy Ozaria fiókod',
+      //    already_have_account_q: "Already have an account?",
+      //    choose_account_subtitle: "Please select the option that best describes you.",
       select_your_role: '[AI_TRANSLATION]Válaszd ki a szereped',
       select_your_state: '[AI_TRANSLATION]Válaszd ki az államodat',
       password_requirements: '[AI_TRANSLATION]4 és 64 karakter között ismétlés nélkül  ',

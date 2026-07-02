@@ -167,7 +167,8 @@ module.exports = (CreateAccountModal = (function () {
             }
             return this.signupState.set({ path, screen: 'segment-check' })
           }
-        }
+        },
+        'login' () { return this.onClickLoginLink() },
       })
 
       this.listenTo(this.insertSubView(new SegmentCheckView({ signupState: this.signupState })), {
