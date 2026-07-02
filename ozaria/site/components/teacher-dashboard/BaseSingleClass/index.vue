@@ -620,7 +620,7 @@ export default {
       return aiProjects.map(p => (p.changed || '')).reduce((a, b) => a > b ? a : b)
     },
 
-    createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum }) {
+    createProgressDetailsByAiScenario ({ aiScenario, index, tooltipName, student, classSummaryProgress, moduleNum }) {
       const details = {}
       classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
       const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario.original]
@@ -654,6 +654,7 @@ export default {
       return {
         status: 'assigned',
         normalizedType: 'challengelvl',
+        tooltipName,
         isLocked,
         isSkipped: false,
         lockDate: null,
@@ -739,6 +740,7 @@ export default {
 
     generateHackStackModules (modules) {
       const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
+      const courseShowNumbers = course?.showLevelNumbers
       return Object.entries(modules).map(([moduleNum, moduleContent]) => {
         const classSummaryProgress = []
         const module = course?.modules?.[moduleNum] || {}
@@ -748,12 +750,17 @@ export default {
           access: module?.access,
           contentList: moduleContent.map((scenario, index) => {
             const type = utils.scenarioMode2Icon(scenario.mode)
+            let tooltipName = scenario.name
+            if (courseShowNumbers) {
+              const levelNumber = this.getLevelNumber(scenario.original)
+              tooltipName = `${levelNumber}: ${scenario.name}`
+            }
             return {
               displayName: scenario.name,
               type,
               _id: scenario._id,
               original: scenario.original,
-              tooltipName: scenario.name,
+              tooltipName,
               description: '',
               contentKey: scenario._id,
               normalizedOriginal: scenario.original,
@@ -765,10 +772,16 @@ export default {
           }),
           studentSessions: this.students.reduce((studentSessions, student) => {
             studentSessions[student._id] = moduleContent.map((aiScenario, index) => {
+              let tooltipName = aiScenario.name
+              if (courseShowNumbers) {
+                const levelNumber = this.getLevelNumber(aiScenario.original)
+                tooltipName = `${levelNumber}: ${aiScenario.name}`
+              }
               return this.createProgressDetailsByAiScenario({
                 aiScenario,
                 index,
                 student,
+                tooltipName,
                 classSummaryProgress,
                 moduleNum,
               })
