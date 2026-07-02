@@ -79,8 +79,11 @@ export default {
     addLevelNumber: (state, { levelId, levelNumber }) => {
       Vue.set(state.levelNumberMap, levelId, levelNumber)
     },
-    setLevelNumberMap (state, newMap) {
-      state.levelNumberMap = newMap
+    updateLevelNumberMap (state, newMap) {
+      state.levelNumberMap = {
+        ...(state.levelNumberMap || {}),
+        ...newMap,
+      }
     },
   },
 
@@ -197,7 +200,7 @@ export default {
       }
 
       const levelNumberMap = generateLevelNumberMap(allLevels, courseId)
-      commit('setLevelNumberMap', levelNumberMap)
+      commit('updateLevelNumberMap', levelNumberMap)
     },
   },
 }
