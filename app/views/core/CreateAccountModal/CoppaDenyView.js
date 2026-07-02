@@ -32,27 +32,39 @@ module.exports = (CoppaDenyView = (function () {
       if (param == null) { param = {} }
       const { signupState } = param
       this.signupState = signupState
-      this.state = new State({ parentEmail: '' })
+      const parentEmail = this.signupState.get('parentEmail') || ''
+      this.state = new State({
+        parentEmail,
+        parentEmailSent: false,
+        parentEmailSending: false,
+        error: false,
+        // Reflect a persisted blocked address so send stays gated after navigating back.
+        dontUseOurEmailSilly: /team@codecombat.com/i.test(parentEmail),
+      })
       return this.listenTo(this.state, 'all', _.debounce(this.render))
     }
 
     onChangeParentEmail (e) {
       const parentEmail = $(e.currentTarget).val()
-      this.state.set({ parentEmail }, { silent: true })
-      if (/team@codecombat.com/i.test(parentEmail)) {
-        return this.state.set({ dontUseOurEmailSilly: true })
-      } else {
-        return this.state.set({ dontUseOurEmailSilly: false, silent: true })
-      }
+      this.signupState.set({ parentEmail }, { silent: true })
+      return this.state.set({
+        parentEmail,
+        dontUseOurEmailSilly: /team@codecombat.com/i.test(parentEmail),
+        error: false,
+      })
     }
 
     onClickSendParentEmailButton (e) {
       e.preventDefault()
-      this.state.set({ parentEmailSending: true })
-      if (window.tracker != null) {
-        window.tracker.trackEvent('CreateAccountModal Student CoppaDenyView Send Clicked', { category: 'Students' })
+      const parentEmail = this.state.get('parentEmail')
+      if (!(parentEmail && forms.validateEmail(parentEmail)) || this.state.get('dontUseOurEmailSilly')) {
+        return this.state.set({ error: true })
       }
-      return contact.sendParentSignupInstructions(this.state.get('parentEmail'))
+      this.state.set({ parentEmailSending: true, error: false })
+      if (window.tracker != null) {
+        window.tracker.trackEvent('CreateAccountModal Individual Parent Email Send Clicked', { category: 'Individuals' })
+      }
+      return contact.sendParentSignupInstructions(parentEmail)
         .then(() => {
           return this.state.set({ error: false, parentEmailSent: true, parentEmailSending: false })
         }).catch(() => {
@@ -61,9 +73,9 @@ module.exports = (CoppaDenyView = (function () {
     }
 
     onClickBackButton () {
-      if (this.signupState.get('path') === 'student') {
+      if (this.signupState.get('path') === 'individual') {
         if (window.tracker != null) {
-          window.tracker.trackEvent('CreateAccountModal Student CoppaDenyView Back Clicked', { category: 'Students' })
+          window.tracker.trackEvent('CreateAccountModal Individual Parent Email Back Clicked', { category: 'Individuals' })
         }
       }
       return this.trigger('nav-back')

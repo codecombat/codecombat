@@ -1,36 +1,44 @@
 form.modal-body.coppa-deny
   .modal-body-content
-    .parent-email-input-group.form-group
-      if !view.state.get('parentEmailSent')
-        label.control-label.text-h4(for="parent-email-input")
-          span(data-i18n="signup.enter_parent_email")
-        input#parent-email-input(type="email" name="parentEmail" value=state.get('parentEmail'))
-    
-        if state.get('error')
-          p.small.error
-            span(data-i18n="signup.parent_email_error")
-        
-        p.error(class=(state.get('dontUseOurEmailSilly') ?  '' : 'hidden'))
-          span(data-i18n="signup.dont_use_our_email_silly")
-        
-        p.small.parent-email-blurb.render
-          span
-            != translate('signup.parent_email_blurb').replace('{{email_link}}', '<a href="mailto:team@codecombat.com">team@codecombat.com</a>')
+    .individual-flow-panel
+      .individual-flow-progress(aria-hidden="true")
+        .individual-flow-progress-step.active
+        .individual-flow-progress-step
+      .individual-flow-card.parent-email-card
+        if !view.state.get('parentEmailSent')
+          .individual-flow-heading
+            h4(data-i18n="signup.parent_email_header")
+          .form-group.parent-email-input-group
+            label.sr-only(for="parent-email-input" data-i18n="signup.parent_email_label")
+            input#parent-email-input.form-control.input-lg(type="email" name="parentEmail" placeholder="parent@email.com" value=state.get('parentEmail'))
+          if state.get('error')
+            p.small.error
+              span(data-i18n="signup.parent_email_error")
+          if state.get('dontUseOurEmailSilly')
+            p.error
+              span(data-i18n="signup.dont_use_our_email_silly")
+          .parent-email-blurb.render
+            span(data-i18n="signup.parent_email_excited_blurb")
+            = ' '
+            a(href="mailto:team@codecombat.com") team@codecombat.com
+        else
+          .parent-email-confirmation
+            .parent-email-confirmation-mark
+              span.glyphicon.glyphicon-ok
+            .individual-flow-heading
+              h4(data-i18n="signup.parent_email_check_inbox")
+            p.parent-email-sent-copy
+              span(data-i18n="signup.parent_email_sent")
+            p.parent-email-blurb(data-i18n="signup.parent_email_finish_blurb")
 
-      
-      if view.state.get('parentEmailSent')
-        p.small.parent-email-blurb
-          span(data-i18n="signup.parent_email_sent")
-
-        a.btn.btn-navy.btn-lg(href="/play" data-dismiss="modal") Play without saving
-
-  // In reverse order for tabbing purposes
   .history-nav-buttons
-    button.send-parent-email-button.btn.btn-lg.btn-navy(type='submit', disabled=state.get('parentEmailSent') || state.get('parentEmailSending') ||  state.get('dontUseOurEmailSilly'))
-      if state.get('parentEmailSent')
-        span(data-i18n="common.sent")
-      else
-        span(data-i18n="common.send")
-
-    button.back-btn.btn.btn-lg.btn-navy-alt(type='button')
-      span(data-i18n="common.back")
+    if !state.get('parentEmailSent')
+      button.send-parent-email-button.btn.btn-lg.btn-navy(type='submit', disabled=state.get('parentEmailSending') || state.get('dontUseOurEmailSilly'))
+        if state.get('parentEmailSending')
+          span(data-i18n="common.sending")
+        else
+          span(data-i18n="signup.send_to_parent")
+      button.back-btn.btn.btn-lg.btn-navy-alt(type='button')
+        span(data-i18n="common.back")
+    else
+      a.play-without-saving-button.btn.btn-lg.btn-navy(href="/play" data-dismiss="modal" data-i18n="signup.play_without_saving")

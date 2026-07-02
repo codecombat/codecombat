@@ -60,6 +60,7 @@ module.exports = (BasicInfoView = (function () {
         'click #clever-signup-btn': 'onClickSsoSignupButton',
         'click #schoology-signup-btn': 'onClickSsoSignupButton',
         'click #classlink-signup-btn': 'onClickSsoSignupButton',
+        'click #google-signup-btn': 'onClickSsoSignupButton',
       }
     }
 
@@ -118,11 +119,11 @@ module.exports = (BasicInfoView = (function () {
     afterRender () {
       this.$el.find('#first-name-input').focus()
       if (!me.showChinaRegistration()) {
-        application.gplusHandler.loadAPI({
-          success: () => {
-            return this.handleSSOConnect(application.gplusHandler, 'gplus')
-          }
-        })
+        // Load the Google Identity script so the styled Google row can trigger
+        // sign-in on click (#google-signup-btn -> onClickSsoSignupButton ->
+        // handleSSOConnect -> gplusHandler.connect). We no longer auto-render
+        // the GSI outline button or auto-prompt here.
+        application.gplusHandler.loadAPI()
       }
       return super.afterRender()
     }
@@ -354,6 +355,14 @@ module.exports = (BasicInfoView = (function () {
       return forms.clearFormAlerts(this.$el.find('input[name="name"]').closest('.form-group').parent())
     }
 
+    trackIndividualStepNext (action) {
+      if (this.signupState.get('path') !== 'individual') { return }
+      return window.tracker?.trackEvent('CreateAccountModal Individual Step 2 Next Clicked', {
+        category: 'Individuals',
+        action,
+      })
+    }
+
     onSubmitForm (e) {
       if (this.signupState.get('path') === 'teacher') {
         if (window.tracker != null) {
@@ -366,6 +375,7 @@ module.exports = (BasicInfoView = (function () {
         }
       }
       if (this.signupState.get('path') === 'individual') {
+        this.trackIndividualStepNext('submit-clicked')
         if (window.tracker != null) {
           window.tracker.trackEvent('CreateAccountModal Individual BasicInfoView Submit Clicked', { category: 'Individuals' })
         }
@@ -599,6 +609,8 @@ module.exports = (BasicInfoView = (function () {
 
     handleSSOConnect (handler, ssoUsed) {
       if (me.showChinaRegistration()) { return }
+      // gplusHandler.connect() touches window.google.accounts.id immediately; ignore clicks until loadAPI() has finished so an early click can't throw.
+      if (ssoUsed === 'gplus' && !handler.apiLoaded) { return }
       return handler.connect({
         context: this,
         success (resp) {

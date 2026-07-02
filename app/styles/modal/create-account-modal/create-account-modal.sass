@@ -71,7 +71,9 @@
       max-width: 100%
       min-width: 0
       min-height: auto
+      // vh first as fallback; dvh keeps the footer/login-link visible under mobile browser chrome
       max-height: calc(100vh - 24px)
+      max-height: calc(100dvh - 24px)
 
   // General modal stuff
 
@@ -162,6 +164,8 @@
     align-items: center
     justify-content: center
     padding: 20px 0
+    @media (max-width: 767px)
+      padding: 16px 0
 
   // Back/forward buttons
 
@@ -180,6 +184,14 @@
     // Left-align when there's only a back button
     .back-button:first-child:last-child
       margin-right: auto
+
+    @media (max-width: 767px)
+      flex-direction: column
+      align-items: stretch
+      gap: 12px
+
+      .btn
+        width: 100%
 
   // Forms
 
