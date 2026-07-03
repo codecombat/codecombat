@@ -21,7 +21,7 @@ contribution will go on to show millions of players how cool programming can be.
 ### [Getting In Touch](../../wiki/Developer-organization)
 
 Whether you're novice or pro, the CodeCombat team is ready to help you implement
-your ideas. Reach out on our [forum](http://discourse.codecombat.com), our
+your ideas. Reach out on our [Reddit community](https://www.reddit.com/r/CodeCombat/), our
 [issue tracker](../../issues), or
 [our developer chat room on Slack](https://communityinviter.com/apps/codecombat/join-community), or
 see the docs for [more on how to contribute](../../wiki/Developer-organization).
