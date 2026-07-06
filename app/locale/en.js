@@ -6529,6 +6529,7 @@ module.exports = {
       hint_click_to_continue: 'Click anywhere to continue',
       hint_click_target: 'Click the item to continue',
       hint_start_this_level: 'Start this level.',
+      hint_star_lab_welcome: 'Take a break and play AI-inspired mini-games.',
       ready_to_review_helptext: 'Mark this when your project is complete. Your teacher will then see it as ready to review on their side.',
       ready_to_review_confirm_text: 'Ready to Submit? Click OK to notify your teacher to review your project.',
       no_course_instances: 'You do not have any course instances. Please contact your teacher to get access to the AI Hackstack.',
