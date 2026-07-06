@@ -634,7 +634,7 @@ module.exports = class PlayLevelView extends RootView
     if @level.isLadder()
       simulatorOptions.levelID = @level.get('slug')
     if @simulateAILeagueFinals and @simulateAILeagueLevelOriginalId
-      simulatorOptions.levelID = @simulateAILeagueLevelOriginalId
+      simulatorOptions.levelOriginal = @simulateAILeagueLevelOriginalId
       simulatorOptions.singleLadder = true
     @simulator = new Simulator simulatorOptions
     # Crude method of mitigating Simulator memory leak issues
