@@ -68,7 +68,7 @@ mixin use-social-signon
 
 form#basic-info-form.modal-body.basic-info
   - var path = view.signupState.get('path')
-  .modal-body-content
+  .modal-body-content(class=(path === 'individual') ? 'individual-flow-body' : '')
     if path === 'individual'
       .individual-flow-panel
         .individual-flow-progress(aria-hidden="true")
@@ -130,13 +130,12 @@ form#basic-info-form.modal-body.basic-info
                 span(data-i18n="general.password")
               input.form-control.input-lg#password-input(name="password" type="password" value=view.signupState.get('signupForm').password dir="auto")
               small.form-text.text-muted(data-i18n="signup.password_requirements")
+          +error-area
         if view.utils.isCodeCombat
           .individual-flow-social
             +use-social-signon
-          +error-area
         else if me.useSocialSignOn()
           +use-social-signon
-          +error-area
     else
       if !view.utils.isCodeCombat && me.useSocialSignOn()
         +use-social-signon

@@ -39,10 +39,14 @@
     width: 100%
 
     .choose-account-shell
-      padding: 28px 20px 20px
+      padding: 20px 20px 16px
       margin: 0
-      gap: 20px
+      gap: 16px
       justify-content: flex-start
+      // Chooser has no inner .modal-body wrapper, so it is its own scroller when
+      // the four cards exceed the capped modal height (laptop + mobile).
+      min-height: 0
+      overflow-y: auto
 
     .choose-type-header
       display: flex
@@ -54,7 +58,7 @@
     .choose-type-title
       margin: 0
       color: $navy
-      font-size: 34px
+      font-size: 30px
       font-weight: 700
       line-height: 1.08
 
@@ -78,7 +82,7 @@
 
       @media (min-width: 768px)
         grid-template-columns: repeat(2, minmax(0, 1fr))
-        gap: 28px 32px
+        gap: 20px 28px
 
     .path-option
       appearance: none
@@ -112,6 +116,7 @@
     .path-option-image
       width: 100%
       aspect-ratio: 4 / 3
+      max-height: 190px
       object-fit: cover
       border-radius: 28px
       box-shadow: 0 18px 38px rgba(28, 42, 74, 0.16)
@@ -120,8 +125,8 @@
       display: flex
       justify-content: center
       align-items: center
-      min-height: 56px
-      padding: 14px 18px
+      min-height: 48px
+      padding: 12px 18px
       border-radius: 14px
       background: linear-gradient(135deg, #8A6CFF 0%, #6F5DFF 100%)
       color: white
@@ -129,6 +134,18 @@
       font-weight: 700
       line-height: 1.2
       text-align: center
+      transition: filter 0.12s ease, box-shadow 0.12s ease, transform 0.12s ease
+
+    // Purple CTA reacts on card hover/focus so it reads as a live button, not a
+    // static bar (previously only the outer .path-option animated).
+    .path-option:hover .path-option-cta,
+    .path-option:focus-visible .path-option-cta
+      filter: brightness(1.06)
+      box-shadow: 0 10px 24px rgba(111, 93, 255, 0.35)
+
+    .path-option:active .path-option-cta
+      filter: brightness(0.98)
+      box-shadow: 0 4px 12px rgba(111, 93, 255, 0.28)
 
     .path-option-description
       color: $gray

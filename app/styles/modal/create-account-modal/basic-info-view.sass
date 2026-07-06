@@ -2,6 +2,12 @@
 @import "ozaria/site/styles/common/variables"
 
 #basic-info-view
+  // Individual flow: top-align the body so the submit error (now rendered inside
+  // the card) grows the stack downward instead of recentering it and shoving the
+  // header/close button out of frame.
+  .modal-body-content.individual-flow-body
+    justify-content: flex-start
+
   .individual-flow-panel
     width: min(100%, 640px)
     padding: 8px 20px 0
@@ -22,7 +28,7 @@
 
   .individual-basic-info-card
     border-radius: 24px
-    padding: 28px 24px
+    padding: 22px 24px
     background: linear-gradient(180deg, #fffef8 0%, #fff5d1 100%)
     box-shadow: 0 20px 50px rgb(15 23 42 / 12%)
   .individual-flow-note
@@ -34,7 +40,7 @@
   .individual-basic-info-fields
     display: flex
     flex-direction: column
-    gap: 18px
+    gap: 14px
 
     .form-group
       margin: 0
@@ -44,7 +50,7 @@
       line-height: 18px
 
   .individual-flow-social
-    margin-top: 18px
+    margin-top: 14px
 
     // legacy .hr-text hr is a fixed 430px; constrain it to the narrow card column
     .hr-text hr
@@ -72,7 +78,7 @@
     // Individual only (Teacher/Student lack this wrapper): clears the absolute
     // "or" span that overhangs ~34px below the rule, leaving a ~10px gap.
     .individual-flow-social .sso-header
-      margin-top: 44px
+      margin-top: 36px
 
     .auth-network-logins
       display: flex
