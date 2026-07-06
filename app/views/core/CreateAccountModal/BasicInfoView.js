@@ -123,7 +123,12 @@ module.exports = (BasicInfoView = (function () {
         // sign-in on click (#google-signup-btn -> onClickSsoSignupButton ->
         // handleSSOConnect -> gplusHandler.connect). We no longer auto-render
         // the GSI outline button or auto-prompt here.
-        application.gplusHandler.loadAPI()
+        application.gplusHandler.loadAPI({
+          context: this,
+          success () {
+            return this.signupState.set({ gplusEnabled: true })
+          },
+        })
       }
       return super.afterRender()
     }
@@ -561,6 +566,9 @@ module.exports = (BasicInfoView = (function () {
       let handler
       e.preventDefault()
       const ssoUsed = $(e.currentTarget).data('sso-used')
+      if ((ssoUsed === 'gplus') && !this.signupState.get('gplusEnabled')) {
+        return
+      }
       if (isOzaria) {
         handler = (() => {
           switch (ssoUsed) {

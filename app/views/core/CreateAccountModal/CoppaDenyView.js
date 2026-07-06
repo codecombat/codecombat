@@ -32,12 +32,13 @@ module.exports = (CoppaDenyView = (function () {
       if (param == null) { param = {} }
       const { signupState } = param
       this.signupState = signupState
+      const parentEmail = this.signupState.get('parentEmail') || ''
       this.state = new State({
-        parentEmail: this.signupState.get('parentEmail') || '',
+        parentEmail,
         parentEmailSent: false,
         parentEmailSending: false,
         error: false,
-        dontUseOurEmailSilly: false,
+        dontUseOurEmailSilly: /team@codecombat.com/i.test(parentEmail),
       })
       return this.listenTo(this.state, 'all', _.debounce(this.render))
     }

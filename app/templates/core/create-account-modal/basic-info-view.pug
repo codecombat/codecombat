@@ -18,18 +18,18 @@ mixin use-social-signon
       .sso-header(data-i18n="signup.sign_up_with")
 
       .auth-network-logins.text-center
-        a#google-signup-btn.network-login.sso-row(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
-          img.sso-logo.sso-logo-google(src="/images/pages/modal/auth/google-logo-wordmark.svg", draggable="false")
+        a#google-signup-btn.network-login.sso-row(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus", aria-label="Sign up with Google")
+          img.sso-logo.sso-logo-google(src="/images/pages/modal/auth/google-logo-wordmark.svg", draggable="false", alt="")
         if !/(teacher|student)/.test(view.signupState.get('path'))
-          a#facebook-signup-btn.network-login.sso-row(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
-            img.sso-logo.sso-logo-facebook(src="/images/pages/modal/auth/facebook-logo-wordmark.svg", draggable="false")
+          a#facebook-signup-btn.network-login.sso-row(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook", aria-label="Sign up with Facebook")
+            img.sso-logo.sso-logo-facebook(src="/images/pages/modal/auth/facebook-logo-wordmark.svg", draggable="false", alt="")
         if /(teacher|student)/.test(view.signupState.get('path'))
-          a#clever-signup-btn.network-login.sso-row(data-sso-used="clever")
-            img.sso-logo.sso-logo-clever(src="/images/pages/modal/auth/clever-logo-blue.png", draggable="false")
-          a#schoology-signup-btn.network-login.sso-row(data-sso-used="schoology")
-            img.sso-logo.sso-logo-schoology(src="/images/pages/modal/auth/schoology-logo-wordmark.svg")
-          a#classlink-signup-btn.network-login.sso-row(data-sso-used="classlink")
-            img.sso-logo.sso-logo-classlink(src="/images/pages/modal/auth/classlink-logo-text.png")
+          a#clever-signup-btn.network-login.sso-row(data-sso-used="clever", aria-label="Sign up with Clever")
+            img.sso-logo.sso-logo-clever(src="/images/pages/modal/auth/clever-logo-blue.png", draggable="false", alt="")
+          a#schoology-signup-btn.network-login.sso-row(data-sso-used="schoology", aria-label="Sign up with Schoology")
+            img.sso-logo.sso-logo-schoology(src="/images/pages/modal/auth/schoology-logo-wordmark.svg", alt="")
+          a#classlink-signup-btn.network-login.sso-row(data-sso-used="classlink", aria-label="Sign up with ClassLink")
+            img.sso-logo.sso-logo-classlink(src="/images/pages/modal/auth/classlink-logo-text.png", alt="")
 
 
     // TODO: turn on once we can ask about school inside ConfirmationView
@@ -130,7 +130,8 @@ form#basic-info-form.modal-body.basic-info
                 span(data-i18n="general.password")
               input.form-control.input-lg#password-input(name="password" type="password" value=view.signupState.get('signupForm').password dir="auto")
               small.form-text.text-muted(data-i18n="signup.password_requirements")
-          +error-area
+          if view.utils.isCodeCombat
+            +error-area
         if view.utils.isCodeCombat
           .individual-flow-social
             +use-social-signon

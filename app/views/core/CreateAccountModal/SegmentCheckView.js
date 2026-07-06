@@ -43,7 +43,11 @@ module.exports = (SegmentCheckView = (function () {
       this.fetchClassByCode = _.memoize(this.fetchClassByCode)
       this.classroom = new Classroom()
       this.state = new State({
-        birthdayComplete: false,
+        birthdayComplete: Boolean(
+          signupState.get('birthdayYear') &&
+          signupState.get('birthdayMonth') &&
+          signupState.get('birthdayDay'),
+        ),
       })
       if (this.signupState.get('classCode')) {
         if (utils.isCodeCombat) {

@@ -98,15 +98,18 @@ form.modal-body.segment-check
               p.parent_birthdate(data-i18n="signup.parent_use_birthdate")
             .birthday-form-group.form-group.individual-birthday-form
               .birthday-select-grid
+                label.sr-only(for="birthday-month-input" data-i18n="calendar.month")
                 select#birthday-month-input.input-large.form-control(name="birthdayMonth")
                   option(value='',data-i18n="calendar.month")
                   for name, index in ['january','february','march','april','may','june','july','august','september','october','november','december']
                     - var month = index + 1
                     option(data-i18n=('calendar.' + name) value=month, selected=(month === view.signupState.get('birthdayMonth')))
+                label.sr-only(for="birthday-day-input" data-i18n="calendar.day")
                 select#birthday-day-input.input-large.form-control(name="birthdayDay")
                   option(value='',data-i18n="calendar.day")
                   for day in _.range(1,32)
                     option(selected=(day === view.signupState.get('birthdayDay'))) #{day}
+                label.sr-only(for="birthday-year-input" data-i18n="calendar.year")
                 select#birthday-year-input.input-large.form-control(name="birthdayYear")
                   option(value='',data-i18n="calendar.year")
                   - var thisYear = new Date().getFullYear()
