@@ -37,6 +37,7 @@ module.exports = (ChooseAccountTypeView = (function () {
 
     onClickLoginLink (e) {
       if (e) { e.preventDefault() }
+      if (e) { e.stopPropagation() }
       return this.trigger('login')
     }
 
