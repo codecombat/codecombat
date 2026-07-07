@@ -479,17 +479,24 @@ module.exports = (ThangTypeEditView = (function () {
     parseAnimateSource (source) {
       return new Promise((resolve, reject) => {
         const worker = new AnimateImporterWorker()
-        worker.addEventListener('message', ({ data }) => {
+        const timer = setTimeout(() => {
           worker.terminate()
+          reject(new Error('Animate parser timed out after 60s'))
+        }, 60000)
+        const finish = (fn, value) => {
+          clearTimeout(timer)
+          worker.terminate()
+          fn(value)
+        }
+        worker.addEventListener('message', ({ data }) => {
           if (data.output) {
-            resolve(data.output)
+            finish(resolve, data.output)
           } else {
-            reject(new Error(data.error || 'unknown Animate parser error'))
+            finish(reject, new Error(data.error || 'unknown Animate parser error'))
           }
         })
         worker.addEventListener('error', event => {
-          worker.terminate()
-          reject(new Error(event.message || 'Animate parser worker crashed'))
+          finish(reject, new Error(event.message || 'Animate parser worker crashed'))
         })
         worker.postMessage({ input: source })
       })
