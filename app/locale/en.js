@@ -6407,6 +6407,7 @@ module.exports = {
       LeftSidebar_projects: 'Projects',
       LeftSidebar_scenarios: 'Scenarios',
       'LeftSidebarItem_untitled-isprojectprojectscenario': 'Untitled __isProjectProjectScenario__',
+      'MessageBubble_ais-response-was-cut-off-because-it-reac': "AI's response was cut off because it reached its length limit. Try asking a more specific question, or break it into smaller parts.",
       NewProjectPage_: '▲',
       'NewProjectPage_codecombat-ai': 'CodeCombat AI',
       NewProjectPage_filters: 'Filters ▼',
