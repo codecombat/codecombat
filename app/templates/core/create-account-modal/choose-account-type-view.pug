@@ -1,9 +1,10 @@
 mixin account-type-card(type, buttonText, description, imageAlt, imageSRC)
   button.path-option(type="button" class=type)
-    img.path-option-image(data-i18n=imageAlt src=imageSRC)
+    span.path-option-media
+      img.path-option-image(data-i18n=imageAlt src=imageSRC)
+      span.path-option-description(data-i18n=description)
     span.path-option-cta
       span.path-option-label(data-i18n=buttonText)
-    span.path-option-description(data-i18n=description)
 
 if view.utils.isCodeCombat
   .modal-body-content.choose-account-shell

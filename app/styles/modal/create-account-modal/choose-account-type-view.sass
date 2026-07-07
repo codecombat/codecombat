@@ -57,19 +57,22 @@
 
     .choose-type-title
       margin: 0
-      color: $navy
+      color: #17314d
       font-size: 30px
       font-weight: 700
       line-height: 1.08
 
       @media (max-width: 767px)
         font-size: 28px
+        // Keep the title clear of the absolute close button
+        padding: 0 36px
 
     .choose-type-subtitle
       margin: 0
       max-width: 460px
-      color: $gray
-      font-size: 15px
+      // purple accent subtitle per the new design
+      color: #7a65fc
+      font-size: 16px
       line-height: 1.45
 
     .choose-type-grid
@@ -113,22 +116,60 @@
         outline-offset: 6px
         border-radius: 28px
 
+    // Image + hover-description overlay share this frame
+    .path-option-media
+      position: relative
+      display: block
+      width: 100%
+      border-radius: 16px
+      overflow: hidden
+      box-shadow: 0 12px 28px rgba(28, 42, 74, 0.14)
+
     .path-option-image
+      display: block
       width: 100%
       aspect-ratio: 4 / 3
       max-height: 190px
       object-fit: cover
-      border-radius: 28px
-      box-shadow: 0 18px 38px rgba(28, 42, 74, 0.16)
+
+    // Description appears over the photo on hover/focus: dark blurred veil,
+    // white text (per the new design). Hidden by default; also hidden on touch
+    // devices, where there is no hover to reveal it.
+    .path-option-description
+      position: absolute
+      inset: 0
+      display: flex
+      align-items: center
+      justify-content: center
+      padding: 16px 20px
+      background: rgba(24, 24, 34, 0.66)
+      backdrop-filter: blur(7px)
+      -webkit-backdrop-filter: blur(7px)
+      color: white
+      font-size: 16px
+      line-height: 1.5
+      text-align: center
+      opacity: 0
+      transition: opacity 0.15s ease
+
+    .path-option:hover .path-option-description,
+    .path-option:focus-visible .path-option-description
+      opacity: 1
+
+    @media (hover: none)
+      .path-option:hover .path-option-description
+        opacity: 0
 
     .path-option-cta
       display: flex
       justify-content: center
       align-items: center
       min-height: 48px
+      width: min(100%, 260px)
+      margin: 0 auto
       padding: 12px 18px
-      border-radius: 14px
-      background: linear-gradient(135deg, #8A6CFF 0%, #6F5DFF 100%)
+      border-radius: 8px
+      background: #7a65fc
       color: white
       font-size: 17px
       font-weight: 700
@@ -147,25 +188,15 @@
       filter: brightness(0.98)
       box-shadow: 0 4px 12px rgba(111, 93, 255, 0.28)
 
-    .path-option-description
-      color: $gray
-      font-size: 15px
-      line-height: 1.45
-      text-align: center
-      padding: 0 8px
-
-      @media (max-width: 767px)
-        font-size: 14px
-
     .choose-type-footer
       margin: 4px 0 0
       text-align: center
-      color: $gray
+      color: #5a6b7b
       font-size: 14px
       line-height: 1.5
 
       .login-link
-        color: $navy
+        color: #7a65fc
         font-weight: 700
         text-decoration: underline
         cursor: pointer
@@ -182,16 +213,14 @@
       .path-option
         gap: 6px
 
+      .path-option-media
+        border-radius: 12px
+        box-shadow: 0 8px 18px rgba(28, 42, 74, 0.13)
+
       .path-option-image
         aspect-ratio: 2 / 1
-        border-radius: 16px
-        box-shadow: 0 8px 18px rgba(28, 42, 74, 0.13)
 
       .path-option-cta
         min-height: 44px
         padding: 10px 16px
         font-size: 16px
-
-      .path-option-description
-        font-size: 13px
-        line-height: 1.35
