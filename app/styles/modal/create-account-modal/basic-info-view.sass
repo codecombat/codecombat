@@ -91,6 +91,19 @@
       align-items: stretch
       gap: 12px
 
+    // Official GSI button mount (populated by GPlusHandler.connect at click
+    // time when One Tap/FedCM may be suppressed). Empty = takes no space;
+    // once populated it replaces the styled Google row below it.
+    .gsi-mount
+      display: none
+
+    .gsi-mount:not(:empty)
+      display: flex
+      justify-content: center
+
+    .gsi-mount:not(:empty) + #google-signup-btn
+      display: none
+
     // Identical option rows; the provider logo is centered and stands alone.
     .sso-row
       display: flex

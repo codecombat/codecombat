@@ -18,8 +18,13 @@ mixin use-social-signon
       .sso-header(data-i18n="signup.sign_up_with")
 
       .auth-network-logins.text-center
-        a#google-signup-btn.network-login.sso-row(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus", aria-label="Sign up with Google")
-          img.sso-logo.sso-logo-google(src="/images/pages/modal/auth/google-logo-wordmark.svg", draggable="false", alt="")
+        if !me.showChinaRegistration()
+          //- GPlusHandler.connect() renders the official GSI button here before
+          //- prompting, so the click path still works when One Tap/FedCM is
+          //- suppressed. The styled row hides once the GSI button is mounted.
+          #google-login-button.gsi-mount
+          a#google-signup-btn.network-login.sso-row(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus", aria-label="Sign up with Google")
+            img.sso-logo.sso-logo-google(src="/images/pages/modal/auth/google-logo-wordmark.svg", draggable="false", alt="")
         if !/(teacher|student)/.test(view.signupState.get('path'))
           a#facebook-signup-btn.network-login.sso-row(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook", aria-label="Sign up with Facebook")
             img.sso-logo.sso-logo-facebook(src="/images/pages/modal/auth/facebook-logo-wordmark.svg", draggable="false", alt="")
@@ -133,10 +138,10 @@ form#basic-info-form.modal-body.basic-info
               small.form-text.text-muted(data-i18n="signup.password_requirements")
           if view.utils.isCodeCombat
             +error-area
-        if view.utils.isCodeCombat
+        if view.utils.isCodeCombat && me.useSocialSignOn()
           .individual-flow-social
             +use-social-signon
-        else if me.useSocialSignOn()
+        else if !view.utils.isCodeCombat && me.useSocialSignOn()
           +use-social-signon
     else
       if !view.utils.isCodeCombat && me.useSocialSignOn()
