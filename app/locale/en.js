@@ -4925,6 +4925,8 @@ module.exports = {
       test_student_step_desc: 'Switch into a free test student account to experience the class exactly as your students do — assign content, play levels, and check progress. When you\'re done, click Stop Switching in the navigation bar to return to your teacher account.',
       add_students_step_title: 'Invite Students to Your Class',
       add_students_step_desc: 'Share a class code, send a join link, invite by email, or sync with Google Classroom — click here to find every way students can join and start learning.',
+      teacher_toolkit_tour_desc: 'Find Getting Started guides, educator resources, and FAQs here — everything you need to get comfortable before your first class.',
+      teacher_toolkit_tour_title: 'Your Teaching Toolkit',
     },
 
     outcomes: {
@@ -6532,6 +6534,14 @@ module.exports = {
       hint_click_target: 'Click the item to continue',
       hint_start_this_level: 'Start this level.',
       hint_star_lab_welcome: 'Take a break and play AI-inspired mini-games.',
+      hint_level_learn: 'Learn how to chat with HackStack.',
+      hint_level_practice: 'Use Practice levels to change existing projects.',
+      hint_level_create: 'Build projects from scratch with Create levels.',
+      hint_instructor_message: 'Your instructor gives guidance.',
+      hint_ai_message: 'Here is HackStack\'s response.',
+      hint_output: 'Open Output to see and test results.',
+      hint_choice: 'Choose a response to continue.',
+      hint_prompt_input: 'Tell HackStack what to do.',
       ready_to_review_helptext: 'Mark this when your project is complete. Your teacher will then see it as ready to review on their side.',
       ready_to_review_confirm_text: 'Ready to Submit? Click OK to notify your teacher to review your project.',
       no_course_instances: 'You do not have any course instances. Please contact your teacher to get access to the AI Hackstack.',

@@ -39,6 +39,21 @@ const PLAN_FIRST_CLASS_STEP = {
     action () {
       return this.next()
     },
+    text: $.i18n.t('common.next'),
+  }],
+}
+
+const TEACHER_TOOLKIP_STEP = {
+  attachTo: {
+    element: '#TeacherToolDropdown',
+    on: 'right',
+  },
+  text: $.i18n.t('teacher_dashboard.teacher_toolkit_tour_desc'),
+  title: $.i18n.t('teacher_dashboard.teacher_toolkit_tour_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
     text: $.i18n.t('teacher_dashboard.click_dismiss'),
   }],
 }
@@ -334,6 +349,7 @@ export const FIRST_CLASS_STEPS = [
 export const CREATE_CLASS_STEPS = [
   CREATE_CLASS_STEP,
   PLAN_FIRST_CLASS_STEP,
+  TEACHER_TOOLKIP_STEP,
 ]
 
 export const AI_LEAGUE_STEPS = [

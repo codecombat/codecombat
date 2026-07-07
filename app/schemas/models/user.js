@@ -427,6 +427,7 @@ _.extend(UserSchema.properties, {
       'ai-league-tour': [c.date(), { type: 'boolean' }],
       'teacher-class-tour': [c.date(), { type: 'boolean' }],
       'first-class-tour': [c.date(), { type: 'boolean' }],
+      'create-class-tour': [c.date(), { type: 'boolean' }],
     },
   },
 
