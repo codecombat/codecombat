@@ -445,6 +445,10 @@ module.exports = (ThangTypeEditView = (function () {
         }
         try {
           const source = await this.readFileAsText(file)
+          if (!source || !source.trim()) {
+            failed.push({ name: file.name, reason: 'file is empty' })
+            continue
+          }
           const output = await this.parseAnimateSource(source)
           this.thangType.attributes.raw = this.thangType.attributes.raw || {}
           _.merge(this.thangType.attributes.raw, JSON.parse(output))
