@@ -44,8 +44,12 @@ module.exports = {
       let concepts = []
       for (trimCourse of Array.from(classroom.getSortedCourses())) {
         course = courses.get(trimCourse._id)
+        if (utils.HACKSTACK_COURSE_IDS.includes(trimCourse._id)) {
+          continue
+        }
         const instance = courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
         if (instance && instance.hasMember(student)) {
+
           for (trimLevel of Array.from(trimCourse.levels)) {
             level = levels.findWhere({ original: trimLevel.original })
             if (level.get('assessment')) { continue }
