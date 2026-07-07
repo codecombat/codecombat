@@ -283,8 +283,6 @@ export default {
       if (this.createdFirstClass) {
         this.triggerFirstClassTour()
       }
-
-      /* this.triggerCreateClassTour() */
     },
 
     openEditClassModal (claz) {
@@ -304,7 +302,6 @@ export default {
     },
 
     triggerCreateClassTour () {
-      console.log('trigge rtour?')
       if (this.loading || this.activeClassrooms.length !== 0) {
         return
       }
@@ -315,7 +312,7 @@ export default {
 
       this.runningTour?.complete?.()
 
-      /* storage.save(`${SEEN_CREATE_CLASS_TOUR_KEY}-${me.get('_id')}`, true) */
+      storage.save(`${SEEN_CREATE_CLASS_TOUR_KEY}-${me.get('_id')}`, true)
 
       const tour = this.$shepherd({
         useModalOverlay: true,
@@ -326,15 +323,8 @@ export default {
 
       tour.addSteps(CREATE_CLASS_STEPS)
       tour.start()
+
       this.runningTour = tour
-
-      tour.on('cancel', () => {
-        this.openNewClassModal()
-      })
-
-      tour.on('complete', () => {
-        this.openNewClassModal()
-      })
     },
 
     conditionalPlayTDTour () {
