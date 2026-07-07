@@ -321,7 +321,6 @@ export default {
     },
 
     triggerCreateClassTour () {
-      console.log('trigger create class tour')
       if (!this.isAllClassesPage) {
         return false
       }
