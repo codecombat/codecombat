@@ -210,6 +210,7 @@ export default {
         {{ title }}
       </h1>
       <icon-button
+        v-if="allClassesPage"
         id="replay-create-class-tour-btn"
         class="icon-button larger-icon"
         :icon-name="'IconPlay'"

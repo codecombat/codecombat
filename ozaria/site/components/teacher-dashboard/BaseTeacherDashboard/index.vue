@@ -343,6 +343,7 @@ export default {
       tour.start()
 
       this.runningTour = tour
+      return true
     },
 
     conditionalPlayTDTour () {
