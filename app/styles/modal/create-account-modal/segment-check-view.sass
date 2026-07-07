@@ -3,11 +3,12 @@
     width: min(100%, 560px)
     padding: 8px 20px 0
 
+  // White step panel (new design: no cream card, the modal itself is the surface)
   .individual-flow-card
     border-radius: 24px
-    padding: 28px 24px
-    background: linear-gradient(180deg, #fffdf6 0%, #fff7d9 100%)
-    box-shadow: 0 20px 50px rgb(15 23 42 / 12%)
+    padding: 20px 24px
+    background: none
+    box-shadow: none
 
   .individual-flow-progress
     display: grid
@@ -18,10 +19,10 @@
   .individual-flow-progress-step
     height: 8px
     border-radius: 999px
-    background: rgb(28 54 87 / 12%)
+    background: #e9e8fd
 
     &.active
-      background: linear-gradient(90deg, #f97316 0%, #ea580c 100%)
+      background: #7a65fc
 
   .individual-flow-heading
     margin-bottom: 20px
@@ -51,6 +52,13 @@
     select
       width: 100%
       height: 48px
+      // explicit size + neutral border (kills the teal + guards against
+      // tiny-text native rendering on mobile)
+      font-size: 16px
+      color: #17314d
+      background: white
+      border: 1px solid #d7dee6
+      border-radius: 8px
 
   .under-13-button
     display: inline-flex
@@ -59,7 +67,7 @@
     padding: 0
     border: none
     background: none
-    color: #6f5dff
+    color: #7a65fc
     font-size: 15px
     font-weight: 600
     text-decoration: underline
@@ -78,9 +86,10 @@
 
   .parent_birthdate
     margin: 0
-    font-size: 14px
+    font-size: 16px
     line-height: 1.5
-    color: #4b637c
+    // purple helper text per the new design
+    color: #7a65fc
 
   &.student
     .modal-body-content

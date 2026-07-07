@@ -78,27 +78,7 @@ form#basic-info-form.modal-body.basic-info
           if view.signupState.get('subModalContinue')
             .individual-flow-note(data-i18n="signup.sign_in_to_continue")
           .individual-basic-info-fields
-            if view.utils.isOzaria || !view.hideEmail
-              .form-group
-                label.control-label(for="email-input")
-                  span(data-i18n="share_progress_modal.form_label")
-                input.form-control.input-lg#email-input(name="email" type="email" value=view.signupState.get('signupForm').email dir="auto")
-                .email-check.fancy-error.rtl-allowed
-                  - var checkEmailState = view.state.get('checkEmailState');
-                  if checkEmailState === 'checking'
-                    span.small(data-i18n="signup.checking")
-                  if checkEmailState === 'exists'
-                    span.small
-                      span.text-burgundy.glyphicon.glyphicon-remove-circle
-                      =" "
-                      span(data-i18n="signup.account_exists")
-                      =" "
-                      a.login-link(data-i18n="signup.sign_in")
-                  if checkEmailState === 'available'
-                    span.small
-                      span.text-forest.glyphicon.glyphicon-ok-circle
-                      =" "
-                      span(data-i18n="signup.email_good")
+            //- Field order matches the target design: username, email, password
             if view.showLibraryIdInsteadOfUsername
               .form-group
                 .row.library-signup-text
@@ -125,6 +105,27 @@ form#basic-info-form.modal-body.basic-info
                     span.text-forest.glyphicon.glyphicon-ok-circle
                     =" "
                     span(data-i18n="signup.name_available")
+            if view.utils.isOzaria || !view.hideEmail
+              .form-group
+                label.control-label(for="email-input")
+                  span(data-i18n="share_progress_modal.form_label")
+                input.form-control.input-lg#email-input(name="email" type="email" value=view.signupState.get('signupForm').email dir="auto")
+                .email-check.fancy-error.rtl-allowed
+                  - var checkEmailState = view.state.get('checkEmailState');
+                  if checkEmailState === 'checking'
+                    span.small(data-i18n="signup.checking")
+                  if checkEmailState === 'exists'
+                    span.small
+                      span.text-burgundy.glyphicon.glyphicon-remove-circle
+                      =" "
+                      span(data-i18n="signup.account_exists")
+                      =" "
+                      a.login-link(data-i18n="signup.sign_in")
+                  if checkEmailState === 'available'
+                    span.small
+                      span.text-forest.glyphicon.glyphicon-ok-circle
+                      =" "
+                      span(data-i18n="signup.email_good")
             .form-group
               label.control-label(for="password-input")
                 span(data-i18n="general.password")
@@ -234,7 +235,7 @@ form#basic-info-form.modal-body.basic-info
   if view.utils.isOzaria
     +error-area
   // In reverse order for tabbing purposes
-  .history-nav-buttons
+  .history-nav-buttons(class=view.signupState.get('path') === 'individual' ? 'individual' : undefined)
     if view.signupState.get('path') === 'teacher'
       button.next-button.btn.btn-lg(type='submit' class=view.utils.isCodeCombat ? "btn-navy" : "ozaria-primary-button")
         span(data-i18n="common.next")

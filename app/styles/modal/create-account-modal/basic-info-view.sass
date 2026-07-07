@@ -21,16 +21,17 @@
   .individual-flow-progress-step
     height: 8px
     border-radius: 999px
-    background: rgb(28 54 87 / 12%)
+    background: #e9e8fd
 
     &.active
-      background: linear-gradient(90deg, #f97316 0%, #ea580c 100%)
+      background: #7a65fc
 
+  // White step panel (new design: no cream card)
   .individual-basic-info-card
     border-radius: 24px
-    padding: 22px 24px
-    background: linear-gradient(180deg, #fffef8 0%, #fff5d1 100%)
-    box-shadow: 0 20px 50px rgb(15 23 42 / 12%)
+    padding: 16px 24px
+    background: none
+    box-shadow: none
   .individual-flow-note
     margin-bottom: 16px
     font-size: 15px
@@ -75,10 +76,14 @@
       text-transform: uppercase
       color: #5a6b7b
 
-    // Individual only (Teacher/Student lack this wrapper): clears the absolute
-    // "or" span that overhangs ~34px below the rule, leaving a ~10px gap.
+    // Individual flow matches the design: just the "or" divider, no extra
+    // "sign up with" header. The margin clears the absolute "or" span that
+    // overhangs ~34px below the rule.
     .individual-flow-social .sso-header
-      margin-top: 36px
+      display: none
+
+    .individual-flow-social .auth-network-logins
+      margin-top: 40px
 
     .auth-network-logins
       display: flex

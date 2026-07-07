@@ -126,7 +126,7 @@ form.modal-body.segment-check
 
   if view.utils.isOzaria || view.signupState.get('path') != 'student'
     // In reverse order for tabbing purposes
-    .history-nav-buttons
+    .history-nav-buttons(class=view.signupState.get('path') === 'individual' ? 'individual' : undefined)
       //- disabled=!view.signupState.get('segmentCheckValid')
       button.next-button.btn.btn-lg(type='submit' disabled=(view.signupState.get('path') === 'individual' && !state.get('birthdayComplete')) ? true : undefined class=view.utils.isCodeCombat ? 'btn-navy' : 'ozaria-primary-button')
         span(data-i18n=view.utils.isCodeCombat ? "common.continue" : "common.next")
