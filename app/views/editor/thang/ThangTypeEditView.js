@@ -218,7 +218,6 @@ module.exports = (ThangTypeEditView = (function () {
       super(options)
       this.initComponents = this.initComponents.bind(this)
       this.onComponentsChanged = this.onComponentsChanged.bind(this)
-      this.onAnimateFileLoad = this.onAnimateFileLoad.bind(this)
       this.onFileLoad = this.onFileLoad.bind(this)
       this.fileLoaded = this.fileLoaded.bind(this)
       this.refreshAnimation = this.refreshAnimation.bind(this)
@@ -427,45 +426,69 @@ module.exports = (ThangTypeEditView = (function () {
     }
 
     animateAnimationFileChosen (e) {
-      const file = e.target.files[0]
-      if (!file) { return }
-      if (!_.string.endsWith(file.type, 'javascript')) {
-        noty({ text: "Only accepts files ending with '.js'", type: 'error', timeout: 5000 })
-        return
-      }
-      this.reader = new FileReader()
-      this.reader.onload = this.onAnimateFileLoad
-      return this.reader.readAsText(file)
+      const files = Array.from(e.target.files)
+      e.target.value = '' // allow re-selecting the same files later
+      if (!files.length) { return }
+      return this.processAnimateFiles(files)
     }
 
-    onAnimateFileLoad (e) {
-      const {
-        result
-      } = this.reader
-
-      const worker = new AnimateImporterWorker()
-      worker.addEventListener('message', event => {
-        worker.terminate()
-        this.hideLoading()
-
-        const {
-          data
-        } = event
-
-        if (data.output) {
-          this.thangType.attributes.raw = this.thangType.attributes.raw || {}
-          _.merge(this.thangType.attributes.raw, JSON.parse(data.output))
-
-          return this.fileLoaded()
-        } else if (data.error) {
-          noty({ text: 'Error occurred. Check console. Please inform eng team and provide Adobe Animate File.', type: 'error', timeout: 10000000 })
-          throw data.error
-        }
-      })
-
+    async processAnimateFiles (files) {
+      const uploaded = []
+      const failed = []
       this.showLoading()
-      this.updateProgress(0.50)
-      return worker.postMessage({ input: result })
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        this.updateProgress((i + 0.5) / files.length)
+        if (!_.string.endsWith(file.type, 'javascript') && !_.string.endsWith(file.name, '.js')) {
+          failed.push({ name: file.name, reason: "only accepts files ending with '.js'" })
+          continue
+        }
+        try {
+          const source = await this.readFileAsText(file)
+          const output = await this.parseAnimateSource(source)
+          this.thangType.attributes.raw = this.thangType.attributes.raw || {}
+          _.merge(this.thangType.attributes.raw, JSON.parse(output))
+          uploaded.push(file.name)
+        } catch (error) {
+          console.error(`Animate import failed for ${file.name}:`, error)
+          failed.push({ name: file.name, reason: (error != null ? error.message : undefined) || `${error}` })
+        }
+      }
+      this.hideLoading()
+      if (uploaded.length) { this.fileLoaded() }
+      const lines = [`Uploaded ${uploaded.length}/${files.length} file(s).`]
+      if (uploaded.length) { lines.push(`Succeeded: ${uploaded.map(_.escape).join(', ')}`) }
+      if (failed.length) { lines.push(`Skipped: ${failed.map(f => `${_.escape(f.name)} (${_.escape(f.reason)})`).join('; ')}`) }
+      const type = failed.length ? (uploaded.length ? 'warning' : 'error') : 'success'
+      return noty({ text: lines.join('<br>'), type, timeout: failed.length ? 30000 : 5000 })
+    }
+
+    readFileAsText (file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => resolve(reader.result)
+        reader.onerror = () => reject(reader.error || new Error('could not read file'))
+        reader.readAsText(file)
+      })
+    }
+
+    parseAnimateSource (source) {
+      return new Promise((resolve, reject) => {
+        const worker = new AnimateImporterWorker()
+        worker.addEventListener('message', ({ data }) => {
+          worker.terminate()
+          if (data.output) {
+            resolve(data.output)
+          } else {
+            reject(new Error(data.error || 'unknown Animate parser error'))
+          }
+        })
+        worker.addEventListener('error', event => {
+          worker.terminate()
+          reject(new Error(event.message || 'Animate parser worker crashed'))
+        })
+        worker.postMessage({ input: source })
+      })
     }
 
     onFileLoad (e) {
