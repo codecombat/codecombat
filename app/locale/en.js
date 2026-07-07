@@ -4921,6 +4921,10 @@ module.exports = {
       tour_replay_title: 'Need a refresher?',
       tour_replay_desc: 'Lost track? Replay this tour anytime by clicking here.',
       replay_tour: 'Play Tour',
+      test_student_step_title: 'Try It as a Student',
+      test_student_step_desc: 'Switch into a free test student account to experience the class exactly as your students do — assign content, play levels, and check progress. When you\'re done, click Stop Switching in the navigation bar to return to your teacher account.',
+      add_students_step_title: 'Invite Students to Your Class',
+      add_students_step_desc: 'Share a class code, send a join link, invite by email, or sync with Google Classroom — click here to find every way students can join and start learning.',
     },
 
     outcomes: {

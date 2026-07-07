@@ -3,15 +3,21 @@ import ClassInfoRow from '../../common/ClassInfoRow'
 import IconEllipsis from '../../common/icons/IconEllipsis'
 import IconButtonWithText from '../../common/buttons/IconButtonWithText'
 import IconSharePurple from '../../common/icons/IconSharePurple'
+import IconButton from '../../common/buttons/IconButton'
 
 export default {
   components: {
     ClassInfoRow,
     IconEllipsis,
     'icon-button-with-text': IconButtonWithText,
-    IconSharePurple
+    IconSharePurple,
+    IconButton,
   },
   props: {
+    isFirstClass: {
+      type: Boolean,
+      default: false,
+    },
     classId: {
       type: String,
       required: true
@@ -67,6 +73,12 @@ export default {
       if (eventName) {
         window.tracker?.trackEvent(eventName, { category: 'Teachers' })
       }
+    },
+    replayFirstClassTour (e) {
+      console.log('replay first class tour')
+      e.preventDefault()
+      e.stopPropagation()
+      this.$emit('replay-first-class-tour')
     }
   }
 }
@@ -90,6 +102,15 @@ export default {
           <h2 class="padding-left">
             {{ classroomName }}
           </h2>
+          <icon-button
+            v-if="isFirstClass"
+            id="replay-first-class-tour-btn"
+            class="icon-button larger-icon"
+            :icon-name="'IconPlay'"
+            :icon-style="'width: 20px'"
+            :title="$t('teacher_dashboard.replay_tour')"
+            @click.native="replayFirstClassTour($event)"
+          />
           <class-info-row
             :language="language"
             :num-students="numStudents"
@@ -126,7 +147,7 @@ export default {
           <span class="class-code-title">{{ $t('teachers.class_code') }}</span>
           <span class="class-code-text">{{ codeCamel }}</span>
         </div>
-        <div class="flex-row floaty-right">
+        <div class="flex-row floaty-right add-students-icon-btn">
           <icon-button-with-text
             class="icon-with-text"
             :icon-name="displayOnly ? 'IconAddStudents_Gray' : 'IconAddStudents'"
@@ -314,4 +335,10 @@ export default {
   .full-width {
     width: 100%;
   }
+#replay-first-class-tour-btn {
+  background-color: transparent;
+  &:hover {
+    background-color: transparent;
+  }
+}
 </style>
