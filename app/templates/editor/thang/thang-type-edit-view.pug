@@ -116,7 +116,7 @@ block outer_content
                   button.reoptimize-btn.btn.btn-sm(type="button" disabled=authorized === true ? undefined : "true" data-containers="true") +containers
                   button.reoptimize-btn.btn.btn-sm(type="button" disabled=authorized === true ? undefined : "true" data-containers="true" data-shapes="true") all
                 input#real-upload-button(type="file")
-                input#real-animate-upload-button(type="file")
+                input#real-animate-upload-button(type="file", multiple=true)
               #thang-type-file-size= fileSizeString
           div#thang-type-treema
           .clearfix
