@@ -4921,6 +4921,8 @@ module.exports = {
       tour_replay_title: 'Need a refresher?',
       tour_replay_desc: 'Lost track? Replay this tour anytime by clicking here.',
       replay_tour: 'Play Tour',
+      teacher_toolkit_tour_desc: 'Find Getting Started guides, educator resources, and FAQs here — everything you need to get comfortable before your first class.',
+      teacher_toolkit_tour_title: 'Your Teaching Toolkit',
     },
 
     outcomes: {
