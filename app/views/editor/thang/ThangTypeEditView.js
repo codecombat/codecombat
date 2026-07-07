@@ -439,7 +439,7 @@ module.exports = (ThangTypeEditView = (function () {
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
         this.updateProgress((i + 0.5) / files.length)
-        if (!_.string.endsWith(file.type, 'javascript') && !_.string.endsWith(file.name, '.js')) {
+        if (!_.string.endsWith(file.type, 'javascript') && !_.string.endsWith(file.name.toLowerCase(), '.js')) {
           failed.push({ name: file.name, reason: "only accepts files ending with '.js'" })
           continue
         }
