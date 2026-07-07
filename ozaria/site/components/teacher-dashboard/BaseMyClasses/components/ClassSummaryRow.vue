@@ -75,7 +75,6 @@ export default {
       }
     },
     replayFirstClassTour (e) {
-      console.log('replay first class tour')
       e.preventDefault()
       e.stopPropagation()
       this.$emit('replay-first-class-tour')
@@ -336,6 +335,7 @@ export default {
     width: 100%;
   }
 #replay-first-class-tour-btn {
+  margin-left: -20px;
   background-color: transparent;
   &:hover {
     background-color: transparent;
