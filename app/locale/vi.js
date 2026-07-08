@@ -818,7 +818,6 @@ module.exports = {
       educator_signup_list_3_desc: '[AI_TRANSLATION]Thử đơn vị đầu tiên cùng lớp của bạn miễn phí',
       signup_with_email: '[AI_TRANSLATION]Đăng ký bằng Email',
       //    sign_up_with: "Sign up with",
-      //    other_signin_options: "← Other sign-in options",
       already_have_account: '[AI_TRANSLATION]Đã có tài khoản CodeCombat hoặc Ozaria',
       //    already_have_account_q: "Already have an account?",
       //    choose_account_subtitle: "Please select the option that best describes you.",

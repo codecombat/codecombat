@@ -818,7 +818,6 @@ module.exports = {
       educator_signup_list_3_desc: 'Gel gur svefg havg jvgu lbhe pynff sbe serr',
       signup_with_email: 'Fvta hc jvgu Rznvy',
       sign_up_with: 'Fvta hc jvgu',
-      other_signin_options: '← Bgure fvta-va bcgvbaf',
       already_have_account: 'Nyernql unir n PbqrPbzong be Bmnevn nppbhag',
       already_have_account_q: 'Nyernql unir na nppbhag?',
       choose_account_subtitle: 'Cyrnfr fryrpg gur bcgvba gung orfg qrfpevorf lbh.',

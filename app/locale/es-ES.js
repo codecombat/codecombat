@@ -818,7 +818,6 @@ module.exports = {
       educator_signup_list_3_desc: '[AI_TRANSLATION]Prueba la primera unidad con tu clase gratis',
       signup_with_email: '[AI_TRANSLATION]Regístrate con email',
       //    sign_up_with: "Sign up with",
-      //    other_signin_options: "← Other sign-in options",
       already_have_account: '[AI_TRANSLATION]¿Ya tienes una cuenta de CodeCombat u Ozaria?',
       //    already_have_account_q: "Already have an account?",
       //    choose_account_subtitle: "Please select the option that best describes you.",

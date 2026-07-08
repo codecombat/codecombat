@@ -107,14 +107,15 @@ describe('CreateAccountModal coppa-deny', function () {
 })
 
 describe('CreateAccountModal chooser sign-in', function () {
-  it('emits a login event when the sign-in link is clicked', function () {
+  it('emits a single login event when the sign-in link is clicked', function () {
     const signupState = new State({})
     const view = new ChooseAccountTypeView({ signupState })
     const onLogin = jasmine.createSpy('login')
     view.on('login', onLogin)
+    view.render()
 
-    view.onClickLoginLink()
+    view.$('.login-link').trigger('click')
 
-    expect(onLogin).toHaveBeenCalled()
+    expect(onLogin).toHaveBeenCalledTimes(1)
   })
 })

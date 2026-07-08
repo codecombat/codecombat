@@ -43,6 +43,14 @@ module.exports = (CoppaDenyView = (function () {
       return this.listenTo(this.state, 'all', _.debounce(this.render))
     }
 
+    afterRender () {
+      super.afterRender()
+      const $blurb = this.$('.parent-email-blurb.render')
+      if (!$blurb.length) { return }
+      const emailLink = '<a href="mailto:team@codecombat.com">team@codecombat.com</a>'
+      $blurb.html($.i18n.t('signup.parent_email_excited_blurb').replace('{{email_link}}', emailLink))
+    }
+
     onChangeParentEmail (e) {
       const parentEmail = $(e.currentTarget).val()
       this.signupState.set({ parentEmail }, { silent: true })

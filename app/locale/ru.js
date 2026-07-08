@@ -818,7 +818,6 @@ module.exports = {
       educator_signup_list_3_desc: 'Попробуйте первый блок для вашего класса бесплатно',
       signup_with_email: 'Зарегистрироваться с помощью Email',
       //    sign_up_with: "Sign up with",
-      //    other_signin_options: "← Other sign-in options",
       already_have_account: 'Уже есть аккаунт CodeCombat или Ozaria',
       //    already_have_account_q: "Already have an account?",
       //    choose_account_subtitle: "Please select the option that best describes you.",
