@@ -108,10 +108,6 @@ const definitionSchemas = {
 
 var init = function () {
   if (app) { return }
-  // features is normally injected by the server into the page HTML; when the shell
-  // arrives without it (cached page, bfcache), bare `features?.x` references throw
-  // ReferenceError, so declare it with all flags off.
-  window.features = window.features || {}
   if (!(window.userObject != null ? window.userObject._id : undefined)) {
     const options = { cache: false }
     options.data = _.pick(utils.getQueryVariables(), 'preferredLanguage')
