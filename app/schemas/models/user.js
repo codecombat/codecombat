@@ -427,6 +427,7 @@ _.extend(UserSchema.properties, {
       'hp-junior-modal': [c.date(), { type: 'boolean' }],
       'ai-league-tour': [c.date(), { type: 'boolean' }],
       'teacher-class-tour': [c.date(), { type: 'boolean' }],
+      'create-class-tour': [c.date(), { type: 'boolean' }],
     },
   },
 

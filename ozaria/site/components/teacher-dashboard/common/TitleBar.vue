@@ -5,6 +5,7 @@ import LicensesComponent from '../common/LicensesComponent'
 import NavSelectUnit from '../common/NavSelectUnit'
 import ClassInfoRow from './ClassInfoRow'
 import zendeskResourceMixin from 'ozaria/site/components/teacher-dashboard/BaseResourceHub/mixins/zendeskResourceMixin'
+import IconButton from '../common/buttons/IconButton'
 
 import { mapGetters } from 'vuex'
 const moment = window.moment
@@ -25,6 +26,7 @@ export default {
     'licenses-component': LicensesComponent,
     'nav-select-unit': NavSelectUnit,
     'class-info-row': ClassInfoRow,
+    'icon-button': IconButton,
   },
 
   mixins: [
@@ -209,6 +211,15 @@ export default {
       <h1 :class="showClassInfo ? 'short' : 'long'">
         {{ title }}
       </h1>
+      <icon-button
+        v-if="allClassesPage"
+        id="replay-create-class-tour-btn"
+        class="icon-button larger-icon"
+        :icon-name="'IconPlay'"
+        :icon-style="'width: 30px'"
+        :title="$t('teacher_dashboard.replay_tour')"
+        @click.native="$emit('replay-create-class-tour')"
+      />
       <div
         v-if="teacherToolkitView"
         class="resource-hub-container"
@@ -451,4 +462,11 @@ h1 {
     width: 20px;
     margin-right: 10px;
   }
+.larger-icon {
+  background: transparent;
+
+  &:hover {
+    background-color: transparent;
+  }
+}
 </style>
