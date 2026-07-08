@@ -171,6 +171,11 @@ module.exports = (SegmentCheckView = (function () {
 
     trackIndividualStepNext (destination) {
       if (this.signupState.get('path') !== 'individual') { return }
+      window.tracker?.trackEvent('CreateAccountModal Individual Next Clicked', {
+        category: 'Individuals',
+        step: 'segment-check',
+        label: destination,
+      })
       return window.tracker?.trackEvent('CreateAccountModal Individual Step 1 Next Clicked', {
         category: 'Individuals',
         destination,

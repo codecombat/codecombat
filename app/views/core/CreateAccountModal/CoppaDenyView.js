@@ -53,6 +53,15 @@ module.exports = (CoppaDenyView = (function () {
       })
     }
 
+    trackIndividualStepNext (label) {
+      if (this.signupState.get('path') !== 'individual') { return }
+      return window.tracker?.trackEvent('CreateAccountModal Individual Next Clicked', {
+        category: 'Individuals',
+        step: 'coppa-deny',
+        label,
+      })
+    }
+
     onClickSendParentEmailButton (e) {
       e.preventDefault()
       const parentEmail = this.state.get('parentEmail')
@@ -60,6 +69,7 @@ module.exports = (CoppaDenyView = (function () {
         return this.state.set({ error: true })
       }
       this.state.set({ parentEmailSending: true, error: false })
+      this.trackIndividualStepNext('send-parent-email')
       if (window.tracker != null) {
         window.tracker.trackEvent('CreateAccountModal Individual Parent Email Send Clicked', { category: 'Individuals' })
       }

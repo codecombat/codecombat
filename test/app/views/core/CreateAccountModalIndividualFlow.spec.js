@@ -2,6 +2,7 @@ const SegmentCheckView = require('views/core/CreateAccountModal/SegmentCheckView
 const BasicInfoView = require('views/core/CreateAccountModal/BasicInfoView')
 const ChooseAccountTypeView = require('views/core/CreateAccountModal/ChooseAccountTypeView')
 const CoppaDenyView = require('views/core/CreateAccountModal/CoppaDenyView')
+const EUConfirmationView = require('views/core/CreateAccountModal/EUConfirmationView')
 const State = require('models/State')
 
 describe('CreateAccountModal individual flow tracking', function () {
@@ -40,6 +41,35 @@ describe('CreateAccountModal individual flow tracking', function () {
       'CreateAccountModal Individual Step 2 Next Clicked',
       { category: 'Individuals', action: 'submit-clicked' },
     )
+  })
+
+  it('emits the uniform next event from each individual step with a step slug', function () {
+    const signupState = new State({ path: 'individual' })
+
+    new SegmentCheckView({ signupState }).trackIndividualStepNext('coppa-deny')
+    new CoppaDenyView({ signupState }).trackIndividualStepNext('send-parent-email')
+    new EUConfirmationView({ signupState }).trackIndividualStepNext('continue')
+
+    expect(window.tracker.trackEvent).toHaveBeenCalledWith(
+      'CreateAccountModal Individual Next Clicked',
+      { category: 'Individuals', step: 'segment-check', label: 'coppa-deny' },
+    )
+    expect(window.tracker.trackEvent).toHaveBeenCalledWith(
+      'CreateAccountModal Individual Next Clicked',
+      { category: 'Individuals', step: 'coppa-deny', label: 'send-parent-email' },
+    )
+    expect(window.tracker.trackEvent).toHaveBeenCalledWith(
+      'CreateAccountModal Individual Next Clicked',
+      { category: 'Individuals', step: 'eu-confirmation', label: 'continue' },
+    )
+  })
+
+  it('does not emit the uniform next event on a non-individual path', function () {
+    const signupState = new State({ path: 'student' })
+
+    new EUConfirmationView({ signupState }).trackIndividualStepNext('continue')
+
+    expect(window.tracker.trackEvent).not.toHaveBeenCalled()
   })
 
   it('routes the under-13 action to the coppa-deny screen', function () {

@@ -362,6 +362,11 @@ module.exports = (BasicInfoView = (function () {
 
     trackIndividualStepNext (action) {
       if (this.signupState.get('path') !== 'individual') { return }
+      window.tracker?.trackEvent('CreateAccountModal Individual Next Clicked', {
+        category: 'Individuals',
+        step: 'basic-info',
+        label: action,
+      })
       return window.tracker?.trackEvent('CreateAccountModal Individual Step 2 Next Clicked', {
         category: 'Individuals',
         action,
