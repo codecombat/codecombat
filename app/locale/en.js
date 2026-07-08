@@ -492,6 +492,7 @@ module.exports = {
       teacher_tools: 'Teacher Tools',
       ai_teacher_tool: 'AI Teacher Tool',
       ccw_short: 'Roblox',
+      educator_hub: 'Educator Hub',
     },
 
     modal: {

@@ -492,6 +492,7 @@ module.exports = {
       teacher_tools: '教师工具',
       ai_teacher_tool: '演示AI课关卡',
       //    ccw_short: "Roblox",
+      educator_hub: '教学中心',
     },
 
     modal: {

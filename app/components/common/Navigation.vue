@@ -514,7 +514,11 @@ export default Vue.extend({
         educator = {
           ...chinaNav,
           'my-dashboards': educator['my-dashboards'],
-
+          'educator-hub': {
+            title: 'nav.educator_hub',
+            url: 'https://educator-hub.koudashijie.cn/',
+            properties: { target: '_blank' },
+          },
         }
         student = {
           ...chinaNav,

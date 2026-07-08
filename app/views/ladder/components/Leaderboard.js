@@ -66,8 +66,8 @@ module.exports = (LeaderboardView = (function () {
           { slug: 'rank', col: 1, title: '' },
           { slug: 'name', col: 2, title: $.i18n.t('general.name') },
           { slug: 'score', col: 2, title: $.i18n.t('general.score') },
-          { slug: 'clan', col: 2, title: $.i18n.t('league.team') },
-          { slug: 'age', col: 1, title: $.i18n.t('ladder.age') },
+          { slug: 'clan', col: 2, title: $.i18n.t('league.team'), hide: features.chinaHome },
+          { slug: 'age', col: 1, title: $.i18n.t('ladder.age'), hide: features.chinaHome },
           { slug: 'when', col: 1, title: $.i18n.t('general.when') },
           { slug: 'fight', col: 1, title: '' },
         ]
@@ -168,6 +168,8 @@ module.exports = (LeaderboardView = (function () {
       fullName = fullName != null ? fullName.replace(/^Anonymous/, $.i18n.t('general.player')) : undefined
       fullName = fullName != null ? fullName.replace(/^AIAlgorithm_(.+)_$/, '$1') : undefined
       fullName = fullName != null ? fullName.replace(/^AIYouth_(.+)_$/, '$1') : undefined
+      fullName = fullName != null ? fullName.replace(/^STEMSTAR(.+)$/, '$1') : undefined
+      fullName = fullName != null ? fullName.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2') : undefined
       return fullName
     }
 

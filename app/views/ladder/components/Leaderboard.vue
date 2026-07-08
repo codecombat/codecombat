@@ -322,7 +322,7 @@ export default Vue.extend({
               span  players
 
         tr
-          th(v-for="t in tableTitles" v-if="!(['creator', 'hide'].includes(t.slug))" :key="t.slug" :colspan="t.col" :class="computeClass(t.slug)")
+          th(v-for="t in tableTitles" v-if="!(['creator', 'hide'].includes(t.slug) ||  t.hide)" :key="t.slug" :colspan="t.col" :class="computeClass(t.slug)")
             | {{ t.title }}
             span &nbsp;
             span.age-filter(v-if="t.slug == 'age'")
@@ -336,7 +336,7 @@ export default Vue.extend({
           template(v-if="row.type==='BLANK_ROW'")
             td(colspan=3) ...
           template(v-else)
-            td(v-for="item, index in row" v-if="index > 0 && !(['fight', 'hide'].includes(tableTitles[index].slug))" :key="'' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" @click="onClickUserRow(rank, tableTitles[index].slug)") {{index != 1 ? computeBody(tableTitles[index].slug, item): '' }}
+            td(v-for="item, index in row" v-if="index > 0 && !(['fight', 'hide'].includes(tableTitles[index].slug)  || tableTitles[index].hide)" :key="'' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" @click="onClickUserRow(rank, tableTitles[index].slug)") {{index != 1 ? computeBody(tableTitles[index].slug, item): '' }}
             td(colspan=1 v-if="tableTitles[row.length-1].slug == 'fight'" v-html="computeBody('fight', row[row.length-1])" @click="onClickUserRow(rank, 'fight')")
 
         tr(v-for="row, rank in playerRankings" :key="'player-'+rank" :class="classForRow(row)")
