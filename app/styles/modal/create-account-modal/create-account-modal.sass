@@ -76,6 +76,14 @@
       max-height: calc(100vh - 24px)
       max-height: calc(100dvh - 24px)
 
+  // Individual flow: on desktop let the outer modal shell grow to fit basic-info's
+  // inline validation feedback instead of only inner-scrolling under the 850px cap
+  // (which pushed #create-account-btn below the fold). Scoped via .path-individual
+  // so teacher/student keep the 850px cap + existing inner-scroll fixes.
+  .modal-dialog.path-individual .modal-content
+    @media (min-width: 768px)
+      max-height: calc(100vh - 24px)
+
   // General modal stuff
 
   @if $is-codecombat

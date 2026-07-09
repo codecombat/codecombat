@@ -5,7 +5,8 @@ block vars
   - const path = view.signupState.get('path');
   - const screen = view.signupState.get('screen');
   - const ozariaStyle = ['oz-vs-coco','choose-account-type'].includes(screen) || screen==='segment-check' && path==='student'
-  - modalDialogClass = ozariaStyle ? 'ozaria-modal' : ''
+  - const individualStyle = path === 'individual'
+  - modalDialogClass = [ozariaStyle ? 'ozaria-modal' : '', individualStyle ? 'path-individual' : ''].filter(Boolean).join(' ')
 
 block modal-header
   //-

@@ -28,7 +28,7 @@ form.modal-body.coppa-deny
               span(data-i18n="signup.parent_email_sent")
             p.parent-email-blurb(data-i18n="signup.parent_email_finish_blurb")
 
-  .history-nav-buttons
+  .history-nav-buttons.individual
     if !state.get('parentEmailSent')
       button.send-parent-email-button.btn.btn-lg.btn-navy(type='submit', disabled=state.get('parentEmailSending') || state.get('dontUseOurEmailSilly'))
         if state.get('parentEmailSending')
