@@ -84,6 +84,16 @@
     @media (min-width: 768px)
       max-height: calc(100vh - 24px)
 
+  // Individual flow: post-signup "Start playing" CTA gets the purple theme too
+  .modal-dialog.path-individual #start-btn.btn-navy
+    background-color: #7a65fc
+    border: none
+    border-radius: 10px
+    font-weight: 700
+    color: white
+    &:hover
+      background-color: #9487ff
+
   // General modal stuff
 
   @if $is-codecombat
