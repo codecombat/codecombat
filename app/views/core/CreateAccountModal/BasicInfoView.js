@@ -119,14 +119,18 @@ module.exports = (BasicInfoView = (function () {
     afterRender () {
       this.$el.find('#first-name-input').focus()
       if (!me.showChinaRegistration()) {
-        // Load the Google Identity script so the styled Google row can trigger
-        // sign-in on click (#google-signup-btn -> onClickSsoSignupButton ->
-        // handleSSOConnect -> gplusHandler.connect). We no longer auto-render
-        // the GSI outline button or auto-prompt here.
+        // Load the Google Identity script, then eagerly mount the official GSI
+        // button (replacing the styled placeholder row via .gsi-mount CSS) with
+        // the full sign-up success chain registered. GIS offers no reliable way
+        // to start the credential flow from a custom button - prompt() is
+        // suppressible (FedCM off, One Tap cooldowns) - so mounting the real
+        // button up front keeps Google sign-up a single click. We still don't
+        // auto-prompt One Tap on render.
         application.gplusHandler.loadAPI({
           context: this,
           success () {
-            return this.signupState.set({ gplusEnabled: true })
+            this.signupState.set({ gplusEnabled: true })
+            return this.handleSSOConnect(application.gplusHandler, 'gplus', { renderOnly: true })
           },
         })
       }
@@ -620,9 +624,10 @@ module.exports = (BasicInfoView = (function () {
       return this.handleSSOConnect(handler, ssoUsed)
     }
 
-    handleSSOConnect (handler, ssoUsed) {
+    handleSSOConnect (handler, ssoUsed, connectOptions) {
       if (me.showChinaRegistration()) { return }
       return handler.connect({
+        ...connectOptions,
         context: this,
         success (resp) {
           if (resp == null) { resp = {} }

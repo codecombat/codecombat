@@ -19,9 +19,12 @@ mixin use-social-signon
 
       .auth-network-logins.text-center
         if !me.showChinaRegistration()
-          //- GPlusHandler.connect() renders the official GSI button here before
-          //- prompting, so the click path still works when One Tap/FedCM is
-          //- suppressed. The styled row hides once the GSI button is mounted.
+          //- The official GSI button mounts here as soon as the Google Identity
+          //- script loads (BasicInfoView.afterRender): only it can reliably start
+          //- the credential flow (prompt() is suppressible), so keeping it mounted
+          //- keeps Google sign-up a single click. The styled row below is a
+          //- placeholder while the script loads and hides once the GSI button
+          //- is mounted.
           #google-login-button.gsi-mount
           a#google-signup-btn.network-login.sso-row(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus", aria-label="Sign up with Google")
             img.sso-logo.sso-logo-google(src="/images/pages/modal/auth/google-logo-wordmark.svg", draggable="false", alt="")

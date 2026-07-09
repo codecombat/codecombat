@@ -160,6 +160,9 @@ module.exports = (GPlusHandler = (GPlusHandler = (function () {
           { theme: 'outline', size: 'large', use_fedcm_for_prompt: true }
         )
       }
+      // renderOnly mounts the official GSI button (the only element that can
+      // reliably start the credential flow) without popping One Tap/FedCM.
+      if (options.renderOnly) { return }
       return window.google.accounts.id.prompt()
     }
 
