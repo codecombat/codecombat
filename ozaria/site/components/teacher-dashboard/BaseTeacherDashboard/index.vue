@@ -437,11 +437,11 @@ export default {
     },
     handleTrialRequest () {
       return this.$store.dispatch('trialRequest/fetchCurrentTrialRequest')
-        .then((result) => {
-          this.trialRequestLoading = false
-        })
         .catch((err) => {
           console.error('teacherDetailsModal fetch failed', err)
+        })
+        .finally(() => {
+          this.trialRequestLoading = false
         })
     },
     toggleSidebar () {
