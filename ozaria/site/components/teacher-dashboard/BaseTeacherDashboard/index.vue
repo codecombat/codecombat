@@ -235,9 +235,7 @@ export default {
       me.set('seenNewDashboardModal', true)
       me.save()
       this.showOnboardingModal = false
-      if (!me.isNapervilleUser()) {
-        this.openNewClassModal()
-      }
+      this.conditionalPlayCreateClassTour()
     },
 
     openNewClassModal () {
@@ -282,10 +280,7 @@ export default {
 
       if (this.createdFirstClass) {
         this.conditionalFirstClassTour()
-        return
       }
-
-      this.conditionalPlayCreateClassTour()
     },
 
     openEditClassModal (claz) {
