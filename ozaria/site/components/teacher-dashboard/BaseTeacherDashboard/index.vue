@@ -21,13 +21,11 @@ import { mapMutations, mapGetters, mapActions } from 'vuex'
 import { FIRST_CLASS_STEPS, CREATE_CLASS_STEPS, HS_GUIDE_TOUR_STEPS } from './teacherDashboardTours'
 import ModalTeacherDetails from '../modals/ModalTeacherDetails'
 import { hasSeenTeacherDetailModalRecently, markTeacherDetailsModalAsSeen } from '../../../common/utils'
-import TryOzariaModal from 'app/components/teacher/TryOzariaModal.vue'
 import clubCampMixin from '../mixins/clubCampMixin'
 
 const VueShepherd = require('vue-shepherd')
 
 const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
-const TRY_OZ_MODAL_VIEWED_KEY = 'try-oz-modal-viewed'
 const SIDEBAR_COLLAPSED_KEY = 'teacher-dashboard-sidebar-collapsed'
 const SEEN_AUTO_TD_TOUR_KEY = 'auto-td-tour-seen'
 
@@ -45,7 +43,6 @@ export default {
     TitleBar,
     LoadingBar,
     ModalTeacherDetails,
-    TryOzariaModal,
     TopBanner,
   },
   mixins: [clubCampMixin],
@@ -163,18 +160,24 @@ export default {
         this.closeOnboardingModal()
       }
     },
+    loading (newVal) {
+      if (!newVal) {
+        this.conditionalPlayCreateClassTour()
+      }
+    },
   },
   beforeCreate () {
     Vue.use(VueShepherd)
   },
-  created () {
+  async created () {
     if (!me.isTeacher()) { // TODO Restrict this from Router itself similar to how `RestrictedToTeachersView` works
       this.showRestrictedDiv = true
       this.showOnboardingModal = !me.get('seenNewDashboardModal')
     } else {
       this.showRestrictedDiv = false
       this.updateStoreOnNavigation()
-      this.handleTrialRequest()
+      await this.handleTrialRequest()
+      this.showTeacherDetailsModal = this.shouldShowTeacherDetailsModal()
     }
   },
 
@@ -433,38 +436,17 @@ export default {
       return !this.trialRequestLoading && !this.trialRequest?.organization && !hasSeenTeacherDetailModalRecently(me.get('_id')) && !me.isNapervilleUser()
     },
     handleTrialRequest () {
-      this.$store.dispatch('trialRequest/fetchCurrentTrialRequest')
-        .then((result) => {
-          this.trialRequestLoading = false
-          this.showTeacherDetailsModal = this.shouldShowTeacherDetailsModal()
-        })
+      return this.$store.dispatch('trialRequest/fetchCurrentTrialRequest')
         .catch((err) => {
           console.error('teacherDetailsModal fetch failed', err)
         })
         .finally(() => {
-          this.showOnboardingModal = !me.get('seenNewDashboardModal')
-          this.handleTryOzariaModal()
+          this.trialRequestLoading = false
         })
     },
     toggleSidebar () {
       this.sidebarCollapsed = !this.sidebarCollapsed
       storage.save(SIDEBAR_COLLAPSED_KEY, this.sidebarCollapsed)
-    },
-    handleTryOzariaModal () {
-      if (this.isCodeCombat &&
-        !this.showOnboardingModal &&
-        !this.showTeacherDetailsModal &&
-        !me.get('activity')?.['visit-ozaria'] &&
-        !storage.load(TRY_OZ_MODAL_VIEWED_KEY) &&
-        !me.showOzCourses()
-      ) {
-        this.showTryOzariaModal = true
-      }
-    },
-    closeTryOzariaModal () {
-      const oneMonth = 30 * 24 * 7 * 60
-      storage.save(TRY_OZ_MODAL_VIEWED_KEY, true, oneMonth)
-      this.showTryOzariaModal = false
     },
     shouldShowCreateStudents (_classroom) {
       return false
@@ -575,10 +557,6 @@ export default {
       v-if="showApplyLicensesModal"
       :classroom="classroom"
       @close="showApplyLicensesModal=false"
-    />
-    <try-ozaria-modal
-      v-if="showTryOzariaModal"
-      @close="closeTryOzariaModal"
     />
   </div>
 </template>
