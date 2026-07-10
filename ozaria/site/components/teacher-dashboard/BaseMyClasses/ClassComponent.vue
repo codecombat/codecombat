@@ -8,21 +8,25 @@ export default {
   components: {
     ClassSummaryRow,
     ClassChapterSummaries,
-    ClassLinksComponent
+    ClassLinksComponent,
   },
   props: {
     classroomStats: {
       type: Object,
-      required: true
+      required: true,
     },
     chapterStats: {
       type: Array,
-      required: true
+      required: true,
     },
     displayOnly: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
+    isFirstClass: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {
@@ -50,8 +54,8 @@ export default {
       default:
         return this.chapterStats
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -70,9 +74,11 @@ export default {
       :display-only="displayOnly"
       :share-permission="classroomStats.sharePermission"
       :class-type="classroomStats.type"
+      :is-first-class="isFirstClass"
       @clickTeacherArchiveModalButton="$emit('clickTeacherArchiveModalButton')"
       @clickAddStudentsModalButton="$emit('clickAddStudentsModalButton')"
       @clickShareClassWithTeacherModalButton="$emit('clickShareClassWithTeacherModalButton')"
+      @replay-first-class-tour="$emit('replay-first-class-tour')"
     />
     <!--
       can be enabled for shared once in addition to fetchCourseInstancesForTeacher, we do it for all shared class whose owner is not this logged in teacher

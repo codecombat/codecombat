@@ -513,7 +513,7 @@ export default Vue.extend({
             ul.nav.navbar-nav.loggedin(v-if="!me.isAnonymous()")
               li(v-if="me.isTarena()")
                 a.text-p#logout-button {{ $t('login.log_out') }}
-              li.dropdown(v-else)
+              li.dropdown#user-account-dropdown(v-else)
                 a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                   img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="{'border-navy': me.isTeacher()}")
                   span.unreadMessage(v-if="unread")
