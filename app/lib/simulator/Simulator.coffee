@@ -387,6 +387,7 @@ module.exports = class Simulator extends CocoClass
       sessions: []
       simulator: @simulator
       randomSeed: @task.world.randomSeed
+      sessionsDate: @task.getSessionsDate()
 
     for session in @task.getSessions()
       sessionResult =
@@ -489,5 +490,7 @@ class SimulationTask
   getReceiptHandle: -> @rawData.receiptHandle
 
   getSessions: -> @rawData.sessions
+
+  getSessionsDate: -> @rawData.sessionsDate
 
   setWorld: (@world) ->
