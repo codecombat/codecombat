@@ -172,7 +172,7 @@ export default {
             '<li class="font-bold text-emerald-800 mb-2 border-b border-emerald-100 pb-1">季度会员所有权益再加：</li>',
             '<i class="fa-solid fa-file-contract text-emerald-500"></i> 每个账号均享年度会员全部权益',
             '<i class="fa-solid fa-map text-emerald-500"></i> 每个账号独立保存学习进度与成就',
-            '<i class="fa-solid fa-star text-emerald-500"></i> 家长可为多个孩子统一购买更省心',
+            '<i class="fa-solid fa-star text-emerald-500"></i> 适合同学好友组队学习',
             '<i class="fa-solid fa-gem text-emerald-500"></i> 人均约 ¥666/年，长期学习更划算',
           ],
         },
