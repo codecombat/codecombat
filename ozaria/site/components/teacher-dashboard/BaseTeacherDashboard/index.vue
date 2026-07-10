@@ -279,7 +279,7 @@ export default {
       }
 
       if (this.createdFirstClass) {
-        this.triggerFirstClassTour()
+        this.conditionalFirstClassTour()
       }
     },
 
@@ -377,15 +377,21 @@ export default {
       return true
     },
 
-    triggerFirstClassTour () {
-      if (!this.isAllClassesPage) {
-        return
-      }
-
+    conditionalFirstClassTour () {
       if (this.loading || this.activeClassrooms.length !== 1) {
         return
       }
 
+      if (this.triggerFirstClassTour()) {
+        me.setSeenPromotion('first-class-tour')
+        me.save()
+      }
+    },
+
+    triggerFirstClassTour () {
+      if (!this.isAllClassesPage) {
+        return false
+      }
       this.runningTour?.complete?.()
 
       const tour = this.$shepherd({
@@ -393,6 +399,10 @@ export default {
         scrollTo: true,
         defaultStepOptions: {
           classes: 'shepherd-dashboard-theme',
+          cancelIcon: {
+            enabled: true,
+            label: $.i18n.t('teacher_dashboard.click_dismiss'),
+          },
         },
       })
 
@@ -400,6 +410,8 @@ export default {
       tour.start()
 
       this.runningTour = tour
+      window?.tracker?.trackEvent('Watch First Class Tour', { category: 'Teachers' })
+      return true
     },
 
     onChangeCourse (courseId) {
@@ -514,6 +526,7 @@ export default {
           @removeStudents="showRemoveStudentsModal = true"
           @applyLicenses="dynamicShowingApplyLicenseModal"
           @replay-td-tour="triggerTDGuideTour"
+          @replay-first-class-tour="triggerFirstClassTour"
           @auto-play-td-tour="conditionalPlayTDTour"
         />
       </div>
