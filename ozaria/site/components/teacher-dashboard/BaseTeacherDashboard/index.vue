@@ -235,9 +235,7 @@ export default {
       me.set('seenNewDashboardModal', true)
       me.save()
       this.showOnboardingModal = false
-      if (!me.isNapervilleUser()) {
-        this.triggerCreateClassTour()
-      }
+      this.conditionalPlayCreateClassTour()
     },
 
     openNewClassModal () {
@@ -301,7 +299,7 @@ export default {
       }
     },
 
-    triggerCreateClassTour () {
+    conditionalPlayCreateClassTour () {
       if (this.loading || this.activeClassrooms.length !== 0) {
         return
       }
@@ -310,14 +308,28 @@ export default {
         return
       }
 
-      this.runningTour?.complete?.()
+      if (this.triggerCreateClassTour()) {
+        storage.save(`${SEEN_CREATE_CLASS_TOUR_KEY}-${me.get('_id')}`, true)
+        me.setSeenPromotion('create-class-tour')
+        me.save()
+      }
+    },
 
-      storage.save(`${SEEN_CREATE_CLASS_TOUR_KEY}-${me.get('_id')}`, true)
+    triggerCreateClassTour () {
+      if (!this.isAllClassesPage) {
+        return false
+      }
+
+      this.runningTour?.complete?.()
 
       const tour = this.$shepherd({
         useModalOverlay: true,
         defaultStepOptions: {
           classes: 'shepherd-dashboard-theme',
+          cancelIcon: {
+            enabled: true,
+            label: $.i18n.t('teacher_dashboard.click_dismiss'),
+          },
         },
       })
 
@@ -325,6 +337,7 @@ export default {
       tour.start()
 
       this.runningTour = tour
+      return true
     },
 
     conditionalPlayTDTour () {
@@ -489,6 +502,7 @@ export default {
           @newClub="openNewClubModal"
           @addStudentsClicked="showAddStudentsModal = true"
           @editClass="openEditClassModal"
+          @replay-create-class-tour="triggerCreateClassTour"
         />
         <loading-bar
           :key="loading"
