@@ -316,4 +316,11 @@ export default {
       align-self: flex-end;
     }
   }
+::v-deep {
+  .identities {
+    p {
+      color: #545b64
+    }
+  }
+}
 </style>
