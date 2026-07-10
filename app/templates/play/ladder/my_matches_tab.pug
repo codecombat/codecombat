@@ -69,8 +69,9 @@ row
                 - spectateUrl += '&league=' + view.league.id
               if (view.tournament)
                 - spectateUrl += '&tid=' + view.tournament
-              a(href=spectateUrl, target='_blank')
-                span(data-i18n="play_level.watch_game")
+              if !match.stale
+                a(href=spectateUrl, target='_blank')
+                  span(data-i18n="play_level.watch_game")
             td.battle-cell
               if view.level.isType('ladder')
                 - var yourTeam = 'humans'
