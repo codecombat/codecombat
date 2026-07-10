@@ -20,7 +20,7 @@ export default {
     BannerHoC,
     ModalAddStudents,
     ModalShareWithTeachers,
-    PodcastItemContainer
+    PodcastItemContainer,
   },
 
   mixins: [
@@ -31,12 +31,12 @@ export default {
   props: {
     teacherId: { // sent from DSA
       type: String,
-      default: ''
+      default: '',
     },
     displayOnly: { // sent from DSA
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data: () => {
@@ -46,7 +46,7 @@ export default {
       editClassroomObject: {},
       archiveHidden: true,
       showShareClassWithTeacherModal: false,
-      sharedHidden: true
+      sharedHidden: true,
     }
   },
 
@@ -55,7 +55,7 @@ export default {
       activeClassrooms: 'teacherDashboard/getActiveClassrooms',
       archivedClassrooms: 'teacherDashboard/getArchivedClassrooms',
       getTrackCategory: 'teacherDashboard/getTrackCategory',
-      sharedClassrooms: 'teacherDashboard/getSharedClassrooms'
+      sharedClassrooms: 'teacherDashboard/getSharedClassrooms',
     }),
 
     sortedActiveClasses () {
@@ -78,7 +78,7 @@ export default {
 
     showPodcast () {
       return !me.isCodeNinja()
-    }
+    },
   },
 
   mounted () {
@@ -98,13 +98,13 @@ export default {
 
   methods: {
     ...mapActions({
-      fetchData: 'teacherDashboard/fetchData'
+      fetchData: 'teacherDashboard/fetchData',
     }),
 
     ...mapMutations({
       resetLoadingState: 'teacherDashboard/resetLoadingState',
       setTeacherId: 'teacherDashboard/setTeacherId',
-      setPageTitle: 'teacherDashboard/setPageTitle'
+      setPageTitle: 'teacherDashboard/setPageTitle',
     }),
 
     openEditModal (classroom) {
@@ -142,7 +142,7 @@ export default {
     <banner-ho-c />
     <div id="class-stats-area">
       <div
-        v-for="clas in sortedActiveClasses"
+        v-for="(clas, index) in sortedActiveClasses"
         :key="clas._id"
         class="active-class"
       >
@@ -150,9 +150,11 @@ export default {
           :classroom-state="clas"
           :display-only="displayOnly"
           class="class-stats"
+          :is-first-class="index === 0"
           @clickTeacherArchiveModalButton="openEditModal(clas)"
           @clickAddStudentsModalButton="openAddModal(clas)"
           @clickShareClassWithTeacherModalButton="openShareClassWithTeacherModal(clas)"
+          @replay-first-class-tour="$emit('replay-first-class-tour')"
         />
         <buttons-school-admin
           v-if="displayOnly"

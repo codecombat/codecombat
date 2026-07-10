@@ -22,10 +22,7 @@ mixin tournamentTileMixin(tournament)
     .tile-text-backdrop
     .stats-text-container
       .overlay-text.stats-text
-        if showLadderImage
-          span= tournament.displayName || tournament.name
-        else
-          span= tournament.name
+        span= tournament.displayName || tournament.name
     .play-text-container
       .overlay-text.play-text
         if tournament.state == 'initializing'

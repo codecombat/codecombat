@@ -77,6 +77,50 @@ const CLICK_INTO_CLASS_STEP = {
   }],
 }
 
+const ADD_STUDENTS_STEP = {
+  attachTo: {
+    element: '.add-students-icon-btn',
+    on: 'bottom',
+  },
+  text: $.i18n.t('teacher_dashboard.add_students_step_desc'),
+  title: $.i18n.t('teacher_dashboard.add_students_step_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
+    text: $.i18n.t('common.next'),
+  }],
+}
+
+const TEST_STUDENT_STEP = {
+  attachTo: {
+    element: '#nav-student-mode',
+    on: 'left',
+  },
+  text: $.i18n.t('teacher_dashboard.test_student_step_desc'),
+  title: $.i18n.t('teacher_dashboard.test_student_step_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
+    text: $.i18n.t('teacher_dashboard.click_dismiss'),
+  }],
+  beforeShowPromise: function () {
+    return new Promise((resolve) => {
+      document.querySelector('#user-account-dropdown .dropdown-menu').style.display = 'block'
+      setTimeout(resolve, 100)
+    })
+  },
+  when: {
+    destroy: function () {
+      document.querySelector('#user-account-dropdown .dropdown-menu').style.display = 'none'
+    },
+    cancel: function () {
+      document.querySelector('#user-account-dropdown .dropdown-menu').style.display = 'none'
+    },
+  },
+}
+
 const CREATE_CLASS_STEP = {
   attachTo: {
     element: '#new-class-btn-shepherd',
@@ -298,7 +342,8 @@ export const HS_GUIDE_TOUR_STEPS = [
 
 export const FIRST_CLASS_STEPS = [
   CLICK_INTO_CLASS_STEP,
-  PLAN_FIRST_CLASS_STEP,
+  ADD_STUDENTS_STEP,
+  TEST_STUDENT_STEP,
 ]
 
 export const CREATE_CLASS_STEPS = [
