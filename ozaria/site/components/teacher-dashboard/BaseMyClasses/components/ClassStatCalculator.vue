@@ -6,18 +6,22 @@ import { allCourseIDs, courseAcronyms, i18n, OZ_COURSE_IDS, HACKSTACK_COURSE_IDS
 
 export default {
   components: {
-    ClassComponent
+    ClassComponent,
   },
 
   props: {
     classroomState: {
       type: Object,
-      required: true
+      required: true,
     },
     displayOnly: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
+    isFirstClass: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {
@@ -66,7 +70,7 @@ export default {
         archived: this.classroomState.archived,
         codeCamel: this.classroomState.codeCamel,
         sharePermission: this.sharePermission,
-        type: this.classroomState.type
+        type: this.classroomState.type,
       }
     },
 
@@ -171,8 +175,8 @@ export default {
 
           return result
         })
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -181,8 +185,10 @@ export default {
     :classroom-stats="classroomStatsFromClassroom"
     :chapter-stats="chapterStatsAdapter"
     :display-only="displayOnly"
+    :is-first-class="isFirstClass"
     @clickTeacherArchiveModalButton="$emit('clickTeacherArchiveModalButton')"
     @clickAddStudentsModalButton="$emit('clickAddStudentsModalButton')"
     @clickShareClassWithTeacherModalButton="$emit('clickShareClassWithTeacherModalButton')"
+    @replay-first-class-tour="$emit('replay-first-class-tour')"
   />
 </template>
