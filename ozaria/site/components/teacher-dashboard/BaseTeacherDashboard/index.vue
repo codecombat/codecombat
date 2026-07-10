@@ -163,6 +163,11 @@ export default {
         this.closeOnboardingModal()
       }
     },
+    loading () {
+      if (this.isCodeCombat) {
+        this.conditionalPlayCreateClassTour()
+      }
+    },
   },
   beforeCreate () {
     Vue.use(VueShepherd)
