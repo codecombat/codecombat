@@ -716,7 +716,7 @@ module.exports = {
       complete_subscription: 'Complete Subscription',
       create_student_header: 'Create Student Account',
       create_teacher_header: 'Create Teacher Account',
-      create_individual_header: 'Create A Free Individual Account',
+      create_individual_header: 'Create a Free Individual Account',
       email_announcements: 'Receive announcements about new CodeCombat levels and features!',
       sign_in_to_continue: 'Sign in or create an account to continue',
       create_account_to_submit_multiplayer: 'Create a free account to rank your multiplayer AI and explore the whole game!',
