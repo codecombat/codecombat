@@ -22,7 +22,7 @@
 ### [お問い合わせはこちら](../../wiki/Developer-organization)
 
 初心者でもプロでも、CodeCombatチームは、あなたの実装をサポートします。
-あなたのアイデアを 私たちの[フォーラム](http://discourse.codecombat.com)で声をかけてください。
+あなたのアイデアを 私たちの[Redditフォーラム](https://www.reddit.com/r/CodeCombat/)で声をかけてください。
 [issueトラッカー](../../issues)、または
 [Slackの開発者向けチャットルーム](https://coco-slack-invite.herokuapp.com/)、もしくは
 [コントリビュートの仕方の詳細](../../wiki/Developer-organization)のドキュメントを参照してください。
