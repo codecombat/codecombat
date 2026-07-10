@@ -1,4 +1,7 @@
 global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
+// features is normally injected by the server into the page HTML; default it so
+// bare `features?.x` references don't throw when the shell arrives without it.
+window.features = window.features || {};
 import 'bootstrap';
 import './app.sass';
 import 'core-js/stable';
