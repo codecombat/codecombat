@@ -83,30 +83,35 @@ form.modal-body.segment-check
       when 'teacher'
         // TODO
       when 'individual'
-        if view.signupState.get('subModalContinue')
-          span(data-i18n="signup.sign_in_to_continue")
-          br
-        else if view.utils.isCodeCombat && view.signupState.get('accountRequiredMessage')
-          span= view.signupState.get('accountRequiredMessage')
-          br
-        .birthday-form-group.form-group
-          span(data-i18n="signup.enter_birthdate")
-          .input-border
-            select#birthday-month-input.input-large.form-control(name="birthdayMonth", style="width: 106px; float: left")
-              option(value='',data-i18n="calendar.month")
-              for name, index in ['january','february','march','april','may','june','july','august','september','october','november','december']
-                - var month = index + 1
-                option(data-i18n=('calendar.' + name) value=month, selected=(month === view.signupState.get('birthdayMonth')))
-            select#birthday-day-input.input-large.form-control(name="birthdayDay", style="width: 75px; float: left")
-              option(value='',data-i18n="calendar.day")
-              for day in _.range(1,32)
-                option(selected=(day === view.signupState.get('birthdayDay'))) #{day}
-            select#birthday-year-input.input-large.form-control(name="birthdayYear", style="width: 90px; float: left")
-              option(value='',data-i18n="calendar.year")
-              - var thisYear = new Date().getFullYear()
-              for year in _.range(thisYear, thisYear - 100, -1)
-                option(selected=(year === view.signupState.get('birthdayYear'))) #{year}
-        .parent_birthdate(data-i18n="signup.parent_use_birthdate")
+        .individual-flow-panel
+          .individual-flow-progress(aria-hidden="true")
+            .individual-flow-progress-step.active
+            .individual-flow-progress-step
+          .individual-flow-card
+            if view.signupState.get('subModalContinue')
+              .individual-flow-note(data-i18n="signup.sign_in_to_continue")
+            else if view.utils.isCodeCombat && view.signupState.get('accountRequiredMessage')
+              .individual-flow-note= view.signupState.get('accountRequiredMessage')
+            .individual-flow-heading
+              h4(data-i18n="signup.enter_birthdate")
+              p.parent_birthdate(data-i18n="signup.parent_use_birthdate")
+            .birthday-form-group.form-group.individual-birthday-form
+              .birthday-select-grid
+                select#birthday-month-input.input-large.form-control(name="birthdayMonth")
+                  option(value='',data-i18n="calendar.month")
+                  for name, index in ['january','february','march','april','may','june','july','august','september','october','november','december']
+                    - var month = index + 1
+                    option(data-i18n=('calendar.' + name) value=month, selected=(month === view.signupState.get('birthdayMonth')))
+                select#birthday-day-input.input-large.form-control(name="birthdayDay")
+                  option(value='',data-i18n="calendar.day")
+                  for day in _.range(1,32)
+                    option(selected=(day === view.signupState.get('birthdayDay'))) #{day}
+                select#birthday-year-input.input-large.form-control(name="birthdayYear")
+                  option(value='',data-i18n="calendar.year")
+                  - var thisYear = new Date().getFullYear()
+                  for year in _.range(thisYear, thisYear - 100, -1)
+                    option(selected=(year === view.signupState.get('birthdayYear'))) #{year}
+            button.under-13-button(type='button') I'm under 13
 
       default
         p(class=view.utils.isOzaria ? "medium-gray" : '')
@@ -119,7 +124,7 @@ form.modal-body.segment-check
     // In reverse order for tabbing purposes
     .history-nav-buttons
       //- disabled=!view.signupState.get('segmentCheckValid')
-      button.next-button.btn.btn-lg(type='submit' class=view.utils.isCodeCombat ? 'btn-navy' : 'ozaria-primary-button')
+      button.next-button.btn.btn-lg(type='submit' disabled=(view.signupState.get('path') === 'individual' && !state.get('birthdayComplete')) ? true : undefined class=view.utils.isCodeCombat ? 'btn-navy' : 'ozaria-primary-button')
         span(data-i18n=view.utils.isCodeCombat ? "common.continue" : "common.next")
 
       if !view.signupState.get('subModalContinue')

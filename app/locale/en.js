@@ -809,6 +809,8 @@ module.exports = {
       educator_signup_list_3_title: 'See your students thrive:',
       educator_signup_list_3_desc: 'Try the first unit with your class for free',
       signup_with_email: 'Sign up with Email',
+      sign_up_with: 'Sign up with',
+      other_signin_options: '← Other sign-in options',
       already_have_account: 'Already have a CodeCombat or Ozaria account',
       select_your_role: 'Select your role',
       select_your_state: 'Select your state',
