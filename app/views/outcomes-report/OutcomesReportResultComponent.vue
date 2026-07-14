@@ -345,7 +345,10 @@ export default Vue.extend({
         if (newReport) {
           const courseCompleteLevels = progress.courseCompleteLevels || {}
           const courseStartingStudents = progress.courseStartingStudents || {}
-          const completeLevels = Math.max(...Object.values(courseCompleteLevels[course._id] || {})) || 0
+          let completeLevels = Math.max(...Object.values(courseCompleteLevels[course._id] || {})) || 0
+          if (course._id === utils.allCourseIDs.WEB_DEVELOPMENT_2) {
+            completeLevels = (courseCompleteLevels[course._id]?.javascript || 0) + (Math.max(...Object.values(_.omit(courseCompleteLevels[course._id] || {}, 'javascript'))) || 0)
+          }
           course.studentsStarting = courseStartingStudents[course._id] || 0
           course.completeLevels = completeLevels
           course.completion = Math.min(1, course.completeLevels / (progress.courseAllLevels[course._id] || 1))
