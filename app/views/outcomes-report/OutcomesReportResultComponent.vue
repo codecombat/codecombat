@@ -3,7 +3,14 @@ import { mapActions, mapState } from 'vuex'
 import utils from 'core/utils'
 import SummaryComponent from './SummaryComponent'
 import ClanLeagueStatsComponent from './ClanLeagueStatsComponent'
-
+const patchWd2Progress = (progress) => {
+  const wd2 = progress.courseCompleteLevels[utils.allCourseIDs.WEB_DEVELOPMENT_2]
+  if (wd2.javascript === 0) return
+  for (const key in wd2) {
+    if (key === 'javascript') continue
+    wd2[key] += wd2.javascript
+  }
+}
 export default Vue.extend({
   name: 'OutcomesReportResultComponent',
   components: {
@@ -135,9 +142,11 @@ export default Vue.extend({
     coursesWithProgress () {
       if (!this.org.progress) return []
       let courses = _.cloneDeep(this.sortedCourses)
+      patchWd2Progress(this.org.progress)
       courses = this.formatCourse(courses, this.org.progress, this.org.newReport)
       if (this.showOther && this.otherOrg?.progress) {
         let otherCourses = _.cloneDeep(this.sortedOtherCourses)
+        patchWd2Progress(this.otherOrg.progress)
         otherCourses = this.formatCourse(otherCourses, this.otherOrg.progress, this.otherOrg.newReport)
         courses = courses.concat(otherCourses)
       }
@@ -345,10 +354,7 @@ export default Vue.extend({
         if (newReport) {
           const courseCompleteLevels = progress.courseCompleteLevels || {}
           const courseStartingStudents = progress.courseStartingStudents || {}
-          let completeLevels = Math.max(...Object.values(courseCompleteLevels[course._id] || {})) || 0
-          if (course._id === utils.allCourseIDs.WEB_DEVELOPMENT_2) {
-            completeLevels = (courseCompleteLevels[course._id]?.javascript || 0) + (Math.max(...Object.values(_.omit(courseCompleteLevels[course._id] || {}, 'javascript'))) || 0)
-          }
+          const completeLevels = Math.max(...Object.values(courseCompleteLevels[course._id] || {})) || 0
           course.studentsStarting = courseStartingStudents[course._id] || 0
           course.completeLevels = completeLevels
           course.completion = Math.min(1, course.completeLevels / (progress.courseAllLevels[course._id] || 1))
