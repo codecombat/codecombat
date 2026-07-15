@@ -295,12 +295,14 @@
       margin-right: auto
 
     @media (max-width: 767px)
-      flex-direction: column
-      align-items: stretch
+      // Keep both actions on one row. Stacking them makes this section taller
+      // than the remaining modal body and lets the sticky footer cover Back.
+      flex-direction: row-reverse
+      align-items: flex-end
       gap: 12px
 
       .btn
-        width: 100%
+        width: auto
 
   // Forms
 
