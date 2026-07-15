@@ -46,10 +46,6 @@
     .form-group
       margin: 0
 
-    .form-group .fancy-error
-      padding-top: 8px
-      line-height: 18px
-
   .individual-flow-social
     margin-top: 14px
 
@@ -88,7 +84,7 @@
     .auth-network-logins
       display: flex
       flex-direction: column
-      align-items: stretch
+      align-items: center
       gap: 12px
 
     // Official GSI button mount (populated as soon as the Google Identity
@@ -104,16 +100,16 @@
     .gsi-mount:not(:empty) + #google-signup-btn
       display: none
 
-    // Identical option rows; the provider logo is centered and stands alone.
+    // Match custom provider rows to the official Google control rendered above.
     .sso-row
       display: flex
       align-items: center
       justify-content: center
-      width: 100%
-      min-height: 52px
-      padding: 0 16px
+      width: min(100%, 213px)
+      min-height: 44px
+      padding: 0 12px
       border: 1px solid #d7dee6
-      border-radius: 8px
+      border-radius: 4px
       background: white
       text-decoration: none
       cursor: pointer
@@ -128,23 +124,25 @@
     // account for differing logo padding/baselines.
     .sso-logo
       width: auto
-      height: 24px
+      height: 20px
       max-width: 78%
       object-fit: contain
 
-    // Google's wordmark is light/thin; give it a little more height to balance
-    // against the bolder Clever and ClassLink marks.
+    // Keep fallback wordmarks visually close to the official Google control.
     .sso-logo-google
-      height: 28px
+      height: 20px
+
+    .sso-logo-facebook
+      height: 18px
 
     .sso-logo-clever
       height: 20px
 
     .sso-logo-classlink
-      height: 24px
+      height: 20px
 
     .sso-logo-schoology
-      height: 22px
+      height: 18px
 
   @if not $is-codecombat
     .auth-network-logins
@@ -205,6 +203,13 @@
       .fancy-error
         padding-top: 29px
         line-height: 14px
+
+    // The individual flow places validation below its field. This selector must
+    // outrank the legacy side-by-side form rule above so the message stays
+    // grouped with its input instead of drifting toward the following field.
+    .individual-basic-info-fields .form-group .fancy-error
+      padding-top: 8px
+      line-height: 18px
 
     .form-container
       > .form-group, > .row
