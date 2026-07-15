@@ -41,11 +41,11 @@ export default {
     },
     hideGlossary (state, product) {
       state.hideGlossary[product] = true
-      storage.save(glossaryKey(product), true)
+      storage.save(glossaryKey(product), true, 0)
     },
     showGlossary (state, product) {
       state.hideGlossary[product] = false
-      storage.save(glossaryKey(product), false)
+      storage.save(glossaryKey(product), false, 0)
     },
     loadGlossary (state) {
       for (const key in state.hideGlossary) {

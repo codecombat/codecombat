@@ -4930,7 +4930,7 @@ module.exports = {
       teacher_toolkit_tour_title: 'Your Teaching Toolkit',
       curriculum_glossary: 'Curriculum Glossary',
       curriculum_glossary_desc: '💡 New to this curriculum? Here is a quick key to the courses below:',
-      curriculum_glossary_desc_hackstack: 'Intro: Intro to AI, AI: Artitifical Intelligence, ALG: Algebra, CR: Career Readiness, CYB: Cyber, ELA: English Language Arts, CS: Computer Science, EXP: Explorations, SBOX: Sandbox',
+      curriculum_glossary_desc_hackstack: 'Intro: Intro to AI, AI: Artificial Intelligence, ALG: Algebra, CR: Career Readiness, CYB: Cyber, ELA: English Language Arts, CS: Computer Science, EXP: Explorations, SBOX: Sandbox',
       curriculum_glossary_desc_ozaria: 'CH: Chapter',
       curriculum_glossary_desc_codecombat: 'CS: Computer Science, GD: Game Development, WD: Web Development',
       curriculum_glossary_desc_junior: 'JR: Junior',
