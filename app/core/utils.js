@@ -1127,7 +1127,7 @@ const tournamentSortFn = function (ta, tb) {
     initializing: 2,
     disabled: 4,
   }
-  return (stateOrder[ta.state] - stateOrder[tb.state]) || (new Date(ta.endDate) - new Date(tb.endDate))
+  return (stateOrder[ta.state] - stateOrder[tb.state]) || (new Date(tb.created) - new Date(ta.created))
 }
 
 const usStateCodes =
