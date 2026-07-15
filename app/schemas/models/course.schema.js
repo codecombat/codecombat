@@ -6,7 +6,7 @@ c.extendNamedProperties(CourseSchema) // name first
 _.extend(CourseSchema.properties, {
   i18n: { type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'description'] },
   campaignID: c.objectId(),
-  concepts: c.array({ title: 'Concepts', uniqueItems: true }, { type: 'string', title: 'Concept' }),
+  concepts: c.array({ title: 'Concepts', uniqueItems: true }, c.concept),
   description: { type: 'string' },
   duration: {
     oneOf: [
@@ -97,7 +97,7 @@ _.extend(CourseSchema.properties, {
             },
           ],
         },
-        concepts: c.array({ title: 'Concepts', uniqueItems: true }, { type: 'string', title: 'Concept' }),
+        concepts: c.array({ title: 'Concepts', uniqueItems: true }, c.concept),
         primaryConcepts: c.array({ title: 'Primary Concepts', description: 'The main 1-3 concepts this module focuses on.', uniqueItems: true, inEditor: true }, c.concept),
         name: c.shortString({ title: 'Module Name' }),
         access: { type: 'string', enum: ['free', 'sales-call', 'paid'], title: 'Access', description: 'Whether this module is free, free with a sales call, or paid.' },
