@@ -195,12 +195,6 @@ export default {
       }
       return this.getLevelNumber(original)
     },
-    mapUrl (url) {
-      if (utils.isCodeCombat && this.isOzariaCourse) {
-        return url?.replace(/^\/play\/(level|intro)/, '/play/ozaria/$1')
-      }
-      return url
-    },
   },
 }
 </script>
@@ -217,7 +211,7 @@ export default {
         :is="isAccessible(moduleNum)? 'a' : 'span'"
         v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, original, assessment, slug, fromIntroLevelOriginal, tool }, key in getContentTypes"
         :key="`${_id}-${isIntroHeadingRow}`"
-        :href="isAccessible(moduleNum) ? mapUrl(url) : null"
+        :href="isAccessible(moduleNum) ? url : null"
         target="_blank"
         rel="noreferrer"
       >
