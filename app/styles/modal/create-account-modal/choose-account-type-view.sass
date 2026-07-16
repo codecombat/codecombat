@@ -36,118 +36,191 @@
 
 @if $is-codecombat
   #choose-account-type-view
-    width: 1048px
-    @media (max-width: $screen-md-min)
-      width: fit-content
+    width: 100%
+
+    .choose-account-shell
+      padding: 20px 20px 16px
+      margin: 0
+      gap: 16px
+      justify-content: flex-start
+      // Chooser has no inner .modal-body wrapper, so it is its own scroller when
+      // the four cards exceed the capped modal height (laptop + mobile).
+      min-height: 0
+      overflow-y: auto
+
+    .choose-type-header
+      display: flex
+      flex-direction: column
+      gap: 10px
+      align-items: center
+      text-align: center
 
     .choose-type-title
-      display: flex
-      flex-direction: column
-    .modal-body-content
+      margin: 0
+      color: #17314d
+      font-size: 30px
+      font-weight: 700
+      line-height: 1.08
+
+      @media (max-width: 767px)
+        font-size: 28px
+        // Keep the title clear of the absolute close button
+        padding: 0 36px
+
+    .choose-type-subtitle
+      margin: 0
+      max-width: 460px
+      // purple accent subtitle per the new design
+      color: #7a65fc
+      font-size: 16px
+      line-height: 1.45
+
+    .choose-type-grid
+      width: 100%
+      max-width: 760px
+      margin: 0 auto
+      display: grid
+      grid-template-columns: minmax(0, 1fr)
+      gap: 20px
+
+      @media (min-width: 768px)
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+        gap: 20px 28px
+
+    .path-option
+      appearance: none
+      border: none
+      background: transparent
       padding: 0
-      margin: 0 50px
-
-    h4
-      padding-bottom: 20px
-
-    .path-cards
-      margin-top: 45px
-      max-width: 100%
-
-      &:nth-child(2)
-        margin-top: 17px
-        @media (max-width: $screen-md-min)
-          margin-top: 0px
-
-    .path-card
-      &.navy
-        border-color: $navy
-        .card-title
-          background-color: $navy
-
-      &.forest
-        border-color: $forest
-        .card-title
-          background-color: $forest
-
-
-      .card-title
-        display: flex
-        flex-direction: column
-        align-items: center
-        justify-content: center
-        height: 50px
-        max-height: 5vh
-        color: white
-        font-weight: bold
-        text-align: center
-
-      .card-content
-        flex-grow: 1
-        display: flex
-        flex-direction: column
-        justify-content: center
-        margin: 0 20px
-
-        ul
-          align-self: center
-          text-align: left
-          padding-left: 20px
-          &[dir="rtl"]
-            text-align: right
-          li
-            span
-              position: relative
-              left: -5px
-
-      .card-image
-        width: 300px
-        height: 200px
-        background: #C4C4C4
-        border-radius: 10px
-        cursor: pointer
-        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.11))
-        @media (max-width: $screen-md-min)
-          display: none
-
-      .card-footer
-        margin: 0 35px 20px
-        min-height: 62px
-        display: flex
-        flex-direction: column
-        justify-content: flex-end
-        span
-          @media (max-width: $screen-md-min)
-            order: 2
-          &.small div
-            line-height: 25px
-            font-weight: 300
-            font-size: 18px
-            white-space: nowrap
-            margin: 15px -100%
-            @media (max-width: $screen-md-min)
-              margin-top: 7px
-              margin-bottom: 25px
-
-        .primary-oz-button
-          max-width: 300px
-          margin: 0px auto
-
-
-    .individual-section
       display: flex
-      flex-grow: 1
       flex-direction: column
+      gap: 12px
+      align-items: stretch
+      text-align: left
+
+      transition: transform 0.12s ease, filter 0.12s ease
+
+      &:hover,
+      &:focus-visible
+        text-decoration: none
+
+      &:hover
+        transform: translateY(-2px)
+        filter: brightness(1.02)
+
+      &:active
+        transform: scale(0.98)
+
+      &:focus-visible
+        outline: 3px solid rgba(118, 90, 255, 0.35)
+        outline-offset: 6px
+        border-radius: 28px
+
+    // Image + hover-description overlay share this frame
+    .path-option-media
+      position: relative
+      display: block
+      width: 100%
+      border-radius: 16px
+      overflow: hidden
+      box-shadow: 0 12px 28px rgba(28, 42, 74, 0.14)
+
+    .path-option-image
+      display: block
+      width: 100%
+      aspect-ratio: 4 / 3
+      max-height: 190px
+      object-fit: cover
+
+    // Description appears over the photo on hover/focus: dark blurred veil,
+    // white text (per the new design). Hidden by default; also hidden on touch
+    // devices, where there is no hover to reveal it.
+    .path-option-description
+      position: absolute
+      inset: 0
+      display: flex
       align-items: center
       justify-content: center
-      max-width: 425px
-
-    .individual-title
-      font-weight: bold
-
-    .individual-description
-      margin: 0px 0px 20px 0px
-      width: 100%
-
-    .text-h6
+      padding: 16px 20px
+      background: rgba(24, 24, 34, 0.66)
+      backdrop-filter: blur(7px)
+      -webkit-backdrop-filter: blur(7px)
       color: white
+      font-size: 16px
+      line-height: 1.5
+      text-align: center
+      opacity: 0
+      transition: opacity 0.15s ease
+
+    .path-option:hover .path-option-description,
+    .path-option:focus-visible .path-option-description
+      opacity: 1
+
+    @media (hover: none)
+      .path-option:hover .path-option-description
+        opacity: 0
+
+    .path-option-cta
+      display: flex
+      justify-content: center
+      align-items: center
+      min-height: 48px
+      width: min(100%, 260px)
+      margin: 0 auto
+      padding: 12px 18px
+      border-radius: 8px
+      background: #7a65fc
+      color: white
+      font-size: 17px
+      font-weight: 700
+      line-height: 1.2
+      text-align: center
+      transition: filter 0.12s ease, box-shadow 0.12s ease, transform 0.12s ease
+
+    // Purple CTA reacts on card hover/focus so it reads as a live button, not a
+    // static bar (previously only the outer .path-option animated).
+    .path-option:hover .path-option-cta,
+    .path-option:focus-visible .path-option-cta
+      filter: brightness(1.06)
+      box-shadow: 0 10px 24px rgba(111, 93, 255, 0.35)
+
+    .path-option:active .path-option-cta
+      filter: brightness(0.98)
+      box-shadow: 0 4px 12px rgba(111, 93, 255, 0.28)
+
+    .choose-type-footer
+      margin: 4px 0 0
+      text-align: center
+      color: #5a6b7b
+      font-size: 14px
+      line-height: 1.5
+
+      .login-link
+        color: #7a65fc
+        font-weight: 700
+        text-decoration: underline
+        cursor: pointer
+
+    // Tighten vertical rhythm on phones so more than ~2 cards fit on a 390px screen
+    @media (max-width: 767px)
+      .choose-account-shell
+        padding: 20px 16px 16px
+        gap: 14px
+
+      .choose-type-grid
+        gap: 14px
+
+      .path-option
+        gap: 6px
+
+      .path-option-media
+        border-radius: 12px
+        box-shadow: 0 8px 18px rgba(28, 42, 74, 0.13)
+
+      .path-option-image
+        aspect-ratio: 2 / 1
+
+      .path-option-cta
+        min-height: 44px
+        padding: 10px 16px
+        font-size: 16px

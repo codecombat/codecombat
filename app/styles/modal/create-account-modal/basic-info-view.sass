@@ -2,6 +2,57 @@
 @import "ozaria/site/styles/common/variables"
 
 #basic-info-view
+  // Individual flow: top-align the body so the submit error (now rendered inside
+  // the card) grows the stack downward instead of recentering it and shoving the
+  // header/close button out of frame.
+  .modal-body-content.individual-flow-body
+    justify-content: flex-start
+
+  .individual-flow-panel
+    width: min(100%, 640px)
+    padding: 8px 20px 0
+
+  .individual-flow-progress
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    gap: 10px
+    margin-bottom: 16px
+
+  .individual-flow-progress-step
+    height: 8px
+    border-radius: 999px
+    background: #e9e8fd
+
+    &.active
+      background: #7a65fc
+
+  // White step panel (new design: no cream card)
+  .individual-basic-info-card
+    border-radius: 24px
+    padding: 16px 24px
+    background: none
+    box-shadow: none
+  .individual-flow-note
+    margin-bottom: 16px
+    font-size: 15px
+    line-height: 1.5
+    color: #35506f
+
+  .individual-basic-info-fields
+    display: flex
+    flex-direction: column
+    gap: 14px
+
+    .form-group
+      margin: 0
+
+  .individual-flow-social
+    margin-top: 14px
+
+    // legacy .hr-text hr is a fixed 430px; constrain it to the narrow card column
+    .hr-text hr
+      width: 100%
+
   @if $is-codecombat
     .network-login
       transition: filter 0.1s linear
@@ -9,60 +60,121 @@
       &:hover
         filter: brightness(110%)
 
-  .auth-network-logins
-    display: flex
-    align-items: center
-    justify-content: center
-    flex-direction: row
-    gap: 20px
+  @if $is-codecombat
+    // One header labels the whole set ("Sign up with"); each row below simply
+    // centers the provider's own logo and lets it carry its own recognition.
+    .sso-header
+      margin-bottom: 12px
+      text-align: center
+      font-size: 13px
+      font-weight: 700
+      letter-spacing: 0.04em
+      text-transform: uppercase
+      color: #5a6b7b
 
-  .gplus-login
-    @if $is-codecombat
+    // Individual flow matches the design: just the "or" divider, no extra
+    // "sign up with" header. The margin clears the absolute "or" span that
+    // overhangs ~34px below the rule.
+    .individual-flow-social .sso-header
+      display: none
 
-    .gplus-logo
-      @if $is-codecombat
-        width: 254px
-      @else
+    .individual-flow-social .auth-network-logins
+      margin-top: 40px
+
+    .auth-network-logins
+      display: flex
+      flex-direction: column
+      align-items: center
+      gap: 12px
+
+    // Official GSI button mount (populated as soon as the Google Identity
+    // script loads, so Google sign-up stays a single click). Empty = takes no
+    // space; once populated it replaces the styled Google row below it.
+    .gsi-mount
+      display: none
+
+    .gsi-mount:not(:empty)
+      display: flex
+      justify-content: center
+
+    .gsi-mount:not(:empty) + #google-signup-btn
+      display: none
+
+    // Match custom provider rows to the official Google control rendered above.
+    .sso-row
+      display: flex
+      align-items: center
+      justify-content: center
+      width: min(100%, 213px)
+      min-height: 44px
+      padding: 0 12px
+      border: 1px solid #d7dee6
+      border-radius: 4px
+      background: white
+      text-decoration: none
+      cursor: pointer
+      transition: border-color 0.1s linear, box-shadow 0.1s linear
+
+      &:hover
+        border-color: #b8c4d0
+        box-shadow: 0 1px 4px rgb(15 23 42 / 8%)
+
+    // Centered provider logo. Width-focused brand lockups, scaled by a shared
+    // height so each reads at consistent visual weight; per-provider nudges
+    // account for differing logo padding/baselines.
+    .sso-logo
+      width: auto
+      height: 20px
+      max-width: 78%
+      object-fit: contain
+
+    // Keep fallback wordmarks visually close to the official Google control.
+    .sso-logo-google
+      height: 20px
+
+    .sso-logo-facebook
+      height: 18px
+
+    .sso-logo-clever
+      height: 20px
+
+    .sso-logo-classlink
+      height: 20px
+
+    .sso-logo-schoology
+      height: 18px
+
+  @if not $is-codecombat
+    .auth-network-logins
+      display: flex
+      align-items: center
+      justify-content: center
+      flex-direction: row
+      gap: 20px
+
+    .gplus-login
+      .gplus-logo
         height: 50px
         margin-right: 7px
 
-  .facebook-login
-
-    #facebook-signup-btn
-      height: 40px
-
-      .facebook-logo
-        height: 40px
-
-  .schoology-login,.classlink-login
-    #schoology-signup-btn,#classlink-signup-btn
-      padding: 4px
-      display: inline-flex
-      gap: 5px
-      justify-content: initial
-      align-items: center
-      border-radius: 5px
-      height: 45px
-      width: 100%
-      border: 1px solid #117bbc
-      color: black
-      background-color: white
-      font-size: 14px
-      img
-        width: 38px
-        height: 38px
-        border-radius: 50%
-
-  @if $is-codecombat
-    .clever-login
-
-      .clever-logo
-        // Match size of Google button
-        width: 154px
-        height: 52px
-        background: white
-        padding: 5px
+    .schoology-login,.classlink-login
+      #schoology-signup-btn,#classlink-signup-btn
+        padding: 4px
+        display: inline-flex
+        gap: 5px
+        justify-content: initial
+        align-items: center
+        border-radius: 5px
+        height: 45px
+        width: 100%
         border: 1px solid #117bbc
+        color: black
+        background-color: white
+        font-size: 14px
+        img
+          width: 38px
+          height: 38px
+          border-radius: 50%
 
   // Forms
 
@@ -91,6 +203,13 @@
       .fancy-error
         padding-top: 29px
         line-height: 14px
+
+    // The individual flow places validation below its field. This selector must
+    // outrank the legacy side-by-side form rule above so the message stays
+    // grouped with its input instead of drifting toward the following field.
+    .individual-basic-info-fields .form-group .fancy-error
+      padding-top: 8px
+      line-height: 18px
 
     .form-container
       > .form-group, > .row
@@ -139,3 +258,21 @@
     text-align: center
     padding-bottom: 10px
     font-weight: lighter
+
+  @media (max-width: 767px)
+    .form-container
+      width: 100%
+      max-width: 100%
+      min-width: 0
+
+    .individual-flow-panel
+      padding: 0 16px
+
+    .individual-basic-info-card
+      padding: 24px 18px
+      border-radius: 20px
+
+    .individual-flow-social
+      .auth-network-logins
+        flex-direction: column
+        gap: 12px

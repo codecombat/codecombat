@@ -23,7 +23,7 @@ module.exports = (EUConfirmationView = (function () {
 
       this.prototype.events = {
         'click .back-button' () { return this.trigger('nav-back') },
-        'click .forward-button' () { return this.trigger('nav-forward') },
+        'click .forward-button': 'onClickForwardButton',
         'change #eu-confirmation-checkbox': 'onChangeEUConfirmationCheckbox'
       }
     }
@@ -33,6 +33,20 @@ module.exports = (EUConfirmationView = (function () {
       const { signupState } = param
       this.signupState = signupState
       return this.state = new State()
+    }
+
+    trackIndividualStepNext (label) {
+      if (this.signupState.get('path') !== 'individual') { return }
+      return window.tracker?.trackEvent('CreateAccountModal Individual Next Clicked', {
+        category: 'Individuals',
+        step: 'eu-confirmation',
+        label,
+      })
+    }
+
+    onClickForwardButton () {
+      this.trackIndividualStepNext('continue')
+      return this.trigger('nav-forward')
     }
 
     onChangeEUConfirmationCheckbox (e) {

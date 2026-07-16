@@ -19,7 +19,7 @@ form.modal-body.eu-confirmation
         p.small(data-i18n="signup.eu_confirmation_individual")    
 
   // In reverse order for tabbing purposes
-  .history-nav-buttons
+  .history-nav-buttons(class=view.signupState.get('path') === 'individual' ? 'individual' : undefined)
     button.forward-button.btn.btn-lg.btn-navy(type='button', disabled=!view.state.get('euConfirmationGranted'))
       span(data-i18n="common.continue")
     button.back-button.btn.btn-lg.btn-navy-alt(type='button')
