@@ -49,7 +49,7 @@ export default {
     },
     loadGlossary (state) {
       for (const key in state.hideGlossary) {
-        state.hideGlossary[key] = storage.load(glossaryKey(key))
+        state.hideGlossary[key] = storage.load(glossaryKey(key), false)
       }
     },
   },
@@ -60,7 +60,7 @@ export default {
       return courses
     },
 
-    showGlossary (state) {
+    glossaryShown (state) {
       return (product) => !state.hideGlossary[product]
     },
 

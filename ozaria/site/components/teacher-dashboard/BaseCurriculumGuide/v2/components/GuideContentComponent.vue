@@ -1,12 +1,12 @@
 <template>
   <div class="guide-content">
     <chapter-glossary
-      v-if="showGlossary(product)"
+      v-if="glossaryShown(product)"
       :key="product"
       :product="product"
     />
     <div
-      v-if="showGlossary(product)"
+      v-if="glossaryShown(product)"
       class="separator"
     />
     <chapter-nav :chapters="chaptersNavData" />
@@ -40,7 +40,7 @@ export default {
   computed: {
     ...mapGetters({
       chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
-      showGlossary: 'baseCurriculumGuide/showGlossary',
+      glossaryShown: 'baseCurriculumGuide/glossaryShown',
     }),
     chaptersNavData () {
       const chapters = (this.chapterNavBar || [])
