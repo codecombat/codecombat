@@ -1,11 +1,16 @@
 <template>
   <div class="guide-content">
-    <chapter-nav :chapters="chaptersNavData" />
-    <div class="separator" />
     <chapter-glossary
       v-if="showGlossary(product)"
+      :key="product"
       :product="product"
     />
+    <div
+      v-if="showGlossary(product)"
+      class="separator"
+    />
+    <chapter-nav :chapters="chaptersNavData" />
+    <div class="separator" />
     <chapter-info />
     <chapter-content />
   </div>

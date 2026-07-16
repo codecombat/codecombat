@@ -47,17 +47,14 @@ export default {
 
 <style scoped lang="scss">
 .guide-glossary {
-  max-width: 800px;
-  margin: 20px;
-  padding: 15px;
-  border: 1px dashed #666;
+  padding: 10px;
   .content {
     font-size: 1.8rem;
 
     .glossary-lists {
       display: grid;
       gap: 5px;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     }
   }
 
