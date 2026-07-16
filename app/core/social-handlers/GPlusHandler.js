@@ -31,6 +31,8 @@ module.exports = (GPlusHandler = (GPlusHandler = (function () {
       super()
       if (!me.useSocialSignOn()) { throw new Error('Social single sign on not supported') }
       this.accessToken = storage.load(GPLUS_TOKEN_KEY, true)
+      this.googleIdentityInitialized = false
+      this.googleIdentityCallback = null
     }
 
     token () { return (this.accessToken != null ? this.accessToken.access_token : undefined) }
@@ -134,15 +136,23 @@ module.exports = (GPlusHandler = (GPlusHandler = (function () {
       if (options == null) { options = {} }
       if (options.success == null) { options.success = _.noop }
       if (options.context == null) { options.context = options }
-      window.google.accounts.id.initialize({
-        client_id: clientID,
-        use_fedcm_for_prompt: true,
-        callback: resp => {
-          this.accessToken = { access_token: resp.credential }
-          this.trigger('connect')
-          return options.success.bind(options.context)(resp)
-        }
-      })
+      // GSI must only be initialized once per page; repeated initialize() calls
+      // make the button unresponsive. Track the latest success callback instead.
+      this.googleIdentityCallback = options.success.bind(options.context)
+      if (!this.googleIdentityInitialized) {
+        window.google.accounts.id.initialize({
+          client_id: clientID,
+          use_fedcm_for_prompt: true,
+          callback: resp => {
+            this.accessToken = { access_token: resp.credential }
+            this.trigger('connect')
+            const callback = this.googleIdentityCallback
+            this.googleIdentityCallback = null
+            if (callback) { return callback(resp) }
+          },
+        })
+        this.googleIdentityInitialized = true
+      }
       const elementId = options.elementId || 'google-login-button'
       if (document.getElementById(elementId)) {
         window.google.accounts.id.renderButton(
@@ -150,6 +160,9 @@ module.exports = (GPlusHandler = (GPlusHandler = (function () {
           { theme: 'outline', size: 'large', use_fedcm_for_prompt: true }
         )
       }
+      // renderOnly mounts the official GSI button (the only element that can
+      // reliably start the credential flow) without popping One Tap/FedCM.
+      if (options.renderOnly) { return }
       return window.google.accounts.id.prompt()
     }
 
