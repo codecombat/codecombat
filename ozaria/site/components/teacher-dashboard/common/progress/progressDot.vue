@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex'
 const moment = window.moment
+const AiProject = require('app/models/AIProject')
 
 export default {
   props: {
@@ -128,6 +129,13 @@ export default {
       default: '',
       required: false,
     },
+    aiEvalFlag: {
+      type: String,
+      default: AiProject.AI_EVALUATION_NONE,
+      validator: value => {
+        return AiProject.AI_EVALUATION_FLAGS.includes(value)
+      },
+    },
   },
 
   computed: {
@@ -163,7 +171,6 @@ export default {
         'border-purple': this.border === 'purple',
         'border-gray': this.border === 'gray',
         'border-yellow': this.border === 'yellow',
-        'border-green': this.border === 'green',
         selected: this.selected,
         hovered: this.hovered,
         'has-active-practice-levels': this.activePracticeLevels.length > 0,
@@ -190,9 +197,11 @@ export default {
 
       const status = $.i18n.t(`teacher_dashboard.${label}`) + (!this.isSkipped && date ? ' ' + $.i18n.t('teacher_dashboard.until_date', { date: dateString }) : '')
       const flag = this.flag ? `(${this.flag})` : ''
+      const aiEvalLabel = AiProject.getEvaluationLabel(this.aiEvalFlag)
       return `
         ${status} ${flag}
         ${this.tooltipName ? `<br><strong>${this.tooltipName}</strong>` : ''}
+        ${aiEvalLabel ? `<br>AI Evaluation Passed: ${aiEvalLabel}` : ''}
         ${this.playedOn ? `<br>${$.i18n.t('user.last_played')}: ${moment(this.playedOn).format('lll')}` : ''}
         ${this.status === 'complete' && this.completionDate ? `<br>${$.i18n.t('teacher.completed')}: ${moment(this.completionDate).format('lll')}` : ''}
         ${this.playTime ? `<br>${$.i18n.t('teacher.time_played_label')} ${moment.duration({ seconds: this.playTime }).humanize()}` : ''}
@@ -220,6 +229,15 @@ export default {
         return true
       }
       return false
+    },
+
+    aiEvalPipClass () {
+      const map = {
+        [AiProject.AI_EVALUATION_YES]: 'pip-green',
+        [AiProject.AI_EVALUATION_NO]: 'pip-red',
+        [AiProject.AI_EVALUATION_UNSURE]: 'pip-gray',
+      }
+      return map[this.aiEvalFlag] || null
     },
   },
 
@@ -312,6 +330,11 @@ export default {
       >
         <i class="glyphicon glyphicon-time" />
       </span>
+      <span
+        v-if="aiEvalPipClass"
+        class="ai-eval-pip"
+        :class="aiEvalPipClass"
+      />
     </div>
   </div>
 </template>
@@ -439,10 +462,6 @@ export default {
   border: 2px solid #f7d047;
 }
 
-.border-green {
-  border: 1px solid #2dcd38;
-}
-
 .has-active-practice-levels {
   border: 1px dotted blue;
   &.all-practice-levels-completed {
@@ -452,5 +471,18 @@ export default {
 
 .clicked {
   background-color: rgba(93, 185, 172, 0.5);
+}
+
+.ai-eval-pip {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  top: 2px;
+  right: 2px;
+
+  &.pip-green { background-color: #2dcd38; }
+  &.pip-red   { background-color: #eb003b; }
+  &.pip-gray  { background-color: #828282; }
 }
 </style>

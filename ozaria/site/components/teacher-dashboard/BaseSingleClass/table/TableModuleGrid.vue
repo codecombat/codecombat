@@ -122,17 +122,14 @@ export default {
     },
 
     getFlag (flag) {
-      if (['concept', 'unsafe'].includes(flag)) {
+      if (['concept', 'unsafe', 'ai-unsafe'].includes(flag)) {
         return 'red'
       }
       if (flag === 'ai-project-warning') {
         return 'yellow'
       }
-      if (flag === 'time' || flag === 'ai-unsure') {
+      if (flag === 'time') {
         return 'gray'
-      }
-      if (flag === 'ai-complete') {
-        return 'green'
       }
     },
   },
@@ -148,7 +145,7 @@ export default {
   >
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
     <div
-      v-for="({studentId, status, playTime, tooltipName, playedOn, completionDate, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear"
+      v-for="({studentId, status, playTime, tooltipName, playedOn, completionDate, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, normalizedOriginal, isPlayable, isOptional, aiEvalFlag }, index) of allStudentSessionsLinear"
       :key="selectedKey"
       :class="cellClass(index)"
     >
@@ -178,6 +175,7 @@ export default {
         :classroom-game-content="classroomGameContent"
         :level-session-map="levelSessionMap"
         :extra-practice-levels="extraPracticeLevels(normalizedOriginal, studentId)"
+        :ai-eval-flag="aiEvalFlag"
       />
     </div>
   </div>

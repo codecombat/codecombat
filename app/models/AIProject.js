@@ -11,4 +11,31 @@ AIProject.prototype.defaults = {
   visibility: 'public'
 }
 
+AIProject.AI_EVALUATION_YES = 'ai-eval-yes'
+AIProject.AI_EVALUATION_NO = 'ai-eval-no'
+AIProject.AI_EVALUATION_UNSURE = 'ai-eval-unsure'
+AIProject.AI_EVALUATION_NONE = 'ai-eval-none'
+AIProject.AI_EVALUATION_FLAGS = [
+  AIProject.AI_EVALUATION_YES,
+  AIProject.AI_EVALUATION_NO,
+  AIProject.AI_EVALUATION_NONE,
+  AIProject.AI_EVALUATION_UNSURE,
+]
+
+AIProject.getAiEvaluationFlag = (evaluation) => {
+  if (!evaluation) return AIProject.AI_EVALUATION_NONE
+  if (evaluation.completed === 'Yes') return AIProject.AI_EVALUATION_YES
+  if (evaluation.completed === 'No') return AIProject.AI_EVALUATION_NO
+  return AIProject.AI_EVALUATION_UNSURE
+}
+
+AIProject.getEvaluationLabel = (flag) => {
+  const labels = {
+    [AIProject.AI_EVALUATION_YES]: 'Yes',
+    [AIProject.AI_EVALUATION_NO]: 'No',
+    [AIProject.AI_EVALUATION_UNSURE]: 'Unsure',
+  }
+  return labels[flag] || null
+}
+
 module.exports = AIProject

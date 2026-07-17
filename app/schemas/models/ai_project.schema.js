@@ -82,6 +82,7 @@ _.extend(AIProjectSchema.properties, {
         apiUsage: { type: 'object', additionalProperties: true },
         date: c.date(),
         lastMessageId: { type: ['object', 'string'], format: 'chat-message-link' },
+        completed: { type: 'string', description: 'AI Evaluation results: possible options: Unsure|Yes|No' },
       },
     },
   },

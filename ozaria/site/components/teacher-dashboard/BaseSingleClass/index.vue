@@ -15,6 +15,7 @@ import { getLevelUrl, isOzariaNoCodeLevelHelper } from 'ozaria/site/components/t
 import _ from 'lodash'
 import ClassroomLib from '../../../../../app/models/ClassroomLib.js'
 import { checkIfProjectComplete } from 'app/lib/ai-projects-helper'
+import AIProject from 'app/models/AIProject'
 
 function getLearningGoalsDocumentation (content) {
   if (!content.documentation) {
@@ -574,7 +575,7 @@ export default {
         return
       }
       if (aiProjects.some(project => project.unsafeChatMessages?.length > 0)) {
-        return 'unsafe'
+        return 'ai-unsafe'
       }
     },
 
@@ -599,10 +600,8 @@ export default {
       const latestProject = aiProjects[aiProjects.length - 1]
       const evaluations = latestProject.evaluations || []
       if (evaluations.length === 0) return
-      // const _latestEvaluation = evaluations[evaluations.length - 1]
-      // TODO: check for completion
-      const passedAiEvaluation = false
-      return passedAiEvaluation ? 'ai-complete' : 'ai-unsure'
+      const latestEvaluation = evaluations[evaluations.length - 1]
+      return AIProject.getAiEvaluationFlag(latestEvaluation)
     },
 
     setClickHandler (details, student, moduleNum, aiScenario, aiProjects) {
@@ -638,8 +637,8 @@ export default {
       if (aiProjects) {
         this.setProgressDetails(details, classSummaryProgress, index)
         this.setClickHandler(details, student, moduleNum, aiScenario, aiProjects)
-        let flag = this.aiEvaluationFlag(aiProjects)
-        flag = this.setProjectWarningFlag(aiProjects) || flag
+        details.aiEvalFlag = this.aiEvaluationFlag(aiProjects)
+        let flag = this.setProjectWarningFlag(aiProjects)
         // idealy a project won't have both warning and unsafe flag.
         // but in that case we should use unsafe to overwrite warning.
         flag = this.setUnsafeFlag(aiProjects) || flag
