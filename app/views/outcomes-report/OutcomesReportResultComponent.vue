@@ -5,6 +5,7 @@ import SummaryComponent from './SummaryComponent'
 import ClanLeagueStatsComponent from './ClanLeagueStatsComponent'
 const patchWd2Progress = (progress) => {
   const wd2 = progress.courseCompleteLevels[utils.allCourseIDs.WEB_DEVELOPMENT_2]
+  if (!wd2) return
   if (wd2.javascript === 0) return
   for (const key in wd2) {
     if (key === 'javascript') continue
