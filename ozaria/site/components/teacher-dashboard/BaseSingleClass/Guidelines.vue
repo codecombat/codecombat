@@ -226,42 +226,35 @@ export default {
       return this.guideContainer?.items?.length
     },
     guideContainer () {
-      if (utils.isOzaria) {
+      if (!this.selectedCourseId) {
+        return {
+          items: [],
+        }
+      }
+      if (utils.OZ_COURSE_IDS.includes(this.selectedCourseId)) {
         return {
           classes: 'ozaria-container',
           items: ozariaContentGuideItems,
         }
-      } else {
-        if (!this.selectedCourseId) {
-          return {
-            items: [],
-          }
+      } else if (utils.HACKSTACK_COURSE_IDS.includes(this.selectedCourseId)) {
+        return {
+          classes: 'hackstack-container',
+          items: hackstackContentGuideItems,
         }
-        if (utils.OZ_COURSE_IDS.includes(this.selectedCourseId)) {
-          return {
-            classes: 'ozaria-container',
-            items: ozariaContentGuideItems,
-          }
-        } else if (utils.HACKSTACK_COURSE_IDS.includes(this.selectedCourseId)) {
-          return {
-            classes: 'hackstack-container',
-            items: hackstackContentGuideItems,
-          }
-        } else if (utils.GD_COURSE_IDS.includes(this.selectedCourseId)) {
-          return {
-            classes: 'game-dev-container',
-            items: gameDevContentGuideItems,
-          }
-        } else if (utils.WD_COURSE_IDS.includes(this.selectedCourseId)) {
-          return {
-            classes: 'web-dev-container',
-            items: webDevContentGuideItems,
-          }
-        } else {
-          return {
-            classes: 'coco-container',
-            items: cocoContentGuideItems,
-          }
+      } else if (utils.GD_COURSE_IDS.includes(this.selectedCourseId)) {
+        return {
+          classes: 'game-dev-container',
+          items: gameDevContentGuideItems,
+        }
+      } else if (utils.WD_COURSE_IDS.includes(this.selectedCourseId)) {
+        return {
+          classes: 'web-dev-container',
+          items: webDevContentGuideItems,
+        }
+      } else {
+        return {
+          classes: 'coco-container',
+          items: cocoContentGuideItems,
         }
       }
     },
@@ -283,7 +276,7 @@ export default {
       <div class="title-card">
         <span>{{ $t('teacher_dashboard.color_code') }}</span>
       </div>
-      <progress-labels :show-review-labels="true" />
+      <progress-labels />
       <div
         v-if="showContentGuide"
         class="title-card"

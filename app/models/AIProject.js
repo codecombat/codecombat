@@ -38,4 +38,7 @@ AIProject.getEvaluationLabel = (flag) => {
   return labels[flag] || null
 }
 
+AIProject.AI_STRUGGLING = 'ai-struggling' // if a student struggles to complete AIProject learn mode in less attempts
+AIProject.AI_UNSAFE = 'ai-unsafe' // if a student uses abusive language or tries to mis-use the system via their chat messages
+
 module.exports = AIProject

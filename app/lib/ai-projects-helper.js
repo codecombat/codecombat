@@ -16,4 +16,17 @@ module.exports = {
       return !!latestProject.isReadyToReview
     }
   },
+  // a student had to do multiple attempts while selecting correct option in learn mode
+  hasStruggledOnProject (aiProjects) {
+    const MAX_WRONG_CHOICES = 1
+    return (aiProjects || []).some(project => {
+      const wrongChoices = project.wrongChoices || []
+      const counts = wrongChoices.reduce((acc, obj) => {
+        const key = obj.actionMessageId
+        acc[key] = (acc?.[key] || 0) + 1
+        return acc
+      }, {})
+      return Object.values(counts).some(v => v > MAX_WRONG_CHOICES)
+    })
+  },
 }

@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex'
 const moment = window.moment
-const AiProject = require('app/models/AIProject')
+const AIProject = require('app/models/AIProject')
 
 export default {
   props: {
@@ -35,11 +35,6 @@ export default {
     lastLockDate: {
       type: Date,
       default: null,
-    },
-
-    border: {
-      type: String,
-      default: '',
     },
 
     clickState: {
@@ -131,9 +126,9 @@ export default {
     },
     aiEvalFlag: {
       type: String,
-      default: AiProject.AI_EVALUATION_NONE,
+      default: AIProject.AI_EVALUATION_NONE,
       validator: value => {
-        return AiProject.AI_EVALUATION_FLAGS.includes(value)
+        return AIProject.AI_EVALUATION_FLAGS.includes(value)
       },
     },
   },
@@ -196,8 +191,8 @@ export default {
       }[this.levelAccessStatus] || this.levelAccessStatus
 
       const status = $.i18n.t(`teacher_dashboard.${label}`) + (!this.isSkipped && date ? ' ' + $.i18n.t('teacher_dashboard.until_date', { date: dateString }) : '')
-      const flag = this.flag ? `(${this.flag})` : ''
-      const aiEvalLabel = AiProject.getEvaluationLabel(this.aiEvalFlag)
+      const flag = this.flagLabel ? `(${this.flagLabel})` : ''
+      const aiEvalLabel = AIProject.getEvaluationLabel(this.aiEvalFlag)
       return `
         ${status} ${flag}
         ${this.tooltipName ? `<br><strong>${this.tooltipName}</strong>` : ''}
@@ -233,11 +228,32 @@ export default {
 
     aiEvalPipClass () {
       const map = {
-        [AiProject.AI_EVALUATION_YES]: 'pip-green',
-        [AiProject.AI_EVALUATION_NO]: 'pip-red',
-        [AiProject.AI_EVALUATION_UNSURE]: 'pip-gray',
+        [AIProject.AI_EVALUATION_YES]: 'pip-green',
+        [AIProject.AI_EVALUATION_NO]: 'pip-red',
+        [AIProject.AI_EVALUATION_UNSURE]: 'pip-gray',
       }
       return map[this.aiEvalFlag] || null
+    },
+    border () {
+      if (['concept', 'unsafe', AIProject.AI_UNSAFE].includes(this.flag)) {
+        return 'red'
+      }
+      if (this.flag === AIProject.AI_STRUGGLING) {
+        return 'yellow'
+      }
+      if (this.flag === 'time') {
+        return 'gray'
+      }
+      return ''
+    },
+    flagLabel () {
+      if (this.flag === AIProject.AI_STRUGGLING) {
+        return $.i18n.t('teacher_dashboard.ai_struggling')
+      } else if (this.flag === AIProject.AI_UNSAFE) {
+        return $.i18n.t('teacher_dashboard.violation')
+      } else {
+        return null
+      }
     },
   },
 

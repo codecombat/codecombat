@@ -120,18 +120,6 @@ export default {
         'cell-style': true,
       }
     },
-
-    getFlag (flag) {
-      if (['concept', 'unsafe', 'ai-unsafe'].includes(flag)) {
-        return 'red'
-      }
-      if (flag === 'ai-project-warning') {
-        return 'yellow'
-      }
-      if (flag === 'time') {
-        return 'gray'
-      }
-    },
   },
 }
 </script>
@@ -151,7 +139,6 @@ export default {
     >
       <ProgressDot
         :status="status"
-        :border="getFlag(flag)"
         :flag="flag"
         :click-progress-handler="clickHandler"
         :click-state="selectedProgressKey && selectedProgressKey === selectedKey"

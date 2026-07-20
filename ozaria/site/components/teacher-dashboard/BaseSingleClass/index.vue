@@ -14,7 +14,7 @@ import { getLevelUrl, isOzariaNoCodeLevelHelper } from 'ozaria/site/components/t
 
 import _ from 'lodash'
 import ClassroomLib from '../../../../../app/models/ClassroomLib.js'
-import { checkIfProjectComplete } from 'app/lib/ai-projects-helper'
+import { checkIfProjectComplete, hasStruggledOnProject } from 'app/lib/ai-projects-helper'
 import AIProject from 'app/models/AIProject'
 
 function getLearningGoalsDocumentation (content) {
@@ -575,7 +575,7 @@ export default {
         return
       }
       if (aiProjects.some(project => project.unsafeChatMessages?.length > 0)) {
-        return 'ai-unsafe'
+        return AIProject.AI_UNSAFE
       }
     },
 
@@ -583,16 +583,8 @@ export default {
       if (!Array.isArray(aiProjects)) {
         return
       }
-      if (aiProjects.some(project => {
-        const wrongChoices = project.wrongChoices || []
-        const counts = wrongChoices.reduce((acc, obj) => {
-          const key = obj.actionMessageId
-          acc[key] = (acc?.[key] || 0) + 1
-          return acc
-        }, {})
-        return Object.values(counts).some(v => v > 1)
-      })) {
-        return 'ai-project-warning'
+      if (hasStruggledOnProject(aiProjects)) {
+        return AIProject.AI_STRUGGLING
       }
     },
 

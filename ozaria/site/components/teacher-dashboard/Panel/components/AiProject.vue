@@ -44,8 +44,10 @@
           </dd>
 
           <template v-if="failedAttempts">
-            <dt>{{ $t('teacher_dashboard.failed_attempts') }}</dt>
-            <dd>
+            <dt :class="{ 'text-warning': struggledOnAiProject }">
+              {{ $t('teacher_dashboard.failed_attempts') }}
+            </dt>
+            <dd :class="{ 'text-warning': struggledOnAiProject }">
               {{ failedAttempts }}
               <br><span class="subtext text-muted">{{ $t('teacher_dashboard.failed_attempts_subtext') }}</span>
             </dd>
@@ -116,6 +118,7 @@
 <script>
 import _ from 'lodash'
 import IconBeta from 'app/core/components/IconBeta'
+import { hasStruggledOnProject } from 'app/lib/ai-projects-helper'
 const moment = window.moment
 
 export default {
@@ -154,6 +157,9 @@ export default {
     },
     failedAttempts () {
       return (this.aiProject.wrongChoices || []).length
+    },
+    struggledOnAiProject () {
+      return hasStruggledOnProject([this.aiProject])
     },
     safetyValidations () {
       if (!this.aiProject || !this.aiProject.unsafeChatMessages) return []
