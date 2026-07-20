@@ -1,4 +1,77 @@
 #segment-check-view
+  .individual-flow-panel
+    width: min(100%, 560px)
+    padding: 8px 20px 0
+
+  // White step panel (new design: no cream card, the modal itself is the surface)
+  .individual-flow-card
+    border-radius: 24px
+    padding: 20px 24px
+    background: none
+    box-shadow: none
+
+  .individual-flow-progress
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    gap: 10px
+    margin-bottom: 16px
+
+  .individual-flow-progress-step
+    height: 8px
+    border-radius: 999px
+    background: #e9e8fd
+
+    &.active
+      background: #7a65fc
+
+  .individual-flow-heading
+    margin-bottom: 20px
+
+    h4
+      margin: 0 0 8px
+      font-size: 28px
+      line-height: 1.15
+      font-weight: 700
+      color: #17314d
+
+  .individual-flow-note
+    margin-bottom: 16px
+    font-size: 15px
+    line-height: 1.5
+    color: #35506f
+
+  .individual-birthday-form
+    margin-bottom: 0
+
+  .birthday-select-grid
+    display: grid
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr) minmax(0, 1fr)
+    gap: 12px
+    margin-bottom: 18px
+
+    select
+      width: 100%
+      height: 48px
+      // explicit size + neutral border (kills the teal + guards against
+      // tiny-text native rendering on mobile)
+      font-size: 16px
+      color: #17314d
+      background: white
+      border: 1px solid #d7dee6
+      border-radius: 8px
+
+  .under-13-button
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    padding: 0
+    border: none
+    background: none
+    color: #7a65fc
+    font-size: 15px
+    font-weight: 600
+    text-decoration: underline
+
   .class-code-input-group
     display: flex
     flex-direction: row
@@ -13,8 +86,11 @@
       font-size: 30px
 
   .parent_birthdate
-    font-size: 11pt
-    margin-top: 20px
+    margin: 0
+    font-size: 16px
+    line-height: 1.5
+    // purple helper text per the new design
+    color: #7a65fc
 
   .extra
     .wwcs
@@ -110,3 +186,22 @@
       & a
         color: #232323
         text-decoration: underline
+
+  .next-button[disabled]
+    opacity: 0.5
+    cursor: not-allowed
+
+  @media (max-width: 767px)
+    .individual-flow-panel
+      padding: 0 16px
+
+    .individual-flow-card
+      padding: 24px 18px
+      border-radius: 20px
+
+    .individual-flow-heading
+      h4
+        font-size: 24px
+
+    .birthday-select-grid
+      grid-template-columns: 1fr

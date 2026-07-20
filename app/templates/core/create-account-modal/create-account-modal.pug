@@ -5,7 +5,8 @@ block vars
   - const path = view.signupState.get('path');
   - const screen = view.signupState.get('screen');
   - const ozariaStyle = ['oz-vs-coco','choose-account-type'].includes(screen) || screen==='segment-check' && path==='student'
-  - modalDialogClass = ozariaStyle ? 'ozaria-modal' : ''
+  - const individualStyle = path === 'individual'
+  - modalDialogClass = [ozariaStyle ? 'ozaria-modal' : '', individualStyle ? 'path-individual' : ''].filter(Boolean).join(' ')
 
 block modal-header
   //-
@@ -25,8 +26,8 @@ block modal-header
       +modal-header-content
  
 mixin ozaria-close-button
-  button.close(data-dismiss="modal", aria-hidden="true")
-    img(alt="close icon" src="/images/common/modal/Exit_Dusk.svg")
+  button.close(data-dismiss="modal", aria-label="Close", data-i18n="[aria-label]modal.close")
+    span.glyphicon.glyphicon-remove(aria-hidden="true")
 
 mixin modal-header-content
   if view.utils.isCodeCombat
@@ -93,8 +94,11 @@ block modal-footer
   //-
     This allows for the footer color to switch without the subview templates
     needing to contain the footer
-  .modal-footer(class=view.utils.isCodeCombat ? `screen-${view.signupState.get('screen')}` : view.signupState.get('path'))
-    +modal-footer-content
+  //- The chooser screen renders its own sign-in link, so the shared footer is
+    skipped there entirely (it would duplicate the link and leave an empty bar).
+  if !(view.utils.isCodeCombat && view.signupState.get('screen') === 'choose-account-type')
+    .modal-footer(class=view.utils.isCodeCombat ? `screen-${view.signupState.get('screen')} path-${view.signupState.get('path')}` : view.signupState.get('path'))
+      +modal-footer-content
 
 mixin modal-footer-content
   if view.signupState.get('screen') !== 'confirmation' && (view.utils.isCodeCombat || view.signupState.get('screen') !== 'teacher-signup-component')

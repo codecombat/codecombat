@@ -25,6 +25,8 @@ module.exports = (ChooseAccountTypeView = (function () {
         'input .class-code-input': 'onInputClassCode',
         'submit form.choose-account-type': 'onSubmitStudent',
         'click .parent-path-button' () { return this.trigger('choose-path', 'individual') },
+        'click .login-link': 'onClickLoginLink',
+        'keydown .login-link': 'onKeydownLoginLink',
       }
     }
 
@@ -37,6 +39,18 @@ module.exports = (ChooseAccountTypeView = (function () {
     initialize ({ signupState }) {
       this.signupState = signupState
       return this.utils = utils
+    }
+
+    onClickLoginLink (e) {
+      if (e) { e.preventDefault() }
+      if (e) { e.stopPropagation() }
+      return this.trigger('login')
+    }
+
+    onKeydownLoginLink (e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) {
+        return this.onClickLoginLink(e)
+      }
     }
 
     getClassCode () { return this.$('.class-code-input').val() || this.signupState.get('classCode') }

@@ -1,5 +1,14 @@
 <template>
   <div class="guide-content">
+    <chapter-glossary
+      v-if="glossaryShown(product)"
+      :key="product"
+      :product="product"
+    />
+    <div
+      v-if="glossaryShown(product)"
+      class="separator"
+    />
     <chapter-nav :chapters="chaptersNavData" />
     <div class="separator" />
     <chapter-info />
@@ -10,6 +19,7 @@
 <script>
 import ChapterNav from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ChapterNav.vue'
 import ChapterInfo from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ChapterInfo.vue'
+import ChapterGlossary from './ChapterGlossary.vue'
 import ChapterContent from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ChapterContent.vue'
 import { mapActions, mapGetters } from 'vuex'
 import utils from 'core/utils'
@@ -18,6 +28,7 @@ export default {
   components: {
     ChapterNav,
     ChapterInfo,
+    ChapterGlossary,
     ChapterContent,
   },
   props: {
@@ -29,6 +40,7 @@ export default {
   computed: {
     ...mapGetters({
       chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
+      glossaryShown: 'baseCurriculumGuide/glossaryShown',
     }),
     chaptersNavData () {
       const chapters = (this.chapterNavBar || [])

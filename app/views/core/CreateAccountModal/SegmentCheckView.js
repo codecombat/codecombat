@@ -28,6 +28,7 @@ module.exports = (SegmentCheckView = (function () {
         'change .birthday-form-group': 'onInputBirthday',
         'submit form.segment-check': 'onSubmitSegmentCheck',
         'click button.play-now': 'onPlayClicked',
+        'click .under-13-button': 'onClickUnder13',
         'click .individual-path-button' () { return this.trigger('choose-path', 'individual') }
       }
     }
@@ -41,7 +42,13 @@ module.exports = (SegmentCheckView = (function () {
       this.fetchAndApplyClassCodeDebounced = _.debounce(this.fetchAndApplyClassCode, 1000)
       this.fetchClassByCode = _.memoize(this.fetchClassByCode)
       this.classroom = new Classroom()
-      this.state = new State()
+      this.state = new State({
+        birthdayComplete: Boolean(
+          signupState.get('birthdayYear') &&
+          signupState.get('birthdayMonth') &&
+          signupState.get('birthdayDay'),
+        ),
+      })
       if (this.signupState.get('classCode')) {
         if (utils.isCodeCombat) {
           this.checkClassCode(this.signupState.get('classCode'))
@@ -151,10 +158,32 @@ module.exports = (SegmentCheckView = (function () {
     onInputBirthday () {
       const { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(this.$('form'))
       const birthday = new Date(Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay))
+      const birthdayComplete = Boolean(birthdayYear && birthdayMonth && birthdayDay)
       this.signupState.set({ birthdayYear, birthdayMonth, birthdayDay, birthday }, { silent: true })
+      this.state.set({ birthdayComplete })
       if (!_.isNaN(birthday.getTime())) {
         return forms.clearFormAlerts(this.$el)
       }
+    }
+
+    onClickUnder13 (e) {
+      if (e) { e.preventDefault() }
+      this.trackIndividualStepNext('coppa-deny')
+      this.trigger('nav-forward', 'coppa-deny')
+      return (window.tracker != null ? window.tracker.trackEvent('CreateAccountModal Individual SegmentCheckView Under 13 Clicked', { category: 'Individuals' }) : undefined)
+    }
+
+    trackIndividualStepNext (destination) {
+      if (this.signupState.get('path') !== 'individual') { return }
+      window.tracker?.trackEvent('CreateAccountModal Individual Next Clicked', {
+        category: 'Individuals',
+        step: 'segment-check',
+        label: destination,
+      })
+      return window.tracker?.trackEvent('CreateAccountModal Individual Step 1 Next Clicked', {
+        category: 'Individuals',
+        destination,
+      })
     }
 
     onSubmitSegmentCheck (e) {
@@ -196,9 +225,11 @@ module.exports = (SegmentCheckView = (function () {
           const ageLimit = features.china ? 0 : 13
           if (age > utils.ageOfConsent(me.get('country'), ageLimit)) {
             const screen = me.get('country') && me.inEU() ? 'eu-confirmation' : 'basic-info'
+            this.trackIndividualStepNext(screen)
             this.trigger('nav-forward', screen)
             return (window.tracker != null ? window.tracker.trackEvent('CreateAccountModal Individual SegmentCheckView Submit', { category: 'Individuals' }) : undefined)
           } else {
+            this.trackIndividualStepNext('coppa-deny')
             this.trigger('nav-forward', 'coppa-deny')
             return (window.tracker != null ? window.tracker.trackEvent('CreateAccountModal Individual SegmentCheckView Coppa Deny', { category: 'Individuals' }) : undefined)
           }

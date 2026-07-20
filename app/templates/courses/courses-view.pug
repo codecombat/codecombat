@@ -63,8 +63,6 @@ mixin course-instance-entry(courseInstance, classroom, juniorCourseInstances, co
     .course-instance-entry.rtl-allowed
       if course
         - var courseUrl = view.urls.courseWorldMap({ course, courseInstance, campaignId: course.campaignID })
-        if isOzariaCourse
-          - courseUrl = courseUrl.replace(/^\/play\//, '/play/ozaria/')
         h6
           span.spr= i18n(course, 'name')
           small
@@ -136,8 +134,6 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapU
           button.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.unit_complete")
     else if nextLevel
       - var url = view.urls.courseWorldMap({course: course, courseInstance: courseInstance, classroom: classroom, campaignId: course.campaignID});
-      if isOzariaCourse
-        - url = url.replace(/^\/play\//, '/play/ozaria/')
       if view.utils.isOzaria && isLocked
         button.play-btn.btn.btn-forest.btn-lg.m-b-1(disabled=isLocked)
           span(data-i18n="common.locked")

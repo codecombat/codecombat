@@ -60,6 +60,7 @@ module.exports = (BasicInfoView = (function () {
         'click #clever-signup-btn': 'onClickSsoSignupButton',
         'click #schoology-signup-btn': 'onClickSsoSignupButton',
         'click #classlink-signup-btn': 'onClickSsoSignupButton',
+        'click #google-signup-btn': 'onClickSsoSignupButton',
       }
     }
 
@@ -118,10 +119,19 @@ module.exports = (BasicInfoView = (function () {
     afterRender () {
       this.$el.find('#first-name-input').focus()
       if (!me.showChinaRegistration()) {
+        // Load the Google Identity script, then eagerly mount the official GSI
+        // button (replacing the styled placeholder row via .gsi-mount CSS) with
+        // the full sign-up success chain registered. GIS offers no reliable way
+        // to start the credential flow from a custom button - prompt() is
+        // suppressible (FedCM off, One Tap cooldowns) - so mounting the real
+        // button up front keeps Google sign-up a single click. We still don't
+        // auto-prompt One Tap on render.
         application.gplusHandler.loadAPI({
-          success: () => {
-            return this.handleSSOConnect(application.gplusHandler, 'gplus')
-          }
+          context: this,
+          success () {
+            this.signupState.set({ gplusEnabled: true })
+            return this.handleSSOConnect(application.gplusHandler, 'gplus', { renderOnly: true })
+          },
         })
       }
       return super.afterRender()
@@ -354,6 +364,19 @@ module.exports = (BasicInfoView = (function () {
       return forms.clearFormAlerts(this.$el.find('input[name="name"]').closest('.form-group').parent())
     }
 
+    trackIndividualStepNext (action) {
+      if (this.signupState.get('path') !== 'individual') { return }
+      window.tracker?.trackEvent('CreateAccountModal Individual Next Clicked', {
+        category: 'Individuals',
+        step: 'basic-info',
+        label: action,
+      })
+      return window.tracker?.trackEvent('CreateAccountModal Individual Step 2 Next Clicked', {
+        category: 'Individuals',
+        action,
+      })
+    }
+
     onSubmitForm (e) {
       if (this.signupState.get('path') === 'teacher') {
         if (window.tracker != null) {
@@ -366,6 +389,7 @@ module.exports = (BasicInfoView = (function () {
         }
       }
       if (this.signupState.get('path') === 'individual') {
+        this.trackIndividualStepNext('submit-clicked')
         if (window.tracker != null) {
           window.tracker.trackEvent('CreateAccountModal Individual BasicInfoView Submit Clicked', { category: 'Individuals' })
         }
@@ -551,6 +575,9 @@ module.exports = (BasicInfoView = (function () {
       let handler
       e.preventDefault()
       const ssoUsed = $(e.currentTarget).data('sso-used')
+      if ((ssoUsed === 'gplus') && !this.signupState.get('gplusEnabled')) {
+        return
+      }
       if (isOzaria) {
         handler = (() => {
           switch (ssoUsed) {
@@ -597,9 +624,10 @@ module.exports = (BasicInfoView = (function () {
       return this.handleSSOConnect(handler, ssoUsed)
     }
 
-    handleSSOConnect (handler, ssoUsed) {
+    handleSSOConnect (handler, ssoUsed, connectOptions) {
       if (me.showChinaRegistration()) { return }
       return handler.connect({
+        ...connectOptions,
         context: this,
         success (resp) {
           if (resp == null) { resp = {} }

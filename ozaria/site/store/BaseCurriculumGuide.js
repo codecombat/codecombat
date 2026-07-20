@@ -1,5 +1,8 @@
 import urls from 'app/core/urls'
 import utils from 'app/core/utils'
+import storage from 'core/storage'
+
+const glossaryKey = (key) => `CURRICULUM_GLOSSARY_HIDE_${key.toUpperCase()}`
 
 export default {
   namespaced: true,
@@ -8,7 +11,13 @@ export default {
     visible: false,
     selectedCampaignId: undefined,
     selectedLanguage: 'python',
-    hasAccessViaSharedClass: false
+    hasAccessViaSharedClass: false,
+    hideGlossary: {
+      hackstack: false,
+      codecombat: false,
+      ozaria: false,
+      junior: false,
+    },
   }),
 
   mutations: {
@@ -29,13 +38,30 @@ export default {
     },
     setAccessViaSharedClass (state, access) {
       state.hasAccessViaSharedClass = access
-    }
+    },
+    hideGlossary (state, product) {
+      state.hideGlossary[product] = true
+      storage.save(glossaryKey(product), true, 0)
+    },
+    showGlossary (state, product) {
+      state.hideGlossary[product] = false
+      storage.save(glossaryKey(product), false, 0)
+    },
+    loadGlossary (state) {
+      for (const key in state.hideGlossary) {
+        state.hideGlossary[key] = storage.load(glossaryKey(key), false)
+      }
+    },
   },
 
   getters: {
     chapterNavBar (_state, _getters, _rootState, rootGetters) {
       const courses = rootGetters['courses/sorted'] || []
       return courses
+    },
+
+    glossaryShown (state) {
+      return (product) => !state.hideGlossary[product]
     },
 
     isOnLockedCampaign (state, getters, _rootState, rootGetters) {
@@ -113,7 +139,7 @@ export default {
       return urls.courseWorldMap({
         courseId: getters.getCurrentCourse._id,
         campaignId: getters.selectedChapterId,
-        codeLanguage: state.selectedLanguage
+        codeLanguage: state.selectedLanguage,
       })
     },
 
@@ -131,7 +157,7 @@ export default {
 
     getSelectedLanguage (state, language) {
       return state.selectedLanguage
-    }
+    },
   },
 
   actions: {
@@ -156,6 +182,6 @@ export default {
     },
     setAccessViaSharedClass ({ commit }, access) {
       commit('setAccessViaSharedClass', access)
-    }
-  }
+    },
+  },
 }
