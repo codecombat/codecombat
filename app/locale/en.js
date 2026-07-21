@@ -6533,7 +6533,7 @@ module.exports = {
       hackstack_credits: 'AI HackStack Credits',
       model: 'Model',
       play_as_a_student: 'Play as a Student',
-      back_to_teaching_view: 'Back to teaching view',
+      student_view: 'Student View',
       tags: 'Tags',
       see_all: 'See All',
       created_by: 'created by',
