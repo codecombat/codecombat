@@ -4940,6 +4940,13 @@ module.exports = {
       add_students_step_desc: 'Share a class code, send a join link, invite by email, or sync with Google Classroom — click here to find every way students can join and start learning.',
       teacher_toolkit_tour_desc: 'Find Getting Started guides, educator resources, and FAQs here — everything you need to get comfortable before your first class.',
       teacher_toolkit_tour_title: 'Your Teaching Toolkit',
+      curriculum_glossary: 'Curriculum Glossary',
+      curriculum_glossary_desc: '💡 New to this curriculum? Here is a quick key to the courses below:',
+      curriculum_glossary_desc_hackstack: 'Intro: Intro to AI, AI: Artificial Intelligence, ALG: Algebra, CR: Career Readiness, CYB: Cyber, ELA: English Language Arts, CS: Computer Science, EXP: Explorations, SBOX: Sandbox',
+      curriculum_glossary_desc_ozaria: 'CH: Chapter',
+      curriculum_glossary_desc_codecombat: 'CS: Computer Science, GD: Game Development, WD: Web Development',
+      curriculum_glossary_desc_junior: 'JR: Junior',
+      curriculum_glossary_close: 'Got it, hide this',
     },
 
     outcomes: {

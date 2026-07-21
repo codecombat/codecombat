@@ -51,11 +51,13 @@ export default {
   mounted () {
     this.setTeacherId(me.get('_id'))
     this.setPageTitle(PAGE_TITLES[COMPONENT_NAMES.CURRICULUM_GUIDE])
+    this.loadGlossary()
   },
   methods: {
     ...mapMutations({
       setTeacherId: 'teacherDashboard/setTeacherId',
       setPageTitle: 'teacherDashboard/setPageTitle',
+      loadGlossary: 'baseCurriculumGuide/loadGlossary',
     }),
     onSelectedTabChange (tab) {
       this.selectedTab = tab

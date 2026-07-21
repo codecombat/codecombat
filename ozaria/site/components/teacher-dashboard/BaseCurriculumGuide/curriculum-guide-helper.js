@@ -3,7 +3,7 @@ import utils from '../../../../../app/core/utils'
 export function getLevelUrl ({ ozariaType, introLevelSlug, courseId, codeLanguage, slug, introContent, moduleNum, _id }) {
   if (utils.HACKSTACK_COURSE_IDS.includes(courseId)) {
     return `/ai/play/scenario/${slug}`
-  } else if ((utils.isCodeCombat && utils.OZ_COURSE_IDS.includes(courseId)) || utils.showOzaria()) {
+  } else if (utils.isOzaria || utils.OZ_COURSE_IDS.includes(courseId)) {
     if (!ozariaType && introLevelSlug) {
       return `/play/intro/${introLevelSlug}?course=${courseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
     }

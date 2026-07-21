@@ -3,6 +3,12 @@
     <div class="header-icon">
       <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg">
       <h2>{{ $t('teacher_dashboard.curriculum_guide') }}</h2>
+      <IconButton
+        class="larger-icon"
+        :icon-name="'IconLightBulb'"
+        :title="$t('teacher_dashboard.curriculum_glossary')"
+        @click.native="displayGlossary"
+      />
     </div>
     <div
       class="header-right"
@@ -17,14 +23,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import CodeLanguageSelector from '../../common/CodeLanguageSelector'
 import { HACKSTACK_COURSE_IDS } from 'core/utils'
+import IconButton from '../../common/buttons/IconButton'
 
 export default {
   name: 'HeaderComponent',
   components: {
     CodeLanguageSelector,
+    IconButton,
+  },
+  props: {
+    product: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
     ...mapGetters({
@@ -39,8 +53,15 @@ export default {
     },
   },
   methods: {
+    ...mapMutations({
+      showGlossary: 'baseCurriculumGuide/showGlossary',
+    }),
     onChangeLanguage () {
       window.tracker?.trackEvent('Curriculum Guide: Language Changed from dropdown', { category: this.getTrackCategory, label: this.courseName })
+    },
+    displayGlossary () {
+      window.tracker?.trackEvent(`Display Curriculum Glossaary on ${this.product}`)
+      this.showGlossary(this.product)
     },
   },
 }
@@ -119,6 +140,15 @@ export default {
     cursor: pointer;
     margin-left: 30px;
     padding: 10px;
+  }
+
+  .larger-icon {
+    background: transparent;
+    width: 40px;
+
+    &:hover {
+      background-color: transparent;
+    }
   }
 }
 </style>

@@ -37,6 +37,9 @@ module.exports = {
     let url = `/play/level/${level.get('slug')}?course=${courseInstance.get(
       'courseID'
     )}&course-instance=${courseInstance.id}`
+    if (utils.OZ_COURSE_IDS.includes(courseInstance.get('courseID'))) {
+      url = url.replace('/play/level', '/play/ozaria/level')
+    }
     if (level.get('primerLanguage')) {
       url += `&codeLanguage=${level.get('primerLanguage')}`
     }
@@ -90,7 +93,7 @@ module.exports = {
     if (queryString) {
       url += `?${queryString}`
     }
-    if (utils.showOzaria()) {
+    if (utils.OZ_COURSE_IDS.includes(courseId) && !url.startsWith('/play/ozaria')) {
       url = url.replace(/^\/play/, '/play/ozaria')
     }
     return url
