@@ -3,7 +3,15 @@ import { mapActions, mapState } from 'vuex'
 import utils from 'core/utils'
 import SummaryComponent from './SummaryComponent'
 import ClanLeagueStatsComponent from './ClanLeagueStatsComponent'
-
+const patchWd2Progress = (progress) => {
+  const wd2 = progress.courseCompleteLevels[utils.allCourseIDs.WEB_DEVELOPMENT_2]
+  if (!wd2) return
+  if (wd2.javascript === 0) return
+  for (const key in wd2) {
+    if (key === 'javascript') continue
+    wd2[key] += wd2.javascript
+  }
+}
 export default Vue.extend({
   name: 'OutcomesReportResultComponent',
   components: {
@@ -135,9 +143,11 @@ export default Vue.extend({
     coursesWithProgress () {
       if (!this.org.progress) return []
       let courses = _.cloneDeep(this.sortedCourses)
+      patchWd2Progress(this.org.progress)
       courses = this.formatCourse(courses, this.org.progress, this.org.newReport)
       if (this.showOther && this.otherOrg?.progress) {
         let otherCourses = _.cloneDeep(this.sortedOtherCourses)
+        patchWd2Progress(this.otherOrg.progress)
         otherCourses = this.formatCourse(otherCourses, this.otherOrg.progress, this.otherOrg.newReport)
         courses = courses.concat(otherCourses)
       }
