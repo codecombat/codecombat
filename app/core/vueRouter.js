@@ -68,6 +68,11 @@ export default function getVueRouter () {
           meta: { theme: 'teal' },
         },
         {
+          path: '/hackstack-cyber',
+          component: () => import(/* webpackChunkName: "HackStackCyberView" */ 'app/views/landing-pages/hackstack/PageHackstackCyber'),
+          meta: { theme: 'teal' },
+        },
+        {
           path: '/codequest',
           component: () => import(/* webpackChunkName: "CodequestView" */ 'app/views/codequest/PageCodequest.vue'),
           meta: { theme: 'teal' },
