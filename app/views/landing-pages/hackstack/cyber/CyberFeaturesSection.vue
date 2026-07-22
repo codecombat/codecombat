@@ -58,6 +58,10 @@ export default {
     color: white;
   }
 
+  ::v-deep .frame > div:empty {
+    display: none;
+  }
+
   ::v-deep .body {
     display: flex;
     flex-direction: row;
@@ -98,13 +102,13 @@ export default {
 }
 
 .feature__title {
-  @extend %font-18;
+  @extend %font-24-30;
   color: white;
   margin: 0;
 }
 
 .feature__desc {
-  @extend %font-16;
+  @extend %font-18-24;
   color: #B4B4B4;
   margin: 0;
 }

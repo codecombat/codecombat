@@ -1,6 +1,6 @@
 <template>
   <div id="page-hackstack-cyber">
-    <cyber-header @open-signup-modal="createAccountModalOpen = true" />
+    <cyber-header @open-signup-modal="openSignupModal" />
     <background-container
       type="colored"
       class="testimonials"
@@ -26,7 +26,7 @@
       </div>
     </background-container>
     <cyber-features-section />
-    <cyber-pathways-section @open-signup-modal="createAccountModalOpen = true" />
+    <cyber-pathways-section @open-signup-modal="openSignupModal" />
     <cyber-safety-section />
     <faq-component :faq-items="faqItems" />
     <backbone-modal-harness
@@ -51,6 +51,8 @@ import CyberHeader from './cyber/CyberHeader.vue'
 import CyberFeaturesSection from './cyber/CyberFeaturesSection.vue'
 import CyberPathwaysSection from './cyber/CyberPathwaysSection.vue'
 import CyberSafetySection from './cyber/CyberSafetySection.vue'
+
+const CYBER_GUIDE_URL = '/teachers/guide/hackstack/cyber'
 
 export default Vue.extend({
   name: 'PageHackstackCyber',
@@ -118,12 +120,21 @@ export default Vue.extend({
       ],
     }
   },
+  beforeDestroy () {
+    if (window.nextURL === CYBER_GUIDE_URL) {
+      window.nextURL = null
+    }
+  },
   methods: {
+    openSignupModal () {
+      // CreateAccountModal and its ConfirmationView navigate to window.nextURL after signup
+      window.nextURL = CYBER_GUIDE_URL
+      this.createAccountModalOpen = true
+    },
     createAccountModalClosed () {
       this.createAccountModalOpen = false
-      // Per ENG-2644: after teacher signup, direct to the cyber curriculum guide
-      if (typeof me !== 'undefined' && !me.isAnonymous()) {
-        window.location = '/teachers/guide/hackstack/cyber'
+      if ((typeof me === 'undefined' || me.isAnonymous()) && window.nextURL === CYBER_GUIDE_URL) {
+        window.nextURL = null
       }
     },
   },

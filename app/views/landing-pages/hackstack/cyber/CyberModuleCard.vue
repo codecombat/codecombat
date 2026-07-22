@@ -81,7 +81,7 @@ export default {
 }
 
 .module-card__label {
-  @extend %font-16;
+  @extend %font-20;
   font-weight: bold;
   color: var(--color-primary-1);
 }
@@ -98,14 +98,18 @@ export default {
 
 .module-card__photo {
   width: 100%;
-  height: 120px;
+  height: 130px;
   object-fit: cover;
   display: block;
   background: #f0f0f0;
+
+  @media (max-width: $screen-sm-max) {
+    height: 150px;
+  }
 }
 
 .module-card__content {
-  padding: 20px 12px;
+  padding: 24px 16px;
   flex: 1;
   background: white;
   display: flex;
@@ -121,7 +125,7 @@ export default {
 }
 
 .module-card__title {
-  @extend %font-18;
+  @extend %font-24-30;
   color: black;
   font-weight: bold;
   text-align: center;
@@ -129,7 +133,7 @@ export default {
 }
 
 .module-card__tag {
-  @extend %font-14;
+  @extend %font-18-24;
   color: #444;
   font-weight: bold;
   text-align: center;
@@ -137,10 +141,23 @@ export default {
 }
 
 .module-card__desc {
-  @extend %font-14;
+  @extend %font-18-24;
   color: #444;
   text-align: center;
   margin: 0;
   line-height: 1.5;
+}
+
+@media (max-width: $screen-sm-max) {
+  .module-card__title {
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .module-card__tag,
+  .module-card__desc {
+    font-size: 16px;
+    line-height: 22px;
+  }
 }
 </style>

@@ -115,15 +115,38 @@ export default {
 @import "app/styles/component_variables.scss";
 
 .section {
-  background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) 0px -400px / 120% no-repeat, #021e27;
+  // left gradient keeps text readable over the bright cubes at every width
+  background:
+    linear-gradient(to right, rgba(2, 30, 39, 0.9) 0%, rgba(2, 30, 39, 0.5) 40%, transparent 65%),
+    linear-gradient(to top, #021e27 0%, transparent 30%),
+    url(/images/pages/roblox/header-background.png) center top / cover no-repeat,
+    #021e27;
+  padding: 60px 60px 80px;
 
-  @media (max-width: 768px) {
-    background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) center -200px / 250% no-repeat, #021e27;
+  @media (max-width: $screen-md-max) {
+    padding: 60px 40px 80px;
+  }
+
+  @media (max-width: $screen-sm-max) {
+    background:
+      linear-gradient(rgba(2, 30, 39, 0.75), rgba(2, 30, 39, 0.75)),
+      url(/images/pages/roblox/header-background.png) center top / cover no-repeat,
+      #021e27;
   }
 
   @media screen and (max-width: $screen-sm) {
     padding-top: 60px;
     padding-bottom: 0;
+  }
+
+  ::v-deep .frame > div:empty {
+    display: none;
+  }
+
+  ::v-deep .body {
+    max-width: 1320px;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
@@ -156,7 +179,7 @@ export default {
 }
 
 .header-title {
-  @extend %font-44;
+  @extend %font-64-80;
   color: white;
   margin-bottom: 8px;
 }
@@ -203,7 +226,7 @@ export default {
   }
 
   &__text {
-    @extend %font-18;
+    @extend %font-18-24;
     color: #B4B4B4;
     white-space: pre-line;
   }
@@ -212,8 +235,15 @@ export default {
 .btns {
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 24px;
   flex-wrap: wrap;
+
+  // keep the two CTAs side by side down to tablet widths
+  @media (max-width: 1280px) {
+    ::v-deep .CTA__button {
+      min-width: unset;
+    }
+  }
 
   @media screen and (max-width: $screen-sm) {
     gap: 16px;

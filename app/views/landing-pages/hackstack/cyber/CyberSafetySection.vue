@@ -41,14 +41,14 @@ export default {
 
 .safety-section {
   background: var(--color-section-bg) url('/images/components/bg-image__teal.webp') center / cover no-repeat;
-  padding: 20px 12px;
+  padding: 80px 12px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .safety-card {
-  background: white;
+  background: #ECF8F8;
   border-radius: 16px;
   padding: 48px 56px;
   max-width: 760px;
@@ -90,14 +90,14 @@ export default {
 }
 
 .safety-card__text {
-  @extend %font-16;
+  @extend %font-18-24;
   color: #444;
   margin: 0;
   line-height: 1.6;
 }
 
 .safety-card__link {
-  @extend %font-16;
+  @extend %font-18-24;
   color: var(--color-primary-1__darken_20);
   font-weight: bold;
   text-decoration: none;
