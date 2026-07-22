@@ -4,11 +4,18 @@
       {{ $t('hackstack_cyber_page.module') }} {{ moduleNum }}
     </div>
     <div class="module-card__box">
-      <img
-        class="module-card__photo"
-        :src="imageSrc"
-        :alt="title"
-      >
+      <div class="module-card__media">
+        <img
+          class="module-card__photo"
+          :src="imageSrc"
+          :alt="title"
+        >
+        <span
+          v-if="showSeparator"
+          class="module-card__arrow"
+          aria-hidden="true"
+        />
+      </div>
       <div class="module-card__content">
         <img
           class="module-card__icon"
@@ -58,6 +65,10 @@ export default {
       type: String,
       required: true,
     },
+    showSeparator: {
+      type: Boolean,
+      default: false,
+    },
   },
 }
 </script>
@@ -72,7 +83,6 @@ export default {
   align-items: center;
   gap: 8px;
   max-width: 250px;
-  height: 100%;
 
   @media (max-width: $screen-sm-max) {
     width: 100%;
@@ -91,20 +101,44 @@ export default {
   flex-direction: column;
   background: white;
   border-radius: 8px;
-  overflow: hidden;
+  // overflow stays visible so the separator can sit in the grid gap;
+  // corner rounding lives on the photo and content instead
   width: 100%;
-  height: 100%;
+  flex: 1;
+}
+
+.module-card__media {
+  position: relative;
+  width: 100%;
+  height: 130px;
+
+  @media (max-width: $screen-sm-max) {
+    height: 150px;
+  }
 }
 
 .module-card__photo {
   width: 100%;
-  height: 130px;
+  height: 100%;
   object-fit: cover;
   display: block;
   background: #f0f0f0;
+  border-radius: 8px 8px 0 0;
+}
 
-  @media (max-width: $screen-sm-max) {
-    height: 150px;
+// CSS-drawn chevron centered in the gap, vertically tracking the image band
+.module-card__arrow {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + var(--module-gap, 32px) / 2);
+  width: 20px;
+  height: 20px;
+  border-top: 5px solid var(--color-primary-1);
+  border-right: 5px solid var(--color-primary-1);
+  transform: translate(-50%, -50%) rotate(45deg);
+
+  @media (max-width: $screen-md-max) {
+    display: none;
   }
 }
 
@@ -115,6 +149,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 0 0 8px 8px;
 }
 
 .module-card__icon {

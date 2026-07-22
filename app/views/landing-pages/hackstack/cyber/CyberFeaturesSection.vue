@@ -53,6 +53,7 @@ export default {
 
 .section {
   background: #193640;
+  padding-top: 60px;
 
   ::v-deep .heading {
     color: white;

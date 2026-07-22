@@ -25,27 +25,17 @@
           </p>
         </div>
         <div class="modules">
-          <div
+          <CyberModuleCard
             v-for="(mod, index) in modules"
             :key="mod.num"
-            class="module-entry"
-          >
-            <CyberModuleCard
-              :module-num="mod.num"
-              :title="$t(`hackstack_cyber_page.module_${mod.num}_title`)"
-              :description="$t(`hackstack_cyber_page.module_${mod.num}_desc`)"
-              :tag-text="$t(`hackstack_cyber_page.module_${mod.num}_tag`)"
-              :image-src="`/images/pages/hackstack/cyber/module-${mod.num}.jpg`"
-              :icon-src="`/images/pages/hackstack/cyber/module-icon-${mod.num}.png`"
-            />
-            <div
-              v-if="index < modules.length - 1"
-              class="modules__arrow"
-              aria-hidden="true"
-            >
-              ❯
-            </div>
-          </div>
+            :module-num="mod.num"
+            :title="$t(`hackstack_cyber_page.module_${mod.num}_title`)"
+            :description="$t(`hackstack_cyber_page.module_${mod.num}_desc`)"
+            :tag-text="$t(`hackstack_cyber_page.module_${mod.num}_tag`)"
+            :image-src="`/images/pages/hackstack/cyber/module-${mod.num}.jpg`"
+            :icon-src="`/images/pages/hackstack/cyber/module-icon-${mod.num}.png`"
+            :show-separator="index < modules.length - 1"
+          />
         </div>
       </div>
     </template>
@@ -131,6 +121,7 @@ export default {
 }
 
 .modules {
+  --module-gap: 32px;
   display: flex;
   align-items: stretch;
   justify-content: center;
@@ -139,39 +130,17 @@ export default {
   column-gap: 16px;
   width: 100%;
 
-  // one row of five at desktop, like the design; cards shrink instead of wrapping
+  // one row of five equal cards at desktop, like the design
   @media (min-width: $screen-lg) {
-    flex-wrap: nowrap;
-  }
-}
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--module-gap);
 
-.module-entry {
-  display: flex;
-  align-items: stretch;
-
-  @media (min-width: $screen-lg) {
-    flex: 1 1 0;
-    min-width: 0;
-
-    .module-card {
-      flex: 1 1 auto;
+    ::v-deep .module-card {
+      max-width: none;
       min-width: 0;
+      width: 100%;
     }
-  }
-}
-
-.modules__arrow {
-  color: var(--color-primary-1);
-  font-size: 40px;
-  font-weight: bold;
-  line-height: 1;
-  padding: 0 6px;
-  // sit at the photo band of the cards, like the design
-  align-self: flex-start;
-  margin-top: 80px;
-
-  @media (max-width: $screen-sm-max) {
-    display: none;
   }
 }
 

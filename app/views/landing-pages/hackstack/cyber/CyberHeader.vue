@@ -10,7 +10,7 @@
             <span class="header-subtitle__text">{{ $t('hackstack_cyber_page.header_powered_by') }}</span>
             <img
               class="header-subtitle__image"
-              src="/images/pages/hackstack/hackstack-banner-black.png"
+              src="/images/pages/hackstack/cyber/hackstack-logo.png"
               alt="AI HackStack"
             >
           </div>
@@ -115,23 +115,53 @@ export default {
 @import "app/styles/component_variables.scss";
 
 .section {
-  // left gradient keeps text readable over the bright cubes at every width
-  background:
-    linear-gradient(to right, rgba(2, 30, 39, 0.9) 0%, rgba(2, 30, 39, 0.5) 40%, transparent 65%),
-    linear-gradient(to top, #021e27 0%, transparent 30%),
-    url(/images/pages/roblox/header-background.png) center top / cover no-repeat,
-    #021e27;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #021e27;
   padding: 60px 60px 80px;
+
+  // source image is a 1440x1440 square with transparent wedges top and bottom;
+  // proportional right-aligned crop keeps the opaque cube band covering the
+  // section and the bright glow right-of-center at all desktop widths
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: url(/images/pages/roblox/header-background.png);
+    background-repeat: no-repeat;
+    background-position: right -21.6vw;
+    background-size: 120vw auto;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(2, 30, 39, 0.72), transparent 25%);
+  }
+
+  ::v-deep .frame {
+    z-index: 1;
+  }
 
   @media (max-width: $screen-md-max) {
     padding: 60px 40px 80px;
   }
 
   @media (max-width: $screen-sm-max) {
-    background:
-      linear-gradient(rgba(2, 30, 39, 0.75), rgba(2, 30, 39, 0.75)),
-      url(/images/pages/roblox/header-background.png) center top / cover no-repeat,
-      #021e27;
+    &::before {
+      // crop the central opaque band; mirror so the glow sits away from the text
+      top: -30%;
+      bottom: -30%;
+      background-size: auto 100%;
+      background-position: 15% center;
+      transform: scaleX(-1);
+    }
   }
 
   @media screen and (max-width: $screen-sm) {
@@ -158,16 +188,34 @@ export default {
 
   @media (max-width: $screen-sm-max) {
     flex-direction: column;
+    gap: 24px;
   }
 }
 
 .hero__text {
   flex: 1;
   text-align: left;
+  position: relative;
+  isolation: isolate;
+
+  // localized contrast backstop instead of a broad wash over the whole image
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -32px -48px;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(2, 30, 39, 0.58) 0 55%,
+      rgba(2, 30, 39, 0.2) 72%,
+      transparent 100%
+    );
+  }
 }
 
 .hero__media {
-  flex: 1;
+  flex: 1.1;
   min-width: 0;
 }
 
@@ -195,17 +243,17 @@ export default {
   }
 
   &__image {
-    max-height: 72px;
+    max-height: 52px;
     width: auto;
 
     @media screen and (max-width: $screen-sm) {
-      max-height: 48px;
+      max-height: 40px;
     }
   }
 }
 
 .content {
-  @extend %font-24-30;
+  @extend %font-28;
   color: #B4B4B4;
   margin: 24px 0 32px;
 }
@@ -215,6 +263,16 @@ export default {
   align-items: center;
   gap: 16px;
   margin-bottom: 40px;
+
+  @media (max-width: $screen-sm-max) {
+    flex-wrap: wrap;
+  }
+
+  &__text {
+    @media (max-width: $screen-sm-max) {
+      flex-basis: 100%;
+    }
+  }
 
   &__badge {
     height: 72px;
@@ -235,11 +293,17 @@ export default {
 .btns {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 40px;
   flex-wrap: wrap;
+
+  ::v-deep .CTA__button {
+    font-size: 20px;
+  }
 
   // keep the two CTAs side by side down to tablet widths
   @media (max-width: 1280px) {
+    gap: 24px;
+
     ::v-deep .CTA__button {
       min-width: unset;
     }
@@ -247,7 +311,8 @@ export default {
 
   @media screen and (max-width: $screen-sm) {
     gap: 16px;
-    margin-bottom: 24px;
+    justify-content: center;
+    margin-bottom: 8px;
   }
 }
 </style>
