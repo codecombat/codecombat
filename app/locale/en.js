@@ -954,7 +954,7 @@ module.exports = {
       medium: 'Medium',
       hard: 'Hard',
       player: 'Player',
-      player_level: 'Level', // Like player level 5, not like level: Dungeons of Kithgard
+      player_rank: 'Rank', // Player's XP-based rank, like rank 5 (was player_level); not like level: Dungeons of Kithgard
       warrior: 'Warrior',
       ranger: 'Ranger',
       wizard: 'Wizard',
@@ -2212,7 +2212,7 @@ module.exports = {
       edit_description: 'edit description',
       private: '(private)',
       summary: 'Summary',
-      average_level: 'Average Level',
+      average_rank: 'Average Rank', // Average XP-based rank of clan members (was average_level)
       average_achievements: 'Average Achievements',
       delete_clan: 'Delete Clan',
       leave_clan: 'Leave Clan',
@@ -3493,7 +3493,7 @@ module.exports = {
       new_xp_prefix: '',
       new_xp_postfix: ' earned',
       left_xp_prefix: '',
-      left_xp_infix: ' until level ',
+      left_xp_rank_infix: ' until rank ', // (was left_xp_infix ' until level ')
       left_xp_postfix: '',
     },
 
