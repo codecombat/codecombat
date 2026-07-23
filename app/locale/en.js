@@ -6539,6 +6539,8 @@ module.exports = {
       remixed_from: 'Remixed from',
       hackstack_credits: 'AI HackStack Credits',
       model: 'Model',
+      play_as_a_student: 'Play as a Student',
+      student_view: 'Student View',
       tags: 'Tags',
       see_all: 'See All',
       created_by: 'created by',
