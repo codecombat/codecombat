@@ -205,6 +205,8 @@ module.exports = (InventoryModal = (function () {
         // 2. The player is trying to play a level they haven't unlocked.
         // We'll just pretend they own it so that they don't get stuck.
         if (application.tracker != null) {
+          // `level` = playable level slug; `playerLevel` = the player's Rank (XP level). Both are legacy
+          // analytics wire keys pinned by schemas/events/required_item_locked.json — do not rename (GD-849).
           application.tracker.trackEvent('Required Item Locked', { level: this.options.level.get('slug'), label: this.options.level.get('slug'), item: item.get('name'), playerLevel: me.rank(), levelUnlocked: me.ownsLevel(this.options.level.get('original')) })
         }
         locked = false

@@ -10,10 +10,10 @@
 	"properties": {
 		"user": {"type": "string", "pattern": "^[a-z0-9]{24}$", "maxLength": 24, "minLength": 24},
 		"levelUnlocked": {"type":"boolean"},
-		"playerLevel": {"type":"integer"},
+		"playerLevel": {"type":"integer", "description": "The player's Rank (XP-based level, formerly 'player level'). Legacy analytics wire key — keep the playerLevel name."},
 		"item": {"type": "string"},
 		"label": {"type": "string"},
-		"level": {"type": "string"}
+		"level": {"type": "string", "description": "Playable level slug (content), not the player's XP Rank."}
 	},
 	"required": ["user", "level", "item"],
 	"additionalProperties": false
