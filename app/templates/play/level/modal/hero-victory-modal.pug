@@ -113,7 +113,7 @@ block modal-footer-content
       if view.level.get("product", true) == "codecombat-junior"
         .total-label.rtl-allowed
           span.spl.spr(data-i18n="general.player_rank") Rank
-          span.level= me.rank()
+          span.rank= me.rank()
         .xp-bar-outer
           .xp-bar-already-achieved
           .xp-bar-total
@@ -124,7 +124,7 @@ block modal-footer-content
           span.spr(data-i18n="play_level.victory_experience_gained") XP Gained
           | -
           span.spl.spr(data-i18n="general.player_rank") Rank
-          span.level= me.rank()
+          span.rank= me.rank()
         .xp-bar-outer
           .xp-bar-already-achieved
           .xp-bar-total

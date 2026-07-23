@@ -52,10 +52,10 @@ block content
             td
               img.spr.player-hero(data-memberid=clan.get('ownerID'))
               a(href='/user/' + clan.get('ownerID'))= owner.get('name')
-        if stats.averageLevel
+        if stats.averageRank
           tr
             td(data-i18n="clans.average_rank") Average Rank
-            td= stats.averageLevel
+            td= stats.averageRank
         if stats.averageAchievements && clan.get('type') === 'public'
           tr
             td(data-i18n="clans.average_achievements") Average Achievements
@@ -232,7 +232,7 @@ block content
             th
             th
             th.name-cell(data-i18n="clans.name") Name
-            th.level-cell(data-i18n="general.player_rank") Rank
+            th.rank-cell(data-i18n="general.player_rank") Rank
             th.achievements-cell(data-i18n="play.achievements") Achievements
             th.latest-achievement-cell(data-i18n="clans.latest_achievement") Latest Achievement
             th.remove-member-cell
@@ -246,7 +246,7 @@ block content
                   span.code-language-cell(style=`background-image: url(/images/common/code_languages/${memberLanguageMap[member.id]}_small.png)`, title=memberLanguageMap[member.id])
               td.name-cell
                 a(href='/user/' + member.id)= member.get('name') || 'Anonymous'
-              td.level-cell= member.rank()
+              td.rank-cell= member.rank()
               td.achievements-cell
                 if memberAchievementsMap && memberAchievementsMap[member.id]
                   | #{memberAchievementsMap[member.id].length}

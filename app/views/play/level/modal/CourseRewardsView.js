@@ -52,7 +52,7 @@ module.exports = (CourseRewardsView = (function () {
     render () {
       this.loadAchievementsData()
       this.previousXP = me.get('points', true)
-      this.previousLevel = me.rank()
+      this.previousRank = me.rank()
       return super.render()
     }
 

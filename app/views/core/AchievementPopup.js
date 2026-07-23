@@ -35,11 +35,11 @@ module.exports = (AchievementPopup = (function () {
 
     calculateData () {
       let achievedXP, data
-      const currentLevel = me.rank()
-      const nextLevel = currentLevel + 1
-      const currentLevelXP = User.expForRank(currentLevel)
-      const nextLevelXP = User.expForRank(nextLevel)
-      const totalXPNeeded = nextLevelXP - currentLevelXP
+      const currentRank = me.rank()
+      const nextRank = currentRank + 1
+      const currentRankXP = User.expForRank(currentRank)
+      const nextRankXP = User.expForRank(nextRank)
+      const totalXPNeeded = nextRankXP - currentRankXP
       const expFunction = this.achievement.getExpFunction()
       const currentXP = me.get('points', true)
       if (this.achievement.isRepeatable()) {
@@ -48,23 +48,23 @@ module.exports = (AchievementPopup = (function () {
         achievedXP = this.achievement.get('worth', true)
       }
       const previousXP = currentXP - achievedXP
-      const leveledUp = (currentXP - achievedXP) < currentLevelXP
-      // console.debug 'Leveled up' if leveledUp
-      let alreadyAchievedPercentage = (100 * (previousXP - currentLevelXP)) / totalXPNeeded
+      const rankedUp = (currentXP - achievedXP) < currentRankXP
+      // console.debug 'Leveled up' if rankedUp
+      let alreadyAchievedPercentage = (100 * (previousXP - currentRankXP)) / totalXPNeeded
       if (alreadyAchievedPercentage < 0) { alreadyAchievedPercentage = 0 } // In case of level up
-      const newlyAchievedPercentage = leveledUp ? (100 * (currentXP - currentLevelXP)) / totalXPNeeded : (100 * achievedXP) / totalXPNeeded
+      const newlyAchievedPercentage = rankedUp ? (100 * (currentXP - currentRankXP)) / totalXPNeeded : (100 * achievedXP) / totalXPNeeded
 
-      // console.debug "Current level is #{currentLevel} (#{currentLevelXP} xp), next level is #{nextLevel} (#{nextLevelXP} xp)."
-      // console.debug "Need a total of #{nextLevelXP - currentLevelXP}, already had #{previousXP} and just now earned #{achievedXP} totalling on #{currentXP}"
+      // console.debug "Current level is #{currentRank} (#{currentRankXP} xp), next level is #{nextRank} (#{nextRankXP} xp)."
+      // console.debug "Need a total of #{nextRankXP - currentRankXP}, already had #{previousXP} and just now earned #{achievedXP} totalling on #{currentXP}"
 
       return data = {
         title: this.achievement.i18nName(),
         imgURL: this.achievement.getImageURL(),
         description: this.achievement.i18nDescription(),
-        level: currentLevel,
+        rank: currentRank,
         currentXP,
         newXP: achievedXP,
-        leftXP: nextLevelXP - currentXP,
+        leftXP: nextRankXP - currentXP,
         oldXPWidth: alreadyAchievedPercentage,
         newXPWidth: newlyAchievedPercentage,
         leftXPWidth: 100 - newlyAchievedPercentage - alreadyAchievedPercentage
