@@ -3494,7 +3494,7 @@ module.exports = {
       new_xp_postfix: '經驗值',
       left_xp_prefix: '還需要',
       left_xp_rank_infix: '[AI_TRANSLATION]直到段位',
-      left_xp_postfix: '到下一個等級',
+      left_xp_postfix: '',
     },
 
     account: {
