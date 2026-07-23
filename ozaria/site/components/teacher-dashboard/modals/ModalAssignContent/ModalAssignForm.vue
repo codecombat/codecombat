@@ -38,6 +38,14 @@ export default {
     this.groupedCourses = utils.groupedCoursesList(this.courses)
   },
 
+  mounted () {
+    const paramCourse = this.$route?.query?.assignContent
+    console.log('waht ? ', paramCourse)
+    if (paramCourse) {
+      this.selected = paramCourse
+    }
+  },
+
   methods: {
     ...mapActions({
       assignCourse: 'courseInstances/assignCourse',
@@ -48,7 +56,7 @@ export default {
       if (!this.selected) {
         return
       }
-      const course = this.courses.find((v) => v.name === this.selected)
+      const course = this.courses.find((v) => v._id === this.selected)
 
       const sharedClassroomId = hasSharedWriteAccessPermission(this.classroom) ? this.classroom._id : null
       await this.assignCourse({
@@ -62,6 +70,12 @@ export default {
       } else {
         this.fetchData({ forceGameContentFetch: true }) // new course that didnt exist when classroom was created
       }
+      if (this.$route?.query?.assignContent) {
+        const query = this.$route.query
+        delete query.assignContent
+        const newUrl = this.$router.resolve({ query })
+        application.router.navigate(newUrl.href)
+      }
       this.$emit('close')
     },
 
@@ -69,7 +83,7 @@ export default {
       if (!this.selected) {
         return
       }
-      const course = this.courses.find((v) => v.name === this.selected)
+      const course = this.courses.find((v) => v._id === this.selected)
 
       await this.removeCourse({ course, members: this.selectedStudentIds, classroom: this.classroom })
       this.fetchData()
@@ -110,7 +124,7 @@ export default {
             <option
               v-for="course in groupedCourses"
               :key="course._id"
-              :value="course.name"
+              :value="course._id"
               :disabled="course.disabled"
             >
               {{ i18nName(course) }}
