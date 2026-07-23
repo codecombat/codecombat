@@ -589,6 +589,7 @@ export default {
     },
 
     aiEvaluationFlag (aiProjects) {
+      if (!Array.isArray(aiProjects) || aiProjects.length === 0) return
       const latestProject = aiProjects[aiProjects.length - 1]
       const evaluations = latestProject.evaluations || []
       if (evaluations.length === 0) return
@@ -631,7 +632,7 @@ export default {
         this.setClickHandler(details, student, moduleNum, aiScenario, aiProjects)
         details.aiEvalFlag = this.aiEvaluationFlag(aiProjects)
         let flag = this.setProjectWarningFlag(aiProjects)
-        // idealy a project won't have both warning and unsafe flag.
+        // ideally a project won't have both warning and unsafe flag.
         // but in that case we should use unsafe to overwrite warning.
         flag = this.setUnsafeFlag(aiProjects) || flag
         details.flag = flag

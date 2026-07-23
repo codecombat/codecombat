@@ -4925,6 +4925,7 @@ module.exports = {
       ai_struggling: 'Struggling',
       ai_struggling_desc: 'The student picked the wrong option more than once.',
       ai_unsafe_desc: 'The student\'s conversation with the AI was flagged as unsafe, such as attempting to cheat, bypass the AI, or use abusive language.',
+      ai_eval_status: 'AI Evaluation Status',
       ai_model: 'AI Model',
       welcome_tour_title: 'A 60-second tour',
       welcome_tour_desc: "This page can feel busy at first. Let's walk through the handful of things you'll actually use — finding students, reading progress, and assigning work — in order.",

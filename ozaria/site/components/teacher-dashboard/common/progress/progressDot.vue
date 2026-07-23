@@ -192,11 +192,14 @@ export default {
 
       const status = $.i18n.t(`teacher_dashboard.${label}`) + (!this.isSkipped && date ? ' ' + $.i18n.t('teacher_dashboard.until_date', { date: dateString }) : '')
       const flag = this.flagLabel ? `(${this.flagLabel})` : ''
-      const aiEvalLabel = AIProject.getEvaluationLabel(this.aiEvalFlag)
+      let aiEvalLabel = AIProject.getEvaluationLabel(this.aiEvalFlag)
+      if (aiEvalLabel) {
+        aiEvalLabel = $.i18n.t('teacher_dashboard.ai_eval_status') + `: ${aiEvalLabel}`
+      }
       return `
         ${status} ${flag}
         ${this.tooltipName ? `<br><strong>${this.tooltipName}</strong>` : ''}
-        ${aiEvalLabel ? `<br>AI Evaluation Passed: ${aiEvalLabel}` : ''}
+        ${aiEvalLabel ? `<br>${aiEvalLabel}</br>` : ''}
         ${this.playedOn ? `<br>${$.i18n.t('user.last_played')}: ${moment(this.playedOn).format('lll')}` : ''}
         ${this.status === 'complete' && this.completionDate ? `<br>${$.i18n.t('teacher.completed')}: ${moment(this.completionDate).format('lll')}` : ''}
         ${this.playTime ? `<br>${$.i18n.t('teacher.time_played_label')} ${moment.duration({ seconds: this.playTime }).humanize()}` : ''}

@@ -1,6 +1,6 @@
 module.exports = {
   checkIfProjectComplete (aiScenario, aiProjects) {
-    if (aiProjects?.length === 0) return false
+    if (!Array.isArray(aiProjects) || aiProjects?.length === 0) return false
     if (aiScenario.minMsgs) { // if minMsgs is 0, let's still use old logic
       if (aiProjects.some(project => {
         return (project.totalChatMessages || 0) - (project.unsafeChatMessages?.length || 0) >= aiScenario.minMsgs
@@ -20,7 +20,7 @@ module.exports = {
   hasStruggledOnProject (aiProjects) {
     const MAX_WRONG_CHOICES = 1
     return (aiProjects || []).some(project => {
-      const wrongChoices = project.wrongChoices || []
+      const wrongChoices = project?.wrongChoices || []
       const counts = wrongChoices.reduce((acc, obj) => {
         const key = obj.actionMessageId
         acc[key] = (acc?.[key] || 0) + 1

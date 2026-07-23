@@ -31,9 +31,9 @@ AIProject.getAiEvaluationFlag = (evaluation) => {
 
 AIProject.getEvaluationLabel = (flag) => {
   const labels = {
-    [AIProject.AI_EVALUATION_YES]: 'Yes',
-    [AIProject.AI_EVALUATION_NO]: 'No',
-    [AIProject.AI_EVALUATION_UNSURE]: 'Unsure',
+    [AIProject.AI_EVALUATION_YES]: $.i18n.t('teacher_dashboard.ai_eval_yes'),
+    [AIProject.AI_EVALUATION_NO]: $.i18n.t('teacher_dashboard.ai_eval_no'),
+    [AIProject.AI_EVALUATION_UNSURE]: $.i18n.t('teacher_dashboard.ai_eval_unsure'),
   }
   return labels[flag] || null
 }

@@ -17,7 +17,7 @@
           <dd>{{ lastPlayed }}</dd>
         </template>
 
-        <template v-if="mode === 'use'">
+        <template v-if="isUseModeScenario">
           <dt>{{ $t('user.status') }}</dt>
           <dd>
             <span :class="['label', aiProject.isReadyToReview ? 'label-success' : 'label-info']">
@@ -52,7 +52,7 @@
               <br><span class="subtext text-muted">{{ $t('teacher_dashboard.failed_attempts_subtext') }}</span>
             </dd>
           </template>
-          <template v-else-if="mode === 'learn to use'">
+          <template v-else-if="!isUseModeScenario">
             <dt>{{ $t('teacher_dashboard.failed_attempts') }}</dt>
             <dd>{{ $t('teacher_dashboard.no_failed_attempts') }}</dd>
           </template>
@@ -119,6 +119,7 @@
 import _ from 'lodash'
 import IconBeta from 'app/core/components/IconBeta'
 import { hasStruggledOnProject } from 'app/lib/ai-projects-helper'
+import { isUseMode } from 'app/core/utils'
 const moment = window.moment
 
 export default {
@@ -146,6 +147,9 @@ export default {
       } else {
         return ''
       }
+    },
+    isUseModeScenario () {
+      return isUseMode(this.mode)
     },
     mode () {
       return this.aiScenario.mode
