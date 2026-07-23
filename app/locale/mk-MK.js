@@ -954,7 +954,7 @@ module.exports = {
       medium: 'Средно',
       hard: 'Тешко',
       player: 'Играч',
-      player_level: 'Ниво',
+      player_rank: '[AI_TRANSLATION]Ранг',
       warrior: 'Воин',
       ranger: 'Ренџер',
       wizard: 'Волшебник',
