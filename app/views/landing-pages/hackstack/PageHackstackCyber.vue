@@ -1,32 +1,8 @@
 <template>
   <div id="page-hackstack-cyber">
-    <cyber-header @open-signup-modal="openSignupModal" />
-    <background-container
-      type="colored"
-      class="testimonials"
-    >
-      <div class="container">
-        <carousel-component
-          :show-tabs="false"
-          :show-dots="false"
-          :has-background="false"
-        >
-          <template #testimonials>
-            <carousel-item>
-              <testimonial-component
-                class="testimonials__item"
-                :quote="$t('hackstack_cyber_page.testimonial_1_quote')"
-                :name="$t('hackstack_cyber_page.testimonial_1_name')"
-                :title="$t('hackstack_cyber_page.testimonial_1_title')"
-                :image="'/images/pages/home-v3/testimonal/avatar.svg'"
-              />
-            </carousel-item>
-          </template>
-        </carousel-component>
-      </div>
-    </background-container>
+    <cyber-header @open-signup-modal="createAccountModalOpen = true" />
     <cyber-features-section />
-    <cyber-pathways-section @open-signup-modal="openSignupModal" />
+    <cyber-pathways-section @open-signup-modal="createAccountModalOpen = true" />
     <cyber-safety-section />
     <faq-component :faq-items="faqItems" />
     <backbone-modal-harness
@@ -34,16 +10,12 @@
       :modal-view="CreateAccountModal"
       :open="createAccountModalOpen"
       :modal-options="{ startOnPath: 'teacher' }"
-      @close="createAccountModalClosed"
+      @close="createAccountModalOpen = false"
     />
   </div>
 </template>
 
 <script>
-import BackgroundContainer from '../../../components/common/backgrounds/BackgroundContainer.vue'
-import CarouselComponent from '../../../components/common/elements/CarouselComponent.vue'
-import CarouselItem from '../../../components/common/elements/CarouselItem.vue'
-import TestimonialComponent from '../../../components/common/elements/TestimonialComponent.vue'
 import FaqComponent from './FaqComponent.vue'
 import BackboneModalHarness from 'app/views/common/BackboneModalHarness.vue'
 import CreateAccountModal from 'app/views/core/CreateAccountModal/CreateAccountModal.js'
@@ -52,15 +24,9 @@ import CyberFeaturesSection from './cyber/CyberFeaturesSection.vue'
 import CyberPathwaysSection from './cyber/CyberPathwaysSection.vue'
 import CyberSafetySection from './cyber/CyberSafetySection.vue'
 
-const CYBER_GUIDE_URL = '/teachers/guide/hackstack/cyber'
-
 export default Vue.extend({
   name: 'PageHackstackCyber',
   components: {
-    BackgroundContainer,
-    CarouselComponent,
-    CarouselItem,
-    TestimonialComponent,
     FaqComponent,
     BackboneModalHarness,
     CyberHeader,
@@ -120,24 +86,6 @@ export default Vue.extend({
       ],
     }
   },
-  beforeDestroy () {
-    if (window.nextURL === CYBER_GUIDE_URL) {
-      window.nextURL = null
-    }
-  },
-  methods: {
-    openSignupModal () {
-      // CreateAccountModal and its ConfirmationView navigate to window.nextURL after signup
-      window.nextURL = CYBER_GUIDE_URL
-      this.createAccountModalOpen = true
-    },
-    createAccountModalClosed () {
-      this.createAccountModalOpen = false
-      if ((typeof me === 'undefined' || me.isAnonymous()) && window.nextURL === CYBER_GUIDE_URL) {
-        window.nextURL = null
-      }
-    },
-  },
 })
 </script>
 
@@ -158,13 +106,5 @@ export default Vue.extend({
 
   gap: 0;
   background: #021E27;
-
-  .testimonials {
-    &__item {
-      align-items: center;
-      text-align: center;
-    }
-    padding-bottom: 0;
-  }
 }
 </style>

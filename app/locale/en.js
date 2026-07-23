@@ -6184,11 +6184,6 @@ module.exports = {
       cta_get_solution: 'Get My Solution',
       cta_explore: 'Explore Cybersecurity',
 
-      // Testimonial
-      testimonial_1_quote: 'One thing I am able to do now that I could not do before is actually believe I can code.',
-      testimonial_1_name: 'Amanda S.',
-      testimonial_1_title: 'Mountain Ridge Middle School',
-
       // Features strip
       features_title: 'Designed for Real-World Cybersecurity Skills',
       feature_1_title: 'Certification Pathways',

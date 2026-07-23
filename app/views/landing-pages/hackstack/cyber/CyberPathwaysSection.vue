@@ -41,8 +41,9 @@
     </template>
     <template #tail>
       <CTAButton
-        href="/standards"
+        href="https://docs.google.com/spreadsheets/d/1CdVBDHLEoY9cUxGgfuQzmEKrFg9Ip4imURIX77Cna8c/edit?gid=1288109106#gid=1288109106"
         target="_blank"
+        rel="noopener noreferrer"
         class="standards-cta"
       >
         {{ $t('hackstack_cyber_page.standards_cta') }}
