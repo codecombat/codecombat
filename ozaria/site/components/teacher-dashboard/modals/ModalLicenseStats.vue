@@ -3,6 +3,7 @@ import Modal from '../../common/Modal'
 import SecondaryButton from '../common/buttons/SecondaryButton'
 
 import { mapGetters, mapActions } from 'vuex'
+const Prepaid = require('app/models/Prepaid')
 const moment = window.moment
 export default Vue.extend({
   components: {
@@ -41,6 +42,7 @@ export default Vue.extend({
     ...mapActions({
       fetchName: 'users/fetchUserNamesById',
       fetchClassrooms: 'users/fetchClassroomNamesByUserId',
+      fetchPrepaidsForTeacher: 'prepaids/fetchPrepaidsForTeacher',
     }),
     trackEvent (eventName) {
       if (eventName) {
@@ -59,6 +61,14 @@ export default Vue.extend({
         return 0
       })
       return classrooms.slice(0, 2)
+    },
+    async revokeUser (id) {
+      await (new Prepaid(this.prepaid)).revoke(id)
+      this.fetchPrepaidsForTeacher({ teacherId: me.id })
+    },
+    async redeemUser (id) {
+      await (new Prepaid(this.prepaid)).redeem(id)
+      this.fetchPrepaidsForTeacher({ teacherId: me.id })
     },
   },
   mounted () {
@@ -88,6 +98,8 @@ export default Vue.extend({
                 a(v-if="cls.ownerID === me.id" :href="'/teachers/classes/' + cls._id") {{ cls.name }}
                 span(v-else) {{ cls.name }}
               template(v-if="getClassName(user.userID)?.length > 2") {{ $t('teachers.and_more') }}
+            .revoke
+              button.btn.btn-danger(@click="revokeUser(user.userID)") {{ 'revoke' }}
 
         .content(v-else)
           .header {{ $t('common.empty_results') }}
@@ -102,13 +114,15 @@ export default Vue.extend({
             .name {{ user.name }}
             .startDate {{ moment(user.startDate).format('ll') }}
             .endDate {{ moment(user.endDate).format('ll') }}
+            .redeem
+              button.btn.btn-warning(@click="redeemUser(user.userID)") {{ 'redeem' }}
         .content(v-else)
           .header {{ $t('common.empty_results') }}
 </template>
 
 <style lang="scss" scoped>
 .license-stats {
-  min-width: 600px;
+  min-width: 700px;
   min-height: 400px;
   margin-bottom: 20px;
 
@@ -118,8 +132,12 @@ export default Vue.extend({
   .user, .header {
     display: flex;
 
-    .name, .startDate, .endDate {
+    .name, .startDate, .endDate, .revoke, .redeem {
       flex-basis: 10em;
+    }
+
+    .revoke, .redeem {
+      text-align: center;
     }
   }
 
