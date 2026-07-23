@@ -99,7 +99,7 @@ export default Vue.extend({
                 span(v-else) {{ cls.name }}
               template(v-if="getClassName(user.userID)?.length > 2") {{ $t('teachers.and_more') }}
             .revoke
-              button.btn.btn-danger(@click="revokeUser(user.userID)") {{ 'revoke' }}
+              button.btn.purple-btn(@click="revokeUser(user.userID)") {{ $t('teacher.revoke_license') }}
 
         .content(v-else)
           .header {{ $t('common.empty_results') }}
@@ -115,14 +115,19 @@ export default Vue.extend({
             .startDate {{ moment(user.startDate).format('ll') }}
             .endDate {{ moment(user.endDate).format('ll') }}
             .redeem
-              button.btn.btn-warning(@click="redeemUser(user.userID)") {{ 'redeem' }}
+              button.btn.btn-gold(@click="redeemUser(user.userID)") {{ $t('teacher.apply_license') }}
         .content(v-else)
           .header {{ $t('common.empty_results') }}
 </template>
 
 <style lang="scss" scoped>
+@import "app/styles/bootstrap/variables";
+@import "ozaria/site/styles/common/variables.scss";
+@import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "ozaria/site/components/teacher-dashboard/common/_purple-button";
+
 .license-stats {
-  min-width: 700px;
+  min-width: 800px;
   min-height: 400px;
   margin-bottom: 20px;
 
@@ -131,6 +136,10 @@ export default Vue.extend({
   }
   .user, .header {
     display: flex;
+
+    .classrooms {
+      flex-basis: 20em;
+    }
 
     .name, .startDate, .endDate, .revoke, .redeem {
       flex-basis: 10em;
