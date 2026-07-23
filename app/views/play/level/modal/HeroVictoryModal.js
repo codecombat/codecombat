@@ -90,7 +90,7 @@ module.exports = (HeroVictoryModal = (function () {
         this.readyToContinue = false
         this.waitingToContinueSince = new Date()
         this.previousXP = me.get('points', true)
-        this.previousLevel = me.level()
+        this.previousLevel = me.rank()
       } else {
         this.readyToContinue = true
       }
@@ -489,11 +489,11 @@ module.exports = (HeroVictoryModal = (function () {
       const { previousLevel } = this
 
       const currentXP = previousXP + achievedXP
-      const currentLevel = User.levelFromExp(currentXP)
-      const currentLevelXP = User.expForLevel(currentLevel)
+      const currentLevel = User.rankFromExp(currentXP)
+      const currentLevelXP = User.expForRank(currentLevel)
 
       const nextLevel = currentLevel + 1
-      const nextLevelXP = User.expForLevel(nextLevel)
+      const nextLevelXP = User.expForRank(nextLevel)
 
       const leveledUp = currentLevel > previousLevel
       const totalXPNeeded = nextLevelXP - currentLevelXP

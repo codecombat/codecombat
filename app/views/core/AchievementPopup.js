@@ -35,10 +35,10 @@ module.exports = (AchievementPopup = (function () {
 
     calculateData () {
       let achievedXP, data
-      const currentLevel = me.level()
+      const currentLevel = me.rank()
       const nextLevel = currentLevel + 1
-      const currentLevelXP = User.expForLevel(currentLevel)
-      const nextLevelXP = User.expForLevel(nextLevel)
+      const currentLevelXP = User.expForRank(currentLevel)
+      const nextLevelXP = User.expForRank(nextLevel)
       const totalXPNeeded = nextLevelXP - currentLevelXP
       const expFunction = this.achievement.getExpFunction()
       const currentXP = me.get('points', true)

@@ -318,7 +318,7 @@ module.exports = class SpellView extends CocoView
         aceConfig = me.get('aceConfig') ? {}
         disableSpaces = false if aceConfig.keyBindings and aceConfig.keyBindings isnt 'default'  # Not in vim/emacs mode
         disableSpaces = false if @spell.language in ['lua', 'java', 'cpp', 'coffeescript', 'html']  # Don't disable for more advanced/experimental languages
-        if not disableSpaces or (_.isNumber(disableSpaces) and disableSpaces < me.level())
+        if not disableSpaces or (_.isNumber(disableSpaces) and disableSpaces < me.rank())
           return @ace.execCommand 'insertstring', ' '
         line = @aceDoc.getLine @ace.getCursorPosition().row
         return @ace.execCommand 'insertstring', ' ' if @singleLineCommentRegex().test line
@@ -672,7 +672,7 @@ module.exports = class SpellView extends CocoView
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?
     lockDefaultCode = @options.level.get('lockDefaultCode') or false
-    if not lockDefaultCode or (_.isNumber(lockDefaultCode) and lockDefaultCode < me.level())
+    if not lockDefaultCode or (_.isNumber(lockDefaultCode) and lockDefaultCode < me.rank())
       return
     return unless @spell.source is @spell.originalSource or force
     aceConfig = me.get('aceConfig') ? {}
@@ -816,7 +816,7 @@ module.exports = class SpellView extends CocoView
   reallyAddUserSnippets: (source, lang, session) ->
     return unless @autocomplete and @autocompleteOn
     return if @options.level.get('product') is 'codecombat-junior'
-    return if me.level() < 15  # Don't do this until later, to avoid custom user snippets before they are useful
+    return if me.rank() < 15  # Don't do this until later, to avoid custom user snippets before they are useful
     newIdentifiers = aceUtils.parseUserSnippets(source, lang, session)
     # console.log 'debug newIdentifiers: ', newIdentifiers
     @autocomplete?.addCustomSnippets Object.values(newIdentifiers), @editorLang if @editorLang?
@@ -1369,7 +1369,7 @@ module.exports = class SpellView extends CocoView
     hashValue = aether.raw + aetherProblem.message
     return if hashValue of @savedProblems
     @savedProblems[hashValue] = true
-    sampleRate = Math.max(1, (me.level()-2) * 2) * 0.01 # Reduce number of errors reported on earlier levels
+    sampleRate = Math.max(1, (me.rank()-2) * 2) * 0.01 # Reduce number of errors reported on earlier levels
     return unless Math.random() < sampleRate
     # Save new problem
     ucp = @createUserCodeProblem aether, aetherProblem

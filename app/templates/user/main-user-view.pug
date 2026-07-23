@@ -10,7 +10,7 @@ block append content
     li.active(data-i18n="nav.profile")
 
   if view.user
-    - var playerLevel = view.user.level()
+    - var playerLevel = view.user.rank()
     - var emails = view.user.getEnabledEmails()
     - var levelsComplete = (view.user.get('stats') || {}).gamesCompleted
     - var heroes = view.user.heroes().length

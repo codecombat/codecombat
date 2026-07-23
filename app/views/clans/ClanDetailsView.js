@@ -410,7 +410,7 @@ module.exports = (ClanDetailsView = (function () {
     }
 
     onMembersSync () {
-      this.stats.averageLevel = Math.round(this.members.reduce((sum, member) => sum + member.level(), 0) / this.members.length)
+      this.stats.averageLevel = Math.round(this.members.reduce((sum, member) => sum + member.rank(), 0) / this.members.length)
       return (typeof this.render === 'function' ? this.render() : undefined)
     }
 

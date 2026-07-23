@@ -124,7 +124,7 @@ module.exports = (AnalyticsSubscriptionsView = (function () {
           for (const cancellation of Array.from(cancelledSubscriptions)) {
             if (cancellation.userID in userMap) {
               cancellation.user = userMap[cancellation.userID]
-              cancellation.level = User.levelFromExp(cancellation.user.points)
+              cancellation.level = User.rankFromExp(cancellation.user.points)
             }
           }
           cancelledSubscriptions.sort(function (a, b) { if (a.cancel > b.cancel) { return -1 } else { return 1 } })
@@ -247,7 +247,7 @@ module.exports = (AnalyticsSubscriptionsView = (function () {
           var hero
           if (!(subscriber.userID in userMap)) { continue }
           subscriber.user = userMap[subscriber.userID]
-          subscriber.level = User.levelFromExp(subscriber.user.points)
+          subscriber.level = User.rankFromExp(subscriber.user.points)
           if (hero = subscriber.user.heroConfig != null ? subscriber.user.heroConfig.thangType : undefined) {
             subscriber.hero = _.invert(ThangType.heroes)[hero]
           }

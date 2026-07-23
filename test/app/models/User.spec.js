@@ -8,20 +8,20 @@ const User = require('models/User')
 
 describe('UserModel', function () {
   it('experience functions are correct', function () {
-    expect(User.expForLevel(User.levelFromExp(0))).toBe(0)
-    expect(User.levelFromExp(User.expForLevel(1))).toBe(1)
-    expect(User.levelFromExp(User.expForLevel(10))).toBe(10)
-    expect(User.expForLevel(1)).toBe(0)
-    return expect(User.expForLevel(2)).toBeGreaterThan(User.expForLevel(1))
+    expect(User.expForRank(User.rankFromExp(0))).toBe(0)
+    expect(User.rankFromExp(User.expForRank(1))).toBe(1)
+    expect(User.rankFromExp(User.expForRank(10))).toBe(10)
+    expect(User.expForRank(1)).toBe(0)
+    return expect(User.expForRank(2)).toBeGreaterThan(User.expForRank(1))
   })
 
-  it('level is calculated correctly', function () {
+  it('rank is calculated correctly', function () {
     me.clear()
     me.set('points', 0)
-    expect(me.level()).toBe(1)
+    expect(me.rank()).toBe(1)
 
     me.set('points', 50)
-    return expect(me.level()).toBe(User.levelFromExp(50))
+    return expect(me.rank()).toBe(User.rankFromExp(50))
   })
 
   describe('user emails', function () {

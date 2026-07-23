@@ -149,7 +149,7 @@ block content
                   a(href='/user/' + member.id)= member.get('name') || 'Anonymous'
                 div
                   span.spr(data-i18n="general.player_rank") Rank
-                  span= member.level()
+                  span= member.rank()
                 if isOwner && member.id !== clan.get('ownerID')
                   button.btn.btn-xs.btn-warning.remove-member-btn(data-id=member.id, data-i18n="clans.rem_hero") Remove Hero
               td.progress-cell
@@ -246,7 +246,7 @@ block content
                   span.code-language-cell(style=`background-image: url(/images/common/code_languages/${memberLanguageMap[member.id]}_small.png)`, title=memberLanguageMap[member.id])
               td.name-cell
                 a(href='/user/' + member.id)= member.get('name') || 'Anonymous'
-              td.level-cell= member.level()
+              td.level-cell= member.rank()
               td.achievements-cell
                 if memberAchievementsMap && memberAchievementsMap[member.id]
                   | #{memberAchievementsMap[member.id].length}
