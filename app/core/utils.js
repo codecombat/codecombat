@@ -471,15 +471,15 @@ courseAcronyms[allCourseIDs.CHAPTER_FOUR] = 'CH4'
 courseAcronyms[allCourseIDs.HACKSTACK] = 'AI'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.INTRO_TO_AI] = 'INTRO'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ENGLISH_LANGUAGE_ARTS] = 'ELA'
-courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ALGEBRA] = 'ALGEBRA'
+courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ALGEBRA] = 'ALG'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.CAREER_READINESS] = 'CR1'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ARTIFICIAL_INTELLIGENCE_1] = 'AI1'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.COMPUTER_SCIENCE] = 'CS'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ARTIFICIAL_INTELLIGENCE_2] = 'AI2'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.CAREER_READINESS_2] = 'CR2'
-courseAcronyms[HACKSTACK_COURSE_IDS_MAP.AI_SANDBOX] = 'SANDBOX'
-courseAcronyms[HACKSTACK_COURSE_IDS_MAP.AI_EXPLORATIONS] = 'EXPLORATIONS'
-courseAcronyms[HACKSTACK_COURSE_IDS_MAP.CYBER] = 'CYBER'
+courseAcronyms[HACKSTACK_COURSE_IDS_MAP.AI_SANDBOX] = 'SBOX'
+courseAcronyms[HACKSTACK_COURSE_IDS_MAP.AI_EXPLORATIONS] = 'EXP'
+courseAcronyms[HACKSTACK_COURSE_IDS_MAP.CYBER] = 'CYB'
 
 const courseCampaignSlugs = {}
 courseCampaignSlugs[allCourseIDs.JUNIOR] = 'junior'
@@ -1127,7 +1127,7 @@ const tournamentSortFn = function (ta, tb) {
     initializing: 2,
     disabled: 4,
   }
-  return (stateOrder[ta.state] - stateOrder[tb.state]) || (new Date(ta.endDate) - new Date(tb.endDate))
+  return (stateOrder[ta.state] - stateOrder[tb.state]) || (new Date(tb.created) - new Date(ta.created))
 }
 
 const usStateCodes =

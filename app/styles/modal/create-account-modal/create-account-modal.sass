@@ -23,6 +23,11 @@
       width: 850px
     max-width: fit-content
     min-width: 850px
+    @media (max-width: 767px)
+      width: calc(100vw - 24px)
+      max-width: calc(100vw - 24px)
+      min-width: 0
+      margin: 12px auto
     @media (max-height: 800px)
       margin-top: 0
 
@@ -32,7 +37,7 @@
         box-shadow: 0 5px 15px rgb(0 0 0 / 50%)
         border-radius: 20px
         overflow: hidden
-        background: linear-gradient(66.45deg, #FFFEF0 15.94%, #FFFDEA 29.45%, #FFF8CF 46.45%, #FDF7D7 76.99%, #FFFCE9 83.48%)
+        background: white
         @media (max-width: $screen-md-min)
           min-width: fit-content
 
@@ -56,11 +61,38 @@
     @if $is-codecombat
       max-width: fit-content
       min-width: 850px
+      border-radius: 24px
+      overflow: hidden
     @else
       width: 850px
     text-align: center
     padding: 0
     border: none
+    @media (max-width: 767px)
+      width: 100%
+      max-width: 100%
+      min-width: 0
+      min-height: auto
+      max-height: calc(100vh - 24px)
+      max-height: calc(100dvh - 24px)
+
+  // Individual flow: on desktop let the outer modal shell grow to fit basic-info's
+  // inline validation feedback instead of only inner-scrolling under the 850px cap
+  // (which pushed #create-account-btn below the fold). Scoped via .path-individual
+  // so teacher/student keep the 850px cap + existing inner-scroll fixes.
+  .modal-dialog.path-individual .modal-content
+    @media (min-width: 768px)
+      max-height: calc(100vh - 24px)
+
+  // Individual flow: post-signup "Start playing" CTA gets the purple theme too
+  .modal-dialog.path-individual #start-btn.btn-navy
+    background-color: #7a65fc
+    border: none
+    border-radius: 10px
+    font-weight: 700
+    color: white
+    &:hover
+      background-color: #9487ff
 
   // General modal stuff
 
@@ -83,6 +115,14 @@
       right: 20px
       position: absolute
       z-index: 1
+      border: none
+      background: none
+      // bold purple close per the new design ($purple in component_variables)
+      color: #7a65fc
+      opacity: 0.9
+      font-size: 22px
+      &:hover
+        opacity: 1
 
     .close, .back
       color: white
@@ -90,6 +130,14 @@
       right: 7px
       &:hover
         opacity: 0.9
+
+    // White-header screens (individual flow) get the purple close instead of white
+    .modal-header.individual .close
+      color: #7a65fc
+      opacity: 0.9
+      font-size: 20px
+      &:hover
+        opacity: 1
   @else
     .close
       color: $teal
@@ -106,12 +154,33 @@
     height: 100px
     max-height: 10.5vh
     padding: 0
+    @media (max-width: 767px)
+      // 10.5vh clips a wrapped 2-line title on short/narrow phones (the
+      // individual flow's longer header text wraps at 375px) now that
+      // .modal-content clips overflow for its rounded corners. Let the header
+      // grow with its content on mobile instead of capping it below it.
+      height: auto
+      min-height: 64px
+      max-height: none
 
     @if $is-codecombat
       background-color: $navy
 
       h3
         color: white
+
+      // Individual flow: white header, dark bold title (new design)
+      &.individual
+        background-color: white
+
+        h3
+          color: #17314d
+          font-weight: 700
+
+      @media (max-width: 767px)
+        // Keep a wrapped title clear of the absolute close button
+        h3
+          padding: 0 44px
 
   .modal-footer
     padding: 0
@@ -120,6 +189,10 @@
     display: flex
     align-items: center
     justify-content: center
+    @media (max-width: 767px)
+      min-height: 50px
+      height: auto
+      padding: 14px 16px
 
     @if $is-codecombat
       background-color: $navy
@@ -130,15 +203,32 @@
       a span
         text-decoration: underline
 
+      // Individual flow: white footer, purple sign-in link (new design)
+      &[class*="path-individual"]
+        background-color: white
+
+        span
+          color: #5a6b7b
+
+        a span
+          color: #7a65fc
+
   #choose-account-type-view, #segment-check-view, #eu-confirmation-view, #oz-vs-coc-view, #basic-info-view, #coppa-deny-view, #single-sign-on-already-exists-view, #single-sign-on-confirm-view, #extras-view, #confirmation-view
     display: flex
     flex-direction: column
     flex-grow: 1
+    // Allow the flex child to shrink below its content height so the body below
+    // can become a scroller instead of pushing the modal out of frame.
+    min-height: 0
 
   .modal-body
     display: flex
     flex-direction: column
     flex-grow: 1
+    // Scroll tall step content within the body (header/footer stay fixed) when it
+    // exceeds the capped modal height, so no content is unreachable on laptop/mobile.
+    min-height: 0
+    overflow-y: auto
 
   .modal-body-content
     flex-grow: 2
@@ -146,7 +236,15 @@
     flex-direction: column
     align-items: center
     justify-content: center
+    // No min-height: 0 here on purpose. .modal-body (above) is the one true
+    // scroller for this column; letting this shrink below its own content's
+    // height makes that content overflow *underneath* the sibling
+    // .history-nav-buttons instead of extending the scrollable area, which is
+    // what hid/occluded the Facebook button and made it fight the
+    // Back/Continue row for hover/click on tighter viewports.
     padding: 20px 0
+    @media (max-width: 767px)
+      padding: 16px 0
 
   // Back/forward buttons
 
@@ -155,6 +253,9 @@
     display: flex
     flex-direction: row-reverse
     flex-grow: 1
+    // Never shrink below the buttons' own size: this row must stay pinned
+    // below whatever .modal-body-content actually rendered, not overlap it.
+    flex-shrink: 0
     align-items: flex-end
     justify-content: space-between
 
@@ -162,9 +263,46 @@
       // Undo .style-flat's .btn + .btn margin
       margin: 0
 
+    // Individual flow: purple primary / ghost back (new design)
+    &.individual
+      .btn
+        border-radius: 10px
+        font-weight: 700
+
+      .btn-navy
+        background-color: #7a65fc
+        border: none
+        color: white
+
+        &:hover:not([disabled])
+          background-color: #9487ff
+
+        &[disabled]
+          background-color: #d5d5fc
+          color: white
+
+      .btn-navy-alt
+        background: white
+        border: 2px solid #d5d5fc
+        color: #7a65fc
+
+        &:hover
+          border-color: #9487ff
+          background: #f5f4ff
+
     // Left-align when there's only a back button
     .back-button:first-child:last-child
       margin-right: auto
+
+    @media (max-width: 767px)
+      // Keep both actions on one row. Stacking them makes this section taller
+      // than the remaining modal body and lets the sticky footer cover Back.
+      flex-direction: row-reverse
+      align-items: flex-end
+      gap: 12px
+
+      .btn
+        width: auto
 
   // Forms
 
@@ -220,8 +358,9 @@
         width: 430px
         padding: 0
         border: none
-        border-top: thin solid #444
-        color: #444
+        // purple divider lines per the new design
+        border-top: thin solid #9487ff
+        color: #9487ff
       span
         position: absolute
         left: 50%
@@ -230,6 +369,7 @@
         padding: 0 0.75em
         font-weight: bold
         font-size: 10pt
+        color: #5a6b7b
         background: white
 
   // Glyphicon colors
