@@ -26,6 +26,7 @@ export default {
       classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
       classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
       selectedStudentIds: 'baseSingleClass/selectedStudentIds',
+      selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
       courses: 'courses/sorted',
     }),
   },
@@ -39,11 +40,7 @@ export default {
   },
 
   mounted () {
-    const paramCourse = this.$route?.query?.assignContent
-    console.log('waht ? ', paramCourse)
-    if (paramCourse) {
-      this.selected = paramCourse
-    }
+    this.selected = this.selectedCourseId
   },
 
   methods: {

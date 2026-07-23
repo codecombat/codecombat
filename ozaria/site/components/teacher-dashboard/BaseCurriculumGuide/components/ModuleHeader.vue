@@ -95,7 +95,7 @@ export default {
     },
 
     assignCourse () {
-      this.trackEvent(`Click Assign to Class in Curriculum with course: ${this.getCurrentCourse?.slug}`)
+      this.trackEvent('Click Assign to Class in Curriculum')
       application.router.navigate(`/teachers/classes?assignContent=${this.getCurrentCourse?._id}`, { trigger: true })
     },
 

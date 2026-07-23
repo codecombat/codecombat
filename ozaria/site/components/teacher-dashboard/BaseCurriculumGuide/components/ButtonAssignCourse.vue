@@ -15,7 +15,7 @@ export default {
     :disabled="locked"
     @click="$emit('click')"
   >
-    <span>{{ $t('teacher_dashboard.assign_to_class') }}</span>
+    <span>{{ $t('teacher_dashboard.assign_to_class') }} →</span>
   </button>
 </template>
 
