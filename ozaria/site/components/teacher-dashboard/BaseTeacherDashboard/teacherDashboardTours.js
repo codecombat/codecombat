@@ -43,7 +43,7 @@ const PLAN_FIRST_CLASS_STEP = {
   }],
 }
 
-const TEACHER_TOOLKIP_STEP = {
+const TEACHER_TOOLKIT_STEP = {
   attachTo: {
     element: '#TeacherToolDropdown',
     on: 'right',
@@ -54,7 +54,7 @@ const TEACHER_TOOLKIP_STEP = {
     action () {
       return this.next()
     },
-    text: $.i18n.t('teacher_dashboard.click_dismiss'),
+    text: $.i18n.t('common.next'),
   }],
 }
 
@@ -103,7 +103,7 @@ const TEST_STUDENT_STEP = {
     action () {
       return this.next()
     },
-    text: $.i18n.t('teacher_dashboard.click_dismiss'),
+    text: $.i18n.t('common.next'),
   }],
   beforeShowPromise: function () {
     return new Promise((resolve) => {
@@ -314,7 +314,7 @@ const LOCK_CONTENT_STEP = {
   },
 }
 
-const TOUR_REPLAY_STEP = {
+const tourReplayStep = (override = {}) => ({
   attachTo: {
     element: '#replay-tour-btn',
     on: 'right',
@@ -327,7 +327,8 @@ const TOUR_REPLAY_STEP = {
     },
     text: $.i18n.t('teacher_dashboard.click_dismiss'),
   }],
-}
+  ...override,
+})
 
 export const HS_GUIDE_TOUR_STEPS = [
   WELCOME_STEP,
@@ -337,19 +338,31 @@ export const HS_GUIDE_TOUR_STEPS = [
   ASSIGN_CONTENT_STEP,
   APPLY_LICENSES_STEP,
   LOCK_CONTENT_STEP,
-  TOUR_REPLAY_STEP,
+  tourReplayStep(),
 ]
 
 export const FIRST_CLASS_STEPS = [
   CLICK_INTO_CLASS_STEP,
   ADD_STUDENTS_STEP,
   TEST_STUDENT_STEP,
+  tourReplayStep({
+    attachTo: {
+      element: '#replay-first-class-tour-btn',
+      on: 'right',
+    },
+  }),
 ]
 
 export const CREATE_CLASS_STEPS = [
   CREATE_CLASS_STEP,
   PLAN_FIRST_CLASS_STEP,
-  TEACHER_TOOLKIP_STEP,
+  TEACHER_TOOLKIT_STEP,
+  tourReplayStep({
+    attachTo: {
+      element: '#replay-create-class-tour-btn',
+      on: 'right',
+    },
+  }),
 ]
 
 export const AI_LEAGUE_STEPS = [

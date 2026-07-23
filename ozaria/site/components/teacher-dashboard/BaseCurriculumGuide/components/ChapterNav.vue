@@ -75,6 +75,7 @@ export default {
     },
     showBetaIcon (id) {
       return [utils.courseIDs.ENGLISH_LANGUAGE_ARTS,
+              utils.courseIDs.COMPUTER_SCIENCE,
               utils.courseIDs.CYBER].includes(id)
     },
   },

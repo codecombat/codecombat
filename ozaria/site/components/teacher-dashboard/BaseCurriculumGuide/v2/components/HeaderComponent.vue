@@ -16,6 +16,7 @@
     </div>
     <old-header-component
       v-if="showGuideHeader()"
+      :product="product"
     />
   </div>
 </template>
