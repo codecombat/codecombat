@@ -1,9 +1,7 @@
 <script>
 import 'vendor/styles/plyr.css'
 import BaseModal from 'ozaria/site/components/common/BaseModal'
-import { cutsceneEvent } from './cutsceneUtil'
 const Plyr = require('vendor/scripts/plyr')
-const VimeoPlayer = require('@vimeo/player').default
 
 export default {
 
@@ -11,11 +9,6 @@ export default {
     BaseModal
   },
   props: {
-    vimeoId: {
-      type: String,
-      required: false
-    },
-
     videoSrc: {
       type: String,
       required: false
@@ -39,54 +32,15 @@ export default {
     skipping: false
   }),
 
-  watch: {
-    soundOn () {
-      if (!this.vimeoPlayer) {
-        return
-      }
-      this.updateVideoSound()
-    }
-  },
-
   async mounted () {
-    if (!(this.vimeoId || this.videoSrc)) {
-      throw new Error('You must pass in a "vimeoId" or a "videoSrc"')
+    if (!this.videoSrc) {
+      throw new Error('You must pass in a "videoSrc"')
     }
-
-    if (this.vimeoId) {
-      const player = this.vimeoPlayer = new VimeoPlayer(this.$refs['vimeo-player'])
-
-      // TODO: Instead of emitting completed, requires end screen UI.
-      //        Currently a stop gap to provide Intro support.
-      player.on('ended', () => this.$emit('completed'))
-
-      // Unfortunately, we have to use a promise here because the Vimeo error handling
-      // does not throw an error like expected. Only the .catch at the end of this chain
-      // is really able to handle the 403.
-      player.ready().then(async () => {
-        try {
-          cutsceneEvent('Video Loaded')
-          await player.setVolume(this.soundOn ? 1 : 0)
-          await player.play()
-        } catch (e) {
-          console.warn('Wasn\'t able to auto play video.')
-        }
-      }).catch((e) => {
-        console.error(e)
-        this.videoUnavailable = true
-      })
-    } else if (this.videoSrc) {
-      const vid = new Plyr(this.$refs.player, { captions: { active: true } })
-      vid.on('ended', () => this.$emit('completed'))
-    }
+    const vid = new Plyr(this.$refs.player, { captions: { active: true } })
+    vid.on('ended', () => this.$emit('completed'))
   },
 
   methods: {
-    updateVideoSound () {
-      // TODO: This can sometimes pause the video when turning on the volume.
-      this.vimeoPlayer.setVolume(this.soundOn ? 1 : 0)
-        .catch((e) => console.warn('Couldn\'t set volume of cutscene'))
-    },
     skip () {
       this.skipping = true
       this.$emit('completed')
