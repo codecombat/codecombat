@@ -51,6 +51,7 @@ const JuniorPromotionModal = require('views/core/JuniorPromotionModal')
 const CCHomePromotionModal = require('views/core/CCHomePromotionModal')
 const WorldsPromotionModal = require('views/core/WorldsPromotionModal') // Roblox modal
 const HackstackPromotionModal = require('views/core/HackstackPromotionModal')
+const DomainBanner = require('app/components/common/DomainBanner').default
 require('lib/game-libraries')
 
 const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
@@ -406,6 +407,7 @@ class CampaignView extends RootView {
   }
 
   destroy () {
+    this.domainBannerVue?.$destroy()
     this.setupManager?.destroy()
     this.$el.find('.ui-draggable').off().draggable('destroy')
     window.removeEventListener('resize', this.onWindowResize)
@@ -942,8 +944,22 @@ class CampaignView extends RootView {
     }
   }
 
+  mountDomainBanner () {
+    const container = this.$el.find('#domain-banner-container')[0]
+    if (!container) return
+    if (this.domainBannerVue) {
+      $(container).replaceWith(this.domainBannerVue.$el)
+      return
+    }
+    this.domainBannerVue = new Vue({
+      el: container,
+      render: h => h(DomainBanner),
+    })
+  }
+
   afterRender () {
     super.afterRender()
+    this.mountDomainBanner()
     if ($.isTouchCapable() && (screen.availHeight < screen.availWidth)) {
       // scroll to vertical center on landscape touchscreens
       $('.portal').animate({
