@@ -291,7 +291,7 @@ module.exports = class SpellView extends CocoView
         aceConfig = me.get('aceConfig') ? {}
         disableSpaces = false if aceConfig.keyBindings and aceConfig.keyBindings isnt 'default'  # Not in vim/emacs mode
         disableSpaces = false if @spell.language in ['lua', 'java', 'cpp', 'coffeescript', 'html']  # Don't disable for more advanced/experimental languages
-        if not disableSpaces or (_.isNumber(disableSpaces) and disableSpaces < me.level())
+        if not disableSpaces or (_.isNumber(disableSpaces) and disableSpaces < me.rank())
           return @ace.execCommand 'insertstring', ' '
         line = @aceDoc.getLine @ace.getCursorPosition().row
         return @ace.execCommand 'insertstring', ' ' if @singleLineCommentRegex().test line
@@ -508,7 +508,7 @@ module.exports = class SpellView extends CocoView
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?
     lockDefaultCode = @options.level.get('lockDefaultCode') or false
-    if not lockDefaultCode or (_.isNumber(lockDefaultCode) and lockDefaultCode < me.level())
+    if not lockDefaultCode or (_.isNumber(lockDefaultCode) and lockDefaultCode < me.rank())
       return
     return unless @spell.source is @spell.originalSource or force
     aceConfig = me.get('aceConfig') ? {}
@@ -1077,7 +1077,7 @@ module.exports = class SpellView extends CocoView
     hashValue = aether.raw + aetherProblem.message
     return if hashValue of @savedProblems
     @savedProblems[hashValue] = true
-    sampleRate = Math.max(1, (me.level()-2) * 2) * 0.01 # Reduce number of errors reported on earlier levels
+    sampleRate = Math.max(1, (me.rank()-2) * 2) * 0.01 # Reduce number of errors reported on earlier levels
     return unless Math.random() < sampleRate
     ucp = @createUserCodeProblem aether, aetherProblem
     ucp.save()

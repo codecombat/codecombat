@@ -3493,7 +3493,7 @@ module.exports = {
       new_xp_prefix: '',
       new_xp_postfix: ' gañado',
       left_xp_prefix: '',
-      left_xp_infix: ' ata o nivel',
+      left_xp_rank_infix: '[AI_TRANSLATION] ata o rango ',
       left_xp_postfix: '',
     },
 

@@ -128,7 +128,7 @@ module.exports = (PlayItemsModal = (function () {
         model.name = utils.i18n(model.attributes, 'name')
         model.affordable = cost <= gemsOwned
         model.silhouetted = !model.owned && model.isSilhouettedItem()
-        if (model.get('tier') != null) { model.level = model.levelRequiredForItem() }
+        if (model.get('tier') != null) { model.rank = model.rankRequiredForItem() }
         model.unequippable = !_.intersection(me.getHeroClasses(), model.getAllowedHeroClasses()).length
         model.comingSoon = !model.getFrontFacingStats().props.length && !_.size(model.getFrontFacingStats().stats) && !model.owned // Temp: while there are placeholder items
         this.idToItem[model.id] = model

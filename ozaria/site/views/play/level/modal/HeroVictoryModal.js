@@ -90,7 +90,7 @@ module.exports = (HeroVictoryModal = (function () {
         this.readyToContinue = false
         this.waitingToContinueSince = new Date()
         this.previousXP = me.get('points', true)
-        this.previousLevel = me.level()
+        this.previousRank = me.rank()
       } else {
         this.readyToContinue = true
       }
@@ -454,22 +454,22 @@ module.exports = (HeroVictoryModal = (function () {
       } = this
       if (me.isInGodMode()) { previousXP = previousXP + 1000000 }
       const {
-        previousLevel
+        previousRank
       } = this
 
       const currentXP = previousXP + achievedXP
-      const currentLevel = User.levelFromExp(currentXP)
-      const currentLevelXP = User.expForLevel(currentLevel)
+      const currentRank = User.rankFromExp(currentXP)
+      const currentRankXP = User.expForRank(currentRank)
 
-      const nextLevel = currentLevel + 1
-      const nextLevelXP = User.expForLevel(nextLevel)
+      const nextRank = currentRank + 1
+      const nextRankXP = User.expForRank(nextRank)
 
-      const leveledUp = currentLevel > previousLevel
-      const totalXPNeeded = nextLevelXP - currentLevelXP
-      let alreadyAchievedPercentage = (100 * (previousXP - currentLevelXP)) / totalXPNeeded
-      if (alreadyAchievedPercentage < 0) { alreadyAchievedPercentage = 0 } // In case of level up
-      if (leveledUp) {
-        newlyAchievedPercentage = (100 * (currentXP - currentLevelXP)) / totalXPNeeded
+      const rankedUp = currentRank > previousRank
+      const totalXPNeeded = nextRankXP - currentRankXP
+      let alreadyAchievedPercentage = (100 * (previousXP - currentRankXP)) / totalXPNeeded
+      if (alreadyAchievedPercentage < 0) { alreadyAchievedPercentage = 0 } // In case of rank up
+      if (rankedUp) {
+        newlyAchievedPercentage = (100 * (currentXP - currentRankXP)) / totalXPNeeded
       } else {
         newlyAchievedPercentage = (100 * achievedXP) / totalXPNeeded
       }
@@ -477,13 +477,13 @@ module.exports = (HeroVictoryModal = (function () {
       const xpEl = $('#xp-wrapper')
       const xpBarJustEarned = xpEl.find('.xp-bar-already-achieved').css('width', alreadyAchievedPercentage + '%')
       const xpBarTotal = xpEl.find('.xp-bar-total').css('width', (alreadyAchievedPercentage + newlyAchievedPercentage) + '%')
-      const levelLabel = xpEl.find('.level')
-      utils.replaceText(levelLabel, currentLevel)
+      const rankLabel = xpEl.find('.rank')
+      utils.replaceText(rankLabel, currentRank)
 
-      if (leveledUp && (!this.displayedLevel || (currentLevel > this.displayedLevel))) {
+      if (rankedUp && (!this.displayedRank || (currentRank > this.displayedRank))) {
         this.playSound('level-up')
       }
-      return this.displayedLevel = currentLevel
+      return this.displayedRank = currentRank
     }
 
     endSequentialAnimations () {

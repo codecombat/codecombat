@@ -383,27 +383,28 @@ module.exports = (User = (function () {
     }
 
     // y = a * ln(1/b * (x + c)) + 1
-    static levelFromExp (xp) {
+    static rankFromExp (xp) {
       if (xp > 0) { return Math.floor(a * Math.log((1 / b) * (xp + c))) + 1 } else { return 1 }
     }
 
     // x = b * e^((y-1)/a) - c
-    static expForLevel (level) {
-      if (level > 1) { return Math.ceil((Math.exp((level - 1) / a) * b) - c) } else { return 0 }
+    static expForRank (rank) {
+      if (rank > 1) { return Math.ceil((Math.exp((rank - 1) / a) * b) - c) } else { return 0 }
     }
 
-    static tierFromLevel (level) {
+    static tierFromRank (rank) {
       // TODO: math
       // For now, just eyeball it.
-      return tiersByLevel[Math.min(level, tiersByLevel.length - 1)]
+      return tiersByLevel[Math.min(rank, tiersByLevel.length - 1)]
     }
 
-    static levelForTier (tier) {
+    static rankForTier (tier) {
       // TODO: math
-      for (let level = 0; level < tiersByLevel.length; level++) {
-        const tierThreshold = tiersByLevel[level]
-        if (tierThreshold >= tier) { return level }
+      for (let rank = 0; rank < tiersByLevel.length; rank++) {
+        const tierThreshold = tiersByLevel[rank]
+        if (tierThreshold >= tier) { return rank }
       }
+      return tiersByLevel.length - 1 // tier beyond the table: clamp to the max known rank
     }
 
     addNewUserCommonProperties () {
@@ -422,14 +423,16 @@ module.exports = (User = (function () {
       })
     }
 
-    level () {
+    // Player Rank (formerly "player level"), computed from the persisted `points` (XP) field.
+    // The `points` field name is part of the API/data model and stays as-is.
+    rank () {
       let totalPoint = this.get('points')
       if (this.isInGodMode()) { totalPoint = totalPoint + 1000000 }
-      return User.levelFromExp(totalPoint)
+      return User.rankFromExp(totalPoint)
     }
 
     tier () {
-      return User.tierFromLevel(this.level())
+      return User.tierFromRank(this.rank())
     }
 
     gems () {

@@ -582,7 +582,7 @@ class CampaignView extends RootView {
     if (!me.isInHourOfCode() && this.terrain) {
       if (me.get('name') &&
           ['forgetful-gemsmith', 'signs-and-portents', 'true-names'].includes(me.get('lastLevel')) &&
-          (me.level() < 5) &&
+          (me.rank() < 5) &&
           !['18-24', '25-34', '35-44', '45-100'].includes(me.get('ageRange')) &&
           !storage.load('sent-parent-email') &&
           !(me.isPremium() || me.isStudent() || me.isTeacher())) {
@@ -756,7 +756,7 @@ class CampaignView extends RootView {
     context = super.getRenderData(context)
     context.campaign = this.campaign
     context.levels = _.values($.extend(true, {}, this.getLevels() ?? {}))
-    if ((me.level() < 12) && (this.terrain === 'dungeon') && !this.editorMode) {
+    if ((me.rank() < 12) && (this.terrain === 'dungeon') && !this.editorMode) {
       context.levels = _.reject(context.levels, { slug: 'signs-and-portents' })
     }
     if (me.freeOnly()) {
@@ -851,7 +851,7 @@ class CampaignView extends RootView {
         context.campaigns[campaign.get('slug')] = campaign
         if (this.sessions?.loaded) {
           let levels = _.values($.extend(true, {}, campaign.get('levels') ?? {}))
-          if ((me.level() < 12) && (campaign.get('slug') === 'dungeon') && !this.editorMode) {
+          if ((me.rank() < 12) && (campaign.get('slug') === 'dungeon') && !this.editorMode) {
             levels = levels.filter(level => level.slug !== 'signs-and-portents')
           }
           // Special case for some player types (see User.js for more details)
@@ -2736,7 +2736,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'anonymous-classroom-signup') {
-      return me.isAnonymous() && (me.level() < 8) && me.promptForClassroomSignup() &&
+      return me.isAnonymous() && (me.rank() < 8) && me.promptForClassroomSignup() &&
         !this.editorMode && !this.isJuniorCampaign() && !storage.load('hid-anonymous-classroom-signup-dialog')
     }
 

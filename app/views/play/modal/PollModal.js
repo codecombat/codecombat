@@ -157,6 +157,7 @@ module.exports = (PollModal = (function () {
       this.$totalGems = this.$el.find('#total-gems-comment').hide()
       const commentStart = utils.commentStarts[(left1 = __guard__(me.get('aceConfig'), x => x.language)) != null ? left1 : 'python']
       const randomNumber = reward.random
+      // reward.level is the player's Rank (XP level) at reward time — persisted key stays `level` (GD-849)
       const randomGems = Math.ceil(2 * randomNumber * reward.level)
       const totalGems = this.previousReward ? me.gems() : Math.round(me.gems() + randomGems)
       const {

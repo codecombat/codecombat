@@ -10,7 +10,7 @@ block append content
     li.active(data-i18n="nav.profile")
 
   if view.user
-    - var playerLevel = view.user.level()
+    - var playerRank = view.user.rank()
     - var emails = view.user.getEnabledEmails()
     - var levelsComplete = (view.user.get('stats') || {}).gamesCompleted
     - var heroes = view.user.heroes().length
@@ -53,10 +53,10 @@ block append content
               div.extra-info
                 span.spr(data-i18n="user.heroes_unlocked") Heroes Unlocked
                 strong= heroes + " / 21"
-            if playerLevel
+            if playerRank
               div.extra-info
-                span.spr(data-i18n="general.player_level") Level
-                strong= playerLevel
+                span.spr(data-i18n="general.player_rank") Rank
+                strong= playerRank
             if codePoints
               div.extra-info
                 span.spr(data-i18n="league.codepoints") Code Points
