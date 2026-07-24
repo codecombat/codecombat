@@ -6435,6 +6435,7 @@ module.exports = {
       LeftSidebar_scenarios: 'Scenarios',
       'LeftSidebarItem_untitled-isprojectprojectscenario': 'Untitled __isProjectProjectScenario__',
       MessageBubble_ai: 'AI',
+      'MessageBubble_ais-response-was-cut-off-because-it-reac': "AI's response was cut off because it reached its length limit. Try asking a more specific question, or break it into smaller parts.",
       MessageBubble_teacher: 'Teacher',
       MessageBubble_you: 'You',
       NewProjectPage_: '▲',
