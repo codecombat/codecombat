@@ -1,116 +1,175 @@
 <script>
+import { mapGetters } from 'vuex'
 import IconHelp from '../../common/icons/IconHelp'
 import ProgressDot from '../../common/progress/progressDot'
 import utils from 'core/utils'
+const AiProject = require('app/models/AIProject')
+
+const BASE_LABELS = [
+  { key: 'complete', dotProps: { status: 'complete' }, label: 'teacher_dashboard.complete' },
+  { key: 'progress', dotProps: { status: 'progress' }, label: 'teacher.in_progress' },
+  { key: 'assigned', dotProps: { status: 'assigned' }, label: 'teacher.assigned' },
+  { key: 'locked', dotProps: { isLocked: true }, label: 'common.locked' },
+]
+
+const OZARIA_LABELS = [
+  { key: 'concept_flag', dotProps: { status: 'complete', flag: 'concept' }, label: 'teacher_dashboard.concept_flag' },
+]
+
+const COCO_LABELS = []
+
+const HACKSTACK_LABELS = [
+  { key: 'violation', dotProps: { status: 'complete', flag: AiProject.AI_UNSAFE }, label: 'teacher_dashboard.violation' },
+  { key: 'ai-struggling', dotProps: { status: 'complete', flag: AiProject.AI_STRUGGLING }, label: 'teacher_dashboard.ai_struggling' },
+  { key: 'ai-eval-yes', dotProps: { status: 'complete', aiEvalFlag: AiProject.AI_EVALUATION_YES }, label: 'teacher_dashboard.ai_eval_yes' },
+  { key: 'ai-eval-no', dotProps: { status: 'complete', aiEvalFlag: AiProject.AI_EVALUATION_NO }, label: 'teacher_dashboard.ai_eval_no' },
+]
+
+const OZARIA_POPOVER_ITEMS = [
+  {
+    rowClass: 'top-row',
+    subjectKey: 'teacher.all_students',
+    dotProps: { status: 'complete', flag: 'concept' },
+    descriptionKey: 'teacher_dashboard.concept_flag_desc',
+    borderClass: 'golden-olive-border',
+  },
+  {
+    rowClass: 'bottom-row',
+    subjectKey: 'courses.student',
+    dotProps: { status: 'complete', flag: 'concept' },
+    descriptionKey: 'teacher_dashboard.concept_flag_desc2',
+    borderClass: 'light-gray-border',
+  },
+]
+
+const COCO_POPOVER_ITEMS = [
+  {
+    rowClass: 'top-row',
+    subjectKey: 'courses.student',
+    dotProps: {
+      status: 'complete',
+      extraPracticeLevels: [
+        { name: 'Practice Level A', inProgress: true, isCompleted: true },
+        { name: 'Practice Level B', inProgress: true, isCompleted: true },
+        { name: 'Practice Level C', inProgress: true, isCompleted: true },
+      ],
+    },
+    descriptionKey: 'teacher_dashboard.completed_all_practice_levels',
+    borderClass: 'light-gray-border',
+  },
+  {
+    rowClass: 'bottom-row',
+    subjectKey: 'courses.student',
+    dotProps: {
+      status: 'complete',
+      extraPracticeLevels: [
+        { name: 'Practice Level A', inProgress: true, isCompleted: true },
+        { name: 'Practice Level B', inProgress: true },
+        { name: 'Practice Level C', inProgress: false },
+      ],
+    },
+    descriptionKey: 'teacher_dashboard.played_some_practice_levels',
+    borderClass: 'light-gray-border',
+  },
+]
+
+const HACKSTACK_POPOVER_ITEMS = [
+  {
+    rowClass: 'top-row',
+    subjectKey: 'courses.student',
+    dotProps: { status: 'complete', flag: AiProject.AI_STRUGGLING },
+    descriptionKey: 'teacher_dashboard.ai_struggling_desc',
+    borderClass: 'light-gray-border',
+  },
+  {
+    rowClass: 'bottom-row',
+    subjectKey: 'courses.student',
+    dotProps: { status: 'complete', flag: AiProject.AI_UNSAFE },
+    descriptionKey: 'teacher_dashboard.ai_unsafe_desc',
+    borderClass: 'light-gray-border',
+  },
+  {
+    rowClass: 'bottom-row',
+    subjectKey: 'teacher_dashboard.ai_eval_unsure',
+    dotProps: { status: 'complete', aiEvalFlag: AiProject.AI_EVALUATION_UNSURE },
+    descriptionKey: 'teacher_dashboard.ai_eval_unsure_desc',
+    borderClass: 'light-gray-border',
+  },
+]
+
+const REVIEW_POPOVER_ITEMS = [
+  {
+    rowClass: 'top-row',
+    subjectKey: 'teacher_dashboard.skipped',
+    dotProps: { isSkipped: true },
+    descriptionKey: 'teacher_dashboard.skipped_desc',
+    borderClass: 'light-gray-border',
+  },
+  {
+    rowClass: 'bottom-row',
+    subjectKey: 'teacher_dashboard.optional',
+    dotProps: { isOptional: true, isPlayable: true },
+    descriptionKey: 'teacher_dashboard.optional_desc',
+    borderClass: 'light-gray-border',
+  },
+]
 
 export default {
   components: {
     IconHelp,
     ProgressDot,
   },
-  props: {
-    showReviewLabels: {
-      type: Boolean,
-      default: false,
+  computed: {
+    ...mapGetters({
+      selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+    }),
+    isOzariaCourse () {
+      return utils.OZ_COURSE_IDS.includes(this.selectedCourseId)
     },
-  },
-  data () {
-    return {
-      isOzaria: utils.isOzaria,
-      isCodeCombat: utils.isCodeCombat,
-    }
+    isHackstackCourse () {
+      return utils.HACKSTACK_COURSE_IDS.includes(this.selectedCourseId)
+    },
+    popoverItems () {
+      if (this.isOzariaCourse) {
+        return [...OZARIA_POPOVER_ITEMS, ...REVIEW_POPOVER_ITEMS]
+      }
+      if (this.isHackstackCourse) {
+        return [...HACKSTACK_POPOVER_ITEMS, ...REVIEW_POPOVER_ITEMS]
+      }
+      return [...COCO_POPOVER_ITEMS, ...REVIEW_POPOVER_ITEMS]
+    },
+    popoverCells () {
+      return this.popoverItems.flatMap((item, i) => [
+        { key: `${i}-subject`, classes: [item.rowClass, item.borderClass], isDot: false, labelKey: item.subjectKey },
+        { key: `${i}-dot`, classes: [item.rowClass, item.borderClass], isDot: true, dotProps: item.dotProps },
+        { key: `${i}-desc`, classes: ['description', item.rowClass, item.borderClass], isDot: false, labelKey: item.descriptionKey },
+      ])
+    },
+    labelItems () {
+      if (this.isOzariaCourse) {
+        return [...BASE_LABELS, ...OZARIA_LABELS]
+      }
+      if (this.isHackstackCourse) {
+        return [...BASE_LABELS, ...HACKSTACK_LABELS]
+      }
+      return [...BASE_LABELS, ...COCO_LABELS]
+    },
   },
 }
 </script>
 
 <template>
   <div class="progress-labels">
-    <div class="img-subtext">
-      <div class="dot-border">
-        <div class="dot green-dot" />
-      </div>
-      <span>{{ $t('courses.complete') }}</span>
-    </div>
-    <div class="img-subtext">
-      <div class="dot-border">
-        <div class="dot teal-dot" />
-      </div>
-      <span>{{ $t('teacher.in_progress') }}</span>
-    </div>
-    <div class="img-subtext">
-      <div class="dot-border">
-        <div class="dot assigned-dot" />
-      </div>
-      <span>{{ $t('teacher.assigned') }}</span>
-    </div>
     <div
-      v-if="showReviewLabels"
+      v-for="item in labelItems"
+      :key="item.key"
       class="img-subtext"
     >
-      <progress-dot
-        :is-locked="true"
-        class="dot-border"
-      />
-      <span>{{ $t("common.locked") }}</span>
+      <progress-dot v-bind="item.dotProps" />
+      <span>{{ $t(item.label) }}</span>
     </div>
 
-    <div
-      v-if="isCodeCombat"
-      class="img-subtext"
-    >
-      <progress-dot
-        status="complete"
-        :border="'red'"
-      />
-      <span>{{ $t('teacher_dashboard.violation') }}</span>
-    </div>
-
-    <div
-      v-if="isCodeCombat"
-      class="img-subtext"
-    >
-      <progress-dot
-        status="complete"
-        :border="'purple'"
-      />
-      <span>{{ $t('teacher_dashboard.warning') }}</span>
-    </div>
-    <div
-      v-if="isOzaria && showReviewLabels"
-      class="img-subtext"
-    >
-      <div class="dot-border concept-flag-border">
-        <div class="dot green-dot" />
-      </div>
-      <span>{{ $t('teacher_dashboard.concept_flag') }}</span>
-    </div>
-    <div
-      v-if="showReviewLabels"
-      class="img-subtext"
-    >
-      <div class="dot-border">
-        <div class="dot">
-          <img src="/images/ozaria/teachers/dashboard/svg_icons/IconSkippedLevel.svg">
-        </div>
-      </div>
-      <span>{{ $t('teacher_dashboard.skipped') }}</span>
-    </div>
-    <div
-      v-if="showReviewLabels"
-      class="img-subtext"
-    >
-      <div class="dot-border">
-        <div class="dot">
-          <img src="/images/ozaria/teachers/dashboard/svg_icons/IconOptionalLevel.svg">
-        </div>
-      </div>
-      <span>{{ $t('teacher_dashboard.optional') }}</span>
-    </div>
-
-    <div
-      v-if="showReviewLabels"
-      class="help-container"
-    >
+    <div class="help-container">
       <v-popover
         popover-class="teacher-dashboard-tooltip lighter-p large-width"
         trigger="hover"
@@ -123,70 +182,19 @@ export default {
             <h3 style="margin-bottom: 15px;">
               {{ $t('teacher_dashboard.support_learning') }}
             </h3>
-            <div
-              v-if="isOzaria"
-              class="supportGrid"
-            >
-              <div class="top-row golden-olive-border">
-                <p>{{ $t('teacher.all_students') }}</p>
-              </div>
-              <div class="top-row golden-olive-border">
+            <div class="supportGrid">
+              <div
+                v-for="cell in popoverCells"
+                :key="cell.key"
+                :class="cell.classes"
+              >
                 <progress-dot
-                  :status="'complete'"
-                  :border="'red'"
+                  v-if="cell.isDot"
+                  v-bind="cell.dotProps"
                 />
-              </div>
-              <div class="description top-row golden-olive-border">
-                <p>{{ $t('teacher_dashboard.concept_flag_desc') }}</p>
-              </div>
-              <div class="bottom-row light-gray-border">
-                <p> {{ $t('courses.student') }} </p>
-              </div>
-              <div class="bottom-row light-gray-border">
-                <progress-dot
-                  :status="'complete'"
-                  :border="'red'"
-                />
-              </div>
-              <div class="description bottom-row light-gray-border">
-                <p> {{ $t('teacher_dashboard.concept_flag_desc2') }} </p>
-              </div>
-            </div>
-            <div
-              v-else
-              class="supportGrid"
-            >
-              <div class="top-row light-gray-border">
-                <p> {{ $t('courses.student') }} </p>
-              </div>
-              <div class="top-row light-gray-border">
-                <progress-dot
-                  :status="'complete'"
-                  :extra-practice-levels="[
-                    { name:' Practice Level A', inProgress: true, isCompleted: true },
-                    { name: 'Practice Level B', inProgress: true, isCompleted: true },
-                    { name: 'Practice Level C', inProgress: true, isCompleted: true },
-                  ]"
-                />
-              </div>
-              <div class="description top-row light-gray-border">
-                <p>{{ $t('teacher_dashboard.completed_all_practice_levels') }}</p>
-              </div>
-              <div class="bottom-row light-gray-border">
-                <p> {{ $t('courses.student') }} </p>
-              </div>
-              <div class="bottom-row light-gray-border">
-                <progress-dot
-                  :status="'complete'"
-                  :extra-practice-levels="[
-                    { name:' Practice Level A', inProgress: true, isCompleted: true },
-                    { name: 'Practice Level B', inProgress: true },
-                    { name: 'Practice Level C', inProgress: false },
-                  ]"
-                />
-              </div>
-              <div class="description bottom-row light-gray-border">
-                <p> {{ $t('teacher_dashboard.played_some_practice_levels') }} </p>
+                <p v-else>
+                  {{ $t(cell.labelKey) }}
+                </p>
               </div>
             </div>
             <p style="margin-top: 20px; font-family: Monaco, Menlo, Ubuntu Mono, Consolas, source-code-pro, monospace; font-size: 12px;">
@@ -246,49 +254,10 @@ export default {
   white-space: nowrap;
 }
 
-.dot-border {
-  width: 22px;
-  height: 22px;
-
-  margin-bottom: 6px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 3px;
-}
-
-.dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 8px;
-}
-
-.green-dot {
-  background-color: #2dcd38;
-}
-
-.teal-dot {
-  background-color: #1ad0ff;
-}
-
-.assigned-dot {
-  border: 1.5px solid #c8cdcc;
-}
-
-.concept-flag-border {
-  border: 1px solid #eb003b;
-}
-
-.time-flag-border {
-  border: 1px solid #828282;
-}
-
 .supportGrid {
   display: grid;
   grid-template-columns: 0.4fr 45px 1fr;
-  grid-template-rows: 47px 47px;
+  grid-auto-rows: minmax(47px, auto);
   justify-content: center;
   align-items: center;
 

@@ -14,7 +14,8 @@ import { getLevelUrl, isOzariaNoCodeLevelHelper } from 'ozaria/site/components/t
 
 import _ from 'lodash'
 import ClassroomLib from '../../../../../app/models/ClassroomLib.js'
-import { checkIfProjectComplete } from 'app/lib/ai-projects-helper'
+import { checkIfProjectComplete, hasStruggledOnProject } from 'app/lib/ai-projects-helper'
+import AIProject from 'app/models/AIProject'
 
 function getLearningGoalsDocumentation (content) {
   if (!content.documentation) {
@@ -572,30 +573,31 @@ export default {
       classSummaryProgress[index].status = 'progress'
     },
 
-    setUnsafeFlag (details, aiProjects) {
+    setUnsafeFlag (aiProjects) {
       if (!Array.isArray(aiProjects)) {
         return
       }
       if (aiProjects.some(project => project.unsafeChatMessages?.length > 0)) {
-        details.flag = 'unsafe'
+        return AIProject.AI_UNSAFE
       }
     },
 
-    setProjectWarningFlag (details, aiProjects) {
+    setProjectWarningFlag (aiProjects) {
       if (!Array.isArray(aiProjects)) {
         return
       }
-      if (aiProjects.some(project => {
-        const wrongChoices = project.wrongChoices || []
-        const counts = wrongChoices.reduce((acc, obj) => {
-          const key = obj.actionMessageId
-          acc[key] = (acc?.[key] || 0) + 1
-          return acc
-        }, {})
-        return Object.values(counts).some(v => v > 1)
-      })) {
-        details.flag = 'ai-project-warning'
+      if (hasStruggledOnProject(aiProjects)) {
+        return AIProject.AI_STRUGGLING
       }
+    },
+
+    aiEvaluationFlag (aiProjects) {
+      if (!Array.isArray(aiProjects) || aiProjects.length === 0) return
+      const latestProject = aiProjects[aiProjects.length - 1]
+      const evaluations = latestProject.evaluations || []
+      if (evaluations.length === 0) return
+      const latestEvaluation = evaluations[evaluations.length - 1]
+      return AIProject.getAiEvaluationFlag(latestEvaluation)
     },
 
     setClickHandler (details, student, moduleNum, aiScenario, aiProjects) {
@@ -624,23 +626,25 @@ export default {
     },
 
     createProgressDetailsByAiScenario ({ aiScenario, index, tooltipName, student, classSummaryProgress, moduleNum }) {
-      const details = {}
+      const details = { mode: aiScenario.mode }
       classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
       const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario.original]
 
       if (aiProjects) {
         this.setProgressDetails(details, classSummaryProgress, index)
         this.setClickHandler(details, student, moduleNum, aiScenario, aiProjects)
-        const completed = this.checkIfComplete(aiScenario, aiProjects)
-        this.setProjectWarningFlag(details, aiProjects)
-        // idealy a project won't have both warning and unsafe flag.
+        details.aiEvalFlag = this.aiEvaluationFlag(aiProjects)
+        let flag = this.setProjectWarningFlag(aiProjects)
+        // ideally a project won't have both warning and unsafe flag.
         // but in that case we should use unsafe to overwrite warning.
-        this.setUnsafeFlag(details, aiProjects)
+        flag = this.setUnsafeFlag(aiProjects) || flag
+        details.flag = flag
 
         const playedOn = this.findLatestChanged(aiProjects)
         if (playedOn) {
           details.playedOn = playedOn
         }
+        const completed = this.checkIfComplete(aiScenario, aiProjects)
         if (completed) {
           details.status = 'complete'
         }

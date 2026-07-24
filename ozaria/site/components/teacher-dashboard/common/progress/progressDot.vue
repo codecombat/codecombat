@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex'
 const moment = window.moment
+const AIProject = require('app/models/AIProject')
 
 export default {
   props: {
@@ -34,11 +35,6 @@ export default {
     lastLockDate: {
       type: Date,
       default: null,
-    },
-
-    border: {
-      type: String,
-      default: '',
     },
 
     clickState: {
@@ -123,6 +119,18 @@ export default {
       type: Array,
       default: () => [],
     },
+    flag: {
+      type: String,
+      default: '',
+      required: false,
+    },
+    aiEvalFlag: {
+      type: String,
+      default: AIProject.AI_EVALUATION_NONE,
+      validator: value => {
+        return AIProject.AI_EVALUATION_FLAGS.includes(value)
+      },
+    },
   },
 
   computed: {
@@ -157,6 +165,7 @@ export default {
         'border-red': this.border === 'red',
         'border-purple': this.border === 'purple',
         'border-gray': this.border === 'gray',
+        'border-yellow': this.border === 'yellow',
         selected: this.selected,
         hovered: this.hovered,
         'has-active-practice-levels': this.activePracticeLevels.length > 0,
@@ -182,10 +191,15 @@ export default {
       }[this.levelAccessStatus] || this.levelAccessStatus
 
       const status = $.i18n.t(`teacher_dashboard.${label}`) + (!this.isSkipped && date ? ' ' + $.i18n.t('teacher_dashboard.until_date', { date: dateString }) : '')
-
+      const flag = this.flagLabel ? `(${this.flagLabel})` : ''
+      let aiEvalLabel = AIProject.getEvaluationLabel(this.aiEvalFlag)
+      if (aiEvalLabel) {
+        aiEvalLabel = $.i18n.t('teacher_dashboard.ai_eval_status') + `: ${aiEvalLabel}`
+      }
       return `
-        ${status}
+        ${status} ${flag}
         ${this.tooltipName ? `<br><strong>${this.tooltipName}</strong>` : ''}
+        ${aiEvalLabel ? `<br>${aiEvalLabel}</br>` : ''}
         ${this.playedOn ? `<br>${$.i18n.t('user.last_played')}: ${moment(this.playedOn).format('lll')}` : ''}
         ${this.status === 'complete' && this.completionDate ? `<br>${$.i18n.t('teacher.completed')}: ${moment(this.completionDate).format('lll')}` : ''}
         ${this.playTime ? `<br>${$.i18n.t('teacher.time_played_label')} ${moment.duration({ seconds: this.playTime }).humanize()}` : ''}
@@ -213,6 +227,36 @@ export default {
         return true
       }
       return false
+    },
+
+    aiEvalPipClass () {
+      const map = {
+        [AIProject.AI_EVALUATION_YES]: 'pip-green',
+        [AIProject.AI_EVALUATION_NO]: 'pip-red',
+        [AIProject.AI_EVALUATION_UNSURE]: 'pip-gray',
+      }
+      return map[this.aiEvalFlag] || null
+    },
+    border () {
+      if (['concept', 'unsafe', AIProject.AI_UNSAFE].includes(this.flag)) {
+        return 'red'
+      }
+      if (this.flag === AIProject.AI_STRUGGLING) {
+        return 'yellow'
+      }
+      if (this.flag === 'time') {
+        return 'gray'
+      }
+      return ''
+    },
+    flagLabel () {
+      if (this.flag === AIProject.AI_STRUGGLING) {
+        return $.i18n.t('teacher_dashboard.ai_struggling')
+      } else if (this.flag === AIProject.AI_UNSAFE) {
+        return $.i18n.t('teacher_dashboard.violation')
+      } else {
+        return null
+      }
     },
   },
 
@@ -305,6 +349,11 @@ export default {
       >
         <i class="glyphicon glyphicon-time" />
       </span>
+      <span
+        v-if="aiEvalPipClass"
+        class="ai-eval-pip"
+        :class="aiEvalPipClass"
+      />
     </div>
   </div>
 </template>
@@ -428,6 +477,10 @@ export default {
   border: 1px solid #828282;
 }
 
+.border-yellow {
+  border: 2px solid #f7d047;
+}
+
 .has-active-practice-levels {
   border: 1px dotted blue;
   &.all-practice-levels-completed {
@@ -437,5 +490,18 @@ export default {
 
 .clicked {
   background-color: rgba(93, 185, 172, 0.5);
+}
+
+.ai-eval-pip {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  top: 2px;
+  right: 2px;
+
+  &.pip-green { background-color: #2dcd38; }
+  &.pip-red   { background-color: #eb003b; }
+  &.pip-gray  { background-color: #828282; }
 }
 </style>

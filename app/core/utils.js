@@ -1882,6 +1882,16 @@ module.exports.scenarioMode2Icon = (mode) => {
   return AI_MODE_ICON_MAP[mode]
 }
 
+const LEARN_MODE = 'learn to use'
+const PRACTICE_MODE = 'practice'
+const USE_MODE = 'use'
+const CAPSTONE_MODE = 'capstone'
+const USE_MODES = [PRACTICE_MODE, USE_MODE, CAPSTONE_MODE]
+
+module.exports.isUseMode = (mode) => {
+  return USE_MODES.includes(mode)
+}
+
 module.exports.aiTranslate = async (modelName, docId, langs) => {
   if (!modelName || !docId || !langs) {
     throw new Error('modelName, docId, and langs are required')
