@@ -97,6 +97,10 @@ _.extend(AIChatMessageSchema.properties, {
         type: 'string',
         description: 'The tool/model used for the chat message',
       },
+      stopReason: {
+        type: 'string',
+        description: "Why generation ended, normalized server-side: 'max_tokens' (truncated by output limit) or 'stop' (natural end)",
+      },
     },
   },
   safetyApiUsage: {

@@ -435,6 +435,7 @@ _.extend(LevelSchema.properties, {
   classroomSub: { $ref: '#/definitions/classroomSub', inEditor: true },
   requiresSignUp: { title: 'Require SignUp', description: 'Whether this level is available to anonymous user', type: 'boolean', inEditor: 'codecombat' },
   tasks: c.array({ title: 'Tasks', description: 'Tasks to be completed for this level.' }, c.task),
+  // seems having videos but no usage
   helpVideos: c.array({ title: 'Help Videos', inEditor: 'codecombat' }, c.object({ default: { style: 'eccentric', url: '', free: false } }, {
     style: c.shortString({ title: 'Style', description: 'Like: original, eccentric, scripted, edited, etc.' }),
     free: { type: 'boolean', title: 'Free', description: 'Whether this video is freely available to all players without a subscription.' },
