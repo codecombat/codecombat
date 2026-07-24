@@ -26,6 +26,7 @@ import clubCampMixin from '../mixins/clubCampMixin'
 const VueShepherd = require('vue-shepherd')
 
 const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
+const SEEN_FIRST_CLASS_TOUR_KEY = 'first-class-tour-seen'
 const SIDEBAR_COLLAPSED_KEY = 'teacher-dashboard-sidebar-collapsed'
 const SEEN_AUTO_TD_TOUR_KEY = 'auto-td-tour-seen'
 
@@ -385,7 +386,12 @@ export default {
         return
       }
 
+      if (storage.load(`${SEEN_FIRST_CLASS_TOUR_KEY}-${me.get('_id')}`)) {
+        return
+      }
+
       if (this.triggerFirstClassTour()) {
+        storage.save(`${SEEN_FIRST_CLASS_TOUR_KEY}-${me.get('_id')}`, true)
         me.setSeenPromotion('first-class-tour')
         me.save()
       }
