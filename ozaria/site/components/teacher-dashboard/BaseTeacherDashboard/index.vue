@@ -25,9 +25,10 @@ import clubCampMixin from '../mixins/clubCampMixin'
 
 const VueShepherd = require('vue-shepherd')
 
-const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
+const SEEN_CREATE_CLASS_TOUR_KEY = 'create-class-tour'
+const SEEN_FIRST_CLASS_TOUR_KEY = 'first-class-tour'
 const SIDEBAR_COLLAPSED_KEY = 'teacher-dashboard-sidebar-collapsed'
-const SEEN_AUTO_TD_TOUR_KEY = 'auto-td-tour-seen'
+const SEEN_AUTO_TD_TOUR_KEY = 'teacher-class-tour'
 
 export default {
   name: 'BaseTeacherDashboardIndex',
@@ -307,13 +308,13 @@ export default {
         return
       }
 
-      if (storage.load(`${SEEN_CREATE_CLASS_TOUR_KEY}-${me.get('_id')}`)) {
+      if (storage.load(`${SEEN_CREATE_CLASS_TOUR_KEY}-seen-${me.get('_id')}`) || me.getSeenPromotion(SEEN_CREATE_CLASS_TOUR_KEY)) {
         return
       }
 
       if (this.triggerCreateClassTour()) {
-        storage.save(`${SEEN_CREATE_CLASS_TOUR_KEY}-${me.get('_id')}`, true)
-        me.setSeenPromotion('create-class-tour')
+        storage.save(`${SEEN_CREATE_CLASS_TOUR_KEY}-seen-${me.get('_id')}`, true)
+        me.setSeenPromotion(SEEN_CREATE_CLASS_TOUR_KEY)
         me.save()
       }
     },
@@ -344,12 +345,12 @@ export default {
     },
 
     conditionalPlayTDTour () {
-      if (storage.load(`${SEEN_AUTO_TD_TOUR_KEY}-${me.get('_id')}`)) {
+      if (storage.load(`${SEEN_AUTO_TD_TOUR_KEY}-seen-${me.get('_id')}`) || me.getSeenPromotion(SEEN_AUTO_TD_TOUR_KEY)) {
         return
       }
       if (this.triggerTDGuideTour()) {
-        storage.save(`${SEEN_AUTO_TD_TOUR_KEY}-${me.get('_id')}`, true)
-        me.setSeenPromotion('teacher-class-tour')
+        storage.save(`${SEEN_AUTO_TD_TOUR_KEY}-seen-${me.get('_id')}`, true)
+        me.setSeenPromotion(SEEN_AUTO_TD_TOUR_KEY)
         me.save()
       }
     },
@@ -385,8 +386,13 @@ export default {
         return
       }
 
+      if (storage.load(`${SEEN_FIRST_CLASS_TOUR_KEY}-seen-${me.get('_id')}`) || me.getSeenPromotion(SEEN_FIRST_CLASS_TOUR_KEY)) {
+        return
+      }
+
       if (this.triggerFirstClassTour()) {
-        me.setSeenPromotion('first-class-tour')
+        storage.save(`${SEEN_FIRST_CLASS_TOUR_KEY}-seen-${me.get('_id')}`, true)
+        me.setSeenPromotion(SEEN_FIRST_CLASS_TOUR_KEY)
         me.save()
       }
     },
