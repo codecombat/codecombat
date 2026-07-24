@@ -1,7 +1,7 @@
 <template>
-  <PageSection class="section">
+  <PageSection :class="['section', `section--${variant}`]">
     <template #heading>
-      {{ $t('hackstack_cyber_page.features_title') }}
+      {{ title }}
     </template>
     <template #body>
       <div class="features">
@@ -13,13 +13,16 @@
           <img
             class="feature__icon"
             :src="feature.image"
-            :alt="$t(`hackstack_cyber_page.${feature.key}_title`)"
+            :alt="feature.alt || feature.title"
           >
           <p class="feature__title">
-            {{ $t(`hackstack_cyber_page.${feature.key}_title`) }}
+            {{ feature.title }}
           </p>
-          <p class="feature__desc">
-            {{ $t(`hackstack_cyber_page.${feature.key}_desc`) }}
+          <p
+            v-if="feature.description"
+            class="feature__desc"
+          >
+            {{ feature.description }}
           </p>
         </div>
       </div>
@@ -31,18 +34,24 @@
 import PageSection from 'app/components/common/elements/PageSection.vue'
 
 export default {
-  name: 'CyberFeaturesSection',
+  name: 'HackstackFeaturesSection',
   components: {
     PageSection,
   },
-  data () {
-    return {
-      features: [
-        { key: 'feature_1', image: '/images/pages/hackstack/cyber/pillar-certification.png' },
-        { key: 'feature_2', image: '/images/pages/hackstack/cyber/pillar-writing.png' },
-        { key: 'feature_3', image: '/images/pages/hackstack/cyber/pillar-delivery.png' },
-      ],
-    }
+  props: {
+    variant: {
+      type: String,
+      required: true,
+      validator: value => ['algebra', 'cyber'].includes(value),
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    features: {
+      type: Array,
+      required: true,
+    },
   },
 }
 </script>
@@ -53,19 +62,22 @@ export default {
 
 .section {
   background: #193640;
-  padding-top: 60px;
 
   ::v-deep .heading {
     color: white;
   }
 
-  ::v-deep .frame > div:empty {
-    display: none;
-  }
-
   ::v-deep .body {
     display: flex;
     flex-direction: row;
+  }
+}
+
+.section--cyber {
+  padding-top: 60px;
+
+  ::v-deep .frame > div:empty {
+    display: none;
   }
 }
 
@@ -84,9 +96,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
   flex: 1;
-  max-width: 420px;
   text-align: center;
 
   @media (max-width: $screen-sm-max) {
@@ -94,16 +104,46 @@ export default {
   }
 }
 
+.section--algebra {
+  .feature {
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .feature__icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .feature__title {
+    @extend %font-16;
+    white-space: pre-line;
+  }
+}
+
+.section--cyber {
+  .feature {
+    gap: 12px;
+    max-width: 420px;
+  }
+
+  .feature__icon {
+    height: 100px;
+    width: auto;
+    margin-bottom: 12px;
+  }
+
+  .feature__title {
+    @extend %font-24-30;
+  }
+}
+
 .feature__icon {
-  height: 100px;
-  width: auto;
   object-fit: contain;
   flex-shrink: 0;
-  margin-bottom: 12px;
 }
 
 .feature__title {
-  @extend %font-24-30;
   color: white;
   margin: 0;
 }

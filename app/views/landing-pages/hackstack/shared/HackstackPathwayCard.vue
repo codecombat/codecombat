@@ -1,7 +1,43 @@
 <template>
-  <div class="module-card">
+  <div
+    v-if="variant === 'algebra'"
+    class="step-card"
+  >
+    <div
+      class="step-card__label"
+      :class="`step-card__label--${tagType}`"
+    >
+      {{ label }}
+    </div>
+    <div class="step-card__box">
+      <img
+        v-if="imageSrc"
+        class="step-card__image"
+        :src="imageSrc"
+        :alt="title"
+      >
+      <div class="step-card__content">
+        <p class="step-card__title">
+          {{ title }}
+        </p>
+        <p class="step-card__desc">
+          {{ description }}
+        </p>
+      </div>
+      <div
+        class="step-card__tag"
+        :class="`step-card__tag--${tagType}`"
+      >
+        {{ tagText }}
+      </div>
+    </div>
+  </div>
+  <div
+    v-else
+    class="module-card"
+  >
     <div class="module-card__label">
-      {{ $t('hackstack_cyber_page.module') }} {{ moduleNum }}
+      {{ label }}
     </div>
     <div class="module-card__box">
       <div class="module-card__media">
@@ -39,10 +75,15 @@
 
 <script>
 export default {
-  name: 'CyberModuleCard',
+  name: 'HackstackPathwayCard',
   props: {
-    moduleNum: {
-      type: Number,
+    variant: {
+      type: String,
+      required: true,
+      validator: value => ['algebra', 'cyber'].includes(value),
+    },
+    label: {
+      type: String,
       required: true,
     },
     title: {
@@ -57,13 +98,18 @@ export default {
       type: String,
       required: true,
     },
+    tagType: {
+      type: String,
+      default: 'traditional',
+      validator: value => ['traditional', 'ai-traditional', 'ai-enabled'].includes(value),
+    },
     imageSrc: {
       type: String,
-      required: true,
+      default: null,
     },
     iconSrc: {
       type: String,
-      required: true,
+      default: null,
     },
     showSeparator: {
       type: Boolean,
@@ -77,6 +123,7 @@ export default {
 @import "app/styles/bootstrap/variables";
 @import "app/styles/component_variables.scss";
 
+.step-card,
 .module-card {
   display: flex;
   flex-direction: column;
@@ -87,6 +134,91 @@ export default {
   @media (max-width: $screen-sm-max) {
     width: 100%;
     max-width: 320px;
+  }
+}
+
+.step-card {
+  height: 100%;
+}
+
+.step-card__label {
+  @extend %font-14;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &--traditional {
+    color: var(--color-primary-1);
+  }
+
+  &--ai-traditional {
+    color: var(--color-primary-mid);
+  }
+
+  &--ai-enabled {
+    color: var(--color-primary);
+  }
+}
+
+.step-card__box {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.step-card__image {
+  width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #f0f0f0;
+}
+
+.step-card__content {
+  padding: 20px 12px;
+  flex: 1;
+  background: white;
+}
+
+.step-card__title {
+  @extend %font-16;
+  color: black;
+  font-weight: bold;
+  margin: 0 0 8px;
+}
+
+.step-card__desc {
+  @extend %font-14;
+  color: #444;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.step-card__tag {
+  @extend %font-14;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px;
+  letter-spacing: 0.03em;
+
+  &--traditional {
+    background: var(--color-primary-1);
+    color: var(--color-section-bg);
+  }
+
+  &--ai-traditional {
+    background: var(--color-primary-mid);
+    color: var(--color-section-bg);
+  }
+
+  &--ai-enabled {
+    background: var(--color-primary);
+    color: var(--color-section-bg);
   }
 }
 
@@ -101,8 +233,6 @@ export default {
   flex-direction: column;
   background: white;
   border-radius: 8px;
-  // overflow stays visible so the separator can sit in the grid gap;
-  // corner rounding lives on the photo and content instead
   width: 100%;
   flex: 1;
 }
@@ -126,7 +256,6 @@ export default {
   border-radius: 8px 8px 0 0;
 }
 
-// CSS-drawn chevron centered in the gap, vertically tracking the image band
 .module-card__arrow {
   position: absolute;
   top: 50%;

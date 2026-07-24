@@ -1,11 +1,46 @@
 <template>
   <div id="page-hackstack-algebra">
-    <algebra-header
-      @open-signup-modal="createAccountModalOpen = true"
-      @open-modal="showContactModal = true"
+    <HackstackHero
+      variant="algebra"
+      :title="$t('hackstack_algebra_page.header')"
+      :powered-by-label="$t('hackstack_algebra_page.header_powered_by')"
+      logo-src="/images/pages/hackstack/hackstack-banner-black.png"
+      logo-alt="AI Hackstack"
+      :description="isTeacher() ? $t('hackstack_algebra_page.header_details_teacher') : $t('hackstack_algebra_page.header_details')"
+    >
+      <template #actions>
+        <CTAButton
+          class="cta-button"
+          @clickedCTA="showContactModal = true"
+        >
+          {{ $t('hackstack_algebra_page.cta_get_solution') }}
+        </CTAButton>
+        <CTAButton
+          v-if="isAnonymous()"
+          class="cta-button"
+          @clickedCTA="createAccountModalOpen = true"
+        >
+          {{ $t('hackstack_algebra_page.cta_explore') }}
+        </CTAButton>
+        <CTAButton
+          v-else
+          href="/teachers/guide/hackstack/algebra"
+          class="cta-button"
+        >
+          {{ $t('hackstack_algebra_page.cta_explore') }}
+        </CTAButton>
+      </template>
+    </HackstackHero>
+    <HackstackFeaturesSection
+      variant="algebra"
+      :title="$t('hackstack_algebra_page.features_title')"
+      :features="algebraFeatures"
     />
-    <core-features-section />
-    <lesson-flow-section />
+    <HackstackPathwaySection
+      variant="algebra"
+      :title="$t('hackstack_algebra_page.lesson_flow_title')"
+      :items="lessonFlowSteps"
+    />
     <background-container
       type="colored"
       class="testimonials"
@@ -29,10 +64,26 @@
         </carousel-component>
       </div>
     </background-container>
-    <module-structure-section />
-    <trusted-standards-section @learn-more="learnMoreClicked" />
+    <HackstackPathwaySection
+      variant="algebra"
+      :title="$t('hackstack_algebra_page.module_structure_title')"
+      :items="moduleStructureSteps"
+    />
+    <HackstackInfoCard
+      variant="algebra"
+      image-src="/images/pages/hackstack/trusted-standards.png"
+      image-alt="Trusted Standards"
+      :title="$t('hackstack_algebra_page.trusted_standards_title')"
+      :text="$t('hackstack_algebra_page.trusted_standards_text')"
+      link-href="https://docs.google.com/spreadsheets/d/1ryRZ-bs_8k5jFVHUq2NV6-T7BABo-UsSwZkxeavCD2c/edit?usp=sharing"
+      :link-text="$t('hackstack_algebra_page.trusted_standards_link')"
+    />
     <curriculum-path-section @open-signup-modal="createAccountModalOpen = true" />
-    <faq-component :faq-items="faqItems" />
+    <HackstackFaq
+      :title="$t('schools_page.faq_header')"
+      :faq-items="faqItems"
+      :see-more-text="$t('schools_page.faq_see_more')"
+    />
     <modal-get-licenses
       v-if="showContactModal"
       @close="showContactModal = false"
@@ -52,16 +103,18 @@ import BackgroundContainer from '../../../components/common/backgrounds/Backgrou
 import CarouselComponent from '../../../components/common/elements/CarouselComponent.vue'
 import CarouselItem from '../../../components/common/elements/CarouselItem.vue'
 import TestimonialComponent from '../../../components/common/elements/TestimonialComponent.vue'
-import FaqComponent from './FaqComponent.vue'
+import CTAButton from 'app/components/common/buttons/CTAButton.vue'
 import ModalGetLicenses from '../../../components/common/ModalGetLicenses.vue'
 import BackboneModalHarness from 'app/views/common/BackboneModalHarness.vue'
 import CreateAccountModal from 'app/views/core/CreateAccountModal/CreateAccountModal.js'
-import AlgebraHeader from './algebra/AlgebraHeader.vue'
-import CoreFeaturesSection from './algebra/CoreFeaturesSection.vue'
-import LessonFlowSection from './algebra/LessonFlowSection.vue'
-import ModuleStructureSection from './algebra/ModuleStructureSection.vue'
-import TrustedStandardsSection from './algebra/TrustedStandardsSection.vue'
 import CurriculumPathSection from './algebra/CurriculumPathSection.vue'
+import HackstackFaq from './shared/HackstackFaq.vue'
+import HackstackFeaturesSection from './shared/HackstackFeaturesSection.vue'
+import HackstackHero from './shared/HackstackHero.vue'
+import HackstackInfoCard from './shared/HackstackInfoCard.vue'
+import HackstackPathwaySection from './shared/HackstackPathwaySection.vue'
+import { buildHackstackFaqItems } from './shared/hackstackFaqItems.js'
+import { mapActions } from 'vuex'
 
 export default Vue.extend({
   name: 'PageHackstackAlgebra',
@@ -70,76 +123,91 @@ export default Vue.extend({
     CarouselComponent,
     CarouselItem,
     TestimonialComponent,
-    FaqComponent,
+    CTAButton,
     ModalGetLicenses,
     BackboneModalHarness,
-    AlgebraHeader,
-    CoreFeaturesSection,
-    LessonFlowSection,
-    ModuleStructureSection,
-    TrustedStandardsSection,
     CurriculumPathSection,
+    HackstackFaq,
+    HackstackFeaturesSection,
+    HackstackHero,
+    HackstackInfoCard,
+    HackstackPathwaySection,
   },
   data () {
     return {
       CreateAccountModal,
       createAccountModalOpen: false,
       showContactModal: false,
-      faqItems: [
+      faqItems: buildHackstackFaqItems(this.$t.bind(this)),
+    }
+  },
+  computed: {
+    algebraFeatures () {
+      return [
         {
-          question: this.$t('hackstack_page.faq_1_question'),
-          answer: this.$t('hackstack_page.faq_1_answer'),
+          key: 'feature-1',
+          image: '/images/pages/hackstack/ai-foundations.png',
+          title: this.$t('hackstack_algebra_page.feature_1_title'),
         },
         {
-          question: this.$t('hackstack_page.faq_2_question'),
-          answer: this.$t('hackstack_page.faq_2_answer'),
+          key: 'feature-2',
+          image: '/images/pages/hackstack/ai-evaluate.png',
+          title: this.$t('hackstack_algebra_page.feature_2_title'),
         },
         {
-          question: this.$t('hackstack_page.faq_3_question'),
-          answer: [
-            this.$t('hackstack_page.faq_3_answer_1'),
-            this.$t('hackstack_page.faq_3_answer_2'),
-            this.$t('hackstack_page.faq_3_answer_3'),
-            this.$t('hackstack_page.faq_3_answer_4'),
-            this.$t('hackstack_page.faq_3_answer_5'),
-          ],
+          key: 'feature-3',
+          image: '/images/pages/hackstack/ai-modelling.png',
+          title: this.$t('hackstack_algebra_page.feature_3_title'),
         },
-        {
-          question: this.$t('hackstack_page.faq_4_question'),
-          answer: this.$t('hackstack_page.faq_4_answer'),
-        },
-        {
-          question: this.$t('hackstack_page.faq_5_question'),
-          answer: [
-            this.$t('hackstack_page.faq_5_answer_1'),
-            this.$t('hackstack_page.faq_5_answer_2'),
-            this.$t('hackstack_page.faq_5_answer_3'),
-            this.$t('hackstack_page.faq_5_answer_4'),
-            this.$t('hackstack_page.faq_5_answer_5'),
-          ],
-        },
-        {
-          question: this.$t('hackstack_page.faq_6_question'),
-          answer: this.$t('hackstack_page.faq_6_answer'),
-        },
-        {
-          question: this.$t('hackstack_page.faq_7_question'),
-          answer: this.$t('hackstack_page.faq_7_answer'),
-        },
-        {
-          question: this.$t('hackstack_page.faq_8_question'),
-          answer: this.$t('hackstack_page.faq_8_answer'),
-        },
-      ],
+      ]
+    },
+    lessonFlowSteps () {
+      const tagTypes = ['traditional', 'ai-traditional', 'ai-traditional', 'ai-enabled', 'ai-enabled']
+      return tagTypes.map((tagType, index) => {
+        const stepNum = index + 1
+        return {
+          key: `step-${stepNum}`,
+          label: `${this.$t('hackstack_algebra_page.step')} ${stepNum}`,
+          title: this.$t(`hackstack_algebra_page.step_${stepNum}_title`),
+          description: this.$t(`hackstack_algebra_page.step_${stepNum}_desc`),
+          tagText: this.$t(`hackstack_algebra_page.step_${stepNum}_tag`),
+          tagType,
+          imageSrc: `/images/pages/hackstack/algebra/lesson-flow-step-${stepNum}.png`,
+        }
+      })
+    },
+    moduleStructureSteps () {
+      const tagTypes = ['traditional', 'ai-traditional', 'ai-traditional', 'ai-enabled', 'ai-enabled']
+      return tagTypes.map((tagType, index) => {
+        const moduleNum = index + 1
+        return {
+          key: `module-${moduleNum}`,
+          label: `${this.$t('hackstack_algebra_page.step')} ${moduleNum}`,
+          title: this.$t(`hackstack_algebra_page.module_${moduleNum}_title`),
+          description: this.$t(`hackstack_algebra_page.module_${moduleNum}_desc`),
+          tagText: this.$t(`hackstack_algebra_page.module_${moduleNum}_tag`),
+          tagType,
+        }
+      })
+    },
+  },
+  async created () {
+    if (typeof me !== 'undefined' && me.isTeacher()) {
+      await this.fetchTeacherPrepaids({ teacherId: me.get('_id') })
     }
   },
   methods: {
+    ...mapActions({
+      fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher',
+    }),
     createAccountModalClosed () {
       this.createAccountModalOpen = false
     },
-    learnMoreClicked () {
-      // Navigate to standards page or open info modal
-      window.open('/about', '_blank')
+    isAnonymous () {
+      return typeof me === 'undefined' || me.isAnonymous()
+    },
+    isTeacher () {
+      return typeof me !== 'undefined' && me.isTeacher()
     },
   },
 })
