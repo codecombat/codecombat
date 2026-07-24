@@ -115,7 +115,7 @@ export default Vue.extend({
             .startDate {{ moment(user.startDate).format('ll') }}
             .endDate {{ moment(user.endDate).format('ll') }}
             .redeem
-              button.btn.btn-gold(@click="redeemUser(user.userID)") {{ $t('teacher.apply_license') }}
+              button.btn.moon-btn(@click="redeemUser(user.userID)") {{ $t('teacher.apply_license') }}
         .content(v-else)
           .header {{ $t('common.empty_results') }}
 </template>
@@ -125,6 +125,7 @@ export default Vue.extend({
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 @import "ozaria/site/components/teacher-dashboard/common/_purple-button";
+@import "ozaria/site/components/teacher-dashboard/common/_moon-button";
 
 .license-stats {
   min-width: 800px;
