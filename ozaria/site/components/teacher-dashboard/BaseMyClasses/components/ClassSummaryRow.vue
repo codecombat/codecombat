@@ -94,7 +94,7 @@ export default {
           v-if="!archived && !displayOnly"
           id="class-header-shepherd"
           tag="a"
-          :to="`/teachers/classes/${classId}`"
+          :to="{ path: `/teachers/classes/${classId}`, query: $route.query }"
           class="flex-row clickable"
           @click.native="trackEvent('All Classes: Class Card Clicked')"
         >
