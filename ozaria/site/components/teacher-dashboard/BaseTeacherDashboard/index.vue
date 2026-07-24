@@ -308,7 +308,7 @@ export default {
         return
       }
 
-      if (storage.load(`${SEEN_CREATE_CLASS_TOUR_KEY}-${me.get('_id')}`)) {
+      if (storage.load(`${SEEN_CREATE_CLASS_TOUR_KEY}-${me.get('_id')}`) || me.getSeenPromotion('create-class-tour')) {
         return
       }
 
@@ -345,7 +345,7 @@ export default {
     },
 
     conditionalPlayTDTour () {
-      if (storage.load(`${SEEN_AUTO_TD_TOUR_KEY}-${me.get('_id')}`)) {
+      if (storage.load(`${SEEN_AUTO_TD_TOUR_KEY}-${me.get('_id')}`) || me.getSeenPromotion('teacher-class-tour')) {
         return
       }
       if (this.triggerTDGuideTour()) {
@@ -386,7 +386,7 @@ export default {
         return
       }
 
-      if (storage.load(`${SEEN_FIRST_CLASS_TOUR_KEY}-${me.get('_id')}`)) {
+      if (storage.load(`${SEEN_FIRST_CLASS_TOUR_KEY}-${me.get('_id')}`) || me.getSeenPromotion('first-class-tour')) {
         return
       }
 
