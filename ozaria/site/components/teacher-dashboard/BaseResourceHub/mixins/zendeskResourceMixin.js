@@ -74,9 +74,6 @@ export default {
         if (resource.hidden === true) {
           continue
         }
-        if (resource.product === 'ozaria' && !me.showOzCourses()) {
-          continue
-        }
         resource.name = utils.i18n(resource, 'name')
         resource.link = utils.i18n(resource, 'link')
         if (resource.slug === 'dashboard-tutorial') resource.link = '#'

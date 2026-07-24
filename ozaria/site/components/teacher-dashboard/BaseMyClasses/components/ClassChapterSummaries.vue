@@ -32,7 +32,7 @@ export default {
     },
 
     showOzariaRow () {
-      return me.showOzCourses() && this.ozariaCourses.length > 0
+      return this.ozariaCourses.length > 0
     },
     showHackstackRow () {
       return isCodeCombat && this.hackstackCourses.length > 0

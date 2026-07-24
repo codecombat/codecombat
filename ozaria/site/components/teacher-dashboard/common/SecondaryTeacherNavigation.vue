@@ -51,11 +51,9 @@ export default {
       type: 'a',
     }
     if (utils.isCodeCombat) {
-      if (me.showOzCourses()) {
-        ozLink = {
-          path: '/teachers/guide/ozaria',
-          isNew: true,
-        }
+      ozLink = {
+        path: '/teachers/guide/ozaria',
+        isNew: true,
       }
       guideOptions = [
         { id: 'junior', name: $.i18n.t('nav.coco_junior'), path: '/teachers/guide/junior', gradeBands: [K5, K6] },

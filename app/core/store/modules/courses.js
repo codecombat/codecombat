@@ -7,7 +7,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const api = require('core/api')
-const { sortAllCourses, OZ_COURSE_IDS } = require('core/utils')
+const { sortAllCourses } = require('core/utils')
 
 // This module should eventually include things such as: session, player code, score, thangs, etc
 module.exports = {
@@ -22,10 +22,7 @@ module.exports = {
 
   getters: {
     sorted (state) {
-      let courses = _.values(state.byId)
-      if (!me.showOzCourses()) {
-        courses = courses.filter(c => !OZ_COURSE_IDS.includes(c._id))
-      }
+      const courses = _.values(state.byId)
       return sortAllCourses(courses)
     },
   },
