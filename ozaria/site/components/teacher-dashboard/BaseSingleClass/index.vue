@@ -452,6 +452,9 @@ export default {
     if (this.defaultCourseId) {
       this.setSelectedCourseId({ courseId: this.defaultCourseId })
     }
+    if (this.$route?.query?.assignContent) {
+      this.setSelectedCourseId({ courseId: this.$route.query.assignContent })
+    }
     this.setTeacherId(this.teacherId || me.get('_id'))
     this.fetchClassroomData(this.classroomId).then(() => {
       this.$emit('auto-play-td-tour')

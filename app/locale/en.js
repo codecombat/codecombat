@@ -4947,6 +4947,7 @@ module.exports = {
       curriculum_glossary_desc_codecombat: 'CS: Computer Science, GD: Game Development, WD: Web Development',
       curriculum_glossary_desc_junior: 'JR: Junior',
       curriculum_glossary_close: 'Got it, hide this',
+      assign_to_class: 'Assign to Class',
     },
 
     outcomes: {
