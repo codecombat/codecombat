@@ -34,7 +34,6 @@ module.exports = Vue.extend({
   },
 
   data: () => ({
-    vimeoId: null,
     videoSrc: null,
     captions: () => ([]),
     cutscene: {},
@@ -68,8 +67,6 @@ module.exports = Vue.extend({
         this.videoSrc = cutscene.chinaVideoSrc
       } else if (cutscene.cloudflareID) {
         this.cloudflareID = cutscene.cloudflareID
-      } else {
-        this.vimeoId = cutscene.vimeoId
       }
 
       /**
@@ -127,17 +124,6 @@ module.exports = Vue.extend({
 
       :cutscene="cutscene"
       :cloudflare-i-d="cloudflareID"
-      :sound-on="soundOn"
-
-      @completed="onCompleted"
-    />
-    <!-- VIMEO PLAYER -->
-    <base-video
-      v-if="vimeoId"
-      id="cutscene-player"
-
-      ref="vimeo-player"
-      :vimeo-id="vimeoId"
       :sound-on="soundOn"
 
       @completed="onCompleted"
