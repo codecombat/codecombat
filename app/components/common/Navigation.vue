@@ -25,11 +25,7 @@ const ozPath = function (relativePath) {
 }
 
 const ozCurriculumLink = function () {
-  if (isOzaria || me.showOzCourses()) {
-    return '/teachers/guide/ozaria'
-  } else {
-    return '/ozaria'
-  }
+  return '/teachers/guide/ozaria'
 }
 
 export const items = {

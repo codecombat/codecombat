@@ -359,11 +359,7 @@ export default {
       fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForClassroom', state.classroomId, { root: true }))
       fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
 
-      if (utils.isCodeCombat) {
-        options.fetchInteractiveSessions = me.showOzCourses()
-      } else {
-        options.fetchInteractiveSessions = true
-      }
+      options.fetchInteractiveSessions = true
       fetchPromises.push(dispatch('teacherDashboard/fetchClassroomData', options, { root: true }))
 
       await Promise.all(fetchPromises)

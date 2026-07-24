@@ -190,14 +190,6 @@ module.exports = (User = (function () {
       return email.endsWith('@codecombat.com') || email.endsWith('@ozaria.com')
     }
 
-    // This could also be a user property later, once we plan to release Ozaria to more users
-    showOzCourses () {
-      if (utils.isOzaria) {
-        return true
-      }
-      return this.isInternal() || this.isAdmin() || this.get('features')?.canAccessOzCourse
-    }
-
     isDistrictAdmin (districtId) {
       if (!districtId) return false
       return this.get('features')?.ownerDistrictId === districtId
