@@ -11,18 +11,23 @@ export default {
       type: Array,
       required: false,
       default: () => ([])
+    },
+    standardsLink: {
+      type: String,
+      required: false,
+      default: null,
     }
   },
   computed: {
     shouldShow () {
-      return this.cstaList?.length > 0
+      return this.cstaList?.length > 0 || !!this.standardsLink
     },
 
-    cstaResourceData () {
+    standardsResourceData () {
       return {
         icon: 'Doc',
-        label: 'CSTA Standards Alignment',
-        link: 'https://docs.google.com/document/d/1sHP75V5WqdQBfavI792mswYDS67pSSf8otNM05Rma5A/edit?usp=sharing'
+        label: 'Standards Alignment',
+        link: this.standardsLink || 'https://docs.google.com/document/d/1sHP75V5WqdQBfavI792mswYDS67pSSf8otNM05Rma5A/edit?usp=sharing'
       }
     },
 
@@ -41,14 +46,16 @@ export default {
     <h3>{{ $t('teacher_dashboard.standards_alignment') }}</h3>
     <div class="flex">
       <button-resource-icon
-        :icon="cstaResourceData.icon"
-        :label="cstaResourceData.label"
-        :link="cstaResourceData.link"
+        :icon="standardsResourceData.icon"
+        :label="standardsResourceData.label"
+        :link="standardsResourceData.link"
         from="Curriculum Guide"
       />
     </div>
-    <p>{{ $t('teacher_dashboard.standards_sample') }}</p>
-    <ul>
+    <p v-if="translatedCstaList.length">
+      {{ $t('teacher_dashboard.standards_sample') }}
+    </p>
+    <ul v-if="translatedCstaList.length">
       <li
         v-for="{ name, description } in translatedCstaList"
         :key="name"

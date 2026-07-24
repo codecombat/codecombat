@@ -67,8 +67,8 @@ const I18NEditCourseView = class I18NEditCourseView extends I18NEditModelView {
         const standard = cstaStandards[i]
         const standardI18n = standard.i18n
         if (standardI18n) {
-          this.wrapRow('CSTA: Name', ['name'], standard.name, standardI18n[lang]?.name, ['cstaStandards', i])
-          this.wrapRow('CSTA: Description', ['description'], standard.description, standardI18n[lang]?.description, ['cstaStandards', i])
+          this.wrapRow('Standard: Name', ['name'], standard.name, standardI18n[lang]?.name, ['cstaStandards', i])
+          this.wrapRow('Standard: Description', ['description'], standard.description, standardI18n[lang]?.description, ['cstaStandards', i])
         }
       }
 

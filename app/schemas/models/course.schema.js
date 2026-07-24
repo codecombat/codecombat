@@ -6,7 +6,7 @@ c.extendNamedProperties(CourseSchema) // name first
 _.extend(CourseSchema.properties, {
   i18n: { type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'description'] },
   campaignID: c.objectId(),
-  concepts: c.array({ title: 'Programming Concepts', uniqueItems: true }, c.concept),
+  concepts: c.array({ title: 'Concepts', uniqueItems: true }, c.concept),
   description: { type: 'string' },
   duration: {
     oneOf: [
@@ -42,9 +42,9 @@ _.extend(CourseSchema.properties, {
   releasePhase: { enum: ['beta', 'internalRelease', 'released', 'draft'], description: "How far along the course's development is, determining who sees it." },
   isOzaria: { type: 'boolean', description: 'Is this an ozaria course' }, // not used
   shortName: { type: 'string', title: 'Short Name', description: 'Short name to be used on dashboards' },
-  cstaStandards: c.array({ title: 'CSTA standards', description: 'Sample CSTA standards list for display on teacher dashboard curriculum guides' }, {
+  cstaStandards: c.array({ title: 'Standards', description: 'Sample standards list for display on teacher dashboard curriculum guides' }, {
     type: 'object',
-    title: 'CSTA standard',
+    title: 'Standard',
     properties: {
       name: { type: 'string', title: 'Name' },
       description: { type: 'string', title: 'Description' },
@@ -97,7 +97,7 @@ _.extend(CourseSchema.properties, {
             },
           ],
         },
-        concepts: c.array({ title: 'Programming Concepts', uniqueItems: true }, c.concept),
+        concepts: c.array({ title: 'Concepts', uniqueItems: true }, c.concept),
         primaryConcepts: c.array({ title: 'Primary Concepts', description: 'The main 1-3 concepts this module focuses on.', uniqueItems: true, inEditor: true }, c.concept),
         name: c.shortString({ title: 'Module Name' }),
         access: { type: 'string', enum: ['free', 'sales-call', 'paid'], title: 'Access', description: 'Whether this module is free, free with a sales call, or paid.' },
@@ -127,6 +127,7 @@ _.extend(CourseSchema.properties, {
     },
   },
   curriculum: c.url({ title: 'Curriculum URL', description: 'Link to curriculum folder. Relevant for teacher dashboard curriculum guides.' }),
+  standardsAlignmentLink: c.url({ title: 'Standards Alignment URL', description: 'Link to standards alignment for display on teacher dashboard curriculum guides.' }),
   product: { type: 'string', enum: ['ozaria', 'codecombat', 'hackstack', 'junior'], description: 'Which product this course is for, if applicable. Affects where the course appears in the teacher dashboard.' },
   showLevelNumbers: { type: 'boolean', title: 'Level Number', description: 'Whether to display level number or not.', default: true },
 })
