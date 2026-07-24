@@ -27,7 +27,7 @@ export default {
   },
 
   data: () => ({
-    vimeoPlayer: null,
+    player: null,
     videoUnavailable: false,
     skipping: false
   }),
@@ -36,8 +36,12 @@ export default {
     if (!this.videoSrc) {
       throw new Error('You must pass in a "videoSrc"')
     }
-    const vid = new Plyr(this.$refs.player, { captions: { active: true } })
-    vid.on('ended', () => this.$emit('completed'))
+    this.player = new Plyr(this.$refs.player, { captions: { active: true } })
+    this.player.on('ended', () => this.$emit('completed'))
+  },
+
+  beforeDestroy () {
+    this.player?.destroy?.()
   },
 
   methods: {
