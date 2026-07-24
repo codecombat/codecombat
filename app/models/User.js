@@ -404,6 +404,7 @@ module.exports = (User = (function () {
         const tierThreshold = tiersByLevel[rank]
         if (tierThreshold >= tier) { return rank }
       }
+      return tiersByLevel.length - 1 // tier beyond the table: clamp to the max known rank
     }
 
     addNewUserCommonProperties () {

@@ -467,7 +467,7 @@ module.exports = (HeroVictoryModal = (function () {
       const rankedUp = currentRank > previousRank
       const totalXPNeeded = nextRankXP - currentRankXP
       let alreadyAchievedPercentage = (100 * (previousXP - currentRankXP)) / totalXPNeeded
-      if (alreadyAchievedPercentage < 0) { alreadyAchievedPercentage = 0 } // In case of level up
+      if (alreadyAchievedPercentage < 0) { alreadyAchievedPercentage = 0 } // In case of rank up
       if (rankedUp) {
         newlyAchievedPercentage = (100 * (currentXP - currentRankXP)) / totalXPNeeded
       } else {

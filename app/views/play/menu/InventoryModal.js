@@ -238,7 +238,7 @@ module.exports = (InventoryModal = (function () {
       }
 
       // level to unlock
-      if (item.get('tier')) { item.rank = item.rankRequiredForItem() }
+      if (item.get('tier') != null) { item.rank = item.rankRequiredForItem() }
     }
 
     onLoaded () {
