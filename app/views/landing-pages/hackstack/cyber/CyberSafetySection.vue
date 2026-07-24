@@ -22,7 +22,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          {{ $t('hackstack_cyber_page.safety_link') }} →
+          {{ $t('hackstack_page.learn_more') }} →
         </a>
       </div>
     </div>

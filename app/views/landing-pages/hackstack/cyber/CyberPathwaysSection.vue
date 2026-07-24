@@ -11,17 +11,17 @@
             class="pathways__cta"
             @clickedCTA="$emit('open-signup-modal')"
           >
-            {{ $t('hackstack_cyber_page.pathways_cta') }}
+            {{ $t('schools_page.free_teacher_account') }}
           </CTAButton>
           <CTAButton
             v-else
             href="/teachers/guide/hackstack/cyber"
             class="pathways__cta"
           >
-            {{ $t('hackstack_cyber_page.pathways_cta_try') }}
+            {{ $t('home_v3.try_it_now') }}
           </CTAButton>
           <p class="pathways__subtitle">
-            {{ $t('hackstack_cyber_page.pathways_subtitle') }}
+            {{ $t('schools_page.trial_the_curriculum') }}
           </p>
         </div>
         <div class="modules">

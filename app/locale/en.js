@@ -6178,10 +6178,8 @@ module.exports = {
     hackstack_cyber_page: {
       // Hero
       header: 'Cybersecurity Curriculum',
-      header_powered_by: 'Powered By',
       header_details: 'Explore real-world security concepts through digital simulations, technical writing, and classroom-ready lessons designed for flexible implementation.',
-      header_aligned: 'CompTIA Security +\nand AP Cybersecurity Aligned',
-      cta_get_solution: 'Get My Solution',
+      header_aligned: 'CompTIA Security+\nand AP Cybersecurity Aligned',
       cta_explore: 'Explore Cybersecurity',
 
       // Features strip
@@ -6195,9 +6193,6 @@ module.exports = {
 
       // Pathways at a glance
       pathways_title: 'Pathways at a Glance',
-      pathways_cta: 'Free Teacher Account',
-      pathways_cta_try: 'Try it now',
-      pathways_subtitle: 'Trial the curriculum with your students today!',
       module: 'Module',
       module_1_title: 'Intro to Security',
       module_1_tag: 'Internal Memos',
@@ -6219,7 +6214,6 @@ module.exports = {
       // Safety card
       safety_title: 'Built with Student Safety in Mind',
       safety_text: 'AI HackStack supports safe, school-ready AI exploration with vetted tools, privacy filters, and educator controls. CodeCombat is built with student safety, cybersecurity, and data privacy in mind, following school-grade privacy requirements including COPPA, FERPA, SOPIPA, California AB 1584, CalOPPA, CAN-SPAM, and GDPR.',
-      safety_link: 'Learn More',
     },
 
     standards_page: {

@@ -7,7 +7,7 @@
             {{ $t('hackstack_cyber_page.header') }}
           </h1>
           <div class="header-subtitle">
-            <span class="header-subtitle__text">{{ $t('hackstack_cyber_page.header_powered_by') }}</span>
+            <span class="header-subtitle__text">{{ $t('hackstack_algebra_page.header_powered_by') }}</span>
             <img
               class="header-subtitle__image"
               src="/images/pages/hackstack/cyber/hackstack-logo.png"
@@ -36,7 +36,7 @@
               class="cta-button"
               @clickedCTA="onGetSolution"
             >
-              {{ $t('hackstack_cyber_page.cta_get_solution') }}
+              {{ $t('schools_page.get_my_solution') }}
             </CTAButton>
             <CTAButton
               v-if="isAnonymous()"
