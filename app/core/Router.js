@@ -318,6 +318,7 @@ module.exports = (CocoRouter = (function () {
 
         hackstack: go('core/SingletonAppVueComponentView'),
         'hackstack-algebra': go('core/SingletonAppVueComponentView'),
+        'hackstack-cyber': go('core/SingletonAppVueComponentView'),
 
         'home-beta': go('core/SingletonAppVueComponentView'),
         ozaria () {
