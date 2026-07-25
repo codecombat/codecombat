@@ -120,18 +120,6 @@ export default {
         'cell-style': true,
       }
     },
-
-    getFlag (flag) {
-      if (['concept', 'unsafe'].includes(flag)) {
-        return 'red'
-      }
-      if (flag === 'ai-project-warning') {
-        return 'purple'
-      }
-      if (flag === 'time') {
-        return 'gray'
-      }
-    },
   },
 }
 </script>
@@ -145,13 +133,13 @@ export default {
   >
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
     <div
-      v-for="({studentId, status, playTime, tooltipName, playedOn, completionDate, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear"
+      v-for="({studentId, status, playTime, tooltipName, playedOn, completionDate, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, normalizedOriginal, isPlayable, isOptional, aiEvalFlag }, index) of allStudentSessionsLinear"
       :key="selectedKey"
       :class="cellClass(index)"
     >
       <ProgressDot
         :status="status"
-        :border="getFlag(flag)"
+        :flag="flag"
         :click-progress-handler="clickHandler"
         :click-state="selectedProgressKey && selectedProgressKey === selectedKey"
         :content-type="normalizedType"
@@ -174,6 +162,7 @@ export default {
         :classroom-game-content="classroomGameContent"
         :level-session-map="levelSessionMap"
         :extra-practice-levels="extraPracticeLevels(normalizedOriginal, studentId)"
+        :ai-eval-flag="aiEvalFlag"
       />
     </div>
   </div>

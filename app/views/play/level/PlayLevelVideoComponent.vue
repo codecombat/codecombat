@@ -26,7 +26,6 @@ flat-layout
 <script>
 import utils from 'core/utils'
 import FlatLayout from 'core/components/FlatLayout'
-import VideoPlayer from '@vimeo/player'
 
 export default Vue.extend({
   props: {
@@ -70,12 +69,6 @@ export default Vue.extend({
 
   mounted() {
     this.$nextTick(function () {
-      if(!me.showChinaVideo()){
-        const player = new VideoPlayer($('.video')[0]);
-        player.on('ended', function() {
-          $('#next-level-btn')[0].style.display = "block"
-        })
-      }
       // hack to remove base template's header and footer
       // store existing display settings to revert to these before leaving
       this.originalDisplaySettings = {
