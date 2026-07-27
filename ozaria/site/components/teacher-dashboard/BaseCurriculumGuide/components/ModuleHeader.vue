@@ -2,6 +2,7 @@
 import ButtonSlides from './ButtonSlides'
 import ButtonProjectReq from './ButtonProjectReq'
 import ButtonExemplar from './ButtonExemplar'
+import ButtonAssignCourse from './ButtonAssignCourse'
 
 import IconHelp from '../../common/icons/IconHelp'
 import { mapGetters } from 'vuex'
@@ -15,6 +16,7 @@ export default {
     ButtonSlides,
     ButtonProjectReq,
     ButtonExemplar,
+    ButtonAssignCourse,
     IconHelp,
     CodeRenderer,
     AccessLevelIndicator,
@@ -92,6 +94,11 @@ export default {
       return this.$t('teacher_dashboard.exemplar_projects_tooltip')
     },
 
+    assignCourse () {
+      this.trackEvent('Click Assign to Class in Curriculum')
+      application.router.navigate(`/teachers/classes?assignContent=${this.getCurrentCourse?._id}`, { trigger: true })
+    },
+
     trackEvent (eventName) {
       if (!this.isOnLockedCampaign && eventName) {
         window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
@@ -161,6 +168,12 @@ export default {
           @click.native="trackEvent('Curriculum Guide: Lesson Slides Clicked')"
         />
       </template>
+
+      <button-assign-course
+        class="margin-right"
+        :locked="isOnLockedCampaign"
+        @click="assignCourse"
+      />
 
       <button-project-req
         v-if="isCapstone"

@@ -163,32 +163,22 @@ module.exports = (TeacherCoursesView = (function () {
     }
 
     onClickVideoThumbnail (e) {
-      let video_url
+      let videoUrl
       this.$('#video-modal').modal('show')
       const image_src = e.target.src.slice(e.target.src.search('/images'))
       const video = (Object.values(this.videoLevels || {}).find(l => l.thumbnail_unlocked === image_src) || {})
       if (me.showChinaVideo()) {
-        video_url = video.cn_url
+        videoUrl = video.cn_url + '?autoplay=1'
       } else {
-        video_url = video.url
+        videoUrl = video.url
         const preferred = me.get('preferredLanguage') || 'en'
         const video_language_code = (video.captions_available || [])
           .find(language_code => (language_code === preferred) || (language_code === preferred.split('-')[0]))
-        video_url = video_url.replace(/defaultTextTrack=[\w\d-]+/, 'defaultTextTrack=' + (video_language_code || 'en'))
+        videoUrl = videoUrl.replace(/defaultTextTrack=[\w\d-]+/, 'defaultTextTrack=' + (video_language_code || 'en'))
+        videoUrl += '&autoplay=1'
       }
-      this.$('.video-player')[0].src = video_url
+      this.$('.video-player')[0].src = videoUrl
 
-      if (!me.showChinaVideo()) {
-        require.ensure(['@vimeo/player'], require => {
-          const VideoPlayer = require('@vimeo/player').default
-          this.videoPlayer = new VideoPlayer(this.$('.video-player')[0])
-          return this.videoPlayer.play().catch(err => console.error('Error while playing the video:', err))
-        }
-        , e => {
-          return console.error(e)
-        }
-        , 'vimeo')
-      }
       return this.$('#video-modal').on(('hide.bs.modal'), e => {
         if (me.showChinaVideo()) {
           return this.$('.video-player').attr('src', '')

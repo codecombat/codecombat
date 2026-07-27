@@ -16,18 +16,18 @@ export default {
     ModalGetLicenses,
     ModalApplyLicenses,
     ModalShareLicenses,
-    ModalLicenseStats
+    ModalLicenseStats,
   },
 
   props: {
     teacherId: { // sent from DSA
       type: String,
-      default: ''
+      default: '',
     },
     displayOnly: { // sent from DSA
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data: () => {
@@ -36,7 +36,7 @@ export default {
       showModalApplyLicenses: false,
       showModalShareLicenses: false,
       showModalLicenseStats: false,
-      sharePrepaid: '' // for share licenses modal and license stats modal
+      sharePrepaid: '', // for share licenses modal and license stats modal
     }
   },
 
@@ -45,14 +45,21 @@ export default {
       loading: 'teacherDashboard/getLoadingState',
       activeLicenses: 'teacherDashboard/getActiveLicenses',
       expiredLicenses: 'teacherDashboard/getExpiredLicenses',
-      getTeacherId: 'teacherDashboard/teacherId'
+      getTeacherId: 'teacherDashboard/teacherId',
     }),
 
     showLicensesPage () {
       return this.displayOnly || this.activeLicenses.length > 0 || this.expiredLicenses.length > 0
-    }
+    },
   },
 
+  watch: {
+    activeLicenses () {
+      if (this.sharePrepaid) {
+        this.sharePrepaid = this.activeLicenses.find(license => license._id === this.sharePrepaid._id)
+      }
+    },
+  },
   mounted () {
     this.setTeacherId(this.teacherId || me.get('_id'))
     this.setPageTitle(PAGE_TITLES[this.$options.name])
@@ -66,12 +73,12 @@ export default {
   methods: {
     ...mapActions({
       fetchData: 'teacherDashboard/fetchData',
-      getTestLicense: 'prepaids/getTestLicense'
+      getTestLicense: 'prepaids/getTestLicense',
     }),
     ...mapMutations({
       resetLoadingState: 'teacherDashboard/resetLoadingState',
       setTeacherId: 'teacherDashboard/setTeacherId',
-      setPageTitle: 'teacherDashboard/setPageTitle'
+      setPageTitle: 'teacherDashboard/setPageTitle',
     }),
     getLicenses () {
       this.showModalGetLicenses = true
@@ -89,8 +96,8 @@ export default {
       window.tracker?.trackEvent('My Licenses: View License Stats Clicked', { category: 'Teachers' })
       this.showModalLicenseStats = true
       this.sharePrepaid = prepaid
-    }
-  }
+    },
+  },
 }
 </script>
 
