@@ -954,7 +954,7 @@ module.exports = {
       medium: 'Zrqvhz',
       hard: 'Uneq',
       player: 'Cynlre',
-      player_level: 'Yriry', // Yvxr cynlre yriry 5, abg yvxr yriry: Qhatrbaf bs Xvgutneq
+      player_rank: 'Enax',
       warrior: 'Jneevbe',
       ranger: 'Enatre',
       wizard: 'Jvmneq',
@@ -2212,7 +2212,7 @@ module.exports = {
       edit_description: 'rqvg qrfpevcgvba',
       private: '(cevingr)',
       summary: 'Fhzznel',
-      average_level: 'Nirentr Yriry',
+      average_rank: 'Nirentr Enax',
       average_achievements: 'Nirentr Npuvrirzragf',
       delete_clan: 'Qryrgr Pyna',
       leave_clan: 'Yrnir Pyna',
@@ -3493,7 +3493,7 @@ module.exports = {
       new_xp_prefix: '',
       new_xp_postfix: ' rnearq',
       left_xp_prefix: '',
-      left_xp_infix: ' hagvy yriry ',
+      left_xp_rank_infix: ' hagvy enax ',
       left_xp_postfix: '',
     },
 
