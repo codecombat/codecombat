@@ -7,7 +7,9 @@ if showGameDevAlert
 // TODO: .gameplay-container causes world map buttons to briefly appear in top left of screen
 if !editorMode
   #main-nav
+
 .gameplay-container(class=campaign != null ? "in-campaign" : "in-portals")
+  #domain-banner-container
   div.under-logo.button-container
     if view.shouldShow('santa-clara-logo')
       #santa-clara-logo-container
@@ -411,7 +413,7 @@ if !editorMode
                               span= i18n(rightCampaign.attributes, 'description')
                   else
                     .side-campaign-container.empty
-  
+
     .game-controls.header-font(class=campaign != null ? "in-campaign" : "")
       if !(features && features.brainPop)
         if view.shouldShow('premium')
