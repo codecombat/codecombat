@@ -748,7 +748,7 @@ module.exports = class LevelLoader extends CocoClass
     return if utils.showOzaria() # TODO: replace with Ozaria level loading jingles
     return if @headless or not me.get('volume')
     volume = 0.5
-    if me.level() < 3
+    if me.rank() < 3
       volume = 0.25  # Start softly, since they may not be expecting it
     # Apparently the jingle, when it tries to play immediately during all this loading, you can't hear it.
     # Add the timeout to fix this weird behavior.

@@ -45,10 +45,10 @@
                     span.glyphicon.glyphicon-lock.bolder
                     span.glyphicon.glyphicon-lock
                     img.item-silhouette(draggable="false")
-                    if item.level
-                      .required-level
-                        div(data-i18n="general.player_level")
-                        div= item.level
+                    if item.rank
+                      .required-rank
+                        div(data-i18n="general.player_rank")
+                        div= item.rank
                   else
                     strong.big-font= item.name
                     img.item-img(draggable="false")

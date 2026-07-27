@@ -529,7 +529,7 @@ module.exports = class CocoView extends Backbone.View
       targetTop - Math.cos(@pointerRotation) * 150 < 0 or
       targetTop - Math.cos(@pointerRotation) * 150 > @$el.outerHeight())
       @pointerRotation += Math.PI / 16
-    initialScale = Math.max 1, 20 - me.level()
+    initialScale = Math.max 1, 20 - me.rank()
     $pointer.css
       opacity: 1.0
       transition: 'none'
