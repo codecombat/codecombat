@@ -88,7 +88,11 @@ export default {
     width: 200px;
   }
 
-  .info-card__text,
+  .info-card__text {
+    @extend %font-16;
+    line-height: 1.6;
+  }
+
   .info-card__link {
     @extend %font-16;
   }
@@ -105,7 +109,11 @@ export default {
     width: 160px;
   }
 
-  .info-card__text,
+  .info-card__text {
+    @extend %font-18-24;
+    line-height: 1.6;
+  }
+
   .info-card__link {
     @extend %font-18-24;
   }
