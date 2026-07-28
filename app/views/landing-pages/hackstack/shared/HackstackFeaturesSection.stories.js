@@ -44,19 +44,19 @@ Cyber.args = {
   features: [
     {
       key: 'certification',
-      image: '/images/pages/hackstack/cyber/pillar-certification.png',
+      image: '/images/pages/hackstack/cyber/pillar-certification.webp',
       title: 'Certification aligned',
       description: 'Build career-ready skills.',
     },
     {
       key: 'writing',
-      image: '/images/pages/hackstack/cyber/pillar-writing.png',
+      image: '/images/pages/hackstack/cyber/pillar-writing.webp',
       title: 'Learn by doing',
       description: 'Practice with realistic scenarios.',
     },
     {
       key: 'delivery',
-      image: '/images/pages/hackstack/cyber/pillar-delivery.png',
+      image: '/images/pages/hackstack/cyber/pillar-delivery.webp',
       title: 'Teacher ready',
       description: 'Use a complete classroom pathway.',
     },

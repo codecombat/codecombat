@@ -37,20 +37,20 @@ Cyber.args = {
   variant: 'cyber',
   title: 'Cybersecurity',
   poweredByLabel: 'Powered By',
-  logoSrc: '/images/pages/hackstack/cyber/hackstack-logo.png',
+  logoSrc: '/images/pages/hackstack/cyber/hackstack-logo.webp',
   logoAlt: 'AI HackStack',
   description: 'Career-ready cybersecurity learning.',
   badges: [
     {
-      src: '/images/pages/hackstack/cyber/comptia-security-plus.png',
+      src: '/images/pages/hackstack/cyber/comptia-security-plus.webp',
       alt: 'CompTIA Security+',
     },
     {
-      src: '/images/pages/hackstack/cyber/ap-collegeboard.jpg',
+      src: '/images/pages/hackstack/cyber/ap-collegeboard.webp',
       alt: 'AP College Board',
     },
   ],
   alignmentText: 'Aligned to industry standards',
-  mediaSrc: '/images/pages/hackstack/cyber/hero-simulation.png',
+  mediaSrc: '/images/pages/hackstack/cyber/hero-simulation.webp',
   mediaAlt: 'IT Help Desk Simulation',
 }

@@ -62,8 +62,8 @@ Cyber.args = {
       title: 'Foundations',
       description: 'Build cybersecurity fundamentals.',
       tagText: 'Cybersecurity',
-      imageSrc: '/images/pages/hackstack/cyber/module-1.jpg',
-      iconSrc: '/images/pages/hackstack/cyber/module-icon-1.png',
+      imageSrc: '/images/pages/hackstack/cyber/module-1.webp',
+      iconSrc: '/images/pages/hackstack/cyber/module-icon-1.webp',
     },
     {
       key: 'module-2',
@@ -71,8 +71,8 @@ Cyber.args = {
       title: 'Networks',
       description: 'Explore secure network design.',
       tagText: 'Networking',
-      imageSrc: '/images/pages/hackstack/cyber/module-2.jpg',
-      iconSrc: '/images/pages/hackstack/cyber/module-icon-2.png',
+      imageSrc: '/images/pages/hackstack/cyber/module-2.webp',
+      iconSrc: '/images/pages/hackstack/cyber/module-icon-2.webp',
     },
   ],
 }

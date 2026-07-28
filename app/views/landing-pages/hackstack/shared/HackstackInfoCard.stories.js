@@ -28,7 +28,7 @@ Algebra.args = {
 export const Cyber = Template.bind({})
 Cyber.args = {
   variant: 'cyber',
-  imageSrc: '/images/pages/hackstack/cyber/safety-shield.png',
+  imageSrc: '/images/pages/hackstack/cyber/safety-shield.webp',
   imageAlt: '',
   title: 'Safety First',
   text: 'Teach cybersecurity in a safe environment.',

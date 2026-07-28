@@ -29,7 +29,7 @@ Cyber.args = {
   title: 'Foundations',
   description: 'Build cybersecurity fundamentals.',
   tagText: 'Cybersecurity',
-  imageSrc: '/images/pages/hackstack/cyber/module-1.jpg',
-  iconSrc: '/images/pages/hackstack/cyber/module-icon-1.png',
+  imageSrc: '/images/pages/hackstack/cyber/module-1.webp',
+  iconSrc: '/images/pages/hackstack/cyber/module-icon-1.webp',
   showSeparator: false,
 }

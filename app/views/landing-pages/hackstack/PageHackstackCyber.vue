@@ -4,12 +4,12 @@
       variant="cyber"
       :title="$t('hackstack_cyber_page.header')"
       :powered-by-label="$t('hackstack_algebra_page.header_powered_by')"
-      logo-src="/images/pages/hackstack/cyber/hackstack-logo.png"
+      logo-src="/images/pages/hackstack/cyber/hackstack-logo.webp"
       logo-alt="AI HackStack"
       :description="$t('hackstack_cyber_page.header_details')"
       :badges="alignmentBadges"
       :alignment-text="$t('hackstack_cyber_page.header_aligned')"
-      media-src="/images/pages/hackstack/cyber/hero-simulation.png"
+      media-src="/images/pages/hackstack/cyber/hero-simulation.webp"
       media-alt="IT Help Desk Simulation"
     >
       <template #actions>
@@ -78,7 +78,7 @@
     </HackstackPathwaySection>
     <HackstackInfoCard
       variant="cyber"
-      image-src="/images/pages/hackstack/cyber/safety-shield.png"
+      image-src="/images/pages/hackstack/cyber/safety-shield.webp"
       image-alt=""
       :title="$t('hackstack_cyber_page.safety_title')"
       :text="$t('hackstack_cyber_page.safety_text')"
@@ -130,11 +130,11 @@ export default Vue.extend({
       faqItems: buildHackstackFaqItems(this.$t.bind(this)),
       alignmentBadges: [
         {
-          src: '/images/pages/hackstack/cyber/comptia-security-plus.png',
+          src: '/images/pages/hackstack/cyber/comptia-security-plus.webp',
           alt: 'CompTIA Security+',
         },
         {
-          src: '/images/pages/hackstack/cyber/ap-collegeboard.jpg',
+          src: '/images/pages/hackstack/cyber/ap-collegeboard.webp',
           alt: 'AP College Board',
         },
       ],
@@ -151,9 +151,9 @@ export default Vue.extend({
       return [1, 2, 3].map(featureNum => ({
         key: `feature-${featureNum}`,
         image: [
-          '/images/pages/hackstack/cyber/pillar-certification.png',
-          '/images/pages/hackstack/cyber/pillar-writing.png',
-          '/images/pages/hackstack/cyber/pillar-delivery.png',
+          '/images/pages/hackstack/cyber/pillar-certification.webp',
+          '/images/pages/hackstack/cyber/pillar-writing.webp',
+          '/images/pages/hackstack/cyber/pillar-delivery.webp',
         ][featureNum - 1],
         title: this.$t(`hackstack_cyber_page.feature_${featureNum}_title`),
         description: this.$t(`hackstack_cyber_page.feature_${featureNum}_desc`),
@@ -166,8 +166,8 @@ export default Vue.extend({
         title: this.$t(`hackstack_cyber_page.module_${moduleNum}_title`),
         description: this.$t(`hackstack_cyber_page.module_${moduleNum}_desc`),
         tagText: this.$t(`hackstack_cyber_page.module_${moduleNum}_tag`),
-        imageSrc: `/images/pages/hackstack/cyber/module-${moduleNum}.jpg`,
-        iconSrc: `/images/pages/hackstack/cyber/module-icon-${moduleNum}.png`,
+        imageSrc: `/images/pages/hackstack/cyber/module-${moduleNum}.webp`,
+        iconSrc: `/images/pages/hackstack/cyber/module-icon-${moduleNum}.webp`,
       }))
     },
   },
