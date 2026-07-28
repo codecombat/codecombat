@@ -56,7 +56,7 @@
         </CTAButton>
         <CTAButton
           v-else
-          href="/teachers/guide/hackstack/cyber"
+          href="/teachers/guide/hackstack/cyb"
           class="pathways__cta"
         >
           {{ $t('home_v3.try_it_now') }}
