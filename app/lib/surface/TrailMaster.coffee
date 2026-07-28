@@ -6,8 +6,9 @@ TARGET_ALPHA = 1
 TARGET_WIDTH = 10
 FUTURE_PATH_INTERVAL_DIVISOR = 4
 PAST_PATH_INTERVAL_DIVISOR = 2
-START_DOT_COLOR = [206, 147, 216]  # light purple, same family as PET_PATH_COLOR
-PET_PATH_COLOR = [178, 75, 224]  # CodeCombat Junior pet trail; exact purple TBD with art
+PET_PATH_COLOR_LIGHT = [216, 180, 254]  # CodeCombat Junior trail gradient: path start
+PET_PATH_COLOR_DARK = [123, 31, 162]  # CodeCombat Junior trail gradient: path end
+PET_PATH_COLOR_STEPS = 8  # max distinct dot colors along the gradient (spritesheet cache bound)
 TEAM_COLORS =
   codecombat:
     neutral: [0, 255, 0]
@@ -49,7 +50,6 @@ module.exports = class TrailMaster extends CocoClass
     @tweens = []
 
   createGraphics: ->
-    @startDotKey = @cachePathDot(TARGET_WIDTH, [START_DOT_COLOR..., 1], [0, 0, 0, 1])  # Just for CCJ so far
     @targetDotKey = @cachePathDot(TARGET_WIDTH, @colorForThang(@thang.team, TARGET_ALPHA), [0, 0, 0, 1])
     @pastDotKey = @cachePathDot(PAST_PATH_WIDTH, @colorForThang(@thang.team, PAST_PATH_ALPHA), [0, 0, 0, 1])
     @futureDotKey = @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], @colorForThang(@thang.team, 1))
@@ -68,8 +68,17 @@ module.exports = class TrailMaster extends CocoClass
   colorForThang: (team, alpha=1.0) ->
     palette = if utils.isCodeCombat then TEAM_COLORS.codecombat else TEAM_COLORS.ozaria
     rgb = palette[team] ? palette.neutral
-    rgb = PET_PATH_COLOR if team is 'humans' and utils.isJuniorLevel @level
+    rgb = PET_PATH_COLOR_DARK if team is 'humans' and utils.isJuniorLevel @level
     return [rgb..., alpha]
+
+  useJuniorGradient: ->
+    @thang.team is 'humans' and utils.isJuniorLevel @level
+
+  # Quantized lerp light->dark: at most PET_PATH_COLOR_STEPS distinct colors get cached as dot graphics
+  petColorAt: (t) ->
+    t = Math.round(t * (PET_PATH_COLOR_STEPS - 1)) / (PET_PATH_COLOR_STEPS - 1)
+    for c, j in PET_PATH_COLOR_LIGHT
+      Math.round(c + (PET_PATH_COLOR_DARK[j] - c) * t)
 
   createPastPath: ->
     return unless points = @world.pointsForThang @thang.id, @camera
@@ -81,18 +90,24 @@ module.exports = class TrailMaster extends CocoClass
     return unless points = @world.pointsForThang @thang.id, @camera
     interval = Math.max(1, parseInt(@world.frameRate / FUTURE_PATH_INTERVAL_DIVISOR))
     params = { interval: interval, animate: true, frameKey: @futureDotKey }
+    params.gradientStroke = @useJuniorGradient()
     return @createPath(points, params)
 
   createTargets: ->
     return unless @thang.allTargets
     container = new createjs.Container(@layerAdapter.spriteSheet)
+    numTargets = @thang.allTargets.length / 2
     for x, i in @thang.allTargets by 2
       y = @thang.allTargets[i + 1]
       sup = @camera.worldToSurface x: x, y: y
       sprite = new createjs.Sprite(@layerAdapter.spriteSheet)
       sprite.scaleX = sprite.scaleY = 1 / @layerAdapter.resolutionFactor
       sprite.scaleY *= @camera.y2x
-      graphicsKey = if i is 0 and utils.isJuniorLevel @level then @startDotKey else @targetDotKey
+      if @useJuniorGradient()
+        t = if numTargets > 1 then (i / 2) / (numTargets - 1) else 0
+        graphicsKey = @cachePathDot(TARGET_WIDTH, [@petColorAt(t)..., TARGET_ALPHA], [0, 0, 0, 1])
+      else
+        graphicsKey = @targetDotKey
       sprite.gotoAndStop(graphicsKey)
       sprite.x = sup.x
       sprite.y = sup.y
@@ -105,8 +120,14 @@ module.exports = class TrailMaster extends CocoClass
     key = options.frameKey or @pastDotKey
     container = new createjs.Container(@layerAdapter.spriteSheet)
 
+    numDots = Math.ceil(points.length / (interval * 2))
+    dotIndex = 0
     for x, i in points by interval * 2
       y = points[i + 1]
+      if options.gradientStroke
+        t = if numDots > 1 then dotIndex / (numDots - 1) else 0
+        key = @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], [@petColorAt(t)..., 1])
+      dotIndex++
       sprite = new createjs.Sprite(@layerAdapter.spriteSheet)
       sprite.scaleX = sprite.scaleY = 1 / @layerAdapter.resolutionFactor
       sprite.scaleY *= @camera.y2x
