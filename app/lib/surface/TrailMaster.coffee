@@ -55,11 +55,15 @@ module.exports = class TrailMaster extends CocoClass
       # Register every gradient bucket before any dot sprite exists: a first-seen graphic
       # rebuilds the layer spritesheet, destroying the sheet already-created sprites reference.
       # The flat team-color keys are skipped here; gradient mode never draws them.
-      # Last iteration leaves the darkest-bucket keys as valid defaults for @targetDotKey/@futureDotKey
-      for step in [0...PET_PATH_COLOR_STEPS]
-        color = @petColorAt(step / (PET_PATH_COLOR_STEPS - 1))
-        @targetDotKey = @cachePathDot(TARGET_WIDTH, [color..., TARGET_ALPHA], [0, 0, 0, 1])
-        @futureDotKey = @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], [color..., 1])
+      @gradientTargetKeys = []
+      @gradientStrokeKeys = []
+      for bucket in [0...PET_PATH_COLOR_STEPS]
+        color = @petColorForBucket(bucket)
+        @gradientTargetKeys.push @cachePathDot(TARGET_WIDTH, [color..., TARGET_ALPHA], [0, 0, 0, 1])
+        @gradientStrokeKeys.push @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], [color..., 1])
+      # Darkest-bucket keys double as valid defaults for any non-gradient fallback path
+      @targetDotKey = @gradientTargetKeys[PET_PATH_COLOR_STEPS - 1]
+      @futureDotKey = @gradientStrokeKeys[PET_PATH_COLOR_STEPS - 1]
     else
       @targetDotKey = @cachePathDot(TARGET_WIDTH, @colorForThang(@thang.team, TARGET_ALPHA), [0, 0, 0, 1])
       @pastDotKey = @cachePathDot(PAST_PATH_WIDTH, @colorForThang(@thang.team, PAST_PATH_ALPHA), [0, 0, 0, 1])
@@ -84,11 +88,14 @@ module.exports = class TrailMaster extends CocoClass
   useJuniorGradient: ->
     @thang.team is 'humans' and utils.isJuniorLevel @level
 
-  # Quantized lerp light->dark: at most PET_PATH_COLOR_STEPS distinct colors get cached as dot graphics
-  petColorAt: (t) ->
-    t = Math.round(t * (PET_PATH_COLOR_STEPS - 1)) / (PET_PATH_COLOR_STEPS - 1)
+  # Gradient quantized to PET_PATH_COLOR_STEPS buckets so only that many dot graphics get cached
+  petBucketFor: (t) ->
+    Math.round(t * (PET_PATH_COLOR_STEPS - 1))
+
+  petColorForBucket: (bucket) ->
+    f = bucket / (PET_PATH_COLOR_STEPS - 1)
     for c, j in PET_PATH_COLOR_LIGHT
-      Math.round(c + (PET_PATH_COLOR_DARK[j] - c) * t)
+      Math.round(c + (PET_PATH_COLOR_DARK[j] - c) * f)
 
   createPastPath: ->
     return unless points = @world.pointsForThang @thang.id, @camera
@@ -107,15 +114,16 @@ module.exports = class TrailMaster extends CocoClass
     return unless @thang.allTargets
     container = new createjs.Container(@layerAdapter.spriteSheet)
     numTargets = @thang.allTargets.length / 2
+    useGradient = @useJuniorGradient()
     for x, i in @thang.allTargets by 2
       y = @thang.allTargets[i + 1]
       sup = @camera.worldToSurface x: x, y: y
       sprite = new createjs.Sprite(@layerAdapter.spriteSheet)
       sprite.scaleX = sprite.scaleY = 1 / @layerAdapter.resolutionFactor
       sprite.scaleY *= @camera.y2x
-      if @useJuniorGradient()
+      if useGradient
         t = if numTargets > 1 then (i / 2) / (numTargets - 1) else 0
-        graphicsKey = @cachePathDot(TARGET_WIDTH, [@petColorAt(t)..., TARGET_ALPHA], [0, 0, 0, 1])
+        graphicsKey = @gradientTargetKeys[@petBucketFor(t)]
       else
         graphicsKey = @targetDotKey
       sprite.gotoAndStop(graphicsKey)
@@ -136,7 +144,7 @@ module.exports = class TrailMaster extends CocoClass
       y = points[i + 1]
       if options.gradientStroke
         t = if numDots > 1 then dotIndex / (numDots - 1) else 0
-        key = @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], [@petColorAt(t)..., 1])
+        key = @gradientStrokeKeys[@petBucketFor(t)]
       dotIndex++
       sprite = new createjs.Sprite(@layerAdapter.spriteSheet)
       sprite.scaleX = sprite.scaleY = 1 / @layerAdapter.resolutionFactor
