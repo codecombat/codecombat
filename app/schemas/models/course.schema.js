@@ -128,6 +128,7 @@ _.extend(CourseSchema.properties, {
   },
   curriculum: c.url({ title: 'Curriculum URL', description: 'Link to curriculum folder. Relevant for teacher dashboard curriculum guides.' }),
   standardsAlignmentLink: c.url({ title: 'Standards Alignment URL', description: 'Link to standards alignment for display on teacher dashboard curriculum guides.' }),
+  standardsAlignmentLabel: c.shortString({ title: 'Standards Alignment Label', description: 'Label for the standards alignment link on teacher dashboard curriculum guides, e.g. "CSTA Standards Alignment".' }),
   product: { type: 'string', enum: ['ozaria', 'codecombat', 'hackstack', 'junior'], description: 'Which product this course is for, if applicable. Affects where the course appears in the teacher dashboard.' },
   showLevelNumbers: { type: 'boolean', title: 'Level Number', description: 'Whether to display level number or not.', default: true },
 })

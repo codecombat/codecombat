@@ -16,6 +16,11 @@ export default {
       type: String,
       required: false,
       default: null,
+    },
+    standardsLabel: {
+      type: String,
+      required: false,
+      default: null,
     }
   },
   computed: {
@@ -26,7 +31,7 @@ export default {
     standardsResourceData () {
       return {
         icon: 'Doc',
-        label: 'Standards Alignment',
+        label: this.standardsLabel || (this.standardsLink ? 'Standards Alignment' : 'CSTA Standards Alignment'),
         link: this.standardsLink || 'https://docs.google.com/document/d/1sHP75V5WqdQBfavI792mswYDS67pSSf8otNM05Rma5A/edit?usp=sharing'
       }
     },

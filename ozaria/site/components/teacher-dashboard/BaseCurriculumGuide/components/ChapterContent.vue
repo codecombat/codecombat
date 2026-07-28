@@ -21,6 +21,7 @@
           <csta-standards
             :csta-list="cstaStandards"
             :standards-link="standardsAlignmentLink"
+            :standards-label="standardsAlignmentLabel"
           />
         </div>
       </div>
@@ -62,6 +63,10 @@ export default {
 
     standardsAlignmentLink () {
       return this.getCurrentCourse?.standardsAlignmentLink
+    },
+
+    standardsAlignmentLabel () {
+      return this.getCurrentCourse?.standardsAlignmentLabel
     },
   },
   methods: {
