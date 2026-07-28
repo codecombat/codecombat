@@ -29,7 +29,7 @@
         </CTAButton>
         <CTAButton
           v-else
-          href="/teachers/guide/hackstack/cyber"
+          href="/teachers/guide/hackstack/cyb"
           class="cta-button"
         >
           {{ $t('hackstack_cyber_page.cta_explore') }}
