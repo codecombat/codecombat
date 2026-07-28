@@ -55,10 +55,11 @@ module.exports = class TrailMaster extends CocoClass
       # Register every gradient bucket before any dot sprite exists: a first-seen graphic
       # rebuilds the layer spritesheet, destroying the sheet already-created sprites reference.
       # The flat team-color keys are skipped here; gradient mode never draws them.
+      # Last iteration leaves the darkest-bucket keys as valid defaults for @targetDotKey/@futureDotKey
       for step in [0...PET_PATH_COLOR_STEPS]
         color = @petColorAt(step / (PET_PATH_COLOR_STEPS - 1))
-        @cachePathDot(TARGET_WIDTH, [color..., TARGET_ALPHA], [0, 0, 0, 1])
-        @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], [color..., 1])
+        @targetDotKey = @cachePathDot(TARGET_WIDTH, [color..., TARGET_ALPHA], [0, 0, 0, 1])
+        @futureDotKey = @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], [color..., 1])
     else
       @targetDotKey = @cachePathDot(TARGET_WIDTH, @colorForThang(@thang.team, TARGET_ALPHA), [0, 0, 0, 1])
       @pastDotKey = @cachePathDot(PAST_PATH_WIDTH, @colorForThang(@thang.team, PAST_PATH_ALPHA), [0, 0, 0, 1])
