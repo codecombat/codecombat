@@ -50,16 +50,18 @@ module.exports = class TrailMaster extends CocoClass
     @tweens = []
 
   createGraphics: ->
-    @targetDotKey = @cachePathDot(TARGET_WIDTH, @colorForThang(@thang.team, TARGET_ALPHA), [0, 0, 0, 1])
-    @pastDotKey = @cachePathDot(PAST_PATH_WIDTH, @colorForThang(@thang.team, PAST_PATH_ALPHA), [0, 0, 0, 1])
-    @futureDotKey = @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], @colorForThang(@thang.team, 1))
     if @useJuniorGradient()
       # Register every gradient bucket before any dot sprite exists: a first-seen graphic
-      # rebuilds the layer spritesheet, destroying the sheet already-created sprites reference
+      # rebuilds the layer spritesheet, destroying the sheet already-created sprites reference.
+      # The flat team-color keys are skipped here; gradient mode never draws them.
       for step in [0...PET_PATH_COLOR_STEPS]
         color = @petColorAt(step / (PET_PATH_COLOR_STEPS - 1))
         @cachePathDot(TARGET_WIDTH, [color..., TARGET_ALPHA], [0, 0, 0, 1])
         @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], [color..., 1])
+    else
+      @targetDotKey = @cachePathDot(TARGET_WIDTH, @colorForThang(@thang.team, TARGET_ALPHA), [0, 0, 0, 1])
+      @pastDotKey = @cachePathDot(PAST_PATH_WIDTH, @colorForThang(@thang.team, PAST_PATH_ALPHA), [0, 0, 0, 1])
+      @futureDotKey = @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], @colorForThang(@thang.team, 1))
 
   cachePathDot: (width, fillColor, strokeColor) ->
     key = "path-dot-#{width}-#{fillColor}-#{strokeColor}"
@@ -75,7 +77,6 @@ module.exports = class TrailMaster extends CocoClass
   colorForThang: (team, alpha=1.0) ->
     palette = if utils.isCodeCombat then TEAM_COLORS.codecombat else TEAM_COLORS.ozaria
     rgb = palette[team] ? palette.neutral
-    rgb = PET_PATH_COLOR_DARK if team is 'humans' and utils.isJuniorLevel @level
     return [rgb..., alpha]
 
   useJuniorGradient: ->
