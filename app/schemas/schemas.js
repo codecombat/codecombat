@@ -402,11 +402,16 @@ me.activity = me.object({ description: 'Stats on an activity' }, {
 
 me.terrainString = me.shortString({ enum: ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano', 'Junior'], title: 'Terrain', description: 'Which terrain type this is.', inEditor: 'codecombat' })
 
+// All equippable inventory slots. The server strips any heroConfig.inventory key not in this list
+// on save (see codecombat-server User/LevelSession pre-save hooks), so keep it in sync when adding slots.
+me.heroInventorySlots = Object.freeze(['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'programming-book', 'pet', 'minion', 'flag'])
+
 me.HeroConfigSchema = me.object({ description: 'Which hero the player is using, equipped with what inventory.' }, {
   inventory: {
     type: 'object',
     description: 'The inventory of the hero: slots to item ThangTypes.',
-    additionalProperties: me.objectId({ description: 'An item ThangType.' }),
+    properties: _.zipObject(me.heroInventorySlots.map((slot) => [slot, me.objectId({ description: 'An item ThangType.' })])),
+    additionalProperties: me.objectId({ description: 'An item ThangType.' }), // deliberately not false: legacy docs may hold unknown slots; the server strips them on save instead of failing validation
   },
   thangType: me.objectId({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type' }),
 },

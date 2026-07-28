@@ -30,6 +30,7 @@ const SubscribeModal = require('views/core/SubscribeModal')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 const utils = require('core/utils')
+const schemas = require('app/schemas/schemas')
 
 let hasGoneFullScreenOnce = false
 const debugInventory = false
@@ -40,7 +41,7 @@ module.exports = (InventoryModal = (function () {
       this.prototype.id = 'inventory-modal'
       this.prototype.className = 'modal fade play-modal'
       this.prototype.template = template
-      this.prototype.slots = ['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'programming-book', 'pet', 'minion', 'flag'] //, 'misc-0', 'misc-1']  # TODO: bring in misc slot(s) again when we have space
+      this.prototype.slots = schemas.heroInventorySlots
       this.prototype.ringSlots = ['left-ring', 'right-ring']
       this.prototype.closesOnClickOutside = false // because draggable somehow triggers hide when you don't drag onto a draggable
       this.prototype.trapsFocus = false
