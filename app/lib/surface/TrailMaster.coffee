@@ -6,6 +6,17 @@ TARGET_ALPHA = 1
 TARGET_WIDTH = 10
 FUTURE_PATH_INTERVAL_DIVISOR = 4
 PAST_PATH_INTERVAL_DIVISOR = 2
+START_DOT_COLOR = [206, 147, 216]  # light purple, same family as PET_PATH_COLOR
+PET_PATH_COLOR = [178, 75, 224]  # CodeCombat Junior pet trail; exact purple TBD with art
+TEAM_COLORS =
+  codecombat:
+    neutral: [0, 255, 0]
+    humans: [255, 0, 0]
+    ogres: [0, 0, 255]
+  ozaria:
+    neutral: [79, 202, 82]
+    humans: [69, 170, 255]
+    ogres: [255, 0, 0]
 
 Camera = require './Camera'
 CocoClass = require 'core/CocoClass'
@@ -38,7 +49,7 @@ module.exports = class TrailMaster extends CocoClass
     @tweens = []
 
   createGraphics: ->
-    @startDotKey = @cachePathDot(TARGET_WIDTH, [94, 152, 81, 1], [0, 0, 0, 1])  # Just for CCJ so far; match start block color
+    @startDotKey = @cachePathDot(TARGET_WIDTH, [START_DOT_COLOR..., 1], [0, 0, 0, 1])  # Just for CCJ so far
     @targetDotKey = @cachePathDot(TARGET_WIDTH, @colorForThang(@thang.team, TARGET_ALPHA), [0, 0, 0, 1])
     @pastDotKey = @cachePathDot(PAST_PATH_WIDTH, @colorForThang(@thang.team, PAST_PATH_ALPHA), [0, 0, 0, 1])
     @futureDotKey = @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], @colorForThang(@thang.team, 1))
@@ -55,16 +66,10 @@ module.exports = class TrailMaster extends CocoClass
     return key
 
   colorForThang: (team, alpha=1.0) ->
-    if utils.isCodeCombat
-      rgb = [0, 255, 0]
-      rgb = [255, 0, 0] if team is 'humans'
-      rgb = [0, 0, 255] if team is 'ogres'
-    else
-      rgb = [79, 202, 82]
-      rgb = [69, 170, 255] if team is 'humans'
-      rgb = [255, 0, 0] if team is 'ogres'
-    rgb.push(alpha)
-    return rgb
+    palette = if utils.isCodeCombat then TEAM_COLORS.codecombat else TEAM_COLORS.ozaria
+    rgb = palette[team] ? palette.neutral
+    rgb = PET_PATH_COLOR if team is 'humans' and utils.isJuniorLevel @level
+    return [rgb..., alpha]
 
   createPastPath: ->
     return unless points = @world.pointsForThang @thang.id, @camera
@@ -87,7 +92,7 @@ module.exports = class TrailMaster extends CocoClass
       sprite = new createjs.Sprite(@layerAdapter.spriteSheet)
       sprite.scaleX = sprite.scaleY = 1 / @layerAdapter.resolutionFactor
       sprite.scaleY *= @camera.y2x
-      graphicsKey = if i is 0 and @level?.get('product') is 'codecombat-junior' then @startDotKey else @targetDotKey
+      graphicsKey = if i is 0 and utils.isJuniorLevel @level then @startDotKey else @targetDotKey
       sprite.gotoAndStop(graphicsKey)
       sprite.x = sup.x
       sprite.y = sup.y
