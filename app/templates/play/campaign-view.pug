@@ -446,9 +446,9 @@ if !editorMode
         if view.shouldShow('status-line')
           if view.shouldShow('level')
             .status-stats
-              .status-stat-row.level-row
-                span.achievements-star.achievements-star-30
-                span.player-level.spr= me.level()
+              .status-stat-row.rank-row
+                span.rank-icon.rank-icon-30
+                span.player-rank.spr= me.rank()
               if view.shouldShow('gems')
                 .status-stat-row.gems-row
                   span.gem.gem-30
