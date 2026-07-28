@@ -6,23 +6,24 @@ TARGET_ALPHA = 1
 TARGET_WIDTH = 10
 FUTURE_PATH_INTERVAL_DIVISOR = 4
 PAST_PATH_INTERVAL_DIVISOR = 2
-PET_PATH_COLOR_LIGHT = [216, 180, 254]  # CodeCombat Junior trail gradient: path start
-PET_PATH_COLOR_DARK = [123, 31, 162]  # CodeCombat Junior trail gradient: path end
+Camera = require './Camera'
+CocoClass = require 'core/CocoClass'
+colors = require 'core/colors'
+createjs = require 'lib/createjs-parts'
+utils = require 'core/utils'
+
+PET_PATH_COLOR_LIGHT = colors.hexToRgb(colors.lavender)  # CodeCombat Junior trail gradient: path start
+PET_PATH_COLOR_DARK = colors.hexToRgb(colors.deepPurple)  # CodeCombat Junior trail gradient: path end
 PET_PATH_COLOR_STEPS = 8  # max distinct dot colors along the gradient (spritesheet cache bound)
 TEAM_COLORS =
   codecombat:
-    neutral: [0, 255, 0]
-    humans: [255, 0, 0]
-    ogres: [0, 0, 255]
+    neutral: colors.hexToRgb(colors.green)
+    humans: colors.hexToRgb(colors.red)
+    ogres: colors.hexToRgb(colors.blue)
   ozaria:
-    neutral: [79, 202, 82]
-    humans: [69, 170, 255]
-    ogres: [255, 0, 0]
-
-Camera = require './Camera'
-CocoClass = require 'core/CocoClass'
-createjs = require 'lib/createjs-parts'
-utils = require 'core/utils'
+    neutral: colors.hexToRgb(colors.leafGreen)
+    humans: colors.hexToRgb(colors.skyBlue)
+    ogres: colors.hexToRgb(colors.red)
 
 module.exports = class TrailMaster extends CocoClass
   world: null
