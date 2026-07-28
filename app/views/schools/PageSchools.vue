@@ -682,6 +682,13 @@ export default Vue.extend({
           linkText: this.$t('general.learn_more'),
           link: '/hackstack-algebra',
         },
+        {
+          title: this.$t('schools_page.student_acceleration_4_title'),
+          text: this.$t('schools_page.student_acceleration_4_text'),
+          image: '/images/pages/hackstack/cyber/cybersecurity-promotion.webp',
+          linkText: this.$t('general.learn_more'),
+          link: '/hackstack-cyber',
+        },
       ],
       youngLearners: [
         {
