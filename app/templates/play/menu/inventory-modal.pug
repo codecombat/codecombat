@@ -18,7 +18,7 @@
         img(src="/file/"+featureImages.hair, draggable="false")#hero-image-hair
         img(src="/file/"+featureImages.thumb, draggable="false")#hero-image-thumb
 
-      for slot in ['head', 'eyes', 'neck', 'torso', 'gloves', 'wrists', 'left-hand', 'right-hand', 'waist', 'feet', 'left-ring', 'right-ring', 'minion', 'flag', 'pet', 'programming-book', 'misc-0', 'misc-1']
+      for slot in ['head', 'eyes', 'neck', 'torso', 'gloves', 'wrists', 'left-hand', 'right-hand', 'waist', 'feet', 'left-ring', 'right-ring', 'minion', 'flag', 'pet', 'programming-book']
         .item-slot(data-slot=slot)
           .placeholder
           if equipment[slot]
