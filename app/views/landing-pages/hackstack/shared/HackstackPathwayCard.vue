@@ -264,7 +264,11 @@ export default {
   height: 20px;
   border-top: 5px solid var(--color-primary-1);
   border-right: 5px solid var(--color-primary-1);
-  transform: translate(-50%, -50%) rotate(45deg);
+  // A rotated bordered square draws its ">" to the right of its own box centre:
+  // both arm ends land on the centre line and the apex reaches ~14px past it.
+  // Centring the box in the gap therefore leaves the visible chevron off to the
+  // right, so pull it back by the ink offset.
+  transform: translate(calc(-50% - 5px), -50%) rotate(45deg);
 
   @media (max-width: $screen-md-max) {
     display: none;
