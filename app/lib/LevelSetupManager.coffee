@@ -76,7 +76,7 @@ module.exports = class LevelSetupManager extends CocoClass
       return
 
     # Build modals and prevent them from disappearing.
-    isJunior = @level?.get('product') is 'codecombat-junior' or @options.campaign?.get('slug') is 'junior' or @options.campaign?.get('type') is 'junior'
+    isJunior = utils.isJuniorLevel(@level) or @options.campaign?.get('slug') is 'junior' or @options.campaign?.get('type') is 'junior'
     HeroesModalClass = if isJunior then PetHeroesModal else PlayHeroesModal
     @heroesModal = new HeroesModalClass({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, campaign: @options.campaign, hadEverChosenHero: @options.hadEverChosenHero, courseInstanceID: @options.courseInstanceID })
     @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, level: @level})

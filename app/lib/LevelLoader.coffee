@@ -358,14 +358,14 @@ module.exports = class LevelLoader extends CocoClass
         # Default to Tharin in home mode
         ThangType.heroes.knight
     juniorThangType = null
-    if @level.get('product', true) is 'codecombat-junior' and not utils.showOzaria()
+    if utils.isJuniorLevel(@level) and not utils.showOzaria()
       juniorThangType = session.get('heroConfig')?.juniorThangType
       juniorThangType ?= me.get('heroConfig')?.juniorThangType if session is @session and not @headless
     if juniorThangType
       # Junior levels honor the explicitly chosen pet; the swap map below is the fallback for configs without one
       heroThangType = juniorThangType
     else
-      if @level.get('product', true) is 'codecombat-junior'
+      if utils.isJuniorLevel(@level)
         # If we got into a codecombat-junior level with a codecombat hero, pick an equivalent codecombat-junior hero to use instead
         juniorHeroReplacement = ThangTypeConstants.juniorHeroReplacements[_.invert(ThangTypeConstants.heroes)[heroThangType]]
       else

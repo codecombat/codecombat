@@ -152,14 +152,14 @@ module.exports = (Level = (function () {
             }
             levelThang.components = [] // We have stored the placeholder values, so we can inherit everything else.
             const sessionHeroConfig = __guard__(session != null ? session.get('heroConfig') : undefined, x => x) || {}
-            const juniorThangType = this.get('product', true) === 'codecombat-junior' ? sessionHeroConfig.juniorThangType : undefined
+            const juniorThangType = utils.isJuniorLevel(this) ? sessionHeroConfig.juniorThangType : undefined
             heroThangType = sessionHeroConfig.thangType
             if (juniorThangType) {
               // Junior levels honor the explicitly chosen pet; the swap map below is the fallback for configs without one
               levelThang.thangType = juniorThangType
             } else if (heroThangType) {
               let juniorHeroReplacement
-              if (this.get('product', true) === 'codecombat-junior') {
+              if (utils.isJuniorLevel(this)) {
                 // If we got into a codecombat-junior level with a codecombat hero, pick an equivalent codecombat-junior hero to use instead
                 juniorHeroReplacement = ThangTypeConstants.juniorHeroReplacements[_.invert(ThangTypeConstants.heroes)[heroThangType]]
               } else {
@@ -317,13 +317,13 @@ module.exports = (Level = (function () {
           if (!heroThangType) {
             heroThangType = ThangTypeConstants.heroes.knight
           }
-          const juniorThangType = this.get('product', true) === 'codecombat-junior' ? (session.get('heroConfig')?.juniorThangType || me.get('heroConfig')?.juniorThangType) : undefined
+          const juniorThangType = utils.isJuniorLevel(this) ? (session.get('heroConfig')?.juniorThangType || me.get('heroConfig')?.juniorThangType) : undefined
           if (juniorThangType) {
             // Junior levels honor the explicitly chosen pet; the swap map below is the fallback for configs without one
             levelThang.thangType = juniorThangType
           } else if (heroThangType) {
             let juniorHeroReplacement
-            if (this.get('product', true) === 'codecombat-junior') {
+            if (utils.isJuniorLevel(this)) {
               // If we got into a codecombat-junior level with a codecombat hero, pick an equivalent codecombat-junior hero to use instead
               juniorHeroReplacement = ThangTypeConstants.juniorHeroReplacements[_.invert(ThangTypeConstants.heroes)[heroThangType]]
             } else {
