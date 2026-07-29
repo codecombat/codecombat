@@ -28,6 +28,12 @@ const createjs = require('lib/createjs-parts')
 const ThangTypeConstants = require('lib/ThangTypeConstants')
 const ChangeLanguageTab = require('views/play/common/ChangeLanguageTab')
 
+// Module-level so the collection comparator survives modal destroy() wiping
+// instance properties while a fetch is still in flight.
+const rosterBySlug = _.indexBy(ThangTypeConstants.juniorHeroesConfig, 'slug')
+const rosterOrder = {}
+ThangTypeConstants.juniorHeroesConfig.forEach((hero, index) => { rosterOrder[hero.slug] = index })
+
 module.exports = (JuniorHeroesModal = (function () {
   JuniorHeroesModal = class JuniorHeroesModal extends ModalView {
     static initClass () {
@@ -63,12 +69,9 @@ module.exports = (JuniorHeroesModal = (function () {
       this.animateHeroes = this.animateHeroes.bind(this)
       this.confirmButtonI18N = options.confirmButtonI18N != null ? options.confirmButtonI18N : 'common.save'
       this.heroes = new CocoCollection([], { model: ThangType })
-      this.rosterBySlug = _.indexBy(ThangTypeConstants.juniorHeroesConfig, 'slug')
-      this.rosterOrder = {}
-      ThangTypeConstants.juniorHeroesConfig.forEach((hero, index) => { this.rosterOrder[hero.slug] = index })
       this.heroes.url = '/db/thang.type?view=heroes-junior'
       this.heroes.setProjection(['original', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'shortName', 'i18n', 'poseImage', 'tier', 'releasePhase', 'kind'])
-      this.heroes.comparator = hero => this.rosterOrder[hero.get('slug')] != null ? this.rosterOrder[hero.get('slug')] : 999
+      this.heroes.comparator = hero => rosterOrder[hero.get('slug')] != null ? rosterOrder[hero.get('slug')] : 999
       this.listenToOnce(this.heroes, 'sync', this.onHeroesLoaded)
       this.supermodel.loadCollection(this.heroes, 'heroes')
       this.stages = {}
@@ -94,7 +97,7 @@ module.exports = (JuniorHeroesModal = (function () {
       if (unknown.length) { console.warn('JuniorHeroesModal: server returned junior heroes missing from juniorHeroesConfig, hiding:', unknown) }
       const missing = _.difference(rosterSlugs, returnedSlugs)
       if (missing.length) { console.warn('JuniorHeroesModal: juniorHeroesConfig heroes not returned by server:', missing) }
-      this.heroes.reset(this.heroes.filter(hero => this.rosterOrder[hero.get('slug')] != null))
+      this.heroes.reset(this.heroes.filter(hero => rosterOrder[hero.get('slug')] != null))
       for (const hero of this.heroes.models) { this.formatHero(hero) }
       if (me.freeOnly() || application.getHocCampaign()) {
         this.heroes.reset(this.heroes.filter(hero => !hero.locked))
@@ -111,7 +114,7 @@ module.exports = (JuniorHeroesModal = (function () {
       if (hero.name == null) { hero.name = utils.i18n(hero.attributes, 'name') }
       hero.description = utils.i18n(hero.attributes, 'description')
       const original = hero.get('original')
-      const access = (this.rosterBySlug[hero.attributes.slug] || {}).access
+      const access = (rosterBySlug[hero.attributes.slug] || {}).access
       hero.free = access === 'free'
       hero.unlockBySubscribing = access === 'subscriber'
       hero.premium = access === 'premium'
