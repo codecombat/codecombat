@@ -172,7 +172,7 @@ module.exports = (PetHeroesModal = (function () {
       this.canvasWidth = 313 // @$el.find('canvas').width() # unreliable, whatever
       this.canvasHeight = this.$el.find('canvas').height()
       const heroConfig = (left = (left1 = __guard__(this.options != null ? this.options.session : undefined, x => x.get('heroConfig'))) != null ? left1 : me.get('heroConfig')) != null ? left : {}
-      const heroIndex = Math.max(0, _.findIndex(heroes, hero => hero.get('original') === heroConfig.thangType))
+      const heroIndex = Math.max(0, _.findIndex(heroes, hero => hero.get('original') === (heroConfig.juniorThangType || heroConfig.thangType)))
       this.$el.find(`.hero-item:nth-child(${heroIndex + 1}), .hero-indicator:nth-child(${heroIndex + 1})`).addClass('active')
       this.onHeroChanged({ direction: null, relatedTarget: this.$el.find('.hero-item')[heroIndex] })
       this.$el.find('.hero-stat').addClass('has-tooltip').tooltip()
@@ -408,7 +408,9 @@ module.exports = (PetHeroesModal = (function () {
     updateHeroConfig (model, hero) {
       if (!hero) { return false }
       const heroConfig = _.clone(model.get('heroConfig')) || {}
-      if (heroConfig.thangType !== hero) {
+      if (heroConfig.juniorThangType !== hero || heroConfig.thangType !== hero) {
+        heroConfig.juniorThangType = hero
+        // Also write thangType so old clients and classic paths (which swap-map it back) keep working
         heroConfig.thangType = hero
         model.set('heroConfig', heroConfig)
         return true

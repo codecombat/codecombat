@@ -414,6 +414,7 @@ me.HeroConfigSchema = me.object({ description: 'Which hero the player is using, 
     additionalProperties: me.objectId({ description: 'An item ThangType.' }), // deliberately not false: legacy docs may hold unknown slots; the server strips them on save instead of failing validation
   },
   thangType: me.objectId({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type' }),
+  juniorThangType: me.objectId({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Junior Thang Type', description: 'The ThangType of the junior pet hero, chosen independently of the classic hero. Junior levels prefer this over thangType; absent means derive via juniorHeroReplacements.', format: 'thang-type' }),
 },
 )
 

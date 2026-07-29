@@ -151,8 +151,13 @@ module.exports = (Level = (function () {
               placeholders[thangComponent.original] = thangComponent
             }
             levelThang.components = [] // We have stored the placeholder values, so we can inherit everything else.
-            heroThangType = __guard__(session != null ? session.get('heroConfig') : undefined, x => x.thangType)
-            if (heroThangType) {
+            const sessionHeroConfig = __guard__(session != null ? session.get('heroConfig') : undefined, x => x) || {}
+            const juniorThangType = this.get('product', true) === 'codecombat-junior' ? sessionHeroConfig.juniorThangType : undefined
+            heroThangType = sessionHeroConfig.thangType
+            if (juniorThangType) {
+              // Junior levels honor the explicitly chosen pet; the swap map below is the fallback for configs without one
+              levelThang.thangType = juniorThangType
+            } else if (heroThangType) {
               let juniorHeroReplacement
               if (this.get('product', true) === 'codecombat-junior') {
                 // If we got into a codecombat-junior level with a codecombat hero, pick an equivalent codecombat-junior hero to use instead
@@ -312,7 +317,11 @@ module.exports = (Level = (function () {
           if (!heroThangType) {
             heroThangType = ThangTypeConstants.heroes.knight
           }
-          if (heroThangType) {
+          const juniorThangType = this.get('product', true) === 'codecombat-junior' ? (session.get('heroConfig')?.juniorThangType || me.get('heroConfig')?.juniorThangType) : undefined
+          if (juniorThangType) {
+            // Junior levels honor the explicitly chosen pet; the swap map below is the fallback for configs without one
+            levelThang.thangType = juniorThangType
+          } else if (heroThangType) {
             let juniorHeroReplacement
             if (this.get('product', true) === 'codecombat-junior') {
               // If we got into a codecombat-junior level with a codecombat hero, pick an equivalent codecombat-junior hero to use instead
