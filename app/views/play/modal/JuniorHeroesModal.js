@@ -280,7 +280,10 @@ module.exports = (JuniorHeroesModal = (function () {
         // - set local changes to mimic what should happen on the server...
         const purchased = (left = me.get('purchased')) != null ? left : {}
         if (purchased.juniorHeroes == null) { purchased.juniorHeroes = [] }
-        purchased.juniorHeroes.push(this.visibleHero.get('original'))
+        // Guard against duplicates like the server's addPurchaseToUser does; juniorHeroes has uniqueItems: true
+        if (!purchased.juniorHeroes.includes(this.visibleHero.get('original'))) {
+          purchased.juniorHeroes.push(this.visibleHero.get('original'))
+        }
         me.set('purchased', purchased)
         me.set('spent', ((left1 = me.get('spent')) != null ? left1 : 0) + this.visibleHero.get('gems'))
 
