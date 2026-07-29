@@ -1557,7 +1557,7 @@ module.exports = {
 
     choose_hero: {
       choose_hero: 'Choose Your Hero',
-      choose_pet: 'Choose Your Pet',
+      choose_junior_hero: 'Choose Your Young Hero',
       programming_language: 'Programming Language',
       programming_language_description: 'Which programming language do you want to use?',
       default: 'Default',
