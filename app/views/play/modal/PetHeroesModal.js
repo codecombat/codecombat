@@ -63,10 +63,12 @@ module.exports = (PetHeroesModal = (function () {
       this.animateHeroes = this.animateHeroes.bind(this)
       this.confirmButtonI18N = options.confirmButtonI18N != null ? options.confirmButtonI18N : 'common.save'
       this.heroes = new CocoCollection([], { model: ThangType })
-      this.isJunior = this.options.level?.get('product') === 'codecombat-junior' || this.options.campaign?.get('slug') === 'junior' || this.options.campaign?.get('type') === 'junior'
-      this.heroes.url = '/db/thang.type?view=' + (this.isJunior ? 'heroes-junior' : 'heroes')
-      this.heroes.setProjection(['original', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'shortName', 'unlockLevelName', 'i18n', 'poseImage', 'tier', 'releasePhase', 'ozaria', 'kind'])
-      this.heroes.comparator = 'gems'
+      this.rosterBySlug = _.indexBy(ThangTypeConstants.juniorHeroesConfig, 'slug')
+      this.rosterOrder = {}
+      ThangTypeConstants.juniorHeroesConfig.forEach((hero, index) => { this.rosterOrder[hero.slug] = index })
+      this.heroes.url = '/db/thang.type?view=heroes-junior'
+      this.heroes.setProjection(['original', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'shortName', 'i18n', 'poseImage', 'tier', 'releasePhase', 'kind'])
+      this.heroes.comparator = hero => this.rosterOrder[hero.get('slug')] != null ? this.rosterOrder[hero.get('slug')] : 999
       this.listenToOnce(this.heroes, 'sync', this.onHeroesLoaded)
       this.supermodel.loadCollection(this.heroes, 'heroes')
       this.stages = {}
@@ -85,12 +87,16 @@ module.exports = (PetHeroesModal = (function () {
     }
 
     onHeroesLoaded () {
-      this.heroes.reset(this.heroes.filter(hero => !hero.get('ozaria')))
+      // Roster membership and order come from juniorHeroesConfig, not from whatever the server view returns
+      const rosterSlugs = ThangTypeConstants.juniorHeroesConfig.map(hero => hero.slug)
+      const returnedSlugs = this.heroes.map(hero => hero.get('slug'))
+      const unknown = _.difference(returnedSlugs, rosterSlugs)
+      if (unknown.length) { console.warn('PetHeroesModal: server returned junior heroes missing from juniorHeroesConfig, hiding:', unknown) }
+      const missing = _.difference(rosterSlugs, returnedSlugs)
+      if (missing.length) { console.warn('PetHeroesModal: juniorHeroesConfig heroes not returned by server:', missing) }
+      this.heroes.reset(this.heroes.filter(hero => this.rosterOrder[hero.get('slug')] != null))
       for (const hero of this.heroes.models) { this.formatHero(hero) }
-      this.heroes.reset(this.heroes.filter(hero => !hero.hidden))
-      if (me.isStudent() && me.showHeroAndInventoryModalsToStudents()) {
-        this.heroes.reset(this.heroes.filter(hero => hero.get('heroClass') === 'Warrior'))
-      } else if (me.freeOnly() || application.getHocCampaign()) {
+      if (me.freeOnly() || application.getHocCampaign()) {
         this.heroes.reset(this.heroes.filter(hero => !hero.locked))
       }
       if (!me.isAdmin()) {
@@ -104,29 +110,20 @@ module.exports = (PetHeroesModal = (function () {
       if (hero.name == null) { hero.name = utils.i18n(hero.attributes, 'shortName') }
       if (hero.name == null) { hero.name = utils.i18n(hero.attributes, 'name') }
       hero.description = utils.i18n(hero.attributes, 'description')
-      hero.unlockLevelName = utils.i18n(hero.attributes, 'unlockLevelName')
       const original = hero.get('original')
-      hero.free = ['captain', 'knight', 'champion', 'duelist', 'wolf-pup-hero', 'cougar-hero', 'polar-bear-cub-hero', 'frog-hero', 'turtle-hero', 'blue-fox-hero', 'panther-cub-hero', 'brown-rat-hero', 'duck-hero', 'tiger-cub-hero'].includes(hero.attributes.slug)
-      hero.unlockBySubscribing = ['samurai', 'ninja', 'librarian', 'pugicorn-hero', 'raven-hero', 'baby-griffin-hero'].includes(hero.attributes.slug)
-      hero.premium = !hero.free && !hero.unlockBySubscribing
+      const access = (this.rosterBySlug[hero.attributes.slug] || {}).access
+      hero.free = access === 'free'
+      hero.unlockBySubscribing = access === 'subscriber'
+      hero.premium = access === 'premium'
       hero.locked = !me.ownsHero(original) && !(hero.unlockBySubscribing && me.isPremium())
-      if ((me.isStudent() || me.isTeacher()) && me.showHeroAndInventoryModalsToStudents() && (hero.get('heroClass') === 'Warrior')) { hero.locked = false }
-      if ((me.isStudent() || me.isTeacher()) && this.isJunior) { hero.locked = false }
+      // Classroom: all pets stay unlocked for students and teachers (GD-872 preserves this; experiment scope TBD)
+      if (me.isStudent() || me.isTeacher()) { hero.locked = false }
       hero.purchasable = hero.locked && me.isPremium()
       if (this.options.level && (allowedHeroes = this.options.level.get('allowedHeroes'))) {
         let needle
         hero.restricted = !((needle = hero.get('original'), allowedHeroes.includes(needle)))
       }
       hero.class = (hero.get('heroClass') || 'warrior').toLowerCase()
-      hero.stats = hero.getHeroStats()
-      const clanHero = _.find(utils.clanHeroes, { thangTypeOriginal: hero.get('original') })
-      if (clanHero) {
-        let left, needle1
-        if ((needle1 = clanHero.clanId, !((left = me.get('clans')) != null ? left : []).includes(needle1))) { hero.hidden = true }
-      }
-      if (hero.get('original') === ThangTypeConstants.heroes['code-ninja']) {
-        hero.hidden = window.location.host !== 'coco.code.ninja'
-      }
     }
 
     currentVisiblePremiumFeature () {
@@ -152,7 +149,6 @@ module.exports = (PetHeroesModal = (function () {
       context.level = this.options.level
       context.confirmButtonI18N = this.confirmButtonI18N
       context.visibleHero = this.visibleHero
-      context.isJunior = this.isJunior
       context.gems = me.gems()
       return context
     }
