@@ -20,6 +20,7 @@ const template = require('app/templates/courses/courses-view')
 const AuthModal = require('views/core/AuthModal')
 const CreateAccountModal = require('views/core/CreateAccountModal')
 const HeroSelectModal = require('views/courses/HeroSelectModal')
+const PetHeroesModal = require('views/play/modal/PetHeroesModal')
 const ClassroomAnnouncementModal = require('views/courses/ClassroomAnnouncementModal')
 const TournamentsListModal = require('views/courses/TournamentsListModal')
 const JoinClassModal = require('views/courses/JoinClassModal')
@@ -599,7 +600,17 @@ module.exports = (CoursesView = (function () {
           break
         }
       }
-      const modal = new HeroSelectModal({ currentHeroID: this.hero.id, product: hasOnlyJuniorCourses ? 'codecombat-junior' : null })
+      if (hasOnlyJuniorCourses) {
+        const petModal = new PetHeroesModal({})
+        this.openModalView(petModal)
+        this.listenTo(petModal, 'confirm-click', ({ hero }) => {
+          if (hero) { this.hero.set(hero.attributes) }
+        })
+        return this.listenTo(petModal, 'hide', function () {
+          return this.stopListening(petModal)
+        })
+      }
+      const modal = new HeroSelectModal({ currentHeroID: this.hero.id })
       this.openModalView(modal)
       this.listenTo(modal, 'hero-select:success', newHero => {
         // @hero.url = "/db/thang.type/#{me.get('heroConfig').thangType}/version"
