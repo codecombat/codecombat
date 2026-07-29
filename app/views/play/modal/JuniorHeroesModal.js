@@ -175,7 +175,14 @@ module.exports = (JuniorHeroesModal = (function () {
       this.canvasWidth = 313 // @$el.find('canvas').width() # unreliable, whatever
       this.canvasHeight = this.$el.find('canvas').height()
       const heroConfig = (left = (left1 = __guard__(this.options != null ? this.options.session : undefined, x => x.get('heroConfig'))) != null ? left1 : me.get('heroConfig')) != null ? left : {}
-      const heroIndex = Math.max(0, _.findIndex(heroes, hero => hero.get('original') === (heroConfig.juniorThangType || heroConfig.thangType)))
+      // Mirror the gameplay fallback: no explicit pet choice -> derive it from the classic hero via the swap map
+      let initialThangType = heroConfig.juniorThangType
+      if (!initialThangType && heroConfig.thangType) {
+        const classicSlug = _.invert(ThangTypeConstants.heroes)[heroConfig.thangType]
+        const juniorSlug = ThangTypeConstants.juniorHeroReplacements[classicSlug]
+        initialThangType = juniorSlug ? ThangTypeConstants.heroes[juniorSlug] : heroConfig.thangType
+      }
+      const heroIndex = Math.max(0, _.findIndex(heroes, hero => hero.get('original') === initialThangType))
       this.$el.find(`.hero-item:nth-child(${heroIndex + 1}), .hero-indicator:nth-child(${heroIndex + 1})`).addClass('active')
       this.onHeroChanged({ direction: null, relatedTarget: this.$el.find('.hero-item')[heroIndex] })
       this.$el.find('.hero-stat').addClass('has-tooltip').tooltip()
