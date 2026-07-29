@@ -20,7 +20,7 @@ const template = require('app/templates/courses/courses-view')
 const AuthModal = require('views/core/AuthModal')
 const CreateAccountModal = require('views/core/CreateAccountModal')
 const HeroSelectModal = require('views/courses/HeroSelectModal')
-const PetHeroesModal = require('views/play/modal/PetHeroesModal')
+const JuniorHeroesModal = require('views/play/modal/JuniorHeroesModal')
 const ClassroomAnnouncementModal = require('views/courses/ClassroomAnnouncementModal')
 const TournamentsListModal = require('views/courses/TournamentsListModal')
 const JoinClassModal = require('views/courses/JoinClassModal')
@@ -601,13 +601,13 @@ module.exports = (CoursesView = (function () {
         }
       }
       if (hasOnlyJuniorCourses) {
-        const petModal = new PetHeroesModal({})
-        this.openModalView(petModal)
-        this.listenTo(petModal, 'confirm-click', ({ hero }) => {
+        const juniorHeroesModal = new JuniorHeroesModal({})
+        this.openModalView(juniorHeroesModal)
+        this.listenTo(juniorHeroesModal, 'confirm-click', ({ hero }) => {
           if (hero) { this.hero.set(hero.attributes) }
         })
-        return this.listenTo(petModal, 'hide', function () {
-          return this.stopListening(petModal)
+        return this.listenTo(juniorHeroesModal, 'hide', function () {
+          return this.stopListening(juniorHeroesModal)
         })
       }
       const modal = new HeroSelectModal({ currentHeroID: this.hero.id })

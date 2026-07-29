@@ -1,6 +1,6 @@
 CocoClass = require 'core/CocoClass'
 PlayHeroesModal = require 'views/play/modal/PlayHeroesModal'
-PetHeroesModal = require 'views/play/modal/PetHeroesModal'
+JuniorHeroesModal = require 'views/play/modal/JuniorHeroesModal'
 InventoryModal = require 'views/play/menu/InventoryModal'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
@@ -77,7 +77,7 @@ module.exports = class LevelSetupManager extends CocoClass
 
     # Build modals and prevent them from disappearing.
     isJunior = utils.isJuniorLevel(@level) or @options.campaign?.get('slug') is 'junior' or @options.campaign?.get('type') is 'junior'
-    HeroesModalClass = if isJunior then PetHeroesModal else PlayHeroesModal
+    HeroesModalClass = if isJunior then JuniorHeroesModal else PlayHeroesModal
     @heroesModal = new HeroesModalClass({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, campaign: @options.campaign, hadEverChosenHero: @options.hadEverChosenHero, courseInstanceID: @options.courseInstanceID })
     @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, level: @level})
     @heroesModalDestroy = @heroesModal.destroy

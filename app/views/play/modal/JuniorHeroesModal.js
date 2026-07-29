@@ -9,10 +9,10 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let PetHeroesModal
-require('app/styles/play/modal/pet-heroes-modal.sass')
+let JuniorHeroesModal
+require('app/styles/play/modal/junior-heroes-modal.sass')
 const ModalView = require('views/core/ModalView')
-const template = require('app/templates/play/modal/pet-heroes-modal')
+const template = require('app/templates/play/modal/junior-heroes-modal')
 const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt')
 const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt')
 const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt')
@@ -28,12 +28,12 @@ const createjs = require('lib/createjs-parts')
 const ThangTypeConstants = require('lib/ThangTypeConstants')
 const ChangeLanguageTab = require('views/play/common/ChangeLanguageTab')
 
-module.exports = (PetHeroesModal = (function () {
-  PetHeroesModal = class PetHeroesModal extends ModalView {
+module.exports = (JuniorHeroesModal = (function () {
+  JuniorHeroesModal = class JuniorHeroesModal extends ModalView {
     static initClass () {
       this.prototype.className = 'modal fade play-modal'
       this.prototype.template = template
-      this.prototype.id = 'pet-heroes-modal'
+      this.prototype.id = 'junior-heroes-modal'
       this.prototype.trapsFocus = false
 
       this.prototype.events = {
@@ -91,9 +91,9 @@ module.exports = (PetHeroesModal = (function () {
       const rosterSlugs = ThangTypeConstants.juniorHeroesConfig.map(hero => hero.slug)
       const returnedSlugs = this.heroes.map(hero => hero.get('slug'))
       const unknown = _.difference(returnedSlugs, rosterSlugs)
-      if (unknown.length) { console.warn('PetHeroesModal: server returned junior heroes missing from juniorHeroesConfig, hiding:', unknown) }
+      if (unknown.length) { console.warn('JuniorHeroesModal: server returned junior heroes missing from juniorHeroesConfig, hiding:', unknown) }
       const missing = _.difference(rosterSlugs, returnedSlugs)
-      if (missing.length) { console.warn('PetHeroesModal: juniorHeroesConfig heroes not returned by server:', missing) }
+      if (missing.length) { console.warn('JuniorHeroesModal: juniorHeroesConfig heroes not returned by server:', missing) }
       this.heroes.reset(this.heroes.filter(hero => this.rosterOrder[hero.get('slug')] != null))
       for (const hero of this.heroes.models) { this.formatHero(hero) }
       if (me.freeOnly() || application.getHocCampaign()) {
@@ -433,8 +433,8 @@ module.exports = (PetHeroesModal = (function () {
       return super.destroy()
     }
   }
-  PetHeroesModal.initClass()
-  return PetHeroesModal
+  JuniorHeroesModal.initClass()
+  return JuniorHeroesModal
 })())
 
 function __guard__ (value, transform) {

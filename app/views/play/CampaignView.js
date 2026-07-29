@@ -33,7 +33,7 @@ const Levels = require('collections/Levels')
 const createjs = require('lib/createjs-parts')
 const PlayItemsModal = require('views/play/modal/PlayItemsModal')
 const PlayHeroesModal = require('views/play/modal/PlayHeroesModal')
-const PetHeroesModal = require('views/play/modal/PetHeroesModal')
+const JuniorHeroesModal = require('views/play/modal/JuniorHeroesModal')
 const PlayAchievementsModal = require('views/play/modal/PlayAchievementsModal')
 const BuyGemsModal = require('views/play/modal/BuyGemsModal')
 const ContactModal = require('views/core/ContactModal')
@@ -127,7 +127,7 @@ class CampaignView extends RootView {
       'click [data-toggle="coco-modal"][data-target="play/modal/PromotionModal"]': 'openPromotionModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/PlayItemsModal"]': 'openPlayItemsModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/PlayHeroesModal"]': 'openPlayHeroesModal',
-      'click [data-toggle="coco-modal"][data-target="play/modal/PetHeroesModal"]': 'openPetHeroesModal',
+      'click [data-toggle="coco-modal"][data-target="play/modal/JuniorHeroesModal"]': 'openJuniorHeroesModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/PlayAchievementsModal"]': 'openPlayAchievementsModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/BuyGemsModal"]': 'openBuyGemsModal',
       'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal',
@@ -465,9 +465,9 @@ class CampaignView extends RootView {
     this.openModalView(new PlayHeroesModal({ campaign: this.campaign }))
   }
 
-  openPetHeroesModal (e) {
+  openJuniorHeroesModal (e) {
     e.stopPropagation()
-    this.openModalView(new PetHeroesModal({ campaign: this.campaign }))
+    this.openModalView(new JuniorHeroesModal({ campaign: this.campaign }))
   }
 
   openPlayAchievementsModal (e) {
