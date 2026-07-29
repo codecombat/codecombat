@@ -52,8 +52,6 @@ const slotToCategory = {
   pet: 'misc',
   minion: 'misc',
   flag: 'misc',
-  'misc-0': 'misc',
-  'misc-1': 'misc',
 
   'programming-book': 'books'
 }
