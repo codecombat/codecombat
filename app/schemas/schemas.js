@@ -426,6 +426,8 @@ me.RewardSchema = function (descriptionFragment) {
     properties: {
       heroes: me.array({ uniqueItems: true, description: `Heroes ${descriptionFragment}.` },
         me.stringID({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Hero ThangType', description: 'A reference to the earned hero ThangType.', format: 'thang-type' })),
+      juniorHeroes: me.array({ uniqueItems: true, description: `Junior heroes ${descriptionFragment}.` },
+        me.stringID({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Junior Hero ThangType', description: 'A reference to the earned junior hero ThangType.', format: 'thang-type' })),
       items: me.array({ uniqueItems: true, description: `Items ${descriptionFragment}.` },
         me.stringID({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Item ThangType', description: 'A reference to the earned item ThangType.', format: 'thang-type' })),
       levels: me.array({ uniqueItems: true, description: `Levels ${descriptionFragment}.` },

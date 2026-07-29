@@ -115,7 +115,7 @@ module.exports = (PetHeroesModal = (function () {
       hero.free = access === 'free'
       hero.unlockBySubscribing = access === 'subscriber'
       hero.premium = access === 'premium'
-      hero.locked = !me.ownsHero(original) && !(hero.unlockBySubscribing && me.isPremium())
+      hero.locked = !me.ownsJuniorHero(original) && !(hero.unlockBySubscribing && me.isPremium())
       // Classroom: all pets stay unlocked for students and teachers (GD-872 preserves this; experiment scope TBD)
       if (me.isStudent() || me.isTeacher()) { hero.locked = false }
       hero.purchasable = hero.locked && me.isPremium()
@@ -276,8 +276,8 @@ module.exports = (PetHeroesModal = (function () {
 
         // - set local changes to mimic what should happen on the server...
         const purchased = (left = me.get('purchased')) != null ? left : {}
-        if (purchased.heroes == null) { purchased.heroes = [] }
-        purchased.heroes.push(this.visibleHero.get('original'))
+        if (purchased.juniorHeroes == null) { purchased.juniorHeroes = [] }
+        purchased.juniorHeroes.push(this.visibleHero.get('original'))
         me.set('purchased', purchased)
         me.set('spent', ((left1 = me.get('spent')) != null ? left1 : 0) + this.visibleHero.get('gems'))
 
