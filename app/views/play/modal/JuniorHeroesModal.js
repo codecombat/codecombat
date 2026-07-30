@@ -462,6 +462,20 @@ module.exports = (JuniorHeroesModal = (function () {
         return
       }
 
+      const selectedPet = this.selectedHero || this.visibleHero
+      if (this.inPetAccessBeta && selectedPet?.requiresSignup && me.isAnonymous()) {
+        // Signup-tier pet picked by an anonymous user: Save routes to signup instead
+        // of closing. Persist the choice on the anonymous doc first - the doc (and
+        // heroConfig) survives signup, and the junior read path won't render a
+        // signup-tier pet while anonymous, so the fallback pet shows until the
+        // account exists. After signup the page reloads and returns here via nextURL.
+        this.updateHeroConfig(me, hero)
+        me.patch()
+        window.nextURL = window.location.href
+        this.openModalView(new CreateAccountModal({ supermodel: this.supermodel }))
+        return
+      }
+
       if (this.session) {
         changed = this.updateHeroConfig(this.session, hero)
         if (this.session.get('codeLanguage') !== this.codeLanguage) {
