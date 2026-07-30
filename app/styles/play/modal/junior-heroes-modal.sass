@@ -152,8 +152,10 @@ $heroCanvasHeight: 275px
               float: left
 
             // junior-pet-access beta uses config-positioned rows; the legacy
-            // 15th/16th-item float would tear pets out of their row
-            .pet-access-beta &
+            // 15th/16th-item float would tear pets out of their row. Beta
+            // indicators always carry pet-row-* classes (ancestor-prefixed
+            // .pet-access-beta & would compile with the wrong element order).
+            &[class*="pet-row-"]
               float: left
 
           // junior-pet-access beta grid: config rows wrap at each row's first column
