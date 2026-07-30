@@ -226,6 +226,7 @@ module.exports = (JuniorHeroesModal = (function () {
       context.level = this.options.level
       context.confirmButtonI18N = this.confirmButtonI18N
       context.visibleHero = this.visibleHero
+      context.inPetAccessBeta = this.inPetAccessBeta
       context.gems = me.gems()
       return context
     }
