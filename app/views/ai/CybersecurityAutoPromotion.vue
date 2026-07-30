@@ -1,6 +1,9 @@
 <script>
 import ModalDynamicPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalDynamicContent'
 import CyberSecurityComponent from './CyberSecurityComponent'
+import utils from 'app/core/utils'
+
+const dayjs = window.dayjs
 export default {
   components: {
     ModalDynamicPromotion,
@@ -8,7 +11,8 @@ export default {
   },
   computed: {
     showPromotion () {
-      return true
+      const aweekago = dayjs().subtract(1, 'week')
+      return utils.isCodeCombat && aweekago.isAfter(me.get('dateCreated'))
     },
   },
   methods: {

@@ -217,10 +217,10 @@
         </div>
       </div>
     </div>
+    <CybersecurityAutoPromotion v-if="!isMobile" />
     <ModalJunior />
     <ModalHackStack />
     <HackstackAutoPromotion v-if="!isMobile" />
-    <CybersecurityAutoPromotion v-if="!isMobile" />
   </div>
 </template>
 

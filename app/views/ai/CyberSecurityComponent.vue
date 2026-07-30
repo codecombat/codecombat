@@ -12,7 +12,10 @@
           srcset="/images/pages/hackstack/cyber/hero-simulation.webp"
           type="image/webp"
         >
-        <img src="/images/pages/hackstack/cyber/hero-simulation.webp">
+        <img
+          src="/images/pages/hackstack/cyber/hero-simulation.webp"
+          alt="IT Help Desk Simulation"
+        >
       </picture>
     </div>
     <p class="text-p">
@@ -76,11 +79,13 @@ export default {
 
   .img {
     margin-bottom: 10px;
-    width: 600px;
+    width: 100%;
+    max-width: 600px;
     position: relative;
 
     img {
-      width: 600px;
+      width: 100%;
+      height: auto;
     }
   }
 
