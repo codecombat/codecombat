@@ -9,10 +9,10 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let PlayHeroesModal
-require('app/styles/play/modal/play-heroes-modal.sass')
+let JuniorHeroesModal
+require('app/styles/play/modal/junior-heroes-modal.sass')
 const ModalView = require('views/core/ModalView')
-const template = require('app/templates/play/modal/play-heroes-modal')
+const template = require('app/templates/play/modal/junior-heroes-modal')
 const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt')
 const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt')
 const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt')
@@ -28,12 +28,18 @@ const createjs = require('lib/createjs-parts')
 const ThangTypeConstants = require('lib/ThangTypeConstants')
 const ChangeLanguageTab = require('views/play/common/ChangeLanguageTab')
 
-module.exports = (PlayHeroesModal = (function () {
-  PlayHeroesModal = class PlayHeroesModal extends ModalView {
+// Module-level so the collection comparator survives modal destroy() wiping
+// instance properties while a fetch is still in flight.
+const rosterBySlug = _.indexBy(ThangTypeConstants.juniorHeroesConfig, 'slug')
+const rosterOrder = {}
+ThangTypeConstants.juniorHeroesConfig.forEach((hero, index) => { rosterOrder[hero.slug] = index })
+
+module.exports = (JuniorHeroesModal = (function () {
+  JuniorHeroesModal = class JuniorHeroesModal extends ModalView {
     static initClass () {
       this.prototype.className = 'modal fade play-modal'
       this.prototype.template = template
-      this.prototype.id = 'play-heroes-modal'
+      this.prototype.id = 'junior-heroes-modal'
       this.prototype.trapsFocus = false
 
       this.prototype.events = {
@@ -46,13 +52,13 @@ module.exports = (PlayHeroesModal = (function () {
         'click .subscribe-button': 'onSubscribeButtonClicked',
         'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked',
         'click .start-subscription-button': 'onSubscribeButtonClicked',
-        click: 'onClickedSomewhere'
+        click: 'onClickedSomewhere',
       }
 
       this.prototype.shortcuts = {
         'left' () { if (this.heroes.models.length && !this.$el.hasClass('secret')) { return this.$el.find('#hero-carousel').carousel('prev') } },
         'right' () { if (this.heroes.models.length && !this.$el.hasClass('secret')) { return this.$el.find('#hero-carousel').carousel('next') } },
-        'enter' () { if (this.visibleHero && !this.visibleHero.locked) { return this.saveAndHide() } }
+        'enter' () { if (this.visibleHero && !this.visibleHero.locked) { return this.saveAndHide() } },
       }
     }
 
@@ -63,9 +69,9 @@ module.exports = (PlayHeroesModal = (function () {
       this.animateHeroes = this.animateHeroes.bind(this)
       this.confirmButtonI18N = options.confirmButtonI18N != null ? options.confirmButtonI18N : 'common.save'
       this.heroes = new CocoCollection([], { model: ThangType })
-      this.heroes.url = '/db/thang.type?view=heroes'
-      this.heroes.setProjection(['original', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'shortName', 'unlockLevelName', 'i18n', 'poseImage', 'tier', 'releasePhase', 'ozaria', 'kind'])
-      this.heroes.comparator = 'gems'
+      this.heroes.url = '/db/thang.type?view=heroes-junior'
+      this.heroes.setProjection(['original', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'shortName', 'i18n', 'poseImage', 'tier', 'releasePhase', 'kind'])
+      this.heroes.comparator = hero => rosterOrder[hero.get('slug')] != null ? rosterOrder[hero.get('slug')] : 999
       this.listenToOnce(this.heroes, 'sync', this.onHeroesLoaded)
       this.supermodel.loadCollection(this.heroes, 'heroes')
       this.stages = {}
@@ -84,12 +90,16 @@ module.exports = (PlayHeroesModal = (function () {
     }
 
     onHeroesLoaded () {
-      this.heroes.reset(this.heroes.filter(hero => !hero.get('ozaria')))
+      // Roster membership and order come from juniorHeroesConfig, not from whatever the server view returns
+      const rosterSlugs = ThangTypeConstants.juniorHeroesConfig.map(hero => hero.slug)
+      const returnedSlugs = this.heroes.map(hero => hero.get('slug'))
+      const unknown = _.difference(returnedSlugs, rosterSlugs)
+      if (unknown.length) { console.warn('JuniorHeroesModal: server returned junior heroes missing from juniorHeroesConfig, hiding:', unknown) }
+      const missing = _.difference(rosterSlugs, returnedSlugs)
+      if (missing.length) { console.warn('JuniorHeroesModal: juniorHeroesConfig heroes not returned by server:', missing) }
+      this.heroes.reset(this.heroes.filter(hero => rosterOrder[hero.get('slug')] != null))
       for (const hero of this.heroes.models) { this.formatHero(hero) }
-      this.heroes.reset(this.heroes.filter(hero => !hero.hidden))
-      if (me.isStudent() && me.showHeroAndInventoryModalsToStudents()) {
-        this.heroes.reset(this.heroes.filter(hero => hero.get('heroClass') === 'Warrior'))
-      } else if (me.freeOnly() || application.getHocCampaign()) {
+      if (me.freeOnly() || application.getHocCampaign()) {
         this.heroes.reset(this.heroes.filter(hero => !hero.locked))
       }
       if (!me.isAdmin()) {
@@ -103,28 +113,20 @@ module.exports = (PlayHeroesModal = (function () {
       if (hero.name == null) { hero.name = utils.i18n(hero.attributes, 'shortName') }
       if (hero.name == null) { hero.name = utils.i18n(hero.attributes, 'name') }
       hero.description = utils.i18n(hero.attributes, 'description')
-      hero.unlockLevelName = utils.i18n(hero.attributes, 'unlockLevelName')
       const original = hero.get('original')
-      hero.free = ['captain', 'knight', 'champion', 'duelist', 'wolf-pup-hero', 'cougar-hero', 'polar-bear-cub-hero', 'frog-hero', 'turtle-hero', 'blue-fox-hero', 'panther-cub-hero', 'brown-rat-hero', 'duck-hero', 'tiger-cub-hero'].includes(hero.attributes.slug)
-      hero.unlockBySubscribing = ['samurai', 'ninja', 'librarian', 'pugicorn-hero', 'raven-hero', 'baby-griffin-hero'].includes(hero.attributes.slug)
-      hero.premium = !hero.free && !hero.unlockBySubscribing
-      hero.locked = !me.ownsHero(original) && !(hero.unlockBySubscribing && me.isPremium())
-      if ((me.isStudent() || me.isTeacher()) && me.showHeroAndInventoryModalsToStudents() && (hero.get('heroClass') === 'Warrior')) { hero.locked = false }
+      const access = (rosterBySlug[hero.attributes.slug] || {}).access
+      hero.free = access === 'free'
+      hero.unlockBySubscribing = access === 'subscriber'
+      hero.premium = access === 'premium'
+      hero.locked = !me.ownsJuniorHero(original) && !(hero.unlockBySubscribing && me.isPremium())
+      // Classroom: all pets stay unlocked for students and teachers (GD-872 preserves this; experiment scope TBD)
+      if (me.isStudent() || me.isTeacher()) { hero.locked = false }
       hero.purchasable = hero.locked && me.isPremium()
       if (this.options.level && (allowedHeroes = this.options.level.get('allowedHeroes'))) {
         let needle
         hero.restricted = !((needle = hero.get('original'), allowedHeroes.includes(needle)))
       }
       hero.class = (hero.get('heroClass') || 'warrior').toLowerCase()
-      hero.stats = hero.getHeroStats()
-      const clanHero = _.find(utils.clanHeroes, { thangTypeOriginal: hero.get('original') })
-      if (clanHero) {
-        let left, needle1
-        if ((needle1 = clanHero.clanId, !((left = me.get('clans')) != null ? left : []).includes(needle1))) { hero.hidden = true }
-      }
-      if (hero.get('original') === ThangTypeConstants.heroes['code-ninja']) {
-        hero.hidden = window.location.host !== 'coco.code.ninja'
-      }
     }
 
     currentVisiblePremiumFeature () {
@@ -173,7 +175,14 @@ module.exports = (PlayHeroesModal = (function () {
       this.canvasWidth = 313 // @$el.find('canvas').width() # unreliable, whatever
       this.canvasHeight = this.$el.find('canvas').height()
       const heroConfig = (left = (left1 = __guard__(this.options != null ? this.options.session : undefined, x => x.get('heroConfig'))) != null ? left1 : me.get('heroConfig')) != null ? left : {}
-      const heroIndex = Math.max(0, _.findIndex(heroes, hero => hero.get('original') === heroConfig.thangType))
+      // Mirror the gameplay fallback: no explicit pet choice -> derive it from the classic hero via the swap map
+      let initialThangType = heroConfig.juniorThangType
+      if (!initialThangType && heroConfig.thangType) {
+        const classicSlug = _.invert(ThangTypeConstants.heroes)[heroConfig.thangType]
+        const juniorSlug = ThangTypeConstants.juniorHeroReplacements[classicSlug]
+        initialThangType = juniorSlug ? ThangTypeConstants.heroes[juniorSlug] : heroConfig.thangType
+      }
+      const heroIndex = Math.max(0, _.findIndex(heroes, hero => hero.get('original') === initialThangType))
       this.$el.find(`.hero-item:nth-child(${heroIndex + 1}), .hero-indicator:nth-child(${heroIndex + 1})`).addClass('active')
       this.onHeroChanged({ direction: null, relatedTarget: this.$el.find('.hero-item')[heroIndex] })
       this.$el.find('.hero-stat').addClass('has-tooltip').tooltip()
@@ -277,8 +286,11 @@ module.exports = (PlayHeroesModal = (function () {
 
         // - set local changes to mimic what should happen on the server...
         const purchased = (left = me.get('purchased')) != null ? left : {}
-        if (purchased.heroes == null) { purchased.heroes = [] }
-        purchased.heroes.push(this.visibleHero.get('original'))
+        if (purchased.juniorHeroes == null) { purchased.juniorHeroes = [] }
+        // Guard against duplicates like the server's addPurchaseToUser does; juniorHeroes has uniqueItems: true
+        if (!purchased.juniorHeroes.includes(this.visibleHero.get('original'))) {
+          purchased.juniorHeroes.push(this.visibleHero.get('original'))
+        }
         me.set('purchased', purchased)
         me.set('spent', ((left1 = me.get('spent')) != null ? left1 : 0) + this.visibleHero.get('gems'))
 
@@ -409,7 +421,9 @@ module.exports = (PlayHeroesModal = (function () {
     updateHeroConfig (model, hero) {
       if (!hero) { return false }
       const heroConfig = _.clone(model.get('heroConfig')) || {}
-      if (heroConfig.thangType !== hero) {
+      if (heroConfig.juniorThangType !== hero || heroConfig.thangType !== hero) {
+        heroConfig.juniorThangType = hero
+        // Also write thangType so old clients and classic paths (which swap-map it back) keep working
         heroConfig.thangType = hero
         model.set('heroConfig', heroConfig)
         return true
@@ -432,8 +446,8 @@ module.exports = (PlayHeroesModal = (function () {
       return super.destroy()
     }
   }
-  PlayHeroesModal.initClass()
-  return PlayHeroesModal
+  JuniorHeroesModal.initClass()
+  return JuniorHeroesModal
 })())
 
 function __guard__ (value, transform) {

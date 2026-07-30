@@ -60,6 +60,30 @@ ThangTypeConstants =
     Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'master-wizard']
   items:
     'simple-boots': '53e237bf53457600003e3f05'
+  # Junior pet heroes shown in the pet hero choice modal, in display order.
+  # This is the roster source of truth: membership, ordering, and access tier
+  # (free / subscriber / premium) all come from here, replacing the old
+  # gems-as-sort-key hack. ObjectIDs live in the heroes map above.
+  juniorHeroesConfig: [
+    { slug: 'wolf-pup-hero', access: 'free' }
+    { slug: 'cougar-hero', access: 'free' }
+    { slug: 'polar-bear-cub-hero', access: 'free' }
+    { slug: 'frog-hero', access: 'free' }
+    { slug: 'turtle-hero', access: 'free' }
+    { slug: 'blue-fox-hero', access: 'free' }
+    { slug: 'panther-cub-hero', access: 'free' }
+    { slug: 'brown-rat-hero', access: 'free' }
+    { slug: 'duck-hero', access: 'free' }
+    { slug: 'tiger-cub-hero', access: 'free' }
+    { slug: 'pugicorn-hero', access: 'subscriber' }
+    { slug: 'raven-hero', access: 'subscriber' }
+    { slug: 'baby-griffin-hero', access: 'subscriber' }
+    { slug: 'yetibab-hero', access: 'premium' }
+    { slug: 'mimic-hero', access: 'premium' }
+    { slug: 'phoenix-hero', access: 'premium' }
+    { slug: 'dragonling-hero', access: 'premium' }
+    { slug: 'kindling-elemental-hero', access: 'premium' }
+  ]
   juniorHeroReplacements:
     captain: 'wolf-pup-hero'
     knight: 'cougar-hero'
