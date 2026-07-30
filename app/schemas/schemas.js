@@ -414,6 +414,7 @@ me.HeroConfigSchema = me.object({ description: 'Which hero the player is using, 
     additionalProperties: me.objectId({ description: 'An item ThangType.' }), // deliberately not false: legacy docs may hold unknown slots; the server strips them on save instead of failing validation
   },
   thangType: me.objectId({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type' }),
+  juniorThangType: me.objectId({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Junior Thang Type', description: 'The ThangType of the junior pet hero, chosen independently of the classic hero. Junior levels prefer this over thangType; absent means derive via juniorHeroReplacements.', format: 'thang-type' }),
 },
 )
 
@@ -426,6 +427,8 @@ me.RewardSchema = function (descriptionFragment) {
     properties: {
       heroes: me.array({ uniqueItems: true, description: `Heroes ${descriptionFragment}.` },
         me.stringID({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Hero ThangType', description: 'A reference to the earned hero ThangType.', format: 'thang-type' })),
+      juniorHeroes: me.array({ uniqueItems: true, description: `Junior heroes ${descriptionFragment}.` },
+        me.stringID({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Junior Hero ThangType', description: 'A reference to the earned junior hero ThangType.', format: 'thang-type' })),
       items: me.array({ uniqueItems: true, description: `Items ${descriptionFragment}.` },
         me.stringID({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Item ThangType', description: 'A reference to the earned item ThangType.', format: 'thang-type' })),
       levels: me.array({ uniqueItems: true, description: `Levels ${descriptionFragment}.` },

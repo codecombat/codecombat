@@ -473,6 +473,26 @@ module.exports = (User = (function () {
       return heroes
     }
 
+    juniorHeroes () {
+      // Union rather than fallback-only-if-absent: a user with legacy junior purchases
+      // in purchased.heroes must not lose them once the first juniorHeroes write lands.
+      const juniorHeroIds = ThangTypeConstants.juniorHeroesConfig.map(h => ThangTypeConstants.heroes[h.slug])
+      const freeJuniorHeroes = ThangTypeConstants.juniorHeroesConfig
+        .filter(h => h.access === 'free')
+        .map(h => ThangTypeConstants.heroes[h.slug])
+      const legacyPurchased = (this.get('purchased')?.heroes || []).filter(id => juniorHeroIds.includes(id))
+      return _.union(
+        this.get('earned')?.juniorHeroes || [],
+        this.get('purchased')?.juniorHeroes || [],
+        legacyPurchased,
+        freeJuniorHeroes,
+      )
+    }
+
+    ownsJuniorHero (heroOriginal) {
+      return this.isInGodMode() || this.juniorHeroes().includes(heroOriginal)
+    }
+
     items () {
       let left, left1
       return ((left = this.get('earned')?.items) != null ? left : []).concat((left1 = this.get('purchased')?.items) != null ? left1 : []).concat([ThangTypeConstants.items['simple-boots']])
