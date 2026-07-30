@@ -489,6 +489,22 @@ module.exports = (User = (function () {
       return this.isInGodMode() || this.juniorHeroes().includes(heroOriginal)
     }
 
+    mayUseJuniorPet (heroOriginal) {
+      // Render-time gate for heroConfig.juniorThangType. The field is client-writable,
+      // so the junior level-load read path checks it against the experiment tier rules;
+      // a pet that fails here renders the swap-map fallback instead, as if unset.
+      if (this.getJuniorPetAccessExperimentValue() !== 'beta') { return true } // control renders anything saved, as today
+      if (this.ownsJuniorHero(heroOriginal)) { return true }
+      const slug = _.invert(ThangTypeConstants.heroes)[heroOriginal]
+      const petAccess = _.find(ThangTypeConstants.juniorPetAccessConfig, { slug })
+      if (!petAccess) { return true } // not an experiment-managed pet; existing paths handle it
+      switch (petAccess.access) {
+        case 'signup': return !this.isAnonymous()
+        case 'premium': return this.isPremium()
+        default: return false // module pets render only once persisted into purchased.juniorHeroes
+      }
+    }
+
     items () {
       let left, left1
       return ((left = this.get('earned')?.items) != null ? left : []).concat((left1 = this.get('purchased')?.items) != null ? left1 : []).concat([ThangTypeConstants.items['simple-boots']])
