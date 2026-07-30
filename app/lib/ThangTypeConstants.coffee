@@ -84,6 +84,40 @@ ThangTypeConstants =
     { slug: 'dragonling-hero', access: 'premium' }
     { slug: 'kindling-elemental-hero', access: 'premium' }
   ]
+  # junior-pet-access experiment (GD-875), beta arm only. Control keeps using
+  # juniorHeroesConfig above. Same shape as that roster, plus per-pet:
+  #   access: free (anyone) | signup (selectable, Save routes to signup while
+  #           anonymous) | premium (subscribers) | module (unlocks when
+  #           unlockLevel is completed)
+  #   unlockLevel: level.original whose completion unlocks the pet (module
+  #                tier only). These are the odyssey modules' levelToUnlock
+  #                gates - each lives in the PREVIOUS module and unlocks the
+  #                next one. Completion read from level sessions.
+  #   hint: player-facing locked-pet copy shown in the modal
+  #   position: modal grid placement, row/column
+  # Assignment is provisional - PM adjusts by editing this array.
+  # Layout: row 0 = free pets then the 11 module-unlockable pets;
+  #         row 1 = signup pets then premium pets.
+  juniorPetAccessConfig: [
+    { slug: 'wolf-pup-hero', access: 'free', position: { row: 0, column: 0 } }
+    { slug: 'cougar-hero', access: 'free', position: { row: 0, column: 1 } }
+    { slug: 'turtle-hero', access: 'module', unlockLevel: '66072b276bfa8984388f2e65', hint: 'Complete Sun Shores to unlock', position: { row: 0, column: 2 } } # gate level in Sun Shores; completing it unlocks Amber Keys
+    { slug: 'brown-rat-hero', access: 'module', unlockLevel: '65ce52333ca6ed67e1be5447', hint: 'Complete Amber Keys to unlock', position: { row: 0, column: 3 } } # gate level in Amber Keys; completing it unlocks Crimson Sands
+    { slug: 'raven-hero', access: 'module', unlockLevel: '65ce63c53ca6ed67e1be6f75', hint: 'Complete Crimson Sands to unlock', position: { row: 0, column: 4 } } # gate level in Crimson Sands; completing it unlocks Blaze Coast
+    { slug: 'dragonling-hero', access: 'module', unlockLevel: '66072bfc6bfa8984388f3377', hint: 'Complete Blaze Coast to unlock', position: { row: 0, column: 5 } } # gate level in Blaze Coast; completing it unlocks Wild Growth
+    { slug: 'panther-cub-hero', access: 'module', unlockLevel: '66072c2b6bfa8984388f35ec', hint: 'Complete Wild Growth to unlock', position: { row: 0, column: 6 } } # gate level in Wild Growth; completing it unlocks Redrock Reach
+    { slug: 'kindling-elemental-hero', access: 'module', unlockLevel: '660f19ffddeab4a188453963', hint: 'Complete Redrock Reach to unlock', position: { row: 0, column: 7 } } # gate level in Redrock Reach; completing it unlocks Coldrock Pass
+    { slug: 'yetibab-hero', access: 'module', unlockLevel: '67180617c15a4d2ab0a38aef', hint: 'Complete Coldrock Pass to unlock', position: { row: 0, column: 8 } } # gate level in Coldrock Pass; completing it unlocks Cool Waters
+    { slug: 'mimic-hero', access: 'module', unlockLevel: '671a6929e431af0c7e6f1c9d', hint: 'Complete Cool Waters to unlock', position: { row: 0, column: 9 } } # gate level in Cool Waters; completing it unlocks Snow Isles
+    { slug: 'polar-bear-cub-hero', access: 'module', unlockLevel: '671a698ee431af0c7e6f210f', hint: 'Complete Snow Isles to unlock', position: { row: 0, column: 10 } } # gate level in Snow Isles; completing it unlocks Tundra Break
+    { slug: 'blue-fox-hero', access: 'module', unlockLevel: '67215459e389d6253f508cdc', hint: 'Complete Tundra Break to unlock', position: { row: 0, column: 11 } } # gate level in Tundra Break; completing it unlocks Greenrise Atoll
+    { slug: 'tiger-cub-hero', access: 'module', unlockLevel: '6723fed6e389d6253f518552', hint: 'Complete Greenrise Atoll to unlock', position: { row: 0, column: 12 } } # gate level in Greenrise Atoll; completing it unlocks Emerald Crown
+    { slug: 'duck-hero', access: 'signup', position: { row: 1, column: 0 } }
+    { slug: 'frog-hero', access: 'signup', position: { row: 1, column: 1 } }
+    { slug: 'pugicorn-hero', access: 'premium', position: { row: 1, column: 2 } }
+    { slug: 'phoenix-hero', access: 'premium', position: { row: 1, column: 3 } }
+    { slug: 'baby-griffin-hero', access: 'premium', position: { row: 1, column: 4 } }
+  ]
   juniorHeroReplacements:
     captain: 'wolf-pup-hero'
     knight: 'cougar-hero'
