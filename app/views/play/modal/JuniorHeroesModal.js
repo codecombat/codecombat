@@ -86,6 +86,7 @@ module.exports = (JuniorHeroesModal = (function () {
       }
       this.listenToOnce(this.heroes, 'sync', this.onHeroesLoaded)
       this.supermodel.loadCollection(this.heroes, 'heroes')
+      if (this.inPetAccessBeta) { this.loadModuleUnlockCompletions() }
       this.stages = {}
       this.layers = []
       this.session = options.session
@@ -99,6 +100,49 @@ module.exports = (JuniorHeroesModal = (function () {
           this.rerenderFooter()
         })
       }
+    }
+
+    loadModuleUnlockCompletions () {
+      // Module-tier pets unlock on completing their unlockLevel. Completion lives in
+      // level sessions, not on the user doc, so fetch the user's sessions once.
+      const neededLevels = ThangTypeConstants.juniorPetAccessConfig
+        .filter(pet => pet.access === 'module' && !me.ownsJuniorHero(ThangTypeConstants.heroes[pet.slug]))
+        .map(pet => pet.unlockLevel)
+      if (!neededLevels.length) { return }
+      const jqxhr = $.get(`/db/user/${me.id}/level.sessions`, { project: 'state.complete,level.original' })
+      this.supermodel.trackRequest(jqxhr)
+      jqxhr.then(sessions => {
+        if (this.destroyed) { return }
+        for (const session of sessions || []) {
+          const original = session.level != null ? session.level.original : undefined
+          if (session.state?.complete && neededLevels.includes(original)) {
+            this.completedUnlockLevels.add(original)
+          }
+        }
+        if (!this.completedUnlockLevels.size) { return }
+        this.persistModuleUnlocks()
+        // Re-derive lock state now that completions are known
+        if (this.heroes.models.length) {
+          for (const hero of this.heroes.models) { this.formatHero(hero) }
+          this.render()
+        }
+      })
+    }
+
+    persistModuleUnlocks () {
+      // Interim ownership persistence (GD-875: no achievement wiring yet): completed
+      // module pets are written into purchased.juniorHeroes so ownership flows
+      // through ownsJuniorHero everywhere - this modal, the level-load read path,
+      // and future sessions - without refetching level sessions each time.
+      const newlyUnlocked = ThangTypeConstants.juniorPetAccessConfig
+        .filter(pet => pet.access === 'module' && this.completedUnlockLevels.has(pet.unlockLevel))
+        .map(pet => ThangTypeConstants.heroes[pet.slug])
+        .filter(heroId => !me.ownsJuniorHero(heroId))
+      if (!newlyUnlocked.length) { return }
+      const purchased = _.clone(me.get('purchased')) || {}
+      purchased.juniorHeroes = (purchased.juniorHeroes || []).concat(newlyUnlocked)
+      me.set('purchased', purchased)
+      me.patch()
     }
 
     onHeroesLoaded () {
