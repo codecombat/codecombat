@@ -110,7 +110,9 @@ module.exports = (JuniorHeroesModal = (function () {
         .map(pet => pet.unlockLevel))
       if (!neededLevels.size) { return }
       const jqxhr = $.get(`/db/user/${me.id}/level.sessions`, { project: 'state.complete,level.original' })
-      this.supermodel.trackRequest(jqxhr)
+      // This handler must run before the supermodel's, so completions are applied
+      // before the single loaded-all render: jQuery fires callbacks in registration
+      // order, and a second render() here would replay the menu-open jingle.
       jqxhr.then(sessions => {
         if (this.destroyed) { return }
         for (const session of sessions || []) {
@@ -121,12 +123,10 @@ module.exports = (JuniorHeroesModal = (function () {
         }
         if (!this.completedUnlockLevels.size) { return }
         this.persistModuleUnlocks()
-        // Re-derive lock state now that completions are known
-        if (this.heroes.models.length) {
-          for (const hero of this.heroes.models) { this.formatHero(hero) }
-          this.render()
-        }
+        // Re-derive lock state; the render on supermodel loaded-all picks it up
+        for (const hero of this.heroes.models) { this.formatHero(hero) }
       })
+      this.supermodel.trackRequest(jqxhr)
     }
 
     persistModuleUnlocks () {
