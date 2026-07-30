@@ -29,7 +29,7 @@ const NAPERVILLE_UNIQUE_KEY = 'naperville'
 const GALAXY_TUTORIAL_EXPERIMENT = 'galaxy-tutorial'
 const JUNIOR_PET_ACCESS_EXPERIMENT = 'junior-pet-access'
 // Users created before this date are grandfathered out of junior-pet-access; set to the rollout date before enabling
-const JUNIOR_PET_ACCESS_CUTOFF_DATE = '2026-08-01'
+const JUNIOR_PET_ACCESS_CUTOFF_DATE = '2026-07-29'
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
