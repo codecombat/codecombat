@@ -6028,7 +6028,7 @@ module.exports = {
       student_acceleration_1_link_text: 'Try it now',
       student_acceleration_2_title: 'AP CSP Exam Preperations',
       student_acceleration_2_text: 'We are recognized by the College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). Our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam.',
-      student_acceleration_3_title: 'AI Algebra',
+      student_acceleration_3_title: 'Algebra + AI',
       student_acceleration_3_text: 'A complete, teacher-led Algebra + AI curriculum that builds strong math foundations while integrating AI as a tool. Students develop deep reasoning, modeling skills, and critical thinking through structured, classroom-ready lessons.',
       student_acceleration_4_title: 'Cybersecurity',
       student_acceleration_4_text: 'A classroom-ready cybersecurity curriculum with digital simulations that eliminate the need for specialized hardware, plus technical writing, safe AI use, and learning aligned with AP Cybersecurity and CompTIA Security+.',
