@@ -495,8 +495,7 @@ module.exports = (User = (function () {
       // a pet that fails here renders the swap-map fallback instead, as if unset.
       if (this.getJuniorPetAccessExperimentValue() !== 'beta') { return true } // control renders anything saved, as today
       if (this.ownsJuniorHero(heroOriginal)) { return true }
-      const slug = _.invert(ThangTypeConstants.heroes)[heroOriginal]
-      const petAccess = _.find(ThangTypeConstants.juniorPetAccessConfig, { slug })
+      const petAccess = _.find(ThangTypeConstants.juniorPetAccessConfig, pet => ThangTypeConstants.heroes[pet.slug] === heroOriginal)
       if (!petAccess) { return true } // not an experiment-managed pet; existing paths handle it
       switch (petAccess.access) {
         case 'signup': return !this.isAnonymous()
