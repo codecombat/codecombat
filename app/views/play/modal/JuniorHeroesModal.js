@@ -186,6 +186,9 @@ module.exports = (JuniorHeroesModal = (function () {
         hero.petRow = petAccess.position?.row
         hero.petColumn = petAccess.position?.column
         hero.purchasable = false // no gem purchases in the experiment tiers; premium tier upsells the subscription
+        // Frames: gem for the premium tier always (hero.premium), silver for any other gated pet -
+        // module pets while locked, and signup pets while the user is still anonymous
+        hero.silverFrame = (hero.locked || hero.requiresSignup) && petAccess.access !== 'premium'
       } else {
         const access = (rosterBySlug[hero.attributes.slug] || {}).access
         hero.free = access === 'free'
@@ -193,6 +196,7 @@ module.exports = (JuniorHeroesModal = (function () {
         hero.premium = access === 'premium'
         hero.locked = !me.ownsJuniorHero(original) && !(hero.unlockBySubscribing && me.isPremium())
         hero.purchasable = hero.locked && me.isPremium()
+        hero.silverFrame = hero.unlockBySubscribing // control keeps today's frames
       }
       // Classroom: all pets stay unlocked for students and teachers (also a pre-condition of the experiment)
       if (me.isStudent() || me.isTeacher()) { hero.locked = false }
