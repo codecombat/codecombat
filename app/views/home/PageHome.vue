@@ -220,6 +220,7 @@
     <ModalJunior />
     <ModalHackStack />
     <HackstackAutoPromotion v-if="!isMobile" />
+    <CybersecurityAutoPromotion v-if="!isMobile" />
   </div>
 </template>
 
@@ -243,6 +244,7 @@ import HeaderComponent from '../../components/common/elements/HeaderComponent.vu
 import ModalJunior from './ModalJunior'
 import ModalHackStack from './ModalHackStack'
 import HackstackAutoPromotion from '../ai/HackstackAutoPromotion'
+import CybersecurityAutoPromotion from '../ai/CybersecurityAutoPromotion'
 import BannerComponent from '../../components/common/elements/BannerComponent.vue'
 import { getJuniorUrl } from 'core/utils'
 
@@ -271,6 +273,7 @@ export default Vue.extend({
     ModalJunior,
     ModalHackStack,
     HackstackAutoPromotion,
+    CybersecurityAutoPromotion,
     BannerComponent,
   },
   data () {

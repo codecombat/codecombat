@@ -5771,6 +5771,8 @@ module.exports = {
       ai_made_ss: 'AI Made Simple & Safe -- Start Today!',
       aiss_body: 'Built as the simplest path to AI literacy, this tool empowers learners to harness top LLMs with hands-on AI training, making creation easy—whether it’s games, art, writing, code, or more. Together, we help learners safely bring their ideas to life across any subject.',
       learn_more: 'Learn More!',
+      cyber_security_modal_header: 'Cybersecurity Curriculum for AP and CompTIA Security+',
+      cyber_security_modal_body: 'Our Cybersecurity curriculum has now officially launched. Give students a classroom-ready way to prepare for AP Cybersecurity and CompTIA Security+ through digital simulations, technical writing, and real-world security scenarios, with no specialized hardware required.',
     },
     user_credits: {
       level_chat_left_in_duration: '__credits__ AI Bot queries left for the __duration_key__',
