@@ -105,17 +105,17 @@ module.exports = (JuniorHeroesModal = (function () {
     loadModuleUnlockCompletions () {
       // Module-tier pets unlock on completing their unlockLevel. Completion lives in
       // level sessions, not on the user doc, so fetch the user's sessions once.
-      const neededLevels = ThangTypeConstants.juniorPetAccessConfig
+      const neededLevels = new Set(ThangTypeConstants.juniorPetAccessConfig
         .filter(pet => pet.access === 'module' && !me.ownsJuniorHero(ThangTypeConstants.heroes[pet.slug]))
-        .map(pet => pet.unlockLevel)
-      if (!neededLevels.length) { return }
+        .map(pet => pet.unlockLevel))
+      if (!neededLevels.size) { return }
       const jqxhr = $.get(`/db/user/${me.id}/level.sessions`, { project: 'state.complete,level.original' })
       this.supermodel.trackRequest(jqxhr)
       jqxhr.then(sessions => {
         if (this.destroyed) { return }
         for (const session of sessions || []) {
           const original = session.level != null ? session.level.original : undefined
-          if (session.state?.complete && neededLevels.includes(original)) {
+          if (session.state?.complete && neededLevels.has(original)) {
             this.completedUnlockLevels.add(original)
           }
         }
