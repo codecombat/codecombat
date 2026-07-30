@@ -18,7 +18,7 @@
       .carousel-indicator-container
         ol.carousel-indicators
           for hero, index in heroes
-            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : "") + (hero.unlockBySubscribing ? " subscribe-unlock " : "") + (hero.premium ? " premium " : ""))
+            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : "") + (hero.unlockBySubscribing ? " subscribe-unlock " : "") + (hero.premium ? " premium " : "") + (hero.petRow != null ? " pet-row-" + hero.petRow + " pet-column-" + hero.petColumn : ""))
               .hero-avatar
       .carousel-inner
         for hero in heroes
@@ -70,11 +70,15 @@
           #hero-footer-text-background
             .image-block
               img(src= "/images/pages/play/modal/language-selector-background.png")
-          #locked-hero-explanation
-            h2(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscribe_unlock' : 'play.subscribers_only')
-            span.spr.subscribers(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscriber_heroes' : 'play.subscriber_gems')
-          button.btn.subscribe-button#subscribe-hero-button(data-hero-slug=visibleHero.get('slug'))
-            span.spr(data-i18n="subscribe.subscribe_title") Subscribe
+          if visibleHero.moduleHint
+            #locked-hero-explanation.module-locked
+              h2= visibleHero.moduleHint
+          else
+            #locked-hero-explanation
+              h2(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscribe_unlock' : 'play.subscribers_only')
+              span.spr.subscribers(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscriber_heroes' : 'play.subscriber_gems')
+            button.btn.subscribe-button#subscribe-hero-button(data-hero-slug=visibleHero.get('slug'))
+              span.spr(data-i18n="subscribe.subscribe_title") Subscribe
 
         else if visibleHero.loaded
           #hero-footer-text-background

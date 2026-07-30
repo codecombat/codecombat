@@ -468,7 +468,12 @@ module.exports = (User = (function () {
       // Union rather than fallback-only-if-absent: a user with legacy junior purchases
       // in purchased.heroes must not lose them once the first juniorHeroes write lands.
       const juniorHeroIds = ThangTypeConstants.juniorHeroesConfig.map(h => ThangTypeConstants.heroes[h.slug])
-      const freeJuniorHeroes = ThangTypeConstants.juniorHeroesConfig
+      // junior-pet-access beta shrinks the free set to the experiment's free tier;
+      // earned/purchased/legacy ownership below is arm-independent
+      const freeConfig = this.getJuniorPetAccessExperimentValue() === 'beta'
+        ? ThangTypeConstants.juniorPetAccessConfig
+        : ThangTypeConstants.juniorHeroesConfig
+      const freeJuniorHeroes = freeConfig
         .filter(h => h.access === 'free')
         .map(h => ThangTypeConstants.heroes[h.slug])
       const legacyPurchased = (this.get('purchased')?.heroes || []).filter(id => juniorHeroIds.includes(id))
