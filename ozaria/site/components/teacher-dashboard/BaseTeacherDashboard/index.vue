@@ -308,12 +308,12 @@ export default {
         return
       }
 
-      if (storage.load(`${SEEN_CREATE_CLASS_TOUR_KEY}-seen-${me.get('_id')}`) || me.getSeenPromotion(SEEN_CREATE_CLASS_TOUR_KEY)) {
+      if (storage.load(`${SEEN_CREATE_CLASS_TOUR_KEY}-${me.get('_id')}`) || me.getSeenPromotion(SEEN_CREATE_CLASS_TOUR_KEY)) {
         return
       }
 
       if (this.triggerCreateClassTour()) {
-        storage.save(`${SEEN_CREATE_CLASS_TOUR_KEY}-seen-${me.get('_id')}`, true)
+        storage.save(`${SEEN_CREATE_CLASS_TOUR_KEY}-${me.get('_id')}`, true)
         me.setSeenPromotion(SEEN_CREATE_CLASS_TOUR_KEY)
         me.save()
       }
@@ -345,11 +345,11 @@ export default {
     },
 
     conditionalPlayTDTour () {
-      if (storage.load(`${SEEN_AUTO_TD_TOUR_KEY}-seen-${me.get('_id')}`) || me.getSeenPromotion(SEEN_AUTO_TD_TOUR_KEY)) {
+      if (storage.load(`${SEEN_AUTO_TD_TOUR_KEY}-${me.get('_id')}`) || me.getSeenPromotion(SEEN_AUTO_TD_TOUR_KEY)) {
         return
       }
       if (this.triggerTDGuideTour()) {
-        storage.save(`${SEEN_AUTO_TD_TOUR_KEY}-seen-${me.get('_id')}`, true)
+        storage.save(`${SEEN_AUTO_TD_TOUR_KEY}-${me.get('_id')}`, true)
         me.setSeenPromotion(SEEN_AUTO_TD_TOUR_KEY)
         me.save()
       }
@@ -386,12 +386,12 @@ export default {
         return
       }
 
-      if (storage.load(`${SEEN_FIRST_CLASS_TOUR_KEY}-seen-${me.get('_id')}`) || me.getSeenPromotion(SEEN_FIRST_CLASS_TOUR_KEY)) {
+      if (storage.load(`${SEEN_FIRST_CLASS_TOUR_KEY}-${me.get('_id')}`) || me.getSeenPromotion(SEEN_FIRST_CLASS_TOUR_KEY)) {
         return
       }
 
       if (this.triggerFirstClassTour()) {
-        storage.save(`${SEEN_FIRST_CLASS_TOUR_KEY}-seen-${me.get('_id')}`, true)
+        storage.save(`${SEEN_FIRST_CLASS_TOUR_KEY}-${me.get('_id')}`, true)
         me.setSeenPromotion(SEEN_FIRST_CLASS_TOUR_KEY)
         me.save()
       }
