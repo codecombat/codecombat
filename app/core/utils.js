@@ -1938,9 +1938,12 @@ module.exports.groupedCoursesList = (courses) => {
     return cs
   }
 }
+const isJuniorLevel = level => level?.get('product') === 'codecombat-junior'
+module.exports.isJuniorLevel = isJuniorLevel
+
 module.exports.guardJuniorLevelHealthCode = (level, source) => {
   if (typeof source !== 'string') return source // should not happen
-  if (level?.get('product') === 'codecombat-junior') {
+  if (isJuniorLevel(level)) {
     source = source.replace(/(^|[^a-zA-Z.])health(?!\w)/g, (match, prefix) => `${prefix}hero.health`)
   }
   return source

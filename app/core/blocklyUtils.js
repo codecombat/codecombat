@@ -20,7 +20,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   generator.INDENT = '    '
 
   let superBasicLevels = ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard']
-  if (me.level() > 5) {
+  if (me.rank() > 5) {
     superBasicLevels = [] // Coming back to them later should allow basic misc blocks
   }
 

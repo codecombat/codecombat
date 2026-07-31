@@ -357,13 +357,21 @@ module.exports = class LevelLoader extends CocoClass
       else
         # Default to Tharin in home mode
         ThangType.heroes.knight
-    if @level.get('product', true) is 'codecombat-junior'
-      # If we got into a codecombat-junior level with a codecombat hero, pick an equivalent codecombat-junior hero to use instead
-      juniorHeroReplacement = ThangTypeConstants.juniorHeroReplacements[_.invert(ThangTypeConstants.heroes)[heroThangType]]
+    juniorThangType = null
+    if utils.isJuniorLevel(@level) and not utils.showOzaria()
+      juniorThangType = session.get('heroConfig')?.juniorThangType
+      juniorThangType ?= me.get('heroConfig')?.juniorThangType if session is @session and not @headless
+    if juniorThangType
+      # Junior levels honor the explicitly chosen pet; the swap map below is the fallback for configs without one
+      heroThangType = juniorThangType
     else
-      # If we got into a codecombat level with a codecombat-junior hero, pick an equivalent codecombat hero to use instead
-      juniorHeroReplacement = _.invert(ThangTypeConstants.juniorHeroReplacements)[_.invert(ThangTypeConstants.heroes)[heroThangType]]
-    heroThangType = ThangTypeConstants.heroes[juniorHeroReplacement] if juniorHeroReplacement
+      if utils.isJuniorLevel(@level)
+        # If we got into a codecombat-junior level with a codecombat hero, pick an equivalent codecombat-junior hero to use instead
+        juniorHeroReplacement = ThangTypeConstants.juniorHeroReplacements[_.invert(ThangTypeConstants.heroes)[heroThangType]]
+      else
+        # If we got into a codecombat level with a codecombat-junior hero, pick an equivalent codecombat hero to use instead
+        juniorHeroReplacement = _.invert(ThangTypeConstants.juniorHeroReplacements)[_.invert(ThangTypeConstants.heroes)[heroThangType]]
+      heroThangType = ThangTypeConstants.heroes[juniorHeroReplacement] if juniorHeroReplacement
 
     url = "/db/thang.type/#{heroThangType}/version"
     if heroResource = @maybeLoadURL(url, ThangType, 'thang')
@@ -748,7 +756,7 @@ module.exports = class LevelLoader extends CocoClass
     return if utils.showOzaria() # TODO: replace with Ozaria level loading jingles
     return if @headless or not me.get('volume')
     volume = 0.5
-    if me.level() < 3
+    if me.rank() < 3
       volume = 0.25  # Start softly, since they may not be expecting it
     # Apparently the jingle, when it tries to play immediately during all this loading, you can't hear it.
     # Add the timeout to fix this weird behavior.
