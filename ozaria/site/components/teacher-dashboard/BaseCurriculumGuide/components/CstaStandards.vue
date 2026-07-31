@@ -47,7 +47,7 @@ export default {
     >
       <button-resource-icon
         icon="Doc"
-        :label="standardsLabel || 'Standards Alignment'"
+        :label="standardsLabel || $t('teacher_dashboard.standards_alignment')"
         :link="standardsLink"
         from="Curriculum Guide"
       />
