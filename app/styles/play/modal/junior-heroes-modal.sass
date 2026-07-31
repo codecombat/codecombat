@@ -151,6 +151,17 @@ $heroCanvasHeight: 275px
             body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
               float: left
 
+            // junior-pet-access beta uses config-positioned rows; the legacy
+            // 15th/16th-item float would tear pets out of their row. Beta
+            // indicators always carry pet-row-* classes (ancestor-prefixed
+            // .pet-access-beta & would compile with the wrong element order).
+            &[class*="pet-row-"]
+              float: left
+
+          // junior-pet-access beta grid: config rows wrap at each row's first column
+          &.pet-row-1.pet-column-0, &.pet-row-2.pet-column-0
+            clear: left
+
           &.active
             background-image: url(/images/pages/play/modal/hero-portrait-selected.png)
             z-index: 6

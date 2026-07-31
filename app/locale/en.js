@@ -1558,6 +1558,8 @@ module.exports = {
     choose_hero: {
       choose_hero: 'Choose Your Hero',
       choose_junior_hero: 'Choose Your Young Hero',
+      sign_up_to_unlock: 'Sign Up to Unlock!',
+      sign_up_pet_blurb: 'Create a free account to play as this pet!',
       programming_language: 'Programming Language',
       programming_language_description: 'Which programming language do you want to use?',
       default: 'Default',
