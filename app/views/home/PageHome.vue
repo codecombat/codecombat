@@ -217,6 +217,7 @@
         </div>
       </div>
     </div>
+    <CybersecurityAutoPromotion v-if="!isMobile" />
     <ModalJunior />
     <ModalHackStack />
     <HackstackAutoPromotion v-if="!isMobile" />
@@ -243,6 +244,7 @@ import HeaderComponent from '../../components/common/elements/HeaderComponent.vu
 import ModalJunior from './ModalJunior'
 import ModalHackStack from './ModalHackStack'
 import HackstackAutoPromotion from '../ai/HackstackAutoPromotion'
+import CybersecurityAutoPromotion from '../ai/CybersecurityAutoPromotion'
 import BannerComponent from '../../components/common/elements/BannerComponent.vue'
 import { getJuniorUrl } from 'core/utils'
 
@@ -271,6 +273,7 @@ export default Vue.extend({
     ModalJunior,
     ModalHackStack,
     HackstackAutoPromotion,
+    CybersecurityAutoPromotion,
     BannerComponent,
   },
   data () {
@@ -370,8 +373,15 @@ export default Vue.extend({
           title: this.$t('schools_page.student_acceleration_3_title'),
           text: this.$t('schools_page.student_acceleration_3_text'),
           image: '/images/pages/hackstack/algebra/ai-algebra-promotion.webp',
-          linkText: this.$t('general.learn_more'),
+          linkText: this.$t('home_v3.try_it_now'),
           link: '/hackstack-algebra',
+        },
+        {
+          title: this.$t('schools_page.student_acceleration_4_title'),
+          text: this.$t('schools_page.student_acceleration_4_text'),
+          image: '/images/pages/hackstack/cyber/cybersecurity-promotion.webp',
+          linkText: this.$t('home_v3.try_it_now'),
+          link: '/hackstack-cyber',
         },
       ],
       premiumTile: [

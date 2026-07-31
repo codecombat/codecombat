@@ -1930,12 +1930,7 @@ module.exports.groupedCoursesList = (courses) => {
   if (isOzaria) {
     return [...ozarCourses, ...otherCourses]
   } else {
-    const cs = [...cocoCourses]
-    if (me?.showOzCourses()) {
-      cs.push(...ozarCourses)
-    }
-    cs.push(...otherCourses)
-    return cs
+    return [...cocoCourses, ...ozarCourses, ...otherCourses]
   }
 }
 const isJuniorLevel = level => level?.get('product') === 'codecombat-junior'
