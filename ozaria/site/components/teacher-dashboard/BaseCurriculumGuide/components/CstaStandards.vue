@@ -21,19 +21,11 @@ export default {
       type: String,
       required: false,
       default: null,
-    }
+    },
   },
   computed: {
     shouldShow () {
       return this.cstaList?.length > 0 || !!this.standardsLink
-    },
-
-    standardsResourceData () {
-      return {
-        icon: 'Doc',
-        label: this.standardsLabel || (this.standardsLink ? 'Standards Alignment' : 'CSTA Standards Alignment'),
-        link: this.standardsLink || 'https://docs.google.com/document/d/1sHP75V5WqdQBfavI792mswYDS67pSSf8otNM05Rma5A/edit?usp=sharing'
-      }
     },
 
     translatedCstaList () {
@@ -49,11 +41,14 @@ export default {
 <template>
   <div v-if="shouldShow">
     <h3>{{ $t('teacher_dashboard.standards_alignment') }}</h3>
-    <div class="flex">
+    <div
+      v-if="standardsLink"
+      class="flex"
+    >
       <button-resource-icon
-        :icon="standardsResourceData.icon"
-        :label="standardsResourceData.label"
-        :link="standardsResourceData.link"
+        icon="Doc"
+        :label="standardsLabel || 'Standards Alignment'"
+        :link="standardsLink"
         from="Curriculum Guide"
       />
     </div>
