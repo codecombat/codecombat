@@ -954,7 +954,7 @@ module.exports = {
       medium: 'Medium',
       hard: 'Moeilijk',
       player: 'Speler',
-      player_level: 'Niveau',
+      player_rank: '[AI_TRANSLATION]Rang',
       warrior: 'Krijger',
       ranger: 'Ranger',
       wizard: 'Tovenaar',

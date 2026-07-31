@@ -26,11 +26,10 @@ const userUtils = require('lib/user-utils')
 const _ = require('lodash')
 const moment = window.moment
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
-const REQUIRE_SIGN_UP_EXPERIMENT = {
-  dungeon: 'requires-sign-up-dungeon',
-  junior: 'requires-sign-up-junior',
-}
 const GALAXY_TUTORIAL_EXPERIMENT = 'galaxy-tutorial'
+const JUNIOR_PET_ACCESS_EXPERIMENT = 'junior-pet-access'
+// Users created before this date are grandfathered out of junior-pet-access; set to the rollout date before enabling
+const JUNIOR_PET_ACCESS_CUTOFF_DATE = '2026-07-29'
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
@@ -188,14 +187,6 @@ module.exports = (User = (function () {
       const email = this.get('email')
       if (!email) { return false }
       return email.endsWith('@codecombat.com') || email.endsWith('@ozaria.com')
-    }
-
-    // This could also be a user property later, once we plan to release Ozaria to more users
-    showOzCourses () {
-      if (utils.isOzaria) {
-        return true
-      }
-      return this.isInternal() || this.isAdmin() || this.get('features')?.canAccessOzCourse
     }
 
     isDistrictAdmin (districtId) {
@@ -383,27 +374,28 @@ module.exports = (User = (function () {
     }
 
     // y = a * ln(1/b * (x + c)) + 1
-    static levelFromExp (xp) {
+    static rankFromExp (xp) {
       if (xp > 0) { return Math.floor(a * Math.log((1 / b) * (xp + c))) + 1 } else { return 1 }
     }
 
     // x = b * e^((y-1)/a) - c
-    static expForLevel (level) {
-      if (level > 1) { return Math.ceil((Math.exp((level - 1) / a) * b) - c) } else { return 0 }
+    static expForRank (rank) {
+      if (rank > 1) { return Math.ceil((Math.exp((rank - 1) / a) * b) - c) } else { return 0 }
     }
 
-    static tierFromLevel (level) {
+    static tierFromRank (rank) {
       // TODO: math
       // For now, just eyeball it.
-      return tiersByLevel[Math.min(level, tiersByLevel.length - 1)]
+      return tiersByLevel[Math.min(rank, tiersByLevel.length - 1)]
     }
 
-    static levelForTier (tier) {
+    static rankForTier (tier) {
       // TODO: math
-      for (let level = 0; level < tiersByLevel.length; level++) {
-        const tierThreshold = tiersByLevel[level]
-        if (tierThreshold >= tier) { return level }
+      for (let rank = 0; rank < tiersByLevel.length; rank++) {
+        const tierThreshold = tiersByLevel[rank]
+        if (tierThreshold >= tier) { return rank }
       }
+      return tiersByLevel.length - 1 // tier beyond the table: clamp to the max known rank
     }
 
     addNewUserCommonProperties () {
@@ -422,14 +414,16 @@ module.exports = (User = (function () {
       })
     }
 
-    level () {
+    // Player Rank (formerly "player level"), computed from the persisted `points` (XP) field.
+    // The `points` field name is part of the API/data model and stays as-is.
+    rank () {
       let totalPoint = this.get('points')
       if (this.isInGodMode()) { totalPoint = totalPoint + 1000000 }
-      return User.levelFromExp(totalPoint)
+      return User.rankFromExp(totalPoint)
     }
 
     tier () {
-      return User.tierFromLevel(this.level())
+      return User.tierFromRank(this.rank())
     }
 
     gems () {
@@ -468,6 +462,46 @@ module.exports = (User = (function () {
         }
       }
       return heroes
+    }
+
+    juniorHeroes () {
+      // Union rather than fallback-only-if-absent: a user with legacy junior purchases
+      // in purchased.heroes must not lose them once the first juniorHeroes write lands.
+      const juniorHeroIds = ThangTypeConstants.juniorHeroesConfig.map(h => ThangTypeConstants.heroes[h.slug])
+      // junior-pet-access beta shrinks the free set to the experiment's free tier;
+      // earned/purchased/legacy ownership below is arm-independent
+      const freeConfig = this.getJuniorPetAccessExperimentValue() === 'beta'
+        ? ThangTypeConstants.juniorPetAccessConfig
+        : ThangTypeConstants.juniorHeroesConfig
+      const freeJuniorHeroes = freeConfig
+        .filter(h => h.access === 'free')
+        .map(h => ThangTypeConstants.heroes[h.slug])
+      const legacyPurchased = (this.get('purchased')?.heroes || []).filter(id => juniorHeroIds.includes(id))
+      return _.union(
+        this.get('earned')?.juniorHeroes || [],
+        this.get('purchased')?.juniorHeroes || [],
+        legacyPurchased,
+        freeJuniorHeroes,
+      )
+    }
+
+    ownsJuniorHero (heroOriginal) {
+      return this.isInGodMode() || this.juniorHeroes().includes(heroOriginal)
+    }
+
+    mayUseJuniorPet (heroOriginal) {
+      // Render-time gate for heroConfig.juniorThangType. The field is client-writable,
+      // so the junior level-load read path checks it against the experiment tier rules;
+      // a pet that fails here renders the swap-map fallback instead, as if unset.
+      if (this.getJuniorPetAccessExperimentValue() !== 'beta') { return true } // control renders anything saved, as today
+      if (this.ownsJuniorHero(heroOriginal)) { return true }
+      const petAccess = _.find(ThangTypeConstants.juniorPetAccessConfig, pet => ThangTypeConstants.heroes[pet.slug] === heroOriginal)
+      if (!petAccess) { return true } // not an experiment-managed pet; existing paths handle it
+      switch (petAccess.access) {
+        case 'signup': return !this.isAnonymous()
+        case 'premium': return this.isPremium()
+        default: return false // module pets render only once persisted into purchased.juniorHeroes
+      }
     }
 
     items () {
@@ -1539,27 +1573,44 @@ module.exports = (User = (function () {
 
     //   return this.tryStartExperiment('template')
     // }
-    getRequireSignupExperimentValue (CAMPAIGN) {
-      if (!me.isAnonymous()) {
+    getJuniorPetAccessExperimentValue () {
+      // Pre-conditions, re-evaluated on every read, before the query override or
+      // user.experiments: classrooms and China infra never get experiment behavior,
+      // even with a stored assignment. Registered home users keep their assigned
+      // value - signing up is part of the experiment, not an exit from it.
+      if (this.isStudent() || this.isTeacher()) {
         return 'control'
       }
-      const value = utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN]),
-        me.getExperimentValue(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN], null),
-      )
-
-      return value ?? null
+      if (features?.chinaInfra) {
+        return 'control'
+      }
+      return utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery(JUNIOR_PET_ACCESS_EXPERIMENT),
+        this.getExperimentValue(JUNIOR_PET_ACCESS_EXPERIMENT, null),
+      ) ?? null
     }
 
-    getOrStartRequireSignupExperimentValue (CAMPAIGN) {
-      if (!(Object.keys(REQUIRE_SIGN_UP_EXPERIMENT).includes(CAMPAIGN))) {
-        return 'control'
-      }
-      const value = this.getRequireSignupExperimentValue(CAMPAIGN)
+    getOrStartJuniorPetAccessExperimentValue () {
+      const value = this.getJuniorPetAccessExperimentValue()
       if (value != null) {
         return value
       }
-      return this.tryStartExperiment(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN])
+      // Assignment Post-conditions: no pre-condition blocked and no value stored
+      // yet - decide whether to really start. Only anonymous home users in
+      // contexts that can actually see the locked-pet upsell enter; everyone
+      // else stays control. Already-assigned users returned above, so a user
+      // assigned while anonymous keeps their cohort after signing up.
+      if (!this.isAnonymous()) {
+        return 'control'
+      }
+      if (this.freeOnly() || this.isInHourOfCode()) {
+        // Locked pets are hidden entirely for these users, so they could never see the upsell
+        return 'control'
+      }
+      if (new Date(this.get('dateCreated')) < new Date(JUNIOR_PET_ACCESS_CUTOFF_DATE)) {
+        return 'control'
+      }
+      return this.tryStartExperiment(JUNIOR_PET_ACCESS_EXPERIMENT)
     }
 
     getGalaxyTutorialExperimentValue () {

@@ -1882,6 +1882,16 @@ module.exports.scenarioMode2Icon = (mode) => {
   return AI_MODE_ICON_MAP[mode]
 }
 
+const LEARN_MODE = 'learn to use'
+const PRACTICE_MODE = 'practice'
+const USE_MODE = 'use'
+const CAPSTONE_MODE = 'capstone'
+const USE_MODES = [PRACTICE_MODE, USE_MODE, CAPSTONE_MODE]
+
+module.exports.isUseMode = (mode) => {
+  return USE_MODES.includes(mode)
+}
+
 module.exports.aiTranslate = async (modelName, docId, langs) => {
   if (!modelName || !docId || !langs) {
     throw new Error('modelName, docId, and langs are required')
@@ -1920,17 +1930,15 @@ module.exports.groupedCoursesList = (courses) => {
   if (isOzaria) {
     return [...ozarCourses, ...otherCourses]
   } else {
-    const cs = [...cocoCourses]
-    if (me?.showOzCourses()) {
-      cs.push(...ozarCourses)
-    }
-    cs.push(...otherCourses)
-    return cs
+    return [...cocoCourses, ...ozarCourses, ...otherCourses]
   }
 }
+const isJuniorLevel = level => level?.get('product') === 'codecombat-junior'
+module.exports.isJuniorLevel = isJuniorLevel
+
 module.exports.guardJuniorLevelHealthCode = (level, source) => {
   if (typeof source !== 'string') return source // should not happen
-  if (level?.get('product') === 'codecombat-junior') {
+  if (isJuniorLevel(level)) {
     source = source.replace(/(^|[^a-zA-Z.])health(?!\w)/g, (match, prefix) => `${prefix}hero.health`)
   }
   return source

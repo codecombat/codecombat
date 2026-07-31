@@ -6,11 +6,24 @@ TARGET_ALPHA = 1
 TARGET_WIDTH = 10
 FUTURE_PATH_INTERVAL_DIVISOR = 4
 PAST_PATH_INTERVAL_DIVISOR = 2
-
 Camera = require './Camera'
 CocoClass = require 'core/CocoClass'
+colors = require 'core/colors'
 createjs = require 'lib/createjs-parts'
 utils = require 'core/utils'
+
+PET_PATH_COLOR_LIGHT = colors.hexToRgb(colors.lavender)  # CodeCombat Junior trail gradient: path start
+PET_PATH_COLOR_DARK = colors.hexToRgb(colors.deepPurple)  # CodeCombat Junior trail gradient: path end
+PET_PATH_COLOR_STEPS = 8  # max distinct dot colors along the gradient (spritesheet cache bound)
+TEAM_COLORS =
+  codecombat:
+    neutral: colors.hexToRgb(colors.green)
+    humans: colors.hexToRgb(colors.red)
+    ogres: colors.hexToRgb(colors.blue)
+  ozaria:
+    neutral: colors.hexToRgb(colors.leafGreen)
+    humans: colors.hexToRgb(colors.skyBlue)
+    ogres: colors.hexToRgb(colors.red)
 
 module.exports = class TrailMaster extends CocoClass
   world: null
@@ -38,10 +51,23 @@ module.exports = class TrailMaster extends CocoClass
     @tweens = []
 
   createGraphics: ->
-    @startDotKey = @cachePathDot(TARGET_WIDTH, [94, 152, 81, 1], [0, 0, 0, 1])  # Just for CCJ so far; match start block color
-    @targetDotKey = @cachePathDot(TARGET_WIDTH, @colorForThang(@thang.team, TARGET_ALPHA), [0, 0, 0, 1])
-    @pastDotKey = @cachePathDot(PAST_PATH_WIDTH, @colorForThang(@thang.team, PAST_PATH_ALPHA), [0, 0, 0, 1])
-    @futureDotKey = @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], @colorForThang(@thang.team, 1))
+    if @useJuniorGradient()
+      # Register every gradient bucket before any dot sprite exists: a first-seen graphic
+      # rebuilds the layer spritesheet, destroying the sheet already-created sprites reference.
+      # The flat team-color keys are skipped here; gradient mode never draws them.
+      @gradientTargetKeys = []
+      @gradientStrokeKeys = []
+      for bucket in [0...PET_PATH_COLOR_STEPS]
+        color = @petColorForBucket(bucket)
+        @gradientTargetKeys.push @cachePathDot(TARGET_WIDTH, [color..., TARGET_ALPHA], [0, 0, 0, 1])
+        @gradientStrokeKeys.push @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], [color..., 1])
+      # Darkest-bucket keys double as valid defaults for any non-gradient fallback path
+      @targetDotKey = @gradientTargetKeys[PET_PATH_COLOR_STEPS - 1]
+      @futureDotKey = @gradientStrokeKeys[PET_PATH_COLOR_STEPS - 1]
+    else
+      @targetDotKey = @cachePathDot(TARGET_WIDTH, @colorForThang(@thang.team, TARGET_ALPHA), [0, 0, 0, 1])
+      @pastDotKey = @cachePathDot(PAST_PATH_WIDTH, @colorForThang(@thang.team, PAST_PATH_ALPHA), [0, 0, 0, 1])
+      @futureDotKey = @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], @colorForThang(@thang.team, 1))
 
   cachePathDot: (width, fillColor, strokeColor) ->
     key = "path-dot-#{width}-#{fillColor}-#{strokeColor}"
@@ -55,16 +81,21 @@ module.exports = class TrailMaster extends CocoClass
     return key
 
   colorForThang: (team, alpha=1.0) ->
-    if utils.isCodeCombat
-      rgb = [0, 255, 0]
-      rgb = [255, 0, 0] if team is 'humans'
-      rgb = [0, 0, 255] if team is 'ogres'
-    else
-      rgb = [79, 202, 82]
-      rgb = [69, 170, 255] if team is 'humans'
-      rgb = [255, 0, 0] if team is 'ogres'
-    rgb.push(alpha)
-    return rgb
+    palette = if utils.isCodeCombat then TEAM_COLORS.codecombat else TEAM_COLORS.ozaria
+    rgb = palette[team] ? palette.neutral
+    return [rgb..., alpha]
+
+  useJuniorGradient: ->
+    @thang.team is 'humans' and utils.isJuniorLevel @level
+
+  # Gradient quantized to PET_PATH_COLOR_STEPS buckets so only that many dot graphics get cached
+  petBucketFor: (t) ->
+    Math.round(t * (PET_PATH_COLOR_STEPS - 1))
+
+  petColorForBucket: (bucket) ->
+    f = bucket / (PET_PATH_COLOR_STEPS - 1)
+    for c, j in PET_PATH_COLOR_LIGHT
+      Math.round(c + (PET_PATH_COLOR_DARK[j] - c) * f)
 
   createPastPath: ->
     return unless points = @world.pointsForThang @thang.id, @camera
@@ -76,18 +107,25 @@ module.exports = class TrailMaster extends CocoClass
     return unless points = @world.pointsForThang @thang.id, @camera
     interval = Math.max(1, parseInt(@world.frameRate / FUTURE_PATH_INTERVAL_DIVISOR))
     params = { interval: interval, animate: true, frameKey: @futureDotKey }
+    params.gradientStroke = @useJuniorGradient()
     return @createPath(points, params)
 
   createTargets: ->
     return unless @thang.allTargets
     container = new createjs.Container(@layerAdapter.spriteSheet)
+    numTargets = @thang.allTargets.length / 2
+    useGradient = @useJuniorGradient()
     for x, i in @thang.allTargets by 2
       y = @thang.allTargets[i + 1]
       sup = @camera.worldToSurface x: x, y: y
       sprite = new createjs.Sprite(@layerAdapter.spriteSheet)
       sprite.scaleX = sprite.scaleY = 1 / @layerAdapter.resolutionFactor
       sprite.scaleY *= @camera.y2x
-      graphicsKey = if i is 0 and @level?.get('product') is 'codecombat-junior' then @startDotKey else @targetDotKey
+      if useGradient
+        t = if numTargets > 1 then (i / 2) / (numTargets - 1) else 0
+        graphicsKey = @gradientTargetKeys[@petBucketFor(t)]
+      else
+        graphicsKey = @targetDotKey
       sprite.gotoAndStop(graphicsKey)
       sprite.x = sup.x
       sprite.y = sup.y
@@ -100,8 +138,14 @@ module.exports = class TrailMaster extends CocoClass
     key = options.frameKey or @pastDotKey
     container = new createjs.Container(@layerAdapter.spriteSheet)
 
+    numDots = Math.ceil(points.length / (interval * 2))
+    dotIndex = 0
     for x, i in points by interval * 2
       y = points[i + 1]
+      if options.gradientStroke
+        t = if numDots > 1 then dotIndex / (numDots - 1) else 0
+        key = @gradientStrokeKeys[@petBucketFor(t)]
+      dotIndex++
       sprite = new createjs.Sprite(@layerAdapter.spriteSheet)
       sprite.scaleX = sprite.scaleY = 1 / @layerAdapter.resolutionFactor
       sprite.scaleY *= @camera.y2x
