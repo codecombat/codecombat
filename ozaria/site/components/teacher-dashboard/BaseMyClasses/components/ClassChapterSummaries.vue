@@ -50,6 +50,7 @@ export default {
       <img
         class="logo"
         alt="CodeCombat logo"
+        title="CodeCombat"
         src="/images/pages/base/logo_square_250.png"
       >
       <div
@@ -72,6 +73,7 @@ export default {
       <img
         class="logo"
         alt="Ozaria logo"
+        title="Ozaria"
         src="/images/ozaria/home/ozaria-logo.png"
       >
       <div
@@ -93,7 +95,8 @@ export default {
     >
       <img
         class="logo"
-        alt="Hackstack logo"
+        alt="AI Hackstack logo"
+        title="AI Hackstack"
         src="/images/pages/hackstack/ai-hs-icon.webp"
       >
       <div
