@@ -17,10 +17,10 @@
     story: 'まずはヒーローに、Yuzuへあいさつしてもらおう。宝石を集めると、魔法使いは経験値をもらって強くなります。',
     instructions: [
       '`hero.say(...)` は、ヒーローに言葉を話してもらう命令です。',
-      'コードはもう完成しています。「実行する」を押して、ふきだしを読んだら × で閉じましょう。'
+      'コードはもう完成しています。「実行する」を押して、ふきだしを読んだら × で閉じましょう。',
     ],
     api: ['hero.say("Hello Yuzu")'],
-    starterCode: '// Yuzu にあいさつしよう\nhero.say(\'Hello Yuzu\');',
+    starterCode: 'hero.say(\'Hello Yuzu\');',
     hints: ['このミッションはコードを直さなくてもクリアできます。「実行する」を押しましょう。'],
     solution: 'hero.say(\'Hello Yuzu\');',
     variants: [{
@@ -29,13 +29,13 @@
         '#.......#',
         '#...H...#',
         '#.......#',
-        '#########'
+        '#########',
       ],
-      sign: null
+      sign: null,
     }],
     requirements: {
       state: { sayText: 'Hello Yuzu', maxMoves: 0 },
-      syntax: [{ type: 'say', message: 'hero.say(...) を使ってあいさつしましょう。' }]
-    }
+      syntax: [{ type: 'say', message: 'hero.say(...) を使ってあいさつしましょう。' }],
+    },
   }
 })
