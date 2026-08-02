@@ -40,6 +40,16 @@
     return panel
   }
 
+  function ensureFrogLegend () {
+    const legend = document.querySelector('.game-panel .legend')
+    if (!legend || legend.querySelector('.frog-legend')) return
+    const item = document.createElement('span')
+    item.className = 'frog-legend'
+    item.textContent = '🐸 カエル'
+    const gem = [...legend.children].find(child => child.textContent.includes('宝石'))
+    legend.insertBefore(item, gem || null)
+  }
+
   function valuesFor (mission, completed) {
     const xp = completed ? mission.wizardXpAfter : mission.wizardXpBefore
     const level = completed ? mission.wizardLevelAfter : mission.wizardLevel
@@ -100,13 +110,24 @@
     render(false)
   }
 
+  function correctFinalMessage () {
+    const feedback = document.getElementById('feedback')
+    if (feedback && feedback.textContent.includes('全20ミッション')) {
+      feedback.textContent = feedback.textContent.replace('全20ミッション', '全21ミッション')
+    }
+  }
+
   function init () {
     ensurePanel()
+    ensureFrogLegend()
     const number = document.getElementById('mission-number')
     const badge = document.getElementById('mission-badge')
+    const feedback = document.getElementById('feedback')
     if (number) new MutationObserver(onMissionChange).observe(number, { childList: true, subtree: true, characterData: true })
     if (badge) new MutationObserver(onBadgeChange).observe(badge, { childList: true, subtree: true, characterData: true })
+    if (feedback) new MutationObserver(correctFinalMessage).observe(feedback, { childList: true, subtree: true, characterData: true })
     onMissionChange()
+    correctFinalMessage()
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init)
