@@ -1,0 +1,27 @@
+name: Japanese JavaScript Quest
+
+on:
+  push:
+    branches:
+      - feature/japanese-js-quest-20-missions
+    paths:
+      - 'app/assets/japanese-js-quest/**'
+      - 'scripts/validate-japanese-js-quest.js'
+      - '.github/workflows/japanese-js-quest.yml'
+  pull_request:
+    paths:
+      - 'app/assets/japanese-js-quest/**'
+      - 'scripts/validate-japanese-js-quest.js'
+      - '.github/workflows/japanese-js-quest.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate all missions and variants
+        run: node scripts/validate-japanese-js-quest.js
