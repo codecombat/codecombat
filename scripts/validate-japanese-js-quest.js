@@ -18,6 +18,9 @@ for (const id of [2, 3, 4, 5]) assert.strictEqual(missions.find(mission => missi
 assert.strictEqual(progression.thresholdForLevel(1), 1)
 assert.strictEqual(progression.thresholdForLevel(2), 5)
 assert.strictEqual(progression.thresholdForLevel(3), 12)
+assert.strictEqual(introMission.starterCode, 'hero.say(\'Hello Yuzu\');')
+assert(!introMission.starterCode.includes('//'), 'Mission 00 must contain only the executable line.')
+assert.strictEqual(introMission.starterCode.split('\n').length, 1)
 
 const ids = new Set()
 for (const mission of missions) {
@@ -87,4 +90,17 @@ for (const id of [3, 4, 5, 6, 7, 8, 9, 13, 14, 15, 17, 18, 19, 20]) {
 assert(missions.find(mission => mission.id === 3).starterCode.includes('看板が「right」の場合には、どうすればいい？'))
 assert(missions.find(mission => mission.id === 4).starterCode.includes('その他なら、どうすればいい？'))
 
-console.log(`Validated ${missions.length} missions and ${missions.reduce((sum, mission) => sum + mission.variants.length, 0)} variants with ordered actions and wizard progression.`)
+const terminologySource = fs.readFileSync(path.join(__dirname, '../app/assets/japanese-js-quest/technical-terms.js'), 'utf8')
+assert(terminologySource.includes("english: 'String', katakana: 'ストリング'"))
+assert(terminologySource.includes("preferredText: 'これは文字列という値です。'"))
+assert(terminologySource.includes("english: 'Comment', katakana: 'コメント'"))
+assert(terminologySource.includes('comment-concept-card'))
+
+const speechUiSource = fs.readFileSync(path.join(__dirname, '../app/assets/japanese-js-quest/speech-ui.js'), 'utf8')
+const speechCssSource = fs.readFileSync(path.join(__dirname, '../app/assets/japanese-js-quest/speech-ui.css'), 'utf8')
+assert(speechUiSource.includes('document.body.appendChild(bubble)'))
+assert(speechUiSource.includes("bubble.classList.add('speech-clamped-top')"))
+assert(speechCssSource.includes('position: fixed'))
+assert(speechCssSource.includes('z-index: 2147483000'))
+
+console.log(`Validated ${missions.length} missions and ${missions.reduce((sum, mission) => sum + mission.variants.length, 0)} variants with ordered actions, bilingual terminology and wizard progression.`)
