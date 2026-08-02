@@ -1,45 +1,66 @@
 # Japanese JavaScript Quest
 
 Campagne locale et autonome de 21 missions pour apprendre JavaScript à un enfant japonais.
-Elle utilise le serveur statique déjà fourni par CodeCombat, mais **aucun niveau officiel ou Premium**.
+Elle utilise les fichiers statiques du dépôt CodeCombat, mais **aucun niveau officiel ou Premium**.
 
-## Démarrage rapide sous Windows
+## Lancer le jeu sous Windows
+
+Ouvre PowerShell dans le dépôt, puis exécute exactement :
+
+```powershell
+cd .\app\assets\japanese-js-quest
+py -m http.server 8000
+```
+
+Ensuite, ouvre dans Chrome :
+
+```text
+http://localhost:8000
+```
+
+Pour arrêter le serveur, retourne dans PowerShell et appuie sur :
+
+```text
+Ctrl+C
+```
+
+### Si `py` n'est pas reconnu
+
+Utilise `python` à la place :
+
+```powershell
+cd .\app\assets\japanese-js-quest
+python -m http.server 8000
+```
+
+### Après une mise à jour Git
 
 Depuis la racine du dépôt :
 
 ```powershell
-.\start-japanese-js-quest.ps1
+git pull --ff-only origin feature/japanese-js-quest-20-missions
+cd .\app\assets\japanese-js-quest
+py -m http.server 8000
 ```
 
-Puis ouvrir :
+Puis recharge complètement la page avec :
 
 ```text
-http://localhost:8000/
+Ctrl+F5
 ```
 
-Le script se place automatiquement dans `app/assets/japanese-js-quest` et lance `py -m http.server 8000` (avec `python` comme solution de secours).
-
-## Avec le serveur CodeCombat
-
-Après avoir lancé CodeCombat localement :
-
-```text
-http://localhost:7777/japanese-js-quest/
-```
-
-Le build Webpack copie `app/assets` dans le dossier public, donc aucune configuration serveur supplémentaire n’est nécessaire.
+Aucun script PowerShell du dépôt n'a besoin d'être exécuté. Cette méthode fonctionne même lorsque l'exécution des fichiers `.ps1` est désactivée par Windows.
 
 ## Progression pédagogique
 
-- Mission 0 : première fonction avec `hero.say("Hello Yuzu")` et bulle de dialogue à fermer
+- Mission 0 : première fonction avec `hero.say("Hello Yuzu")`
 - Missions 1–2 : appels de fonctions et paramètres (`hero.move("right")`)
 - Missions 3–9 : `if`, `else`, `else if`, comparaisons, `&&`, `||`
 - Missions 10–14 : boucles `for` et `while`, conditions dans les boucles
-- Missions 15–20 : boucles imbriquées et combinaison des trois concepts
+- Missions 15–20 : boucles imbriquées et combinaison des concepts
 
-L’interface, les consignes, les erreurs et les indices sont en japonais. Les codes sont sauvegardés dans `localStorage`.
+L'interface, les consignes, les erreurs et les indices sont en japonais. Les codes sont sauvegardés dans `localStorage`.
 Chaque solution est testée sur toutes les variantes de sa mission avant que la mission soit validée.
-L’éditeur rappelle aussi les raccourcis `Ctrl+C`, `Ctrl+V` et `Ctrl+Z`.
 
 ## Validation automatique
 
@@ -51,7 +72,7 @@ node scripts/validate-japanese-js-quest.js
 
 Le script vérifie :
 
-- qu’il y a exactement 21 missions ;
+- qu'il y a exactement 21 missions ;
 - que les identifiants sont uniques ;
 - que chaque mission possède une carte, un code initial et une solution ;
 - que la solution réussit toutes les variantes et respecte les contraintes pédagogiques.
@@ -59,4 +80,12 @@ Le script vérifie :
 ## 日本語
 
 CodeCombat のローカル環境で動く、子ども向け JavaScript 学習キャンペーンです。
-ブラウザで `/japanese-js-quest/` を開いてください。進みぐあいとコードはブラウザ内に保存されます。
+PowerShell で次のコマンドを実行してください。
+
+```powershell
+cd .\app\assets\japanese-js-quest
+py -m http.server 8000
+```
+
+そのあと、ブラウザで `http://localhost:8000` を開いてください。
+進みぐあいとコードはブラウザ内に保存されます。
