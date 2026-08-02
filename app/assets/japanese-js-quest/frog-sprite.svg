@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="frog">
+  <defs>
+    <radialGradient id="body" cx="42%" cy="30%" r="70%">
+      <stop offset="0" stop-color="#9cf06c"/>
+      <stop offset="1" stop-color="#3aa84f"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="64" cy="77" rx="43" ry="35" fill="url(#body)" stroke="#174f2a" stroke-width="5"/>
+  <circle cx="39" cy="42" r="20" fill="#69cf57" stroke="#174f2a" stroke-width="5"/>
+  <circle cx="89" cy="42" r="20" fill="#69cf57" stroke="#174f2a" stroke-width="5"/>
+  <circle cx="39" cy="40" r="9" fill="#fff"/><circle cx="89" cy="40" r="9" fill="#fff"/>
+  <circle cx="41" cy="42" r="5" fill="#172238"/><circle cx="87" cy="42" r="5" fill="#172238"/>
+  <path d="M45 80 Q64 96 83 80" fill="none" stroke="#174f2a" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="45" cy="68" r="3" fill="#174f2a"/><circle cx="83" cy="68" r="3" fill="#174f2a"/>
+  <path d="M27 92 L12 106 L39 102" fill="#69cf57" stroke="#174f2a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M101 92 L116 106 L89 102" fill="#69cf57" stroke="#174f2a" stroke-width="5" stroke-linejoin="round"/>
+</svg>
