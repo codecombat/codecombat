@@ -23,7 +23,8 @@
 
   function updateGemHelp () {
     document.querySelectorAll('#reference-values .value-card').forEach(card => {
-      if (card.querySelector('code')?.textContent !== 'gem') return
+      if (card.querySelector('code')?.textContent !== 'gem' || card.dataset.progressionGemHelp) return
+      card.dataset.progressionGemHelp = 'true'
       card.dataset.tooltip = 'ジェム：宝石。集めると経験値が増え、魔法使いのレベルが上がって、新しい力が使えるようになります。'
       const reading = card.querySelector('small')
       if (reading) reading.textContent = 'ジェム：宝石・経験値'
