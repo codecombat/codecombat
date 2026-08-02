@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript クエスト</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">CODECOMBAT LOCAL CAMPAIGN</p>
+      <h1>JavaScript クエスト</h1>
+      <p class="subtitle">20のミッションで、関数・条件・ループを学ぼう</p>
+    </div>
+    <div class="top-actions">
+      <span id="save-status" aria-live="polite">自動保存</span>
+      <button id="reset-progress" class="button ghost" type="button">進みぐあいをリセット</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="mission-sidebar" aria-label="ミッション一覧">
+      <div class="sidebar-heading">
+        <h2>ミッション</h2>
+        <span id="progress-label">0 / 20</span>
+      </div>
+      <div id="mission-list" class="mission-list"></div>
+    </aside>
+
+    <section class="workspace">
+      <article class="mission-card">
+        <div class="mission-heading">
+          <div>
+            <p id="mission-number" class="eyebrow"></p>
+            <h2 id="mission-title"></h2>
+            <p id="mission-concept" class="concept"></p>
+          </div>
+          <div id="mission-badge" class="mission-badge">チャレンジ中</div>
+        </div>
+        <p id="mission-story" class="story"></p>
+        <div id="mission-instructions" class="instructions"></div>
+        <div class="api-box">
+          <strong>使える命令</strong>
+          <div id="mission-api" class="api-list"></div>
+        </div>
+      </article>
+
+      <div class="play-area">
+        <section class="game-panel" aria-label="ゲーム画面">
+          <div class="panel-heading">
+            <div>
+              <h3>フィールド</h3>
+              <p id="sign-display" class="sign-display"></p>
+            </div>
+            <div id="stats" class="stats"></div>
+          </div>
+          <div id="game-grid" class="game-grid" role="grid" aria-label="ミッションのマップ"></div>
+          <div class="legend" aria-label="マップの記号">
+            <span>🧙 ヒーロー</span><span>💎 宝石</span><span>🏁 ゴール</span>
+            <span>🔑 カギ</span><span>🚪 ドア</span><span>👹 敵</span><span>⚠️ ワナ</span>
+          </div>
+        </section>
+
+        <section class="code-panel" aria-label="JavaScriptエディター">
+          <div class="panel-heading">
+            <div>
+              <h3>JavaScript</h3>
+              <p>Ctrl / ⌘ + Enter で実行</p>
+            </div>
+          </div>
+          <div id="editor" aria-label="JavaScriptコード"></div>
+          <textarea id="editor-fallback" spellcheck="false" aria-label="JavaScriptコード"></textarea>
+          <div class="editor-actions">
+            <button id="run-code" class="button primary" type="button">▶ 実行する</button>
+            <button id="reset-code" class="button" type="button">コードをもどす</button>
+            <button id="show-hint" class="button" type="button">ヒント</button>
+            <button id="show-solution" class="button ghost" type="button" disabled>答えを見る（3回チャレンジ後）</button>
+          </div>
+        </section>
+      </div>
+
+      <section class="feedback-panel" aria-live="polite">
+        <div>
+          <h3>結果</h3>
+          <div id="feedback" class="feedback neutral">コードを書いて「実行する」を押そう。</div>
+          <div id="hint-box" class="hint-box" hidden></div>
+        </div>
+        <button id="next-mission" class="button success" type="button" hidden>次のミッションへ →</button>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <p>進みぐあいとコードは、このブラウザの中だけに保存されます。</p>
+  </footer>
+
+  <script src="../javascripts/ace/ace.js"></script>
+  <script src="engine.js"></script>
+  <script src="missions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
