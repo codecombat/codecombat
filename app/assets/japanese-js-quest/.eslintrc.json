@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "comma-dangle": "off",
+    "no-new-func": "off",
+    "no-useless-escape": "off"
+  }
+}
