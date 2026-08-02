@@ -28,10 +28,10 @@
 #game-grid .tile.hero { z-index: 4; }
 
 .hero-speech-bubble {
-  position: absolute;
-  z-index: 30;
-  left: 50%;
-  bottom: calc(100% + 13px);
+  position: fixed;
+  z-index: 2147483000;
+  left: 0;
+  top: 0;
   width: max-content;
   min-width: 150px;
   max-width: min(280px, 70vw);
@@ -41,12 +41,20 @@
   color: #172033;
   background: #fffdf7;
   box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
-  transform: translateX(-50%);
+  transform: translate(-50%, -100%);
+  transform-origin: 50% 100%;
+  pointer-events: auto;
   font-family: "Comic Sans MS", "Yu Gothic", Meiryo, sans-serif;
   font-size: 1rem;
   line-height: 1.4;
   text-align: center;
   animation: speech-pop 160ms ease-out;
+}
+
+.hero-speech-bubble.speech-clamped-top {
+  transform: translateX(-50%);
+  transform-origin: 50% 0;
+  animation-name: speech-pop-clamped;
 }
 
 .hero-speech-bubble::before {
@@ -66,6 +74,7 @@
 
 .speech-close {
   position: absolute;
+  z-index: 1;
   top: 0.2rem;
   right: 0.35rem;
   width: 1.6rem;
@@ -78,6 +87,7 @@
   font-size: 1.3rem;
   font-weight: 900;
   line-height: 1;
+  cursor: pointer;
 }
 
 .speech-close:hover,
@@ -88,6 +98,11 @@
 }
 
 @keyframes speech-pop {
+  from { opacity: 0; transform: translate(-50%, -100%) scale(.72); }
+  to { opacity: 1; transform: translate(-50%, -100%) scale(1); }
+}
+
+@keyframes speech-pop-clamped {
   from { opacity: 0; transform: translateX(-50%) scale(.72); }
   to { opacity: 1; transform: translateX(-50%) scale(1); }
 }
