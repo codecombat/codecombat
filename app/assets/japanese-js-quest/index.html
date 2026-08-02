@@ -6,13 +6,14 @@
   <title>JavaScript クエスト</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="reference-panel.css">
+  <link rel="stylesheet" href="speech-ui.css">
 </head>
 <body>
   <header class="topbar">
     <div>
       <p class="eyebrow">CODECOMBAT LOCAL CAMPAIGN</p>
       <h1>JavaScript クエスト</h1>
-      <p class="subtitle">20のミッションで、関数・条件・ループを学ぼう</p>
+      <p class="subtitle">21のミッションで、関数・条件・ループを学ぼう</p>
     </div>
     <div class="top-actions">
       <span id="save-status" aria-live="polite">自動保存</span>
@@ -24,7 +25,7 @@
     <aside class="mission-sidebar" aria-label="ミッション一覧">
       <div class="sidebar-heading">
         <h2>ミッション</h2>
-        <span id="progress-label">0 / 20</span>
+        <span id="progress-label">0 / 21</span>
       </div>
       <div id="mission-list" class="mission-list"></div>
     </aside>
@@ -129,6 +130,11 @@
               <h3>JavaScript</h3>
               <p>Ctrl / ⌘ + Enter で実行</p>
             </div>
+            <div class="shortcut-list" aria-label="キーボードショートカット">
+              <span><kbd>Ctrl+C</kbd> コピー</span>
+              <span><kbd>Ctrl+V</kbd> はりつけ</span>
+              <span><kbd>Ctrl+Z</kbd> もどす</span>
+            </div>
           </div>
           <div id="editor" aria-label="JavaScriptコード"></div>
           <textarea id="editor-fallback" spellcheck="false" aria-label="JavaScriptコード"></textarea>
@@ -159,7 +165,10 @@
   <script src="../javascripts/ace/ace.js"></script>
   <script src="engine.js"></script>
   <script src="missions.js"></script>
+  <script src="intro-mission.js"></script>
   <script src="reference-panel.js"></script>
   <script src="app.js"></script>
+  <script src="intro-reference.js"></script>
+  <script src="speech-ui.js"></script>
 </body>
 </html>
