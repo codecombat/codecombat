@@ -91,8 +91,6 @@
 
   function init () {
     loadAddonAssets()
-    const grid = document.getElementById('game-grid')
-    if (grid) new MutationObserver(applyFormToGrid).observe(grid, { childList: true, subtree: true })
     applyFormToGrid()
   }
 
