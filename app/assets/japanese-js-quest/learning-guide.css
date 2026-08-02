@@ -31,6 +31,7 @@
 }
 .learning-guide-grid h4 { margin: 0 0 0.45rem; color: #fff0b5; font-size: 0.96rem; }
 .learning-guide-grid p { margin: 0; color: #e2edf9; line-height: 1.65; }
+.learning-guide-grid p + p { margin-top: 0.55rem; }
 .learning-guide-grid code { color: #fff0b5; background: #07101e; }
 
 .reading-token {
@@ -52,6 +53,25 @@
 .reading-token-gray:hover,
 .reading-token-gray:focus-visible,
 .reading-token-gray.is-open { background: rgba(188, 198, 214, 0.2); }
+
+.tech-term {
+  display: inline;
+  padding: 0.02em 0.14em;
+  color: #8ed1ff;
+  background: rgba(142, 209, 255, 0.08);
+  text-decoration: underline dotted rgba(142, 209, 255, 0.72);
+  text-underline-offset: 3px;
+  cursor: help;
+}
+.tech-term:hover,
+.tech-term:focus-visible,
+.tech-term.is-open { background: rgba(142, 209, 255, 0.22); }
+.technical-terminology-note {
+  padding-top: 0.5rem;
+  border-top: 1px dashed rgba(142, 209, 255, 0.22);
+  color: #cbd9eb !important;
+  font-size: 0.9rem;
+}
 
 @media (max-width: 650px) {
   .mission-learning-guide { padding: 0.82rem; }
