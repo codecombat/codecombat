@@ -3,6 +3,9 @@
 
   let bubbleOpen = false
   let currentForm = 'hero'
+  let activeBubble = null
+  let activeBubbleResolve = null
+  let removePositionListeners = null
 
   function loadAddonAssets () {
     if (!document.querySelector('link[href="progression-ui.css"]')) {
@@ -31,12 +34,51 @@
     applyFormToGrid()
   }
 
-  function resetForRun () {
-    document.querySelectorAll('.hero-speech-bubble').forEach(element => element.remove())
-    document.querySelectorAll('.level-up-overlay').forEach(element => element.remove())
+  function clearActiveBubble (resolvePending) {
+    if (removePositionListeners) removePositionListeners()
+    removePositionListeners = null
+    if (activeBubble) activeBubble.remove()
+    activeBubble = null
     bubbleOpen = false
+
+    if (resolvePending && activeBubbleResolve) activeBubbleResolve()
+    activeBubbleResolve = null
+  }
+
+  function resetForRun () {
+    clearActiveBubble(true)
+    document.querySelectorAll('.level-up-overlay').forEach(element => element.remove())
     currentForm = 'hero'
     applyFormToGrid()
+  }
+
+  function positionBubble (bubble, heroTile) {
+    if (!bubble.isConnected || !heroTile.isConnected) return
+    const heroRect = heroTile.getBoundingClientRect()
+    bubble.classList.remove('speech-clamped-top')
+    bubble.style.left = (heroRect.left + heroRect.width / 2) + 'px'
+    bubble.style.top = (heroRect.top - 13) + 'px'
+
+    window.requestAnimationFrame(() => {
+      if (!bubble.isConnected) return
+      const bubbleRect = bubble.getBoundingClientRect()
+      if (bubbleRect.top < 8) {
+        bubble.classList.add('speech-clamped-top')
+        bubble.style.top = '8px'
+      }
+    })
+  }
+
+  function watchBubblePosition (bubble, heroTile) {
+    const update = () => positionBubble(bubble, heroTile)
+    window.addEventListener('resize', update)
+    window.addEventListener('scroll', update, true)
+    update()
+
+    return () => {
+      window.removeEventListener('resize', update)
+      window.removeEventListener('scroll', update, true)
+    }
   }
 
   function showSpeechBubble (message) {
@@ -47,24 +89,29 @@
         return
       }
 
-      document.querySelectorAll('.hero-speech-bubble').forEach(element => element.remove())
+      clearActiveBubble(true)
       bubbleOpen = true
+      activeBubbleResolve = resolve
+
       const bubble = document.createElement('div')
       bubble.className = 'hero-speech-bubble'
       bubble.setAttribute('role', 'dialog')
+      bubble.setAttribute('aria-modal', 'true')
       bubble.setAttribute('aria-label', 'ヒーローのふきだし')
       bubble.innerHTML = [
         '<button class="speech-close" type="button" aria-label="ふきだしを閉じる">×</button>',
         '<p></p>',
       ].join('')
       bubble.querySelector('p').textContent = String(message)
-      heroTile.appendChild(bubble)
+      document.body.appendChild(bubble)
+      activeBubble = bubble
+      removePositionListeners = watchBubblePosition(bubble, heroTile)
 
       const close = () => {
-        if (!bubbleOpen) return
-        bubbleOpen = false
-        bubble.remove()
-        resolve()
+        if (!bubbleOpen || activeBubble !== bubble) return
+        const finish = activeBubbleResolve
+        clearActiveBubble(false)
+        if (finish) finish()
       }
       bubble.querySelector('.speech-close').addEventListener('click', close, { once: true })
       bubble.querySelector('.speech-close').focus()
