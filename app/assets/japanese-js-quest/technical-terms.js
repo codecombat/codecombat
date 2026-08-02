@@ -15,7 +15,8 @@
     { japanese: 'オブジェクト', english: 'Object', katakana: 'オブジェクト', missions: [0] },
     { japanese: 'メソッド', english: 'Method', katakana: 'メソッド', missions: [0, 1, 3, 5, 8] },
     { japanese: 'パラメーター', english: 'Parameter', katakana: 'パラメーター', missions: [0, 1, 3] },
-    { japanese: '文字列', english: 'String', katakana: 'ストリング', missions: [0, 5] },
+    { japanese: '文字列', english: 'String', katakana: 'ストリング', missions: [0], preferredText: 'これは文字列という値です。' },
+    { japanese: '文字列', english: 'String', katakana: 'ストリング', missions: [5] },
     { japanese: 'リテラル', english: 'Literal', katakana: 'リテラル', missions: [0] },
     { japanese: 'コメント', english: 'Comment', katakana: 'コメント', missions: [1] },
     { japanese: '定数', english: 'Constant', katakana: 'コンスタント', missions: [3, 11, 14, 20] },
@@ -64,6 +65,7 @@
     for (const node of nodes) {
       const parent = node.parentElement
       if (!parent || parent.closest('code, .glossary-token, script, style')) continue
+      if (term.preferredText && !node.nodeValue.includes(term.preferredText)) continue
       const index = node.nodeValue.indexOf(term.japanese)
       if (index < 0) continue
 
