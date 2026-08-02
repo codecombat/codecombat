@@ -1,0 +1,38 @@
+(function (root, factory) {
+  const mission = factory()
+  if (typeof module === 'object' && module.exports) module.exports = mission
+  else if (root.JSQuestMissions && !root.JSQuestMissions.some(item => item.id === mission.id)) {
+    root.JSQuestMissions.unshift(mission)
+  }
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict'
+
+  return {
+    id: 0,
+    title: 'こんにちは、Yuzu！',
+    concept: 'はじめての関数：話す',
+    story: 'まずはヒーローに、Yuzuへあいさつしてもらおう。',
+    instructions: [
+      '`hero.say(...)` は、ヒーローに言葉を話してもらう命令です。',
+      'コードはもう完成しています。「実行する」を押して、ふきだしを読んだら × で閉じましょう。'
+    ],
+    api: ['hero.say("Hello Yuzu")'],
+    starterCode: '// Yuzu にあいさつしよう\nhero.say(\'Hello Yuzu\');',
+    hints: ['このミッションはコードを直さなくてもクリアできます。「実行する」を押しましょう。'],
+    solution: 'hero.say(\'Hello Yuzu\');',
+    variants: [{
+      map: [
+        '#########',
+        '#.......#',
+        '#...H...#',
+        '#.......#',
+        '#########'
+      ],
+      sign: null
+    }],
+    requirements: {
+      state: { sayText: 'Hello Yuzu', maxMoves: 0 },
+      syntax: [{ type: 'say', message: 'hero.say(...) を使ってあいさつしましょう。' }]
+    }
+  }
+})
