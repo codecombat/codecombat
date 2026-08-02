@@ -24,6 +24,9 @@
     E: 'enemy'
   }
 
+  const LOCKED_POWER_MESSAGE = 'まだできないざわだよ。'
+  const ALLOWED_FORMS = ['frog', 'hero']
+
   function cloneGrid (rows) {
     const width = rows[0].length
     if (!rows.length || rows.some(row => row.length !== width)) {
@@ -59,6 +62,8 @@
       height: grid.length,
       grid,
       hero,
+      form: 'hero',
+      wizardLevel: Number(mission.wizardLevel) || 0,
       moves: 0,
       operations: 0,
       failedMoves: 0,
@@ -102,6 +107,8 @@
       x: state.hero.x,
       y: state.hero.y,
       grid: state.grid.map(row => row.join('')),
+      form: state.form,
+      wizardLevel: state.wizardLevel,
       moves: state.moves,
       gems: state.gems,
       hasKey: state.hasKey,
@@ -109,6 +116,15 @@
       goalReached: state.goalReached,
       says: state.says.slice()
     }, extra || {})
+  }
+
+  function speak (state, message, extra) {
+    touch(state)
+    const text = String(message)
+    state.says.push(text)
+    state.logs.push(text)
+    state.trace.push(snapshot(state, Object.assign({ type: 'say', speech: text }, extra || {})))
+    return text
   }
 
   function move (state, direction) {
@@ -162,6 +178,21 @@
     return !isBlocked(state, tileAt(state, state.hero.x + dx, state.hero.y + dy))
   }
 
+  function transform (state, form) {
+    const target = String(form)
+    if (!ALLOWED_FORMS.includes(target)) {
+      throw new Error('form は "frog" または "hero" のどちらかです。')
+    }
+    if (state.wizardLevel < 1) {
+      speak(state, LOCKED_POWER_MESSAGE, { blockedPower: 'transform' })
+      return false
+    }
+    touch(state)
+    state.form = target
+    state.trace.push(snapshot(state, { type: 'transform', form: target }))
+    return true
+  }
+
   function createHeroApi (state) {
     return Object.freeze({
       move: direction => move(state, direction),
@@ -191,13 +222,8 @@
         touch(state)
         return state.hero.y
       },
-      say: message => {
-        touch(state)
-        const text = String(message)
-        state.says.push(text)
-        state.logs.push(text)
-        state.trace.push(snapshot(state, { type: 'say', speech: text }))
-      }
+      say: message => speak(state, message),
+      transform: form => transform(state, form)
     })
   }
 
@@ -229,6 +255,7 @@
 
   const SYNTAX_CHECKS = {
     say: code => /hero\.say\s*\(/.test(code),
+    transform: code => /hero\.transform\s*\(/.test(code),
     moveParameter: code => /hero\.move\s*\(\s*["'`](right|left|up|down)["'`]\s*\)/.test(code),
     if: code => /\bif\s*\(/.test(code),
     else: code => /\belse\b/.test(code),
@@ -286,5 +313,13 @@
     return { passed: messages.length === 0, messages }
   }
 
-  return { DIRECTIONS, TILE_NAMES, createState, simulate, evaluate }
+  return {
+    DIRECTIONS,
+    TILE_NAMES,
+    LOCKED_POWER_MESSAGE,
+    ALLOWED_FORMS,
+    createState,
+    simulate,
+    evaluate
+  }
 })
