@@ -4,9 +4,11 @@
 const assert = require('assert')
 const path = require('path')
 const engine = require(path.join(__dirname, '../app/assets/japanese-js-quest/engine.js'))
-const missions = require(path.join(__dirname, '../app/assets/japanese-js-quest/missions.js'))
+const introMission = require(path.join(__dirname, '../app/assets/japanese-js-quest/intro-mission.js'))
+const existingMissions = require(path.join(__dirname, '../app/assets/japanese-js-quest/missions.js'))
+const missions = [introMission, ...existingMissions]
 
-assert.strictEqual(missions.length, 20, 'The campaign must contain exactly 20 missions.')
+assert.strictEqual(missions.length, 21, 'The campaign must contain exactly 21 missions.')
 
 const ids = new Set()
 for (const mission of missions) {
