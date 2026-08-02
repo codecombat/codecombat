@@ -1,0 +1,59 @@
+.mission-learning-guide {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid rgba(142, 209, 255, 0.4);
+  border-radius: 13px;
+  background: linear-gradient(145deg, rgba(41, 91, 130, 0.22), rgba(14, 25, 43, 0.92));
+}
+
+.learning-guide-heading {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+  margin-bottom: 0.55rem;
+}
+.learning-guide-heading > span { font-size: 1.45rem; }
+.learning-guide-heading strong { display: block; color: #bce5ff; }
+.learning-guide-heading small { display: block; margin-top: 0.12rem; color: var(--muted); }
+.mission-learning-guide > h3 { margin: 0 0 0.8rem; font-size: 1.08rem; }
+
+.learning-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+  gap: 0.7rem;
+}
+.learning-guide-grid article {
+  min-width: 0;
+  padding: 0.78rem;
+  border: 1px solid rgba(142, 209, 255, 0.22);
+  border-radius: 10px;
+  background: rgba(7, 16, 30, 0.78);
+}
+.learning-guide-grid h4 { margin: 0 0 0.45rem; color: #fff0b5; font-size: 0.96rem; }
+.learning-guide-grid p { margin: 0; color: #e2edf9; line-height: 1.65; }
+.learning-guide-grid code { color: #fff0b5; background: #07101e; }
+
+.reading-token {
+  display: inline;
+  padding: 0.02em 0.16em;
+  color: inherit;
+  background: rgba(142, 209, 255, 0.2);
+  text-decoration: underline dotted rgba(184, 229, 255, 0.8);
+  text-underline-offset: 3px;
+  cursor: help;
+}
+.reading-token:hover,
+.reading-token:focus-visible,
+.reading-token.is-open { background: rgba(142, 209, 255, 0.32); }
+.reading-token-gray {
+  background: rgba(188, 198, 214, 0.11);
+  text-decoration-color: rgba(188, 198, 214, 0.55);
+}
+.reading-token-gray:hover,
+.reading-token-gray:focus-visible,
+.reading-token-gray.is-open { background: rgba(188, 198, 214, 0.2); }
+
+@media (max-width: 650px) {
+  .mission-learning-guide { padding: 0.82rem; }
+  .learning-guide-grid { grid-template-columns: 1fr; }
+}
