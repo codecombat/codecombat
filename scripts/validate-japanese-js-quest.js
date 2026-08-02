@@ -2,7 +2,9 @@
 'use strict'
 
 const assert = require('assert')
+const fs = require('fs')
 const path = require('path')
+const vm = require('vm')
 const engine = require(path.join(__dirname, '../app/assets/japanese-js-quest/engine.js'))
 const introMission = require(path.join(__dirname, '../app/assets/japanese-js-quest/intro-mission.js'))
 const existingMissions = require(path.join(__dirname, '../app/assets/japanese-js-quest/missions.js'))
@@ -46,4 +48,43 @@ assert(lockedTransform.state.says.includes(engine.LOCKED_POWER_MESSAGE))
 const unlockedTransform = engine.simulate('hero.transform("frog");', missions.find(mission => mission.id === 2), 0)
 assert.strictEqual(unlockedTransform.state.form, 'frog')
 
-console.log(`Validated ${missions.length} missions and ${missions.reduce((sum, mission) => sum + mission.variants.length, 0)} variants with wizard progression.`)
+const orderedMission = missions.find(mission => mission.id === 2)
+const orderedScript = [
+  'hero.move("up")',
+  'hero.transform("frog")',
+  'hero.say("frog")',
+  'hero.transform("hero")',
+  'hero.move("right")',
+  'hero.move("right")',
+  'hero.move("right")',
+  'hero.transform("frog")',
+  'hero.say("frog")',
+  'hero.move("up")',
+  'hero.transform("frog")',
+].join('\n')
+const orderedResult = engine.simulate(orderedScript, orderedMission, 0)
+assert(orderedResult.ok)
+assert.deepStrictEqual(
+  orderedResult.trace.map(frame => frame.type),
+  ['move', 'transform', 'say', 'transform', 'move', 'move', 'move', 'transform', 'say', 'move', 'transform'],
+)
+const speechFrames = orderedResult.trace.filter(frame => frame.type === 'say')
+assert.strictEqual(speechFrames.length, 2)
+assert.notDeepStrictEqual(
+  [speechFrames[0].x, speechFrames[0].y],
+  [speechFrames[1].x, speechFrames[1].y],
+  'Speech bubbles must remain attached to their exact execution positions.',
+)
+assert.strictEqual(speechFrames[0].form, 'frog')
+assert.strictEqual(speechFrames[1].form, 'frog')
+
+const promptSource = fs.readFileSync(path.join(__dirname, '../app/assets/japanese-js-quest/branch-prompts.js'), 'utf8')
+vm.runInNewContext(promptSource, { window: { JSQuestMissions: missions }, Object })
+for (const id of [3, 4, 5, 6, 7, 8, 9, 13, 14, 15, 17, 18, 19, 20]) {
+  const mission = missions.find(item => item.id === id)
+  assert(mission.starterCode.includes('hero.say('), `Mission ${id} must contain a branch thinking prompt.`)
+}
+assert(missions.find(mission => mission.id === 3).starterCode.includes('看板が「right」の場合には、どうすればいい？'))
+assert(missions.find(mission => mission.id === 4).starterCode.includes('その他なら、どうすればいい？'))
+
+console.log(`Validated ${missions.length} missions and ${missions.reduce((sum, mission) => sum + mission.variants.length, 0)} variants with ordered actions and wizard progression.`)
