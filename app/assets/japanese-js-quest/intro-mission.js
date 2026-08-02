@@ -4,7 +4,7 @@
   else if (root.JSQuestMissions && !root.JSQuestMissions.some(item => item.id === mission.id)) {
     root.JSQuestMissions.unshift(mission)
     if (typeof document !== 'undefined' && document.readyState === 'loading' && !root.JSQuestProgression) {
-      document.write('<script src="progression.js"><\\/script>')
+      document.write('<script src="progression.js"><\/script>')
     }
   }
 })(typeof self !== 'undefined' ? self : this, function () {
