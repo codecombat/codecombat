@@ -67,6 +67,7 @@
       hasKey: false,
       doorOpened: false,
       goalReached: false,
+      says: [],
       trace: [],
       logs: []
     }
@@ -85,9 +86,7 @@
 
   function directionDelta (direction) {
     const delta = DIRECTIONS[direction]
-    if (!delta) {
-      throw new Error('方向は "right", "left", "up", "down" のどれかです。')
-    }
+    if (!delta) throw new Error('方向は "right", "left", "up", "down" のどれかです。')
     return delta
   }
 
@@ -107,7 +106,8 @@
       gems: state.gems,
       hasKey: state.hasKey,
       trapHits: state.trapHits,
-      goalReached: state.goalReached
+      goalReached: state.goalReached,
+      says: state.says.slice()
     }, extra || {})
   }
 
@@ -193,7 +193,10 @@
       },
       say: message => {
         touch(state)
-        state.logs.push(String(message))
+        const text = String(message)
+        state.says.push(text)
+        state.logs.push(text)
+        state.trace.push(snapshot(state, { type: 'say', speech: text }))
       }
     })
   }
@@ -207,17 +210,8 @@
 
     try {
       const runner = new Function(
-        'hero',
-        'console',
-        'window',
-        'document',
-        'self',
-        'globalThis',
-        'fetch',
-        'XMLHttpRequest',
-        'WebSocket',
-        'Worker',
-        'Function',
+        'hero', 'console', 'window', 'document', 'self', 'globalThis',
+        'fetch', 'XMLHttpRequest', 'WebSocket', 'Worker', 'Function',
         '"use strict";\n' + code
       )
       runner(hero, safeConsole, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)
@@ -234,6 +228,7 @@
   }
 
   const SYNTAX_CHECKS = {
+    say: code => /hero\.say\s*\(/.test(code),
     moveParameter: code => /hero\.move\s*\(\s*["'`](right|left|up|down)["'`]\s*\)/.test(code),
     if: code => /\bif\s*\(/.test(code),
     else: code => /\belse\b/.test(code),
@@ -251,6 +246,10 @@
     readSign: code => /hero\.readSign\s*\(/.test(code),
     hasKey: code => /hero\.hasKey\s*\(/.test(code),
     isAtGoal: code => /hero\.isAtGoal\s*\(/.test(code)
+  }
+
+  function normalizeText (value) {
+    return String(value).trim().replace(/\s+/g, ' ').toLowerCase()
   }
 
   function evaluate (mission, result, code) {
@@ -273,6 +272,11 @@
     if (stateRules.maxMoves != null && state.moves > stateRules.maxMoves) {
       messages.push('移動が多すぎます（最大 ' + stateRules.maxMoves + ' 回）。')
     }
+    if (stateRules.sayText != null) {
+      const expected = normalizeText(stateRules.sayText)
+      const said = (state.says || []).some(message => normalizeText(message) === expected)
+      if (!said) messages.push('hero.say(...) で「' + stateRules.sayText + '」と言ってみましょう。')
+    }
 
     for (const syntax of rules.syntax || []) {
       const checker = SYNTAX_CHECKS[syntax.type]
@@ -282,11 +286,5 @@
     return { passed: messages.length === 0, messages }
   }
 
-  return {
-    DIRECTIONS,
-    TILE_NAMES,
-    createState,
-    simulate,
-    evaluate
-  }
+  return { DIRECTIONS, TILE_NAMES, createState, simulate, evaluate }
 })
