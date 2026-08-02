@@ -5,6 +5,21 @@
   let bubbleOpen = false
   let currentForm = 'hero'
 
+  function loadAddonAssets () {
+    if (!document.querySelector('link[href="progression-ui.css"]')) {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = 'progression-ui.css'
+      document.head.appendChild(link)
+    }
+    for (const src of ['progression-reference.js', 'progression-ui.js']) {
+      if (document.querySelector('script[src="' + src + '"]')) continue
+      const script = document.createElement('script')
+      script.src = src
+      document.body.appendChild(script)
+    }
+  }
+
   function currentMission () {
     const text = document.getElementById('mission-number')?.textContent || ''
     const match = text.match(/(\d+)/)
@@ -127,6 +142,7 @@
   }
 
   function init () {
+    loadAddonAssets()
     const run = document.getElementById('run-code')
     const grid = document.getElementById('game-grid')
     if (!run) return
