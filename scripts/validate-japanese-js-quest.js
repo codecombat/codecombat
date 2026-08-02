@@ -34,7 +34,7 @@ for (const mission of missions) {
     assert(result.ok, `Mission ${mission.id}, variant ${variantIndex}: ${result.error && result.error.message}`)
     assert(
       evaluation.passed,
-      `Mission ${mission.id}, variant ${variantIndex} failed: ${evaluation.messages.join(' | ')}`
+      `Mission ${mission.id}, variant ${variantIndex} failed: ${evaluation.messages.join(' | ')}`,
     )
   }
 }
