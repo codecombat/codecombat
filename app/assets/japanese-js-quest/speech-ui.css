@@ -1,0 +1,98 @@
+.shortcut-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.4rem 0.65rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.shortcut-list span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.shortcut-list kbd {
+  padding: 0.16rem 0.38rem;
+  border: 1px solid #516685;
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  color: #f8fbff;
+  background: #0b1321;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.08);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.75rem;
+}
+
+#game-grid .tile.hero { z-index: 4; }
+
+.hero-speech-bubble {
+  position: absolute;
+  z-index: 30;
+  left: 50%;
+  bottom: calc(100% + 13px);
+  width: max-content;
+  min-width: 150px;
+  max-width: min(280px, 70vw);
+  padding: 0.85rem 2rem 0.85rem 1rem;
+  border: 3px solid #151b25;
+  border-radius: 18px;
+  color: #172033;
+  background: #fffdf7;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
+  transform: translateX(-50%);
+  font-family: "Comic Sans MS", "Yu Gothic", Meiryo, sans-serif;
+  font-size: 1rem;
+  line-height: 1.4;
+  text-align: center;
+  animation: speech-pop 160ms ease-out;
+}
+
+.hero-speech-bubble::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -17px;
+  width: 24px;
+  height: 24px;
+  border-right: 3px solid #151b25;
+  border-bottom: 3px solid #151b25;
+  background: #fffdf7;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.hero-speech-bubble p { margin: 0; }
+
+.speech-close {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.35rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: #263247;
+  background: transparent;
+  font-size: 1.3rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.speech-close:hover,
+.speech-close:focus-visible {
+  color: #fff;
+  background: #d34e59;
+  outline: none;
+}
+
+@keyframes speech-pop {
+  from { opacity: 0; transform: translateX(-50%) scale(.72); }
+  to { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+@media (max-width: 650px) {
+  .shortcut-list { justify-content: flex-start; }
+  .hero-speech-bubble { min-width: 135px; font-size: 0.9rem; }
+}
