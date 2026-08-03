@@ -6509,6 +6509,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]場景設定',
       //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': '[AI_TRANSLATION]你現在在場景創建模式！盡情嘗試並建造個有趣的場景吧，然後點擊“beta”或“released”分享給全世界！如果你不喜歡某個提示，隨時可以回去編輯。',
+      //    "ScenarioPage_youre-in-scenario-creation-mode-non-admin": "Here's a free-form way to prompt an AI Model",
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]替代選項',
       ScenarioPromptMessage_edit: '編輯',
       'ScenarioPromptMessage_prompt-choices': '[AI_TRANSLATION]提示選擇',

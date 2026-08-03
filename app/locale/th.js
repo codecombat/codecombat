@@ -6509,6 +6509,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]การตั้งค่าสถานการณ์',
       //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': '[AI_TRANSLATION]คุณอยู่ในโหมดสร้างฉากแล้ว! ลองสนุกและสร้างฉากเจ๋งๆ แล้วกด "beta" หรือ "released" เพื่อแชร์ให้คนอื่นดูได้เลย! ถ้าไม่ชอบ prompt ไหนก็ย้อนกลับไปแก้ไขได้เสมอ',
+      //    "ScenarioPage_youre-in-scenario-creation-mode-non-admin": "Here's a free-form way to prompt an AI Model",
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]ตัวเลือกสำรอง\n',
       ScenarioPromptMessage_edit: '[AI_TRANSLATION]แก้ไข',
       'ScenarioPromptMessage_prompt-choices': '[AI_TRANSLATION]ตัวเลือกที่พร้อมรับคำแนะนำ',

@@ -6509,6 +6509,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]Impostazioni dello scenario',
       //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': '[AI_TRANSLATION]Sei in modalità creazione scenario! Vai avanti, divertiti e prova a costruire uno scenario fantastico, poi clicca su "beta" o "released" per condividerlo con il mondo! Se non ti piace mai un prompt, torna indietro e modificalo.',
+      //    "ScenarioPage_youre-in-scenario-creation-mode-non-admin": "Here's a free-form way to prompt an AI Model",
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]Scelte Alternative',
       ScenarioPromptMessage_edit: '[AI_TRANSLATION]Modifica',
       'ScenarioPromptMessage_prompt-choices': '[AI_TRANSLATION]Scelte Rapide',

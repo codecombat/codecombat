@@ -6509,6 +6509,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]시나리오 설정',
       //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': '[AI_TRANSLATION]시나리오 생성 모드에 있어! 어서 가서 멋진 시나리오를 만들려고 시도해봐, 그리고 "beta" 또는 "released"를 클릭해서 세상에 공유해봐! 만약 프롬프트가 마음에 안 들면, 돌아가서 편집하면 돼.',
+      //    "ScenarioPage_youre-in-scenario-creation-mode-non-admin": "Here's a free-form way to prompt an AI Model",
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]다른 선택지들',
       ScenarioPromptMessage_edit: '[AI_TRANSLATION]수정하기\n',
       'ScenarioPromptMessage_prompt-choices': '[AI_TRANSLATION]선택지 제시',

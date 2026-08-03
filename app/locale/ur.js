@@ -6509,6 +6509,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]منظر نامے کی ترتیبات',
       //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': '[AI_TRANSLATION]تم منظر تخلیق کے موڈ میں ہو! آگے بڑھو، گھومو پھرو اور ایک cool منظر بنانے کی کوشش کرو، پھر اسے "beta" یا "released" پر کلک کر کے دنیا کے ساتھ شئیر کرو! اگر کسی پرامپٹ کو پسند نہیں کرتے تو واپس جا کر اسے ایڈٹ کرو۔',
+      //    "ScenarioPage_youre-in-scenario-creation-mode-non-admin": "Here's a free-form way to prompt an AI Model",
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]متبادل انتخاب',
       ScenarioPromptMessage_edit: '[AI_TRANSLATION]ترمیم',
       'ScenarioPromptMessage_prompt-choices': '[AI_TRANSLATION]ترغیبی انتخاب',

@@ -6509,6 +6509,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]Настройки сценария',
       //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': '[AI_TRANSLATION]Ты в режиме создания сценария! Давай, экспериментируй и попробуй создать крутой сценарий, затем нажми "бета" или "релиз", чтобы поделиться им с миром! Если тебе не нравится какая-то подсказка, просто вернись и отредактируй её.\n',
+      //    "ScenarioPage_youre-in-scenario-creation-mode-non-admin": "Here's a free-form way to prompt an AI Model",
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]Альтернативные выборы.',
       //    ScenarioPromptMessage_edit: "Edit",
       'ScenarioPromptMessage_prompt-choices': '[AI_TRANSLATION]Варианты подсказок',

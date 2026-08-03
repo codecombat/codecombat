@@ -6509,6 +6509,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]Pengaturan Skenario',
       //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': '[AI_TRANSLATION]Kamu dalam mode pembuatan skenario! Silakan, coba buat skenario keren, lalu klik "beta" atau "released" untuk membagikannya dengan dunia! Jika kamu tidak menyukai prompt, cukup kembali dan edit saja.',
+      //    "ScenarioPage_youre-in-scenario-creation-mode-non-admin": "Here's a free-form way to prompt an AI Model",
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]Pilihan Alternatif',
       //    ScenarioPromptMessage_edit: "Edit",
       'ScenarioPromptMessage_prompt-choices': '[AI_TRANSLATION]Pilihan Prompt',

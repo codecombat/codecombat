@@ -6526,6 +6526,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': 'Fpranevb frggvatf',
       'ScenarioDetailsPanel_allow-user-upload-file': 'Nyybj hfre gb hcybnq svyr',
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': "Lbh'er va fpranevb perngvba zbqr! Tb nurnq, zrff nebhaq naq gel gb ohvyq n pbby fpranevb, gura pyvpx \"orgn\" be \"eryrnfrq\" gb funer vg jvgu gur jbeyq! Vs lbh rire qba'g yvxr n cebzcg, whfg tb onpx naq rqvg vg.",
+      'ScenarioPage_youre-in-scenario-creation-mode-non-admin': "Urer'f n serr-sbez jnl gb cebzcg na NV Zbqry",
       'ScenarioPromptMessage_alternate-choices': 'Nygreangr Pubvprf',
       ScenarioPromptMessage_edit: 'Rqvg',
       'ScenarioPromptMessage_prompt-choices': 'Cebzcg Pubvprf',

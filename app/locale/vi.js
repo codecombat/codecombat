@@ -6509,6 +6509,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]Thiết lập kịch bản',
       //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': '[AI_TRANSLATION]Bạn đang ở chế độ tạo tình huống! Tiến lên, thử làm và cố gắng xây dựng một tình huống thú vị, sau đó nhấp "beta" hoặc "phát hành" để chia sẻ nó với thế giới! Nếu bạn không thích một cảnh báo nào, chỉ cần quay lại và chỉnh sửa nó.',
+      //    "ScenarioPage_youre-in-scenario-creation-mode-non-admin": "Here's a free-form way to prompt an AI Model",
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]Lựa Chọn Thay Thế',
       ScenarioPromptMessage_edit: '[AI_TRANSLATION]Chỉnh sửa',
       'ScenarioPromptMessage_prompt-choices': '[AI_TRANSLATION]Lựa chọn Gợi ý',

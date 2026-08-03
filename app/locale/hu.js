@@ -6509,6 +6509,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]Forgatókönyv beállítások',
       //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': '[AI_TRANSLATION]Szenárió készítési módban vagy! Menj előre, kísérletezz és próbálj meg egy menő szcenáriót építeni, majd kattints a "béta" vagy "kiadott" gombra, hogy megoszd a világgal! Ha nem tetszik egy prompt, csak menj vissza és szerkeszd.',
+      //    "ScenarioPage_youre-in-scenario-creation-mode-non-admin": "Here's a free-form way to prompt an AI Model",
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]Alternatív választások',
       //    ScenarioPromptMessage_edit: "Edit",
       'ScenarioPromptMessage_prompt-choices': '[AI_TRANSLATION]Választási lehetőségek',

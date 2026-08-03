@@ -6509,6 +6509,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]إعدادات السيناريو',
       //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': '[AI_TRANSLATION]أنت في وضع إنشاء السيناريو! ابدأ، وامزح وحاول بناء سيناريو رائع، ثم اضغط على "beta" أو "released" لمشاركته مع العالم! إذا لم تعجبك أي مطالبة، فقط عد وقم بتعديلها.',
+      //    "ScenarioPage_youre-in-scenario-creation-mode-non-admin": "Here's a free-form way to prompt an AI Model",
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]خيارات بديلة',
       ScenarioPromptMessage_edit: '[AI_TRANSLATION]تعديل',
       'ScenarioPromptMessage_prompt-choices': '[AI_TRANSLATION]خيارات التوجيه',

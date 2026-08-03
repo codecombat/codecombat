@@ -6509,6 +6509,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]Nastavení scénáře',
       //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': '[AI_TRANSLATION]Jsi v režimu tvorby scénářů! Pokračuj, experimentuj a zkus vytvořit skvělý scénář, pak klikni na "beta" nebo "released", abys ho sdílel se světem! Pokud se ti nějaká výzva nelíbí, jednoduše se vrať a uprav ji.  ',
+      //    "ScenarioPage_youre-in-scenario-creation-mode-non-admin": "Here's a free-form way to prompt an AI Model",
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]Alternativní volby',
       ScenarioPromptMessage_edit: '[AI_TRANSLATION]Editace',
       'ScenarioPromptMessage_prompt-choices': '[AI_TRANSLATION]Možnosti výběru',

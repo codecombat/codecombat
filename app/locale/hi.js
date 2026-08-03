@@ -6509,6 +6509,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]परिदृश्य सेटिंग्स\n',
       //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': '[AI_TRANSLATION]आप दृश्य निर्माण मोड में हैं! आगे बढ़ें, चारों ओर खेलें और एक कूल दृश्य बनाने की कोशिश करें, फिर दुनिया के साथ साझा करने के लिए "बीटा" या "रिलीज़" पर क्लिक करें! यदि आपको कभी कोई प्रम्प्ट पसंद नहीं आता है, तो बस वापस जाएं और इसे संपादित करें।',
+      //    "ScenarioPage_youre-in-scenario-creation-mode-non-admin": "Here's a free-form way to prompt an AI Model",
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]वैकल्पिक विकल्प',
       ScenarioPromptMessage_edit: '[AI_TRANSLATION]संपादित करें',
       'ScenarioPromptMessage_prompt-choices': '[AI_TRANSLATION]प्रॉम्प्ट विकल्प  ',
