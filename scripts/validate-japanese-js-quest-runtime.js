@@ -79,6 +79,18 @@ assert.strictEqual(
   JSON.stringify({ completed: [0], unlocked: 2 }),
 )
 
+const solutionHelp = require(path.join(questRoot, 'solution-help.js'))
+const baseEngine = require(path.join(questRoot, 'engine.js'))
+const introPartial = solutionHelp.partialForMission(introMission, baseEngine)
+assert.notStrictEqual(introPartial, introMission.solution)
+assert(introPartial.includes('// TODO:'))
+assert(introPartial.includes('// ヒント:'))
+assert(!baseEngine.evaluate(
+  introMission,
+  baseEngine.simulate(introPartial, introMission, 0),
+  introPartial,
+).passed)
+
 const appSource = readQuest('app-v3.js')
 for (const text of [
   'let adminUnlockedAll = false',
@@ -88,13 +100,25 @@ for (const text of [
   'adminUnlockedAll = true',
   "new URL('quest-worker.js', window.location.href)",
   '}, 5000)',
+  'let failedAttempts = {}',
+  'function recordFailedAttempt (mission)',
+  "els.solution.textContent = '答えを見る'",
+  "'ほぼ完成コードを見る'",
+  'solutionHelp.partialForMission(mission, engine)',
+  '管理者用の正解コードを表示しました。保存はしていません。',
 ]) assert(appSource.includes(text))
 assert(!appSource.includes('URL.createObjectURL'))
 assert(!appSource.includes('new Blob('))
+assert(!appSource.includes('progress.unlocked = missions.length'))
+assert(!appSource.includes('localStorage.setItem(codeKeyPrefix + mission.id, mission.solution)'))
 
 const indexSource = readQuest('index.html')
 assert(indexSource.includes('<script src="progress-access.js"></script>'))
+assert(indexSource.includes('<script src="solution-help.js"></script>'))
 assert(indexSource.indexOf('progress-access.js') < indexSource.indexOf('app-v3.js'))
+assert(indexSource.indexOf('solution-help.js') < indexSource.indexOf('app-v3.js'))
+assert(indexSource.includes('id="show-solution"'))
+assert(indexSource.includes('disabled hidden>ヘルプ</button>'))
 
 const curriculumEngineSource = readQuest('curriculum-engine.js')
 assert(!curriculumEngineSource.includes('installWorkerAdapter(window'))
@@ -113,6 +137,10 @@ for (const text of [
   'derived from the consecutive completed mission prefix',
   'temporary to the current loaded page',
   'must not unlock missions before the admin button is activated',
+  '## Final answers and learner partial help',
+  'only in admin mode',
+  'three failed executions',
+  'must remain incomplete',
 ]) assert(productRules.includes(text))
 
-console.log('Validated mission 00 worker execution, temporary admin access, normal progress repair and bounded concept rendering.')
+console.log('Validated mission 00 worker execution, temporary admin access, normal progress repair and separated solution help.')
