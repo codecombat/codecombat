@@ -25,8 +25,9 @@ This document is the functional and business source of truth for the local Japan
 
 ## Controls and learner assistance
 
-- The editor visibly reminds the learner of `Ctrl+C`, `Ctrl+V` and `Ctrl+Z`.
+- The editor visibly reminds the learner of `Ctrl+C`, `Ctrl+V`, `Ctrl+Z` and `Ctrl+F5`.
 - `Ctrl+Enter` and `Command+Enter` execute the mission with the same behavior as clicking `実行する`.
+- `Ctrl+F5` is identified as the full-page reload shortcut used by the intentional infinite-loop lesson.
 - Mission code is saved automatically in the browser.
 - Hints can be revealed progressively.
 - The next-mission button appears only after the current mission succeeds on every field, except for the intentional infinite-loop demonstration described below.
@@ -103,6 +104,7 @@ This document is the functional and business source of truth for the local Japan
 - Difficult kanji above the expected reading level at the beginning of Japanese third grade receive full-word reading tooltips.
 - Reading help in mission explanations uses a light-blue visual treatment.
 - Reading help inside the glossary uses a quieter gray treatment and must not interfere with existing code-component tooltips.
+- `無限` receives the reading `むげん` in the mission title, concept cards, explanations and the duplicated mission heading inside the field panel.
 - When Japanese programmers commonly use an English technical term, the concept introduction displays both names.
 - The English term is written in Latin characters and exposes its katakana pronunciation on hover, keyboard focus and click.
 - Examples include Object, Method, Parameter, String, Literal, Comment, Constant, Assignment, Return value, Conditional branch, Boolean, Variable, Operator, Loop and Infinite loop.
@@ -118,6 +120,14 @@ This document is the functional and business source of truth for the local Japan
 - `boolean`, `true`, `false`, `always`, constants, assignment and `hero.isTrue(boolean)` appear from mission 03.
 - `while (true)` and the infinite-loop warning appear from mission 14.
 
+## Field and editor presentation
+
+- Immediately before the field-progress block, the field panel displays `MISSION XX - mission title`.
+- `MISSION XX` uses the same yellow eyebrow style as the main mission card.
+- The separator and mission title are white and use normal font weight.
+- The JavaScript editor has a styled vertical scrollbar harmonized with the game panels and remains easy to use with long programs.
+- Loop victory conditions appear inside the field-progress block before the progress track.
+
 ## Action execution
 
 - Every click on `実行する`, including Ctrl/Command+Enter, starts the adventure from field 1 of the current mission.
@@ -127,6 +137,18 @@ This document is the functional and business source of truth for the local Japan
 - Each visible action must finish before the next action begins.
 - Speech pauses execution until the learner closes the bubble.
 - Speech bubbles are attached visually to the hero's position at the corresponding trace frame.
+
+## Loop victory conditions
+
+- Every mission whose intended solution teaches a loop has canonical loop victory metadata.
+- The field panel displays the execution limit as `移動：最大 N 回` when the mission has a maximum movement count.
+- The field panel displays each source-code call limit in Japanese, for example `コードに hero.move(...)：最大 1 回`.
+- A source-code call limit counts how many times the learner writes a named `hero` method in source code, not how many times the loop executes it.
+- Exceeding a source-code call limit fails the field and produces a Japanese result-console message showing the maximum, the current count and the instruction to place the command inside a loop.
+- Loop syntax requirements are evaluated after comments are removed. A commented-out loop keyword does not satisfy a loop requirement.
+- Commented-out method calls do not count toward source-code call limits.
+- A learner cannot complete a loop mission by writing the repeated movement commands one by one while leaving a loop only in comments or as an unused dummy structure.
+- The canonical source-code call limits are stored once in `loop-rules.js` and are used by both display and validation.
 
 ## Speech bubble accessibility
 
@@ -181,13 +203,18 @@ This document is the functional and business source of truth for the local Japan
 - Mission 14 teaches conditional loops and the danger of a condition that stays `true` forever.
 - Its canonical code collects the required gem and then runs `while (true)` with a Japanese `hero.say(...)` inside every iteration.
 - The explanation clearly states that an always-true loop cannot reach later instructions and may continuously consume computer resources.
-- The explanation clearly instructs the learner to reload the browser with the circular reload icon or `Ctrl+F5`.
-- On the first click on `実行する`, mission completion and the next mission unlock are persisted before the infinite demonstration starts.
+- Mission 14 uses a two-step reload preparation before the actual infinite-loop execution.
+- On the first normal display of an incomplete mission 14, the editor is read-only and visually grayed out.
+- On that first display, the normal yellow `▶ 実行する` button is replaced by a harmonious green preparation button.
+- Clicking the preparation button does not start the learner code and does not complete the mission. It makes the hero explain in Japanese that the learner must reload with `Ctrl+F5` so the hero can enter the infinite loop.
+- Preparation is recorded for the browser tab, but it becomes executable only after a real page reload. Navigating away and back on the same loaded page must not bypass the reload step.
+- After the prepared page is reloaded, the editor becomes editable and the normal yellow `▶ 実行する` button returns.
+- Clicking the normal run button after preparation persists mission completion and the next-mission unlock before the infinite demonstration starts.
 - During the demonstration, closing the speech bubble starts the next loop iteration and shows the same speech again.
 - Adventure controls remain unavailable during the demonstration. Reloading the page is the intended exit.
-- After reload, the persisted completion allows the learner to continue to mission 15 when missions 00 through 13 were completed normally.
+- After the post-execution reload, the persisted completion allows the learner to continue to mission 15 when missions 00 through 13 were completed normally.
 - Completing mission 14 through temporary admin access does not bypass unfinished earlier missions after reload.
-- Automated validation must not execute the truly infinite canonical solution directly; it validates the special mission metadata and runtime mechanism instead.
+- Automated validation must not execute the truly infinite canonical solution directly; it validates the staged preparation and runtime mechanism instead.
 
 ## Legend disclosure
 
@@ -225,7 +252,10 @@ This document is the functional and business source of truth for the local Japan
 - It verifies mission count, consecutive identifiers, unique identifiers, required gems, scripted levels, transformation gates and ordered action traces.
 - It verifies invalid direction, invalid parameter, invalid boolean, unknown method, invalid transformation and locked dragon behavior.
 - It verifies the boolean mission checks both `true` and `false`, collects its gem and ends on the goal tile after two moves.
-- It verifies the infinite-loop mission is prevalidated before execution and requires page reload rather than being run directly in the test process.
+- It verifies the infinite-loop mission uses the two-step reload preparation, persists completion before the actual infinite execution and requires a second page reload to leave it.
+- It verifies each canonical loop solution still passes all fields.
+- It verifies commented-out loop keywords do not satisfy loop syntax requirements.
+- It verifies manually unrolled commands exceeding a source-code call limit fail with a Japanese result message.
 - It verifies multi-field ordering, field-progress source rules, admin URL behavior and progressive legend thresholds.
 - It verifies saved curriculum migration preserves existing code and progress semantics.
 - It verifies every mission guide resolves its ordered concept-card IDs from the canonical reference base, all IDs are unique and every rendered card exposes its ID.
