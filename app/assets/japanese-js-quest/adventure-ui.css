@@ -105,6 +105,36 @@
   cursor: not-allowed;
 }
 
+#editor-fallback {
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #58779f #0b1020;
+}
+
+#editor-fallback::-webkit-scrollbar,
+#editor .ace_scrollbar::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+#editor-fallback::-webkit-scrollbar-track,
+#editor .ace_scrollbar::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: #0b1020;
+}
+
+#editor-fallback::-webkit-scrollbar-thumb,
+#editor .ace_scrollbar::-webkit-scrollbar-thumb {
+  border: 3px solid #0b1020;
+  border-radius: 999px;
+  background: #58779f;
+}
+
+#editor-fallback::-webkit-scrollbar-thumb:hover,
+#editor .ace_scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #6f94c3;
+}
+
 .tile.hero.form-dragon::after {
   content: "";
   width: 88%;
