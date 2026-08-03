@@ -14,6 +14,7 @@ const introMission = require(path.join(__dirname, questPath, 'intro-mission.js')
 const legacyMissions = require(path.join(__dirname, questPath, 'missions.js'))
 const curriculum = require(path.join(__dirname, questPath, 'curriculum-v3.js'))
 const progression = require(path.join(__dirname, questPath, 'progression.js'))
+const conceptCards = require(path.join(__dirname, questPath, 'concept-card-library.js'))
 
 function read (relativePath) {
   return fs.readFileSync(path.join(__dirname, '..', relativePath), 'utf8')
@@ -153,30 +154,66 @@ for (const id of [4, 5, 6, 7, 8, 9, 10, 15, 16, 17, 19, 20, 21, 22]) {
   assert(mission(missions, id).starterCode.includes('hero.say('))
 }
 
+const storedCards = conceptCards.allCards()
+assert.strictEqual(storedCards.length, 35)
+assert.strictEqual(new Set(storedCards.map(card => card.id)).size, storedCards.length)
+assert(storedCards.every(card => /^concept-card-\d{3}$/.test(card.id)))
+assert(storedCards.every(card => Number.isInteger(card.missionId)))
+assert(storedCards.every(card => card.titleHtml && card.bodyHtml))
+assert.strictEqual(conceptCards.getCard('concept-card-001').titleHtml, '<code>hero</code> はオブジェクト')
+assert(conceptCards.getCard('concept-card-007').titleHtml.includes('Boolean'))
+assert(conceptCards.getCard('concept-card-025').bodyHtml.includes('コンピューターの力を使い続ける危険'))
+
+for (let missionId = 0; missionId < missions.length; missionId++) {
+  const guide = conceptCards.getMissionGuide(missionId)
+  assert(guide, `Mission ${missionId} must have a concept guide`)
+  assert(guide.title)
+  assert(guide.cards.length > 0)
+  assert.strictEqual(guide.cards.length, guide.cardIds.length)
+  guide.cards.forEach((card, index) => {
+    assert(card)
+    assert.strictEqual(card.id, guide.cardIds[index])
+    assert.strictEqual(card.missionId, missionId)
+    assert.strictEqual(conceptCards.getCard(card.id), card)
+  })
+}
+assert.deepStrictEqual(
+  conceptCards.getMissionGuide(3).cardIds,
+  ['concept-card-007', 'concept-card-008', 'concept-card-009', 'concept-card-010', 'concept-card-011'],
+)
+assert.deepStrictEqual(
+  conceptCards.getMissionGuide(4).cardIds,
+  ['concept-card-012', 'concept-card-013', 'concept-card-014'],
+)
+
 const indexSource = read('app/assets/japanese-js-quest/index.html')
 assert(indexSource.includes('23のミッション'))
 assert(indexSource.includes('0 / 23'))
 assert(indexSource.indexOf('branch-prompts.js') < indexSource.indexOf('curriculum-v3.js'))
 assert(indexSource.indexOf('curriculum-v3.js') < indexSource.indexOf('intro-mission.js'))
+assert(indexSource.indexOf('concept-card-library.js') < indexSource.indexOf('learning-guide.js'))
 assert(!indexSource.includes('../javascripts/ace/ace.js'))
-for (const file of ['curriculum-engine.js', 'curriculum-ui.js', 'curriculum-runtime.js']) {
+for (const file of ['curriculum-engine.js', 'curriculum-ui.js', 'curriculum-runtime.js', 'concept-card-library.js']) {
   assert(indexSource.includes(`<script src="${file}"></script>`))
 }
 
 const curriculumUiSource = read('app/assets/japanese-js-quest/curriculum-ui.js')
-for (const text of ['hero.isTrue(boolean)', 'Boolean', 'alwaysTrue', 'while (true)', 'Ctrl+F5']) {
+for (const text of ['hero.isTrue(boolean)', 'alwaysTrue', 'while (true)']) {
   assert(curriculumUiSource.includes(text))
 }
+assert(!curriculumUiSource.includes('renderBooleanGuide'))
+assert(!curriculumUiSource.includes('renderInfiniteGuide'))
+assert(!curriculumUiSource.includes('guideShell'))
 assert(!curriculumUiSource.includes('removeMovedConstCards'))
 assert(!curriculumUiSource.includes("dispatchEvent(new CustomEvent('jsquest:missionloaded'"))
 assert(!curriculumUiSource.includes('missionNumber.textContent ='))
 
 const learningGuideSource = read('app/assets/japanese-js-quest/learning-guide.js')
-assert(learningGuideSource.includes("title: '看板の値で最初の if を動かそう'"))
-assert(learningGuideSource.includes("['<code>===</code> は比較'"))
-assert(!learningGuideSource.includes("['<code>const</code> はプレイヤーの魔法'"))
-assert(!learningGuideSource.includes("['<code>=</code> は代入'"))
-assert(learningGuideSource.includes('legacyIdForFinalId'))
+assert(learningGuideSource.includes('window.JSQuestConceptCards'))
+assert(learningGuideSource.includes('data-concept-card-id'))
+assert(learningGuideSource.includes('card.titleHtml'))
+assert(learningGuideSource.includes('card.bodyHtml'))
+assert(!learningGuideSource.includes('const guides ='))
 
 const referenceSource = read('app/assets/japanese-js-quest/reference-panel.js')
 const terminologySource = read('app/assets/japanese-js-quest/technical-terms.js')
@@ -205,9 +242,13 @@ for (const text of [
   'Trap appears from mission 07',
   'Enemy appears from mission 15',
   '## Standalone loading and stable curriculum rendering',
+  '## Concept card reference base',
+  'stable, unique ID',
+  '`data-concept-card-id`',
+  'Future flashcards, quizzes and review activities must reuse the same reference records',
 ]) assert(productRules.includes(text))
 assert(developmentRules.includes('Read `docs/PRODUCT_RULES.md`'))
 
 const totalFields = missions.reduce((sum, item) => sum + item.variants.length, 0)
 assert.strictEqual(totalFields, 37)
-console.log(`Validated ${missions.length} missions and ${totalFields} fields with stable mission selection, booleans, intentional infinite-loop recovery and wizard progression.`)
+console.log(`Validated ${missions.length} missions, ${totalFields} fields and ${storedCards.length} canonical concept cards.`)
