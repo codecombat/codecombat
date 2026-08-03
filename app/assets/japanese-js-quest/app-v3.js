@@ -45,6 +45,7 @@
   let currentVariant = 0
   let hintIndex = 0
   let running = false
+  let adminUnlockedAll = false
   let attempts = {}
   let progress = loadProgress()
   let fieldProgress
@@ -124,10 +125,14 @@
     return progress.completed.includes(id)
   }
 
+  function isUnlocked (index) {
+    return adminUnlockedAll || index + 1 <= progress.unlocked
+  }
+
   function renderMissionList () {
     els.missionList.innerHTML = ''
     for (const [index, mission] of missions.entries()) {
-      const unlocked = index + 1 <= progress.unlocked
+      const unlocked = isUnlocked(index)
       const completed = isCompleted(mission.id)
       const button = document.createElement('button')
       button.type = 'button'
@@ -219,6 +224,7 @@
     button.className = 'button admin-unlock-button'
     button.textContent = '全ミッションを開く'
     button.addEventListener('click', () => {
+      adminUnlockedAll = true
       progress.unlocked = missions.length
       saveProgress()
       renderMissionList()
@@ -232,7 +238,7 @@
   }
 
   function loadMission (index) {
-    if (index + 1 > progress.unlocked || running) return
+    if (!isUnlocked(index) || running) return
     window.JSQuestSpeechUI?.resetForRun()
     currentIndex = index
     currentVariant = 0
@@ -334,37 +340,36 @@
 
   function workerRun (code, mission, variantIndex) {
     return new Promise((resolve, reject) => {
-      const engineUrl = new URL('engine.js', window.location.href).href
-      const workerSource = [
-        'importScripts(' + JSON.stringify(engineUrl) + ');',
-        'self.onmessage = function (event) {',
-        '  const data = event.data;',
-        '  const result = self.JSQuestEngine.simulate(data.code, data.mission, data.variantIndex);',
-        '  const evaluation = self.JSQuestEngine.evaluate(data.mission, result, data.code);',
-        '  self.postMessage({ result: result, evaluation: evaluation });',
-        '};'
-      ].join('\n')
-      const blobUrl = URL.createObjectURL(new Blob([workerSource], { type: 'application/javascript' }))
-      const worker = new Worker(blobUrl)
-      const timeout = window.setTimeout(() => {
-        worker.terminate()
-        URL.revokeObjectURL(blobUrl)
-        reject(new Error('コードの実行が終わりません。ループの条件を確認してください。'))
-      }, 1800)
-
-      worker.onmessage = event => {
+      const workerUrl = new URL('quest-worker.js', window.location.href)
+      const worker = new Worker(workerUrl)
+      const cleanup = () => {
         window.clearTimeout(timeout)
         worker.terminate()
-        URL.revokeObjectURL(blobUrl)
+      }
+      const timeout = window.setTimeout(() => {
+        cleanup()
+        reject(new Error('コードの実行が終わりません。ループの条件を確認してください。'))
+      }, 5000)
+
+      worker.onmessage = event => {
+        cleanup()
+        if (event.data && event.data.workerError) {
+          reject(new Error(event.data.workerError.message || 'コードを実行できませんでした。'))
+          return
+        }
         resolve(event.data)
       }
       worker.onerror = error => {
-        window.clearTimeout(timeout)
-        worker.terminate()
-        URL.revokeObjectURL(blobUrl)
+        cleanup()
         reject(new Error(error.message || 'コードを実行できませんでした。'))
       }
-      worker.postMessage({ code, mission, variantIndex })
+
+      try {
+        worker.postMessage({ code, mission, variantIndex })
+      } catch (error) {
+        cleanup()
+        reject(error)
+      }
     })
   }
 
@@ -515,7 +520,7 @@
   installAdminControls()
   initEditor()
   const firstIncomplete = missions.findIndex(mission => !isCompleted(mission.id))
-  const initialIndex = firstIncomplete >= 0 && firstIncomplete < progress.unlocked
+  const initialIndex = firstIncomplete >= 0 && isUnlocked(firstIncomplete)
     ? firstIncomplete
     : Math.min(progress.unlocked - 1, missions.length - 1)
   loadMission(initialIndex)
