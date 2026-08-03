@@ -39,6 +39,7 @@ This document is the functional and business source of truth for the local Japan
 - Mission 03 introduces booleans, `true`, `false`, `const`, assignment with `=`, reuse of a named value, the English word `always`, and `hero.isTrue(boolean)`.
 - Mission 03 has completed starter code. The learner validates it by executing it without needing to edit it.
 - Mission 04 is the first `if` mission. It introduces `hero.readSign()`, return values, `if`, braces and comparison, while referring back to constants and assignment learned in mission 03.
+- Mission 04 must not repeat dedicated concept cards for `const`, constants or assignment. Its learning guide contains one card for the `hero.readSign()` return value, one card for `if`, and one card for comparison with `===`.
 - Mission 14 is an intentional infinite-loop demonstration using `while (true)`.
 - Mission 15 is the first later mission using `while (!hero.isAtGoal())`.
 - Later missions introduce `else`, `else if`, logical operators, loops, mutable variables, remainder and nested loops when first used.
@@ -53,6 +54,16 @@ This document is the functional and business source of truth for the local Japan
 - A missing, extra or non-boolean parameter produces a blocking Japanese hero explanation that only `true` or `false` is accepted.
 - Mission 03 defines `const alwaysTrue = true` and `const alwaysFalse = false`, calls `hero.isTrue(...)` for both values, and then collects its required gem.
 - Mission 03 validates only after the existing program has been executed and both boolean cases have been checked.
+
+## Standalone loading and stable curriculum rendering
+
+- The documented launch from `app/assets/japanese-js-quest` is a standalone static-server mode.
+- Standalone mode uses the built-in textarea editor fallback and must not request CodeCombat's absent `/javascripts/ace/ace.js` asset.
+- An optional enhanced editor may be used only when its assets are explicitly available; failure to load an optional editor must never block the game or produce a required 404 request.
+- Selecting or displaying a mission must not start unbounded work. In particular, selecting mission 03 must remain responsive before the learner presses `実行する`.
+- The displayed mission number is authoritative UI state and must never be changed temporarily to render legacy guides.
+- A `jsquest:missionloaded` handler must not dispatch another `jsquest:missionloaded` event while handling the current event.
+- Renumbered legacy guides, glossary thresholds and technical terms use a pure final-ID-to-legacy-ID conversion without changing the DOM.
 
 ## Japanese reading and technical vocabulary
 
@@ -177,5 +188,6 @@ This document is the functional and business source of truth for the local Japan
 - It verifies the infinite-loop mission is prevalidated before execution and requires page reload rather than being run directly in the test process.
 - It verifies multi-field ordering, field-progress source rules, admin URL behavior and progressive legend thresholds.
 - It verifies saved curriculum migration preserves existing code and progress semantics.
+- It verifies standalone mode does not request the absent Ace asset and that curriculum rendering does not recursively redispatch mission loading.
 - It verifies required documentation exists and remains consistent with the implementation.
 - ESLint must pass for changed JavaScript files.
