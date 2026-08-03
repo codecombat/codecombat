@@ -191,7 +191,9 @@ for (const text of [
   "{ from: 9, text: '🔑 カギ' }",
   "{ from: 15, text: '👹 敵' }",
   "document.body.classList.add('infinite-loop-running')",
+  'if (corrected !== current) feedback.textContent = corrected',
 ]) assert(runtimeSource.includes(text))
+assert(!runtimeSource.includes('new MutationObserver(correctFinalMessage)'))
 assert(runtimeSource.indexOf('persistInfiniteCompletion()') < runtimeSource.indexOf('collectDemonstrationGem()'))
 
 const productRules = read('docs/PRODUCT_RULES.md')
