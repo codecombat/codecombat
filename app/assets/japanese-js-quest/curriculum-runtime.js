@@ -54,9 +54,11 @@
   function correctFinalMessage () {
     const feedback = document.getElementById('feedback')
     if (!feedback) return
-    feedback.textContent = feedback.textContent
+    const current = feedback.textContent
+    const corrected = current
       .replace('全20ミッション', '全' + MISSION_COUNT + 'ミッション')
       .replace('全21ミッション', '全' + MISSION_COUNT + 'ミッション')
+    if (corrected !== current) feedback.textContent = corrected
   }
 
   function persistInfiniteCompletion () {
@@ -203,8 +205,6 @@
 
     const stats = document.getElementById('stats')
     if (stats) new MutationObserver(hidePrematureStats).observe(stats, { childList: true })
-    const feedback = document.getElementById('feedback')
-    if (feedback) new MutationObserver(correctFinalMessage).observe(feedback, { childList: true, subtree: true, characterData: true })
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init)
