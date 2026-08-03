@@ -1,0 +1,65 @@
+.field-progress {
+  margin: 0.8rem 0 0.45rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid rgba(107, 183, 255, 0.35);
+  border-radius: 10px;
+  background: rgba(7, 16, 30, 0.56);
+}
+
+.field-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.4rem;
+  color: #dce8f8;
+  font-size: 0.86rem;
+}
+
+.field-progress-labels strong { color: var(--info); }
+.field-progress-status { color: var(--muted); }
+
+.field-progress-track {
+  height: 9px;
+  overflow: hidden;
+  border: 1px solid #385579;
+  border-radius: 999px;
+  background: #0a1220;
+}
+
+.field-progress-fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #6bb7ff, #bce5ff);
+  transition: width 260ms ease;
+}
+
+.admin-unlock-button {
+  border-color: #8c65d6;
+  color: #eadfff;
+  background: rgba(105, 64, 170, 0.24);
+}
+
+.admin-mode-badge {
+  padding: 0.3rem 0.55rem;
+  border: 1px solid #8c65d6;
+  border-radius: 999px;
+  color: #eadfff;
+  background: rgba(105, 64, 170, 0.2);
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.tile.hero.form-dragon::after {
+  content: "";
+  width: 88%;
+  height: 88%;
+  background: url("dragon-sprite.svg") center / contain no-repeat;
+  filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.5));
+  animation: hero-pop 180ms ease-out;
+}
+
+@media (max-width: 650px) {
+  .field-progress-labels { align-items: flex-start; flex-direction: column; gap: 0.15rem; }
+}
