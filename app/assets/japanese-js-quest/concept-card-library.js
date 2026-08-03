@@ -15,7 +15,7 @@
     card('concept-card-007', 3, tooltip('ブール値', 'ぶーるち') + '（' + tooltip('Boolean', 'ブーリアン', 'tech-term') + '）', 'ブール値は <code>true</code> と <code>false</code> の二つだけを持つ値です。<code>true</code> は「正しい」、<code>false</code> は「正しくない」を表します。'),
     card('concept-card-008', 3, '<code>const</code> は ' + tooltip('定数', 'ていすう') + '（' + tooltip('Constant', 'コンスタント', 'tech-term') + '）', '<code>const</code> は、プレイヤーが値に名前をつけて固定する魔法です。固定した値は、あとで同じ名前を使って何度でも再利用できます。'),
     card('concept-card-009', 3, '<code>=</code> は ' + tooltip('代入', 'だいにゅう') + '（' + tooltip('Assignment', 'アサインメント', 'tech-term') + '）', '<code>const alwaysTrue = true;</code> では、右側の <code>true</code> を左側の <code>alwaysTrue</code> という名前へ入れます。<code>=</code> は「同じか調べる」記号ではありません。'),
-    card('concept-card-010', 3, '<code>always</code> は「いつも」', '<code>alwaysTrue</code> は「いつも true」、<code>alwaysFalse</code> は「いつも false」という意味です。名前を読むと、保存した値の意味を思い出せます。'),
+    card('concept-card-010', 3, tooltip('定数', 'ていすう') + 'の名前は自分で決められる', 'この冒険では、空白を入れずにローマ字で好きな名前をつけられます。日本のプログラマーも、意味が伝わりやすい英語の名前をよく使います。たとえば <code>alwaysTrue</code> は「いつも true」という意味です。'),
     card('concept-card-011', 3, '<code>hero.isTrue(boolean)</code>', '<code>isTrue</code> はブール値だけを受け取ります。<code>true</code> なら「正しいです。」、<code>false</code> なら「違いますよ。」とヒーローが言います。'),
     card('concept-card-012', 4, '<code>hero.readSign()</code> の戻り値', 'メソッドは行動するだけでなく、結果の値を返すことがあります。<code>readSign()</code> は、看板に書かれた <code>"right"</code> や <code>"left"</code> を返します。'),
     card('concept-card-013', 4, '<code>if (条件) { ... }</code>', '<code>if</code> は条件分岐です。丸いかっこの条件が正しいときだけ、波かっこ <code>{ }</code> の中を実行します。'),
