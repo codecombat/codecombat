@@ -38,9 +38,17 @@
     18: '`%` は、割り算の余りを求める演算子です。',
   }
 
-  function currentMissionId () {
+  function displayedMissionId () {
     const match = (document.getElementById('mission-number')?.textContent || '').match(/(\d+)/)
     return match ? Number(match[1]) : 0
+  }
+
+  function currentMissionId () {
+    const finalId = displayedMissionId()
+    const curriculum = window.JSQuestCurriculumV3
+    return curriculum && typeof curriculum.legacyIdForFinalId === 'function'
+      ? curriculum.legacyIdForFinalId(finalId)
+      : finalId
   }
 
   function createEnglishTerm (term) {
