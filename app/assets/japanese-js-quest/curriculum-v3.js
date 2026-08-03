@@ -28,7 +28,7 @@
   }
 
   function booleanMission () {
-    const starterCode = [
+    const originalStarterCode = [
       'const alwaysTrue = true;',
       'hero.isTrue(alwaysTrue);',
       '',
@@ -37,21 +37,36 @@
       '',
       'hero.move("right");',
     ].join('\n')
+    const starterCode = [
+      '// true という値に alwaysTrue という名前をつける',
+      'const alwaysTrue = true;',
+      'hero.isTrue(alwaysTrue);',
+      '',
+      '// false という値に alwaysFalse という名前をつける',
+      'const alwaysFalse = false;',
+      'hero.isTrue(alwaysFalse);',
+      '',
+      '// 宝石を取って、旗まで進む',
+      'hero.move("right");',
+      'hero.move("right");',
+    ].join('\n')
 
     return {
       id: 3,
       title: 'true と false',
       concept: 'ブール値（Boolean）と定数',
-      story: '魔法には「正しい」と「正しくない」だけを表す特別な値があります。完成したコードをそのまま実行して、二つの値を確かめよう。',
+      story: '魔法には「正しい」と「正しくない」だけを表す特別な値があります。完成したコードをそのまま実行して、二つの値を確かめ、最後に旗まで進もう。',
       instructions: [
         '`true` と `false` は、二つしかないブール値です。',
         '`const` は値に名前をつけて固定し、あとで同じ値を使えるようにします。',
+        '定数の名前は、空白を入れないローマ字で自由につけられます。意味が伝わりやすい英語の名前がよく使われます。',
         '`hero.isTrue(boolean)` は、受け取った値が true か false かを言葉で教えます。',
         'コードは完成しています。変更せずに「実行する」を押しましょう。',
       ],
-      api: ['hero.isTrue(boolean)', 'hero.move("right")'],
+      api: ['hero.isTrue(boolean)', 'hero.move(direction)'],
+      originalStarterCode,
       starterCode,
-      hints: ['コードは直さなくて大丈夫です。二つのふきだしを順番に閉じて、最後に宝石を取りましょう。'],
+      hints: ['コードは直さなくて大丈夫です。二つのふきだしを順番に閉じて、宝石を取ったあと旗まで進みましょう。'],
       solution: starterCode,
       variants: [{
         map: ['#####', '#H*G#', '#####'],
@@ -59,7 +74,7 @@
       }],
       requirements: {
         booleanDemo: true,
-        state: { minGems: 1, maxMoves: 1, sayText: '違いますよ。' },
+        state: { goal: true, minGems: 1, maxMoves: 2, sayText: '違いますよ。' },
         syntax: [{ type: 'variable', message: 'const で true と false に名前をつけましょう。' }],
       },
     }
