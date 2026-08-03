@@ -24,13 +24,11 @@
       ],
     },
     3: {
-      title: '定数と条件分岐をはじめよう',
+      title: '看板の値で最初の if を動かそう',
       cards: [
-        ['<code>const</code> はプレイヤーの魔法', '<code>hero</code> のメソッドは主人公が世界で行う行動です。それに対して <code>const</code> は、プレイヤーが値を一つの名前に固定して、あとで再利用するためのプログラム側の仕組みです。'],
-        ['<code>=</code> は代入', '<code>const direction = hero.readSign();</code> では、右側で看板から受け取った値を、左側の <code>direction</code> という定数へ入れます。この <code>=</code> は「同じ」という意味ではなく、値を入れる代入です。'],
-        ['定数はあとで再利用できる', '保存した <code>direction</code> は、メソッドのパラメーターに渡したり、<code>if</code> のようなプログラムの物語構造で調べたりできます。'],
         ['<code>hero.readSign()</code> の戻り値', 'メソッドは行動するだけでなく、結果の値を返すことがあります。<code>readSign()</code> は、看板に書かれた <code>"right"</code> や <code>"left"</code> を返します。'],
-        ['<code>if (条件) { ... }</code>', '<code>if</code> は条件分岐です。丸いかっこの条件が正しいときだけ、波かっこ <code>{ }</code> の中を実行します。<code>===</code> は、二つの値が同じかを比較します。'],
+        ['<code>if (条件) { ... }</code>', '<code>if</code> は条件分岐です。丸いかっこの条件が正しいときだけ、波かっこ <code>{ }</code> の中を実行します。'],
+        ['<code>===</code> は比較', '<code>direction === "right"</code> のように、左と右の値が同じかを調べます。値を入れる <code>=</code> とは役割が違います。'],
       ],
     },
     4: {
@@ -145,9 +143,17 @@
   }
   const readingWords = Object.keys(readings).sort((a, b) => b.length - a.length)
 
-  function currentMissionId () {
+  function displayedMissionId () {
     const match = (document.getElementById('mission-number')?.textContent || '').match(/(\d+)/)
     return match ? Number(match[1]) : 0
+  }
+
+  function currentMissionId () {
+    const finalId = displayedMissionId()
+    const curriculum = window.JSQuestCurriculumV3
+    return curriculum && typeof curriculum.legacyIdForFinalId === 'function'
+      ? curriculum.legacyIdForFinalId(finalId)
+      : finalId
   }
 
   function bindTokens (root) {
