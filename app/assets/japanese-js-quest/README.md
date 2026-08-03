@@ -20,6 +20,8 @@ Ouvre ensuite :
 http://localhost:8000/
 ```
 
+En mode autonome sur le port 8000, le jeu utilise directement son éditeur texte intégré. Il ne tente pas de charger l'éditeur Ace de l'application CodeCombat complète, dont les fichiers ne sont pas servis par cette commande.
+
 Si `py` n'est pas reconnu :
 
 ```powershell
@@ -80,6 +82,16 @@ hero.move("right");
 - `true` → `正しいです。` ;
 - `false` → `違いますよ。` ;
 - autre valeur, paramètre absent ou paramètres multiples → explication japonaise dans une bulle bloquante.
+
+Les cartes pédagogiques de cette mission présentent séparément le booléen, `const`, l'affectation `=`, le mot `always` et `hero.isTrue(boolean)`.
+
+## Mission 04 : premier `if`
+
+Les notions de constante et d'affectation ne sont pas répétées. La section `新しい考え方` contient uniquement les nouveaux concepts de cette mission :
+
+- la valeur de retour de `hero.readSign()` ;
+- la branche `if` ;
+- la comparaison `===`.
 
 ## Mission 14 : boucle infinie volontaire
 
@@ -146,7 +158,7 @@ Depuis la racine du dépôt :
 node scripts/validate-japanese-js-quest.js
 ```
 
-Le validateur vérifie les 23 missions et tous leurs fields, les solutions finies, les gemmes, les niveaux, l'ordre des actions, les erreurs parlées, `hero.isTrue(...)`, le dragon de niveau 99, la mission infinie spéciale, la migration des identifiants, l'aventure multi-fields, le mode administrateur, la légende progressive et les documents de règles.
+Le validateur vérifie les 23 missions et tous leurs fields, les solutions finies, les gemmes, les niveaux, l'ordre des actions, les erreurs parlées, `hero.isTrue(...)`, le dragon de niveau 99, la mission infinie spéciale, la migration des identifiants, l'aventure multi-fields, le mode administrateur, la légende progressive, l'absence de requête Ace en mode autonome et les documents de règles.
 
 ## 日本語
 
