@@ -50,7 +50,7 @@ for (const mission of missions) {
     assert(result.ok, `Mission ${mission.id}, field ${variantIndex + 1}: ${result.error && result.error.message}`)
     assert(
       evaluation.passed,
-      `Mission ${mission.id}, field ${variantIndex + 1} failed: ${evaluation.messages.join(' | ')}`
+      `Mission ${mission.id}, field ${variantIndex + 1} failed: ${evaluation.messages.join(' | ')}`,
     )
   }
 }
@@ -81,27 +81,32 @@ assert.strictEqual(unlockedDragon.state.form, 'dragon')
 assertSpokenFailure(
   engine.simulate('hero.move("north");', orderedMission, 0),
   'invalid-direction',
-  '"right"、"left"、"up"、"down"'
+  '"right"、"left"、"up"、"down"',
+)
+assertSpokenFailure(
+  engine.simulate('hero.move("right", "left");', orderedMission, 0),
+  'invalid-direction',
+  '"right"、"left"、"up"、"down"',
 )
 assertSpokenFailure(
   engine.simulate('hero.readSign("extra");', orderedMission, 0),
   'unexpected-parameter',
-  'かっこの中の情報はいらない'
+  'かっこの中の情報はいらない',
 )
 assertSpokenFailure(
   engine.simulate('hero.say(123);', orderedMission, 0),
   'invalid-say',
-  '文字列を1つ'
+  '文字列を1つ',
 )
 assertSpokenFailure(
   engine.simulate('hero.transform("cat");', orderedMission, 0),
   'invalid-transform',
-  engine.INVALID_TRANSFORM_MESSAGE
+  engine.INVALID_TRANSFORM_MESSAGE,
 )
 assertSpokenFailure(
   engine.simulate('hero.moove("right");', orderedMission, 0),
   'unknown-method',
-  'hero.moove'
+  'hero.moove',
 )
 
 const orderedScript = [
@@ -115,20 +120,20 @@ const orderedScript = [
   'hero.transform("frog")',
   'hero.say("frog")',
   'hero.move("up")',
-  'hero.transform("frog")'
+  'hero.transform("frog")',
 ].join('\n')
 const orderedResult = engine.simulate(orderedScript, orderedMission, 0)
 assert(orderedResult.ok)
 assert.deepStrictEqual(
   orderedResult.trace.map(frame => frame.type),
-  ['move', 'transform', 'say', 'transform', 'move', 'move', 'move', 'transform', 'say', 'move', 'transform']
+  ['move', 'transform', 'say', 'transform', 'move', 'move', 'move', 'transform', 'say', 'move', 'transform'],
 )
 const speechFrames = orderedResult.trace.filter(frame => frame.type === 'say')
 assert.strictEqual(speechFrames.length, 2)
 assert.notDeepStrictEqual(
   [speechFrames[0].x, speechFrames[0].y],
   [speechFrames[1].x, speechFrames[1].y],
-  'Speech bubbles must remain attached to their exact execution positions.'
+  'Speech bubbles must remain attached to their exact execution positions.',
 )
 assert.strictEqual(speechFrames[0].form, 'frog')
 assert.strictEqual(speechFrames[1].form, 'frog')
@@ -189,5 +194,5 @@ assert(developmentRules.includes('# Development Rules'))
 assert(developmentRules.includes('Read `docs/PRODUCT_RULES.md`'))
 
 console.log(
-  `Validated ${missions.length} missions and ${missions.reduce((sum, mission) => sum + mission.variants.length, 0)} fields with spoken errors, sequential adventures, admin mode and wizard progression.`
+  `Validated ${missions.length} missions and ${missions.reduce((sum, mission) => sum + mission.variants.length, 0)} fields with spoken errors, sequential adventures, admin mode and wizard progression.`,
 )
