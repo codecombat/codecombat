@@ -1,8 +1,19 @@
-(function () {
+(function (root) {
   'use strict'
 
-  const engine = window.JSQuestEngine
+  if (typeof document !== 'undefined' && !document.querySelector('link[href="adventure-ui.css"]')) {
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = 'adventure-ui.css'
+    document.head.appendChild(link)
+  }
+
+  const engine = root.JSQuestEngine
   if (!engine || engine.__guarded) return
+
+  if (Array.isArray(engine.ALLOWED_FORMS) && !engine.ALLOWED_FORMS.includes('dragon')) {
+    engine.ALLOWED_FORMS.push('dragon')
+  }
 
   const originalSimulate = engine.simulate.bind(engine)
   const directionMessage = '方向がわからないよ。right、left、up、down のどれかを使ってね。'
@@ -14,7 +25,7 @@
 
   const knownMethods = new Set([
     'move', 'canMove', 'look', 'readSign', 'hasKey', 'gemCount',
-    'isAtGoal', 'x', 'y', 'say', 'transform',
+    'isAtGoal', 'x', 'y', 'say', 'transform'
   ])
   const noArgumentMethods = new Set(['readSign', 'hasKey', 'gemCount', 'isAtGoal', 'x', 'y'])
   const directionMethods = new Set(['move', 'canMove', 'look'])
@@ -47,8 +58,8 @@
         if (literal !== null && !validDirections.has(literal)) return speechExpression(directionMessage)
       }
 
-      if (name === 'say') {
-        if (args.length !== 1 || quotedValue(args[0]) === null) return speechExpression(sayMessage)
+      if (name === 'say' && (args.length !== 1 || quotedValue(args[0]) === null)) {
+        return speechExpression(sayMessage)
       }
 
       if (name === 'transform') {
@@ -83,7 +94,7 @@
       hasKey: Boolean(state.hasKey),
       trapHits: state.trapHits || 0,
       goalReached: Boolean(state.goalReached),
-      says: state.says,
+      says: state.says
     })
     return result
   }
@@ -107,7 +118,7 @@
   engine.ERROR_MESSAGES = Object.freeze({
     direction: directionMessage,
     transform: transformMessage,
-    lockedPower: lockedPowerMessage,
+    lockedPower: lockedPowerMessage
   })
   Object.defineProperty(engine, '__guarded', { value: true })
-})()
+})(typeof self !== 'undefined' ? self : this)
