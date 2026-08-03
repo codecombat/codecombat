@@ -40,16 +40,6 @@
     return panel
   }
 
-  function ensureFrogLegend () {
-    const legend = document.querySelector('.game-panel .legend')
-    if (!legend || legend.querySelector('.frog-legend')) return
-    const item = document.createElement('span')
-    item.className = 'frog-legend'
-    item.textContent = '🐸 カエル'
-    const gem = [...legend.children].find(child => child.textContent.includes('宝石'))
-    legend.insertBefore(item, gem || null)
-  }
-
   function valuesFor (mission, completed) {
     const xp = completed ? mission.wizardXpAfter : mission.wizardXpBefore
     const level = completed ? mission.wizardLevelAfter : mission.wizardLevel
@@ -119,7 +109,6 @@
 
   function init () {
     ensurePanel()
-    ensureFrogLegend()
     const number = document.getElementById('mission-number')
     const badge = document.getElementById('mission-badge')
     const feedback = document.getElementById('feedback')
