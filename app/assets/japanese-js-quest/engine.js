@@ -24,8 +24,11 @@
     E: 'enemy'
   }
 
-  const LOCKED_POWER_MESSAGE = 'まだできないざわだよ。'
-  const ALLOWED_FORMS = ['frog', 'hero']
+  const LOCKED_POWER_MESSAGE = 'この技はまだ使えないよ。'
+  const INVALID_DIRECTION_MESSAGE = 'どの方向へ進めばいいのか、わからないよ。direction は "right"、"left"、"up"、"down" のどれかにしてね。'
+  const INVALID_TRANSFORM_MESSAGE = '何に変身すればいいのか、わからないよ。'
+  const FORM_LEVELS = Object.freeze({ hero: 1, frog: 1, dragon: 99 })
+  const ALLOWED_FORMS = Object.freeze(Object.keys(FORM_LEVELS))
 
   function cloneGrid (rows) {
     const width = rows[0].length
@@ -89,12 +92,6 @@
     return false
   }
 
-  function directionDelta (direction) {
-    const delta = DIRECTIONS[direction]
-    if (!delta) throw new Error('方向は "right", "left", "up", "down" のどれかです。')
-    return delta
-  }
-
   function touch (state) {
     state.operations++
     if (state.operations > 600) {
@@ -127,9 +124,32 @@
     return text
   }
 
+  function failWithSpeech (state, message, errorCode) {
+    speak(state, message, { commandError: errorCode })
+    const error = new Error(message)
+    error.jsQuestSpoken = true
+    error.code = errorCode
+    throw error
+  }
+
+  function requireNoArguments (state, methodName, args) {
+    if (args.length === 0) return
+    failWithSpeech(
+      state,
+      'hero.' + methodName + '() には、かっこの中の情報はいらないよ。',
+      'unexpected-parameter'
+    )
+  }
+
+  function directionDelta (state, direction) {
+    const delta = typeof direction === 'string' ? DIRECTIONS[direction] : null
+    if (!delta) failWithSpeech(state, INVALID_DIRECTION_MESSAGE, 'invalid-direction')
+    return delta
+  }
+
   function move (state, direction) {
+    const [dx, dy] = directionDelta(state, direction)
     touch(state)
-    const [dx, dy] = directionDelta(direction)
     const nx = state.hero.x + dx
     const ny = state.hero.y + dy
     const tile = tileAt(state, nx, ny)
@@ -166,64 +186,111 @@
   }
 
   function inspect (state, direction) {
+    const [dx, dy] = directionDelta(state, direction)
     touch(state)
-    const [dx, dy] = directionDelta(direction)
     const tile = tileAt(state, state.hero.x + dx, state.hero.y + dy)
     return TILE_NAMES[tile] || 'unknown'
   }
 
   function canMove (state, direction) {
+    const [dx, dy] = directionDelta(state, direction)
     touch(state)
-    const [dx, dy] = directionDelta(direction)
     return !isBlocked(state, tileAt(state, state.hero.x + dx, state.hero.y + dy))
   }
 
-  function transform (state, form) {
-    const target = String(form)
-    if (!ALLOWED_FORMS.includes(target)) {
-      throw new Error('form は "frog" または "hero" のどちらかです。')
+  function transform (state, args) {
+    if (args.length !== 1 || typeof args[0] !== 'string') {
+      failWithSpeech(state, INVALID_TRANSFORM_MESSAGE, 'invalid-transform')
     }
-    if (state.wizardLevel < 1) {
-      speak(state, LOCKED_POWER_MESSAGE, { blockedPower: 'transform' })
+
+    const target = args[0]
+    const requiredLevel = FORM_LEVELS[target]
+    if (requiredLevel == null) {
+      failWithSpeech(state, INVALID_TRANSFORM_MESSAGE, 'invalid-transform')
+    }
+    if (state.wizardLevel < requiredLevel) {
+      speak(state, LOCKED_POWER_MESSAGE, {
+        blockedPower: 'transform',
+        requestedForm: target,
+        requiredLevel
+      })
       return false
     }
+
     touch(state)
     state.form = target
     state.trace.push(snapshot(state, { type: 'transform', form: target }))
     return true
   }
 
+  function say (state, args) {
+    if (args.length !== 1 || typeof args[0] !== 'string') {
+      failWithSpeech(
+        state,
+        '何を言えばいいのか、わからないよ。hero.say("話す言葉") のように、文字列を1つ入れてね。',
+        'invalid-say'
+      )
+    }
+    return speak(state, args[0])
+  }
+
+  function unknownMethod (state, property) {
+    const name = String(property)
+    return function () {
+      failWithSpeech(
+        state,
+        '「hero.' + name + '」という命令はわからないよ。つづりを確認してね。',
+        'unknown-method'
+      )
+    }
+  }
+
   function createHeroApi (state) {
-    return Object.freeze({
-      move: direction => move(state, direction),
-      canMove: direction => canMove(state, direction),
-      look: direction => inspect(state, direction),
-      readSign: () => {
+    const methods = Object.freeze({
+      move: function () { return move(state, arguments[0]) },
+      canMove: function () { return canMove(state, arguments[0]) },
+      look: function () { return inspect(state, arguments[0]) },
+      readSign: function () {
+        requireNoArguments(state, 'readSign', arguments)
         touch(state)
         return state.variant.sign
       },
-      hasKey: () => {
+      hasKey: function () {
+        requireNoArguments(state, 'hasKey', arguments)
         touch(state)
         return state.hasKey
       },
-      gemCount: () => {
+      gemCount: function () {
+        requireNoArguments(state, 'gemCount', arguments)
         touch(state)
         return state.gems
       },
-      isAtGoal: () => {
+      isAtGoal: function () {
+        requireNoArguments(state, 'isAtGoal', arguments)
         touch(state)
         return state.goalReached
       },
-      x: () => {
+      x: function () {
+        requireNoArguments(state, 'x', arguments)
         touch(state)
         return state.hero.x
       },
-      y: () => {
+      y: function () {
+        requireNoArguments(state, 'y', arguments)
         touch(state)
         return state.hero.y
       },
-      say: message => speak(state, message),
-      transform: form => transform(state, form)
+      say: function () { return say(state, Array.from(arguments)) },
+      transform: function () { return transform(state, Array.from(arguments)) }
+    })
+
+    return new Proxy(methods, {
+      get: function (target, property) {
+        if (Object.prototype.hasOwnProperty.call(target, property)) return target[property]
+        if (typeof property === 'symbol') return target[property]
+        return unknownMethod(state, property)
+      },
+      set: function () { return false }
     })
   }
 
@@ -248,7 +315,12 @@
         state: snapshot(state),
         trace: state.trace,
         logs: state.logs,
-        error: { name: error.name || 'Error', message: error.message || String(error) }
+        error: {
+          name: error.name || 'Error',
+          message: error.message || String(error),
+          code: error.code || null,
+          spoken: Boolean(error.jsQuestSpoken)
+        }
       }
     }
   }
@@ -282,7 +354,7 @@
   function evaluate (mission, result, code) {
     const messages = []
     if (!result.ok) {
-      messages.push('コードエラー: ' + result.error.message)
+      messages.push(result.error.spoken ? '命令を直して、もう一度ためしてみよう。' : 'コードエラー: ' + result.error.message)
       return { passed: false, messages }
     }
 
@@ -317,6 +389,9 @@
     DIRECTIONS,
     TILE_NAMES,
     LOCKED_POWER_MESSAGE,
+    INVALID_DIRECTION_MESSAGE,
+    INVALID_TRANSFORM_MESSAGE,
+    FORM_LEVELS,
     ALLOWED_FORMS,
     createState,
     simulate,
