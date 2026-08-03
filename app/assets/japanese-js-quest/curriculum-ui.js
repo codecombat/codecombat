@@ -1,19 +1,9 @@
 (function () {
   'use strict'
 
-  let remapping = false
-
   function currentMissionId () {
     const match = (document.getElementById('mission-number')?.textContent || '').match(/(\d+)/)
     return match ? Number(match[1]) : 0
-  }
-
-  function legacyDisplayId (finalId) {
-    if (finalId <= 2) return finalId
-    if (finalId === 3) return 2
-    if (finalId <= 13) return finalId - 1
-    if (finalId === 14) return 12
-    return finalId - 2
   }
 
   function tooltip (text, reading, extraClass) {
@@ -37,7 +27,7 @@
       '<h3>' + title + '</h3>',
       '<div class="learning-guide-grid">',
       cards.map(card => '<article><h4>' + card[0] + '</h4><p>' + card[1] + '</p></article>').join(''),
-      '</div>'
+      '</div>',
     ].join('')
   }
 
@@ -47,24 +37,24 @@
     section.innerHTML = guideShell('true と false を名前に保存しよう', [
       [
         tooltip('ブール値', 'ぶーるち') + '（' + tooltip('Boolean', 'ブーリアン', 'tech-term') + '）',
-        'ブール値は <code>true</code> と <code>false</code> の二つだけを持つ値です。<code>true</code> は「正しい」、<code>false</code> は「正しくない」を表します。'
+        'ブール値は <code>true</code> と <code>false</code> の二つだけを持つ値です。<code>true</code> は「正しい」、<code>false</code> は「正しくない」を表します。',
       ],
       [
         '<code>const</code> は ' + tooltip('定数', 'ていすう') + '（' + tooltip('Constant', 'コンスタント', 'tech-term') + '）',
-        '<code>const</code> は、プレイヤーが値に名前をつけて固定する魔法です。固定した値は、あとで同じ名前を使って何度でも再利用できます。'
+        '<code>const</code> は、プレイヤーが値に名前をつけて固定する魔法です。固定した値は、あとで同じ名前を使って何度でも再利用できます。',
       ],
       [
         '<code>=</code> は ' + tooltip('代入', 'だいにゅう') + '（' + tooltip('Assignment', 'アサインメント', 'tech-term') + '）',
-        '<code>const alwaysTrue = true;</code> では、右側の <code>true</code> を左側の <code>alwaysTrue</code> という名前へ入れます。<code>=</code> は「同じか調べる」記号ではありません。'
+        '<code>const alwaysTrue = true;</code> では、右側の <code>true</code> を左側の <code>alwaysTrue</code> という名前へ入れます。<code>=</code> は「同じか調べる」記号ではありません。',
       ],
       [
         '<code>always</code> は「いつも」',
-        '<code>alwaysTrue</code> は「いつも true」、<code>alwaysFalse</code> は「いつも false」という意味です。名前を読むと、保存した値の意味を思い出せます。'
+        '<code>alwaysTrue</code> は「いつも true」、<code>alwaysFalse</code> は「いつも false」という意味です。名前を読むと、保存した値の意味を思い出せます。',
       ],
       [
         '<code>hero.isTrue(boolean)</code>',
-        '<code>isTrue</code> はブール値だけを受け取ります。<code>true</code> なら「正しいです。」、<code>false</code> なら「違いますよ。」とヒーローが言います。'
-      ]
+        '<code>isTrue</code> はブール値だけを受け取ります。<code>true</code> なら「正しいです。」、<code>false</code> なら「違いますよ。」とヒーローが言います。',
+      ],
     ])
     bindCustomTokens(section)
   }
@@ -75,33 +65,22 @@
     section.innerHTML = guideShell('止まらない条件ループを体験しよう', [
       [
         tooltip('条件ループ', 'じょうけんるーぷ') + '（' + tooltip('Conditional loop', 'コンディショナル・ループ', 'tech-term') + '）',
-        '<code>while (条件) { ... }</code> は、条件が <code>true</code> の間、波かっこの中を何度も繰り返します。毎回、次の周回へ進む前に条件を確かめます。'
+        '<code>while (条件) { ... }</code> は、条件が <code>true</code> の間、波かっこの中を何度も繰り返します。毎回、次の周回へ進む前に条件を確かめます。',
       ],
       [
         '<code>while (true)</code> は ' + tooltip('無限ループ', 'むげんるーぷ') + '（' + tooltip('Infinite loop', 'インフィニット・ループ', 'tech-term') + '）',
-        '条件そのものがずっと <code>true</code> なので、ループを終えるきっかけがありません。次の命令へ進めず、コンピューターの力を使い続ける危険があります。'
+        '条件そのものがずっと <code>true</code> なので、ループを終えるきっかけがありません。次の命令へ進めず、コンピューターの力を使い続ける危険があります。',
       ],
       [
         tooltip('世界全体', 'せかいぜんたい') + 'を再起動する',
-        'プログラム自身が止まれないときは、外側からシステムを再起動する必要があります。このゲームでは、ブラウザーの丸い矢印を押すか <code>Ctrl+F5</code> でページを再読み込みします。'
+        'プログラム自身が止まれないときは、外側からシステムを再起動する必要があります。このゲームでは、ブラウザーの丸い矢印を押すか <code>Ctrl+F5</code> でページを再読み込みします。',
       ],
       [
         'クリア記録を先に保存する',
-        'この特別なミッションでは、「実行する」を押した瞬間にクリア記録を保存してから無限ループを始めます。ページを再読み込みすると、次のミッションへ進めます。'
-      ]
+        'この特別なミッションでは、「実行する」を押した瞬間にクリア記録を保存してから無限ループを始めます。ページを再読み込みすると、次のミッションへ進めます。',
+      ],
     ])
     bindCustomTokens(section)
-  }
-
-  function removeMovedConstCards () {
-    const section = document.getElementById('mission-learning-guide')
-    if (!section) return
-    section.querySelectorAll('.learning-guide-grid article').forEach(article => {
-      const heading = article.querySelector('h4')?.textContent || ''
-      if (heading.includes('const') || heading.includes('= は代入') || heading.includes('定数はあとで')) article.remove()
-    })
-    const title = section.querySelector(':scope > h3')
-    if (title) title.textContent = '看板の値で最初の if を動かそう'
   }
 
   function addBooleanReference (finalId) {
@@ -120,7 +99,7 @@
         '<p>true か false を受け取り、結果を日本語で話します。</p>',
         '<p class="word-breakdown">is＝〜である / true＝正しい / boolean＝真偽値</p>',
         '<div class="example-line"><span>例</span><code>hero.isTrue(alwaysTrue)</code></div>',
-        '</article>'
+        '</article>',
       ].join(''))
     }
 
@@ -129,14 +108,14 @@
       ['true', 'トゥルー', '正しい・はいを表すブール値です。'],
       ['false', 'フォルス', '正しくない・いいえを表すブール値です。'],
       ['always', 'オールウェイズ', '「いつも」という意味です。alwaysTrue は「いつも true」です。'],
-      ['alwaysTrue / alwaysFalse', 'オールウェイズ・トゥルー／フォルス', 'このミッションでブール値につけた定数名です。']
+      ['alwaysTrue / alwaysFalse', 'オールウェイズ・トゥルー／フォルス', 'このミッションでブール値につけた定数名です。'],
     ]
     for (const item of parameterItems) {
       if (parameters.querySelector('[data-curriculum-code="' + item[0] + '"]')) continue
       parameters.insertAdjacentHTML('beforeend', '<button class="reference-chip glossary-token" type="button" data-curriculum-code="' + item[0] + '" data-tooltip="' + item[2] + '"><code>' + item[0] + '</code><span>' + item[1] + '</span></button>')
     }
 
-    concepts.querySelectorAll('.concept-reference').forEach(article => {
+    concepts.querySelectorAll('.concept-reference:not([data-curriculum-concept])').forEach(article => {
       const code = article.querySelector('.concept-code')?.textContent.trim()
       if (code === 'true / false' || code === '=') article.remove()
     })
@@ -144,7 +123,7 @@
     const conceptItems = [
       ['boolean', 'ブール値', 'true / false', 'true と false の二つだけを持つ値です。'],
       ['constant', '定数', 'const alwaysTrue = true', 'const で値に名前をつけて固定し、あとで再利用します。'],
-      ['assignment', '代入', '=', '右側の値を左側の名前へ入れます。=== とは意味が違います。']
+      ['assignment', '代入', '=', '右側の値を左側の名前へ入れます。=== とは意味が違います。'],
     ]
     for (const item of conceptItems) {
       if (concepts.querySelector('[data-curriculum-concept="' + item[0] + '"]')) continue
@@ -163,24 +142,10 @@
   }
 
   function adaptCurriculumUi () {
-    if (remapping) return
-    const missionNumber = document.getElementById('mission-number')
-    if (!missionNumber) return
     const finalId = currentMissionId()
-    const legacyId = legacyDisplayId(finalId)
-
-    if (legacyId !== finalId) {
-      const originalText = missionNumber.textContent
-      remapping = true
-      missionNumber.textContent = 'MISSION ' + String(legacyId).padStart(2, '0')
-      document.dispatchEvent(new CustomEvent('jsquest:missionloaded', { detail: { curriculumRemap: true } }))
-      missionNumber.textContent = originalText
-      remapping = false
-    }
 
     if (finalId === 3) renderBooleanGuide()
     else if (finalId === 14) renderInfiniteGuide()
-    else if (finalId === 4) removeMovedConstCards()
 
     addBooleanReference(finalId)
     addInfiniteReference(finalId)
@@ -188,5 +153,11 @@
     if (range) range.textContent = 'MISSION ' + String(finalId).padStart(2, '0') + ' までに出てきた英語と記号'
   }
 
-  document.addEventListener('jsquest:missionloaded', adaptCurriculumUi)
+  function init () {
+    document.addEventListener('jsquest:missionloaded', adaptCurriculumUi)
+    adaptCurriculumUi()
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init)
+  else init()
 })()
