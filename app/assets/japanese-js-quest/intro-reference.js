@@ -86,6 +86,9 @@
     if (!missionNumber) return
     new MutationObserver(scheduleRender).observe(missionNumber, { childList: true, characterData: true, subtree: true })
     scheduleRender()
+    window.setTimeout(() => {
+      document.dispatchEvent(new CustomEvent('jsquest:missionloaded', { detail: { initialCurriculumRefresh: true } }))
+    }, 0)
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init)
