@@ -3,12 +3,13 @@
 
   const missions = window.JSQuestMissions
   const engine = window.JSQuestEngine
+  const solutionHelp = window.JSQuestSolutionHelp
   const storageKey = 'japanese-js-quest-progress-v1'
   const codeKeyPrefix = 'japanese-js-quest-code-v1-'
   const adminMode = new URLSearchParams(window.location.search).has('admin') &&
     new URLSearchParams(window.location.search).get('admin') !== '0'
 
-  if (!missions || !engine) {
+  if (!missions || !engine || !solutionHelp) {
     document.body.innerHTML = '<p>JavaScript クエストを読み込めませんでした。</p>'
     return
   }
@@ -46,7 +47,8 @@
   let hintIndex = 0
   let running = false
   let adminUnlockedAll = false
-  let attempts = {}
+  let suppressAutoSave = false
+  let failedAttempts = {}
   let progress = loadProgress()
   let fieldProgress
 
@@ -100,6 +102,7 @@
 
   let saveTimer
   function saveCurrentCodeSoon () {
+    if (suppressAutoSave) return
     window.clearTimeout(saveTimer)
     saveTimer = window.setTimeout(() => {
       localStorage.setItem(codeKeyPrefix + missions[currentIndex].id, editor.getValue())
@@ -225,10 +228,8 @@
     button.textContent = '全ミッションを開く'
     button.addEventListener('click', () => {
       adminUnlockedAll = true
-      progress.unlocked = missions.length
-      saveProgress()
       renderMissionList()
-      setFeedback('管理者モードですべてのミッションを開きました。クリア記録は変更していません。', 'neutral')
+      setFeedback('管理者モードで、このページのすべてのミッションを開きました。クリア記録は変更していません。', 'neutral')
       button.textContent = '全ミッション開放済み'
       button.disabled = true
     })
@@ -269,8 +270,13 @@
   }
 
   function setEditorValue (value) {
-    if (window.ace && editor && editor.session) editor.setValue(value, -1)
-    else editor.setValue(value)
+    suppressAutoSave = true
+    try {
+      if (window.ace && editor && editor.session) editor.setValue(value, -1)
+      else editor.setValue(value)
+    } finally {
+      suppressAutoSave = false
+    }
   }
 
   function renderInitialState (variantIndex, progressState) {
@@ -400,12 +406,15 @@
     }
   }
 
+  function recordFailedAttempt (mission) {
+    failedAttempts[mission.id] = (failedAttempts[mission.id] || 0) + 1
+    updateSolutionButton()
+  }
+
   async function runCurrentCode () {
     if (running) return
     const mission = missions[currentIndex]
     const code = editor.getValue()
-    attempts[mission.id] = (attempts[mission.id] || 0) + 1
-    updateSolutionButton()
     running = true
     els.run.disabled = true
     els.next.hidden = true
@@ -421,6 +430,7 @@
         await animateTrace(execution.result.trace, execution.result.state)
 
         if (!execution.evaluation.passed) {
+          recordFailedAttempt(mission)
           const logs = execution.result.logs && execution.result.logs.length
             ? '\n\n出力:\n' + execution.result.logs.join('\n')
             : ''
@@ -442,6 +452,7 @@
 
       completeMission(mission)
     } catch (error) {
+      recordFailedAttempt(mission)
       setFeedback(error.message, 'error')
     } finally {
       running = false
@@ -471,9 +482,18 @@
   }
 
   function updateSolutionButton () {
-    const count = attempts[missions[currentIndex].id] || 0
+    els.solution.hidden = false
+    if (adminMode) {
+      els.solution.disabled = false
+      els.solution.textContent = '答えを見る'
+      return
+    }
+
+    const count = failedAttempts[missions[currentIndex].id] || 0
     els.solution.disabled = count < 3
-    els.solution.textContent = count < 3 ? '答えを見る（あと' + (3 - count) + '回）' : '答えを見る'
+    els.solution.textContent = count < 3
+      ? 'ほぼ完成コード（あと' + (3 - count) + '回失敗）'
+      : 'ほぼ完成コードを見る'
   }
 
   els.run.addEventListener('click', runCurrentCode)
@@ -497,11 +517,20 @@
 
   els.solution.addEventListener('click', () => {
     if (els.solution.disabled) return
-    if (!window.confirm('答えを見ると、自分のコードが答えに置きかわります。よろしいですか？')) return
     const mission = missions[currentIndex]
-    setEditorValue(mission.solution)
-    localStorage.setItem(codeKeyPrefix + mission.id, mission.solution)
-    setFeedback('答えを表示しました。1行ずつ読んでから実行してみよう。', 'neutral')
+
+    if (adminMode) {
+      setEditorValue(mission.solution)
+      setFeedback('管理者用の正解コードを表示しました。保存はしていません。', 'neutral')
+      editor.focus()
+      return
+    }
+
+    if (!window.confirm('ほぼ完成したヒントコードに置きかえます。最後の大切な部分は自分で完成させます。よろしいですか？')) return
+    const partialSolution = solutionHelp.partialForMission(mission, engine)
+    setEditorValue(partialSolution)
+    localStorage.setItem(codeKeyPrefix + mission.id, partialSolution)
+    setFeedback('ほぼ完成したヒントコードを表示しました。TODO とコメントを読んで、最後の部分を完成させよう。', 'neutral')
     editor.focus()
   })
 
@@ -512,7 +541,7 @@
     localStorage.removeItem(storageKey)
     for (const mission of missions) localStorage.removeItem(codeKeyPrefix + mission.id)
     progress = { completed: [], unlocked: 1 }
-    attempts = {}
+    failedAttempts = {}
     loadMission(0)
   })
 
