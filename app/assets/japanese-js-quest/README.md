@@ -114,17 +114,37 @@ Une exécution réussie ne compte pas comme un échec.
 
 ## Mission 14 : boucle infinie volontaire
 
-La mission explique pourquoi `while (true)` ne peut pas s'arrêter seule. Lorsque l'utilisateur clique sur `実行する` :
+La mission utilise maintenant une préparation en deux étapes pour éviter que l'enfant se retrouve immédiatement bloqué :
 
-1. la réussite et le déblocage de la mission suivante sont sauvegardés immédiatement ;
-2. le héros récupère la gemme ;
-3. il répète son message à chaque tour ;
-4. fermer la bulle déclenche l'itération suivante ;
-5. il faut recharger la page avec l'icône circulaire du navigateur ou `Ctrl+F5` pour sortir de la démonstration.
+1. lors du premier affichage, l'éditeur est grisé et non modifiable ;
+2. le bouton jaune est remplacé par un bouton vert `↻ 無限ループを準備する` ;
+3. ce bouton fait expliquer au héros qu'il faut recharger avec `Ctrl+F5` ;
+4. un simple changement de mission ne suffit pas : il faut réellement recharger la page ;
+5. après ce rechargement, l'éditeur redevient actif et le bouton jaune `▶ 実行する` réapparaît ;
+6. ce second bouton sauvegarde la réussite avant de lancer la boucle infinie ;
+7. fermer la bulle déclenche l'itération suivante ;
+8. un nouveau `Ctrl+F5` permet de quitter la boucle et de continuer vers la mission 15.
+
+Le raccourci `Ctrl+F5` est aussi affiché dans la barre des raccourcis de l'éditeur.
+
+## Missions de boucle : conditions de victoire
+
+Les missions de boucle affichent désormais leurs limites directement dans le bloc du field, par exemple :
+
+```text
+移動：最大 6 回
+コードに hero.move(...)：最大 1 回
+```
+
+Le premier nombre limite les déplacements réellement exécutés. Le second limite le nombre de fois où la méthode est écrite dans le code source : le mouvement doit donc être placé dans la boucle au lieu d'être copié six fois.
+
+Les commentaires sont ignorés pour cette validation. Un `for` commenté ne compte pas comme une boucle et un programme déroulé manuellement produit un message d'erreur japonais dans le panneau `結果`.
 
 ## Plusieurs fields avec le même programme
 
 Une barre affiche le field courant et le nombre total. Un clic sur `実行する` réinitialise toujours l'aventure, démarre au field 1 et exécute le même code sur tous les fields dans l'ordre. La mission s'arrête sur le premier field en échec et n'est validée que lorsque tous réussissent.
+
+Le panneau du field répète aussi la mission courante sous la forme `MISSION XX - titre`, avec le numéro en jaune et le titre en blanc.
 
 ## Erreurs expliquées par le héros
 
@@ -175,9 +195,11 @@ Depuis la racine du dépôt :
 
 ```bash
 node scripts/validate-japanese-js-quest.js
+node scripts/validate-japanese-js-quest-runtime.js
+node scripts/validate-japanese-js-quest-loop-rules.js
 ```
 
-Le validateur vérifie les 23 missions et tous leurs fields, les solutions finies, les solutions partielles incomplètes, les gemmes, les niveaux, l'ordre des actions, les erreurs parlées, `hero.isTrue(...)`, le drapeau de la mission 03, le dragon de niveau 99, la mission infinie spéciale, la migration des identifiants, l'aventure multi-fields, le mode administrateur, la légende progressive, l'absence de requête Ace en mode autonome et les documents de règles.
+Les validateurs vérifient les 23 missions et tous leurs fields, les solutions finies, les solutions partielles incomplètes, les gemmes, les niveaux, l'ordre des actions, les erreurs parlées, `hero.isTrue(...)`, le drapeau de la mission 03, le dragon de niveau 99, la préparation en deux étapes de la mission infinie, les limites de code des boucles, le refus des boucles commentées, la migration des identifiants, l'aventure multi-fields, le mode administrateur, la légende progressive, l'absence de requête Ace en mode autonome et les documents de règles.
 
 ## 日本語
 
