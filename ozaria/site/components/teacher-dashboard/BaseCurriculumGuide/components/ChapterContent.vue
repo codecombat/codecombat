@@ -18,7 +18,11 @@
         </div>
         <div class="col-md-3">
           <concepts-covered :concept-list="conceptsCovered" />
-          <csta-standards :csta-list="cstaStandards" />
+          <csta-standards
+            :csta-list="cstaStandards"
+            :standards-link="standardsAlignmentLink"
+            :standards-label="standardsAlignmentLabel"
+          />
         </div>
       </div>
     </div>
@@ -55,6 +59,14 @@ export default {
 
     cstaStandards () {
       return this.getCurrentCourse?.cstaStandards || []
+    },
+
+    standardsAlignmentLink () {
+      return this.getCurrentCourse?.standardsAlignmentLink
+    },
+
+    standardsAlignmentLabel () {
+      return this.getCurrentCourse?.standardsAlignmentLabel
     },
   },
   methods: {
