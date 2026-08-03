@@ -45,6 +45,17 @@ This document is the functional and business source of truth for the local Japan
 - Later missions introduce `else`, `else if`, logical operators, loops, mutable variables, remainder and nested loops when first used.
 - Branch starter code from mission 04 onward contains Japanese `hero.say(...)` thinking prompts inside each branch. `else` prompts begin with `その他` rather than pretending to have a named condition.
 
+## Concept card reference base
+
+- Every genuinely new concept is introduced through a dedicated card displayed in the mission's `新しい考え方` section.
+- Each concept card is stored exactly once in the canonical concept-card reference base and has a stable, unique ID.
+- A mission guide stores its title and the ordered IDs of the cards it displays; it must not duplicate the card title or explanation outside the reference base.
+- The adventure renders the visible card title, explanatory HTML, code styling and explanatory tooltips by resolving those IDs from the reference base.
+- Every rendered card exposes its source ID through `data-concept-card-id` so later learning tools can connect visible content to the same canonical record.
+- Concept-card IDs must never be reassigned to a different meaning or silently reused after publication.
+- Future flashcards, quizzes and review activities must reuse the same reference records rather than copying card content into a second data source.
+- Refactoring storage or rendering must preserve the approved visual appearance, code markup, tooltip behavior and mission card order.
+
 ## Boolean lesson and `hero.isTrue`
 
 - A boolean is a value that can only be `true` or `false`.
@@ -188,6 +199,7 @@ This document is the functional and business source of truth for the local Japan
 - It verifies the infinite-loop mission is prevalidated before execution and requires page reload rather than being run directly in the test process.
 - It verifies multi-field ordering, field-progress source rules, admin URL behavior and progressive legend thresholds.
 - It verifies saved curriculum migration preserves existing code and progress semantics.
+- It verifies every mission guide resolves its ordered concept-card IDs from the canonical reference base, all IDs are unique and every rendered card exposes its ID.
 - It verifies standalone mode does not request the absent Ace asset and that curriculum rendering does not recursively redispatch mission loading.
 - It verifies required documentation exists and remains consistent with the implementation.
 - ESLint must pass for changed JavaScript files.
