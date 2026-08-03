@@ -11,13 +11,14 @@ This document is the functional and business source of truth for the local Japan
 
 ## Campaign and persistence
 
-- The campaign contains 21 missions numbered 00 through 20.
+- The campaign contains 23 missions numbered 00 through 22.
 - Missions unlock linearly unless admin mode explicitly unlocks them.
 - Completion state and edited code are stored in browser `localStorage`.
 - Wizard level is never stored as a separate mutable value. It is derived deterministically from scripted mission rewards.
 - Resetting progress removes completion and saved mission code after confirmation.
 - Resetting one mission's code requires confirmation and restores that mission's current canonical starter code.
 - A legacy saved starter may be migrated only when it exactly matches the replaced canonical starter; personally edited code must not be overwritten automatically.
+- When missions are inserted and later missions are renumbered, saved code, completed mission identifiers and the unlocked position must be migrated so that existing learner work remains attached to the same lesson.
 
 ## Controls and learner assistance
 
@@ -27,7 +28,7 @@ This document is the functional and business source of truth for the local Japan
 - Hints can be revealed progressively.
 - The full reference solution remains disabled until the learner has attempted the mission three times.
 - Showing the solution requires confirmation because it replaces the current editor content.
-- The next-mission button appears only after the current mission succeeds on every field.
+- The next-mission button appears only after the current mission succeeds on every field, except for the intentional infinite-loop demonstration described below.
 
 ## Mission pedagogy
 
@@ -35,9 +36,23 @@ This document is the functional and business source of truth for the local Japan
 - Mission 00 contains exactly one executable line: `hero.say('Hello Yuzu');`.
 - Mission 00 explains object, method, dot access, parameters, string literals and the difference between program words and quoted text in the hero's world.
 - Mission 01 introduces code comments. Text after `//` is explained as a human-readable note that is not executed.
-- Mission 03 introduces `const`, assignment with `=`, return values, reuse of a named value, `if`, braces and comparison.
-- Later missions introduce `else`, `else if`, logical operators, booleans, loops, mutable variables, remainder and nested loops when first used.
-- Branch starter code from mission 03 onward contains Japanese `hero.say(...)` thinking prompts inside each branch. `else` prompts begin with `その他` rather than pretending to have a named condition.
+- Mission 03 introduces booleans, `true`, `false`, `const`, assignment with `=`, reuse of a named value, the English word `always`, and `hero.isTrue(boolean)`.
+- Mission 03 has completed starter code. The learner validates it by executing it without needing to edit it.
+- Mission 04 is the first `if` mission. It introduces `hero.readSign()`, return values, `if`, braces and comparison, while referring back to constants and assignment learned in mission 03.
+- Mission 14 is an intentional infinite-loop demonstration using `while (true)`.
+- Mission 15 is the first later mission using `while (!hero.isAtGoal())`.
+- Later missions introduce `else`, `else if`, logical operators, loops, mutable variables, remainder and nested loops when first used.
+- Branch starter code from mission 04 onward contains Japanese `hero.say(...)` thinking prompts inside each branch. `else` prompts begin with `その他` rather than pretending to have a named condition.
+
+## Boolean lesson and `hero.isTrue`
+
+- A boolean is a value that can only be `true` or `false`.
+- `hero.isTrue(boolean)` accepts exactly one JavaScript boolean value.
+- Passing `true` makes the hero say `正しいです。`.
+- Passing `false` makes the hero say `違いますよ。`.
+- A missing, extra or non-boolean parameter produces a blocking Japanese hero explanation that only `true` or `false` is accepted.
+- Mission 03 defines `const alwaysTrue = true` and `const alwaysFalse = false`, calls `hero.isTrue(...)` for both values, and then collects its required gem.
+- Mission 03 validates only after the existing program has been executed and both boolean cases have been checked.
 
 ## Japanese reading and technical vocabulary
 
@@ -46,7 +61,7 @@ This document is the functional and business source of truth for the local Japan
 - Reading help inside the glossary uses a quieter gray treatment and must not interfere with existing code-component tooltips.
 - When Japanese programmers commonly use an English technical term, the concept introduction displays both names.
 - The English term is written in Latin characters and exposes its katakana pronunciation on hover, keyboard focus and click.
-- Examples include Object, Method, Parameter, String, Literal, Comment, Constant, Assignment, Return value, Conditional branch, Boolean, Variable, Operator and Loop.
+- Examples include Object, Method, Parameter, String, Literal, Comment, Constant, Assignment, Return value, Conditional branch, Boolean, Variable, Operator, Loop and Infinite loop.
 
 ## Reference panel
 
@@ -56,6 +71,8 @@ This document is the functional and business source of truth for the local Japan
 - English code components can be hovered, focused or clicked to display Japanese meaning and pronunciation.
 - `gem` explains that gems give experience, increase wizard level and unlock powers.
 - `transform`, `form` and `frog` are hidden before mission 02.
+- `boolean`, `true`, `false`, `always`, constants, assignment and `hero.isTrue(boolean)` appear from mission 03.
+- `while (true)` and the infinite-loop warning appear from mission 14.
 
 ## Action execution
 
@@ -81,6 +98,7 @@ This document is the functional and business source of truth for the local Japan
 - A missing, extra or invalid direction produces a dedicated Japanese explanation that repeats all four accepted values.
 - Methods that accept no parameters reject supplied parameters with a Japanese hero explanation.
 - `hero.say(message)` requires exactly one string value. Invalid input produces a Japanese hero explanation.
+- `hero.isTrue(boolean)` requires exactly one boolean value. Invalid input produces a Japanese hero explanation.
 - Unknown or misspelled `hero` methods produce a Japanese hero explanation asking the learner to check the command spelling.
 - An invalid transformation name produces a Japanese hero explanation that the requested form is not understood.
 
@@ -114,15 +132,27 @@ This document is the functional and business source of truth for the local Japan
 - Re-running always restarts at field 1, not at the failed or previously displayed field.
 - A mission completes only after the same code passes all fields.
 
+## Intentional infinite-loop mission
+
+- Mission 14 teaches conditional loops and the danger of a condition that stays `true` forever.
+- Its canonical code collects the required gem and then runs `while (true)` with a Japanese `hero.say(...)` inside every iteration.
+- The explanation clearly states that an always-true loop cannot reach later instructions and may continuously consume computer resources.
+- The explanation clearly instructs the learner to reload the browser with the circular reload icon or `Ctrl+F5`.
+- On the first click on `実行する`, mission completion and the next mission unlock are persisted before the infinite demonstration starts.
+- During the demonstration, closing the speech bubble starts the next loop iteration and shows the same speech again.
+- Adventure controls remain unavailable during the demonstration. Reloading the page is the intended exit.
+- After reload, the persisted completion allows the learner to continue to mission 15.
+- Automated validation must not execute the truly infinite canonical solution directly; it validates the special mission metadata and runtime mechanism instead.
+
 ## Legend disclosure
 
 - The legend reveals objects progressively and contains no duplicate entries.
 - The hero is visible from mission 00.
 - Gem and goal are visible from mission 01.
 - Frog is hidden before mission 02 and appears exactly once from mission 02 onward.
-- Trap appears from mission 06.
-- Key and door appear from mission 08.
-- Enemy appears from mission 13.
+- Trap appears from mission 07.
+- Key and door appear from mission 09.
+- Enemy appears from mission 15.
 - Future forms such as dragon stay hidden until their story introduction.
 
 ## Admin mode
@@ -140,9 +170,12 @@ This document is the functional and business source of truth for the local Japan
 
 ## Validation and regression protection
 
-- The focused validator must execute every reference solution on every field.
-- It verifies mission count, unique identifiers, required gems, scripted levels, transformation gates and ordered action traces.
-- It verifies invalid direction, invalid parameter, unknown method, invalid transformation and locked dragon behavior.
+- The focused validator must execute every finite reference solution on every field.
+- It verifies mission count, consecutive identifiers, unique identifiers, required gems, scripted levels, transformation gates and ordered action traces.
+- It verifies invalid direction, invalid parameter, invalid boolean, unknown method, invalid transformation and locked dragon behavior.
+- It verifies the boolean mission checks both `true` and `false`.
+- It verifies the infinite-loop mission is prevalidated before execution and requires page reload rather than being run directly in the test process.
 - It verifies multi-field ordering, field-progress source rules, admin URL behavior and progressive legend thresholds.
+- It verifies saved curriculum migration preserves existing code and progress semantics.
 - It verifies required documentation exists and remains consistent with the implementation.
 - ESLint must pass for changed JavaScript files.
