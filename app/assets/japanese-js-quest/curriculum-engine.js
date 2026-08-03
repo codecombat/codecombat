@@ -52,6 +52,110 @@
     })
   }
 
+  function stripComments (source) {
+    const text = String(source)
+    let output = ''
+    let state = 'code'
+    let quote = ''
+    let escaped = false
+
+    for (let index = 0; index < text.length; index++) {
+      const character = text[index]
+      const next = text[index + 1]
+
+      if (state === 'line-comment') {
+        if (character === '\n') {
+          output += '\n'
+          state = 'code'
+        } else {
+          output += ' '
+        }
+        continue
+      }
+
+      if (state === 'block-comment') {
+        if (character === '*' && next === '/') {
+          output += '  '
+          index++
+          state = 'code'
+        } else {
+          output += character === '\n' ? '\n' : ' '
+        }
+        continue
+      }
+
+      if (state === 'string') {
+        output += character
+        if (escaped) {
+          escaped = false
+        } else if (character === '\\') {
+          escaped = true
+        } else if (character === quote) {
+          state = 'code'
+          quote = ''
+        }
+        continue
+      }
+
+      if (character === '/' && next === '/') {
+        output += '  '
+        index++
+        state = 'line-comment'
+      } else if (character === '/' && next === '*') {
+        output += '  '
+        index++
+        state = 'block-comment'
+      } else {
+        output += character
+        if (character === '"' || character === "'" || character === '`') {
+          state = 'string'
+          quote = character
+        }
+      }
+    }
+
+    return output
+  }
+
+  function codeOnly (source) {
+    const text = stripComments(source)
+    let output = ''
+    let state = 'code'
+    let quote = ''
+    let escaped = false
+
+    for (const character of text) {
+      if (state === 'string') {
+        output += character === '\n' ? '\n' : ' '
+        if (escaped) {
+          escaped = false
+        } else if (character === '\\') {
+          escaped = true
+        } else if (character === quote) {
+          state = 'code'
+          quote = ''
+        }
+        continue
+      }
+
+      if (character === '"' || character === "'" || character === '`') {
+        output += ' '
+        state = 'string'
+        quote = character
+      } else {
+        output += character
+      }
+    }
+
+    return output
+  }
+
+  function countMethodCalls (code, method) {
+    const safeMethod = String(method).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const pattern = new RegExp('\\bhero\\s*\\.\\s*' + safeMethod + '\\s*\\(', 'g')
+    return (codeOnly(code).match(pattern) || []).length
+  }
+
   function evaluateBooleanDemo (base, mission, result, code) {
     if (!mission.requirements || !mission.requirements.booleanDemo || !result.ok) return base
     const messages = base.messages.slice()
@@ -72,6 +176,23 @@
     return { passed: messages.length === 0, messages }
   }
 
+  function evaluateSourceCallLimits (base, mission, code) {
+    const limits = mission.requirements && mission.requirements.sourceCallLimits
+    if (!Array.isArray(limits) || !limits.length) return base
+    const messages = base.messages.slice()
+
+    for (const limit of limits) {
+      const actual = countMethodCalls(code, limit.method)
+      if (actual <= limit.max) continue
+      messages.push(
+        'コードに hero.' + limit.method + '(...) を書けるのは最大 ' + limit.max +
+        ' 回です。今は ' + actual + ' 回あります。ループの中に命令を書いて繰り返しましょう。'
+      )
+    }
+
+    return { passed: messages.length === 0, messages }
+  }
+
   function apply (engine) {
     if (!engine || engine.__curriculumBooleanApplied) return engine
     const originalSimulate = engine.simulate.bind(engine)
@@ -82,13 +203,18 @@
     }
 
     engine.evaluate = function (mission, result, code) {
-      const base = originalEvaluate(mission, result, code)
-      return evaluateBooleanDemo(base, mission, result, String(code))
+      const source = String(code)
+      const executableSource = stripComments(source)
+      const base = originalEvaluate(mission, result, executableSource)
+      const booleanEvaluation = evaluateBooleanDemo(base, mission, result, executableSource)
+      return evaluateSourceCallLimits(booleanEvaluation, mission, executableSource)
     }
 
     engine.INVALID_BOOLEAN_MESSAGE = INVALID_BOOLEAN_MESSAGE
     engine.BOOLEAN_TRUE_MESSAGE = TRUE_MESSAGE
     engine.BOOLEAN_FALSE_MESSAGE = FALSE_MESSAGE
+    engine.stripComments = stripComments
+    engine.countMethodCalls = countMethodCalls
     Object.defineProperty(engine, '__curriculumBooleanApplied', { value: true })
     return engine
   }
@@ -96,6 +222,8 @@
   return {
     apply,
     transformCode,
+    stripComments,
+    countMethodCalls,
     INVALID_BOOLEAN_MESSAGE,
     TRUE_MESSAGE,
     FALSE_MESSAGE
