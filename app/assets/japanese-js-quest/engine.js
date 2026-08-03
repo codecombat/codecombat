@@ -141,6 +141,13 @@
     )
   }
 
+  function requireDirectionArgument (state, args) {
+    if (args.length !== 1) {
+      failWithSpeech(state, INVALID_DIRECTION_MESSAGE, 'invalid-direction')
+    }
+    return args[0]
+  }
+
   function directionDelta (state, direction) {
     const delta = typeof direction === 'string' ? DIRECTIONS[direction] : null
     if (!delta) failWithSpeech(state, INVALID_DIRECTION_MESSAGE, 'invalid-direction')
@@ -247,9 +254,9 @@
 
   function createHeroApi (state) {
     const methods = Object.freeze({
-      move: function () { return move(state, arguments[0]) },
-      canMove: function () { return canMove(state, arguments[0]) },
-      look: function () { return inspect(state, arguments[0]) },
+      move: function () { return move(state, requireDirectionArgument(state, arguments)) },
+      canMove: function () { return canMove(state, requireDirectionArgument(state, arguments)) },
+      look: function () { return inspect(state, requireDirectionArgument(state, arguments)) },
       readSign: function () {
         requireNoArguments(state, 'readSign', arguments)
         touch(state)
