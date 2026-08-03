@@ -35,6 +35,7 @@
     変数: 'へんすう',
     偶数: 'ぐうすう',
     奇数: 'きすう',
+    無限: 'むげん',
     総復習: 'そうふくしゅう',
     経験値: 'けいけんち',
     宝石: 'ほうせき',
@@ -103,9 +104,11 @@
 
   function annotateCurrentContent () {
     annotateText(document.getElementById('mission-learning-guide'), false)
+    annotateText(document.getElementById('mission-title'), false)
     annotateText(document.getElementById('mission-instructions'), false)
     annotateText(document.getElementById('mission-story'), false)
     annotateText(document.getElementById('mission-concept'), false)
+    annotateText(document.getElementById('field-mission-heading'), false)
     annotateText(document.getElementById('reference-panel'), true)
   }
 
