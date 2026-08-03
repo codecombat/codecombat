@@ -72,55 +72,6 @@
     return { passed: messages.length === 0, messages }
   }
 
-  function installWorkerAdapter (rootObject, engine) {
-    if (!rootObject || !rootObject.Worker || rootObject.Worker.__jsQuestBooleanAdapter) return
-    const NativeWorker = rootObject.Worker
-
-    function AdaptedWorker () {
-      const worker = Reflect.construct(NativeWorker, Array.from(arguments))
-      const nativePostMessage = worker.postMessage.bind(worker)
-      let lastPayload = null
-      let userOnMessage = null
-      let listenerInstalled = false
-
-      worker.postMessage = function (payload) {
-        lastPayload = payload
-        const forwarded = payload && typeof payload === 'object'
-          ? Object.assign({}, payload, { code: transformCode(payload.code) })
-          : payload
-        return nativePostMessage(forwarded)
-      }
-
-      Object.defineProperty(worker, 'onmessage', {
-        configurable: true,
-        enumerable: true,
-        get: function () { return userOnMessage },
-        set: function (handler) {
-          userOnMessage = handler
-          if (listenerInstalled) return
-          listenerInstalled = true
-          worker.addEventListener('message', event => {
-            if (typeof userOnMessage !== 'function') return
-            let data = event.data
-            if (lastPayload && data && data.result) {
-              data = Object.assign({}, data, {
-                evaluation: engine.evaluate(lastPayload.mission, data.result, lastPayload.code)
-              })
-            }
-            userOnMessage.call(worker, { data })
-          })
-        }
-      })
-
-      return worker
-    }
-
-    AdaptedWorker.prototype = NativeWorker.prototype
-    Object.setPrototypeOf(AdaptedWorker, NativeWorker)
-    Object.defineProperty(AdaptedWorker, '__jsQuestBooleanAdapter', { value: true })
-    rootObject.Worker = AdaptedWorker
-  }
-
   function apply (engine) {
     if (!engine || engine.__curriculumBooleanApplied) return engine
     const originalSimulate = engine.simulate.bind(engine)
@@ -139,8 +90,6 @@
     engine.BOOLEAN_TRUE_MESSAGE = TRUE_MESSAGE
     engine.BOOLEAN_FALSE_MESSAGE = FALSE_MESSAGE
     Object.defineProperty(engine, '__curriculumBooleanApplied', { value: true })
-
-    if (typeof window !== 'undefined') installWorkerAdapter(window, engine)
     return engine
   }
 
