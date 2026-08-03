@@ -7,6 +7,7 @@ on:
     paths:
       - 'app/assets/japanese-js-quest/**'
       - 'scripts/validate-japanese-js-quest.js'
+      - 'scripts/validate-japanese-js-quest-runtime.js'
       - 'docs/PRODUCT_RULES.md'
       - 'docs/DEVELOPMENT_RULES.md'
       - '.github/workflows/japanese-js-quest.yml'
@@ -14,6 +15,7 @@ on:
     paths:
       - 'app/assets/japanese-js-quest/**'
       - 'scripts/validate-japanese-js-quest.js'
+      - 'scripts/validate-japanese-js-quest-runtime.js'
       - 'docs/PRODUCT_RULES.md'
       - 'docs/DEVELOPMENT_RULES.md'
       - '.github/workflows/japanese-js-quest.yml'
@@ -29,3 +31,5 @@ jobs:
           node-version: '22'
       - name: Validate all missions and fields
         run: node scripts/validate-japanese-js-quest.js
+      - name: Validate browser runtime paths
+        run: node scripts/validate-japanese-js-quest-runtime.js
