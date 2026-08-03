@@ -234,11 +234,15 @@
     const concepts = document.getElementById('reference-concepts')
     const values = document.getElementById('reference-values')
     const range = document.getElementById('reference-range')
-    if (!functions || !parameters || !concepts || !values) return
+    if (!functions || !parameters || !concepts || !values) {
+      return
+    }
 
-    if (range) range.textContent = finalId === 0
-      ? 'ミッション0で出てきた言葉'
-      : 'ミッション0〜' + finalId + 'で出てきた言葉'
+    if (range) {
+      range.textContent = finalId === 0
+        ? 'ミッション0で出てきた言葉'
+        : 'ミッション0〜' + finalId + 'で出てきた言葉'
+    }
     functions.innerHTML = renderFunctions(missionId)
     parameters.innerHTML = renderParameters(missionId)
     concepts.innerHTML = renderConcepts(missionId)
@@ -248,7 +252,9 @@
 
   function bindTooltipClicks () {
     document.querySelectorAll('#reference-panel .glossary-token').forEach(element => {
-      if (element.dataset.tooltipBound) return
+      if (element.dataset.tooltipBound) {
+        return
+      }
       element.dataset.tooltipBound = 'true'
       element.addEventListener('click', event => {
         event.stopPropagation()
@@ -261,7 +267,9 @@
 
   function init () {
     const missionNumber = document.getElementById('mission-number')
-    if (!missionNumber) return
+    if (!missionNumber) {
+      return
+    }
     new MutationObserver(render).observe(missionNumber, { childList: true, characterData: true, subtree: true })
     document.addEventListener('click', () => {
       document.querySelectorAll('#reference-panel .glossary-token.is-open').forEach(open => open.classList.remove('is-open'))
