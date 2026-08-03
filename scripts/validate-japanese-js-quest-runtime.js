@@ -48,6 +48,37 @@ const workerSource = readQuest('quest-worker.js')
 assert(workerSource.includes("importScripts('engine.js', 'curriculum-engine.js')"))
 assert(workerSource.includes('workerError'))
 
+const progressAccess = require(path.join(questRoot, 'progress-access.js'))
+assert.deepStrictEqual(
+  progressAccess.normalizeProgress({ completed: [], unlocked: 23 }, 23),
+  { completed: [], unlocked: 1 },
+)
+assert.deepStrictEqual(
+  progressAccess.normalizeProgress({ completed: [0, 1, 2], unlocked: 23 }, 23),
+  { completed: [0, 1, 2], unlocked: 4 },
+)
+assert.deepStrictEqual(
+  progressAccess.normalizeProgress({ completed: [0, 5, 14], unlocked: 23 }, 23),
+  { completed: [0, 5, 14], unlocked: 2 },
+)
+assert.deepStrictEqual(
+  progressAccess.normalizeProgress({ completed: [2, 1, 1, 0, 99, -1], unlocked: 23 }, 23),
+  { completed: [0, 1, 2], unlocked: 4 },
+)
+
+const storedValues = new Map([
+  ['japanese-js-quest-progress-v1', JSON.stringify({ completed: [0], unlocked: 23 })],
+])
+const fakeStorage = {
+  getItem: key => storedValues.get(key) || null,
+  setItem: (key, value) => storedValues.set(key, value),
+}
+progressAccess.normalizeStorage(fakeStorage, 'japanese-js-quest-progress-v1', 23)
+assert.strictEqual(
+  storedValues.get('japanese-js-quest-progress-v1'),
+  JSON.stringify({ completed: [0], unlocked: 2 }),
+)
+
 const appSource = readQuest('app-v3.js')
 for (const text of [
   'let adminUnlockedAll = false',
@@ -60,6 +91,10 @@ for (const text of [
 ]) assert(appSource.includes(text))
 assert(!appSource.includes('URL.createObjectURL'))
 assert(!appSource.includes('new Blob('))
+
+const indexSource = readQuest('index.html')
+assert(indexSource.includes('<script src="progress-access.js"></script>'))
+assert(indexSource.indexOf('progress-access.js') < indexSource.indexOf('app-v3.js'))
 
 const curriculumEngineSource = readQuest('curriculum-engine.js')
 assert(!curriculumEngineSource.includes('installWorkerAdapter(window'))
@@ -75,6 +110,9 @@ for (const text of [
   'must not globally replace or monkey-patch',
   'same admin-unlocked state',
   'bounded number of times',
+  'derived from the consecutive completed mission prefix',
+  'temporary to the current loaded page',
+  'must not unlock missions before the admin button is activated',
 ]) assert(productRules.includes(text))
 
-console.log('Validated mission 00 worker execution, admin unlocking and bounded concept rendering.')
+console.log('Validated mission 00 worker execution, temporary admin access, normal progress repair and bounded concept rendering.')
