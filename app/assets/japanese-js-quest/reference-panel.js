@@ -7,32 +7,32 @@
       signature: [
         token('hero', 'ヒーロー（主人公）'), plain('.'),
         token('move', 'ムーブ：動く・移動する'), plain('('),
-        token('direction', 'ディレクション：進む方向'), plain(')')
+        token('direction', 'ディレクション：進む方向'), plain(')'),
       ],
       example: 'hero.move("right")',
       description: 'ヒーローを、指定した方向へ1マス動かします。',
-      words: 'hero＝主人公 / move＝動く / direction＝方向'
+      words: 'hero＝主人公 / move＝動く / direction＝方向',
     },
     {
       from: 3,
       signature: [
         token('hero', 'ヒーロー（主人公）'), plain('.'),
-        token('read', 'リード：読む'), token('Sign', 'サイン：看板・しるし'), plain('()')
+        token('read', 'リード：読む'), token('Sign', 'サイン：看板・しるし'), plain('()'),
       ],
       example: 'hero.readSign()',
       description: 'フィールドの看板に書かれた文字や数を読みます。',
-      words: 'read＝読む / sign＝看板・しるし'
+      words: 'read＝読む / sign＝看板・しるし',
     },
     {
       from: 5,
       signature: [
         token('hero', 'ヒーロー（主人公）'), plain('.'),
         token('look', 'ルック：見る・調べる'), plain('('),
-        token('direction', 'ディレクション：見る方向'), plain(')')
+        token('direction', 'ディレクション：見る方向'), plain(')'),
       ],
       example: 'hero.look("right")',
       description: '指定した方向の、となりのマスを調べます。gem、trap、enemy などの文字を返します。',
-      words: 'look＝見る・調べる / direction＝方向'
+      words: 'look＝見る・調べる / direction＝方向',
     },
     {
       from: 6,
@@ -40,22 +40,22 @@
         token('hero', 'ヒーロー（主人公）'), plain('.'),
         token('can', 'キャン：〜できる・可能である'),
         token('Move', 'ムーブ：動く・移動する'), plain('('),
-        token('direction', 'ディレクション：進みたい方向'), plain(')')
+        token('direction', 'ディレクション：進みたい方向'), plain(')'),
       ],
       example: 'hero.canMove("right")',
       description: 'その方向へ進めるなら true、進めないなら false を返します。',
-      words: 'can＝できる / move＝動く / direction＝方向'
+      words: 'can＝できる / move＝動く / direction＝方向',
     },
     {
       from: 8,
       signature: [
         token('hero', 'ヒーロー（主人公）'), plain('.'),
         token('has', 'ハズ：持っている'),
-        token('Key', 'キー：カギ'), plain('()')
+        token('Key', 'キー：カギ'), plain('()'),
       ],
       example: 'hero.hasKey()',
       description: 'ヒーローがカギを持っているなら true を返します。',
-      words: 'has＝持っている / key＝カギ'
+      words: 'has＝持っている / key＝カギ',
     },
     {
       from: 13,
@@ -63,12 +63,12 @@
         token('hero', 'ヒーロー（主人公）'), plain('.'),
         token('is', 'イズ：〜である'),
         token('At', 'アット：〜にいる'),
-        token('Goal', 'ゴール：目的地'), plain('()')
+        token('Goal', 'ゴール：目的地'), plain('()'),
       ],
       example: 'hero.isAtGoal()',
       description: 'ヒーローがゴールに着いているなら true を返します。',
-      words: 'is＝〜である / at＝〜に / goal＝ゴール'
-    }
+      words: 'is＝〜である / at＝〜に / goal＝ゴール',
+    },
   ]
 
   const parameterEntries = [
@@ -80,7 +80,7 @@
     word(7, 'east', 'イースト', '東。今回のゲームでは right（右）と同じ意味の看板の言葉です。'),
     word(7, 'west', 'ウェスト', '西。今回のゲームでは left（左）と同じ意味の看板の言葉です。'),
     word(10, 'i / step / row', 'カウンターの名前', 'ループが今何回目かを覚えるための変数名です。名前は自分で決められます。'),
-    word(14, 'distance / steps', '距離・歩数', '何マス進むか、何回くり返すかを保存する変数名です。')
+    word(14, 'distance / steps', '距離・歩数', '何マス進むか、何回くり返すかを保存する変数名です。'),
   ]
 
   const conceptEntries = [
@@ -106,7 +106,7 @@
     concept(15, '二重ループ', 'for (...) { for (...) { ... } }', 'ループの中に、もう一つループを入れます。段と、その段の歩数を別々に数えられます。'),
     concept(15, '二つから選ぶ', '条件 ? A : B', '条件が正しければ A、ちがえば B を選びます。短い if / else のような書き方です。'),
     concept(18, '余り', '%', '割り算の余りを求めます。row % 2 が0なら偶数、1なら奇数です。'),
-    concept(18, '値を入れる', '=', '右側の値を、左側の変数に入れます。===（同じか調べる）とは意味が違います。')
+    concept(18, '値を入れる', '=', '右側の値を、左側の変数に入れます。===（同じか調べる）とは意味が違います。'),
   ]
 
   const valueEntries = [
@@ -119,7 +119,7 @@
     value(6, '⚠️', 'trap', 'トラップ：ワナ', '踏むと失敗になる危険なマスです。look で調べて避けます。'),
     value(8, '🔑', 'key', 'キー：カギ', '取るとドアを通れるようになります。'),
     value(8, '🚪', 'door', 'ドア：扉', 'カギを持っていると通れるマスです。'),
-    value(13, '👹', 'enemy', 'エネミー：敵', '進路をふさぐ敵です。look で見つけて別の道から避けます。')
+    value(13, '👹', 'enemy', 'エネミー：敵', '進路をふさぐ敵です。look で見つけて別の道から避けます。'),
   ]
 
   function token (text, tooltip) {
@@ -169,7 +169,7 @@
         '<p>' + escapeHtml(item.description) + '</p>',
         '<p class="word-breakdown">' + escapeHtml(item.words) + '</p>',
         '<div class="example-line"><span>例</span><code>' + escapeHtml(item.example) + '</code></div>',
-        '</article>'
+        '</article>',
       ].join(''))
       .join('')
   }
@@ -181,7 +181,7 @@
         '<button class="reference-chip glossary-token" type="button" data-tooltip="' + escapeHtml(item.description) + '">',
         '<code>' + escapeHtml(item.code) + '</code>',
         '<span>' + escapeHtml(item.reading) + '</span>',
-        '</button>'
+        '</button>',
       ].join(''))
       .join('')
   }
@@ -193,7 +193,7 @@
         '<article class="reference-item concept-reference">',
         '<div><strong>' + escapeHtml(item.name) + '</strong><code class="concept-code glossary-token" tabindex="0" data-tooltip="' + escapeHtml(item.description) + '">' + escapeHtml(item.code) + '</code></div>',
         '<p>' + escapeHtml(item.description) + '</p>',
-        '</article>'
+        '</article>',
       ].join(''))
       .join('')
   }
@@ -205,20 +205,28 @@
         '<button class="value-card glossary-token" type="button" data-tooltip="' + escapeHtml(item.description) + '">',
         '<span class="value-icon">' + escapeHtml(item.icon) + '</span>',
         '<span><code>' + escapeHtml(item.code) + '</code><small>' + escapeHtml(item.reading) + '</small></span>',
-        '</button>'
+        '</button>',
       ].join(''))
       .join('')
   }
 
-  function getMissionId () {
+  function getDisplayedMissionId () {
     const missionNumber = document.getElementById('mission-number')
     const text = missionNumber ? missionNumber.textContent : ''
     const match = text.match(/(\d+)/)
-    return match ? Number(match[1]) : 1
+    return match ? Number(match[1]) : 0
+  }
+
+  function getLegacyMissionId (finalId) {
+    const curriculum = window.JSQuestCurriculumV3
+    return curriculum && typeof curriculum.legacyIdForFinalId === 'function'
+      ? curriculum.legacyIdForFinalId(finalId)
+      : finalId
   }
 
   function render () {
-    const missionId = getMissionId()
+    const finalId = getDisplayedMissionId()
+    const missionId = getLegacyMissionId(finalId)
     const functions = document.getElementById('reference-functions')
     const parameters = document.getElementById('reference-parameters')
     const concepts = document.getElementById('reference-concepts')
@@ -226,7 +234,9 @@
     const range = document.getElementById('reference-range')
     if (!functions || !parameters || !concepts || !values) return
 
-    if (range) range.textContent = 'ミッション1〜' + missionId + 'で出てきた言葉'
+    if (range) range.textContent = finalId === 0
+      ? 'ミッション0で出てきた言葉'
+      : 'ミッション0〜' + finalId + 'で出てきた言葉'
     functions.innerHTML = renderFunctions(missionId)
     parameters.innerHTML = renderParameters(missionId)
     concepts.innerHTML = renderConcepts(missionId)
