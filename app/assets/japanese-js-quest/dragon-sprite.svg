@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="dragon">
+  <defs>
+    <linearGradient id="dragon-body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff9a62"/>
+      <stop offset="1" stop-color="#b8324b"/>
+    </linearGradient>
+  </defs>
+  <path d="M27 83 C18 64 25 40 48 31 C72 21 101 35 105 60 C109 82 91 103 65 105 C47 106 34 98 27 83Z" fill="url(#dragon-body)" stroke="#57192d" stroke-width="5"/>
+  <path d="M43 35 L31 11 L57 28" fill="#ffd36a" stroke="#57192d" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M76 31 L92 10 L91 42" fill="#ffd36a" stroke="#57192d" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M35 66 L8 48 L22 79" fill="#d84b62" stroke="#57192d" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M96 68 L121 48 L111 82" fill="#d84b62" stroke="#57192d" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="52" cy="58" r="9" fill="#fff"/><circle cx="83" cy="58" r="9" fill="#fff"/>
+  <circle cx="54" cy="60" r="5" fill="#182238"/><circle cx="81" cy="60" r="5" fill="#182238"/>
+  <path d="M54 82 Q68 92 83 80" fill="none" stroke="#57192d" stroke-width="5" stroke-linecap="round"/>
+  <path d="M94 91 C113 96 116 111 102 117" fill="none" stroke="#57192d" stroke-width="7" stroke-linecap="round"/>
+</svg>
