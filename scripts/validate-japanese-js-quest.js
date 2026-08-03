@@ -103,6 +103,10 @@ assert.deepStrictEqual(
   [2, 3, 12, 13, 20].map(curriculum.finalIdForLegacyId),
   [2, 4, 13, 15, 22],
 )
+assert.deepStrictEqual(
+  [2, 3, 4, 13, 14, 15, 22].map(curriculum.legacyIdForFinalId),
+  [2, 2, 3, 12, 12, 13, 20],
+)
 
 const missionOne = mission(missions, 1)
 const orderedMission = mission(missions, 2)
@@ -154,14 +158,30 @@ assert(indexSource.includes('23のミッション'))
 assert(indexSource.includes('0 / 23'))
 assert(indexSource.indexOf('branch-prompts.js') < indexSource.indexOf('curriculum-v3.js'))
 assert(indexSource.indexOf('curriculum-v3.js') < indexSource.indexOf('intro-mission.js'))
+assert(!indexSource.includes('../javascripts/ace/ace.js'))
 for (const file of ['curriculum-engine.js', 'curriculum-ui.js', 'curriculum-runtime.js']) {
   assert(indexSource.includes(`<script src="${file}"></script>`))
 }
 
 const curriculumUiSource = read('app/assets/japanese-js-quest/curriculum-ui.js')
-for (const text of ['hero.isTrue(boolean)', 'Boolean', 'alwaysTrue', 'while (true)', 'Ctrl+F5', 'removeMovedConstCards']) {
+for (const text of ['hero.isTrue(boolean)', 'Boolean', 'alwaysTrue', 'while (true)', 'Ctrl+F5']) {
   assert(curriculumUiSource.includes(text))
 }
+assert(!curriculumUiSource.includes('removeMovedConstCards'))
+assert(!curriculumUiSource.includes("dispatchEvent(new CustomEvent('jsquest:missionloaded'"))
+assert(!curriculumUiSource.includes('missionNumber.textContent ='))
+
+const learningGuideSource = read('app/assets/japanese-js-quest/learning-guide.js')
+assert(learningGuideSource.includes("title: '看板の値で最初の if を動かそう'"))
+assert(learningGuideSource.includes("['<code>===</code> は比較'"))
+assert(!learningGuideSource.includes("['<code>const</code> はプレイヤーの魔法'"))
+assert(!learningGuideSource.includes("['<code>=</code> は代入'"))
+assert(learningGuideSource.includes('legacyIdForFinalId'))
+
+const referenceSource = read('app/assets/japanese-js-quest/reference-panel.js')
+const terminologySource = read('app/assets/japanese-js-quest/technical-terms.js')
+assert(referenceSource.includes('legacyIdForFinalId'))
+assert(terminologySource.includes('legacyIdForFinalId'))
 
 const runtimeSource = read('app/assets/japanese-js-quest/curriculum-runtime.js')
 for (const text of [
@@ -182,9 +202,10 @@ for (const text of [
   '## Intentional infinite-loop mission',
   'Trap appears from mission 07',
   'Enemy appears from mission 15',
+  '## Standalone loading and stable curriculum rendering',
 ]) assert(productRules.includes(text))
 assert(developmentRules.includes('Read `docs/PRODUCT_RULES.md`'))
 
 const totalFields = missions.reduce((sum, item) => sum + item.variants.length, 0)
 assert.strictEqual(totalFields, 37)
-console.log(`Validated ${missions.length} missions and ${totalFields} fields with booleans, intentional infinite-loop recovery, spoken errors and wizard progression.`)
+console.log(`Validated ${missions.length} missions and ${totalFields} fields with stable mission selection, booleans, intentional infinite-loop recovery and wizard progression.`)
