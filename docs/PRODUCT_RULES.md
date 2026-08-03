@@ -75,6 +75,10 @@ This document is the functional and business source of truth for the local Japan
 - The displayed mission number is authoritative UI state and must never be changed temporarily to render legacy guides.
 - A `jsquest:missionloaded` handler must not dispatch another `jsquest:missionloaded` event while handling the current event.
 - Renumbered legacy guides, glossary thresholds and technical terms use a pure final-ID-to-legacy-ID conversion without changing the DOM.
+- Mission execution uses the static `quest-worker.js` worker, which explicitly loads both `engine.js` and `curriculum-engine.js`.
+- The application must not globally replace or monkey-patch the browser's native `Worker` constructor.
+- The execution worker must report initialization and execution errors back to the page instead of silently waiting until timeout.
+- Concept and reading annotations run a bounded number of times after mission rendering. They must not use a permanent subtree observer that mutates the same observed content.
 
 ## Japanese reading and technical vocabulary
 
@@ -183,6 +187,7 @@ This document is the functional and business source of truth for the local Japan
 - Admin mode is intentionally not protected.
 - Admin mode adds a visible button that unlocks all missions for manual verification.
 - Unlocking all missions does not automatically mark missions complete or grant persisted wizard level.
+- Once the admin unlock button is activated, the same admin-unlocked state must be used both when rendering mission buttons and when checking whether a selected mission may open.
 
 ## Speech and branch prompts
 
@@ -201,5 +206,7 @@ This document is the functional and business source of truth for the local Japan
 - It verifies saved curriculum migration preserves existing code and progress semantics.
 - It verifies every mission guide resolves its ordered concept-card IDs from the canonical reference base, all IDs are unique and every rendered card exposes its ID.
 - It verifies standalone mode does not request the absent Ace asset and that curriculum rendering does not recursively redispatch mission loading.
+- It verifies the static execution worker loads the complete engine, the app does not create Blob workers, and admin navigation uses the canonical unlock predicate.
+- It verifies concept annotation does not install a self-mutating permanent subtree observer.
 - It verifies required documentation exists and remains consistent with the implementation.
 - ESLint must pass for changed JavaScript files.
