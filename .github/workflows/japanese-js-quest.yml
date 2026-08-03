@@ -7,11 +7,15 @@ on:
     paths:
       - 'app/assets/japanese-js-quest/**'
       - 'scripts/validate-japanese-js-quest.js'
+      - 'docs/PRODUCT_RULES.md'
+      - 'docs/DEVELOPMENT_RULES.md'
       - '.github/workflows/japanese-js-quest.yml'
   pull_request:
     paths:
       - 'app/assets/japanese-js-quest/**'
       - 'scripts/validate-japanese-js-quest.js'
+      - 'docs/PRODUCT_RULES.md'
+      - 'docs/DEVELOPMENT_RULES.md'
       - '.github/workflows/japanese-js-quest.yml'
 
 jobs:
@@ -23,5 +27,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validate all missions and variants
+      - name: Validate all missions and fields
         run: node scripts/validate-japanese-js-quest.js
