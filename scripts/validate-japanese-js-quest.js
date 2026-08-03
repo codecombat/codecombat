@@ -15,6 +15,7 @@ const legacyMissions = require(path.join(__dirname, questPath, 'missions.js'))
 const curriculum = require(path.join(__dirname, questPath, 'curriculum-v3.js'))
 const progression = require(path.join(__dirname, questPath, 'progression.js'))
 const conceptCards = require(path.join(__dirname, questPath, 'concept-card-library.js'))
+const solutionHelp = require(path.join(__dirname, questPath, 'solution-help.js'))
 
 function read (relativePath) {
   return fs.readFileSync(path.join(__dirname, '..', relativePath), 'utf8')
@@ -53,6 +54,12 @@ for (const item of missions) {
     assert(item.requirements.state.minGems >= 1)
     assert(item.variants.every(variant => variant.map.some(row => row.includes('*'))))
   }
+
+  const partialSolution = solutionHelp.partialForMission(item, engine)
+  assert.notStrictEqual(partialSolution, item.solution, `Mission ${item.id} must not expose its final solution`)
+  assert(partialSolution.includes('// TODO:'), `Mission ${item.id} partial help must contain a TODO`)
+  assert(partialSolution.includes('// ヒント:'), `Mission ${item.id} partial help must contain comments`)
+
   if (item.infiniteLoopDemo) continue
 
   item.variants.forEach((variant, variantIndex) => {
@@ -64,22 +71,38 @@ for (const item of missions) {
       `Mission ${item.id}, field ${variantIndex + 1}: ${evaluation.messages.join(' | ')}`,
     )
   })
+
+  assert(
+    item.variants.some((variant, variantIndex) => {
+      const result = engine.simulate(partialSolution, item, variantIndex)
+      return !engine.evaluate(item, result, partialSolution).passed
+    }),
+    `Mission ${item.id} partial help must remain incomplete`,
+  )
 }
 
 const booleanMission = mission(missions, 3)
 assert.strictEqual(booleanMission.title, 'true と false')
 assert(booleanMission.requirements.booleanDemo)
+assert.strictEqual(booleanMission.requirements.state.goal, true)
+assert.strictEqual(booleanMission.requirements.state.maxMoves, 2)
 for (const source of [
+  '// true という値に alwaysTrue という名前をつける',
   'const alwaysTrue = true;',
   'hero.isTrue(alwaysTrue);',
+  '// false という値に alwaysFalse という名前をつける',
   'const alwaysFalse = false;',
   'hero.isTrue(alwaysFalse);',
 ]) assert(booleanMission.starterCode.includes(source))
+assert.strictEqual((booleanMission.starterCode.match(/hero\.move\("right"\);/g) || []).length, 2)
+assert(booleanMission.originalStarterCode.includes('hero.move("right");'))
 
 const booleanResult = engine.simulate(booleanMission.solution, booleanMission, 0)
 assert(engine.evaluate(booleanMission, booleanResult, booleanMission.solution).passed)
 assert(booleanResult.state.says.includes(curriculumEngine.TRUE_MESSAGE))
 assert(booleanResult.state.says.includes(curriculumEngine.FALSE_MESSAGE))
+assert.strictEqual(booleanResult.state.goalReached, true)
+assert.strictEqual(booleanResult.state.moves, 2)
 assert(engine.simulate('hero.isTrue(true);', booleanMission, 0).state.says.includes('正しいです。'))
 assert(engine.simulate('hero.isTrue(false);', booleanMission, 0).state.says.includes('違いますよ。'))
 assertSpokenFailure(engine.simulate('hero.isTrue("true");', booleanMission, 0), 'invalid-boolean', 'true か false')
@@ -162,6 +185,9 @@ assert(storedCards.every(card => Number.isInteger(card.missionId)))
 assert(storedCards.every(card => card.titleHtml && card.bodyHtml))
 assert.strictEqual(conceptCards.getCard('concept-card-001').titleHtml, '<code>hero</code> はオブジェクト')
 assert(conceptCards.getCard('concept-card-007').titleHtml.includes('Boolean'))
+assert(conceptCards.getCard('concept-card-010').titleHtml.includes('名前は自分で決められる'))
+assert(conceptCards.getCard('concept-card-010').bodyHtml.includes('ローマ字'))
+assert(conceptCards.getCard('concept-card-010').bodyHtml.includes('alwaysTrue'))
 assert(conceptCards.getCard('concept-card-025').bodyHtml.includes('コンピューターの力を使い続ける危険'))
 
 for (let missionId = 0; missionId < missions.length; missionId++) {
@@ -192,8 +218,11 @@ assert(indexSource.includes('0 / 23'))
 assert(indexSource.indexOf('branch-prompts.js') < indexSource.indexOf('curriculum-v3.js'))
 assert(indexSource.indexOf('curriculum-v3.js') < indexSource.indexOf('intro-mission.js'))
 assert(indexSource.indexOf('concept-card-library.js') < indexSource.indexOf('learning-guide.js'))
+assert(indexSource.indexOf('solution-help.js') < indexSource.indexOf('app-v3.js'))
+assert(indexSource.includes('id="show-solution"'))
+assert(indexSource.includes('disabled hidden>ヘルプ</button>'))
 assert(!indexSource.includes('../javascripts/ace/ace.js'))
-for (const file of ['curriculum-engine.js', 'curriculum-ui.js', 'curriculum-runtime.js', 'concept-card-library.js']) {
+for (const file of ['curriculum-engine.js', 'curriculum-ui.js', 'curriculum-runtime.js', 'concept-card-library.js', 'solution-help.js']) {
   assert(indexSource.includes(`<script src="${file}"></script>`))
 }
 
@@ -214,6 +243,20 @@ assert(learningGuideSource.includes('data-concept-card-id'))
 assert(learningGuideSource.includes('card.titleHtml'))
 assert(learningGuideSource.includes('card.bodyHtml'))
 assert(!learningGuideSource.includes('const guides ='))
+
+const appSource = read('app/assets/japanese-js-quest/app-v3.js')
+for (const text of [
+  'const solutionHelp = window.JSQuestSolutionHelp',
+  'let failedAttempts = {}',
+  'function recordFailedAttempt (mission)',
+  "els.solution.textContent = '答えを見る'",
+  "'ほぼ完成コードを見る'",
+  'solutionHelp.partialForMission(mission, engine)',
+  '管理者用の正解コードを表示しました。保存はしていません。',
+]) assert(appSource.includes(text))
+assert(!appSource.includes('attempts[mission.id]'))
+assert(!appSource.includes('progress.unlocked = missions.length'))
+assert(!appSource.includes('localStorage.setItem(codeKeyPrefix + mission.id, mission.solution)'))
 
 const referenceSource = read('app/assets/japanese-js-quest/reference-panel.js')
 const terminologySource = read('app/assets/japanese-js-quest/technical-terms.js')
@@ -246,9 +289,13 @@ for (const text of [
   'stable, unique ID',
   '`data-concept-card-id`',
   'Future flashcards, quizzes and review activities must reuse the same reference records',
+  '## Final answers and learner partial help',
+  'only in admin mode',
+  'three failed executions',
+  'must remain incomplete',
 ]) assert(productRules.includes(text))
 assert(developmentRules.includes('Read `docs/PRODUCT_RULES.md`'))
 
 const totalFields = missions.reduce((sum, item) => sum + item.variants.length, 0)
 assert.strictEqual(totalFields, 37)
-console.log(`Validated ${missions.length} missions, ${totalFields} fields and ${storedCards.length} canonical concept cards.`)
+console.log(`Validated ${missions.length} missions, ${totalFields} fields, ${storedCards.length} canonical concept cards and incomplete learner help.`)
