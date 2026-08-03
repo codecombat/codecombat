@@ -152,7 +152,9 @@
   }
 
   function tooltipToken (part) {
-    if (!part.tooltip) return escapeHtml(part.text)
+    if (!part.tooltip) {
+      return escapeHtml(part.text)
+    }
     return '<span class="glossary-token" tabindex="0" role="button" aria-label="' +
       escapeHtml(part.text + '：' + part.tooltip) + '" data-tooltip="' + escapeHtml(part.tooltip) + '">' +
       escapeHtml(part.text) + '</span>'
