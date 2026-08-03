@@ -1,3 +1,4 @@
+/* global importScripts */
 'use strict'
 
 importScripts('engine.js', 'curriculum-engine.js')
