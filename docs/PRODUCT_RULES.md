@@ -16,6 +16,18 @@ This document is the functional and business source of truth for the local Japan
 - Completion state and edited code are stored in browser `localStorage`.
 - Wizard level is never stored as a separate mutable value. It is derived deterministically from scripted mission rewards.
 - Resetting progress removes completion and saved mission code after confirmation.
+- Resetting one mission's code requires confirmation and restores that mission's current canonical starter code.
+- A legacy saved starter may be migrated only when it exactly matches the replaced canonical starter; personally edited code must not be overwritten automatically.
+
+## Controls and learner assistance
+
+- The editor visibly reminds the learner of `Ctrl+C`, `Ctrl+V` and `Ctrl+Z`.
+- `Ctrl+Enter` and `Command+Enter` execute the mission with the same behavior as clicking `実行する`.
+- Mission code is saved automatically in the browser.
+- Hints can be revealed progressively.
+- The full reference solution remains disabled until the learner has attempted the mission three times.
+- Showing the solution requires confirmation because it replaces the current editor content.
+- The next-mission button appears only after the current mission succeeds on every field.
 
 ## Mission pedagogy
 
@@ -65,10 +77,10 @@ This document is the functional and business source of truth for the local Japan
 ## Methods and understandable errors
 
 - Invalid method parameters must produce a blocking Japanese hero speech bubble before the run is reported as failed.
-- Direction-taking methods accept only `right`, `left`, `up` and `down`.
-- An invalid direction produces a dedicated Japanese explanation that repeats all four accepted values.
+- Direction-taking methods accept exactly one value: `right`, `left`, `up` or `down`.
+- A missing, extra or invalid direction produces a dedicated Japanese explanation that repeats all four accepted values.
 - Methods that accept no parameters reject supplied parameters with a Japanese hero explanation.
-- `hero.say(message)` requires one string value. Invalid input produces a Japanese hero explanation.
+- `hero.say(message)` requires exactly one string value. Invalid input produces a Japanese hero explanation.
 - Unknown or misspelled `hero` methods produce a Japanese hero explanation asking the learner to check the command spelling.
 - An invalid transformation name produces a Japanese hero explanation that the requested form is not understood.
 
