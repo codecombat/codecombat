@@ -29,9 +29,20 @@ This document is the functional and business source of truth for the local Japan
 - `Ctrl+Enter` and `Command+Enter` execute the mission with the same behavior as clicking `実行する`.
 - Mission code is saved automatically in the browser.
 - Hints can be revealed progressively.
-- The full reference solution remains disabled until the learner has attempted the mission three times.
-- Showing the solution requires confirmation because it replaces the current editor content.
 - The next-mission button appears only after the current mission succeeds on every field, except for the intentional infinite-loop demonstration described below.
+
+## Final answers and learner partial help
+
+- The final reference solution is available only in admin mode through a button labelled `答えを見る`.
+- The admin final-answer button is enabled immediately for every selected mission; it does not require failed attempts.
+- Displaying the final answer in admin mode requires no confirmation dialog and must not persist the final answer into the learner's saved mission code.
+- A normal player must never be shown or receive the final reference solution through the interface.
+- Normal-player help counts failed executions, not total executions. A successful execution does not increase the failure count.
+- After three failed executions of the same mission, the player may open a near-complete partial solution through a button that is not labelled `答えを見る`.
+- Showing the learner partial solution requires confirmation because it replaces the current editor content.
+- The learner partial solution contains explanatory comments, important hints and a visible `TODO`, but omits at least one instruction required to solve the mission.
+- Every generated learner partial solution must remain incomplete: it must differ from the final solution and fail at least one field of every finite mission.
+- The learner partial solution may be saved as the learner's current code after confirmation.
 
 ## Mission pedagogy
 
@@ -39,8 +50,10 @@ This document is the functional and business source of truth for the local Japan
 - Mission 00 contains exactly one executable line: `hero.say('Hello Yuzu');`.
 - Mission 00 explains object, method, dot access, parameters, string literals and the difference between program words and quoted text in the hero's world.
 - Mission 01 introduces code comments. Text after `//` is explained as a human-readable note that is not executed.
-- Mission 03 introduces booleans, `true`, `false`, `const`, assignment with `=`, reuse of a named value, the English word `always`, and `hero.isTrue(boolean)`.
+- Mission 03 introduces booleans, `true`, `false`, `const`, assignment with `=`, reuse of a named value, constant naming in romaji, the common use of meaningful English names, and `hero.isTrue(boolean)`.
 - Mission 03 has completed starter code. The learner validates it by executing it without needing to edit it.
+- Mission 03 includes a Japanese explanatory comment directly above `const alwaysTrue = true;` and another directly above `const alwaysFalse = false;`.
+- Mission 03 collects its gem and then continues to the flag. Successful execution must finish on the goal tile rather than on the gem tile.
 - Mission 04 is the first `if` mission. It introduces `hero.readSign()`, return values, `if`, braces and comparison, while referring back to constants and assignment learned in mission 03.
 - Mission 04 must not repeat dedicated concept cards for `const`, constants or assignment. Its learning guide contains one card for the `hero.readSign()` return value, one card for `if`, and one card for comparison with `===`.
 - Mission 14 is an intentional infinite-loop demonstration using `while (true)`.
@@ -58,6 +71,7 @@ This document is the functional and business source of truth for the local Japan
 - Concept-card IDs must never be reassigned to a different meaning or silently reused after publication.
 - Future flashcards, quizzes and review activities must reuse the same reference records rather than copying card content into a second data source.
 - Refactoring storage or rendering must preserve the approved visual appearance, code markup, tooltip behavior and mission card order.
+- The mission 03 naming card explains that constants can receive meaningful romaji names without spaces, that English names are commonly used, and that `alwaysTrue` means “always true”.
 
 ## Boolean lesson and `hero.isTrue`
 
@@ -66,8 +80,8 @@ This document is the functional and business source of truth for the local Japan
 - Passing `true` makes the hero say `正しいです。`.
 - Passing `false` makes the hero say `違いますよ。`.
 - A missing, extra or non-boolean parameter produces a blocking Japanese hero explanation that only `true` or `false` is accepted.
-- Mission 03 defines `const alwaysTrue = true` and `const alwaysFalse = false`, calls `hero.isTrue(...)` for both values, and then collects its required gem.
-- Mission 03 validates only after the existing program has been executed and both boolean cases have been checked.
+- Mission 03 defines `const alwaysTrue = true` and `const alwaysFalse = false`, calls `hero.isTrue(...)` for both values, collects its required gem, and reaches the goal flag with two rightward moves.
+- Mission 03 validates only after the existing program has been executed, both boolean cases have been checked, the gem has been collected and the goal has been reached.
 
 ## Standalone loading and stable curriculum rendering
 
@@ -193,9 +207,11 @@ This document is the functional and business source of truth for the local Japan
 - Merely opening an admin URL must not unlock missions before the admin button is activated.
 - Admin mode adds a visible button that unlocks all missions for manual verification.
 - The admin unlock is temporary to the current loaded page. Reloading the page, removing the admin URL or opening a normal page restores access derived from normal consecutive completion.
+- Activating the admin unlock must not write `unlocked = missionCount` into normal persisted progress.
 - Unlocking all missions does not automatically mark missions complete or grant persisted wizard level.
 - Missions completed during admin verification may remain recorded as completed, but they must not unlock unfinished gaps in the normal mission sequence.
 - Once the admin unlock button is activated, the same admin-unlocked state must be used both when rendering mission buttons and when checking whether a selected mission may open.
+- Admin mode shows `答えを見る` for the selected mission even before three failed attempts. This final-answer control is independent of the temporary unlock-all button.
 
 ## Speech and branch prompts
 
@@ -208,7 +224,7 @@ This document is the functional and business source of truth for the local Japan
 - The focused validator must execute every finite reference solution on every field.
 - It verifies mission count, consecutive identifiers, unique identifiers, required gems, scripted levels, transformation gates and ordered action traces.
 - It verifies invalid direction, invalid parameter, invalid boolean, unknown method, invalid transformation and locked dragon behavior.
-- It verifies the boolean mission checks both `true` and `false`.
+- It verifies the boolean mission checks both `true` and `false`, collects its gem and ends on the goal tile after two moves.
 - It verifies the infinite-loop mission is prevalidated before execution and requires page reload rather than being run directly in the test process.
 - It verifies multi-field ordering, field-progress source rules, admin URL behavior and progressive legend thresholds.
 - It verifies saved curriculum migration preserves existing code and progress semantics.
@@ -217,6 +233,8 @@ This document is the functional and business source of truth for the local Japan
 - It verifies the static execution worker loads the complete engine, the app does not create Blob workers, and admin navigation uses the canonical unlock predicate.
 - It verifies normal access repairs stale or admin-inflated persisted unlock values before `app-v3.js` renders the mission list.
 - It verifies an admin URL alone leaves later missions locked and that temporary admin access does not survive page initialization.
+- It verifies every finite mission's learner partial solution differs from the final solution, contains comments and a `TODO`, and must remain incomplete on at least one field.
+- It verifies the final answer is restricted to admin mode, is immediately available there without confirmation, and is not persisted as learner code.
 - It verifies concept annotation does not install a self-mutating permanent subtree observer.
 - It verifies required documentation exists and remains consistent with the implementation.
 - ESLint must pass for changed JavaScript files.
