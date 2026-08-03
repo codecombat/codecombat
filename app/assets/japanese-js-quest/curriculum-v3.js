@@ -19,6 +19,14 @@
     return legacyId
   }
 
+  function legacyIdForFinalId (finalId) {
+    if (finalId <= 2) return finalId
+    if (finalId === 3) return 2
+    if (finalId <= 13) return finalId - 1
+    if (finalId === 14) return 12
+    return finalId - 2
+  }
+
   function booleanMission () {
     const starterCode = [
       'const alwaysTrue = true;',
@@ -27,7 +35,7 @@
       'const alwaysFalse = false;',
       'hero.isTrue(alwaysFalse);',
       '',
-      'hero.move("right");'
+      'hero.move("right");',
     ].join('\n')
 
     return {
@@ -39,7 +47,7 @@
         '`true` と `false` は、二つしかないブール値です。',
         '`const` は値に名前をつけて固定し、あとで同じ値を使えるようにします。',
         '`hero.isTrue(boolean)` は、受け取った値が true か false かを言葉で教えます。',
-        'コードは完成しています。変更せずに「実行する」を押しましょう。'
+        'コードは完成しています。変更せずに「実行する」を押しましょう。',
       ],
       api: ['hero.isTrue(boolean)', 'hero.move("right")'],
       starterCode,
@@ -47,13 +55,13 @@
       solution: starterCode,
       variants: [{
         map: ['#####', '#H*G#', '#####'],
-        sign: null
+        sign: null,
       }],
       requirements: {
         booleanDemo: true,
         state: { minGems: 1, maxMoves: 1, sayText: '違いますよ。' },
-        syntax: [{ type: 'variable', message: 'const で true と false に名前をつけましょう。' }]
-      }
+        syntax: [{ type: 'variable', message: 'const で true と false に名前をつけましょう。' }],
+      },
     }
   }
 
@@ -63,7 +71,7 @@
       '',
       'while (true) {',
       '  hero.say(' + JSON.stringify(INFINITE_MESSAGE) + ');',
-      '}'
+      '}',
     ].join('\n')
 
     return {
@@ -75,7 +83,7 @@
         '`while (true)` は条件が永遠に true なので、無限ループになります。',
         '無限ループは、次の命令へ進めず、コンピューターの力を使い続けるので危険です。',
         'このミッションは「実行する」を押した瞬間に先にクリア記録を保存します。',
-        '実行後は、ブラウザーの丸い矢印を押すか `Ctrl+F5` でページ全体を再読み込みしてください。'
+        '実行後は、ブラウザーの丸い矢印を押すか `Ctrl+F5` でページ全体を再読み込みしてください。',
       ],
       api: ['while (true) { ... }', 'hero.say(message)', 'hero.move("right")'],
       starterCode,
@@ -85,15 +93,15 @@
       infiniteLoopMessage: INFINITE_MESSAGE,
       variants: [{
         map: ['#####', '#H*G#', '#####'],
-        sign: null
+        sign: null,
       }],
       requirements: {
         state: { minGems: 1, maxMoves: 1 },
         syntax: [
           { type: 'whileLoop', message: 'while (true) を実行して、無限ループを体験しましょう。' },
-          { type: 'say', message: 'ループの中で hero.say(...) を使いましょう。' }
-        ]
-      }
+          { type: 'say', message: 'ループの中で hero.say(...) を使いましょう。' },
+        ],
+      },
     }
   }
 
@@ -148,6 +156,7 @@
   return {
     apply,
     finalIdForLegacyId,
-    INFINITE_MESSAGE
+    legacyIdForFinalId,
+    INFINITE_MESSAGE,
   }
 })
