@@ -8,6 +8,7 @@ on:
       - 'app/assets/japanese-js-quest/**'
       - 'scripts/validate-japanese-js-quest.js'
       - 'scripts/validate-japanese-js-quest-runtime.js'
+      - 'scripts/validate-japanese-js-quest-loop-rules.js'
       - 'docs/PRODUCT_RULES.md'
       - 'docs/DEVELOPMENT_RULES.md'
       - '.github/workflows/japanese-js-quest.yml'
@@ -16,6 +17,7 @@ on:
       - 'app/assets/japanese-js-quest/**'
       - 'scripts/validate-japanese-js-quest.js'
       - 'scripts/validate-japanese-js-quest-runtime.js'
+      - 'scripts/validate-japanese-js-quest-loop-rules.js'
       - 'docs/PRODUCT_RULES.md'
       - 'docs/DEVELOPMENT_RULES.md'
       - '.github/workflows/japanese-js-quest.yml'
@@ -33,3 +35,5 @@ jobs:
         run: node scripts/validate-japanese-js-quest.js
       - name: Validate browser runtime paths
         run: node scripts/validate-japanese-js-quest-runtime.js
+      - name: Validate loop rules and infinite-loop preparation
+        run: node scripts/validate-japanese-js-quest-loop-rules.js
