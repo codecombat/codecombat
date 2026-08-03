@@ -36,7 +36,12 @@ Pour arrêter le serveur, utilise `Ctrl+C`. Aucun script PowerShell du dépôt n
 http://localhost:8000/?admin=1
 ```
 
-Ce mode ajoute un bouton permettant de débloquer toutes les missions sans les marquer comme terminées.
+Ce mode ajoute :
+
+- un bouton permettant de débloquer temporairement toutes les missions sans les marquer comme terminées ;
+- un bouton `答えを見る` disponible immédiatement pour afficher la solution finale de la mission sélectionnée.
+
+L'affichage de la réponse administrateur ne demande aucune confirmation et n'enregistre pas cette réponse dans le code sauvegardé du joueur. Le déblocage total disparaît au rechargement de la page.
 
 ## Après une mise à jour Git
 
@@ -68,12 +73,16 @@ L'interface, les consignes, les erreurs et les indices sont en japonais. Les ter
 Le code est déjà complet :
 
 ```javascript
+// true という値に alwaysTrue という名前をつける
 const alwaysTrue = true;
 hero.isTrue(alwaysTrue);
 
+// false という値に alwaysFalse という名前をつける
 const alwaysFalse = false;
 hero.isTrue(alwaysFalse);
 
+// 宝石を取って、旗まで進む
+hero.move("right");
 hero.move("right");
 ```
 
@@ -83,7 +92,9 @@ hero.move("right");
 - `false` → `違いますよ。` ;
 - autre valeur, paramètre absent ou paramètres multiples → explication japonaise dans une bulle bloquante.
 
-Les cartes pédagogiques de cette mission présentent séparément le booléen, `const`, l'affectation `=`, le mot `always` et `hero.isTrue(boolean)`.
+La mission n'est validée qu'après avoir contrôlé les deux booléens, récupéré la gemme et terminé sur le drapeau.
+
+Les cartes pédagogiques de cette mission présentent séparément le booléen, `const`, l'affectation `=`, le choix d'un nom de constante en romaji et `hero.isTrue(boolean)`. La carte de nommage rappelle que les programmeurs japonais utilisent souvent des noms anglais significatifs, par exemple `alwaysTrue` pour « toujours true ».
 
 ## Mission 04 : premier `if`
 
@@ -92,6 +103,14 @@ Les notions de constante et d'affectation ne sont pas répétées. La section `�
 - la valeur de retour de `hero.readSign()` ;
 - la branche `if` ;
 - la comparaison `===`.
+
+## Aide après des échecs
+
+En mode joueur normal, la solution finale n'est jamais affichée.
+
+Après trois exécutions réellement échouées sur une même mission, le bouton `ほぼ完成コードを見る` devient disponible. Après confirmation, il remplace le code par une version presque complète contenant plusieurs commentaires, des indices et un `TODO`. Au moins une instruction indispensable reste à écrire par le joueur.
+
+Une exécution réussie ne compte pas comme un échec.
 
 ## Mission 14 : boucle infinie volontaire
 
@@ -158,7 +177,7 @@ Depuis la racine du dépôt :
 node scripts/validate-japanese-js-quest.js
 ```
 
-Le validateur vérifie les 23 missions et tous leurs fields, les solutions finies, les gemmes, les niveaux, l'ordre des actions, les erreurs parlées, `hero.isTrue(...)`, le dragon de niveau 99, la mission infinie spéciale, la migration des identifiants, l'aventure multi-fields, le mode administrateur, la légende progressive, l'absence de requête Ace en mode autonome et les documents de règles.
+Le validateur vérifie les 23 missions et tous leurs fields, les solutions finies, les solutions partielles incomplètes, les gemmes, les niveaux, l'ordre des actions, les erreurs parlées, `hero.isTrue(...)`, le drapeau de la mission 03, le dragon de niveau 99, la mission infinie spéciale, la migration des identifiants, l'aventure multi-fields, le mode administrateur, la légende progressive, l'absence de requête Ace en mode autonome et les documents de règles.
 
 ## 日本語
 
