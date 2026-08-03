@@ -25,12 +25,13 @@
   function applyFormToGrid () {
     document.querySelectorAll('#game-grid .tile.hero').forEach(tile => {
       tile.classList.toggle('form-frog', currentForm === 'frog')
-      tile.classList.toggle('form-wizard', currentForm !== 'frog')
+      tile.classList.toggle('form-dragon', currentForm === 'dragon')
+      tile.classList.toggle('form-wizard', currentForm !== 'frog' && currentForm !== 'dragon')
     })
   }
 
   function setForm (form) {
-    currentForm = form === 'frog' ? 'frog' : 'hero'
+    currentForm = form === 'frog' || form === 'dragon' ? form : 'hero'
     applyFormToGrid()
   }
 
