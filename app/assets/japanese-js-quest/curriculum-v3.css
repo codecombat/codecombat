@@ -1,0 +1,16 @@
+.infinite-loop-running .mission-sidebar,
+.infinite-loop-running .mission-card,
+.infinite-loop-running .reference-panel,
+.infinite-loop-running .code-panel,
+.infinite-loop-running .feedback-panel,
+.infinite-loop-running .top-actions {
+  opacity: 0.72;
+}
+
+.infinite-loop-running .game-panel {
+  box-shadow: 0 0 0 2px rgba(255, 190, 82, 0.65), 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+[data-curriculum-reference="isTrue"] .function-signature {
+  flex-wrap: wrap;
+}
