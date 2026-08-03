@@ -101,6 +101,19 @@
     bindReadingTokens(root)
   }
 
+  function annotateCurrentContent () {
+    annotateText(document.getElementById('mission-learning-guide'), false)
+    annotateText(document.getElementById('mission-instructions'), false)
+    annotateText(document.getElementById('mission-story'), false)
+    annotateText(document.getElementById('mission-concept'), false)
+    annotateText(document.getElementById('reference-panel'), true)
+  }
+
+  function scheduleAnnotations () {
+    window.setTimeout(annotateCurrentContent, 0)
+    window.setTimeout(annotateCurrentContent, 80)
+  }
+
   function renderGuide () {
     const library = window.JSQuestConceptCards
     const guide = library?.getMissionGuide(displayedMissionId())
@@ -127,23 +140,11 @@
       '</div>',
     ].join('')
     bindStoredCardTokens(section)
-
-    window.setTimeout(() => {
-      annotateText(section, false)
-      annotateText(document.getElementById('mission-instructions'), false)
-      annotateText(document.getElementById('mission-story'), false)
-      annotateText(document.getElementById('mission-concept'), false)
-      annotateText(document.getElementById('reference-panel'), true)
-    }, 0)
+    scheduleAnnotations()
   }
 
   function init () {
     document.addEventListener('jsquest:missionloaded', renderGuide)
-    const reference = document.getElementById('reference-panel')
-    if (reference) {
-      new MutationObserver(() => window.setTimeout(() => annotateText(reference, true), 0))
-        .observe(reference, { childList: true, subtree: true })
-    }
     renderGuide()
   }
 
