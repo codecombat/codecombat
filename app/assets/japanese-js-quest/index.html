@@ -8,12 +8,10 @@
   <link rel="stylesheet" href="reference-panel.css">
   <link rel="stylesheet" href="speech-ui.css">
   <link rel="stylesheet" href="learning-guide.css">
+  <link rel="stylesheet" href="adventure-ui.css">
 </head>
 <body>
-  <header class="topbar">
-    <div><p class="eyebrow">CODECOMBAT LOCAL CAMPAIGN</p><h1>JavaScript クエスト</h1><p class="subtitle">21のミッションで、関数・条件・ループを学ぼう</p></div>
-    <div class="top-actions"><span id="save-status" aria-live="polite">自動保存</span><button id="reset-progress" class="button ghost" type="button">進みぐあいをリセット</button></div>
-  </header>
+  <header class="topbar"><div><p class="eyebrow">CODECOMBAT LOCAL CAMPAIGN</p><h1>JavaScript クエスト</h1><p class="subtitle">21のミッションで、関数・条件・ループを学ぼう</p></div><div class="top-actions"><span id="save-status" aria-live="polite">自動保存</span><button id="reset-progress" class="button ghost" type="button">進みぐあいをリセット</button></div></header>
   <main class="layout">
     <aside class="mission-sidebar" aria-label="ミッション一覧"><div class="sidebar-heading"><h2>ミッション</h2><span id="progress-label">0 / 21</span></div><div id="mission-list" class="mission-list"></div></aside>
     <section class="workspace">
@@ -26,7 +24,6 @@
   <footer><p>進みぐあいとコードは、このブラウザの中だけに保存されます。</p></footer>
   <script src="../javascripts/ace/ace.js"></script>
   <script src="engine.js"></script>
-  <script src="engine-guard.js"></script>
   <script src="missions.js"></script>
   <script src="intro-mission.js"></script>
   <script src="branch-prompts.js"></script>
