@@ -12,8 +12,11 @@ This document is the functional and business source of truth for the local Japan
 ## Campaign and persistence
 
 - The campaign contains 23 missions numbered 00 through 22.
-- Missions unlock linearly unless admin mode explicitly unlocks them.
+- Missions unlock linearly unless admin mode explicitly unlocks them for the current loaded page.
 - Completion state and edited code are stored in browser `localStorage`.
+- Normal mission access is derived from the consecutive completed mission prefix: mission 00 is initially available, and each following mission becomes available only after every preceding mission has been completed.
+- A persisted `unlocked` value is never authoritative by itself. Before the application starts, it is normalized from the completed mission prefix so a stale or admin-inflated value cannot expose later missions.
+- Normalization preserves valid completed mission IDs, including later missions completed during admin verification, but those later completions do not unlock gaps in the normal linear path.
 - Wizard level is never stored as a separate mutable value. It is derived deterministically from scripted mission rewards.
 - Resetting progress removes completion and saved mission code after confirmation.
 - Resetting one mission's code requires confirmation and restores that mission's current canonical starter code.
@@ -79,6 +82,7 @@ This document is the functional and business source of truth for the local Japan
 - The application must not globally replace or monkey-patch the browser's native `Worker` constructor.
 - The execution worker must report initialization and execution errors back to the page instead of silently waiting until timeout.
 - Concept and reading annotations run a bounded number of times after mission rendering. They must not use a permanent subtree observer that mutates the same observed content.
+- Progress access normalization runs synchronously before `app-v3.js`, so the first rendered mission list already reflects normal linear access rather than briefly exposing stale admin access.
 
 ## Japanese reading and technical vocabulary
 
@@ -167,7 +171,8 @@ This document is the functional and business source of truth for the local Japan
 - On the first click on `実行する`, mission completion and the next mission unlock are persisted before the infinite demonstration starts.
 - During the demonstration, closing the speech bubble starts the next loop iteration and shows the same speech again.
 - Adventure controls remain unavailable during the demonstration. Reloading the page is the intended exit.
-- After reload, the persisted completion allows the learner to continue to mission 15.
+- After reload, the persisted completion allows the learner to continue to mission 15 when missions 00 through 13 were completed normally.
+- Completing mission 14 through temporary admin access does not bypass unfinished earlier missions after reload.
 - Automated validation must not execute the truly infinite canonical solution directly; it validates the special mission metadata and runtime mechanism instead.
 
 ## Legend disclosure
@@ -185,8 +190,11 @@ This document is the functional and business source of truth for the local Japan
 
 - Admin mode is enabled by adding `?admin=1` to the local URL, for example `http://localhost:8000/?admin=1`.
 - Admin mode is intentionally not protected.
+- Merely opening an admin URL must not unlock missions before the admin button is activated.
 - Admin mode adds a visible button that unlocks all missions for manual verification.
+- The admin unlock is temporary to the current loaded page. Reloading the page, removing the admin URL or opening a normal page restores access derived from normal consecutive completion.
 - Unlocking all missions does not automatically mark missions complete or grant persisted wizard level.
+- Missions completed during admin verification may remain recorded as completed, but they must not unlock unfinished gaps in the normal mission sequence.
 - Once the admin unlock button is activated, the same admin-unlocked state must be used both when rendering mission buttons and when checking whether a selected mission may open.
 
 ## Speech and branch prompts
@@ -207,6 +215,8 @@ This document is the functional and business source of truth for the local Japan
 - It verifies every mission guide resolves its ordered concept-card IDs from the canonical reference base, all IDs are unique and every rendered card exposes its ID.
 - It verifies standalone mode does not request the absent Ace asset and that curriculum rendering does not recursively redispatch mission loading.
 - It verifies the static execution worker loads the complete engine, the app does not create Blob workers, and admin navigation uses the canonical unlock predicate.
+- It verifies normal access repairs stale or admin-inflated persisted unlock values before `app-v3.js` renders the mission list.
+- It verifies an admin URL alone leaves later missions locked and that temporary admin access does not survive page initialization.
 - It verifies concept annotation does not install a self-mutating permanent subtree observer.
 - It verifies required documentation exists and remains consistent with the implementation.
 - ESLint must pass for changed JavaScript files.
