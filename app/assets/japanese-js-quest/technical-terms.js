@@ -86,20 +86,6 @@
     }
   }
 
-  function addCommentExplanation (section, missionId) {
-    if (missionId !== 1 || section.querySelector('#comment-concept-card')) return
-    const grid = section.querySelector('.learning-guide-grid')
-    if (!grid) return
-
-    const article = document.createElement('article')
-    article.id = 'comment-concept-card'
-    article.innerHTML = [
-      '<h4><code>//</code> はコメント</h4>',
-      '<p><code>//</code> から右側は、人が読むためのメモです。プログラムはコメントを命令として実行しません。何をする場所なのか、自分やほかの人に説明できます。</p>',
-    ].join('')
-    grid.appendChild(article)
-  }
-
   function addTerminologyNote (section, missionId) {
     const text = terminologyNotes[missionId]
     if (!text || section.querySelector('.technical-terminology-note')) return
@@ -117,7 +103,6 @@
     if (!section || section.querySelector('.tech-term')) return
 
     const missionId = currentMissionId()
-    addCommentExplanation(section, missionId)
     addTerminologyNote(section, missionId)
 
     for (const term of terms) {
