@@ -259,6 +259,8 @@
 
       document.addEventListener('jsquest:missionloaded', () => window.setTimeout(showPreview, 0))
       document.addEventListener('jsquest:conceptcardschanged', () => window.setTimeout(showPreview, 0))
+      document.getElementById('reset-code')?.addEventListener('click', () => window.setTimeout(showPreview, 0))
+      document.getElementById('show-solution')?.addEventListener('click', () => window.setTimeout(showPreview, 0))
       window.setTimeout(showPreview, 0)
     }
 
