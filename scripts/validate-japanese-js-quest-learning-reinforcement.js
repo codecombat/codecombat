@@ -69,7 +69,7 @@ for (const text of [
   'どこかにまちがいがあります',
   '先に「新しい考え方」のカードを全部めくって',
 ]) assert(memorySource.includes(text))
-assert(memorySource.includes("run.addEventListener('click'"))
+assert(memorySource.includes("run?.addEventListener('click'"))
 assert(memorySource.includes("document.addEventListener('keydown'"))
 
 const highlightingCss = read('editor-concept-highlighting.css')
