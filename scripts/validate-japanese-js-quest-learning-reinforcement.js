@@ -143,8 +143,8 @@ for (const text of [
   'String quote characters remain in the default syntax color',
   'cannot open the editable code view or execute the mission',
   'Whenever a mission or concept card is added or changed',
-  'admin mode provides a quiz-review control',
-  'cursor is placed at the corresponding source-code offset',
+  'Admin mode provides a quiz-review control',
+  'cursor placed at the corresponding source-code offset',
 ]) assert(productRules.includes(text))
 assert(!fs.existsSync(path.join(repositoryPath, 'docs', 'LEARNING_REINFORCEMENT_PLAN.md')))
 
