@@ -90,19 +90,13 @@ else
                 label.control-label(for="password2", data-i18n="account_settings.new_password_verify") Verify
                 input#password2.form-control(name="password2", type="password")
 
-      .panel.panel-default.related-account
-        .panel-heading
-          .panel-title(data-i18n="related_accounts.title")
-        .panel-body
-          .related-account-sub(data-i18n="related_accounts.subtitle")
-          a.btn.btn-primary.related-account-manage(href="/users/switch-account" target="_blank" data-i18n="common.manage")
-
-      if me.isTeacher()
-        .panel.panel-default
+      if !me.isHomeUser()
+        .panel.panel-default.related-account
           .panel-heading
-            .panel-title#connect-roblox-title(data-i18n="account_settings.switch_new_teacher_dashboard")
+            .panel-title(data-i18n="related_accounts.title")
           .panel-body
-            #dashboard-toggle
+            .related-account-sub(data-i18n="related_accounts.subtitle")
+            a.btn.btn-primary.related-account-manage(href="/users/switch-account" target="_blank" data-i18n="common.manage")
 
       if me.canDeleteAccount()
         .panel.panel-default
