@@ -29,7 +29,7 @@ _.extend(MiniGameSchema.properties, {
       data: { type: 'string', title: 'Atlas JSON', format: 'file' },
     })),
   sounds: c.array({ title: 'Sounds', description: 'Codec pairs: consumers hand the game both URLs and the engine picks per browser.' },
-    c.sound({ key: c.shortString({ title: 'Key' }) })),
+    _.assign(c.sound({ key: c.shortString({ title: 'Key' }) }), { required: ['key'] })),
 })
 
 MiniGameSchema.required = ['name']
