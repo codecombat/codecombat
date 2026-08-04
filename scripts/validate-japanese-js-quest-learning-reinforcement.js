@@ -111,6 +111,7 @@ for (const text of [
   'scheduleQuizAnnotations',
   "event.target.closest('.concept-card-quiz-button')",
   "document.getElementById('concept-card-quiz-modal')",
+  "document.addEventListener('click', scheduleQuizAnnotations, true)",
   'annotateText',
 ]) assert(learningGuideSource.includes(text))
 for (const word of [
@@ -188,6 +189,8 @@ for (const text of [
   '// はコメント（Comment）',
   'ADMIN：正解を選ぶ',
   "le curseur est placé à l'endroit correspondant",
+  'mêmes infobulles de lecture',
+  'même thème bleu que l\'éditeur',
 ]) assert(readme.includes(text))
 assert(!fs.existsSync(path.join(repositoryPath, 'docs', 'LEARNING_REINFORCEMENT_PLAN.md')))
 
