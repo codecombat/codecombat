@@ -39,7 +39,8 @@ http://localhost:8000/?admin=1
 Ce mode ajoute :
 
 - un bouton permettant de débloquer temporairement toutes les missions sans les marquer comme terminées ;
-- un bouton `答えを見る` disponible immédiatement pour afficher la solution finale de la mission sélectionnée.
+- un bouton `答えを見る` disponible immédiatement pour afficher la solution finale de la mission sélectionnée ;
+- dans chaque mini-quiz, un bouton `ADMIN：正解を選ぶ` qui sélectionne les bonnes réponses pour la revue, sans envoyer le formulaire ni valider automatiquement la carte.
 
 L'affichage de la réponse administrateur ne demande aucune confirmation et n'enregistre pas cette réponse dans le code sauvegardé du joueur. Le déblocage total disparaît au rechargement de la page.
 
@@ -60,7 +61,7 @@ La migration de curriculum déplace automatiquement les anciens codes sauvegard�
 
 ## Cartes de concepts et mini-quiz
 
-Les cartes de `新しい考え方` sont cachées au premier affichage. L'enfant peut les retourner dans l'ordre qu'il souhaite, mais une seule carte non validée reste ouverte à la fois.
+Les 36 cartes de `新しい考え方` sont stockées dans la base canonique avec un identifiant stable. Toutes les cartes, y compris `// はコメント（Comment）`, sont cachées au premier affichage. L'enfant peut les retourner dans l'ordre qu'il souhaite, mais une seule carte non validée reste ouverte à la fois.
 
 Chaque carte possède un mini-quiz de une à trois questions très simples. Toutes les réponses doivent être correctes en même temps pour valider la carte. En cas d'erreur, la bonne réponse n'est pas révélée : l'enfant est invité à relire la carte et à recommencer.
 
@@ -71,6 +72,8 @@ japanese-js-quest-concept-memory-v1
 ```
 
 Le compteur `カード X / N` montre la progression. L'éditeur et l'exécution restent verrouillés jusqu'à la validation de toutes les cartes de la mission.
+
+Toute nouvelle carte doit être ajoutée à la base canonique, associée par ID à une mission, cachée par défaut, accompagnée d'un quiz et incluse dans le verrouillage de cette mission.
 
 ## Coloration pédagogique simplifiée
 
@@ -84,7 +87,7 @@ Quand l'éditeur n'a pas le focus, une prévisualisation colorée montre les cat
 
 Les quotes des chaînes restent blanches ; seul leur contenu est rouge. Une légende très compacte apparaît sous le code.
 
-Au clic dans la zone de code, la coloration disparaît et l'éditeur retrouve sa couleur uniforme. Lorsque l'éditeur perd le focus, la prévisualisation est reconstruite à partir du dernier texte. Les couleurs sont centralisées dans des variables CSS faciles à modifier.
+Au clic sur un caractère ou un mot de la prévisualisation, la coloration disparaît, l'éditeur retrouve sa couleur uniforme et le curseur est placé à l'endroit correspondant dans le code. Lorsque l'éditeur perd le focus, la prévisualisation est reconstruite à partir du dernier texte. Les couleurs sont centralisées dans des variables CSS faciles à modifier.
 
 ## Progression pédagogique
 
@@ -154,8 +157,6 @@ La mission utilise maintenant une préparation en deux étapes pour éviter que 
 6. ce second bouton sauvegarde la réussite avant de lancer la boucle infinie ;
 7. fermer la bulle déclenche l'itération suivante ;
 8. un nouveau `Ctrl+F5` permet de quitter la boucle et de continuer vers la mission 15.
-
-Les cartes de concepts de la mission 14 doivent être validées avant que le bouton de préparation de la boucle infinie puisse être utilisé.
 
 Le raccourci `Ctrl+F5` est aussi affiché dans la barre des raccourcis de l'éditeur.
 
@@ -232,7 +233,7 @@ node scripts/validate-japanese-js-quest-loop-rules.js
 node scripts/validate-japanese-js-quest-learning-reinforcement.js
 ```
 
-Les validateurs vérifient les 23 missions et tous leurs fields, les solutions finies, les solutions partielles incomplètes, les gemmes, les niveaux, l'ordre des actions, les erreurs parlées, `hero.isTrue(...)`, le drapeau de la mission 03, le dragon de niveau 99, la préparation en deux étapes de la mission infinie, les limites de code des boucles, le refus des boucles commentées, les 35 jeux de questions associés aux cartes, la coloration pédagogique simplifiée, la persistance séparée des cartes, la migration des identifiants, l'aventure multi-fields, le mode administrateur, la légende progressive, l'absence de requête Ace en mode autonome et les documents de règles.
+Les validateurs vérifient les 23 missions et tous leurs fields, les solutions finies, les solutions partielles incomplètes, les gemmes, les niveaux, l'ordre des actions, les erreurs parlées, `hero.isTrue(...)`, le drapeau de la mission 03, le dragon de niveau 99, la préparation en deux étapes de la mission infinie, les limites de code des boucles, le refus des boucles commentées, la migration des identifiants, l'aventure multi-fields, le mode administrateur, la légende progressive, les 36 cartes et leurs quiz, le verrouillage avant validation, la sélection admin des bonnes réponses, le positionnement du curseur, l'absence de requête Ace en mode autonome et les documents de règles.
 
 ## 日本語
 
