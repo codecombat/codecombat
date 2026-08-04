@@ -187,7 +187,22 @@
 
 .concept-card-quiz-choice:hover { border-color: rgba(107, 183, 255, 0.42); }
 .concept-card-quiz-choice input { margin-top: 0.2rem; accent-color: var(--info); }
-.concept-card-quiz-submit { margin-top: 0.4rem; }
+
+.concept-card-quiz-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+
+.concept-card-quiz-submit { margin-top: 0; }
+
+.concept-card-quiz-admin-fill {
+  border-color: #8c65d6;
+  color: #eadfff;
+  background: rgba(105, 64, 170, 0.24);
+}
 
 .concept-card-quiz-feedback {
   min-height: 1.5rem;
@@ -197,6 +212,7 @@
 
 .concept-card-quiz-feedback.error { color: #ffd1d3; }
 .concept-card-quiz-feedback.success { color: #c9ffeb; }
+.concept-card-quiz-feedback.admin { color: #eadfff; }
 
 @media (max-width: 650px) {
   .concept-card-memory-progress { width: 100%; margin-left: 0; text-align: center; }
