@@ -1,0 +1,200 @@
+.concept-card-memory-progress {
+  margin-left: auto;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid rgba(107, 183, 255, 0.35);
+  border-radius: 999px;
+  color: var(--info);
+  background: rgba(107, 183, 255, 0.08);
+  font-size: 0.76rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.concept-card-memory-progress.complete {
+  border-color: rgba(69, 211, 154, 0.5);
+  color: var(--success);
+  background: rgba(69, 211, 154, 0.1);
+}
+
+.concept-memory-card {
+  position: relative;
+  min-height: 150px;
+  overflow: hidden;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.concept-card-front,
+.concept-card-cover {
+  min-height: 100%;
+}
+
+.concept-card-cover {
+  width: 100%;
+  display: none;
+  place-items: center;
+  align-content: center;
+  gap: 0.25rem;
+  padding: 1.1rem;
+  border: 0;
+  color: #dce8f8;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(107, 183, 255, 0.16), transparent 8rem),
+    rgba(12, 24, 42, 0.94);
+  text-align: center;
+}
+
+.concept-card-cover > span { font-size: 1.8rem; }
+.concept-card-cover strong { color: var(--text); font-size: 0.94rem; }
+.concept-card-cover small { color: var(--muted); }
+
+.concept-memory-card.is-covered .concept-card-cover { display: grid; }
+.concept-memory-card.is-covered .concept-card-front { display: none; }
+
+.concept-memory-card.is-preview {
+  border-color: rgba(107, 183, 255, 0.72);
+  background: rgba(31, 51, 81, 0.98);
+  transform: translateY(-1px);
+}
+
+.concept-memory-card.is-preview .concept-card-front,
+.concept-memory-card.is-validated .concept-card-front { display: block; }
+
+.concept-card-quiz-button {
+  display: none;
+  margin-top: 0.75rem;
+  padding: 0.42rem 0.65rem;
+  border: 1px solid rgba(155, 140, 255, 0.55);
+  border-radius: 8px;
+  color: #efeaff;
+  background: rgba(105, 87, 190, 0.24);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.concept-memory-card.is-preview .concept-card-quiz-button { display: inline-flex; }
+
+.concept-card-success {
+  display: none;
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  width: 1.65rem;
+  height: 1.65rem;
+  place-items: center;
+  border: 1px solid #1e9d6c;
+  border-radius: 50%;
+  color: #062219;
+  background: var(--success);
+  font-weight: 950;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.24);
+}
+
+.concept-memory-card.is-validated .concept-card-success { display: grid; }
+.concept-memory-card.is-validated { padding-right: 3rem; }
+
+.code-panel.concept-cards-pending .editor-actions::before {
+  content: "先に新しい考え方のカードを全部確認しよう";
+  flex-basis: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px dashed rgba(107, 183, 255, 0.45);
+  border-radius: 8px;
+  color: #dce8f8;
+  background: rgba(107, 183, 255, 0.07);
+  font-size: 0.8rem;
+}
+
+.concept-card-quiz-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483200;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(4, 9, 17, 0.78);
+  backdrop-filter: blur(5px);
+}
+
+.concept-card-quiz-modal[hidden] { display: none; }
+
+.concept-card-quiz-dialog {
+  position: relative;
+  width: min(720px, 100%);
+  max-height: min(86vh, 760px);
+  overflow: auto;
+  padding: 1.25rem;
+  border: 1px solid #425b80;
+  border-radius: 16px;
+  color: var(--text);
+  background: #172238;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.52);
+  scrollbar-width: thin;
+  scrollbar-color: #58779f #172238;
+}
+
+.concept-card-quiz-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text);
+  background: var(--panel-soft);
+  font-size: 1.15rem;
+}
+
+.concept-card-quiz-eyebrow {
+  margin-bottom: 0.25rem;
+  color: var(--info);
+  font-size: 0.75rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+}
+
+.concept-card-quiz-question {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  padding: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #101a2b;
+}
+
+.concept-card-quiz-question legend {
+  padding: 0 0.2rem;
+  color: #e8eff9;
+  font-weight: 800;
+}
+
+.concept-card-quiz-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #dce6f5;
+  background: rgba(30, 45, 72, 0.68);
+  cursor: pointer;
+}
+
+.concept-card-quiz-choice:hover { border-color: rgba(107, 183, 255, 0.42); }
+.concept-card-quiz-choice input { margin-top: 0.2rem; accent-color: var(--info); }
+.concept-card-quiz-submit { margin-top: 0.4rem; }
+
+.concept-card-quiz-feedback {
+  min-height: 1.5rem;
+  margin: 0.8rem 0 0;
+  color: var(--muted);
+}
+
+.concept-card-quiz-feedback.error { color: #ffd1d3; }
+.concept-card-quiz-feedback.success { color: #c9ffeb; }
+
+@media (max-width: 650px) {
+  .concept-card-memory-progress { width: 100%; margin-left: 0; text-align: center; }
+  .concept-card-quiz-dialog { padding: 1rem; }
+}
