@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - feature/japanese-js-quest-20-missions
+      - feature/japanese-js-quest-learning-reinforcement
     paths:
       - 'app/assets/japanese-js-quest/**'
       - 'scripts/validate-japanese-js-quest.js'
       - 'scripts/validate-japanese-js-quest-runtime.js'
       - 'scripts/validate-japanese-js-quest-loop-rules.js'
+      - 'scripts/validate-japanese-js-quest-learning-reinforcement.js'
       - 'docs/PRODUCT_RULES.md'
       - 'docs/DEVELOPMENT_RULES.md'
       - '.github/workflows/japanese-js-quest.yml'
@@ -18,6 +20,7 @@ on:
       - 'scripts/validate-japanese-js-quest.js'
       - 'scripts/validate-japanese-js-quest-runtime.js'
       - 'scripts/validate-japanese-js-quest-loop-rules.js'
+      - 'scripts/validate-japanese-js-quest-learning-reinforcement.js'
       - 'docs/PRODUCT_RULES.md'
       - 'docs/DEVELOPMENT_RULES.md'
       - '.github/workflows/japanese-js-quest.yml'
@@ -37,3 +40,5 @@ jobs:
         run: node scripts/validate-japanese-js-quest-runtime.js
       - name: Validate loop rules and infinite-loop preparation
         run: node scripts/validate-japanese-js-quest-loop-rules.js
+      - name: Validate syntax preview and concept-card quizzes
+        run: node scripts/validate-japanese-js-quest-learning-reinforcement.js
