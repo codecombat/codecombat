@@ -1,0 +1,92 @@
+:root {
+  --syntax-object-color: #6bb7ff;
+  --syntax-method-color: #9b8cff;
+  --syntax-literal-color: #ff7f86;
+  --syntax-comment-color: #bec9d9;
+  --syntax-default-color: #f2f5fb;
+}
+
+.syntax-concept-preview {
+  width: 100%;
+  height: 440px;
+  margin: 0;
+  padding: 1rem;
+  overflow: auto;
+  border: 1px solid #080d17;
+  border-radius: 10px;
+  color: var(--syntax-default-color);
+  background: #0b1020;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 15px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: normal;
+  tab-size: 2;
+  cursor: text;
+  scrollbar-width: thin;
+  scrollbar-color: #58779f #0b1020;
+}
+
+.syntax-concept-preview:focus-visible {
+  outline: 2px solid var(--info);
+  outline-offset: 2px;
+}
+
+.syntax-concept-preview::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.syntax-concept-preview::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: #0b1020;
+}
+
+.syntax-concept-preview::-webkit-scrollbar-thumb {
+  border: 3px solid #0b1020;
+  border-radius: 999px;
+  background: #58779f;
+}
+
+.syntax-concept-preview::-webkit-scrollbar-thumb:hover { background: #6f94c3; }
+
+.syntax-object { color: var(--syntax-object-color); }
+.syntax-method { color: var(--syntax-method-color); }
+.syntax-literal { color: var(--syntax-literal-color); }
+.syntax-comment { color: var(--syntax-comment-color); }
+
+.syntax-editor-hidden { display: none !important; }
+
+.syntax-concept-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.8rem;
+  margin-top: 0.55rem;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.syntax-concept-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.syntax-concept-legend i {
+  width: 0.65rem;
+  height: 0.65rem;
+  display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 3px;
+  background: var(--syntax-default-color);
+}
+
+.syntax-concept-legend .syntax-object-swatch { background: var(--syntax-object-color); }
+.syntax-concept-legend .syntax-method-swatch { background: var(--syntax-method-color); }
+.syntax-concept-legend .syntax-literal-swatch { background: var(--syntax-literal-color); }
+.syntax-concept-legend .syntax-comment-swatch { background: var(--syntax-comment-color); }
+.syntax-concept-legend .syntax-default-swatch { background: var(--syntax-default-color); }
+
+@media (max-width: 650px) {
+  .syntax-concept-preview { height: 390px; }
+}
