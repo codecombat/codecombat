@@ -23,8 +23,6 @@
   word-break: normal;
   tab-size: 2;
   cursor: text;
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 .code-panel.concept-cards-pending .syntax-concept-preview {
