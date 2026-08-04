@@ -74,6 +74,28 @@ This document is the functional and business source of truth for the local Japan
 - Refactoring storage or rendering must preserve the approved visual appearance, code markup, tooltip behavior and mission card order.
 - The mission 03 naming card explains that constants can receive meaningful romaji names without spaces, that English names are commonly used, and that `alwaysTrue` means “always true”.
 
+## Concept-card validation and memory
+
+- Every concept card starts face down until that card has been validated by the learner.
+- The learner may reveal the unvalidated cards in any order.
+- Only one unvalidated card may remain previewed at a time. Revealing another card or clicking outside the cards hides the previous preview again.
+- A previewed card displays its complete canonical title, HTML explanation, code formatting and tooltips, plus a visible mini-quiz action.
+- A previewed unvalidated card uses a background that is only slightly different from the normal card background.
+- Every card has canonical quiz data associated with the same stable card ID.
+- A card quiz contains between one and three very simple multiple-choice questions, using three or four choices per question.
+- The questions must be answerable directly from the card and primarily verify that the explanation was read and understood.
+- Wrong choices may include one plausible trap, while the remaining wrong choices should be clearly incorrect for a child learner.
+- A quiz submission validates the card only when every question is answered correctly.
+- An incorrect or incomplete submission does not reveal the correct answer. It reports only that at least one answer is wrong and invites the learner to read the card and retry.
+- Closing a quiz without validating the card leaves that card unvalidated and returns it to the face-down state.
+- A validated card remains face up with the previously approved normal card background and displays a success icon.
+- Validated card IDs are persisted separately from mission completion and saved code, under a dedicated concept-memory storage key.
+- The concept-memory record stores stable card IDs rather than mission positions or duplicated card content.
+- The mission shows the number of validated cards and the total number of cards.
+- The learner cannot open the editable code view or execute the mission until every concept card assigned to the current mission has been validated.
+- Clicking the colored code preview, the run button, or the execution keyboard shortcut before all cards are validated redirects attention to the concept cards and explains the requirement in Japanese.
+- The execution restriction applies equally to the normal run path and the special mission-14 preparation path.
+
 ## Boolean lesson and `hero.isTrue`
 
 - A boolean is a value that can only be `true` or `false`.
@@ -127,6 +149,25 @@ This document is the functional and business source of truth for the local Japan
 - The separator and mission title are white and use normal font weight.
 - The JavaScript editor has a styled vertical scrollbar harmonized with the game panels and remains easy to use with long programs.
 - Loop victory conditions appear inside the field-progress block before the progress track.
+
+## Simplified pedagogical syntax preview
+
+- The code area displays a simplified concept-based syntax preview by default whenever the editor is not focused.
+- The syntax preview is presentational only and must never modify the learner's stored or executed source code.
+- Focusing or activating the editable code area removes the concept colors and returns to the approved uniform editor text color.
+- When the editor loses focus, the preview is rebuilt from the latest version of the code and the simplified coloring returns.
+- The syntax colors are centralized in easy-to-change CSS custom properties rather than repeated as literal colors throughout the implementation.
+- Object names and declared constant or variable names use the object/variable color, initially blue.
+- `hero` is treated as an object name.
+- Names declared with `const`, `let` or `var` use the object/variable color both at declaration and later use.
+- Method names following dot access and used as calls use the method color, initially purple.
+- Primitive literal values use the literal color, initially red. This includes numbers, `true`, `false`, `null`, `undefined`, `NaN`, `Infinity` and string contents.
+- String quote characters remain in the default syntax color while only the contents between the quotes use the literal color.
+- Line and block comments use the comment color, initially a gray that remains reasonably close to the normal white text.
+- Keywords, operators, punctuation, parentheses, braces, brackets, dots, semicolons, assignment and comparison symbols, logical operators and string quote characters retain the default white syntax color.
+- For `const alwaysTrue = true;`, `const`, `=`, and `;` are white, `alwaysTrue` is blue and `true` is red.
+- A compact Japanese legend below the code area explains the five categories: object/variable, method, value, comment and grammar/symbol.
+- The preview and legend support the standalone textarea editor and remain compatible with Ace if it is available later.
 
 ## Action execution
 
@@ -259,6 +300,12 @@ This document is the functional and business source of truth for the local Japan
 - It verifies multi-field ordering, field-progress source rules, admin URL behavior and progressive legend thresholds.
 - It verifies saved curriculum migration preserves existing code and progress semantics.
 - It verifies every mission guide resolves its ordered concept-card IDs from the canonical reference base, all IDs are unique and every rendered card exposes its ID.
+- It verifies every canonical concept card has between one and three quiz questions and every question has three or four unique choices containing its correct answer.
+- It verifies concept-card validation uses stable card IDs and a dedicated memory storage key rather than mission-number persistence.
+- It verifies the learner cannot execute through the run button or keyboard shortcut before the current mission's cards are validated.
+- It verifies simplified syntax coloring keeps keywords and punctuation in the default color while distinguishing objects/variables, methods, literal values and comments.
+- It verifies string quote characters remain in the default color while string contents receive the literal color.
+- It verifies the five syntax colors are centralized through CSS custom properties.
 - It verifies standalone mode does not request the absent Ace asset and that curriculum rendering does not recursively redispatch mission loading.
 - It verifies the static execution worker loads the complete engine, the app does not create Blob workers, and admin navigation uses the canonical unlock predicate.
 - It verifies normal access repairs stale or admin-inflated persisted unlock values before `app-v3.js` renders the mission list.
