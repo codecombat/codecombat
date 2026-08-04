@@ -133,7 +133,7 @@
   background: #172238;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.52);
   scrollbar-width: thin;
-  scrollbar-color: #58779f #172238;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 .concept-card-quiz-close {
