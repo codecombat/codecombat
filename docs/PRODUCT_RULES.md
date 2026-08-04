@@ -76,6 +76,7 @@ This document is the functional and business source of truth for the local Japan
 - The mission 03 naming card explains that constants can receive meaningful romaji names without spaces, that English names are commonly used, and that `alwaysTrue` means “always true”.
 - A new-concept card must never be implemented only as ad-hoc mission HTML or an interface-only exception. It must be a record in the canonical concept-card database and be referenced by stable ID from its mission guide.
 - Every canonical concept card must be referenced by exactly one mission guide, and every mission-guide card ID must resolve to a card whose `missionId` matches that mission.
+- No terminology enhancer or other post-render script may append a second visual concept block outside the canonical card database and card-memory lifecycle.
 
 ## Concept-card validation and memory
 
