@@ -24,7 +24,7 @@
   tab-size: 2;
   cursor: text;
   scrollbar-width: thin;
-  scrollbar-color: #58779f #0b1020;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 .code-panel.concept-cards-pending .syntax-concept-preview {
@@ -38,22 +38,22 @@
 }
 
 .syntax-concept-preview::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
 }
 
 .syntax-concept-preview::-webkit-scrollbar-track {
   border-radius: 999px;
-  background: #0b1020;
+  background: var(--scrollbar-track);
 }
 
 .syntax-concept-preview::-webkit-scrollbar-thumb {
-  border: 3px solid #0b1020;
+  border: 3px solid var(--scrollbar-track);
   border-radius: 999px;
-  background: #58779f;
+  background: var(--scrollbar-thumb);
 }
 
-.syntax-concept-preview::-webkit-scrollbar-thumb:hover { background: #6f94c3; }
+.syntax-concept-preview::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
 
 .syntax-object { color: var(--syntax-object-color); }
 .syntax-method { color: var(--syntax-method-color); }
