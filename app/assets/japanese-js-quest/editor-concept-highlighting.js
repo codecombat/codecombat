@@ -194,15 +194,25 @@
         return ace ? ace.getValue() : fallback.value
       }
 
+      function canEdit () {
+        return !window.JSQuestExecutionGate || window.JSQuestExecutionGate.canRun()
+      }
+
       function showPreview () {
         preview.querySelector('code').innerHTML = highlight(currentCode()) + '\n'
         preview.hidden = false
+        preview.setAttribute('aria-disabled', String(!canEdit()))
         if (aceElement) aceElement.classList.add('syntax-editor-hidden')
         fallback.classList.add('syntax-editor-hidden')
         codePanel.classList.add('syntax-preview-active')
       }
 
       function showEditor () {
+        if (!canEdit()) {
+          window.JSQuestExecutionGate?.explainBlockedExecution()
+          showPreview()
+          return
+        }
         preview.hidden = true
         if (aceElement) aceElement.classList.remove('syntax-editor-hidden')
         fallback.classList.remove('syntax-editor-hidden')
@@ -220,6 +230,11 @@
         }
       })
       fallback.addEventListener('focus', () => {
+        if (!canEdit()) {
+          window.JSQuestExecutionGate?.explainBlockedExecution()
+          window.setTimeout(showPreview, 0)
+          return
+        }
         preview.hidden = true
         fallback.classList.remove('syntax-editor-hidden')
         codePanel.classList.remove('syntax-preview-active')
@@ -229,6 +244,12 @@
       const ace = aceEditor()
       if (ace) {
         ace.on('focus', () => {
+          if (!canEdit()) {
+            window.JSQuestExecutionGate?.explainBlockedExecution()
+            ace.blur()
+            showPreview()
+            return
+          }
           preview.hidden = true
           aceElement.classList.remove('syntax-editor-hidden')
           codePanel.classList.remove('syntax-preview-active')
@@ -237,7 +258,7 @@
       }
 
       document.addEventListener('jsquest:missionloaded', () => window.setTimeout(showPreview, 0))
-      document.addEventListener('jsquest:adminanswerdisplayed', () => window.setTimeout(showPreview, 0))
+      document.addEventListener('jsquest:conceptcardschanged', () => window.setTimeout(showPreview, 0))
       window.setTimeout(showPreview, 0)
     }
 
