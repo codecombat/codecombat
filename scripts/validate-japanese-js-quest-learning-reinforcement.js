@@ -181,6 +181,7 @@ for (const text of [
   'cursor placed at the corresponding source-code offset',
   'Difficult kanji and advanced words in mission explanations, concept cards and mini-quizzes',
   'same blue scrollbar theme throughout the game',
+  'No terminology enhancer or other post-render script may append a second visual concept block',
 ]) assert(productRules.includes(text))
 
 const readme = read('README.md')
