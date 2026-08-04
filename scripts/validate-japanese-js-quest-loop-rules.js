@@ -119,7 +119,7 @@ for (const text of [
   'source-code call limit',
   'commented-out loop keywords do not satisfy',
   '`MISSION XX - mission title`',
-  'same blue scrollbar theme throughout the game',
+  'same detailed blue scrollbar theme throughout the game',
 ]) assert(productRules.includes(text))
 
 console.log(`Validated ${loopMissionIds.length} loop missions, source-call limits and staged infinite-loop preparation.`)
