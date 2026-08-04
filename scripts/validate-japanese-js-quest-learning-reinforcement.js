@@ -146,6 +146,14 @@ for (const text of [
   'Admin mode provides a quiz-review control',
   'cursor placed at the corresponding source-code offset',
 ]) assert(productRules.includes(text))
+
+const readme = read('README.md')
+for (const text of [
+  'Les 36 cartes',
+  '// はコメント（Comment）',
+  'ADMIN：正解を選ぶ',
+  "le curseur est placé à l'endroit correspondant",
+]) assert(readme.includes(text))
 assert(!fs.existsSync(path.join(repositoryPath, 'docs', 'LEARNING_REINFORCEMENT_PLAN.md')))
 
 console.log(`Validated ${allCards.length} concept-card quizzes, admin review helpers and simplified pedagogical syntax coloring.`)
