@@ -6,6 +6,10 @@
   --syntax-default-color: #f2f5fb;
 }
 
+.code-panel .panel-heading > div > p {
+  font-size: 11px;
+}
+
 .syntax-concept-preview {
   width: 100%;
   height: 440px;
