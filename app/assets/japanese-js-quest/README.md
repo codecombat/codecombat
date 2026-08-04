@@ -43,11 +43,13 @@ Ce mode ajoute :
 
 L'affichage de la réponse administrateur ne demande aucune confirmation et n'enregistre pas cette réponse dans le code sauvegardé du joueur. Le déblocage total disparaît au rechargement de la page.
 
-## Après une mise à jour Git
+## Utiliser la branche de renforcement pédagogique
 
 ```powershell
 cd D:\yuzu-dev\codecombat
-git pull --ff-only origin feature/japanese-js-quest-20-missions
+git fetch origin
+git switch feature/japanese-js-quest-learning-reinforcement
+git pull --ff-only origin feature/japanese-js-quest-learning-reinforcement
 cd .\app\assets\japanese-js-quest
 py -m http.server 8000
 ```
@@ -55,6 +57,34 @@ py -m http.server 8000
 Recharge ensuite la page avec `Ctrl+F5`.
 
 La migration de curriculum déplace automatiquement les anciens codes sauvegardés et les identifiants de progression vers la nouvelle numérotation. Un code personnel reste associé à sa leçon d'origine.
+
+## Cartes de concepts et mini-quiz
+
+Les cartes de `新しい考え方` sont cachées au premier affichage. L'enfant peut les retourner dans l'ordre qu'il souhaite, mais une seule carte non validée reste ouverte à la fois.
+
+Chaque carte possède un mini-quiz de une à trois questions très simples. Toutes les réponses doivent être correctes en même temps pour valider la carte. En cas d'erreur, la bonne réponse n'est pas révélée : l'enfant est invité à relire la carte et à recommencer.
+
+Une carte validée reste visible avec une coche. Ses identifiants sont sauvegardés séparément dans :
+
+```text
+japanese-js-quest-concept-memory-v1
+```
+
+Le compteur `カード X / N` montre la progression. L'éditeur et l'exécution restent verrouillés jusqu'à la validation de toutes les cartes de la mission.
+
+## Coloration pédagogique simplifiée
+
+Quand l'éditeur n'a pas le focus, une prévisualisation colorée montre les catégories de concepts :
+
+- bleu : objet et noms de variables ou constantes ;
+- violet : méthodes ;
+- rouge : valeurs littérales et contenu des chaînes ;
+- gris : commentaires ;
+- blanc : mots-clés, opérateurs, ponctuation, parenthèses, quotes et autres éléments de syntaxe.
+
+Les quotes des chaînes restent blanches ; seul leur contenu est rouge. Une légende très compacte apparaît sous le code.
+
+Au clic dans la zone de code, la coloration disparaît et l'éditeur retrouve sa couleur uniforme. Lorsque l'éditeur perd le focus, la prévisualisation est reconstruite à partir du dernier texte. Les couleurs sont centralisées dans des variables CSS faciles à modifier.
 
 ## Progression pédagogique
 
@@ -124,6 +154,8 @@ La mission utilise maintenant une préparation en deux étapes pour éviter que 
 6. ce second bouton sauvegarde la réussite avant de lancer la boucle infinie ;
 7. fermer la bulle déclenche l'itération suivante ;
 8. un nouveau `Ctrl+F5` permet de quitter la boucle et de continuer vers la mission 15.
+
+Les cartes de concepts de la mission 14 doivent être validées avant que le bouton de préparation de la boucle infinie puisse être utilisé.
 
 Le raccourci `Ctrl+F5` est aussi affiché dans la barre des raccourcis de l'éditeur.
 
@@ -197,9 +229,10 @@ Depuis la racine du dépôt :
 node scripts/validate-japanese-js-quest.js
 node scripts/validate-japanese-js-quest-runtime.js
 node scripts/validate-japanese-js-quest-loop-rules.js
+node scripts/validate-japanese-js-quest-learning-reinforcement.js
 ```
 
-Les validateurs vérifient les 23 missions et tous leurs fields, les solutions finies, les solutions partielles incomplètes, les gemmes, les niveaux, l'ordre des actions, les erreurs parlées, `hero.isTrue(...)`, le drapeau de la mission 03, le dragon de niveau 99, la préparation en deux étapes de la mission infinie, les limites de code des boucles, le refus des boucles commentées, la migration des identifiants, l'aventure multi-fields, le mode administrateur, la légende progressive, l'absence de requête Ace en mode autonome et les documents de règles.
+Les validateurs vérifient les 23 missions et tous leurs fields, les solutions finies, les solutions partielles incomplètes, les gemmes, les niveaux, l'ordre des actions, les erreurs parlées, `hero.isTrue(...)`, le drapeau de la mission 03, le dragon de niveau 99, la préparation en deux étapes de la mission infinie, les limites de code des boucles, le refus des boucles commentées, les 35 jeux de questions associés aux cartes, la coloration pédagogique simplifiée, la persistance séparée des cartes, la migration des identifiants, l'aventure multi-fields, le mode administrateur, la légende progressive, l'absence de requête Ace en mode autonome et les documents de règles.
 
 ## 日本語
 
