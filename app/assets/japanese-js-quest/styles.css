@@ -17,29 +17,46 @@
   --scrollbar-size: 12px;
 }
 
-* {
-  box-sizing: border-box;
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+* { box-sizing: border-box; }
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
 }
 
-*::-webkit-scrollbar {
+*::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#editor .ace_scrollbar::-webkit-scrollbar {
   width: var(--scrollbar-size);
   height: var(--scrollbar-size);
 }
 
-*::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+#editor .ace_scrollbar::-webkit-scrollbar-track {
   border-radius: 999px;
   background: var(--scrollbar-track);
 }
 
-*::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb,
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+#editor .ace_scrollbar::-webkit-scrollbar-thumb {
   border: 3px solid var(--scrollbar-track);
   border-radius: 999px;
   background: var(--scrollbar-thumb);
 }
 
-*::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+*::-webkit-scrollbar-thumb:hover,
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+#editor .ace_scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
 
 body {
   margin: 0;
@@ -84,7 +101,12 @@ h3 { margin-bottom: 0.25rem; }
 
 .subtitle, .panel-heading p, footer, #save-status { color: var(--muted); }
 .subtitle { margin-bottom: 0; }
-.code-panel .panel-heading p { font-size: 0.78rem; line-height: 1.35; }
+.code-panel .panel-heading > div > p {
+  margin-bottom: 0;
+  font-size: 0.62rem;
+  line-height: 1.25;
+  white-space: nowrap;
+}
 .top-actions { display: flex; align-items: center; gap: 1rem; }
 
 .layout {
