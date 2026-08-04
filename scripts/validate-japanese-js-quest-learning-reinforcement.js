@@ -84,6 +84,7 @@ for (const file of [
   'concept-card-memory.js',
   'editor-concept-highlighting.js',
 ]) assert(indexSource.includes(file))
+assert(indexSource.indexOf('styles.css') < indexSource.indexOf('editor-concept-highlighting.css'))
 assert(indexSource.indexOf('concept-card-memory.js') < indexSource.indexOf('app-v3.js'))
 assert(indexSource.indexOf('app-v3.js') < indexSource.indexOf('editor-concept-highlighting.js'))
 
@@ -158,7 +159,6 @@ assert(globalStyles.includes('*::-webkit-scrollbar-thumb'))
 assert(globalStyles.includes('#editor .ace_scrollbar::-webkit-scrollbar-thumb'))
 assert(globalStyles.includes('background: var(--scrollbar-thumb);'))
 assert(globalStyles.includes('.code-panel .panel-heading > div > p {'))
-assert(globalStyles.includes('font-size: 0.62rem;'))
 assert(globalStyles.includes('white-space: nowrap;'))
 assert(!globalStyles.includes('* {\n  box-sizing: border-box;\n  scrollbar-width: thin;'))
 
@@ -174,6 +174,8 @@ for (const variable of [
   '--syntax-comment-color',
   '--syntax-default-color',
 ]) assert(highlightingCss.includes(variable))
+assert(highlightingCss.includes('.code-panel .panel-heading > div > p {'))
+assert(highlightingCss.includes('font-size: 11px;'))
 assert(highlightingCss.includes('var(--scrollbar-thumb)'))
 assert(highlightingCss.includes('var(--scrollbar-track)'))
 assert(!highlightingCss.includes('scrollbar-width: thin'))
@@ -221,4 +223,4 @@ for (const text of [
 ]) assert(readme.includes(text))
 assert(!fs.existsSync(path.join(repositoryPath, 'docs', 'LEARNING_REINFORCEMENT_PLAN.md')))
 
-console.log(`Validated ${allCards.length} concept-card quizzes, admin bulk validation, reading help and restored blue scrollbar styling.`)
+console.log(`Validated ${allCards.length} concept-card quizzes, admin bulk validation, reading help, restored blue scrollbar styling and exact 11px execution reminder.`)
