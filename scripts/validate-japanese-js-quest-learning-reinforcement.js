@@ -82,6 +82,12 @@ for (const file of [
 assert(indexSource.indexOf('concept-card-memory.js') < indexSource.indexOf('app-v3.js'))
 assert(indexSource.indexOf('app-v3.js') < indexSource.indexOf('editor-concept-highlighting.js'))
 
+const technicalTermsSource = read('technical-terms.js')
+assert(!technicalTermsSource.includes('addCommentExplanation'))
+assert(!technicalTermsSource.includes('comment-concept-card'))
+assert(!technicalTermsSource.includes('grid.appendChild(article)'))
+assert(technicalTermsSource.includes("section.dataset.technicalTermsEnhanced = 'true'"))
+
 const memorySource = read('concept-card-memory.js')
 for (const text of [
   'japanese-js-quest-concept-memory-v1',
@@ -99,6 +105,19 @@ for (const text of [
 assert(memorySource.includes("run?.addEventListener('click'"))
 assert(memorySource.includes("document.addEventListener('keydown'"))
 
+const learningGuideSource = read('learning-guide.js')
+for (const text of [
+  'window.JSQuestReadingHelp',
+  'scheduleQuizAnnotations',
+  "event.target.closest('.concept-card-quiz-button')",
+  "document.getElementById('concept-card-quiz-modal')",
+  'annotateText',
+]) assert(learningGuideSource.includes(text))
+for (const word of [
+  '主人公', '文字列', '命令', '実行', '条件', '比較', '分岐', '繰り返し', '無限',
+  '選択肢', '再起動', '危険', '引用符', '優先順位', '総復習',
+]) assert(learningGuideSource.includes(word + ':'))
+
 const highlightingSource = read('editor-concept-highlighting.js')
 for (const text of [
   'window.JSQuestExecutionGate.canRun()',
@@ -113,6 +132,17 @@ for (const text of [
   'showEditor(caretOffset)',
 ]) assert(highlightingSource.includes(text))
 
+const globalStyles = read('styles.css')
+for (const variable of [
+  '--scrollbar-track',
+  '--scrollbar-thumb',
+  '--scrollbar-thumb-hover',
+  '--scrollbar-size',
+]) assert(globalStyles.includes(variable))
+assert(globalStyles.includes('*::-webkit-scrollbar'))
+assert(globalStyles.includes('scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track)'))
+assert(globalStyles.includes('.code-panel .panel-heading p { font-size: 0.78rem;'))
+
 const highlightingCss = read('editor-concept-highlighting.css')
 for (const variable of [
   '--syntax-object-color',
@@ -121,6 +151,8 @@ for (const variable of [
   '--syntax-comment-color',
   '--syntax-default-color',
 ]) assert(highlightingCss.includes(variable))
+assert(highlightingCss.includes('var(--scrollbar-thumb)'))
+assert(highlightingCss.includes('var(--scrollbar-track)'))
 
 const memoryCss = read('concept-card-memory.css')
 for (const className of [
@@ -131,6 +163,7 @@ for (const className of [
   '.concept-card-quiz-modal',
   '.concept-card-quiz-admin-fill',
 ]) assert(memoryCss.includes(className))
+assert(memoryCss.includes('scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track)'))
 
 const productRules = readRepositoryFile('docs/PRODUCT_RULES.md')
 for (const text of [
@@ -145,6 +178,8 @@ for (const text of [
   'Whenever a mission or concept card is added or changed',
   'Admin mode provides a quiz-review control',
   'cursor placed at the corresponding source-code offset',
+  'Difficult kanji and advanced words in mission explanations, concept cards and mini-quizzes',
+  'same blue scrollbar theme throughout the game',
 ]) assert(productRules.includes(text))
 
 const readme = read('README.md')
@@ -156,4 +191,4 @@ for (const text of [
 ]) assert(readme.includes(text))
 assert(!fs.existsSync(path.join(repositoryPath, 'docs', 'LEARNING_REINFORCEMENT_PLAN.md')))
 
-console.log(`Validated ${allCards.length} concept-card quizzes, admin review helpers and simplified pedagogical syntax coloring.`)
+console.log(`Validated ${allCards.length} concept-card quizzes, canonical comment cards, reading help and global scrollbar styling.`)
