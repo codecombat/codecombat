@@ -22,8 +22,24 @@ function readRepositoryFile (file) {
 const allCards = cards.allCards()
 const allQuizzes = quizzes.allQuizzes()
 
-assert.strictEqual(allCards.length, 35)
+assert.strictEqual(allCards.length, 36)
 assert.deepStrictEqual(Object.keys(allQuizzes).sort(), allCards.map(card => card.id).sort())
+
+const guidedCardIds = []
+for (const [missionId, guideData] of Object.entries(cards.missionGuides)) {
+  for (const cardId of guideData.cardIds) {
+    const card = cards.getCard(cardId)
+    assert(card, `${cardId} must resolve from the canonical card database`)
+    assert.strictEqual(card.missionId, Number(missionId))
+    guidedCardIds.push(cardId)
+  }
+}
+assert.deepStrictEqual(guidedCardIds.slice().sort(), allCards.map(card => card.id).sort())
+assert.strictEqual(new Set(guidedCardIds).size, guidedCardIds.length)
+assert.deepStrictEqual(cards.getMissionGuide(1).cardIds, ['concept-card-036', 'concept-card-005'])
+assert(cards.getCard('concept-card-036').titleHtml.includes('<code>//</code>'))
+assert(cards.getCard('concept-card-036').titleHtml.includes('Comment'))
+assert(cards.getCard('concept-card-036').bodyHtml.includes('命令として実行しません'))
 
 for (const card of allCards) {
   const quiz = quizzes.getQuiz(card.id)
@@ -38,6 +54,7 @@ for (const card of allCards) {
     assert.strictEqual(new Set(item.choices).size, item.choices.length)
   }
 }
+assert.strictEqual(quizzes.getQuiz('concept-card-036').length, 2)
 
 const sample = [
   'const alwaysTrue = true;',
@@ -74,6 +91,10 @@ for (const text of [
   'どこかにまちがいがあります',
   '先に「新しい考え方」のカードを全部めくって',
   'jsquest:conceptcardschanged',
+  "new URLSearchParams(root.location.search).get('admin') === '1'",
+  'ADMIN：正解を選ぶ',
+  '正しい選択肢を選びました',
+  'inputs.find(input => input.value === item.answer)',
 ]) assert(memorySource.includes(text))
 assert(memorySource.includes("run?.addEventListener('click'"))
 assert(memorySource.includes("document.addEventListener('keydown'"))
@@ -83,6 +104,13 @@ for (const text of [
   'window.JSQuestExecutionGate.canRun()',
   'window.JSQuestExecutionGate?.explainBlockedExecution()',
   'jsquest:conceptcardschanged',
+  'caretOffsetFromPoint',
+  'document.caretPositionFromPoint',
+  'document.caretRangeFromPoint',
+  'range.toString().length',
+  'fallback.setSelectionRange(clamped, clamped)',
+  'ace.session.doc.indexToPosition(clamped, 0)',
+  'showEditor(caretOffset)',
 ]) assert(highlightingSource.includes(text))
 
 const highlightingCss = read('editor-concept-highlighting.css')
@@ -96,10 +124,12 @@ for (const variable of [
 
 const memoryCss = read('concept-card-memory.css')
 for (const className of [
+  '#mission-learning-guide [data-concept-card-id]:not([data-mastery-prepared])',
   '.concept-memory-card.is-covered',
   '.concept-memory-card.is-preview',
   '.concept-memory-card.is-validated',
   '.concept-card-quiz-modal',
+  '.concept-card-quiz-admin-fill',
 ]) assert(memoryCss.includes(className))
 
 const productRules = readRepositoryFile('docs/PRODUCT_RULES.md')
@@ -112,7 +142,10 @@ for (const text of [
   'CSS custom properties',
   'String quote characters remain in the default syntax color',
   'cannot open the editable code view or execute the mission',
+  'Whenever a mission or concept card is added or changed',
+  'admin mode provides a quiz-review control',
+  'cursor is placed at the corresponding source-code offset',
 ]) assert(productRules.includes(text))
 assert(!fs.existsSync(path.join(repositoryPath, 'docs', 'LEARNING_REINFORCEMENT_PLAN.md')))
 
-console.log(`Validated ${allCards.length} concept-card quizzes and simplified pedagogical syntax coloring.`)
+console.log(`Validated ${allCards.length} concept-card quizzes, admin review helpers and simplified pedagogical syntax coloring.`)
