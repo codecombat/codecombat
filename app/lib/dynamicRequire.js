@@ -135,6 +135,7 @@ module.exports = {
   'views/account/IsraelSignupView': function () { return import(/* webpackChunkName: "account" */ 'views/account/IsraelSignupView') },
   'views/LegalView': function () { return import(/* webpackChunkName: "LegalView" */ 'views/LegalView') },
   'views/play/CampaignView': function () { return import(/* webpackChunkName: "play" */ 'views/play/CampaignView') },
+  'views/play/MiniGamePlayView': function () { return import(/* webpackChunkName: "minigamePlay" */ 'views/play/MiniGamePlayView') },
   'views/ladder/LadderView': function () { return import(/* webpackChunkName: "ladder" */ 'views/ladder/LadderView') },
   'views/ladder/MainLadderView': function () { return import(/* webpackChunkName: "ladder" */ 'views/ladder/MainLadderView') },
   'views/ladder/MainTournamentView': function () { return import(/* webpackChunkName: "tournament" */ 'views/ladder/MainTournamentView') },
