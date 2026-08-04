@@ -105,11 +105,7 @@
   cursor: not-allowed;
 }
 
-#editor-fallback {
-  overflow: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
-}
+#editor-fallback { overflow: auto; }
 
 #editor-fallback::-webkit-scrollbar,
 #editor .ace_scrollbar::-webkit-scrollbar {
