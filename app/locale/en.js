@@ -981,7 +981,7 @@ module.exports = {
       medium: 'Medium',
       hard: 'Hard',
       player: 'Player',
-      player_level: 'Level', // Like player level 5, not like level: Dungeons of Kithgard
+      player_rank: 'Rank', // Player's XP-based rank, like rank 5 (was player_level); not like level: Dungeons of Kithgard
       warrior: 'Warrior',
       ranger: 'Ranger',
       wizard: 'Wizard',
@@ -1590,6 +1590,9 @@ module.exports = {
 
     choose_hero: {
       choose_hero: 'Choose Your Hero',
+      choose_junior_hero: 'Choose Your Young Hero',
+      sign_up_to_unlock: 'Sign Up to Unlock!',
+      sign_up_pet_blurb: 'Create a free account to play as this pet!',
       programming_language: 'Programming Language',
       programming_language_description: 'Which programming language do you want to use?',
       default: 'Default',
@@ -2246,7 +2249,7 @@ module.exports = {
       edit_description: 'edit description',
       private: '(private)',
       summary: 'Summary',
-      average_level: 'Average Level',
+      average_rank: 'Average Rank', // Average XP-based rank of clan members (was average_level)
       average_achievements: 'Average Achievements',
       delete_clan: 'Delete Clan',
       leave_clan: 'Leave Clan',
@@ -3529,7 +3532,7 @@ module.exports = {
       new_xp_prefix: '',
       new_xp_postfix: ' earned',
       left_xp_prefix: '',
-      left_xp_infix: ' until level ',
+      left_xp_rank_infix: ' until rank ', // (was left_xp_infix ' until level ')
       left_xp_postfix: '',
     },
 
@@ -5816,6 +5819,8 @@ module.exports = {
       ai_made_ss: 'AI Made Simple & Safe -- Start Today!',
       aiss_body: 'Built as the simplest path to AI literacy, this tool empowers learners to harness top LLMs with hands-on AI training, making creation easy—whether it’s games, art, writing, code, or more. Together, we help learners safely bring their ideas to life across any subject.',
       learn_more: 'Learn More!',
+      cyber_security_modal_header: 'Cybersecurity Curriculum for AP and CompTIA Security+',
+      cyber_security_modal_body: 'Our Cybersecurity curriculum has now officially launched. Give students a classroom-ready way to prepare for AP Cybersecurity and CompTIA Security+ through digital simulations, technical writing, and real-world security scenarios, with no specialized hardware required.',
     },
     user_credits: {
       level_chat_left_in_duration: '__credits__ AI Bot queries left for the __duration_key__',
@@ -6072,8 +6077,10 @@ module.exports = {
       student_acceleration_1_link_text: 'Try it now',
       student_acceleration_2_title: 'AP CSP Exam Preperations',
       student_acceleration_2_text: 'We are recognized by the College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). Our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam.',
-      student_acceleration_3_title: 'AI Algebra',
-      student_acceleration_3_text: 'A classroom-ready Algebra + AI curriculum focused on deep reasoning and hands-on exploration before introducing AI. Students compare methods, verify AI outputs, and solve larger problems — with teachers guiding the instruction every step of the way.',
+      student_acceleration_3_title: 'Algebra + AI',
+      student_acceleration_3_text: 'A complete, teacher-led Algebra + AI curriculum that builds strong math foundations while integrating AI as a tool. Students develop deep reasoning, modeling skills, and critical thinking through structured, classroom-ready lessons.',
+      student_acceleration_4_title: 'Cybersecurity',
+      student_acceleration_4_text: 'A classroom-ready cybersecurity curriculum with digital simulations that eliminate the need for specialized hardware, plus technical writing, safe AI use, and learning aligned with AP Cybersecurity and CompTIA Security+.',
       young_learners_1_title: 'CodeCombat Junior',
       young_learners_1_title_classroom: 'CodeCombat Junior Classroom',
       young_learners_1_text: 'Our flagship K-5 curriculum features a progression of learning levels that teach basic coding concepts at a slower pace, modeled specifically for elementary students.',
@@ -6229,6 +6236,47 @@ module.exports = {
       // Testimonial
       testimonial_1_quote: 'It shifted learning from just finding the final answer to understanding the step-by-step logic behind each problem.',
       testimonial_1_name: 'Montebello High School Student',
+    },
+
+    hackstack_cyber_page: {
+      // Hero
+      header: 'Cybersecurity Curriculum',
+      header_details: 'Explore real-world security concepts through digital simulations, technical writing, and classroom-ready lessons designed for flexible implementation.',
+      header_aligned: 'CompTIA Security+\nand AP Cybersecurity Aligned',
+      cta_explore: 'Explore Cybersecurity',
+
+      // Features strip
+      features_title: 'Designed for Real-World Cybersecurity Skills',
+      feature_1_title: 'Certification Pathways',
+      feature_1_desc: 'Builds skills students can carry into future coursework, certification, and careers',
+      feature_2_title: 'Technical Writing',
+      feature_2_desc: 'Real cybersecurity reports, memos, and assessments',
+      feature_3_title: 'Flexible Digital Delivery',
+      feature_3_desc: 'Digital simulations, no specialized hardware required',
+
+      // Pathways at a glance
+      pathways_title: 'Pathways at a Glance',
+      module: 'Module',
+      module_1_title: 'Intro to Security',
+      module_1_tag: 'Internal Memos',
+      module_1_desc: 'Students learn foundational security concepts and practice communicating risks clearly.',
+      module_2_title: 'Securing Spaces',
+      module_2_tag: 'Risk Assessments',
+      module_2_desc: 'Students evaluate environments, identify vulnerabilities, and recommend safer practices.',
+      module_3_title: 'Securing Networks',
+      module_3_tag: 'IOC Reports',
+      module_3_desc: 'Students investigate indicators of compromise and document evidence from simulated scenarios.',
+      module_4_title: 'Securing Devices',
+      module_4_tag: 'Remediation Reports',
+      module_4_desc: 'Students propose fixes, explain tradeoffs, and connect technical decisions to real-world outcomes.',
+      module_5_title: 'Securing Apps & Data',
+      module_5_tag: 'Incident Reports',
+      module_5_desc: 'Students apply what they\'ve learned to analyze incidents and communicate next steps.',
+      standards_cta: 'See Standards Alignment',
+
+      // Safety card
+      safety_title: 'Built with Student Safety in Mind',
+      safety_text: 'AI HackStack supports safe, school-ready AI exploration with vetted tools, privacy filters, and educator controls. CodeCombat is built with student safety, cybersecurity, and data privacy in mind, following school-grade privacy requirements including COPPA, FERPA, SOPIPA, California AB 1584, CalOPPA, CAN-SPAM, and GDPR.',
     },
 
     standards_page: {
@@ -6523,6 +6571,7 @@ module.exports = {
       'ScenarioDetailsPanel_scenario-settings': 'Scenario settings',
       'ScenarioDetailsPanel_allow-user-upload-file': 'Allow user to upload file',
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': "You're in scenario creation mode! Go ahead, mess around and try to build a cool scenario, then click \"beta\" or \"released\" to share it with the world! If you ever don't like a prompt, just go back and edit it.",
+      'ScenarioPage_youre-in-scenario-creation-mode-non-admin': "Here's a free-form way to prompt an AI Model",
       'ScenarioPromptMessage_alternate-choices': 'Alternate Choices',
       ScenarioPromptMessage_edit: 'Edit',
       'ScenarioPromptMessage_prompt-choices': 'Prompt Choices',

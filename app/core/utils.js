@@ -1472,7 +1472,7 @@ const arenas = [
   { season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-08-01T00:00:01.000-07:00'), end: new Date('2026-01-01T08:00:00.000Z'), results: new Date('2026-01-15T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png', tournament: '695383474e840b3f4aa401d3' },
   { season: 16, slug: 'devour-dash', type: 'championship', start: new Date('2026-01-13T00:00:00.000-08:00'), end: new Date('2026-05-30T00:00:00.000-08:00'), results: new Date('2026-06-25T07:00:00.000-08:00'), levelOriginal: '69415fa85459d73effdd5c51', image: '/file/db/level/69415fa85459d73effdd5c51/DevourDashCupBanner.webp', tournament: '6a22ab6d78e6f30412322011', onePerSeason: true },
   { season: 17, slug: 'gridlock-practice', type: 'championship', start: new Date('2026-05-31T00:00:00.000-08:00'), end: new Date('2026-08-01T00:00:00.000-08:00'), results: new Date('2026-08-15T07:00:00.000-08:00'), levelOriginal: '6a0eda3fa9b23bee22fbc603', image: '/file/db/level/6a0eda3fa9b23bee22fbc603/gridlock%20banner.png', onePerSeason: true, noResults: true, restArena: true },
-  { season: 18, slug: 'chaotic-crossing', type: 'championship', start: new Date('2026-08-01T00:00:00.000-08:00'), end: new Date('2026-12-29T00:00:00.000-08:00'), results: new Date('2027-01-15T07:00:00.000-08:00'), levelOriginal: '', image: '', tournament: '', onePerSeason: true },
+  { season: 18, slug: 'chaotic-crossing', type: 'championship', start: new Date('2026-08-01T00:00:00.000-08:00'), end: new Date('2026-12-29T00:00:00.000-08:00'), results: new Date('2027-01-15T07:00:00.000-08:00'), levelOriginal: '6a54e8722814d8ccb37047fc', image: '/file/db/level/6a54e8722814d8ccb37047fc/chaotic%20crossing%20banner.webp', tournament: '', onePerSeason: true },
 ]
 
 // AI League seasons
@@ -1945,17 +1945,15 @@ module.exports.groupedCoursesList = (courses) => {
   if (isOzaria) {
     return [...ozarCourses, ...otherCourses]
   } else {
-    const cs = [...cocoCourses]
-    if (me?.showOzCourses()) {
-      cs.push(...ozarCourses)
-    }
-    cs.push(...otherCourses)
-    return cs
+    return [...cocoCourses, ...ozarCourses, ...otherCourses]
   }
 }
+const isJuniorLevel = level => level?.get('product') === 'codecombat-junior'
+module.exports.isJuniorLevel = isJuniorLevel
+
 module.exports.guardJuniorLevelHealthCode = (level, source) => {
   if (typeof source !== 'string') return source // should not happen
-  if (level?.get('product') === 'codecombat-junior') {
+  if (isJuniorLevel(level)) {
     source = source.replace(/(^|[^a-zA-Z.])health(?!\w)/g, (match, prefix) => `${prefix}hero.health`)
   }
   return source

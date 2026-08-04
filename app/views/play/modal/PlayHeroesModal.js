@@ -63,8 +63,7 @@ module.exports = (PlayHeroesModal = (function () {
       this.animateHeroes = this.animateHeroes.bind(this)
       this.confirmButtonI18N = options.confirmButtonI18N != null ? options.confirmButtonI18N : 'common.save'
       this.heroes = new CocoCollection([], { model: ThangType })
-      this.isJunior = this.options.level?.get('product') === 'codecombat-junior' || this.options.campaign?.get('slug') === 'junior' || this.options.campaign?.get('type') === 'junior'
-      this.heroes.url = '/db/thang.type?view=' + (this.isJunior ? 'heroes-junior' : 'heroes')
+      this.heroes.url = '/db/thang.type?view=heroes'
       this.heroes.setProjection(['original', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'shortName', 'unlockLevelName', 'i18n', 'poseImage', 'tier', 'releasePhase', 'ozaria', 'kind'])
       this.heroes.comparator = 'gems'
       this.listenToOnce(this.heroes, 'sync', this.onHeroesLoaded)
@@ -111,7 +110,6 @@ module.exports = (PlayHeroesModal = (function () {
       hero.premium = !hero.free && !hero.unlockBySubscribing
       hero.locked = !me.ownsHero(original) && !(hero.unlockBySubscribing && me.isPremium())
       if ((me.isStudent() || me.isTeacher()) && me.showHeroAndInventoryModalsToStudents() && (hero.get('heroClass') === 'Warrior')) { hero.locked = false }
-      if ((me.isStudent() || me.isTeacher()) && this.isJunior) { hero.locked = false }
       hero.purchasable = hero.locked && me.isPremium()
       if (this.options.level && (allowedHeroes = this.options.level.get('allowedHeroes'))) {
         let needle
@@ -152,7 +150,6 @@ module.exports = (PlayHeroesModal = (function () {
       context.level = this.options.level
       context.confirmButtonI18N = this.confirmButtonI18N
       context.visibleHero = this.visibleHero
-      context.isJunior = this.isJunior
       context.gems = me.gems()
       return context
     }

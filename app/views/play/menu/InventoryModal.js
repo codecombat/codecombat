@@ -30,6 +30,7 @@ const SubscribeModal = require('views/core/SubscribeModal')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 const utils = require('core/utils')
+const schemas = require('app/schemas/schemas')
 
 let hasGoneFullScreenOnce = false
 const debugInventory = false
@@ -40,7 +41,7 @@ module.exports = (InventoryModal = (function () {
       this.prototype.id = 'inventory-modal'
       this.prototype.className = 'modal fade play-modal'
       this.prototype.template = template
-      this.prototype.slots = ['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'programming-book', 'pet', 'minion', 'flag'] //, 'misc-0', 'misc-1']  # TODO: bring in misc slot(s) again when we have space
+      this.prototype.slots = schemas.heroInventorySlots
       this.prototype.ringSlots = ['left-ring', 'right-ring']
       this.prototype.closesOnClickOutside = false // because draggable somehow triggers hide when you don't drag onto a draggable
       this.prototype.trapsFocus = false
@@ -205,7 +206,9 @@ module.exports = (InventoryModal = (function () {
         // 2. The player is trying to play a level they haven't unlocked.
         // We'll just pretend they own it so that they don't get stuck.
         if (application.tracker != null) {
-          application.tracker.trackEvent('Required Item Locked', { level: this.options.level.get('slug'), label: this.options.level.get('slug'), item: item.get('name'), playerLevel: me.level(), levelUnlocked: me.ownsLevel(this.options.level.get('original')) })
+          // `level` = playable level slug; `playerLevel` = the player's Rank (XP level). Both are legacy
+          // analytics wire keys pinned by schemas/events/required_item_locked.json — do not rename (GD-849).
+          application.tracker.trackEvent('Required Item Locked', { level: this.options.level.get('slug'), label: this.options.level.get('slug'), item: item.get('name'), playerLevel: me.rank(), levelUnlocked: me.ownsLevel(this.options.level.get('original')) })
         }
         locked = false
       }
@@ -236,7 +239,7 @@ module.exports = (InventoryModal = (function () {
       }
 
       // level to unlock
-      if (item.get('tier')) { item.level = item.levelRequiredForItem() }
+      if (item.get('tier') != null) { item.rank = item.rankRequiredForItem() }
     }
 
     onLoaded () {

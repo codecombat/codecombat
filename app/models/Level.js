@@ -151,10 +151,16 @@ module.exports = (Level = (function () {
               placeholders[thangComponent.original] = thangComponent
             }
             levelThang.components = [] // We have stored the placeholder values, so we can inherit everything else.
-            heroThangType = __guard__(session != null ? session.get('heroConfig') : undefined, x => x.thangType)
-            if (heroThangType) {
+            const sessionHeroConfig = __guard__(session != null ? session.get('heroConfig') : undefined, x => x) || {}
+            let juniorThangType = utils.isJuniorLevel(this) ? sessionHeroConfig.juniorThangType : undefined
+            if (juniorThangType && !me.mayUseJuniorPet(juniorThangType)) { juniorThangType = undefined } // junior-pet-access: unowned pet falls back to the swap map
+            heroThangType = sessionHeroConfig.thangType
+            if (juniorThangType) {
+              // Junior levels honor the explicitly chosen pet; the swap map below is the fallback for configs without one
+              levelThang.thangType = juniorThangType
+            } else if (heroThangType) {
               let juniorHeroReplacement
-              if (this.get('product', true) === 'codecombat-junior') {
+              if (utils.isJuniorLevel(this)) {
                 // If we got into a codecombat-junior level with a codecombat hero, pick an equivalent codecombat-junior hero to use instead
                 juniorHeroReplacement = ThangTypeConstants.juniorHeroReplacements[_.invert(ThangTypeConstants.heroes)[heroThangType]]
               } else {
@@ -312,9 +318,14 @@ module.exports = (Level = (function () {
           if (!heroThangType) {
             heroThangType = ThangTypeConstants.heroes.knight
           }
-          if (heroThangType) {
+          let juniorThangType = utils.isJuniorLevel(this) ? (session.get('heroConfig')?.juniorThangType || me.get('heroConfig')?.juniorThangType) : undefined
+          if (juniorThangType && !me.mayUseJuniorPet(juniorThangType)) { juniorThangType = undefined } // junior-pet-access: unowned pet falls back to the swap map
+          if (juniorThangType) {
+            // Junior levels honor the explicitly chosen pet; the swap map below is the fallback for configs without one
+            levelThang.thangType = juniorThangType
+          } else if (heroThangType) {
             let juniorHeroReplacement
-            if (this.get('product', true) === 'codecombat-junior') {
+            if (utils.isJuniorLevel(this)) {
               // If we got into a codecombat-junior level with a codecombat hero, pick an equivalent codecombat-junior hero to use instead
               juniorHeroReplacement = ThangTypeConstants.juniorHeroReplacements[_.invert(ThangTypeConstants.heroes)[heroThangType]]
             } else {

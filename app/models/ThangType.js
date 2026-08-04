@@ -650,20 +650,20 @@ module.exports = (ThangType = (function () {
       if (this.get('tier') == null) { console.info(`Add (or make sure you have fetched) a tier for ${this.get('name')} to more accurately determine whether it is silhouetted.`) }
       const tier = this.get('tier')
       if (tier != null) {
-        return this.levelRequiredForItem() > me.level()
+        return this.rankRequiredForItem() > me.rank()
       }
       const points = me.get('points')
       const expectedTotalGems = (points != null ? points : 0) * 1.5 // Not actually true, but roughly kinda close for tier 0, kinda tier 1
       return this.get('gems') > ((100 + expectedTotalGems) * 1.2)
     }
 
-    levelRequiredForItem () {
-      if (this.get('tier') == null) { return console.error(`Trying to determine what level is required for ${this.get('name')}, but it has no tier.`) }
+    rankRequiredForItem () {
+      if (this.get('tier') == null) { return console.error(`Trying to determine what rank is required for ${this.get('name')}, but it has no tier.`) }
       const itemTier = this.get('tier')
       const playerTier = itemTier / 2.5
-      const playerLevel = me.constructor.levelForTier(playerTier)
-      // console.log 'Level required for', @get('name'), 'is', playerLevel, 'player tier', playerTier, 'because it is itemTier', itemTier, 'which is normally level', me.constructor.levelForTier(itemTier)
-      return playerLevel
+      const playerRank = me.constructor.rankForTier(playerTier)
+      // console.log 'Rank required for', @get('name'), 'is', playerRank, 'player tier', playerTier, 'because it is itemTier', itemTier, 'which is normally rank', me.constructor.rankForTier(itemTier)
+      return playerRank
     }
 
     getContainersForAnimation (animation, action) {

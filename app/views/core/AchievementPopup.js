@@ -35,36 +35,37 @@ module.exports = (AchievementPopup = (function () {
 
     calculateData () {
       let achievedXP, data
-      const currentLevel = me.level()
-      const nextLevel = currentLevel + 1
-      const currentLevelXP = User.expForLevel(currentLevel)
-      const nextLevelXP = User.expForLevel(nextLevel)
-      const totalXPNeeded = nextLevelXP - currentLevelXP
+      const currentRank = me.rank()
+      const nextRank = currentRank + 1
+      const currentRankXP = User.expForRank(currentRank)
+      const nextRankXP = User.expForRank(nextRank)
+      const totalXPNeeded = nextRankXP - currentRankXP
       const expFunction = this.achievement.getExpFunction()
-      const currentXP = me.get('points', true)
+      let currentXP = me.get('points', true)
+      if (me.isInGodMode()) { currentXP = currentXP + 1000000 } // keep the XP basis consistent with me.rank(), which applies the same god-mode boost
       if (this.achievement.isRepeatable()) {
         if (this.achievement.isRepeatable()) { achievedXP = expFunction(this.earnedAchievement.get('previouslyAchievedAmount')) * this.achievement.get('worth') }
       } else {
         achievedXP = this.achievement.get('worth', true)
       }
       const previousXP = currentXP - achievedXP
-      const leveledUp = (currentXP - achievedXP) < currentLevelXP
-      // console.debug 'Leveled up' if leveledUp
-      let alreadyAchievedPercentage = (100 * (previousXP - currentLevelXP)) / totalXPNeeded
-      if (alreadyAchievedPercentage < 0) { alreadyAchievedPercentage = 0 } // In case of level up
-      const newlyAchievedPercentage = leveledUp ? (100 * (currentXP - currentLevelXP)) / totalXPNeeded : (100 * achievedXP) / totalXPNeeded
+      const rankedUp = (currentXP - achievedXP) < currentRankXP
+      // console.debug 'Ranked up' if rankedUp
+      let alreadyAchievedPercentage = (100 * (previousXP - currentRankXP)) / totalXPNeeded
+      if (alreadyAchievedPercentage < 0) { alreadyAchievedPercentage = 0 } // In case of rank up
+      const newlyAchievedPercentage = rankedUp ? (100 * (currentXP - currentRankXP)) / totalXPNeeded : (100 * achievedXP) / totalXPNeeded
 
-      // console.debug "Current level is #{currentLevel} (#{currentLevelXP} xp), next level is #{nextLevel} (#{nextLevelXP} xp)."
-      // console.debug "Need a total of #{nextLevelXP - currentLevelXP}, already had #{previousXP} and just now earned #{achievedXP} totalling on #{currentXP}"
+      // console.debug "Current rank is #{currentRank} (#{currentRankXP} xp), next rank is #{nextRank} (#{nextRankXP} xp)."
+      // console.debug "Need a total of #{nextRankXP - currentRankXP}, already had #{previousXP} and just now earned #{achievedXP} totalling on #{currentXP}"
 
       return data = {
         title: this.achievement.i18nName(),
         imgURL: this.achievement.getImageURL(),
         description: this.achievement.i18nDescription(),
-        level: currentLevel,
+        rank: currentRank,
         currentXP,
         newXP: achievedXP,
-        leftXP: nextLevelXP - currentXP,
+        leftXP: nextRankXP - currentXP,
         oldXPWidth: alreadyAchievedPercentage,
         newXPWidth: newlyAchievedPercentage,
         leftXPWidth: 100 - newlyAchievedPercentage - alreadyAchievedPercentage
