@@ -40,6 +40,10 @@
     return match ? Number(match[1]) : 0
   }
 
+  function isAdminMode () {
+    return Boolean(root && root.location && new URLSearchParams(root.location.search).get('admin') === '1')
+  }
+
   function missionCardIds () {
     const guide = root.JSQuestConceptCards?.getMissionGuide(currentMissionId())
     return guide ? guide.cardIds.slice() : []
@@ -168,11 +172,32 @@
       form.appendChild(fieldset)
     })
 
+    const actions = document.createElement('div')
+    actions.className = 'concept-card-quiz-actions'
+
+    if (isAdminMode()) {
+      const adminFill = document.createElement('button')
+      adminFill.type = 'button'
+      adminFill.className = 'button ghost concept-card-quiz-admin-fill'
+      adminFill.textContent = 'ADMIN：正解を選ぶ'
+      adminFill.addEventListener('click', () => {
+        quiz.forEach((item, questionIndex) => {
+          const inputs = Array.from(form.querySelectorAll('input[name="question-' + questionIndex + '"]'))
+          const correctInput = inputs.find(input => input.value === item.answer)
+          if (correctInput) correctInput.checked = true
+        })
+        feedback.textContent = '管理者用：正しい選択肢を選びました。確認して送信できます。'
+        feedback.className = 'concept-card-quiz-feedback admin'
+      })
+      actions.appendChild(adminFill)
+    }
+
     const submit = document.createElement('button')
     submit.type = 'submit'
     submit.className = 'button success concept-card-quiz-submit'
     submit.textContent = '答えを確認する'
-    form.appendChild(submit)
+    actions.appendChild(submit)
+    form.appendChild(actions)
 
     form.onsubmit = event => {
       event.preventDefault()
