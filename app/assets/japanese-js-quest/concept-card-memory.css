@@ -1,3 +1,7 @@
+#mission-learning-guide [data-concept-card-id]:not([data-mastery-prepared]) {
+  visibility: hidden;
+}
+
 .concept-card-memory-progress {
   margin-left: auto;
   padding: 0.3rem 0.55rem;
