@@ -3,11 +3,18 @@
 
   const readings = {
     条件分岐: 'じょうけんぶんき',
+    優先順位: 'ゆうせんじゅんい',
     文字列: 'もじれつ',
     真偽値: 'しんぎち',
-    優先順位: 'ゆうせんじゅんい',
+    二重ループ: 'にじゅうるーぷ',
+    再読み込み: 'さいよみこみ',
+    再起動: 'さいきどう',
     再利用: 'さいりよう',
     主人公: 'しゅじんこう',
+    働きかける: 'はたらきかける',
+    保存: 'ほぞん',
+    画像: 'がぞう',
+    番号: 'ばんごう',
     存在: 'そんざい',
     行動: 'こうどう',
     世界: 'せかい',
@@ -18,6 +25,7 @@
     情報: 'じょうほう',
     言葉: 'ことば',
     表示: 'ひょうじ',
+    表す: 'あらわす',
     定数: 'ていすう',
     固定: 'こてい',
     代入: 'だいにゅう',
@@ -41,6 +49,46 @@
     宝石: 'ほうせき',
     看板: 'かんばん',
     方向: 'ほうこう',
+    履歴: 'りれき',
+    順番: 'じゅんばん',
+    画面: 'がめん',
+    削除: 'さくじょ',
+    左右: 'さゆう',
+    正しい: 'ただしい',
+    正解: 'せいかい',
+    調べる: 'しらべる',
+    役割: 'やくわり',
+    瞬間: 'しゅんかん',
+    外側: 'そとがわ',
+    両方: 'りょうほう',
+    最初: 'さいしょ',
+    最後: 'さいご',
+    必要: 'ひつよう',
+    選択肢: 'せんたくし',
+    回数: 'かいすう',
+    利点: 'りてん',
+    周回: 'しゅうかい',
+    確認: 'かくにん',
+    背景色: 'はいけいしょく',
+    理由: 'りゆう',
+    危険: 'きけん',
+    自身: 'じしん',
+    追加: 'ついか',
+    特別: 'とくべつ',
+    自然: 'しぜん',
+    反対: 'はんたい',
+    距離: 'きょり',
+    引用符: 'いんようふ',
+    異なる: 'ことなる',
+    完成: 'かんせい',
+    目的: 'もくてき',
+    説明: 'せつめい',
+    概念: 'がいねん',
+    暗記: 'あんき',
+    更新: 'こうしん',
+    変身: 'へんしん',
+    割り算: 'わりざん',
+    余り: 'あまり',
   }
   const readingWords = Object.keys(readings).sort((a, b) => b.length - a.length)
 
@@ -117,6 +165,13 @@
     window.setTimeout(annotateCurrentContent, 80)
   }
 
+  function scheduleQuizAnnotations (event) {
+    if (!event.target.closest('.concept-card-quiz-button')) return
+    window.setTimeout(() => {
+      annotateText(document.getElementById('concept-card-quiz-modal'), false)
+    }, 0)
+  }
+
   function renderGuide () {
     const library = window.JSQuestConceptCards
     const guide = library?.getMissionGuide(displayedMissionId())
@@ -147,7 +202,13 @@
   }
 
   function init () {
+    window.JSQuestReadingHelp = Object.freeze({
+      annotate: (root, gray) => annotateText(root, Boolean(gray)),
+      schedule: scheduleAnnotations,
+      readings: Object.freeze(Object.assign({}, readings)),
+    })
     document.addEventListener('jsquest:missionloaded', renderGuide)
+    document.addEventListener('click', scheduleQuizAnnotations)
     renderGuide()
   }
 
