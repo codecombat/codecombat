@@ -53,15 +53,29 @@
     return validatedCards.has(cardId)
   }
 
+  function dispatchValidationChange (detail) {
+    if (typeof document === 'undefined') return
+    document.dispatchEvent(new CustomEvent('jsquest:conceptcardschanged', { detail }))
+  }
+
   function validateCard (cardId) {
     validatedCards.add(cardId)
     previewCardId = null
     save()
-    if (typeof document !== 'undefined') {
-      document.dispatchEvent(new CustomEvent('jsquest:conceptcardschanged', {
-        detail: { cardId, validated: true }
-      }))
-    }
+    dispatchValidationChange({ cardId, validated: true })
+  }
+
+  function validateCurrentMissionCardsForAdmin () {
+    if (!isAdminMode()) return false
+    const cardIds = missionCardIds()
+    if (cardIds.length === 0) return false
+
+    cardIds.forEach(cardId => validatedCards.add(cardId))
+    previewCardId = null
+    activeModalCardId = null
+    save()
+    dispatchValidationChange({ cardIds, validated: true, adminBulkValidation: true })
+    return true
   }
 
   function isMissionReady () {
@@ -292,6 +306,33 @@
     progress.classList.toggle('complete', completed === cardIds.length)
   }
 
+  function renderAdminValidateAll () {
+    const guide = document.getElementById('mission-learning-guide')
+    if (!guide) return
+
+    let button = guide.querySelector('.concept-card-admin-validate-all')
+    if (!isAdminMode()) {
+      button?.remove()
+      return
+    }
+
+    if (!button) {
+      button = document.createElement('button')
+      button.type = 'button'
+      button.className = 'button ghost concept-card-admin-validate-all'
+      button.addEventListener('click', () => {
+        if (validateCurrentMissionCardsForAdmin()) refreshCards()
+      })
+      guide.appendChild(button)
+    }
+
+    const complete = missionCardIds().every(isValidated)
+    button.disabled = complete
+    button.textContent = complete
+      ? 'ADMIN：このミッションのカードはすべて確認済み'
+      : 'ADMIN：このミッションのカードをすべて確認済みにする'
+  }
+
   function updateExecutionGate () {
     const ready = isMissionReady()
     const run = document.getElementById('run-code')
@@ -310,6 +351,7 @@
     if (typeof document === 'undefined') return
     document.querySelectorAll('#mission-learning-guide [data-concept-card-id]').forEach(decorateCard)
     renderProgress()
+    renderAdminValidateAll()
     updateExecutionGate()
   }
 
@@ -359,6 +401,7 @@
     save,
     isValidated,
     validateCard,
+    validateCurrentMissionCardsForAdmin,
     isMissionReady,
     executionGate,
     install
