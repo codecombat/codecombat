@@ -158,6 +158,7 @@
       const legacyId = Number(mission.id)
       mission.legacyId = legacyId
       mission.id = finalIdForLegacyId(legacyId)
+      if (legacyId === 10 && mission.title === 'はじめてのループ') mission.title = '初めてのループ'
     }
 
     missions.push(booleanMission(), infiniteLoopMission())
