@@ -53,6 +53,11 @@
     validatedCards.add(cardId)
     previewCardId = null
     save()
+    if (typeof document !== 'undefined') {
+      document.dispatchEvent(new CustomEvent('jsquest:conceptcardschanged', {
+        detail: { cardId, validated: true }
+      }))
+    }
   }
 
   function isMissionReady () {
