@@ -51,6 +51,7 @@ This document is the functional and business source of truth for the local Japan
 - Mission 00 contains exactly one executable line: `hero.say('Hello Yuzu');`.
 - Mission 00 explains object, method, dot access, parameters, string literals and the difference between program words and quoted text in the hero's world.
 - Mission 01 introduces code comments. Text after `//` is explained as a human-readable note that is not executed.
+- Mission 01 displays a dedicated canonical card titled `// はコメント（Comment）` before its `hero.move(direction)` card.
 - Mission 03 introduces booleans, `true`, `false`, `const`, assignment with `=`, reuse of a named value, constant naming in romaji, the common use of meaningful English names, and `hero.isTrue(boolean)`.
 - Mission 03 has completed starter code. The learner validates it by executing it without needing to edit it.
 - Mission 03 includes a Japanese explanatory comment directly above `const alwaysTrue = true;` and another directly above `const alwaysFalse = false;`.
@@ -73,10 +74,13 @@ This document is the functional and business source of truth for the local Japan
 - Future flashcards, quizzes and review activities must reuse the same reference records rather than copying card content into a second data source.
 - Refactoring storage or rendering must preserve the approved visual appearance, code markup, tooltip behavior and mission card order.
 - The mission 03 naming card explains that constants can receive meaningful romaji names without spaces, that English names are commonly used, and that `alwaysTrue` means “always true”.
+- A new-concept card must never be implemented only as ad-hoc mission HTML or an interface-only exception. It must be a record in the canonical concept-card database and be referenced by stable ID from its mission guide.
+- Every canonical concept card must be referenced by exactly one mission guide, and every mission-guide card ID must resolve to a card whose `missionId` matches that mission.
 
 ## Concept-card validation and memory
 
 - Every concept card starts face down until that card has been validated by the learner.
+- This face-down default applies to every card without exception, including `// はコメント（Comment）` and cards introduced by future missions.
 - The learner may reveal the unvalidated cards in any order.
 - Only one unvalidated card may remain previewed at a time. Revealing another card or clicking outside the cards hides the previous preview again.
 - A previewed card displays its complete canonical title, HTML explanation, code formatting and tooltips, plus a visible mini-quiz action.
@@ -95,6 +99,9 @@ This document is the functional and business source of truth for the local Japan
 - The learner cannot open the editable code view or execute the mission until every concept card assigned to the current mission has been validated.
 - Clicking the colored code preview, the run button, or the execution keyboard shortcut before all cards are validated redirects attention to the concept cards and explains the requirement in Japanese.
 - The execution restriction applies equally to the normal run path and the special mission-14 preparation path.
+- In admin mode, every quiz provides a review-only control that selects all correct choices automatically.
+- The admin quiz-review control must not submit the quiz or validate the card by itself; the administrator can inspect the selected choices and submit normally.
+- Whenever a mission or concept card is added or changed, the same change must verify the canonical card record, stable mission-to-card mapping, face-down default, quiz data, card-memory validation, and the edit/execution gate for all cards in that mission.
 
 ## Boolean lesson and `hero.isTrue`
 
@@ -156,6 +163,8 @@ This document is the functional and business source of truth for the local Japan
 - The syntax preview is presentational only and must never modify the learner's stored or executed source code.
 - Focusing or activating the editable code area removes the concept colors and returns to the approved uniform editor text color.
 - When the editor loses focus, the preview is rebuilt from the latest version of the code and the simplified coloring returns.
+- When the learner clicks a specific character or word in the colored preview, the editable editor opens with its cursor placed at the corresponding source-code offset.
+- Cursor placement from the preview must work with the standalone textarea editor and remain compatible with Ace.
 - The syntax colors are centralized in easy-to-change CSS custom properties rather than repeated as literal colors throughout the implementation.
 - Object names and declared constant or variable names use the object/variable color, initially blue.
 - `hero` is treated as an object name.
@@ -280,6 +289,7 @@ This document is the functional and business source of truth for the local Japan
 - Missions completed during admin verification may remain recorded as completed, but they must not unlock unfinished gaps in the normal mission sequence.
 - Once the admin unlock button is activated, the same admin-unlocked state must be used both when rendering mission buttons and when checking whether a selected mission may open.
 - Admin mode shows `答えを見る` for the selected mission even before three failed attempts. This final-answer control is independent of the temporary unlock-all button.
+- Admin mode provides a quiz-review control on every concept-card quiz that selects the correct choices without submitting the form or validating the card automatically.
 
 ## Speech and branch prompts
 
@@ -300,9 +310,13 @@ This document is the functional and business source of truth for the local Japan
 - It verifies multi-field ordering, field-progress source rules, admin URL behavior and progressive legend thresholds.
 - It verifies saved curriculum migration preserves existing code and progress semantics.
 - It verifies every mission guide resolves its ordered concept-card IDs from the canonical reference base, all IDs are unique and every rendered card exposes its ID.
+- It verifies that the set of IDs referenced by mission guides is exactly the set of records in the canonical concept-card database and that no card is referenced twice.
 - It verifies every canonical concept card has between one and three quiz questions and every question has three or four unique choices containing its correct answer.
 - It verifies concept-card validation uses stable card IDs and a dedicated memory storage key rather than mission-number persistence.
-- It verifies the learner cannot execute through the run button or keyboard shortcut before the current mission's cards are validated.
+- It verifies every unprepared concept card is visually hidden before the memory layer applies its face-down state.
+- It verifies the learner cannot edit or execute through the colored preview, run button, keyboard shortcut, or mission-14 preparation before the current mission's cards are validated.
+- It verifies admin quiz review can select the correct choices but does not submit or validate automatically.
+- It verifies clicking the colored code preview maps the click position to the corresponding textarea or Ace cursor offset.
 - It verifies simplified syntax coloring keeps keywords and punctuation in the default color while distinguishing objects/variables, methods, literal values and comments.
 - It verifies string quote characters remain in the default color while string contents receive the literal color.
 - It verifies the five syntax colors are centralized through CSS custom properties.
