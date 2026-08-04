@@ -10,6 +10,8 @@ const questPath = path.join(repositoryPath, 'app', 'assets', 'japanese-js-quest'
 const cards = require(path.join(questPath, 'concept-card-library.js'))
 const quizzes = require(path.join(questPath, 'concept-card-quizzes.js'))
 const highlighting = require(path.join(questPath, 'editor-concept-highlighting.js'))
+const missions = require(path.join(questPath, 'missions.js'))
+const curriculum = require(path.join(questPath, 'curriculum-v3.js'))
 
 function read (file) {
   return fs.readFileSync(path.join(questPath, file), 'utf8')
@@ -18,6 +20,9 @@ function read (file) {
 function readRepositoryFile (file) {
   return fs.readFileSync(path.join(repositoryPath, file), 'utf8')
 }
+
+curriculum.apply(missions)
+assert.strictEqual(missions.find(mission => mission.id === 11).title, '初めてのループ')
 
 const allCards = cards.allCards()
 const allQuizzes = quizzes.allQuizzes()
@@ -101,9 +106,14 @@ for (const text of [
   'ADMIN：正解を選ぶ',
   '正しい選択肢を選びました',
   'inputs.find(input => input.value === item.answer)',
+  'validateCurrentMissionCardsForAdmin',
+  'adminBulkValidation: true',
+  'concept-card-admin-validate-all',
+  'このミッションのカードをすべて確認済みにする',
 ]) assert(memorySource.includes(text))
 assert(memorySource.includes("run?.addEventListener('click'"))
 assert(memorySource.includes("document.addEventListener('keydown'"))
+assert(memorySource.indexOf('guide.appendChild(button)') < memorySource.indexOf('function updateExecutionGate'))
 
 const learningGuideSource = read('learning-guide.js')
 for (const text of [
@@ -115,9 +125,12 @@ for (const text of [
   'annotateText',
 ]) assert(learningGuideSource.includes(text))
 for (const word of [
-  '主人公', '文字列', '命令', '実行', '条件', '比較', '分岐', '繰り返し', '無限',
-  '選択肢', '再起動', '危険', '引用符', '優先順位', '総復習',
+  '主人公', '文字列', '命令', '実行', '魔法', '値', '初めて', '条件', '比較', '分岐',
+  '繰り返し', '無限', '選択肢', '再起動', '危険', '引用符', '優先順位', '総復習',
 ]) assert(learningGuideSource.includes(word + ':'))
+assert(learningGuideSource.includes("実行: 'じっこう'"))
+assert(learningGuideSource.includes("魔法: 'まほう'"))
+assert(learningGuideSource.includes("値: 'あたい'"))
 
 const highlightingSource = read('editor-concept-highlighting.js')
 for (const text of [
@@ -140,9 +153,18 @@ for (const variable of [
   '--scrollbar-thumb-hover',
   '--scrollbar-size',
 ]) assert(globalStyles.includes(variable))
-assert(globalStyles.includes('*::-webkit-scrollbar'))
-assert(globalStyles.includes('scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track)'))
-assert(globalStyles.includes('.code-panel .panel-heading p { font-size: 0.78rem;'))
+assert(globalStyles.includes('@supports not selector(::-webkit-scrollbar)'))
+assert(globalStyles.includes('*::-webkit-scrollbar-thumb'))
+assert(globalStyles.includes('#editor .ace_scrollbar::-webkit-scrollbar-thumb'))
+assert(globalStyles.includes('background: var(--scrollbar-thumb);'))
+assert(globalStyles.includes('.code-panel .panel-heading > div > p {'))
+assert(globalStyles.includes('font-size: 0.62rem;'))
+assert(globalStyles.includes('white-space: nowrap;'))
+assert(!globalStyles.includes('* {\n  box-sizing: border-box;\n  scrollbar-width: thin;'))
+
+const adventureStyles = read('adventure-ui.css')
+assert(!adventureStyles.includes('#editor-fallback {\n  overflow: auto;\n  scrollbar-width: thin;'))
+assert(adventureStyles.includes('#editor-fallback::-webkit-scrollbar-thumb'))
 
 const highlightingCss = read('editor-concept-highlighting.css')
 for (const variable of [
@@ -154,6 +176,7 @@ for (const variable of [
 ]) assert(highlightingCss.includes(variable))
 assert(highlightingCss.includes('var(--scrollbar-thumb)'))
 assert(highlightingCss.includes('var(--scrollbar-track)'))
+assert(!highlightingCss.includes('scrollbar-width: thin'))
 
 const memoryCss = read('concept-card-memory.css')
 for (const className of [
@@ -163,8 +186,9 @@ for (const className of [
   '.concept-memory-card.is-validated',
   '.concept-card-quiz-modal',
   '.concept-card-quiz-admin-fill',
+  '.concept-card-admin-validate-all',
 ]) assert(memoryCss.includes(className))
-assert(memoryCss.includes('scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track)'))
+assert(!memoryCss.includes('scrollbar-width: thin'))
 
 const productRules = readRepositoryFile('docs/PRODUCT_RULES.md')
 for (const text of [
@@ -180,8 +204,10 @@ for (const text of [
   'Admin mode provides a quiz-review control',
   'cursor placed at the corresponding source-code offset',
   'Difficult kanji and advanced words in mission explanations, concept cards and mini-quizzes',
-  'same blue scrollbar theme throughout the game',
+  'same detailed blue scrollbar theme throughout the game',
   'No terminology enhancer or other post-render script may append a second visual concept block',
+  'admin-only control at the end of the section',
+  '`値` uses `あたい`, `魔法` uses `まほう`, and `実行` uses `じっこう`',
 ]) assert(productRules.includes(text))
 
 const readme = read('README.md')
@@ -195,4 +221,4 @@ for (const text of [
 ]) assert(readme.includes(text))
 assert(!fs.existsSync(path.join(repositoryPath, 'docs', 'LEARNING_REINFORCEMENT_PLAN.md')))
 
-console.log(`Validated ${allCards.length} concept-card quizzes, canonical comment cards, reading help and global scrollbar styling.`)
+console.log(`Validated ${allCards.length} concept-card quizzes, admin bulk validation, reading help and restored blue scrollbar styling.`)
