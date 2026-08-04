@@ -198,6 +198,47 @@
         return !window.JSQuestExecutionGate || window.JSQuestExecutionGate.canRun()
       }
 
+      function caretOffsetFromPoint (clientX, clientY) {
+        const code = preview.querySelector('code')
+        let node = null
+        let offset = 0
+
+        if (document.caretPositionFromPoint) {
+          const position = document.caretPositionFromPoint(clientX, clientY)
+          node = position?.offsetNode || null
+          offset = position?.offset || 0
+        } else if (document.caretRangeFromPoint) {
+          const rangeAtPoint = document.caretRangeFromPoint(clientX, clientY)
+          node = rangeAtPoint?.startContainer || null
+          offset = rangeAtPoint?.startOffset || 0
+        }
+
+        if (!code || !node || (node !== code && !code.contains(node))) return null
+
+        try {
+          const range = document.createRange()
+          range.setStart(code, 0)
+          range.setEnd(node, offset)
+          return Math.min(range.toString().length, currentCode().length)
+        } catch (_) {
+          return null
+        }
+      }
+
+      function placeCaret (offset) {
+        if (!Number.isInteger(offset)) return
+        const clamped = Math.max(0, Math.min(offset, currentCode().length))
+        const ace = aceEditor()
+        if (ace) {
+          const position = ace.session.doc.indexToPosition(clamped, 0)
+          ace.clearSelection()
+          ace.moveCursorToPosition(position)
+          ace.renderer.scrollCursorIntoView(position, 0.5)
+        } else {
+          fallback.setSelectionRange(clamped, clamped)
+        }
+      }
+
       function showPreview () {
         preview.querySelector('code').innerHTML = highlight(currentCode()) + '\n'
         preview.hidden = false
@@ -207,7 +248,7 @@
         codePanel.classList.add('syntax-preview-active')
       }
 
-      function showEditor () {
+      function showEditor (caretOffset) {
         if (!canEdit()) {
           window.JSQuestExecutionGate?.explainBlockedExecution()
           showPreview()
@@ -220,9 +261,13 @@
         const ace = aceEditor()
         if (ace) ace.focus()
         else fallback.focus()
+        placeCaret(caretOffset)
       }
 
-      preview.addEventListener('click', showEditor)
+      preview.addEventListener('click', event => {
+        const caretOffset = caretOffsetFromPoint(event.clientX, event.clientY)
+        showEditor(caretOffset)
+      })
       preview.addEventListener('keydown', event => {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault()
