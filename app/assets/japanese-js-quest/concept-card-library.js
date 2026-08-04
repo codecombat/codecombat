@@ -41,11 +41,12 @@
     card('concept-card-033', 20, '<code>let</code>、代入、<code>%</code>', '<code>let</code> で作った変数は、あとから別の値を代入できます。<code>%</code> は割り算の余りを求め、偶数と奇数を見分けるために使えます。'),
     card('concept-card-034', 21, '条件の中の繰り返し', '状況ごとに、異なるループを選んで実行できます。どの分岐に入っても、必要な行動が完成するように書きます。'),
     card('concept-card-035', 22, '総復習', '定数、戻り値、条件分岐、真偽値、二重ループを組み合わせます。大きなプログラムも、一つずつの小さな判断と行動に分ければ読めます。'),
+    card('concept-card-036', 1, '<code>//</code> はコメント（' + tooltip('Comment', 'コメント', 'tech-term') + '）', '<code>//</code> より右に書いた内容は、人が読むためのメモです。JavaScript は命令として実行しません。コードの目的や考え方を説明できます。'),
   ]
 
   const missionGuides = {
     0: guide('はじめてのプログラムを分けて見よう', ['concept-card-001', 'concept-card-002', 'concept-card-003', 'concept-card-004']),
-    1: guide('新しいメソッド：動く', ['concept-card-005']),
+    1: guide('コメントと新しいメソッド：動く', ['concept-card-036', 'concept-card-005']),
     2: guide('プログラムは上から順番に進む', ['concept-card-006']),
     3: guide('true と false を名前に保存しよう', ['concept-card-007', 'concept-card-008', 'concept-card-009', 'concept-card-010', 'concept-card-011']),
     4: guide('看板の値で最初の if を動かそう', ['concept-card-012', 'concept-card-013', 'concept-card-014']),
