@@ -5,13 +5,18 @@ const assert = require('assert')
 const fs = require('fs')
 const path = require('path')
 
-const questPath = path.join(__dirname, '..', 'app', 'assets', 'japanese-js-quest')
+const repositoryPath = path.join(__dirname, '..')
+const questPath = path.join(repositoryPath, 'app', 'assets', 'japanese-js-quest')
 const cards = require(path.join(questPath, 'concept-card-library.js'))
 const quizzes = require(path.join(questPath, 'concept-card-quizzes.js'))
 const highlighting = require(path.join(questPath, 'editor-concept-highlighting.js'))
 
 function read (file) {
   return fs.readFileSync(path.join(questPath, file), 'utf8')
+}
+
+function readRepositoryFile (file) {
+  return fs.readFileSync(path.join(repositoryPath, file), 'utf8')
 }
 
 const allCards = cards.allCards()
@@ -68,9 +73,17 @@ for (const text of [
   'isMissionReady',
   'どこかにまちがいがあります',
   '先に「新しい考え方」のカードを全部めくって',
+  'jsquest:conceptcardschanged',
 ]) assert(memorySource.includes(text))
 assert(memorySource.includes("run?.addEventListener('click'"))
 assert(memorySource.includes("document.addEventListener('keydown'"))
+
+const highlightingSource = read('editor-concept-highlighting.js')
+for (const text of [
+  'window.JSQuestExecutionGate.canRun()',
+  'window.JSQuestExecutionGate?.explainBlockedExecution()',
+  'jsquest:conceptcardschanged',
+]) assert(highlightingSource.includes(text))
 
 const highlightingCss = read('editor-concept-highlighting.css')
 for (const variable of [
@@ -88,5 +101,18 @@ for (const className of [
   '.concept-memory-card.is-validated',
   '.concept-card-quiz-modal',
 ]) assert(memoryCss.includes(className))
+
+const productRules = readRepositoryFile('docs/PRODUCT_RULES.md')
+for (const text of [
+  '## Concept-card validation and memory',
+  'between one and three very simple multiple-choice questions',
+  'dedicated concept-memory storage key',
+  'Only one unvalidated card may remain previewed at a time',
+  '## Simplified pedagogical syntax preview',
+  'CSS custom properties',
+  'String quote characters remain in the default syntax color',
+  'cannot open the editable code view or execute the mission',
+]) assert(productRules.includes(text))
+assert(!fs.existsSync(path.join(repositoryPath, 'docs', 'LEARNING_REINFORCEMENT_PLAN.md')))
 
 console.log(`Validated ${allCards.length} concept-card quizzes and simplified pedagogical syntax coloring.`)
