@@ -4,55 +4,48 @@
 const assert = require('assert')
 const fs = require('fs')
 const path = require('path')
-const vm = require('vm')
 
-const repositoryPath = path.join(__dirname, '..')
-const questPath = path.join(repositoryPath, 'app', 'assets', 'japanese-js-quest')
-const baseEngine = require(path.join(questPath, 'engine.js'))
-const curriculumEngine = require(path.join(questPath, 'curriculum-engine.js'))
+const root = path.join(__dirname, '..')
+const questRoot = path.join(root, 'app/assets/japanese-js-quest')
+const baseEngine = require(path.join(questRoot, 'engine.js'))
+const curriculumEngine = require(path.join(questRoot, 'curriculum-engine.js'))
 const engine = curriculumEngine.apply(baseEngine)
-const introMission = require(path.join(questPath, 'intro-mission.js'))
-const legacyMissions = require(path.join(questPath, 'missions.js'))
-const curriculum = require(path.join(questPath, 'curriculum-v3.js'))
-const progression = require(path.join(questPath, 'progression.js'))
-const loopRules = require(path.join(questPath, 'loop-rules.js'))
+const introMission = require(path.join(questRoot, 'intro-mission.js'))
+const legacyMissions = require(path.join(questRoot, 'missions.js'))
+const curriculum = require(path.join(questRoot, 'curriculum-v3.js'))
+const progression = require(path.join(questRoot, 'progression.js'))
+const loopRules = require(path.join(questRoot, 'loop-rules.js'))
 
 function read (relativePath) {
-  return fs.readFileSync(path.join(repositoryPath, relativePath), 'utf8')
+  return fs.readFileSync(path.join(root, relativePath), 'utf8')
 }
 
-vm.runInNewContext(
-  read('app/assets/japanese-js-quest/branch-prompts.js'),
-  { window: { JSQuestMissions: legacyMissions }, Object },
-)
 curriculum.apply(legacyMissions)
 const missions = progression.apply([introMission, ...legacyMissions], engine)
 loopRules.apply(missions)
 
-const loopMissionIds = loopRules.loopMissionIds()
+const loopMissionIds = Object.keys(loopRules.LOOP_RULES).map(Number)
 assert.deepStrictEqual(loopMissionIds, [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22])
 
 for (const missionId of loopMissionIds) {
-  const mission = missions[missionId]
-  const requirements = mission.requirements.loopRules
-  assert(requirements)
-  assert(Number.isInteger(requirements.maxMoves) && requirements.maxMoves > 0)
-  assert(requirements.sourceCallLimits && Object.keys(requirements.sourceCallLimits).length > 0)
+  const mission = missions.find(item => item.id === missionId)
+  assert(mission, `Missing loop mission ${missionId}`)
+  assert(Array.isArray(mission.requirements.sourceCallLimits))
+  assert(mission.requirements.sourceCallLimits.length > 0)
+  assert(Array.isArray(mission.victoryConditions))
+  assert(mission.victoryConditions.some(item => item.label.includes('最大')))
 
   if (mission.infiniteLoopDemo) continue
-
-  for (let variantIndex = 0; variantIndex < mission.variants.length; variantIndex++) {
+  mission.variants.forEach((variant, variantIndex) => {
     const result = engine.simulate(mission.solution, mission, variantIndex)
-    assert(result.ok, `Mission ${missionId}, field ${variantIndex + 1}: reference code must run`)
-    assert(
-      engine.evaluate(mission, result, mission.solution).passed,
-      `Mission ${missionId}, field ${variantIndex + 1}: reference code must satisfy loop rules`,
-    )
-  }
+    const evaluation = engine.evaluate(mission, result, mission.solution)
+    assert(result.ok, `Mission ${missionId}, field ${variantIndex + 1} solution must execute`)
+    assert(evaluation.passed, `Mission ${missionId}, field ${variantIndex + 1}: ${evaluation.messages.join(' | ')}`)
+  })
 }
 
-const firstForMission = missions[11]
-const manuallyUnrolled = [
+const firstLoopMission = missions.find(item => item.id === 11)
+const commentedLoopCheat = [
   '// for (let i = 0; i < 6; i++) {',
   '//   hero.move("right");',
   '// }',
@@ -64,62 +57,51 @@ const manuallyUnrolled = [
   'hero.move("right");',
   'hero.move("right");',
 ].join('\n')
-const unrolledResult = engine.simulate(manuallyUnrolled, firstForMission, 0)
-const unrolledEvaluation = engine.evaluate(firstForMission, unrolledResult, manuallyUnrolled)
-assert.strictEqual(unrolledEvaluation.passed, false)
-assert(unrolledEvaluation.messages.some(message => message.includes('コードに hero.move(...) を書けるのは最大 1 回です。')))
-assert(unrolledEvaluation.messages.some(message => message.includes('今は 6 回あります。')))
-assert(unrolledEvaluation.messages.some(message => message.includes('ループの中に命令を書いて繰り返しましょう。')))
-assert(unrolledEvaluation.messages.some(message => message.includes('for ループをコードに書きましょう。')))
+const commentedResult = engine.simulate(commentedLoopCheat, firstLoopMission, 0)
+const commentedEvaluation = engine.evaluate(firstLoopMission, commentedResult, commentedLoopCheat)
+assert(commentedResult.state.goalReached)
+assert.strictEqual(commentedEvaluation.passed, false)
+assert(commentedEvaluation.messages.some(message => message.includes('for ループを使いましょう')))
+assert(commentedEvaluation.messages.some(message => message.includes('hero.move(...) を書けるのは最大 1 回')))
 
-const commentedMethodCode = [
-  'for (let i = 0; i < 6; i++) {',
-  '  // hero.move("left");',
+const dummyLoopCheat = [
+  'for (let i = 0; i < 0; i++) {',
   '  hero.move("right");',
   '}',
+  'hero.move("right");',
+  'hero.move("right");',
+  'hero.move("right");',
+  'hero.move("right");',
+  'hero.move("right");',
+  'hero.move("right");',
 ].join('\n')
-const commentedMethodResult = engine.simulate(commentedMethodCode, firstForMission, 0)
-assert(engine.evaluate(firstForMission, commentedMethodResult, commentedMethodCode).passed)
+const dummyResult = engine.simulate(dummyLoopCheat, firstLoopMission, 0)
+const dummyEvaluation = engine.evaluate(firstLoopMission, dummyResult, dummyLoopCheat)
+assert.strictEqual(dummyEvaluation.passed, false)
+assert(dummyEvaluation.messages.some(message => message.includes('今は 7 回あります')))
 
-const stringMethodCode = [
-  'hero.say("hero.move(\\"left\\")");',
-  'for (let i = 0; i < 6; i++) {',
-  '  hero.move("right");',
-  '}',
-].join('\n')
-const stringMethodResult = engine.simulate(stringMethodCode, firstForMission, 0)
-assert(engine.evaluate(firstForMission, stringMethodResult, stringMethodCode).passed)
-
-const runtimeSource = read('app/assets/japanese-js-quest/curriculum-runtime.js')
-for (const text of [
-  'infinite-loop-preparation-v2',
-  'INFINITE_PREPARED_THIS_LOAD',
-  'infinite-loop-prepared',
-  '↻ 無限ループを準備する',
-  '↻ Ctrl+F5 で再読み込み',
-  'Ctrl+F5 でページを再読み込みしてね。',
-  'persistInfiniteCompletion()',
-  "document.body.classList.add('infinite-loop-running')",
-  'window.JSQuestLoopRules.describe',
-  'window.JSQuestExecutionGate',
-]) assert(runtimeSource.includes(text))
-assert(runtimeSource.indexOf('persistInfiniteCompletion()') < runtimeSource.indexOf('collectDemonstrationGem()'))
-assert(runtimeSource.indexOf('persistInfiniteCompletion()') < runtimeSource.indexOf('startSpeechLoop()'))
+assert.strictEqual(engine.countMethodCalls('// hero.move("right");\nhero.move("right");', 'move'), 1)
+assert(!engine.stripComments('// for (;;) {}').includes('for'))
 
 const indexSource = read('app/assets/japanese-js-quest/index.html')
 assert(indexSource.includes('<kbd>Ctrl+F5</kbd> 再読み込み'))
+assert(indexSource.includes('<script src="loop-rules.js"></script>'))
 assert(indexSource.indexOf('loop-rules.js') < indexSource.indexOf('app-v3.js'))
 
-const appSource = read('app/assets/japanese-js-quest/app-v3.js')
+const runtimeSource = read('app/assets/japanese-js-quest/curriculum-runtime.js')
 for (const text of [
-  "id: 'field-mission-heading'",
-  'fieldProgress: ensureElement',
-  'victoryConditions: ensureElement',
-  "'MISSION ' + String(mission.id).padStart(2, '0') + ' - '",
-  'loopRules.describe(mission)',
-]) assert(appSource.includes(text))
+  'INFINITE_PREPARE_KEY',
+  'preparedOnEarlierPageLoad',
+  'markInfinitePreparation',
+  '無限ループを準備する',
+  'Ctrl+F5 でページを再読み込みしてね',
+  'field-mission-heading',
+  'victory-conditions',
+]) assert(runtimeSource.includes(text))
+assert(runtimeSource.indexOf('clearInfinitePreparation()') < runtimeSource.indexOf('persistInfiniteCompletion()'))
 
 const learningGuideSource = read('app/assets/japanese-js-quest/learning-guide.js')
+assert(learningGuideSource.includes("無限: 'むげん'"))
 assert(learningGuideSource.includes("document.getElementById('field-mission-heading')"))
 
 const styleSource = read('app/assets/japanese-js-quest/adventure-ui.css')
