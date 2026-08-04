@@ -100,7 +100,8 @@
 
   function enhanceGuide () {
     const section = document.getElementById('mission-learning-guide')
-    if (!section || section.querySelector('.tech-term')) return
+    if (!section || section.dataset.technicalTermsEnhanced === 'true') return
+    section.dataset.technicalTermsEnhanced = 'true'
 
     const missionId = currentMissionId()
     addTerminologyNote(section, missionId)
