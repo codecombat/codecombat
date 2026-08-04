@@ -208,7 +208,7 @@
       readings: Object.freeze(Object.assign({}, readings)),
     })
     document.addEventListener('jsquest:missionloaded', renderGuide)
-    document.addEventListener('click', scheduleQuizAnnotations)
+    document.addEventListener('click', scheduleQuizAnnotations, true)
     renderGuide()
   }
 
