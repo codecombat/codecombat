@@ -213,6 +213,8 @@ module.exports = (CocoRouter = (function () {
         'editor/archived-elements': go('core/SingletonAppVueComponentView'),
         'editor/podcast': go('editor/podcast/PodcastSearchView'),
         'editor/podcast/:podcastId': go('editor/podcast/PodcastEditView'),
+        'editor/minigame': go('editor/minigame/MiniGameSearchView'),
+        'editor/minigame/:slugOrId': go('editor/minigame/MiniGameEditView'),
         'editor/chat': go('editor/chat/ChatSearchView'),
         'editor/chat/:chatID': go('editor/chat/ChatEditView'),
         'editor/ai-scenario': go('editor/ai-scenario/AIScenarioSearchView'),
