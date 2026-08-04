@@ -97,6 +97,15 @@
 .concept-memory-card.is-validated .concept-card-success { display: grid; }
 .concept-memory-card.is-validated { padding-right: 3rem; }
 
+.concept-card-admin-validate-all {
+  display: flex;
+  margin: 0.9rem 0 0 auto;
+  border-color: #8c65d6;
+  color: #eadfff;
+  background: rgba(105, 64, 170, 0.24);
+  font-size: 0.78rem;
+}
+
 .code-panel.concept-cards-pending .editor-actions::before {
   content: "先に新しい考え方のカードを全部確認しよう";
   flex-basis: 100%;
@@ -132,8 +141,6 @@
   color: var(--text);
   background: #172238;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.52);
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 .concept-card-quiz-close {
@@ -216,5 +223,6 @@
 
 @media (max-width: 650px) {
   .concept-card-memory-progress { width: 100%; margin-left: 0; text-align: center; }
+  .concept-card-admin-validate-all { width: 100%; justify-content: center; }
   .concept-card-quiz-dialog { padding: 1rem; }
 }
