@@ -58,6 +58,7 @@ This document is the functional and business source of truth for the local Japan
 - Mission 03 collects its gem and then continues to the flag. Successful execution must finish on the goal tile rather than on the gem tile.
 - Mission 04 is the first `if` mission. It introduces `hero.readSign()`, return values, `if`, braces and comparison, while referring back to constants and assignment learned in mission 03.
 - Mission 04 must not repeat dedicated concept cards for `const`, constants or assignment. Its learning guide contains one card for the `hero.readSign()` return value, one card for `if`, and one card for comparison with `===`.
+- Mission 11 is titled `初めてのループ`, using the standard kanji spelling rather than `はじめてのループ`.
 - Mission 14 is an intentional infinite-loop demonstration using `while (true)`.
 - Mission 15 is the first later mission using `while (!hero.isAtGoal())`.
 - Later missions introduce `else`, `else if`, logical operators, loops, mutable variables, remainder and nested loops when first used.
@@ -102,6 +103,8 @@ This document is the functional and business source of truth for the local Japan
 - The execution restriction applies equally to the normal run path and the special mission-14 preparation path.
 - In admin mode, every quiz provides a review-only control that selects all correct choices automatically.
 - The admin quiz-review control must not submit the quiz or validate the card by itself; the administrator can inspect the selected choices and submit normally.
+- Admin mode also displays an admin-only control at the end of the section that validates every canonical card assigned to the current mission in one action.
+- The admin validate-all control is absent outside `?admin=1`, persists through the same stable-card-ID memory store, and does not complete the mission or alter mission progression.
 - Whenever a mission or concept card is added or changed, the same change must verify the canonical card record, stable mission-to-card mapping, face-down default, quiz data, card-memory validation, and the edit/execution gate for all cards in that mission.
 
 ## Boolean lesson and `hero.isTrue`
@@ -137,6 +140,8 @@ This document is the functional and business source of truth for the local Japan
 - Reading help in mission explanations, cards and mini-quizzes uses a light-blue visual treatment.
 - Reading help inside the glossary uses a quieter gray treatment and must not interfere with existing code-component tooltips.
 - `無限` receives the reading `むげん` in the mission title, concept cards, explanations and the duplicated mission heading inside the field panel.
+- `値` uses `あたい`, `魔法` uses `まほう`, and `実行` uses `じっこう` wherever those words are annotated.
+- `初めて` receives the reading `はじめて` when used in the first loop mission title or explanatory text.
 - When Japanese programmers commonly use an English technical term, the concept introduction displays both names.
 - The English term is written in Latin characters and exposes its katakana pronunciation on hover, keyboard focus and click.
 - Examples include Object, Method, Parameter, String, Literal, Comment, Constant, Assignment, Return value, Conditional branch, Boolean, Variable, Operator, Loop and Infinite loop.
@@ -157,9 +162,11 @@ This document is the functional and business source of truth for the local Japan
 - Immediately before the field-progress block, the field panel displays `MISSION XX - mission title`.
 - `MISSION XX` uses the same yellow eyebrow style as the main mission card.
 - The separator and mission title are white and use normal font weight.
-- The `Ctrl / ⌘ + Enter で実行` reminder is supporting text and uses a smaller font than the JavaScript panel title.
-- The interface uses the same blue scrollbar theme throughout the game, including the page, mission list, editor, syntax preview, reference panels and mini-quiz dialogs.
+- The `Ctrl / ⌘ + Enter で実行` reminder is supporting text, uses a clearly smaller `0.62rem` font, and remains on one line.
+- The interface uses the same detailed blue scrollbar theme throughout the game, including the page, mission list, editor, syntax preview, reference panels and mini-quiz dialogs.
 - Scrollbar track, thumb, hover color and size are centralized through shared CSS custom properties.
+- In Chromium/WebKit, the detailed track, rounded thumb, inset border and hover styling must remain authoritative; standardized scrollbar properties must not override them with a native gray scrollbar.
+- Browsers without WebKit scrollbar pseudo-elements use the centralized standard scrollbar colors as a fallback.
 - Loop victory conditions appear inside the field-progress block before the progress track.
 
 ## Simplified pedagogical syntax preview
@@ -295,6 +302,7 @@ This document is the functional and business source of truth for the local Japan
 - Once the admin unlock button is activated, the same admin-unlocked state must be used both when rendering mission buttons and when checking whether a selected mission may open.
 - Admin mode shows `答えを見る` for the selected mission even before three failed attempts. This final-answer control is independent of the temporary unlock-all button.
 - Admin mode provides a quiz-review control on every concept-card quiz that selects the correct choices without submitting the form or validating the card automatically.
+- Admin mode provides the validate-all control only at the end of the current mission's `新しい考え方` section; it validates those cards through normal concept memory and does not complete the mission.
 
 ## Speech and branch prompts
 
@@ -314,6 +322,7 @@ This document is the functional and business source of truth for the local Japan
 - It verifies manually unrolled commands exceeding a source-code call limit fail with a Japanese result message.
 - It verifies multi-field ordering, field-progress source rules, admin URL behavior and progressive legend thresholds.
 - It verifies saved curriculum migration preserves existing code and progress semantics.
+- It verifies the first loop mission uses the exact title `初めてのループ`.
 - It verifies every mission guide resolves its ordered concept-card IDs from the canonical reference base, all IDs are unique and every rendered card exposes its ID.
 - It verifies that the set of IDs referenced by mission guides is exactly the set of records in the canonical concept-card database and that no card is referenced twice.
 - It verifies that no legacy or ad-hoc HTML injector can append a second comment-concept card outside the canonical database and memory system.
@@ -322,12 +331,13 @@ This document is the functional and business source of truth for the local Japan
 - It verifies every unprepared concept card is visually hidden before the memory layer applies its face-down state.
 - It verifies the learner cannot edit or execute through the colored preview, run button, keyboard shortcut, or mission-14 preparation before the current mission's cards are validated.
 - It verifies admin quiz review can select the correct choices but does not submit or validate automatically.
-- It verifies difficult-word reading help is applied to mini-quiz prompts and choices through the shared reading dictionary.
+- It verifies the admin-only validate-all control is rendered at the end of the guide, persists all current mission card IDs, and is absent from normal mode.
+- It verifies difficult-word reading help is applied to mini-quiz prompts and choices through the shared reading dictionary, including `値`, `魔法` and `実行`.
 - It verifies clicking the colored code preview maps the click position to the corresponding textarea or Ace cursor offset.
 - It verifies simplified syntax coloring keeps keywords and punctuation in the default color while distinguishing objects/variables, methods, literal values and comments.
 - It verifies string quote characters remain in the default color while string contents receive the literal color.
 - It verifies the five syntax colors are centralized through CSS custom properties.
-- It verifies the same centralized blue scrollbar theme is used throughout the game and that the execution reminder uses its reduced supporting-text size.
+- It verifies the same detailed blue scrollbar theme is used throughout the game, that Chromium does not fall back to native gray scrollbars, and that the execution reminder uses its reduced supporting-text size.
 - It verifies standalone mode does not request the absent Ace asset and that curriculum rendering does not recursively redispatch mission loading.
 - It verifies the static execution worker loads the complete engine, the app does not create Blob workers, and admin navigation uses the canonical unlock predicate.
 - It verifies normal access repairs stale or admin-inflated persisted unlock values before `app-v3.js` renders the mission list.
