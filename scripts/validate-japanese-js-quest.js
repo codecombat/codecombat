@@ -178,7 +178,7 @@ for (const id of [4, 5, 6, 7, 8, 9, 10, 15, 16, 17, 19, 20, 21, 22]) {
 }
 
 const storedCards = conceptCards.allCards()
-assert.strictEqual(storedCards.length, 35)
+assert.strictEqual(storedCards.length, 36)
 assert.strictEqual(new Set(storedCards.map(card => card.id)).size, storedCards.length)
 assert(storedCards.every(card => /^concept-card-\d{3}$/.test(card.id)))
 assert(storedCards.every(card => Number.isInteger(card.missionId)))
@@ -189,7 +189,10 @@ assert(conceptCards.getCard('concept-card-010').titleHtml.includes('名前は自
 assert(conceptCards.getCard('concept-card-010').bodyHtml.includes('ローマ字'))
 assert(conceptCards.getCard('concept-card-010').bodyHtml.includes('alwaysTrue'))
 assert(conceptCards.getCard('concept-card-025').bodyHtml.includes('コンピューターの力を使い続ける危険'))
+assert(conceptCards.getCard('concept-card-036').titleHtml.includes('Comment'))
+assert(conceptCards.getCard('concept-card-036').bodyHtml.includes('命令として実行しません'))
 
+const guidedCardIds = []
 for (let missionId = 0; missionId < missions.length; missionId++) {
   const guide = conceptCards.getMissionGuide(missionId)
   assert(guide, `Mission ${missionId} must have a concept guide`)
@@ -201,8 +204,15 @@ for (let missionId = 0; missionId < missions.length; missionId++) {
     assert.strictEqual(card.id, guide.cardIds[index])
     assert.strictEqual(card.missionId, missionId)
     assert.strictEqual(conceptCards.getCard(card.id), card)
+    guidedCardIds.push(card.id)
   })
 }
+assert.deepStrictEqual(guidedCardIds.slice().sort(), storedCards.map(card => card.id).sort())
+assert.strictEqual(new Set(guidedCardIds).size, guidedCardIds.length)
+assert.deepStrictEqual(
+  conceptCards.getMissionGuide(1).cardIds,
+  ['concept-card-036', 'concept-card-005'],
+)
 assert.deepStrictEqual(
   conceptCards.getMissionGuide(3).cardIds,
   ['concept-card-007', 'concept-card-008', 'concept-card-009', 'concept-card-010', 'concept-card-011'],
