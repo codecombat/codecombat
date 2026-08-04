@@ -27,6 +27,11 @@
   scrollbar-color: #58779f #0b1020;
 }
 
+.code-panel.concept-cards-pending .syntax-concept-preview {
+  cursor: not-allowed;
+  box-shadow: inset 0 0 0 2px rgba(107, 183, 255, 0.09);
+}
+
 .syntax-concept-preview:focus-visible {
   outline: 2px solid var(--info);
   outline-offset: 2px;
