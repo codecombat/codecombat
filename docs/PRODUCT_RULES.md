@@ -131,7 +131,9 @@ This document is the functional and business source of truth for the local Japan
 ## Japanese reading and technical vocabulary
 
 - Difficult kanji above the expected reading level at the beginning of Japanese third grade receive full-word reading tooltips.
-- Reading help in mission explanations uses a light-blue visual treatment.
+- Difficult kanji and advanced words in mission explanations, concept cards and mini-quizzes must use the same shared reading-help system and expose full-word pronunciation tooltips.
+- Adding or changing an explanation, concept card, quiz question or quiz choice requires reviewing and updating difficult-word readings in the same change.
+- Reading help in mission explanations, cards and mini-quizzes uses a light-blue visual treatment.
 - Reading help inside the glossary uses a quieter gray treatment and must not interfere with existing code-component tooltips.
 - `無限` receives the reading `むげん` in the mission title, concept cards, explanations and the duplicated mission heading inside the field panel.
 - When Japanese programmers commonly use an English technical term, the concept introduction displays both names.
@@ -154,7 +156,9 @@ This document is the functional and business source of truth for the local Japan
 - Immediately before the field-progress block, the field panel displays `MISSION XX - mission title`.
 - `MISSION XX` uses the same yellow eyebrow style as the main mission card.
 - The separator and mission title are white and use normal font weight.
-- The JavaScript editor has a styled vertical scrollbar harmonized with the game panels and remains easy to use with long programs.
+- The `Ctrl / ⌘ + Enter で実行` reminder is supporting text and uses a smaller font than the JavaScript panel title.
+- The interface uses the same blue scrollbar theme throughout the game, including the page, mission list, editor, syntax preview, reference panels and mini-quiz dialogs.
+- Scrollbar track, thumb, hover color and size are centralized through shared CSS custom properties.
 - Loop victory conditions appear inside the field-progress block before the progress track.
 
 ## Simplified pedagogical syntax preview
@@ -311,15 +315,18 @@ This document is the functional and business source of truth for the local Japan
 - It verifies saved curriculum migration preserves existing code and progress semantics.
 - It verifies every mission guide resolves its ordered concept-card IDs from the canonical reference base, all IDs are unique and every rendered card exposes its ID.
 - It verifies that the set of IDs referenced by mission guides is exactly the set of records in the canonical concept-card database and that no card is referenced twice.
+- It verifies that no legacy or ad-hoc HTML injector can append a second comment-concept card outside the canonical database and memory system.
 - It verifies every canonical concept card has between one and three quiz questions and every question has three or four unique choices containing its correct answer.
 - It verifies concept-card validation uses stable card IDs and a dedicated memory storage key rather than mission-number persistence.
 - It verifies every unprepared concept card is visually hidden before the memory layer applies its face-down state.
 - It verifies the learner cannot edit or execute through the colored preview, run button, keyboard shortcut, or mission-14 preparation before the current mission's cards are validated.
 - It verifies admin quiz review can select the correct choices but does not submit or validate automatically.
+- It verifies difficult-word reading help is applied to mini-quiz prompts and choices through the shared reading dictionary.
 - It verifies clicking the colored code preview maps the click position to the corresponding textarea or Ace cursor offset.
 - It verifies simplified syntax coloring keeps keywords and punctuation in the default color while distinguishing objects/variables, methods, literal values and comments.
 - It verifies string quote characters remain in the default color while string contents receive the literal color.
 - It verifies the five syntax colors are centralized through CSS custom properties.
+- It verifies the same centralized blue scrollbar theme is used throughout the game and that the execution reminder uses its reduced supporting-text size.
 - It verifies standalone mode does not request the absent Ace asset and that curriculum rendering does not recursively redispatch mission loading.
 - It verifies the static execution worker loads the complete engine, the app does not create Blob workers, and admin navigation uses the canonical unlock predicate.
 - It verifies normal access repairs stale or admin-inflated persisted unlock values before `app-v3.js` renders the mission list.
