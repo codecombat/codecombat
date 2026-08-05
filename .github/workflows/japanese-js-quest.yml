@@ -11,6 +11,7 @@ on:
       - 'scripts/validate-japanese-js-quest-runtime.js'
       - 'scripts/validate-japanese-js-quest-loop-rules.js'
       - 'scripts/validate-japanese-js-quest-learning-reinforcement.js'
+      - 'scripts/validate-japanese-js-quest-editor-header-and-card-extension.js'
       - 'docs/PRODUCT_RULES.md'
       - 'docs/DEVELOPMENT_RULES.md'
       - '.github/workflows/japanese-js-quest.yml'
@@ -21,6 +22,7 @@ on:
       - 'scripts/validate-japanese-js-quest-runtime.js'
       - 'scripts/validate-japanese-js-quest-loop-rules.js'
       - 'scripts/validate-japanese-js-quest-learning-reinforcement.js'
+      - 'scripts/validate-japanese-js-quest-editor-header-and-card-extension.js'
       - 'docs/PRODUCT_RULES.md'
       - 'docs/DEVELOPMENT_RULES.md'
       - '.github/workflows/japanese-js-quest.yml'
@@ -42,3 +44,5 @@ jobs:
         run: node scripts/validate-japanese-js-quest-loop-rules.js
       - name: Validate syntax preview and concept-card quizzes
         run: node scripts/validate-japanese-js-quest-learning-reinforcement.js
+      - name: Validate editor header and mission 01 concept additions
+        run: node scripts/validate-japanese-js-quest-editor-header-and-card-extension.js
