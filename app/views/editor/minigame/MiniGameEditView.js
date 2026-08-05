@@ -15,15 +15,13 @@ class MiniGameEditView extends EditView {
     super({})
     this.resource = new MiniGame({ _id: resourceId })
     this.supermodel.loadModel(this.resource)
+    // Loaded via supermodel so buildTreema (fired from onLoaded) sees a synced collection —
+    // SoundFileTreema reads its pick-existing dropdown once, at render time.
+    this.files = this.supermodel.loadCollection(new DocumentFiles(this.resource), 'files').model
   }
 
   buildTreema () {
-    // Feed already-uploaded files into SoundFileTreema's pick-existing dropdown.
-    if (this.resource.loaded && !this.treemaOptions) {
-      const files = new DocumentFiles(this.resource)
-      files.fetch()
-      this.treemaOptions = { files }
-    }
+    if (!this.treemaOptions) { this.treemaOptions = { files: this.files } }
     return super.buildTreema()
   }
 
@@ -43,7 +41,7 @@ class MiniGameEditView extends EditView {
     if (!slug || this.$el.find('#play-minigame-button').length) { return }
     // Test = play the CURRENT editor state without saving: stash Treema data in
     // localStorage, and the play page reads it back under ?dev=true.
-    $('<a id="test-minigame-button" class="btn btn-primary resource-tool-button">Test unsaved</a>')
+    $('<button type="button" id="test-minigame-button" class="btn btn-primary resource-tool-button">Test unsaved</button>')
       .on('click', () => {
         this.treema?.endExistingEdits()
         const data = $.extend(true, {}, this.resource.attributes, this.treema?.data || {})
@@ -55,7 +53,7 @@ class MiniGameEditView extends EditView {
       .insertBefore(this.$el.find('#save-button'))
     // Refetching triggers the resource 'change' listener EditView already wires,
     // which resets the Treema to the saved state.
-    $('<a id="revert-minigame-button" class="btn btn-warning resource-tool-button">Revert</a>')
+    $('<button type="button" id="revert-minigame-button" class="btn btn-warning resource-tool-button">Revert</button>')
       .on('click', () => {
         if (!window.confirm('Discard unsaved changes and reload the saved state?')) { return }
         this.treema?.endExistingEdits()
