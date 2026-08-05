@@ -48,11 +48,14 @@ This document is the functional and business source of truth for the local Japan
 ## Mission pedagogy
 
 - Every genuinely new programming concept must be introduced in the mission's `新しい考え方` section before the learner is expected to use it.
-- Mission 00 contains exactly one executable line: `hero.say('Hello Yuzu');`.
+- Mission 00 contains exactly one executable line: `hero.say("Hello Yuzu");`.
+- All learner-facing starter code, reference solutions, partial solutions and code examples use double-quoted string literals. Single-quoted strings are not introduced at this stage.
 - Mission 00 explains object, method, dot access, parameters, string literals and the difference between program words and quoted text in the hero's world.
 - Mission 01 introduces JavaScript as the programming language used to communicate instructions to the computer and the editor as the place where code is read, written and changed.
 - Mission 01 introduces code comments. Text after `//` is explained as a human-readable note that is not executed.
+- Mission 01 explicitly tells the learner that the hero must reach the glowing goal tile to clear the mission.
 - Mission 01 displays four canonical cards in this exact order: `JavaScript`, `Editor`, `// はコメント（Comment）`, then `hero.move(direction)`.
+- The `hero.move(direction)` card explains that one method call moves the hero one tile in the requested direction and that moving several tiles requires calling the method several times.
 - Mission 03 introduces booleans, `true`, `false`, `const`, assignment with `=`, reuse of a named value, constant naming in romaji, the common use of meaningful English names, and `hero.isTrue(boolean)`.
 - Mission 03 has completed starter code. The learner validates it by executing it without needing to edit it.
 - Mission 03 includes a Japanese explanatory comment directly above `const alwaysTrue = true;` and another directly above `const alwaysFalse = false;`.
@@ -102,6 +105,8 @@ This document is the functional and business source of truth for the local Japan
 - The learner cannot open the editable code view or execute the mission until every concept card assigned to the current mission has been validated.
 - Clicking the colored code preview, the run button, or the execution keyboard shortcut before all cards are validated redirects attention to the concept cards and explains the requirement in Japanese.
 - The execution restriction applies equally to the normal run path and the special mission-14 preparation path.
+- When all concept cards assigned to a mission become validated, a short celebratory modal appears with a validation or festive icon, says that the mission is unlocked, and asks the learner to finish reading the explanations and scroll down.
+- The concept-card completion modal reuses the approved level-up visual language without reusing the level-up stars or power iconography.
 - In admin mode, every quiz provides a review-only control that selects all correct choices automatically.
 - The admin quiz-review control must not submit the quiz or validate the card by itself; the administrator can inspect the selected choices and submit normally.
 - Admin mode also displays an admin-only control at the end of the section that validates every canonical card assigned to the current mission in one action.
@@ -133,7 +138,7 @@ This document is the functional and business source of truth for the local Japan
 - Concept and reading annotations run a bounded number of times after mission rendering. They must not use a permanent subtree observer that mutates the same observed content.
 - Progress access normalization runs synchronously before `app-v3.js`, so the first rendered mission list already reflects normal linear access rather than briefly exposing stale admin access.
 
-## Japanese reading and technical vocabulary
+## Japanese reading, technical vocabulary and tooltip layering
 
 - Difficult kanji above the expected reading level at the beginning of Japanese third grade receive full-word reading tooltips.
 - Difficult kanji and advanced words in mission explanations, concept cards and mini-quizzes must use the same shared reading-help system and expose full-word pronunciation tooltips.
@@ -147,6 +152,10 @@ This document is the functional and business source of truth for the local Japan
 - When Japanese programmers commonly use an English technical term, the concept introduction displays both names.
 - The English term is written in Latin characters and exposes its katakana pronunciation on hover, keyboard focus and click.
 - Examples include JavaScript, Editor, Object, Method, Parameter, String, Literal, Comment, Constant, Assignment, Return value, Conditional branch, Boolean, Variable, Operator, Loop and Infinite loop.
+- Every explanatory tooltip is rendered in a shared global tooltip layer mounted directly under `body`, rather than as a pseudo-element inside the triggering container.
+- Tooltip triggers keep their normal document stacking level. Only the tooltip layer receives the very high z-index.
+- The global tooltip is clamped into the visible viewport and remains positioned above its trigger during scrolling or resizing.
+- If an open modal or overlay covers a trigger, that covered trigger cannot activate a tooltip. Tooltips triggered from content inside the active modal remain visible above that modal.
 
 ## Reference panel
 
@@ -237,8 +246,8 @@ This document is the functional and business source of truth for the local Japan
 
 ## Transformations and levels
 
-- `hero.transform('hero')` and `hero.transform('frog')` require wizard level 1.
-- `hero.transform('dragon')` is a recognized future power requiring wizard level 99.
+- `hero.transform("hero")` and `hero.transform("frog")` require wizard level 1.
+- `hero.transform("dragon")` is a recognized future power requiring wizard level 99.
 - A recognized transformation used below its required level makes the hero say `この技はまだ使えないよ。` and leaves the current form unchanged.
 - Unknown transformation values are different from locked recognized powers and use the invalid-transformation explanation.
 - Frog and dragon use original local sprites.
@@ -336,15 +345,19 @@ This document is the functional and business source of truth for the local Japan
 - It verifies concept-card validation uses stable card IDs and a dedicated memory storage key rather than mission-number persistence.
 - It verifies every unprepared concept card is visually hidden before the memory layer applies its face-down state.
 - It verifies the learner cannot edit or execute through the colored preview, run button, keyboard shortcut, or mission-14 preparation before the current mission's cards are validated.
+- It verifies the completion celebration appears when the last required concept card is validated and does not replace mission completion.
 - It verifies admin quiz review can select the correct choices but does not submit or validate automatically.
 - It verifies the admin-only validate-all control is rendered at the end of the guide, persists all current mission card IDs, and is absent from normal mode.
 - It verifies difficult-word reading help is applied to mini-quiz prompts and choices through the shared reading dictionary, including `値`, `魔法` and `実行`.
 - It verifies clicking the colored code preview maps the click position to the corresponding textarea or Ace cursor offset.
 - It verifies simplified syntax coloring keeps keywords and punctuation in the default color while distinguishing objects/variables, methods, literal values and comments.
 - It verifies string quote characters remain in the default color while string contents receive the literal color.
+- It verifies learner-facing mission code uses double-quoted string literals and exact legacy defaults may migrate from single quotes to double quotes.
+- It verifies the mission 01 goal instruction and the one-tile `hero.move(...)` concept explanation and quiz.
 - It verifies the five syntax colors are centralized through CSS custom properties.
 - It verifies the editor header has exactly two rows, uses `JavaScript editor` as its title and groups all five shortcuts in the centered second row.
 - It verifies the same detailed blue scrollbar theme is used throughout the game and that Chromium does not fall back to native gray scrollbars.
+- It verifies explanatory tooltips use the global body-level layer, remain viewport-clamped and cannot be triggered through an active covering modal.
 - It verifies standalone mode does not request the absent Ace asset and that curriculum rendering does not recursively redispatch mission loading.
 - It verifies the static execution worker loads the complete engine, the app does not create Blob workers, and admin navigation uses the canonical unlock predicate.
 - It verifies normal access repairs stale or admin-inflated persisted unlock values before `app-v3.js` renders the mission list.
