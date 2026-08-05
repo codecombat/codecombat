@@ -31,6 +31,13 @@ export default class CookieConsentTracker extends BaseTracker {
       return
     }
 
+    // Framed pages (e.g. the Star Lab mini-game iframe, GD-880) defer consent UI to the
+    // top window — same-origin cookies mean the outer page's consent already applies.
+    if (window.self !== window.top) {
+      this.onInitializeSuccess()
+      return
+    }
+
     // For logged-in users, sync consent from user account to browser cookie
     this.syncConsentFromUserAccount()
 
