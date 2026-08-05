@@ -19,6 +19,16 @@
     return Object.freeze({ id, missionId, titleHtml, bodyHtml })
   }
 
+  const replacementCards = Object.freeze([
+    card(
+      'concept-card-005',
+      1,
+      '<code>hero.move(direction)</code>',
+      '<code>move</code> は動くメソッドです。パラメーター <code>direction</code> に <code>"left"</code> や <code>"right"</code> を渡して、動く方向を指定します。' +
+        '<br><br>1回呼ぶと、ヒーローはその方向へ1マスだけ進みます。何マスも進みたいときは、進む回数だけこのメソッドを呼びます。'
+    )
+  ])
+
   const additionalCards = Object.freeze([
     card(
       'concept-card-037',
@@ -36,10 +46,13 @@
     )
   ])
 
+  const replacementById = Object.freeze(Object.fromEntries(
+    replacementCards.map(item => [item.id, item])
+  ))
   const additionalById = Object.freeze(Object.fromEntries(
     additionalCards.map(item => [item.id, item])
   ))
-  const cardsById = Object.freeze(Object.assign({}, base.cardsById, additionalById))
+  const cardsById = Object.freeze(Object.assign({}, base.cardsById, replacementById, additionalById))
   const missionOneGuide = Object.freeze({
     title: 'JavaScript editor とコメント、新しいメソッド：動く',
     cardIds: Object.freeze([
@@ -66,7 +79,9 @@
   }
 
   function allCards () {
-    return base.allCards().concat(additionalCards)
+    return base.allCards()
+      .map(item => replacementById[item.id] || item)
+      .concat(additionalCards)
   }
 
   return Object.freeze({
