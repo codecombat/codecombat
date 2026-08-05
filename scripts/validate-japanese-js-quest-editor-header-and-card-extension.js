@@ -24,7 +24,7 @@ assert.deepStrictEqual(missionOne.cardIds, [
   'concept-card-037',
   'concept-card-038',
   'concept-card-036',
-  'concept-card-005'
+  'concept-card-005',
 ])
 assert.strictEqual(missionOne.cards.length, 4)
 
@@ -61,7 +61,7 @@ for (const shortcut of [
   '<kbd>Ctrl+C</kbd> コピー',
   '<kbd>Ctrl+V</kbd> はりつけ',
   '<kbd>Ctrl+Z</kbd> もどす',
-  '<kbd>Ctrl+F5</kbd> 再読み込み'
+  '<kbd>Ctrl+F5</kbd> 再読み込み',
 ]) assert(index.includes(shortcut))
 
 assert(index.indexOf('concept-card-library.js') < index.indexOf('concept-card-library-extension.js'))
@@ -75,7 +75,7 @@ for (const text of [
   'justify-content: center',
   'flex-wrap: nowrap',
   'width: 100%',
-  'font-size: 0.82rem'
+  'font-size: 0.82rem',
 ]) assert(headerCss.includes(text))
 
 console.log('Validated the two-row JavaScript editor header and 38 canonical concept cards with quizzes.')
