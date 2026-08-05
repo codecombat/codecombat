@@ -21,9 +21,28 @@ class MiniGamePlayView extends RootView {
 
   afterInsert () {
     super.afterInsert()
+    if (this.isFramed()) { this.applyFramedLayout() }
     this.launch().catch(err => {
       console.error('[minigame] launch failed', err)
       this.showError(err?.message || 'Failed to launch mini-game.')
+    })
+  }
+
+  /**
+   * Inside the hackstack iframe the outer card already provides the 16/9 frame and rounded
+   * corners. Fill the iframe viewport edge-to-edge and kill scrollbars — otherwise the
+   * full-page clamp (max-width, centering, py margins) leaves gaps where the host page's
+   * default background shows through, plus 1px-overflow scrollbars.
+   */
+  applyFramedLayout () {
+    $('html, body').css({ overflow: 'hidden', margin: 0, height: '100%' })
+    this.$el.css({ padding: 0 })
+    this.$el.find('#minigame-host').css({
+      maxWidth: 'none',
+      width: '100vw',
+      height: '100vh',
+      aspectRatio: 'auto',
+      borderRadius: 0,
     })
   }
 
