@@ -119,11 +119,11 @@ assert(celebrationCss.includes('.concept-complete-icon'))
 assert(celebrationCss.includes('var(--success)'))
 
 for (const text of [
-  "document.body.appendChild(tooltip)",
-  "event.target.closest('[data-tooltip]')",
+  'document.body.appendChild(tooltip)',
+  'event.target.closest(\'[data-tooltip]\')',
   'getBoundingClientRect()',
-  "querySelectorAll('[aria-modal=\"true\"]')",
-  "window.addEventListener('scroll', positionTooltip, true)",
+  'querySelectorAll(\'[aria-modal="true"]\')',
+  'window.addEventListener(\'scroll\', positionTooltip, true)',
 ]) assert(tooltipLayer.includes(text))
 assert(tooltipCss.includes('z-index: 2147483200'))
 assert(tooltipCss.includes('pointer-events: none'))
@@ -131,7 +131,7 @@ assert(tooltipCss.includes('.glossary-token::before'))
 assert(tooltipCss.includes('display: none !important'))
 
 assert(technicalTerms.includes('canonicalMissionZeroCode = \'hero.say("Hello Yuzu");\''))
-assert(technicalTerms.includes("'hero.say(\\'Hello Yuzu\\');'"))
+assert(technicalTerms.includes('\'hero.say(\\\'Hello Yuzu\\\');\''))
 
 for (const rule of [
   'all concept cards assigned to a mission become validated',
