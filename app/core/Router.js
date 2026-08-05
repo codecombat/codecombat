@@ -369,10 +369,8 @@ module.exports = (CocoRouter = (function () {
         'tournaments/:pageType/:objectId': go('ladder/MainTournamentView'),
 
         'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }), // extra slash is to get Facebook app to work
-        // Admin-only while mini-games are in authoring; becomes the public play page at the GD-880 cutover.
-        'play/minigame/:slug' (slug) {
-          if (me.isAdmin()) { return this.routeDirectly('play/MiniGamePlayView', [slug]) }
-        },
+        // Public since the GD-880 cutover — the hackstack Star Lab iframe embeds this page.
+        'play/minigame/:slug': go('play/MiniGamePlayView'),
         'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView'),
         'play/ladder/:levelID': go('ladder/LadderView'),
         'play/ladder': go('ladder/MainLadderView'),

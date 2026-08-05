@@ -7,7 +7,8 @@ const MiniGame = require('models/MiniGame')
  * Plays a mini-game entirely from its DB document: fetches the doc by slug, lazy-loads
  * Phaser into its own chunk, executes the doc's code bundle from /file/, builds the
  * asset map, and drives the createGame/destroy contract documented in the
- * codecombat-mini-games repo. Admin-only until the GD-880 cutover.
+ * codecombat-mini-games repo. Public since the GD-880 cutover — the hackstack Star Lab
+ * iframe embeds this page; ?dev=true (unsaved editor state) stays admin-only.
  */
 class MiniGamePlayView extends RootView {
   id = 'minigame-play-view'
@@ -21,18 +22,32 @@ class MiniGamePlayView extends RootView {
 
   afterInsert () {
     super.afterInsert()
+    if (this.isFramed()) { this.applyFramedLayout() }
     this.launch().catch(err => {
       console.error('[minigame] launch failed', err)
       this.showError(err?.message || 'Failed to launch mini-game.')
     })
   }
 
-  async launch () {
-    if (!me.isAdmin()) {
-      this.showError('Admin only for now.')
-      return
-    }
+  /**
+   * Inside the hackstack iframe the outer card already provides the 16/9 frame and rounded
+   * corners. Fill the iframe viewport edge-to-edge and kill scrollbars — otherwise the
+   * full-page clamp (max-width, centering, py margins) leaves gaps where the host page's
+   * default background shows through, plus 1px-overflow scrollbars.
+   */
+  applyFramedLayout () {
+    $('html, body').css({ overflow: 'hidden', margin: 0, height: '100%' })
+    this.$el.css({ padding: 0 })
+    this.$el.find('#minigame-host').css({
+      maxWidth: 'none',
+      width: '100vw',
+      height: '100vh',
+      aspectRatio: 'auto',
+      borderRadius: 0,
+    })
+  }
 
+  async launch () {
     const doc = await this.resolveDoc()
     if (!doc || this.destroyed) { return }
 
@@ -55,11 +70,13 @@ class MiniGamePlayView extends RootView {
       return
     }
 
-    // Always (re)load the bundle: a re-upload writes the SAME /file/ path, and the global
-    // registry survives SPA navigation — so both the registry entry and the browser cache
-    // can be stale. Cache-bust with the doc's save timestamp (dev tests always bust);
-    // re-executing the IIFE just overwrites its registry entry.
-    bundleUrl.searchParams.set('v', this.devMode ? String(Date.now()) : String(doc.updated || Date.now()))
+    // Always (re)load the bundle with a fresh URL: a re-upload writes the SAME /file/ path,
+    // the global registry survives SPA navigation, AND CloudFlare's purge-on-upload only
+    // covers the bare URL — a doc-keyed ?v= would leave stale edge/browser copies whenever
+    // the doc isn't re-saved. The bundle is ~25 KB, so skipping caches entirely is the
+    // simplest correct answer (assets stay bare-URL'd and cacheable — their purge works).
+    // Re-executing the IIFE just overwrites its registry entry.
+    bundleUrl.searchParams.set('v', String(Date.now()))
     await this.loadScript(bundleUrl.href)
     if (this.destroyed) { return }
 
@@ -72,11 +89,36 @@ class MiniGamePlayView extends RootView {
     this.gameHandle = gameModule.createGame({
       parent: this.$el.find('#minigame-host')[0],
       assets: this.buildAssetMap(doc),
-      onExit: () => application.router.navigate('/editor/minigame', { trigger: true }),
-      // Deliberately no analytics here: admin test sessions would pollute the event
-      // stream. The GD-880 host attaches gameName and forwards real events.
-      onEvent: (event, payload) => console.log('[minigame]', this.slug, event, payload),
+      onExit: () => this.onGameExit(),
+      // This page fires no analytics itself: when framed, the hackstack host receives the
+      // event via postMessage, attaches gameName, and tracks with its own base props.
+      onEvent: (event, payload) => this.postToHost(event, payload),
     })
+  }
+
+  isFramed () {
+    return window.parent !== window
+  }
+
+  /** Envelope contract documented in the codecombat-mini-games README. Same-origin only. */
+  postToHost (event, payload) {
+    if (!this.isFramed()) { return }
+    try {
+      window.parent.postMessage({ type: 'coco-minigame', slug: this.slug, event, payload }, window.location.origin)
+    } catch (e) {
+      // A non-cloneable payload from a game bundle must not crash the session mid-game.
+      console.warn('[minigame] postMessage failed; event dropped', event, e)
+    }
+  }
+
+  onGameExit () {
+    if (this.isFramed()) {
+      this.postToHost('exit', {})
+    } else if (me.isAdmin()) {
+      application.router.navigate('/editor/minigame', { trigger: true })
+    } else {
+      window.location.href = '/ai/starlab'
+    }
   }
 
   /**
@@ -84,7 +126,8 @@ class MiniGamePlayView extends RootView {
    * Treema state (handed over via localStorage by the Test button) wins over the DB doc.
    */
   async resolveDoc () {
-    this.devMode = new URLSearchParams(window.location.search).get('dev') === 'true'
+    // Dev mode (unsaved editor state) is an authoring tool — admins only.
+    this.devMode = new URLSearchParams(window.location.search).get('dev') === 'true' && me.isAdmin()
     if (this.devMode) {
       try {
         const stashed = JSON.parse(window.localStorage.getItem(`minigame-dev-doc:${this.slug}`) || 'null')
@@ -137,6 +180,8 @@ class MiniGamePlayView extends RootView {
   }
 
   showError (message) {
+    // Error paths resolve after awaits; the view may be gone (destroy() wipes this.$el).
+    if (this.destroyed || !this.$el) { return }
     this.$el.find('.minigame-error').text(message).show()
   }
 
