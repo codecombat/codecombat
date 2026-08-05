@@ -50,8 +50,9 @@ This document is the functional and business source of truth for the local Japan
 - Every genuinely new programming concept must be introduced in the mission's `新しい考え方` section before the learner is expected to use it.
 - Mission 00 contains exactly one executable line: `hero.say('Hello Yuzu');`.
 - Mission 00 explains object, method, dot access, parameters, string literals and the difference between program words and quoted text in the hero's world.
+- Mission 01 introduces JavaScript as the programming language used to communicate instructions to the computer and the editor as the place where code is read, written and changed.
 - Mission 01 introduces code comments. Text after `//` is explained as a human-readable note that is not executed.
-- Mission 01 displays a dedicated canonical card titled `// はコメント（Comment）` before its `hero.move(direction)` card.
+- Mission 01 displays four canonical cards in this exact order: `JavaScript`, `Editor`, `// はコメント（Comment）`, then `hero.move(direction)`.
 - Mission 03 introduces booleans, `true`, `false`, `const`, assignment with `=`, reuse of a named value, constant naming in romaji, the common use of meaningful English names, and `hero.isTrue(boolean)`.
 - Mission 03 has completed starter code. The learner validates it by executing it without needing to edit it.
 - Mission 03 includes a Japanese explanatory comment directly above `const alwaysTrue = true;` and another directly above `const alwaysFalse = false;`.
@@ -142,9 +143,10 @@ This document is the functional and business source of truth for the local Japan
 - `無限` receives the reading `むげん` in the mission title, concept cards, explanations and the duplicated mission heading inside the field panel.
 - `値` uses `あたい`, `魔法` uses `まほう`, and `実行` uses `じっこう` wherever those words are annotated.
 - `初めて` receives the reading `はじめて` when used in the first loop mission title or explanatory text.
+- `プログラミング言語` receives the reading `ぷろぐらみんぐげんご` in its concept card.
 - When Japanese programmers commonly use an English technical term, the concept introduction displays both names.
 - The English term is written in Latin characters and exposes its katakana pronunciation on hover, keyboard focus and click.
-- Examples include Object, Method, Parameter, String, Literal, Comment, Constant, Assignment, Return value, Conditional branch, Boolean, Variable, Operator, Loop and Infinite loop.
+- Examples include JavaScript, Editor, Object, Method, Parameter, String, Literal, Comment, Constant, Assignment, Return value, Conditional branch, Boolean, Variable, Operator, Loop and Infinite loop.
 
 ## Reference panel
 
@@ -162,7 +164,10 @@ This document is the functional and business source of truth for the local Japan
 - Immediately before the field-progress block, the field panel displays `MISSION XX - mission title`.
 - `MISSION XX` uses the same yellow eyebrow style as the main mission card.
 - The separator and mission title are white and use normal font weight.
-- The `Ctrl / ⌘ + Enter で実行` reminder is supporting text, uses a clearly smaller `0.62rem` font, and remains on one line.
+- The JavaScript editor heading contains exactly two full-width rows.
+- The first editor-heading row contains only `JavaScript editor` and uses the same heading font previously used by `JavaScript`.
+- The second editor-heading row is centered and contains, with the same text size and visual treatment, `Ctrl / ⌘ + Enter で実行`, `Ctrl+C コピー`, `Ctrl+V はりつけ`, `Ctrl+Z もどす` and `Ctrl+F5 再読み込み`.
+- The execution shortcut must not be displayed as a separate supporting paragraph beneath the editor title.
 - The interface uses the same detailed blue scrollbar theme throughout the game, including the page, mission list, editor, syntax preview, reference panels and mini-quiz dialogs.
 - Scrollbar track, thumb, hover color and size are centralized through shared CSS custom properties.
 - In Chromium/WebKit, the detailed track, rounded thumb, inset border and hover styling must remain authoritative; standardized scrollbar properties must not override them with a native gray scrollbar.
@@ -323,6 +328,7 @@ This document is the functional and business source of truth for the local Japan
 - It verifies multi-field ordering, field-progress source rules, admin URL behavior and progressive legend thresholds.
 - It verifies saved curriculum migration preserves existing code and progress semantics.
 - It verifies the first loop mission uses the exact title `初めてのループ`.
+- It verifies all 38 canonical cards, including the JavaScript and Editor cards, and the exact four-card order for mission 01.
 - It verifies every mission guide resolves its ordered concept-card IDs from the canonical reference base, all IDs are unique and every rendered card exposes its ID.
 - It verifies that the set of IDs referenced by mission guides is exactly the set of records in the canonical concept-card database and that no card is referenced twice.
 - It verifies that no legacy or ad-hoc HTML injector can append a second comment-concept card outside the canonical database and memory system.
@@ -337,7 +343,8 @@ This document is the functional and business source of truth for the local Japan
 - It verifies simplified syntax coloring keeps keywords and punctuation in the default color while distinguishing objects/variables, methods, literal values and comments.
 - It verifies string quote characters remain in the default color while string contents receive the literal color.
 - It verifies the five syntax colors are centralized through CSS custom properties.
-- It verifies the same detailed blue scrollbar theme is used throughout the game, that Chromium does not fall back to native gray scrollbars, and that the execution reminder uses its reduced supporting-text size.
+- It verifies the editor header has exactly two rows, uses `JavaScript editor` as its title and groups all five shortcuts in the centered second row.
+- It verifies the same detailed blue scrollbar theme is used throughout the game and that Chromium does not fall back to native gray scrollbars.
 - It verifies standalone mode does not request the absent Ace asset and that curriculum rendering does not recursively redispatch mission loading.
 - It verifies the static execution worker loads the complete engine, the app does not create Blob workers, and admin navigation uses the canonical unlock predicate.
 - It verifies normal access repairs stale or admin-inflated persisted unlock values before `app-v3.js` renders the mission list.
