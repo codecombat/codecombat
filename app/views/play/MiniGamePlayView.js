@@ -100,7 +100,12 @@ class MiniGamePlayView extends RootView {
   /** Envelope contract documented in the codecombat-mini-games README. Same-origin only. */
   postToHost (event, payload) {
     if (!this.isFramed()) { return }
-    window.parent.postMessage({ type: 'coco-minigame', slug: this.slug, event, payload }, window.location.origin)
+    try {
+      window.parent.postMessage({ type: 'coco-minigame', slug: this.slug, event, payload }, window.location.origin)
+    } catch (e) {
+      // A non-cloneable payload from a game bundle must not crash the session mid-game.
+      console.warn('[minigame] postMessage failed; event dropped', event, e)
+    }
   }
 
   onGameExit () {
