@@ -40,7 +40,8 @@ Ce mode ajoute :
 
 - un bouton permettant de débloquer temporairement toutes les missions sans les marquer comme terminées ;
 - un bouton `答えを見る` disponible immédiatement pour afficher la solution finale de la mission sélectionnée ;
-- un bouton `ADMIN：正解を選ぶ` dans chaque mini-quiz, qui sélectionne les bonnes réponses sans soumettre ni valider automatiquement la carte.
+- un bouton `ADMIN：正解を選ぶ` dans chaque mini-quiz, qui sélectionne les bonnes réponses sans soumettre ni valider automatiquement la carte ;
+- un bouton placé après les cartes pour valider en une fois toutes les cartes de la mission courante.
 
 L'affichage de la réponse administrateur ne demande aucune confirmation et n'enregistre pas cette réponse dans le code sauvegardé du joueur. Le déblocage total disparaît au rechargement de la page.
 
@@ -61,9 +62,9 @@ La migration de curriculum déplace automatiquement les anciens codes sauvegard�
 
 ## Cartes de concepts et mini-quiz
 
-Les 36 cartes de `新しい考え方` sont chargées depuis la base canonique et cachées au premier affichage. L'enfant peut les retourner dans l'ordre qu'il souhaite, mais une seule carte non validée reste ouverte à la fois.
+Les 36 cartes originales de `新しい考え方`, plus les deux cartes `JavaScript` et `Editor`, forment maintenant **38 cartes canoniques**. Elles sont cachées au premier affichage. L'enfant peut les retourner dans l'ordre qu'il souhaite, mais une seule carte non validée reste ouverte à la fois.
 
-La mission 01 contient notamment la carte canonique `// はコメント（Comment）`. Elle utilise exactement le même parcours que les autres cartes : face cachée, prévisualisation, mini-quiz, validation et mémorisation. Aucun second bloc HTML indépendant n'est ajouté.
+La mission 01 contient les quatre cartes suivantes dans cet ordre : `JavaScript`, `Editor`, `// はコメント（Comment）`, puis `hero.move(direction)`. Elles utilisent toutes exactement le même parcours : face cachée, prévisualisation, mini-quiz, validation et mémorisation.
 
 Chaque carte possède un mini-quiz de une à trois questions très simples. Toutes les réponses doivent être correctes en même temps pour valider la carte. En cas d'erreur, la bonne réponse n'est pas révélée : l'enfant est invité à relire la carte et à recommencer.
 
@@ -93,14 +94,14 @@ Au clic dans la zone de code, la coloration disparaît, l'éditeur retrouve sa c
 
 ## Interface et défilement
 
-La ligne `Ctrl / ⌘ + Enter で実行` utilise une taille réduite afin de rester secondaire par rapport au titre JavaScript.
+L'en-tête de l'éditeur utilise deux lignes sur toute la largeur : `JavaScript editor` seul sur la première, puis une ligne centrée contenant `Ctrl / ⌘ + Enter で実行`, `Ctrl+C コピー`, `Ctrl+V はりつけ`, `Ctrl+Z もどす` et `Ctrl+F5 再読み込み` avec le même style.
 
 Toutes les zones défilables utilisent désormais le même thème bleu que l'éditeur : page, liste des missions, panneaux d'aide, prévisualisation du code et fenêtres de mini-quiz. Les couleurs et la taille sont centralisées dans des variables CSS.
 
 ## Progression pédagogique
 
 - Mission 00 : `hero.say("Hello Yuzu")`, objet, méthode, paramètre et chaîne de caractères ;
-- missions 01–02 : commentaires, déplacements et ordre des instructions ;
+- missions 01–02 : JavaScript, l'éditeur, commentaires, déplacements et ordre des instructions ;
 - mission 03 : booléens, `true`, `false`, `const`, affectation et `hero.isTrue(boolean)` ;
 - missions 04–10 : `if`, `else`, `else if`, comparaisons, `&&` et `||` ;
 - missions 11–13 : boucles `for` et première boucle conditionnelle `while` ;
@@ -148,4 +149,5 @@ node scripts/validate-japanese-js-quest.js
 node scripts/validate-japanese-js-quest-runtime.js
 node scripts/validate-japanese-js-quest-loop-rules.js
 node scripts/validate-japanese-js-quest-learning-reinforcement.js
+node scripts/validate-japanese-js-quest-editor-header-and-card-extension.js
 ```
