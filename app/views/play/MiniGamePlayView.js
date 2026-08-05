@@ -28,11 +28,6 @@ class MiniGamePlayView extends RootView {
   }
 
   async launch () {
-    if (!me.isAdmin()) {
-      this.showError('Admin only for now.')
-      return
-    }
-
     const doc = await this.resolveDoc()
     if (!doc || this.destroyed) { return }
 
@@ -72,11 +67,31 @@ class MiniGamePlayView extends RootView {
     this.gameHandle = gameModule.createGame({
       parent: this.$el.find('#minigame-host')[0],
       assets: this.buildAssetMap(doc),
-      onExit: () => application.router.navigate('/editor/minigame', { trigger: true }),
-      // Deliberately no analytics here: admin test sessions would pollute the event
-      // stream. The GD-880 host attaches gameName and forwards real events.
-      onEvent: (event, payload) => console.log('[minigame]', this.slug, event, payload),
+      onExit: () => this.onGameExit(),
+      // This page fires no analytics itself: when framed, the hackstack host receives the
+      // event via postMessage, attaches gameName, and tracks with its own base props.
+      onEvent: (event, payload) => this.postToHost(event, payload),
     })
+  }
+
+  isFramed () {
+    return window.parent !== window
+  }
+
+  /** Envelope contract documented in the codecombat-mini-games README. Same-origin only. */
+  postToHost (event, payload) {
+    if (!this.isFramed()) { return }
+    window.parent.postMessage({ type: 'coco-minigame', slug: this.slug, event, payload }, window.location.origin)
+  }
+
+  onGameExit () {
+    if (this.isFramed()) {
+      this.postToHost('exit', {})
+    } else if (me.isAdmin()) {
+      application.router.navigate('/editor/minigame', { trigger: true })
+    } else {
+      window.location.href = '/ai/starlab'
+    }
   }
 
   /**
@@ -84,7 +99,8 @@ class MiniGamePlayView extends RootView {
    * Treema state (handed over via localStorage by the Test button) wins over the DB doc.
    */
   async resolveDoc () {
-    this.devMode = new URLSearchParams(window.location.search).get('dev') === 'true'
+    // Dev mode (unsaved editor state) is an authoring tool — admins only.
+    this.devMode = new URLSearchParams(window.location.search).get('dev') === 'true' && me.isAdmin()
     if (this.devMode) {
       try {
         const stashed = JSON.parse(window.localStorage.getItem(`minigame-dev-doc:${this.slug}`) || 'null')
