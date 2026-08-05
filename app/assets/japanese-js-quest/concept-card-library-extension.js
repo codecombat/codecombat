@@ -23,7 +23,8 @@
     card(
       'concept-card-037',
       1,
-      tooltip('JavaScript', 'ジャバスクリプト', 'tech-term') + ' はプログラミング言語',
+      tooltip('JavaScript', 'ジャバスクリプト', 'tech-term') + ' は' +
+        tooltip('プログラミング言語', 'ぷろぐらみんぐげんご'),
       tooltip('JavaScript', 'ジャバスクリプト', 'tech-term') + ' は、コンピューターにしてほしいことを、決められた言葉と書き方で伝える ' +
         tooltip('プログラミング言語', 'ぷろぐらみんぐげんご') + ' です。この冒険では、JavaScript でヒーローに命令します。'
     ),
