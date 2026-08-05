@@ -70,11 +70,13 @@ class MiniGamePlayView extends RootView {
       return
     }
 
-    // Always (re)load the bundle: a re-upload writes the SAME /file/ path, and the global
-    // registry survives SPA navigation — so both the registry entry and the browser cache
-    // can be stale. Cache-bust with the doc's save timestamp (dev tests always bust);
-    // re-executing the IIFE just overwrites its registry entry.
-    bundleUrl.searchParams.set('v', this.devMode ? String(Date.now()) : String(doc.updated || Date.now()))
+    // Always (re)load the bundle with a fresh URL: a re-upload writes the SAME /file/ path,
+    // the global registry survives SPA navigation, AND CloudFlare's purge-on-upload only
+    // covers the bare URL — a doc-keyed ?v= would leave stale edge/browser copies whenever
+    // the doc isn't re-saved. The bundle is ~25 KB, so skipping caches entirely is the
+    // simplest correct answer (assets stay bare-URL'd and cacheable — their purge works).
+    // Re-executing the IIFE just overwrites its registry entry.
+    bundleUrl.searchParams.set('v', String(Date.now()))
     await this.loadScript(bundleUrl.href)
     if (this.destroyed) { return }
 
@@ -178,6 +180,8 @@ class MiniGamePlayView extends RootView {
   }
 
   showError (message) {
+    // Error paths resolve after awaits; the view may be gone (destroy() wipes this.$el).
+    if (this.destroyed || !this.$el) { return }
     this.$el.find('.minigame-error').text(message).show()
   }
 
