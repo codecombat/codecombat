@@ -91,10 +91,12 @@
         <PageSection11 />
       </section>
     </div>
+    <ModalLeague />
   </div>
 </template>
 
 <script>
+import ModalLeague from './ModalLeague'
 import PageSection1 from './components/PageSection1'
 import PageSection2 from './components/PageSection2'
 import PageSection3 from './components/PageSection3'
@@ -110,6 +112,7 @@ import PageSection11 from './components/PageSection11'
 export default Vue.extend({
   name: 'NewCNHomeComponent',
   components: {
+    ModalLeague,
     PageSection1,
     PageSection2,
     PageSection3,

@@ -60,6 +60,18 @@ export default Vue.extend({
           component: 'discord-icon',
           alt: 'Discord'
         }
+      ],
+      chinaSocialLinks: [
+        {
+          href: 'https://www.xiaohongshu.com/user/profile/63f0ae860000000014010738',
+          src: 'https://assets.koudashijie.com/images/homeVersion/rednote.png',
+          alt: 'Rednote',
+        },
+        {
+          href: 'https://www.xiaohongshu.com/user/profile/63723603000000001f016e5b',
+          src: 'https://assets.koudashijie.com/images/homeVersion/coco_duck.png',
+          alt: 'CocoDuck',
+        },
       ]
     }
   },
@@ -96,17 +108,25 @@ export default Vue.extend({
       if !me.showChinaResourceInfo()
         a(v-for="socialLink in socialLinks" :href="socialLink.href" :key="socialLink.href" target="_blank")
           img(:src="socialLink.img" :alt="socialLink.alt")
+      if me.showChinaHomeVersion()
+        div.img.hover-img
+          img.logo(src='https://assets.koudashijie.com/images/homeVersion/wechat.png')
+          img.hoverd(src='https://assets.koudashijie.com/images/homeVersion/coco-home-qr.jpg')
+        a.img(v-for="socialLink in chinaSocialLinks" :href="socialLink.href" :key="socialLink.href" target="_blank")
+          img(:src="socialLink.src" :alt="socialLink.alt")
     .copyright
-      if me.showChinaResourceInfo()
+      if me.showChinaResourceInfo() && !me.showChinaHomeVersion()
         span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
       span {{ $t("nav.copyright_prefix") }}
       span= ' ©2024 CodeCombat Inc. '
       span {{ $t("nav.copyright_suffix") }}
+      if me.showChinaHomeVersion()
+        br
       if me.showChinaResourceInfo()
         if isOzaria
           a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-7
         else if me.showChinaHomeVersion()
-          a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-20
+          a.small(href="http://beian.miit.gov.cn/") 京ICP备2026009460号
         else
           a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号
         if !me.showChinaHomeVersion()
@@ -114,8 +134,8 @@ export default Vue.extend({
             img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
             span='京公网安备 11010802031936号'
         else
+          a.small 增值电信业务经营许可证：京B2-20261369
           a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038619")
-            img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
             span='京公网安备 11010802038619号'
 </template>
 
@@ -157,6 +177,21 @@ export default Vue.extend({
       height: 24px
       display: inline-block
       margin-right: 20px
+      &.hover-img
+        position: relative
+        &:hover .hoverd
+          display: block
+          position: absolute
+          width: 200px
+          height: 200px
+          top: -220px
+          left: -10px
+      img
+        width: 40px
+
+        &.hoverd
+          display: none
+
       ::v-deep
         svg
           height: 100%

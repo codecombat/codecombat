@@ -35,21 +35,12 @@
             span.contact-us(data-i18n="[html]new_home_faq.other_questions", data-i18n-options=JSON.stringify(i18nData))
     template(#tail)
       .footer
-        a.small(href="http://beian.miit.gov.cn/") 京ICP备2026009460号
-        a(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038619")
-          img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
-          span.small='京公网安备 11010802038619号'
-        br
-        span 增值电信业务经营许可证：京B2-20261369
-        span= ' '
-        span {{ $t("nav.copyright_prefix") }}
-        span= ' ©2026 CodeCombat Inc. '
-        span {{ $t("nav.copyright_suffix") }}
+        final-footer
 </template>
 <script>
 import PageSection from '../../../../components/common/elements/PageSection'
-
 import FinalFooter from 'app/components/common/FinalFooter'
+
 export default {
   name: 'PageSection11',
   components: {
@@ -162,11 +153,7 @@ export default {
       cursor: default
 
 .footer
-  position: absolute
-  bottom: 0
-  left: -45vw
-  width: 90vw
-  height: 10px
+  width: 100vw
   text-align: center
   span
     font-size: 12px
@@ -175,4 +162,10 @@ export default {
     margin-right: 10px
   #mps
     width: 12px
+  ::v-deep
+    #final-footer
+      background-color: transparent !important
+
+      .small
+        color: rgba(107,114,128,.5)
 </style>

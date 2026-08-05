@@ -1,10 +1,10 @@
 <template>
   <div class="card">
     <div class="corner-ribbon ribbon-green">
-      {{ context.planText || '省近1000元' }}
+      {{ context.planText || '好友组队' }}
     </div>
     <div class="card-title">
-      {{ context.title || '家庭/学习小队计划' }}
+      {{ context.title || '学习小队计划' }}
     </div>
     <div class="price-row">
       <span class="symbol">¥</span><span class="amount">{{ amount }}</span><span class="unit"> / 年 </span>
@@ -40,7 +40,7 @@
       {{ context.cta || '开启学习小队计划' }}
     </button>
     <div style="font-size:11px; color:#16a085; margin-top:8px; font-weight:bold;">
-      {{ context.extra || '👨‍👩‍👧 两个人用就不亏，三个人用更划算' }}
+      {{ context.extra || '👨‍👩‍👧 一起学习，比一个人坚持更容易' }}
     </div>
   </div>
 </template>

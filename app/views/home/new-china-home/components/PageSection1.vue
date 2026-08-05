@@ -33,6 +33,14 @@
             >
               {{ ctaText() }}
             </CTAButton>
+            <CTAButton
+              v-if="new Date() < new Date('20206-09-01')"
+              class="cta-button"
+              href="/play/ladder/desert-duel"
+              target="_self"
+            >
+              {{ $t('courses.play_arena') }}
+            </CTAButton>
           </div>
         </template>
         <template #column-two>

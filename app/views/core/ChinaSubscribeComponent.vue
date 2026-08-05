@@ -15,13 +15,13 @@
           解锁 2300+ 关卡 · AI 老师 24h 答疑
         </div>
         <div class="plans-container">
-          <AnnualPrice
-            :price="yearlyPrice"
-            @clicked="$emit('year')"
-          />
           <SeasonalPrice
             :price="seasonlyPrice"
             @clicked="$emit('season')"
+          />
+          <AnnualPrice
+            :price="yearlyPrice"
+            @clicked="$emit('year')"
           />
           <GroupedPrice
             :price="groupPrice"
@@ -312,9 +312,12 @@ $--card-bg-highlight: #fffbf0;
     color: white;
     font-size: 13px;
     font-weight: bold;
+    left: 0;
+    border-radius: 12px 0 10px 0;
   }
-  .ribbon-purple { left: 0; background: #8e44ad; border-radius: 12px 0 10px 0; }
-  .ribbon-green { right: 0; background: #16a085; border-radius: 0 12px 0 10px; }
+  .ribbon-gold { background: #f1c40f; }
+  .ribbon-purple { background: #8e44ad; }
+  .ribbon-green { background: #16a085; }
 
   .card-title {
     font-size: 22px;
@@ -485,16 +488,13 @@ $--card-bg-highlight: #fffbf0;
 
   /* --- [黄色按钮交互修改区域] --- */
   .btn-gold {
-    background: linear-gradient(to bottom, #f1c40f, #f39c12);
+    background: #f1c40f;
     color: white;
     font-size: 16px;
     padding: 10px;
     box-shadow: 0 4px 0 #d35400;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
-    /* 添加过渡效果，让变色平滑 */
-    transition: all 0.2s ease;
   }
-  .btn-gold:active { transform: translateY(2px); box-shadow: 0 2px 0 #d35400; }
+  .btn-gold:active { transform: translateY(-1px); box-shadow: 0 2px 0 #d35400; }
 
   /* 【修改说明 - 黄色按钮鼠标悬停效果】 */
   .btn-gold:hover {

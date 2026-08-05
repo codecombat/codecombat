@@ -472,19 +472,9 @@ export default Vue.extend({
               title: '首页',
               url: '/',
             },
-            player: {
-              title: '玩家',
-              url: this.cocoPath('/user_stories.html'),
-              properties: { target: '_blank' },
-            },
-            about: {
-              title: '起源',
-              url: '/aboutus.html',
-              properties: { target: '_blank' },
-            },
-            heroes: {
-              title: '英雄',
-              url: 'https://info.codecombat.cn/hero/',
+            knowledge: {
+              title: '教程',
+              url: 'https://info.codecombat.cn/knowledge-tree/',
               properties: { target: '_blank' },
             },
             world: {
@@ -492,9 +482,29 @@ export default Vue.extend({
               url: 'https://info.codecombat.cn/world/',
               properties: { target: '_blank' },
             },
-            knowledge: {
-              title: '教程',
-              url: 'https://info.codecombat.cn/knowledge-tree/',
+            heroes: {
+              title: '英雄',
+              url: 'https://info.codecombat.cn/heros/',
+              properties: { target: '_blank' },
+            },
+            wiki: {
+              title: '文档',
+              url: 'https://info.codecombat.cn/wiki',
+              properties: { target: '_blank' },
+            },
+            player: {
+              title: '玩家',
+              url: 'https://info.codecombat.cn/aboutus/user_stories.html',
+              properties: { target: '_blank' },
+            },
+            about: {
+              title: '起源',
+              url: 'https://info.codecombat.cn/aboutus/',
+              properties: { target: '_blank' },
+            },
+            news: {
+              title: '新闻',
+              url: 'https://info.codecombat.cn/news/',
               properties: { target: '_blank' },
             },
           }

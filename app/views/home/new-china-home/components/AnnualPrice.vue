@@ -1,10 +1,10 @@
 <template>
-  <div class="card">
+  <div class="card featured">
     <div class="corner-ribbon ribbon-purple">
-      {{ context.planText || '长期成长计划' }}
+      {{ context.planText || '⭐ 推荐选择' }}
     </div>
     <div class="card-title">
-      {{ context.title || '年度会员' }}
+      {{ context.title || '年度成长计划' }}
     </div>
     <div class="price-row">
       <span class="symbol">¥</span><span class="amount">{{ amount }}</span><span class="unit"> / 365天</span>
@@ -41,7 +41,7 @@
     </button>
 
     <div style="font-size:11px; color:#8e44ad; margin-top:8px; font-weight:bold;">
-      {{ context.extra || '🌟 每天不到3元，长线投资更划算' }}
+      {{ context.extra || '🌟 多数认真学习编程的同学选择' }}
     </div>
   </div>
 </template>

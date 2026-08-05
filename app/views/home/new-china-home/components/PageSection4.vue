@@ -7,12 +7,12 @@
             <div class="space-y-4 text-center lg-text-left">
               <div class="std-section-title text-3xl md-text-5xl lg-text-6xl">
                 <span class="block mb-2">放心自学</span>
-                <span class="highlight-primary whitespace-nowrap">AI私教随时在线</span>
+                <span class="highlight-primary whitespace-nowrap">AI助教和扣哒鸭全程陪伴</span>
               </div>
             </div>
             <div class="text-lg md-text-xl text-slate-600 leading-relaxed border-l-4 border-indigo-400 pl-6">
               自由探索，支持多解法，鼓励自主学习。<br>
-              卡住了？一键呼出AI，秒懂问题在哪。
+              遇到难题？扣哒鸭及时提醒，AI 帮你分析，让学习更顺畅。
             </div>
 
             <CTAButton
