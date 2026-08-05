@@ -20,9 +20,9 @@
       'コードはもう完成しています。「実行する」を押して、ふきだしを読んだら × で閉じましょう。',
     ],
     api: ['hero.say("Hello Yuzu")'],
-    starterCode: 'hero.say(\'Hello Yuzu\');',
+    starterCode: 'hero.say("Hello Yuzu");',
     hints: ['このミッションはコードを直さなくてもクリアできます。「実行する」を押しましょう。'],
-    solution: 'hero.say(\'Hello Yuzu\');',
+    solution: 'hero.say("Hello Yuzu");',
     variants: [{
       map: [
         '#########',
