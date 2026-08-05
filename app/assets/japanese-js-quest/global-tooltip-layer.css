@@ -1,0 +1,53 @@
+.glossary-token::before,
+.glossary-token::after {
+  display: none !important;
+  content: none !important;
+}
+
+.global-tooltip-layer {
+  position: fixed;
+  z-index: 2147483200;
+  width: max-content;
+  max-width: min(320px, calc(100vw - 16px));
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #61799b;
+  border-radius: 8px;
+  color: #f7f9fd;
+  background: #07101e;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.52);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Yu Gothic", Meiryo, sans-serif;
+  font-size: 0.83rem;
+  font-weight: 600;
+  line-height: 1.45;
+  white-space: normal;
+  pointer-events: none;
+  animation: global-tooltip-in 120ms ease-out;
+}
+
+.global-tooltip-layer::after {
+  content: "";
+  position: absolute;
+  left: clamp(10px, var(--tooltip-anchor-x, 50%), calc(100% - 10px));
+  top: 100%;
+  width: 10px;
+  height: 10px;
+  border-right: 1px solid #61799b;
+  border-bottom: 1px solid #61799b;
+  background: #07101e;
+  transform: translate(-50%, -5px) rotate(45deg);
+}
+
+.global-tooltip-layer.is-below::after {
+  top: auto;
+  bottom: 100%;
+  transform: translate(-50%, 5px) rotate(225deg);
+}
+
+.global-tooltip-layer[hidden] {
+  display: none;
+}
+
+@keyframes global-tooltip-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
