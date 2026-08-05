@@ -45,7 +45,7 @@ assert.strictEqual(mission(missions, 0).wizardLevel, 0)
 assert.strictEqual(mission(missions, 1).wizardLevel, 0)
 for (const id of [2, 3, 4, 5]) assert.strictEqual(mission(missions, id).wizardLevel, 1)
 assert.deepStrictEqual([1, 2, 3].map(progression.thresholdForLevel), [1, 5, 12])
-assert.strictEqual(introMission.starterCode, 'hero.say(\'Hello Yuzu\');')
+assert.strictEqual(introMission.starterCode, 'hero.say("Hello Yuzu");')
 
 for (const item of missions) {
   assert(item.title && item.starterCode && item.solution)
