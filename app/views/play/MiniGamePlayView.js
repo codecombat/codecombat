@@ -47,10 +47,20 @@ class MiniGamePlayView extends RootView {
     if (this.destroyed) { return }
     window.Phaser = PhaserModule.default ?? PhaserModule
 
-    // Re-entering the page must not re-execute an already-registered bundle.
-    if (!window.CocoMiniGames?.[this.slug]) {
-      await this.loadScript(this.fileUrl(code))
+    // The bundle is executable: pin it to same-origin /file/ (URL-normalized, so ../
+    // can't escape). Assets stay pass-through — they're media, never executed.
+    const bundleUrl = new URL(this.fileUrl(code), window.location.origin)
+    if (bundleUrl.origin !== window.location.origin || !bundleUrl.pathname.startsWith('/file/')) {
+      this.showError('The code bundle must be a same-origin /file/ path.')
+      return
     }
+
+    // Always (re)load the bundle: a re-upload writes the SAME /file/ path, and the global
+    // registry survives SPA navigation — so both the registry entry and the browser cache
+    // can be stale. Cache-bust with the doc's save timestamp (dev tests always bust);
+    // re-executing the IIFE just overwrites its registry entry.
+    bundleUrl.searchParams.set('v', this.devMode ? String(Date.now()) : String(doc.updated || Date.now()))
+    await this.loadScript(bundleUrl.href)
     if (this.destroyed) { return }
 
     const gameModule = window.CocoMiniGames?.[this.slug]
@@ -74,8 +84,8 @@ class MiniGamePlayView extends RootView {
    * Treema state (handed over via localStorage by the Test button) wins over the DB doc.
    */
   async resolveDoc () {
-    const dev = new URLSearchParams(window.location.search).get('dev') === 'true'
-    if (dev) {
+    this.devMode = new URLSearchParams(window.location.search).get('dev') === 'true'
+    if (this.devMode) {
       try {
         const stashed = JSON.parse(window.localStorage.getItem(`minigame-dev-doc:${this.slug}`) || 'null')
         if (stashed?.data) { return stashed.data }
