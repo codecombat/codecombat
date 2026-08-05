@@ -7,7 +7,8 @@ const MiniGame = require('models/MiniGame')
  * Plays a mini-game entirely from its DB document: fetches the doc by slug, lazy-loads
  * Phaser into its own chunk, executes the doc's code bundle from /file/, builds the
  * asset map, and drives the createGame/destroy contract documented in the
- * codecombat-mini-games repo. Admin-only until the GD-880 cutover.
+ * codecombat-mini-games repo. Public since the GD-880 cutover — the hackstack Star Lab
+ * iframe embeds this page; ?dev=true (unsaved editor state) stays admin-only.
  */
 class MiniGamePlayView extends RootView {
   id = 'minigame-play-view'
