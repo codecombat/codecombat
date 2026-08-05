@@ -18,6 +18,14 @@
     })
   }
 
+  const replacementQuizzes = Object.freeze({
+    'concept-card-005': Object.freeze([
+      question('hero.move(direction) は何をしますか？', '主人公を指定した方向へ動かす', ['主人公に話させる', 'ページを再読み込みする']),
+      question('hero.move(...) を1回呼ぶと何マス進みますか？', '1マス', ['3マス', 'ゴールまで全部']),
+      question('何マスも進みたいときはどうしますか？', '進む回数だけ hero.move(...) を呼ぶ', ['一度だけ呼ぶ', 'コメントに書くだけ'])
+    ])
+  })
+
   const additionalQuizzes = Object.freeze({
     'concept-card-037': Object.freeze([
       question(
@@ -46,11 +54,11 @@
   })
 
   function getQuiz (cardId) {
-    return additionalQuizzes[cardId] || base.getQuiz(cardId)
+    return replacementQuizzes[cardId] || additionalQuizzes[cardId] || base.getQuiz(cardId)
   }
 
   function allQuizzes () {
-    return Object.freeze(Object.assign({}, base.allQuizzes(), additionalQuizzes))
+    return Object.freeze(Object.assign({}, base.allQuizzes(), replacementQuizzes, additionalQuizzes))
   }
 
   return Object.freeze({
