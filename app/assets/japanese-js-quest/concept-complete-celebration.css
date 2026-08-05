@@ -1,0 +1,48 @@
+.concept-complete-modal {
+  border-color: var(--success);
+  background: radial-gradient(circle at 50% 0%, #285d55, #172238 64%);
+  box-shadow: 0 25px 90px rgba(0, 0, 0, 0.55), 0 0 42px rgba(72, 214, 167, 0.22);
+}
+
+.concept-complete-modal h2 {
+  color: var(--success);
+}
+
+.concept-complete-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 3.2rem;
+  font-size: 1.8rem;
+  animation: level-up-spin 1.2s ease-in-out infinite alternate;
+}
+
+.concept-complete-icon strong {
+  width: 2.7rem;
+  height: 2.7rem;
+  display: grid;
+  place-items: center;
+  border: 2px solid rgba(164, 255, 221, 0.78);
+  border-radius: 50%;
+  color: #09251c;
+  background: var(--success);
+  box-shadow: 0 0 24px rgba(72, 214, 167, 0.36);
+}
+
+.concept-complete-unlocked {
+  margin: 0;
+  color: #f0fff9;
+  font-size: 1.08rem;
+  font-weight: 800;
+}
+
+.concept-complete-next {
+  margin: 0.55rem 0 0;
+  color: #d8e8e3;
+  line-height: 1.55;
+}
+
+.concept-complete-close {
+  margin-top: 1.15rem;
+}
