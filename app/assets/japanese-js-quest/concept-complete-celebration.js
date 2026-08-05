@@ -2,9 +2,22 @@
   'use strict'
 
   let activeOverlay = null
+  let waitingForQuizToClose = false
 
   function showCelebration () {
     if (activeOverlay || !window.JSQuestConceptMemory?.isMissionReady()) return
+
+    const quizModal = document.getElementById('concept-card-quiz-modal')
+    if (quizModal && !quizModal.hidden) {
+      if (!waitingForQuizToClose) {
+        waitingForQuizToClose = true
+        window.setTimeout(() => {
+          waitingForQuizToClose = false
+          showCelebration()
+        }, 500)
+      }
+      return
+    }
 
     const overlay = document.createElement('div')
     overlay.className = 'level-up-overlay concept-complete-overlay'
