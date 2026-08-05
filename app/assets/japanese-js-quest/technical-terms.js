@@ -1,13 +1,16 @@
 (function () {
   'use strict'
 
-  const oldMissionZeroCode = '// Yuzu にあいさつしよう\nhero.say(\'Hello Yuzu\');'
-  const newMissionZeroCode = 'hero.say(\'Hello Yuzu\');'
+  const legacyMissionZeroCodes = [
+    '// Yuzu にあいさつしよう\nhero.say(\'Hello Yuzu\');',
+    'hero.say(\'Hello Yuzu\');',
+  ]
+  const canonicalMissionZeroCode = 'hero.say("Hello Yuzu");'
   const missionZeroStorageKey = 'japanese-js-quest-code-v1-0'
 
   try {
-    if (localStorage.getItem(missionZeroStorageKey) === oldMissionZeroCode) {
-      localStorage.setItem(missionZeroStorageKey, newMissionZeroCode)
+    if (legacyMissionZeroCodes.includes(localStorage.getItem(missionZeroStorageKey))) {
+      localStorage.setItem(missionZeroStorageKey, canonicalMissionZeroCode)
     }
   } catch (_) {}
 
