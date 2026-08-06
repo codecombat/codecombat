@@ -83,12 +83,13 @@ assert(!index.includes('<h3>JavaScript</h3><p>Ctrl / ⌘ + Enter で実行</p>')
 assert(index.includes('<div class="panel-heading editor-heading">'))
 assert(index.includes('<div class="shortcut-list editor-shortcut-row">'))
 for (const shortcut of [
-  '<kbd>Ctrl / ⌘ + Enter</kbd> で実行',
+  '<kbd>Ctrl+Enter</kbd> で実行',
   '<kbd>Ctrl+C</kbd> コピー',
   '<kbd>Ctrl+V</kbd> はりつけ',
   '<kbd>Ctrl+Z</kbd> もどす',
   '<kbd>Ctrl+F5</kbd> 再読み込み',
 ]) assert(index.includes(shortcut))
+assert(!index.includes('<kbd>Ctrl / ⌘ + Enter</kbd>'))
 
 assert(index.indexOf('concept-card-library.js') < index.indexOf('concept-card-library-extension.js'))
 assert(index.indexOf('concept-card-library-extension.js') < index.indexOf('learning-guide.js'))
@@ -103,10 +104,13 @@ assert(index.indexOf('editor-concept-highlighting.css') < index.indexOf('editor-
 for (const text of [
   'grid-template-columns: minmax(0, 1fr)',
   'justify-content: center',
-  'flex-wrap: nowrap',
+  'flex-wrap: wrap',
+  'overflow: visible',
   'width: 100%',
   'font-size: 0.82rem',
 ]) assert(headerCss.includes(text))
+assert(!headerCss.includes('overflow-x: auto'))
+assert(!headerCss.includes('flex-wrap: nowrap'))
 
 for (const text of [
   'おめでとう！',
@@ -138,6 +142,8 @@ for (const rule of [
   'double-quoted string literals',
   'one tile in the requested direction',
   'global tooltip layer mounted directly under `body`',
+  '`Ctrl+Enter で実行`',
+  'wrap onto additional centered lines',
 ]) assert(productRules.includes(rule))
 
-console.log('Validated the final editor, concept-card, mission-copy, celebration, quote and tooltip UX rules.')
+console.log('Validated the final editor, concept-card, mission-copy, celebration, quote, responsive shortcut and tooltip UX rules.')
