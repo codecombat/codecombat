@@ -225,7 +225,14 @@ export default Vue.extend({
       // student without the in-app QR reader having to do anything.
       const url = `${window.location.origin}/ai-junior/scan/${this.scenarioSlug}/${userId}`
       try {
-        this.qrCodeUrl = await QRCode.toDataURL(url)
+        // Printed at a fixed size, so the thing that decides whether a phone can
+        // read it is how few modules have to fit in that square. Measured on
+        // real captures the printed code was landing at about two pixels per
+        // module, under what any decoder manages: level L drops this payload
+        // from 37 modules to 33, and the default four-module quiet zone is
+        // wider than it needs to be. Together they make each module about a
+        // fifth larger for nothing.
+        this.qrCodeUrl = await QRCode.toDataURL(url, { errorCorrectionLevel: 'L', margin: 2 })
       } catch (err) {
         console.error('Error generating QR code:', err)
       }
@@ -1138,11 +1145,17 @@ h2.student-name-header {
   text-align: center;
 }
 
+// A code sized to the header came out around 0.85in, which at normal scanning
+// distance is roughly two pixels per module — right at the edge of unreadable.
+// It grows *upward* into the half-inch page margin above the header rather than
+// downward: below the header is where scenarios put their fields, and a bigger
+// code there silently covered an answer box on five of nine worksheets. Ending
+// flush with the bottom of the header keeps it clear of every field.
 .qr-code {
   position: absolute;
-  top: -0.875%;
+  top: -48%;
   right: -0.75%;
-  height: 100%;
+  height: 148%;
   width: auto;
 }
 
