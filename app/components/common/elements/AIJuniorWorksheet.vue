@@ -11,6 +11,9 @@ const MAX_PIXEL_RATIO = 2
 // Drop pointer samples closer together than this (in canvas pixels) so strokes stay small.
 const MIN_POINT_DISTANCE = 1.5
 
+// How far the drawing toolbar may counter-scale against a shrunken sheet.
+const MAX_CONTROL_SCALE = 1.5
+
 // Never hand the AI a drawing narrower than this; a sketch box on a laptop can
 // lay out at a few hundred pixels, which is too little for a model to follow.
 const MIN_EXPORT_WIDTH = 1024
@@ -58,6 +61,12 @@ const PRINT_CSS = `
 
   .worksheet-outer-container, .worksheet-outer-container * {
     visibility: visible;
+    /* Browsers drop background colours and images when printing unless told
+       otherwise. Scenarios draw real content with them — Design a Character's
+       pointer is white text on a black background, which prints as white text
+       on white paper — so the sheet has to opt in. */
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
   }
 
   .worksheet-outer-container {
@@ -151,6 +160,24 @@ export default Vue.extend({
 
     canProcessProject () {
       return this.readOnly && this.project.processingStatus === 'pending'
+    },
+
+    /**
+     * The drawing toolbar counteracts the sheet's own scaling so its buttons
+     * stay a usable size on screen. Left uncapped that is why the worksheet
+     * looks like three different documents: in the editor's small preview the
+     * multiplier reaches about 3x and the toolbar sprawls across the fields
+     * beside it, in the full-size project view it is close to 1x, and in print
+     * the toolbar is hidden altogether. Capping it keeps the three within sight
+     * of each other while still keeping the buttons tappable when the sheet is
+     * shrunk right down.
+     */
+    controlsStyle () {
+      const counter = this.scale > 0 ? 1 / this.scale : 1
+      return {
+        transform: `scale(${Math.min(counter, MAX_CONTROL_SCALE)})`,
+        transformOrigin: 'bottom left',
+      }
     },
   },
 
@@ -902,7 +929,7 @@ export default Vue.extend({
           <div
             v-if="!readOnly"
             class="drawing-controls no-print"
-            :style="{ transform: `scale(${1/scale})`, transformOrigin: 'bottom left' }"
+            :style="controlsStyle"
           >
             <button
               class="draw-big-button"
