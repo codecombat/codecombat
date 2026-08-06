@@ -219,7 +219,11 @@ export default Vue.extend({
 
     async generateQRCode () {
       if (!this.scenarioSlug) { return }
-      const userId = this.printUser?._id || this.me.id
+      // Only a class print needs to name the child: the code says which sheet
+      // belongs to whom. On a sheet printed for yourself the scanner is already
+      // the owner, so leaving the id out shortens the payload enough to drop a
+      // whole QR version — 25 modules instead of 29, for nothing.
+      const userId = this.printUser?._id || null
       // A short uppercase code rather than the full path. It still resolves to
       // the scan flow — so a phone's own camera app lands in the right place —
       // but at a third of the characters and in QR's alphanumeric mode, which
@@ -1153,11 +1157,26 @@ h2.student-name-header {
 // downward: below the header is where scenarios put their fields, and a bigger
 // code there silently covered an answer box on five of nine worksheets. Ending
 // flush with the bottom of the header keeps it clear of every field.
+// Sized for the camera, not for the header.
+//
+// The printed code is what decides whether a phone can read the sheet, and
+// measured on real captures it was landing at about two pixels per module —
+// below what any decoder manages. It now starts just inside the top edge of the
+// paper and runs 1.8in square: up through the whole half-inch page margin, and
+// about half an inch down into the content area.
+//
+// That last part is a real claim on the sheet, so scenarios must keep their
+// fields clear of the top-right corner. WORKSHEET_QR_FOOTPRINT below says how
+// much, checkAIJuniorWorksheetLayout enforces it, and fitScenariosAroundQR
+// moved the existing scenarios out of the way.
+// Percentages are of the header band ($header-height: 0.85in):
+//   top    -(0.5in margin - 0.05in bleed) / 0.85in = -52.9%
+//   height  1.8in / 0.85in                         = 211.8%
 .qr-code {
   position: absolute;
-  top: -48%;
-  right: -0.75%;
-  height: 148%;
+  top: -52.9%;
+  right: 0;
+  height: 211.8%;
   width: auto;
 }
 
