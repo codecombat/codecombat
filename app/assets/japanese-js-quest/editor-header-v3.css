@@ -1,0 +1,52 @@
+.code-panel .panel-heading.editor-heading {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: stretch;
+  overflow-x: clip;
+}
+
+.editor-title-row {
+  width: 100%;
+  min-width: 0;
+}
+
+.editor-title-row h3 {
+  margin: 0;
+}
+
+.code-panel .shortcut-list.editor-shortcut-row {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  display: flex !important;
+  flex-flow: row wrap !important;
+  justify-content: center !important;
+  align-items: center;
+  gap: 0.55rem 0.8rem;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+  padding: 0.05rem 0 0.2rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.3;
+  white-space: normal !important;
+  scrollbar-width: none;
+}
+
+.code-panel .shortcut-list.editor-shortcut-row::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.editor-shortcut-row > span {
+  display: inline-flex;
+  max-width: 100%;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
