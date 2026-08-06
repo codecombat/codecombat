@@ -70,7 +70,7 @@ for (const mission of runtimeRoot.JSQuestMissions) {
 }
 
 const index = read('index.html')
-const headerCss = read('editor-header-v2.css')
+const headerCss = read('editor-header-v3.css')
 const celebration = read('concept-complete-celebration.js')
 const celebrationCss = read('concept-complete-celebration.css')
 const tooltipLayer = read('global-tooltip-layer.js')
@@ -99,15 +99,19 @@ assert(index.indexOf('intro-mission.js') < index.indexOf('mission-content-polish
 assert(index.indexOf('concept-card-memory.js') < index.indexOf('concept-complete-celebration.js'))
 assert(index.indexOf('editor-concept-highlighting.js') < index.indexOf('global-tooltip-layer.js'))
 assert(index.indexOf('global-tooltip-layer.css') > index.indexOf('reference-panel.css'))
-assert(index.indexOf('editor-concept-highlighting.css') < index.indexOf('editor-header-v2.css'))
+assert(index.indexOf('editor-concept-highlighting.css') < index.indexOf('editor-header-v3.css'))
+assert(index.includes('editor-header-v3.css'))
+assert(!index.includes('editor-header-v2.css'))
 
 for (const text of [
   'grid-template-columns: minmax(0, 1fr)',
-  'justify-content: center',
-  'flex-wrap: wrap',
-  'overflow: visible',
+  'justify-content: center !important',
+  'flex-flow: row wrap !important',
+  'overflow-x: clip !important',
+  'scrollbar-width: none',
   'width: 100%',
   'font-size: 0.82rem',
+  'display: none !important',
 ]) assert(headerCss.includes(text))
 assert(!headerCss.includes('overflow-x: auto'))
 assert(!headerCss.includes('flex-wrap: nowrap'))
