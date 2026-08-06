@@ -59,6 +59,16 @@ function clamp255 (v) {
 export function isSkin (r, g, b) {
   const max = Math.max(r, g, b)
   const min = Math.min(r, g, b)
+
+  // Warm-lit white paper passes every clause of the classic skin rule — a sheet
+  // photographed under a tungsten bulb sits around (245, 225, 205), which is
+  // redder than green, redder than blue, and spread more than 15 apart. On a
+  // corpus of real scans that made the paper itself the biggest "hand" on the
+  // page. What separates them is that paper is bright *and* almost colourless,
+  // while skin at that brightness still carries real chroma.
+  const saturation = max === 0 ? 0 : (max - min) / max
+  if (max > 235 && saturation < 0.25) return false
+
   const rgbRule = r > 95 && g > 40 && b > 20 && (max - min) > 15 &&
     Math.abs(r - g) > 15 && r > g && r > b
   const cb = 128 - 0.168736 * r - 0.331264 * g + 0.5 * b
@@ -118,6 +128,7 @@ function components (mask, width, height, borderMargin) {
     labels[start] = id
     let size = 0
     let borderContact = 0
+    const sides = { left: false, right: false, top: false, bottom: false }
     const pixels = []
     while (top > 0) {
       const p = stack[--top]
@@ -125,16 +136,14 @@ function components (mask, width, height, borderMargin) {
       const y = (p / width) | 0
       size++
       pixels.push(p)
-      if (x <= borderMargin || y <= borderMargin ||
-          x >= width - 1 - borderMargin || y >= height - 1 - borderMargin) {
-        borderContact++
-      }
+      if (x <= borderMargin) { sides.left = true; borderContact++ } else if (x >= width - 1 - borderMargin) { sides.right = true; borderContact++ } else if (y <= borderMargin) { sides.top = true; borderContact++ } else if (y >= height - 1 - borderMargin) { sides.bottom = true; borderContact++ }
       if (x > 0 && mask[p - 1] && labels[p - 1] === -1) { labels[p - 1] = id; stack[top++] = p - 1 }
       if (x < width - 1 && mask[p + 1] && labels[p + 1] === -1) { labels[p + 1] = id; stack[top++] = p + 1 }
       if (y > 0 && mask[p - width] && labels[p - width] === -1) { labels[p - width] = id; stack[top++] = p - width }
       if (y < height - 1 && mask[p + width] && labels[p + width] === -1) { labels[p + width] = id; stack[top++] = p + width }
     }
-    found.push({ id, size, borderContact, touchesBorder: borderContact > 0, pixels })
+    const sideCount = Object.values(sides).filter(Boolean).length
+    found.push({ id, size, borderContact, sideCount, touchesBorder: borderContact > 0, pixels })
   }
   return found
 }
@@ -289,6 +298,12 @@ export function removeHands (img, options = {}) {
   for (const comp of components(mask, mw, mh, borderMargin)) {
     if (comp.size < minArea) continue
     if (comp.borderContact < minBorderContact) continue
+    // A blob running along three or four sides of the page is not a hand, it is
+    // the surface the page is lying on, included because the detected corners
+    // were a little outside the paper. Painting that frame out is not merely
+    // pointless: grown inward by the tolerance halo it reaches over the title
+    // and the name line.
+    if (comp.sideCount >= 3) { oversized = true; continue }
     if (comp.size > maxArea) { oversized = true; continue }
     for (const p of comp.pixels) keep[p] = 1
     kept += comp.size
