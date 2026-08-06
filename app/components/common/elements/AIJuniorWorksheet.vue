@@ -4,6 +4,75 @@ import { createNewAIJuniorProject, processAIJuniorProject } from 'core/api/ai-ju
 import QRCode from 'qrcode'
 import { markedInline } from 'core/utils'
 
+// Cap the canvas backing store resolution: sharp enough to print, small enough to submit.
+const MAX_PIXEL_RATIO = 2
+
+// Drop pointer samples closer together than this (in canvas pixels) so strokes stay small.
+const MIN_POINT_DISTANCE = 1.5
+
+// Never hand the AI a drawing narrower than this; a sketch box on a laptop can
+// lay out at a few hundred pixels, which is too little for a model to follow.
+const MIN_EXPORT_WIDTH = 1024
+
+// Crayon-box colours, in place of a raw colour picker no child can aim at.
+const PALETTE = [
+  '#000000', '#e53935', '#fb8c00', '#fdd835', '#43a047',
+  '#1e88e5', '#8e24aa', '#8d5524', '#f48fb1', '#ffffff',
+]
+
+const BRUSH_SIZES = [
+  { label: 'Thin', width: 4 },
+  { label: 'Medium', width: 9 },
+  { label: 'Thick', width: 18 },
+  { label: 'Fat', width: 32 },
+]
+
+// Injected into the page while a worksheet is mounted, so that printing yields exactly one sheet of
+// paper at full size. It cannot live in the scoped styles below: it has to reach the surrounding page
+// chrome, and it has to come back out again when the worksheet goes away.
+const PRINT_CSS = `
+@page {
+  size: 11in 8.5in;
+  margin: 0;
+}
+
+@media print {
+  html, body {
+    width: 11in;
+    height: 8.5in;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+    overflow: hidden;
+  }
+
+  #site-content-area, .style-flat {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .worksheet-outer-container, .worksheet-outer-container * {
+    visibility: visible;
+  }
+
+  .worksheet-outer-container {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    /* scaleWorksheet() shrinks the sheet to fit the browser window; print it full size. */
+    transform: none !important;
+  }
+
+  .no-print, nav#main-nav, footer#site-footer {
+    display: none !important;
+  }
+}
+`
+
 export default Vue.extend({
   name: 'AIJuniorWorksheet',
 
@@ -18,20 +87,46 @@ export default Vue.extend({
       required: false,
       default: null,
     },
+    // When given, the worksheet renders that project's answers instead of collecting new ones.
+    project: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    // When given (class printing), the QR code targets this student instead of
+    // the viewing user, and their name pre-fills the name line.
+    printUser: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
+
+  emits: ['process-project'],
 
   data: () => ({
     error: null,
     qrCodeUrl: '',
     styleElement: null,
+    printStyleElement: null,
+    PALETTE,
+    BRUSH_SIZES,
     isDrawing: false,
-    currentColor: '#33CC33',
-    lineWidth: 8,
+    isErasing: false,
+    currentColor: '#000000',
+    lineWidth: 9,
+    bigInputId: null,
+    // { [inputId]: [stroke] } — undone strokes, so Undo is not a one-way door.
+    redoStacks: {},
     canvasRefs: {},
     scale: 1,
-    lastX: 0,
-    lastY: 0,
-    canvasContents: {}, // Store canvas content for each input
+    // { [inputId]: [{ color, width, erase, points: [{ x, y }] }] }, with points normalized to 0-1 so
+    // that drawings survive canvas resizes and pixel ratio changes.
+    strokes: {},
+    activeStroke: null,
+    activeInputId: null,
+    pixelRatios: {},
+    projectImages: {},
     projectName: '',
   }),
 
@@ -39,23 +134,43 @@ export default Vue.extend({
     me () {
       return me
     },
+
+    // The editor passes `slug`, the scenario views only pass `scenario`, so fall back through both.
+    scenarioSlug () {
+      return this.slug || this.scenario?.slug || this.scenario?._id || null
+    },
+
+    readOnly () {
+      return Boolean(this.project)
+    },
+
+    projectInputValues () {
+      return this.project?.inputValues || {}
+    },
+
+    canProcessProject () {
+      return this.readOnly && this.project.processingStatus === 'pending'
+    },
   },
 
   watch: {
     scenario: {
-      handler (newScenario) {
-        console.log('Scenario updated:', newScenario)
+      handler () {
         this.generateQRCode()
         this.updateDynamicCss()
         this.scaleWorksheet()
+        this.initializeCanvases()
       },
-      deep: true
+      deep: true,
     },
     'scenario.inputCss': {
       handler (newCss) {
         this.updateDynamicCss(newCss)
       },
-      immediate: true
+      immediate: true,
+    },
+    project () {
+      this.initializeCanvases()
     },
     scale () {
       this.$nextTick(() => {
@@ -66,33 +181,34 @@ export default Vue.extend({
     },
   },
 
-  async mounted () {
-    if (!this.scenario) {
-      console.log('mounted', this.slug, { scenarioHandle: this.slug || '' })
-      try {
-        // this.scenario = await getAIJuniorScenario({ scenarioHandle: this.slug || '' })
-        // TODO: data vs. prop, passing in slug vs. passing in scenario?
-        this.generateQRCode()
-        this.updateDynamicCss()
-      } catch (err) {
-        console.error('Error fetching scenario:', err)
-        this.error = 'An error occurred while fetching the scenario.'
-      }
-    }
+  mounted () {
+    // TODO: data vs. prop, passing in slug vs. passing in scenario?
+    // this.scenario = await getAIJuniorScenario({ scenarioHandle: this.slug || '' })
 
+    // The scenario is normally handed to us fully loaded, in which case the watcher above never fires.
+    // Kept off `data` deliberately: it holds a DOM node, and making Vue observe
+    // one costs a deep walk of the whole element tree for no benefit.
+    this.bigOverlayHome = null
+
+    if (this.printUser) {
+      this.projectName = this.printUser.name || [this.printUser.firstName, this.printUser.lastName].filter(Boolean).join(' ')
+    }
+    this.generateQRCode()
+    this.updateDynamicCss()
+    this.installPrintCss()
+    this.scaleWorksheet()
     this.initializeCanvases()
+    this.onResize = _.debounce(this.onResize, 100)
     window.addEventListener('resize', this.onResize)
   },
 
-  updated () {
-    this.$nextTick(() => {
-      // this.initializeCanvases() // TODO: figure out which fields need to re-initialize canvases because name definitely does not need to
-    })
-  },
-
   beforeDestroy () {
+    this.returnBigOverlay()
     if (this.styleElement) {
       this.styleElement.remove()
+    }
+    if (this.printStyleElement) {
+      this.printStyleElement.remove()
     }
     window.removeEventListener('resize', this.onResize)
   },
@@ -101,13 +217,17 @@ export default Vue.extend({
     markedInline,
 
     async generateQRCode () {
-      if (this.scenario && this.scenario.slug) {
-        const url = `https://codecombat.com/ai-junior/project/${this.slug}/${this.me.id}`
-        try {
-          this.qrCodeUrl = await QRCode.toDataURL(url)
-        } catch (err) {
-          console.error('Error generating QR code:', err)
-        }
+      if (!this.scenarioSlug) { return }
+      const userId = this.printUser?._id || this.me.id
+      // Point at the scan flow, not the project page: the thing you want after
+      // filling in a paper worksheet is to photograph it. This also means the
+      // phone's own camera app resolves the sheet to the right scenario and
+      // student without the in-app QR reader having to do anything.
+      const url = `${window.location.origin}/ai-junior/scan/${this.scenarioSlug}/${userId}`
+      try {
+        this.qrCodeUrl = await QRCode.toDataURL(url)
+      } catch (err) {
+        console.error('Error generating QR code:', err)
       }
     },
 
@@ -123,140 +243,417 @@ export default Vue.extend({
       }
     },
 
+    installPrintCss () {
+      if (this.printStyleElement) { return }
+      this.printStyleElement = document.createElement('style')
+      this.printStyleElement.setAttribute('data-ai-junior-worksheet-print', '')
+      this.printStyleElement.textContent = PRINT_CSS
+      document.head.appendChild(this.printStyleElement)
+    },
+
+    printWorksheet () {
+      window.print()
+    },
+
     scaleWorksheet () {
       const worksheet = this.$el
+      if (!worksheet || !worksheet.style) { return }
       const container = $(worksheet).parent()
       const scaleX = container.width() / (11 * 96) // 11 inches * 96 pixels per inch
       const scaleY = container.height() / (8.5 * 96) // 8.5 inches * 96 pixels per inch
-      this.scale = Math.min(scaleX, scaleY)
-      if (this.scale > 0) {
-        worksheet.style.transform = `scale(${this.scale})`
-        worksheet.style.transformOrigin = 'top left'
-      }
+      const scale = Math.min(scaleX, scaleY)
+      if (!(scale > 0)) { return } // Hidden or not laid out yet; leave the sheet alone
+      this.scale = scale
+      worksheet.style.transform = `scale(${scale})`
+      worksheet.style.transformOrigin = 'top left'
     },
 
     initializeCanvases () {
       this.$nextTick(() => {
-        this.scenario?.inputs.forEach(input => {
+        for (const input of this.scenario?.inputs || []) {
           if (input.type === 'image-field') {
             this.initializeCanvas(input.id)
           }
-        })
+        }
+        this.loadProjectDrawings()
       })
     },
 
     initializeCanvas (inputId) {
       const canvasRef = this.$refs[`canvas-${inputId}`]
-      if (canvasRef && canvasRef[0]) {
-        const canvas = canvasRef[0]
-        const ctx = canvas.getContext('2d')
+      const canvas = canvasRef && canvasRef[0]
+      if (!canvas) { return }
 
-        // Set canvas size to match its display size
-        const rect = canvas.getBoundingClientRect()
-        canvas.width = rect.width
-        canvas.height = rect.height
+      // The sheet is a fixed 11x8.5in that is only visually shrunk with a CSS transform, so size the
+      // backing store from the untransformed layout box. Otherwise drawings made on a small screen
+      // come out blurry when the worksheet is printed or reopened larger.
+      const rect = canvas.getBoundingClientRect()
+      const cssWidth = canvas.clientWidth || rect.width
+      const cssHeight = canvas.clientHeight || rect.height
+      if (!cssWidth || !cssHeight) { return }
 
-        ctx.lineJoin = 'round'
-        ctx.lineCap = 'round'
-        this.canvasRefs[inputId] = canvas
+      const ratio = Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO)
+      canvas.width = Math.round(cssWidth * ratio)
+      canvas.height = Math.round(cssHeight * ratio)
 
-        // Restore previous content if available
-        if (this.canvasContents[inputId]) {
-          ctx.putImageData(this.canvasContents[inputId], 0, 0)
+      this.canvasRefs[inputId] = canvas
+      this.pixelRatios[inputId] = ratio
+      if (!this.strokes[inputId]) {
+        this.$set(this.strokes, inputId, [])
+      }
+
+      this.redrawCanvas(inputId)
+    },
+
+    // Load any drawings the student already submitted so we can paint them into the read-only sheet.
+    loadProjectDrawings () {
+      if (!this.readOnly) { return }
+      for (const input of this.scenario?.inputs || []) {
+        if (input.type !== 'image-field') { continue }
+        const dataUrl = this.projectInputValues[input.id]
+        if (!dataUrl || this.projectImages[input.id]) { continue }
+        const image = new Image()
+        image.onload = () => {
+          this.projectImages[input.id] = image
+          this.redrawCanvas(input.id)
         }
+        image.onerror = () => console.error('Error loading project drawing for', input.id)
+        image.src = dataUrl
       }
     },
 
-    startDrawing (event) {
-      this.isDrawing = true
-      const { x, y } = this.getCoordinates(event)
-      this.lastX = x
-      this.lastY = y
-    },
-
-    draw (event) {
-      if (!this.isDrawing) return
-      const canvas = event.target
+    // Single source of truth for what is on a canvas: the submitted drawing, then the stroke model.
+    redrawCanvas (inputId) {
+      const canvas = this.canvasRefs[inputId]
+      if (!canvas) { return }
       const ctx = canvas.getContext('2d')
-      const { x, y } = this.getCoordinates(event)
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
 
+      const image = this.projectImages[inputId]
+      if (image) {
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
+      }
+
+      const ratio = this.pixelRatios[inputId] || 1
+      for (const stroke of this.strokes[inputId] || []) {
+        this.drawStroke(ctx, canvas, stroke, ratio)
+      }
+    },
+
+    applyStrokeStyle (ctx, stroke, ratio) {
+      ctx.lineJoin = 'round'
+      ctx.lineCap = 'round'
+      ctx.lineWidth = stroke.width * ratio
+      ctx.strokeStyle = stroke.color
+      ctx.fillStyle = stroke.color
+      ctx.globalCompositeOperation = stroke.erase ? 'destination-out' : 'source-over'
+    },
+
+    drawStroke (ctx, canvas, stroke, ratio) {
+      const points = stroke.points
+      if (!points.length) { return }
+      const width = canvas.width
+      const height = canvas.height
+
+      ctx.save()
+      this.applyStrokeStyle(ctx, stroke, ratio)
       ctx.beginPath()
-      ctx.moveTo(this.lastX, this.lastY)
-      ctx.lineTo(x, y)
-      ctx.strokeStyle = this.currentColor
-      ctx.lineWidth = this.lineWidth
+      if (points.length === 1) {
+        // A single tap should still leave a dot
+        ctx.arc(points[0].x * width, points[0].y * height, (stroke.width * ratio) / 2, 0, Math.PI * 2)
+        ctx.fill()
+      } else {
+        // Smooth the sampled points by curving through the midpoints between them
+        ctx.moveTo(points[0].x * width, points[0].y * height)
+        for (let i = 1; i < points.length - 1; i++) {
+          const midX = ((points[i].x + points[i + 1].x) / 2) * width
+          const midY = ((points[i].y + points[i + 1].y) / 2) * height
+          ctx.quadraticCurveTo(points[i].x * width, points[i].y * height, midX, midY)
+        }
+        const last = points[points.length - 1]
+        ctx.lineTo(last.x * width, last.y * height)
+        ctx.stroke()
+      }
+      ctx.restore()
+    },
+
+    // Paint only the newest piece of the stroke in progress, so drawing stays smooth on tablets.
+    drawLatestSegment (inputId) {
+      const canvas = this.canvasRefs[inputId]
+      const stroke = this.activeStroke
+      if (!canvas || !stroke) { return }
+      const points = stroke.points
+      const count = points.length
+      if (count < 2) { return }
+
+      const width = canvas.width
+      const height = canvas.height
+      const ctx = canvas.getContext('2d')
+      ctx.save()
+      this.applyStrokeStyle(ctx, stroke, this.pixelRatios[inputId] || 1)
+      ctx.beginPath()
+      if (count === 2) {
+        ctx.moveTo(points[0].x * width, points[0].y * height)
+        ctx.lineTo(((points[0].x + points[1].x) / 2) * width, ((points[0].y + points[1].y) / 2) * height)
+      } else {
+        const [previous, control, current] = points.slice(count - 3)
+        ctx.moveTo(((previous.x + control.x) / 2) * width, ((previous.y + control.y) / 2) * height)
+        ctx.quadraticCurveTo(control.x * width, control.y * height, ((control.x + current.x) / 2) * width, ((control.y + current.y) / 2) * height)
+      }
       ctx.stroke()
-
-      this.lastX = x
-      this.lastY = y
-
-      // Store the updated canvas content
-      this.canvasContents[canvas.id] = ctx.getImageData(0, 0, canvas.width, canvas.height)
+      ctx.restore()
     },
 
-    stopDrawing () {
+    startDrawing (event, inputId) {
+      if (this.readOnly) { return }
+      const canvas = this.canvasRefs[inputId] || event.currentTarget
+      if (!canvas) { return }
+      event.preventDefault()
+
+      // Capture the pointer so a stroke keeps going even if a finger wanders off the box
+      if (event.pointerId != null && canvas.setPointerCapture) {
+        try {
+          canvas.setPointerCapture(event.pointerId)
+        } catch (err) {
+          // Some browsers throw if the pointer is already gone; drawing still works without capture
+        }
+      }
+
+      if (!this.strokes[inputId]) {
+        this.$set(this.strokes, inputId, [])
+      }
+      // A new mark is a new branch of history.
+      if (this.redoCount(inputId)) { this.$set(this.redoStacks, inputId, []) }
+      this.isDrawing = true
+      this.activeInputId = inputId
+      this.activeStroke = {
+        color: this.currentColor,
+        width: this.lineWidth * this.pressureScale(event),
+        erase: this.isErasing,
+        points: [this.getCoordinates(event, canvas)],
+      }
+      this.strokes[inputId].push(this.activeStroke)
+    },
+
+    draw (event, inputId) {
+      if (!this.isDrawing || this.activeInputId !== inputId || !this.activeStroke) { return }
+      const canvas = this.canvasRefs[inputId]
+      if (!canvas) { return }
+      event.preventDefault()
+
+      const point = this.getCoordinates(event, canvas)
+      const points = this.activeStroke.points
+      const previous = points[points.length - 1]
+      const dx = (point.x - previous.x) * canvas.width
+      const dy = (point.y - previous.y) * canvas.height
+      if (Math.sqrt((dx * dx) + (dy * dy)) < MIN_POINT_DISTANCE) { return }
+
+      points.push(point)
+      this.drawLatestSegment(inputId)
+    },
+
+    stopDrawing (event, inputId) {
+      if (!this.isDrawing) { return }
+      const drawnInputId = this.activeInputId
+      const canvas = this.canvasRefs[drawnInputId]
+      if (canvas && event?.pointerId != null && canvas.hasPointerCapture?.(event.pointerId)) {
+        canvas.releasePointerCapture(event.pointerId)
+      }
+
       this.isDrawing = false
+      this.activeStroke = null
+      this.activeInputId = null
+
+      // Repaint from the model so what we submit matches it exactly
+      this.redrawCanvas(drawnInputId)
     },
 
-    getCoordinates (event) {
-      const canvas = event.target
+    // Stylus pressure, when there is a stylus. Mice and fingers report a flat
+    // 0.5 (or 0), which must not silently halve every line, so only a real pen
+    // is allowed to change the width.
+    pressureScale (event) {
+      if (event.pointerType !== 'pen') { return 1 }
+      const pressure = typeof event.pressure === 'number' && event.pressure > 0 ? event.pressure : 0.5
+      return 0.45 + pressure
+    },
+
+    // Normalized 0-1 coordinates within the canvas content box, so they stay valid whatever size the
+    // canvas is drawn at. The bounding rect is the border box as it appears on screen, so back out both
+    // the CSS transform that fits the sheet to the window and the canvas border.
+    getCoordinates (event, canvas) {
       const rect = canvas.getBoundingClientRect()
-      const scaleX = canvas.width / rect.width
-      const scaleY = canvas.height / rect.height
-      const x = (event.clientX - rect.left) * scaleX
-      const y = (event.clientY - rect.top) * scaleY
-      return { x, y }
+      const shrinkX = canvas.offsetWidth ? rect.width / canvas.offsetWidth : 1
+      const shrinkY = canvas.offsetHeight ? rect.height / canvas.offsetHeight : 1
+      const width = canvas.clientWidth || rect.width
+      const height = canvas.clientHeight || rect.height
+      return Object.freeze({
+        x: (((event.clientX - rect.left) / shrinkX) - canvas.clientLeft) / width,
+        y: (((event.clientY - rect.top) / shrinkY) - canvas.clientTop) / height,
+      })
+    },
+
+    // What actually gets sent to the AI. Two things matter beyond copying
+    // pixels: the drawing canvas is transparent where nothing was drawn, and an
+    // image model handed a transparent PNG has no page to reason about — the
+    // same drawing on paper arrives as dark marks on white and is matched far
+    // more faithfully. So composite onto white, and never send a thumbnail:
+    // upscale small canvases so a rushed line still has strokes to follow.
+    exportInputImage (inputId) {
+      const canvas = this.canvasRefs[inputId]
+      if (!canvas || !canvas.width || !canvas.height) { return null }
+      const scale = Math.max(1, MIN_EXPORT_WIDTH / canvas.width)
+      const out = document.createElement('canvas')
+      out.width = Math.round(canvas.width * scale)
+      out.height = Math.round(canvas.height * scale)
+      const ctx = out.getContext('2d')
+      ctx.fillStyle = '#ffffff'
+      ctx.fillRect(0, 0, out.width, out.height)
+      ctx.imageSmoothingQuality = 'high'
+      ctx.drawImage(canvas, 0, 0, out.width, out.height)
+      return out.toDataURL('image/png')
+    },
+
+    strokeCount (inputId) {
+      return (this.strokes[inputId] || []).length
+    },
+
+    redoCount (inputId) {
+      return (this.redoStacks[inputId] || []).length
+    },
+
+    undoStroke (inputId) {
+      const strokes = this.strokes[inputId]
+      if (!strokes || !strokes.length) { return }
+      if (!this.redoStacks[inputId]) { this.$set(this.redoStacks, inputId, []) }
+      this.redoStacks[inputId].push(strokes.pop())
+      this.redrawCanvas(inputId)
+    },
+
+    redoStroke (inputId) {
+      const redo = this.redoStacks[inputId]
+      if (!redo || !redo.length) { return }
+      if (!this.strokes[inputId]) { this.$set(this.strokes, inputId, []) }
+      this.strokes[inputId].push(redo.pop())
+      this.redrawCanvas(inputId)
     },
 
     clearCanvas (inputId) {
-      const canvas = this.canvasRefs[inputId]
-      if (canvas) {
-        const ctx = canvas.getContext('2d')
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-        // Clear stored content
-        this.canvasContents[inputId] = null
+      const strokes = this.strokes[inputId] || []
+      if (strokes.length) { this.$set(this.redoStacks, inputId, strokes.slice().reverse()) }
+      this.$set(this.strokes, inputId, [])
+      this.redrawCanvas(inputId)
+    },
+
+    toggleEraser () {
+      this.isErasing = !this.isErasing
+    },
+
+    chooseColor (color) {
+      this.currentColor = color
+      this.isErasing = false
+    },
+
+    chooseWidth (width) {
+      this.lineWidth = width
+      this.isErasing = false
+    },
+
+    // --- draw big ---------------------------------------------------------
+    // Strokes are stored in normalized 0-1 coordinates, so the same drawing can
+    // be rendered into a canvas of any size. That makes a full-screen drawing
+    // surface almost free: point the existing handlers at a big canvas, and the
+    // small one on the sheet catches up when it closes.
+
+    openBig (inputId) {
+      if (this.readOnly) { return }
+      this.bigInputId = inputId
+      this.$nextTick(() => {
+        // The sheet is a fixed 11x8.5in box that is scaled to fit with a CSS
+        // transform and clips its overflow. `position: fixed` inside a
+        // transformed ancestor resolves against that ancestor rather than the
+        // viewport, so the overlay has to live on <body> while it is open.
+        const overlay = this.$refs.bigOverlay
+        if (overlay) {
+          this.bigOverlayHome = overlay.parentNode
+          document.body.appendChild(overlay)
+        }
+        this.initializeBigCanvas()
+      })
+    },
+
+    initializeBigCanvas () {
+      const canvas = this.$refs.bigCanvas
+      if (!canvas) { return }
+      const rect = canvas.getBoundingClientRect()
+      if (!rect.width || !rect.height) { return }
+      const ratio = Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO)
+      canvas.width = Math.round(rect.width * ratio)
+      canvas.height = Math.round(rect.height * ratio)
+      // Standing in for the sheet's canvas means every existing pointer handler,
+      // undo and colour change works in here with no duplicate code.
+      this.canvasRefs[this.bigInputId] = canvas
+      this.pixelRatios[this.bigInputId] = ratio
+      this.redrawCanvas(this.bigInputId)
+    },
+
+    closeBig () {
+      const inputId = this.bigInputId
+      this.returnBigOverlay()
+      this.bigInputId = null
+      if (!inputId) { return }
+      this.$nextTick(() => this.initializeCanvas(inputId))
+    },
+
+    // Hand the node back to the component before Vue tears it down; removing a
+    // v-if element Vue no longer owns the parent of throws.
+    returnBigOverlay () {
+      const overlay = this.$refs.bigOverlay
+      if (overlay && this.bigOverlayHome) {
+        this.bigOverlayHome.appendChild(overlay)
       }
+      this.bigOverlayHome = null
+    },
+
+    bigAspectRatio () {
+      const input = (this.scenario?.inputs || []).find(i => i.id === this.bigInputId)
+      if (!input) { return '4 / 3' }
+      // The sheet is 11x8.5in, so a region's on-paper aspect is its percentage
+      // box scaled by the page's own proportions.
+      const w = (input.width || 40) * 11
+      const h = (input.height || 40) * 8.5
+      return `${w} / ${h}`
     },
 
     onResize () {
       this.scaleWorksheet()
       this.$nextTick(() => {
         Object.keys(this.canvasRefs).forEach(inputId => {
-          this.resizeCanvas(inputId)
+          this.initializeCanvas(inputId)
         })
       })
     },
 
-    resizeCanvas (inputId) {
-      const canvas = this.canvasRefs[inputId]
-      if (canvas) {
-        const ctx = canvas.getContext('2d')
-        const oldWidth = canvas.width
-        const oldHeight = canvas.height
+    projectValue (inputId) {
+      return this.projectInputValues[inputId] || ''
+    },
 
-        // Store the current drawing
-        const imageData = ctx.getImageData(0, 0, oldWidth, oldHeight)
+    isChoiceSelected (input, choiceId) {
+      return this.readOnly && this.projectValue(input.id) === choiceId
+    },
 
-        // Resize canvas
-        const rect = canvas.getBoundingClientRect()
-        canvas.width = rect.width
-        canvas.height = rect.height
+    isFreeChoiceSelected (input) {
+      const value = this.projectValue(input.id)
+      return Boolean(this.readOnly && value && !(input.choices || []).some(choice => choice.id === value))
+    },
 
-        // Scale and restore the drawing
-        ctx.save()
-        ctx.scale(canvas.width / oldWidth, canvas.height / oldHeight)
-        ctx.putImageData(imageData, 0, 0)
-        ctx.restore()
-
-        // Update stored content
-        this.canvasContents[inputId] = ctx.getImageData(0, 0, canvas.width, canvas.height)
-
-        ctx.lineJoin = 'round'
-        ctx.lineCap = 'round'
-      }
+    freeChoiceText (input) {
+      return this.isFreeChoiceSelected(input) ? this.projectValue(input.id) : ''
     },
 
     async submitWorksheet () {
+      if (this.readOnly) { return }
       const inputValues = {}
       // Collect input fields' values
       for (const input of this.scenario.inputs) {
@@ -271,23 +668,11 @@ export default Vue.extend({
           }
           inputValues[input.id] = selectedValue || ''
         } else if (input.type === 'image-field') {
-          const canvas = this.canvasRefs[input.id]
-          if (canvas) {
-            try {
-              const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'))
-              // Convert blob to base64
-              const base64 = await new Promise((resolve) => {
-                const reader = new FileReader()
-                reader.onloadend = () => resolve(reader.result)
-                reader.readAsDataURL(blob)
-              })
-              inputValues[input.id] = base64
-              console.log('got base64 for', input.id)
-            } catch (error) {
-              console.error('Error getting base64 for', input.id, error)
-            }
+          const dataUrl = this.exportInputImage(input.id)
+          if (dataUrl) {
+            inputValues[input.id] = dataUrl
           } else {
-            console.log('no canvas for', input.id, this.canvasRefs)
+            console.error('No canvas for', input.id, this.canvasRefs)
           }
         } else if (input.type === 'text-field') {
           const inputElement = document.getElementById(`${input.id}-text-field`)
@@ -320,7 +705,7 @@ export default Vue.extend({
         const project = await createNewAIJuniorProject(projectData)
         processAIJuniorProject({ projectHandle: project._id, force: true })
         // TODO: I had the new page start processing, but it wasn't set up right, so starting processing here, waiting a bit, and then opening it.
-        _.delay(() => window.open(`/ai-junior/project/${this.slug || this.scenario?._id}/${this.me.id}/${project._id}`, '_blank'), 500)
+        _.delay(() => window.open(`/ai-junior/project/${this.scenarioSlug}/${this.me.id}/${project._id}`, '_blank'), 500)
       } catch (error) {
         console.error('Error submitting worksheet:', error)
         alert('An error occurred while submitting the worksheet. Please try again.')
@@ -348,9 +733,9 @@ export default Vue.extend({
       <div class="student-name-container">
         <h2 class="student-name-header">
           <span
-            v-if="false && (me.get('name') || me.get('firstName') || me.get('lastName'))"
+            v-if="readOnly"
             class="student-name"
-          >{{ me.broadName() }}</span>
+          >Name: {{ project.name || me.broadName() }}</span>
           <span
             v-else
             class="student-name-field"
@@ -370,12 +755,28 @@ export default Vue.extend({
       >
         Error: {{ error }}
       </p>
-      <button
-        class="submit-button no-print"
-        @click="submitWorksheet"
-      >
-        Submit
-      </button>
+      <div class="worksheet-buttons no-print">
+        <button
+          class="worksheet-button"
+          @click="printWorksheet"
+        >
+          Print
+        </button>
+        <button
+          v-if="canProcessProject"
+          class="worksheet-button"
+          @click="$emit('process-project')"
+        >
+          Process
+        </button>
+        <button
+          v-if="!readOnly"
+          class="worksheet-button"
+          @click="submitWorksheet"
+        >
+          Submit
+        </button>
+      </div>
       <img
         v-if="qrCodeUrl"
         :src="qrCodeUrl"
@@ -419,6 +820,8 @@ export default Vue.extend({
               :type="input.type"
               :name="input.id"
               :value="choice.id"
+              :checked="isChoiceSelected(input, choice.id)"
+              :disabled="readOnly"
             >
             <label :for="`${input.id}-choice-${choice.id}`">{{ choice.text }}</label>
           </div>
@@ -431,9 +834,20 @@ export default Vue.extend({
               :type="input.type"
               :name="input.id"
               value="other"
+              :checked="isFreeChoiceSelected(input)"
+              :disabled="readOnly"
             >
             <label :for="`${input.id}-free-choice`">Other:</label>
             <input
+              v-if="readOnly"
+              :id="`${input.id}-free-choice-text`"
+              type="text"
+              :name="`${input.id}-free-choice-text`"
+              :value="freeChoiceText(input)"
+              readonly
+            >
+            <input
+              v-else
               :id="`${input.id}-free-choice-text`"
               type="text"
               :name="`${input.id}-free-choice-text`"
@@ -445,6 +859,14 @@ export default Vue.extend({
           class="input-text-field"
         >
           <textarea
+            v-if="readOnly"
+            :id="`${input.id}-text-field`"
+            :name="input.id"
+            :value="projectValue(input.id)"
+            readonly
+          />
+          <textarea
+            v-else
             :id="`${input.id}-text-field`"
             :name="input.id"
           />
@@ -457,28 +879,45 @@ export default Vue.extend({
           <canvas
             :ref="`canvas-${input.id}`"
             class="drawing-canvas"
-            @mousedown="startDrawing"
-            @mousemove="draw"
-            @mouseup="stopDrawing"
-            @mouseleave="stopDrawing"
+            :class="{ 'read-only': readOnly }"
+            @pointerdown="startDrawing($event, input.id)"
+            @pointermove="draw($event, input.id)"
+            @pointerup="stopDrawing($event, input.id)"
+            @pointercancel="stopDrawing($event, input.id)"
+            @pointerleave="stopDrawing($event, input.id)"
           />
           <div
+            v-if="!readOnly"
             class="drawing-controls no-print"
             :style="{ transform: `scale(${1/scale})`, transformOrigin: 'bottom left' }"
           >
+            <button
+              class="draw-big-button"
+              @click="openBig(input.id)"
+            >
+              ✏️ Draw Big
+            </button>
+            <button
+              :disabled="!strokeCount(input.id)"
+              @click="undoStroke(input.id)"
+            >
+              Undo
+            </button>
+            <button
+              :disabled="!redoCount(input.id)"
+              @click="redoStroke(input.id)"
+            >
+              Redo
+            </button>
             <button @click="clearCanvas(input.id)">
               Clear
             </button>
-            <input
-              v-model="currentColor"
-              type="color"
+            <button
+              :class="{ 'control-active': isErasing }"
+              @click="toggleEraser"
             >
-            <input
-              v-model.number="lineWidth"
-              type="range"
-              min="1"
-              max="20"
-            >
+              Eraser
+            </button>
           </div>
         </div>
       </div>
@@ -488,6 +927,83 @@ export default Vue.extend({
       class="loading-container"
     >
       <h1>Loading...</h1>
+    </div>
+
+    <!-- Full-screen drawing surface. Strokes live in normalized coordinates, so
+         this edits the very same drawing the small box on the sheet shows. -->
+    <div
+      v-if="bigInputId"
+      ref="bigOverlay"
+      class="draw-big-overlay no-print"
+    >
+      <div class="draw-big-bar">
+        <div class="draw-big-palette">
+          <button
+            v-for="color in PALETTE"
+            :key="color"
+            class="swatch"
+            :class="{ 'swatch-active': !isErasing && currentColor === color, 'swatch-light': color === '#ffffff' }"
+            :style="{ backgroundColor: color }"
+            :aria-label="color"
+            @click="chooseColor(color)"
+          />
+        </div>
+        <div class="draw-big-brushes">
+          <button
+            v-for="brush in BRUSH_SIZES"
+            :key="brush.width"
+            class="brush"
+            :class="{ 'brush-active': !isErasing && lineWidth === brush.width }"
+            @click="chooseWidth(brush.width)"
+          >
+            <span
+              class="brush-dot"
+              :style="{ width: `${brush.width}px`, height: `${brush.width}px`, backgroundColor: isErasing ? '#bbb' : currentColor }"
+            />
+          </button>
+          <button
+            class="brush brush-eraser"
+            :class="{ 'brush-active': isErasing }"
+            @click="toggleEraser"
+          >
+            Eraser
+          </button>
+        </div>
+        <div class="draw-big-actions">
+          <button
+            :disabled="!strokeCount(bigInputId)"
+            @click="undoStroke(bigInputId)"
+          >
+            ↶ Undo
+          </button>
+          <button
+            :disabled="!redoCount(bigInputId)"
+            @click="redoStroke(bigInputId)"
+          >
+            ↷ Redo
+          </button>
+          <button @click="clearCanvas(bigInputId)">
+            Clear
+          </button>
+          <button
+            class="draw-big-done"
+            @click="closeBig"
+          >
+            ✓ Done
+          </button>
+        </div>
+      </div>
+      <div class="draw-big-stage">
+        <canvas
+          ref="bigCanvas"
+          class="draw-big-canvas"
+          :style="{ aspectRatio: bigAspectRatio() }"
+          @pointerdown="startDrawing($event, bigInputId)"
+          @pointermove="draw($event, bigInputId)"
+          @pointerup="stopDrawing($event, bigInputId)"
+          @pointercancel="stopDrawing($event, bigInputId)"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -634,12 +1150,110 @@ h2.student-name-header {
   position: absolute;
   /* border: 1px dotted #ccc; */
 
+  // A label above a drawing box used to sit on top of a `height: 100%` drawing
+  // container, so the box overflowed its own border by the height of the label
+  // and the toolbar landed outside the frame. Lay it out as a column instead
+  // and let the canvas take whatever room is left.
   &.scenario-input-image-field {
     border: 4px solid black;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 
     .input-label {
+      flex: 0 0 auto;
       text-align: center;
       color: #888;
+      margin: 2px 0 0;
+    }
+
+    .input-text {
+      flex: 0 0 auto;
+      display: block;
+      text-align: center;
+      font-size: 15px;
+      color: #888;
+    }
+
+    .drawing-container {
+      flex: 1 1 auto;
+      height: auto;
+      min-height: 0;
+    }
+  }
+
+  &.scenario-input-label {
+    .input-label {
+      margin: 0 0 2px;
+      font-size: 21px;
+    }
+
+    .input-text {
+      display: block;
+      font-size: $input-text-font-size;
+      line-height: 1.3;
+    }
+  }
+
+  // Text fields had no styles at all: the textarea fell back to its browser
+  // default size and spilled out of the box it was given.
+  &.scenario-input-text-field {
+    display: flex;
+    flex-direction: column;
+
+    .input-label {
+      flex: 0 0 auto;
+      margin: 0 0 2px;
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .input-text {
+      flex: 0 0 auto;
+      display: block;
+      font-size: $input-text-font-size;
+      line-height: 1.3;
+    }
+
+    // An outlined box, so the field reads as somewhere to write. Ruled lines
+    // alone are not enough: they are a background image, and browsers drop
+    // background images when printing unless told otherwise, which left a blank
+    // gap on paper that children skipped straight past. The border always
+    // prints; print-color-adjust keeps the rules as well where it is honoured.
+    .input-text-field {
+      flex: 1 1 auto;
+      min-height: 0;
+      margin-top: 6px;
+      border: 2px solid #000;
+      border-radius: 6px;
+      padding: 3px 6px;
+      overflow: hidden;
+    }
+
+    textarea {
+      display: block;
+      width: 100%;
+      height: 100%;
+      resize: none;
+      box-sizing: border-box;
+      border: none;
+      padding: 0 2px;
+      font-size: 22px;
+      background-color: transparent;
+      line-height: 34px;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 32px,
+        #bbb 32px,
+        #bbb 33px
+      );
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+
+      &:focus {
+        outline: none;
+      }
     }
   }
 
@@ -696,14 +1310,16 @@ h2.student-name-header {
       }
 
       input[type="text"] {
-        flex-grow: 1;
+        /* flex-basis 0 + min-width 0 so the underline shrinks to fit narrow
+           boxes instead of overflowing at the browser's ~20ch default size */
+        flex: 1 1 0;
+        min-width: 40px;
         border: none;
         border-bottom: 2px solid black;
         padding: 5px 5px 0 5px;
         margin-left: 8px;
         font-size: $input-text-font-size;
         line-height: 1.5em; /* Height of the underline */
-        width: auto; /* Adjust width to take remaining space */
       }
     }
   }
@@ -723,20 +1339,166 @@ h2.student-name-header {
   width: 100%;
   height: 100%;
   border: 1px solid #ccc;
+  cursor: crosshair;
+  touch-action: none; /* Draw with a finger without scrolling the page */
+
+  &.read-only {
+    pointer-events: none;
+    cursor: default;
+  }
+}
+
+.draw-big-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: #2b2f38;
+  display: flex;
+  flex-direction: column;
+}
+
+.draw-big-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 0.8rem 1rem;
+  background: #1e222a;
+}
+
+.draw-big-palette {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  padding: 0;
+  cursor: pointer;
+
+  &.swatch-light {
+    border-color: #8a90a0;
+  }
+
+  &.swatch-active {
+    border-color: #fff;
+    box-shadow: 0 0 0 3px #4a9cff;
+  }
+}
+
+.draw-big-brushes,
+.draw-big-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brush {
+  min-width: 48px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 2px solid #464c5a;
+  background: #2b303a;
+  color: #dfe3ea;
+  font-size: 1.3rem;
+  cursor: pointer;
+
+  &.brush-active {
+    border-color: #4a9cff;
+    background: #10305c;
+  }
+}
+
+.brush-dot {
+  display: block;
+  border-radius: 50%;
+  max-width: 32px;
+  max-height: 32px;
+}
+
+.draw-big-actions button {
+  height: 44px;
+  padding: 0 1rem;
+  border-radius: 10px;
+  border: 2px solid #464c5a;
+  background: #2b303a;
+  color: #dfe3ea;
+  font-size: 1.4rem;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  &.draw-big-done {
+    border-color: #3ddc84;
+    background: #10402a;
+    color: #d6ffe8;
+    font-weight: bold;
+  }
+}
+
+.draw-big-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.draw-big-canvas {
+  max-width: 100%;
+  max-height: 100%;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  touch-action: none;
+  cursor: crosshair;
 }
 
 .drawing-controls {
   position: absolute;
   bottom: 10px;
   left: 10px;
+  right: 10px;
   display: flex;
-  gap: 10px;
+  flex-wrap: wrap; /* small sketch boxes get two rows of controls, not clipped ones */
+  gap: 6px 10px;
+  align-items: center;
 
   button, input {
     font-size: 14px;
     padding: 0px;
     border: 0;
     background-color: transparent;
+  }
+
+  button {
+    flex: 0 0 auto;
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    &.control-active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    &.draw-big-button {
+      font-weight: bold;
+      color: #1565c0;
+    }
   }
 
   input {
@@ -746,7 +1508,7 @@ h2.student-name-header {
   /* Styles for the range input */
   input[type="range"] {
     -webkit-appearance: none;
-    width: 100%;
+    width: 80px;
     height: 30px;
     background: transparent;
     padding: 0;
@@ -801,17 +1563,22 @@ h2.student-name-header {
   }
 }
 
-.submit-button {
+.worksheet-buttons {
   position: absolute;
   top: -40px;
   right: 0px; // Positioned above the QR code
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.worksheet-button {
   padding: 5px 8px;
   background-color: #007bff;
   color: white;
   border: none;
   cursor: pointer;
   font-size: 16px;
-  z-index: 10;
 
   &:hover {
     background-color: #0056b3;
@@ -821,6 +1588,24 @@ h2.student-name-header {
 @media print {
   .no-print {
     display: none !important;
+  }
+
+  .worksheet-outer-container {
+    /* Keep checked boxes and drawings black rather than dropping the backgrounds */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* An empty name box should print as a blank line to write on */
+  .student-name-field .student-name-input {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 2px solid #000 !important;
+    border-radius: 0;
+    height: 1.5em;
+    line-height: 1.5em;
   }
 }
 </style>
