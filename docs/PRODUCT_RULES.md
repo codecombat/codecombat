@@ -175,7 +175,9 @@ This document is the functional and business source of truth for the local Japan
 - The separator and mission title are white and use normal font weight.
 - The JavaScript editor heading contains exactly two full-width rows.
 - The first editor-heading row contains only `JavaScript editor` and uses the same heading font previously used by `JavaScript`.
-- The second editor-heading row is centered and contains, with the same text size and visual treatment, `Ctrl / ⌘ + Enter で実行`, `Ctrl+C コピー`, `Ctrl+V はりつけ`, `Ctrl+Z もどす` and `Ctrl+F5 再読み込み`.
+- The second editor-heading row is centered and contains, with the same text size and visual treatment, `Ctrl+Enter で実行`, `Ctrl+C コピー`, `Ctrl+V はりつけ`, `Ctrl+Z もどす` and `Ctrl+F5 再読み込み`.
+- The shortcut row stays on one centered line when enough width is available and must wrap onto additional centered lines when the panel becomes narrower.
+- Each shortcut item remains internally unbroken, and the shortcut row must never use a horizontal scrollbar.
 - The execution shortcut must not be displayed as a separate supporting paragraph beneath the editor title.
 - The interface uses the same detailed blue scrollbar theme throughout the game, including the page, mission list, editor, syntax preview, reference panels and mini-quiz dialogs.
 - Scrollbar track, thumb, hover color and size are centralized through shared CSS custom properties.
@@ -355,7 +357,7 @@ This document is the functional and business source of truth for the local Japan
 - It verifies learner-facing mission code uses double-quoted string literals and exact legacy defaults may migrate from single quotes to double quotes.
 - It verifies the mission 01 goal instruction and the one-tile `hero.move(...)` concept explanation and quiz.
 - It verifies the five syntax colors are centralized through CSS custom properties.
-- It verifies the editor header has exactly two rows, uses `JavaScript editor` as its title and groups all five shortcuts in the centered second row.
+- It verifies the editor header has exactly two rows, displays `Ctrl+Enter で実行`, keeps all five shortcuts centered on one line when possible, wraps them onto additional centered lines when necessary and never uses horizontal scrolling.
 - It verifies the same detailed blue scrollbar theme is used throughout the game and that Chromium does not fall back to native gray scrollbars.
 - It verifies explanatory tooltips use the global body-level layer, remain viewport-clamped and cannot be triggered through an active covering modal.
 - It verifies standalone mode does not request the absent Ace asset and that curriculum rendering does not recursively redispatch mission loading.
