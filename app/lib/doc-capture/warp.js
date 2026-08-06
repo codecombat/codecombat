@@ -8,6 +8,45 @@ import { solveHomography, applyHomography, dist } from './geom.js'
 /** Landscape US Letter at ~200 dpi. */
 export const LETTER_LANDSCAPE = { width: 2200, height: 1700 }
 
+/** Region percentages measured against the whole rectified page. */
+export const FULL_PAGE_FRAME = { left: 0, top: 0, width: 1, height: 1 }
+
+/**
+ * Where a worksheet's field percentages actually live.
+ *
+ * Scenario inputs are absolutely positioned inside `.worksheet-inner-container`,
+ * so `left/top/width/height` are percentages of THAT box -- not of the sheet.
+ * The inner container is inset by the page margins on three sides and by the
+ * margin plus the header band on top. Mirrors the SCSS constants in
+ * app/components/common/elements/AIJuniorWorksheet.vue:
+ *
+ *   $paper-width: 11in;  $paper-height: 8.5in;
+ *   $top/bottom/left/right-margin: 0.5in;  $header-height: 0.85in;
+ *
+ * Treating these percentages as fractions of the full page instead shifts every
+ * crop up and left and oversizes it by ~10-28%.
+ *
+ * (The sheet's 4px printed border sits just outside the 11x8.5in content box,
+ * about 0.04in -- 0.4% of the page. That is an order of magnitude below the
+ * corrections here and is deliberately ignored.)
+ */
+export const WORKSHEET_GEOMETRY = {
+  paperWidthIn: 11,
+  paperHeightIn: 8.5,
+  marginIn: 0.5,
+  headerHeightIn: 0.85,
+}
+
+export const WORKSHEET_CONTENT_FRAME = (() => {
+  const { paperWidthIn: w, paperHeightIn: h, marginIn: m, headerHeightIn: hdr } = WORKSHEET_GEOMETRY
+  return {
+    left: m / w,
+    top: (m + hdr) / h,
+    width: (w - 2 * m) / w,
+    height: (h - 2 * m - hdr) / h,
+  }
+})()
+
 function makeImage (width, height) {
   return { data: new Uint8ClampedArray(width * height * 4), width, height }
 }
@@ -111,13 +150,16 @@ export function suggestOutputSize (quad, maxDim = 2200) {
  *
  * @param {{data, width, height}} page rectified page image
  * @param {Array<{id, left, top, width, height}>} regions all values are
- *        PERCENTAGES (0-100) of the page's width/height
+ *        PERCENTAGES (0-100) of the frame named by `frame`
+ * @param {{left, top, width, height}} frame the sub-rectangle of the page those
+ *        percentages are relative to, as fractions of the page. Defaults to the
+ *        whole page; worksheets want WORKSHEET_CONTENT_FRAME.
  * @returns {Array<{id, image, rect}>}
  */
-export function cropRegions (page, regions) {
+export function cropRegions (page, regions, frame = FULL_PAGE_FRAME) {
   const out = []
   for (const r of regions) {
-    const rect = regionToPixels(r, page.width, page.height)
+    const rect = regionToPixels(r, page.width, page.height, frame)
     if (rect.width < 1 || rect.height < 1) continue
     const img = makeImage(rect.width, rect.height)
     for (let y = 0; y < rect.height; y++) {
@@ -139,11 +181,15 @@ export function cropRegions (page, regions) {
   return out
 }
 
-export function regionToPixels (r, pageW, pageH) {
-  const x = Math.round((r.left / 100) * pageW)
-  const y = Math.round((r.top / 100) * pageH)
-  const width = Math.round((r.width / 100) * pageW)
-  const height = Math.round((r.height / 100) * pageH)
+export function regionToPixels (r, pageW, pageH, frame = FULL_PAGE_FRAME) {
+  const fx = frame.left * pageW
+  const fy = frame.top * pageH
+  const fw = frame.width * pageW
+  const fh = frame.height * pageH
+  const x = Math.round(fx + (r.left / 100) * fw)
+  const y = Math.round(fy + (r.top / 100) * fh)
+  const width = Math.round((r.width / 100) * fw)
+  const height = Math.round((r.height / 100) * fh)
   return {
     x: Math.max(0, Math.min(pageW - 1, x)),
     y: Math.max(0, Math.min(pageH - 1, y)),

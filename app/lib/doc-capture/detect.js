@@ -205,6 +205,7 @@ function measureEdges (quad, grads, polarity, maxSamples) {
   const R = 2.5
   let supportSum = 0
   let straightSum = 0
+  let worstEdge = Infinity
 
   for (let e = 0; e < 4; e++) {
     const a = quad[e]
@@ -236,10 +237,22 @@ function measureEdges (quad, grads, polarity, maxSamples) {
     }
     residuals.sort((u, v) => u - v)
     const median = residuals.length ? residuals[Math.floor(residuals.length / 2)] : R + 1
-    supportSum += found ? sum / count : 0
-    straightSum += Math.exp(-median / 1.2) * (found / count)
+    const edgeSupport = found ? sum / count : 0
+    const edgeStraight = Math.exp(-median / 1.2) * (found / count)
+    supportSum += edgeSupport
+    straightSum += edgeStraight
+    // Per-edge quality, kept separately: see minEdgeQuality below.
+    worstEdge = Math.min(worstEdge, Math.min(1, edgeSupport / 18) * edgeStraight)
   }
-  return { edgeSupport: supportSum / 4, straightness: straightSum / 4 }
+  return {
+    edgeSupport: supportSum / 4,
+    straightness: straightSum / 4,
+    // The weakest of the four edges. Averaging hides exactly the case that
+    // matters here: a hand gripping one edge leaves three perfect edges and one
+    // bad one, which still averages high enough to look trustworthy. A page is
+    // only truly located when *every* edge is backed by the image.
+    minEdgeQuality: worstEdge,
+  }
 }
 
 function scoreQuad (quad, w, h, edgeSupport, straightness, opts) {
@@ -429,7 +442,7 @@ export function detectQuad (img, options = {}) {
     const m = measureEdges(ordered, grads, polarity, opts.samplesPerEdge)
     const score = scoreQuad(ordered, w, h, m.edgeSupport, m.straightness, opts)
     if (score <= 0) return 0
-    const confidence = Math.min(1, m.edgeSupport / 18) * m.straightness
+    const confidence = m.minEdgeQuality
     const dup = candidates.find(c => quadsSimilar(c.quad, ordered, 2.5))
     if (dup) {
       if (score > dup.score) { dup.score = score; dup.quad = ordered; dup.tag = tag; dup.refined = refined }
@@ -516,6 +529,11 @@ export function detectQuad (img, options = {}) {
     quad,
     quadNormalized: quad.map(p => ({ x: p.x / img.width, y: p.y / img.height })),
     score: best.score,
+    // How strongly the image backs these edges (step strength x straightness),
+    // independent of shape plausibility. Auto-capture gates on this: "the
+    // outline stopped moving" is not the same as "the outline is right".
+    confidence: best.confidence ?? 0,
+    areaFraction: Math.abs(polygonArea(best.quad)) / (w * h),
     tag: best.tag,
     refined: best.refined,
     touchesBorder: best.touchesBorder,

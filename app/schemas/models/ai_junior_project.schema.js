@@ -66,6 +66,22 @@ _.extend(AIJuniorProjectSchema.properties, {
     title: 'Uploaded Worksheet',
     description: 'Path to the uploaded worksheet file',
   },
+  rawCapture: {
+    type: 'string',
+    format: 'image-file',
+    title: 'Raw Capture',
+    description: 'The camera frame before straightening, kept so page detection can be measured against real captures',
+  },
+  captureQuad: {
+    type: 'string',
+    title: 'Capture Quad',
+    description: 'JSON array of the four normalized page corners the detector chose for the raw capture',
+  },
+  captureSource: {
+    type: 'string',
+    title: 'Capture Source',
+    description: 'How the capture was triggered: auto, manual, or image',
+  },
   shared: {
     type: 'string',
     enum: ['none', 'result', 'full'],

@@ -20,6 +20,7 @@
 import { detectQuad, snapQuad, QuadTracker } from './detect.js'
 import {
   warpQuad, cropRegions, regionToPixels, suggestOutputSize, LETTER_LANDSCAPE,
+  FULL_PAGE_FRAME, WORKSHEET_CONTENT_FRAME, WORKSHEET_GEOMETRY,
 } from './warp.js'
 import { orderQuad, dist } from './geom.js'
 import { cleanPage } from './cleanup.js'
@@ -28,6 +29,7 @@ import { decodeQR, parseWorksheetQR } from './qr.js'
 export {
   detectQuad, snapQuad, QuadTracker,
   warpQuad, cropRegions, regionToPixels, suggestOutputSize, LETTER_LANDSCAPE,
+  FULL_PAGE_FRAME, WORKSHEET_CONTENT_FRAME, WORKSHEET_GEOMETRY,
   orderQuad, cleanPage, decodeQR, parseWorksheetQR,
 }
 
@@ -70,8 +72,8 @@ export function warpToCanvas (img, quad, outW = LETTER_LANDSCAPE.width, outH = L
  * Crop percentage-defined regions out of a rectified page.
  * @returns {Array<{id, canvas, dataUrl, rect}>}
  */
-export function cropRegionsToCanvases (pageImageData, regions, type = 'image/png') {
-  return cropRegions(pageImageData, regions).map(r => {
+export function cropRegionsToCanvases (pageImageData, regions, frame = FULL_PAGE_FRAME, type = 'image/png') {
+  return cropRegions(pageImageData, regions, frame).map(r => {
     const canvas = imageDataToCanvas(r.image)
     return { id: r.id, canvas, dataUrl: canvas.toDataURL(type), rect: r.rect }
   })
@@ -129,8 +131,12 @@ export function drawOverlay (ctx, quad, options = {}) {
       remaining -= seg
     }
     ctx.strokeStyle = o.lineColor
-    ctx.lineWidth = o.lineWidth + 2
+    ctx.lineWidth = o.lineWidth + 5
+    ctx.lineCap = 'round'
+    ctx.shadowColor = o.lineColor
+    ctx.shadowBlur = 12
     ctx.stroke()
+    ctx.shadowBlur = 0
   }
 
   if (o.handles) {
@@ -196,9 +202,24 @@ export class DocumentScanner {
     this.targetFps = options.targetFps ?? 12
     this.output = options.output ?? LETTER_LANDSCAPE
     this.regions = options.regions ?? []
+    // Worksheet field percentages are relative to the printable area inside the
+    // page margins and header, not to the sheet. See WORKSHEET_CONTENT_FRAME.
+    this.contentFrame = options.contentFrame ?? WORKSHEET_CONTENT_FRAME
     this.autoCapture = options.autoCapture ?? true
+    // Confidence here is the WEAKEST of the four edges, which separates the two
+    // populations cleanly. Measured across the synthetic suite plus hand-grip
+    // cases: every frame that rectifies correctly scores >= 0.59, every frame
+    // that produces a wrong quad scores <= 0.21. 0.45 sits in that gap with
+    // roughly 2x margin on both sides.
+    this.autoCaptureConfidence = options.autoCaptureConfidence ?? 0.45
+    this.autoCaptureMinArea = options.autoCaptureMinArea ?? 0.18
     this.detectOptions = options.detectOptions ?? {}
     this.clean = options.clean ?? true
+    // Keep the unstraightened frame alongside each capture, so detection can be
+    // measured against real photographs instead of synthetic ones.
+    this.keepRaw = options.keepRaw ?? true
+    this.rawSize = options.rawSize ?? 1400
+    this.rawQuality = options.rawQuality ?? 0.72
     // When set, every few frames are also searched for a worksheet QR code, so
     // a scan page opened with no scenario can work out which sheet this is.
     this.wantQR = options.wantQR ?? false
@@ -423,11 +444,24 @@ export class DocumentScanner {
     const warning = warningFor(result)
     this.lastWarning = warning
 
+    // "Held still" is not the same as "correct" -- a wrong outline sits just as
+    // still as a right one. Auto-capture additionally requires that the image
+    // actually backs those edges, and that the quad covers a plausible share of
+    // the frame, so a lock onto some printed box inside the page cannot fire.
+    const confidence = result?.confidence ?? 0
+    const areaFraction = result?.areaFraction ?? 0
+    const trustworthy = !warning &&
+      confidence >= this.autoCaptureConfidence &&
+      areaFraction >= this.autoCaptureMinArea
+
     this.onUpdate({
       quad,
       stable: tracked.stable,
-      progress: warning ? 0 : tracked.progress,
+      progress: trustworthy ? tracked.progress : 0,
       score: result?.score ?? 0,
+      confidence,
+      areaFraction,
+      trustworthy,
       touchesBorder: result?.touchesBorder ?? false,
       clipped: result?.clipped ?? false,
       fillsFrame: result?.fillsFrame ?? false,
@@ -438,7 +472,7 @@ export class DocumentScanner {
 
     if (this.wantQR && now - this._lastQRRun > this.qrIntervalMs) this._scanQR(now)
 
-    if (tracked.stable && this.autoCapture && !warning) {
+    if (tracked.stable && this.autoCapture && trustworthy) {
       this.tracker.reset()
       this.capture(quad, 'auto')
     }
@@ -526,12 +560,38 @@ export class DocumentScanner {
       quad: use.map(p => ({ ...p })),
       canvas,
       dataUrl: canvas.toDataURL('image/png'),
-      regions: this.regions.length ? cropRegionsToCanvases(page, this.regions) : [],
+      regions: this.regions.length ? cropRegionsToCanvases(page, this.regions, this.contentFrame) : [],
       handsRemoved: cleaned.handsRemoved,
+      cleanupSkipped: cleaned.skipped || null,
+      // The unstraightened frame this was made from, plus the corners we chose.
+      // Only the rectified page is otherwise kept, and a rectified page cannot
+      // tell you whether the corners were right — so without this there is no
+      // way to measure or improve detection against real captures.
+      rawDataUrl: this.keepRaw ? this._rawJpeg(frame) : null,
       source,
     }
     this.onCapture(result)
     return result
+  }
+
+  /**
+   * A modest JPEG of the frame detection ran against, for later analysis.
+   * Deliberately downscaled: this is diagnostic data attached to every scan, and
+   * corner accuracy is judged at a far lower resolution than the page itself.
+   */
+  _rawJpeg (frame) {
+    try {
+      const scale = Math.min(1, this.rawSize / Math.max(frame.width, frame.height))
+      const full = imageDataToCanvas(frame)
+      if (scale >= 1) return full.toDataURL('image/jpeg', this.rawQuality)
+      const small = createCanvas(Math.round(frame.width * scale), Math.round(frame.height * scale))
+      const ctx = small.getContext('2d')
+      ctx.imageSmoothingQuality = 'high'
+      ctx.drawImage(full, 0, 0, small.width, small.height)
+      return small.toDataURL('image/jpeg', this.rawQuality)
+    } catch (err) {
+      return null // diagnostics must never break a capture
+    }
   }
 
   /** Run the same pipeline over a still image (file upload, testing). */
@@ -558,7 +618,7 @@ export class DocumentScanner {
       quad: pixels.map(p => ({ x: p.x / width, y: p.y / height })),
       canvas,
       dataUrl: canvas.toDataURL('image/png'),
-      regions: this.regions.length ? cropRegionsToCanvases(page, this.regions) : [],
+      regions: this.regions.length ? cropRegionsToCanvases(page, this.regions, this.contentFrame) : [],
       handsRemoved: cleaned.handsRemoved,
       source: 'image',
     }
