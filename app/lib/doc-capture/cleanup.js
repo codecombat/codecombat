@@ -18,6 +18,14 @@ const DEFAULTS = {
   maskMaxDim: 640,
   // A hand has to be a real chunk of the page, not a skin-coloured crayon mark.
   minAreaFraction: 0.0016,
+  // ...but a thumb on a letter page is a few percent. Anything bigger is not a
+  // hand: it is the desk, because the page corners were found in the wrong
+  // place and the warp pulled the surroundings in. Painting that out turns a
+  // recoverable bad crop into a destroyed worksheet.
+  maxAreaFraction: 0.12,
+  // Likewise in total. If this much of the "page" looks like skin, the page is
+  // not what we think it is, and doing nothing is much safer than guessing.
+  maxTotalAreaFraction: 0.22,
   // Fingers enter from outside, so only blobs that reach the paper's edge are
   // treated as hands. A face drawn in the middle of the sheet never qualifies.
   borderMarginFraction: 0.035,
@@ -274,13 +282,22 @@ export function removeHands (img, options = {}) {
   // Requiring a span rather than a touch is what tells a thumb from a child who
   // drew all the way to the margin.
   const minBorderContact = Math.max(4, Math.round(Math.min(mw, mh) * opts.minBorderContactFraction))
+  const maxArea = mw * mh * opts.maxAreaFraction
   const keep = new Uint8Array(mw * mh)
   let kept = 0
+  let oversized = false
   for (const comp of components(mask, mw, mh, borderMargin)) {
     if (comp.size < minArea) continue
     if (comp.borderContact < minBorderContact) continue
+    if (comp.size > maxArea) { oversized = true; continue }
     for (const p of comp.pixels) keep[p] = 1
     kept += comp.size
+  }
+  // Either guard tripping says the same thing: this is not a page with a hand
+  // on it. Report it so the capture page can suggest checking the corners.
+  const TOO_MUCH = 'a large area looked like skin — the page edges may be wrong'
+  if (oversized || kept > mw * mh * opts.maxTotalAreaFraction) {
+    return { image: img, removed: 0, skipped: TOO_MUCH }
   }
   if (!kept) return { image: img, removed: 0 }
 
