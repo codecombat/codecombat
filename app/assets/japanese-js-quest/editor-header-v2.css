@@ -16,12 +16,13 @@
 
 .code-panel .editor-shortcut-row {
   width: 100%;
+  min-width: 0;
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 0.55rem 1.1rem;
-  overflow-x: auto;
+  gap: 0.55rem 0.8rem;
+  overflow: visible;
   padding: 0.05rem 0 0.2rem;
   color: var(--muted);
   font-size: 0.82rem;
@@ -34,10 +35,4 @@
   align-items: center;
   gap: 0.35rem;
   white-space: nowrap;
-}
-
-@media (max-width: 650px) {
-  .code-panel .editor-shortcut-row {
-    justify-content: flex-start;
-  }
 }
