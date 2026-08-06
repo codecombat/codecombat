@@ -2,6 +2,7 @@
 // import { getAIJuniorScenario } from 'core/api/ai-junior-scenarios'
 import { createNewAIJuniorProject, processAIJuniorProject } from 'core/api/ai-junior-projects'
 import QRCode from 'qrcode'
+import { worksheetQRText } from 'lib/doc-capture/qr'
 import { markedInline } from 'core/utils'
 
 // Cap the canvas backing store resolution: sharp enough to print, small enough to submit.
@@ -219,20 +220,21 @@ export default Vue.extend({
     async generateQRCode () {
       if (!this.scenarioSlug) { return }
       const userId = this.printUser?._id || this.me.id
-      // Point at the scan flow, not the project page: the thing you want after
-      // filling in a paper worksheet is to photograph it. This also means the
-      // phone's own camera app resolves the sheet to the right scenario and
-      // student without the in-app QR reader having to do anything.
-      const url = `${window.location.origin}/ai-junior/scan/${this.scenarioSlug}/${userId}`
+      // A short uppercase code rather than the full path. It still resolves to
+      // the scan flow — so a phone's own camera app lands in the right place —
+      // but at a third of the characters and in QR's alphanumeric mode, which
+      // between them make each printed module half as small again. On real
+      // scans the previous code was landing at about two pixels per module and
+      // never decoded once.
+      const scenarioId = this.scenario?._id || this.scenarioSlug
+      const url = worksheetQRText(window.location.origin, scenarioId, userId)
       try {
-        // Printed at a fixed size, so the thing that decides whether a phone can
-        // read it is how few modules have to fit in that square. Measured on
-        // real captures the printed code was landing at about two pixels per
-        // module, under what any decoder manages: level L drops this payload
-        // from 37 modules to 33, and the default four-module quiet zone is
-        // wider than it needs to be. Together they make each module about a
-        // fifth larger for nothing.
-        this.qrCodeUrl = await QRCode.toDataURL(url, { errorCorrectionLevel: 'L', margin: 2 })
+        // Printed at a fixed size, so what decides whether a phone can read it
+        // is how few modules have to fit in that square. The default four-module
+        // quiet zone is wider than it needs to be, and with the short payload
+        // levels M and L land on the same 29-module symbol — so the stronger
+        // error correction costs nothing.
+        this.qrCodeUrl = await QRCode.toDataURL(url, { errorCorrectionLevel: 'M', margin: 2 })
       } catch (err) {
         console.error('Error generating QR code:', err)
       }

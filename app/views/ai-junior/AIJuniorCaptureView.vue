@@ -121,6 +121,15 @@
           </button>
 
           <button
+            v-if="cameraOn && !stillLoaded"
+            type="button"
+            class="btn btn-big btn-default"
+            @click="toggleAutoCapture"
+          >
+            {{ autoCaptureWanted ? '⏱ Auto: on' : '⏱ Auto: off' }}
+          </button>
+
+          <button
             v-if="canAdjust"
             type="button"
             class="btn btn-big btn-default"
@@ -222,13 +231,46 @@
           {{ submitError }}
         </p>
       </div>
+
+      <!-- Sheets sent this session. They generate on the server whatever this
+           page is doing, so a stack can be scanned straight through. -->
+      <section
+        v-if="batch.length"
+        class="batch"
+      >
+        <h3 class="batch-heading">
+          {{ batch.length }} sent<span v-if="stillGenerating"> · {{ stillGenerating }} still generating</span>
+        </h3>
+        <div class="batch-strip">
+          <a
+            v-for="entry in batch"
+            :key="entry.id"
+            class="batch-item"
+            :class="entry.status"
+            :href="entry.url"
+            target="_blank"
+            rel="noopener"
+            :title="entry.name"
+          >
+            <img
+              v-if="entry.thumb"
+              :src="entry.thumb"
+              alt=""
+            >
+            <span class="batch-status">{{ statusIcon(entry.status) }}</span>
+          </a>
+        </div>
+        <p class="batch-hint">
+          Keep scanning — each one finishes on its own. Tap any to open it.
+        </p>
+      </section>
     </template>
   </div>
 </template>
 
 <script>
-import { getAIJuniorScenario } from 'app/core/api/ai-junior-scenarios'
-import { createNewAIJuniorProject, processAIJuniorProject } from 'app/core/api/ai-junior-projects'
+import { getAIJuniorScenario, getAIJuniorScenarios } from 'app/core/api/ai-junior-scenarios'
+import { createNewAIJuniorProject, processAIJuniorProject, getAIJuniorProject } from 'app/core/api/ai-junior-projects'
 import usersApi from 'app/core/api/users'
 import { DocumentScanner, drawOverlay, pickCorner } from 'app/lib/doc-capture/capture'
 
@@ -265,6 +307,10 @@ export default {
       regionThumbs: [],
       submitting: false,
       submitError: null,
+      // Sheets sent during this session, newest first. They generate on the
+      // server independently of this page.
+      batch: [],
+      batchTimer: null,
       dragging: -1,
       handsRemoved: 0,
       // Filled in from the QR code when the route did not name a scenario.
@@ -272,6 +318,10 @@ export default {
       qrUserId: null,
       qrUserName: null,
       qrSearching: false,
+      // User-facing toggle; the confidence gate below is what actually decides
+      // whether any given frame is good enough to fire on.
+      autoCaptureWanted: true,
+      holdingSteady: false,
     }
   },
   computed: {
@@ -283,6 +333,9 @@ export default {
     },
     isSecure () {
       return window.isSecureContext
+    },
+    stillGenerating () {
+      return this.batch.filter((entry) => entry.status === 'processing').length
     },
     canAdjust () {
       return this.cameraOn || this.stillLoaded
@@ -311,7 +364,11 @@ export default {
       if (this.warning) return this.warning
       if (this.manual) return 'Drag the four circles onto the corners of the paper.'
       if (this.stillLoaded) return this.hasQuad ? 'Found the worksheet! Tap "Use this photo".' : 'Could not find the paper edges — tap "Adjust corners" to place them yourself.'
-      if (this.cameraOn) return this.hasQuad ? 'Hold still — snapping automatically…' : 'Point the camera at the whole worksheet.'
+      if (this.cameraOn) {
+        if (!this.hasQuad) return 'Point the camera at the whole worksheet.'
+        if (!this.holdingSteady) return 'Show all four edges of the paper — move your fingers off the edges.'
+        return this.autoCaptureWanted ? 'Hold still — snapping automatically…' : 'Looks good — tap Capture.'
+      }
       return null
     },
   },
@@ -331,10 +388,14 @@ export default {
     this.scanner = new DocumentScanner({
       video: this.$refs.video,
       wantQR: this.awaitingQR,
-      // Auto-capture fired on frames that were not actually good, which is
-      // worse than asking for a tap: a bad scan costs a whole AI run to find
-      // out about. The outline and hold-still hint stay; the shutter is manual.
-      autoCapture: false,
+      // Auto-capture used to fire on frames that were not actually good, which
+      // is worse than asking for a tap: a bad scan costs a whole AI run to find
+      // out about. It now additionally requires that the *weakest* of the four
+      // detected edges is genuinely backed by the image, which is what a hand
+      // gripping the page breaks -- so a held-still-but-wrong outline no longer
+      // fires. Off until a QR has named the activity, so nothing is captured
+      // before we know what it is.
+      autoCapture: !this.awaitingQR && this.autoCaptureWanted,
       onUpdate: this.onScannerUpdate,
       onCapture: this.onScannerCapture,
       onQR: this.onQRFound,
@@ -354,6 +415,7 @@ export default {
     if (this.cameraSupported && window.isSecureContext) this.startCamera()
   },
   beforeDestroy () {
+    if (this.batchTimer) clearInterval(this.batchTimer)
     window.removeEventListener('resize', this.sizeOverlay)
     if (this.scanner) {
       this.scanner.stop()
@@ -378,8 +440,21 @@ export default {
 
     // The worksheet's QR code names both the activity and the child it was
     // printed for, which is everything a bare /ai-junior/scan page needs.
-    async onQRFound ({ scenarioHandle, userId }) {
+    async onQRFound ({ scenarioHandle, userId, isPrefix }) {
       if (this.activeScenarioHandle) return
+      // A short code names the scenario by the leading characters of its id, so
+      // resolve it against the (very small) scenario list before loading.
+      if (isPrefix) {
+        try {
+          const scenarios = await getAIJuniorScenarios()
+          const match = (scenarios || []).find((s) => String(s._id).startsWith(scenarioHandle))
+          if (!match) return
+          scenarioHandle = match.slug || String(match._id)
+        } catch (error) {
+          console.error('Could not resolve the worksheet code:', error)
+          return
+        }
+      }
       this.qrSearching = true
       const loaded = await this.loadScenario(scenarioHandle)
       this.qrSearching = false
@@ -388,7 +463,7 @@ export default {
       this.qrUserId = userId
       if (this.scanner) {
         this.scanner.wantQR = false
-        this.scanner.autoCapture = true
+        this.scanner.autoCapture = this.autoCaptureWanted
         this.scanner.regions = this.imageFieldInputs
         this.scanner.tracker.reset()
       }
@@ -511,14 +586,26 @@ export default {
       })
     },
 
-    onScannerUpdate ({ quad, progress, warning }) {
+    onScannerUpdate ({ quad, progress, warning, trustworthy }) {
       this.hasQuad = !!quad
       this.warning = warning || null
       this.overlayProgress = progress || 0
+      // `trustworthy` is the scanner's own verdict on this frame: no warning,
+      // every edge backed by the image, plausible size. Drives the wording so
+      // the user is told to hold still only when holding still will help.
+      this.holdingSteady = !!trustworthy
       this.redrawOverlay()
     },
 
     // --- manual corners ---------------------------------------------------
+
+    toggleAutoCapture () {
+      this.autoCaptureWanted = !this.autoCaptureWanted
+      if (this.scanner) {
+        this.scanner.autoCapture = this.autoCaptureWanted && !this.awaitingQR
+        this.scanner.tracker.reset()
+      }
+    },
 
     toggleManual () {
       if (this.manual) {
@@ -634,6 +721,15 @@ export default {
         // and vision-extracts the text/checkbox/radio answers from it, which is
         // why nothing tries to read those fields here.
         inputValues.scannedWorksheet = this.lastCapture.canvas.toDataURL('image/jpeg', SCAN_JPEG_QUALITY)
+        // Diagnostics: the frame before straightening, and the corners chosen
+        // for it. The archived page is already rectified, so it cannot show
+        // whether the corners were right — these are what make it possible to
+        // measure detection against real captures rather than synthetic ones.
+        if (this.lastCapture.rawDataUrl) {
+          inputValues.rawCapture = this.lastCapture.rawDataUrl
+          inputValues.captureQuad = JSON.stringify(this.lastCapture.quad)
+          inputValues.captureSource = this.lastCapture.source
+        }
 
         const project = await createNewAIJuniorProject({
           scenarioId: this.scenario._id,
@@ -644,20 +740,70 @@ export default {
           inputValues,
           name: this.qrUserName ? `${this.scenario.name} — ${this.qrUserName}` : `${this.scenario.name} (scanned)`,
         })
-        // Kick off processing before navigating: the server returns 202 as soon
-        // as it has queued the work, and leaving the page first would abort the
-        // request. A failure here is not fatal — the project exists, and its
-        // page can retry — so it must not block the redirect.
+        // Kick off processing before going anywhere: the server returns 202 as
+        // soon as it has queued the work, and leaving the page first would
+        // abort the request. A failure here is not fatal — the project exists
+        // and its page can retry — so it must not block what follows.
         try {
           await processAIJuniorProject({ projectHandle: project._id, force: true })
         } catch (error) {
           console.error('Could not start processing; the project page can retry:', error)
         }
-        window.location.href = `/ai-junior/project/${this.activeScenarioHandle}/${project.user || me.id}/${project._id}`
+
+        const url = `/ai-junior/project/${this.activeScenarioHandle}/${project.user || me.id}/${project._id}`
+
+        // Scanning a stack is the normal case, so stay put and take the next
+        // sheet. Each project generates on the server regardless of what this
+        // page is doing; the strip below keeps track of them.
+        this.batch.unshift({
+          id: project._id,
+          url,
+          name: project.name,
+          thumb: this.lastCapture.regions[0]?.dataUrl || this.pageDataUrl,
+          status: 'processing',
+        })
+        this.submitting = false
+        this.retake()
+        this.startBatchPolling()
       } catch (error) {
         console.error('Error submitting scanned worksheet:', error)
         this.submitting = false
         this.submitError = 'Something went wrong sending your worksheet. Please try again.'
+      }
+    },
+
+    statusIcon (status) {
+      if (status === 'completed') return '✓'
+      if (status === 'failed') return '!'
+      return '…'
+    },
+
+    // --- batch ------------------------------------------------------------
+
+    startBatchPolling () {
+      if (this.batchTimer) return
+      this.batchTimer = setInterval(this.refreshBatch, 5000)
+    },
+
+    async refreshBatch () {
+      const pending = this.batch.filter((entry) => entry.status === 'processing')
+      if (!pending.length) {
+        clearInterval(this.batchTimer)
+        this.batchTimer = null
+        return
+      }
+      // One at a time: this runs while the user is lining up the next sheet,
+      // and the camera loop matters more than the status dots.
+      for (const entry of pending.slice(0, 3)) {
+        try {
+          const project = await getAIJuniorProject({ projectHandle: entry.id })
+          if (project.processingStatus && project.processingStatus !== 'processing') {
+            entry.status = project.processingStatus
+            entry.name = project.name || entry.name
+          }
+        } catch (error) {
+          // Leave it pending; the next tick tries again.
+        }
       }
     },
   },
@@ -868,5 +1014,64 @@ export default {
 
 @keyframes spin {
   100% { transform: rotate(360deg); }
+}
+
+.batch {
+  margin-top: 1.6rem;
+  border-top: 1px solid #e2e2e2;
+  padding-top: 1rem;
+}
+
+.batch-heading {
+  font-size: 1.4rem;
+  color: #666;
+  margin: 0 0 0.6rem;
+  text-align: center;
+}
+
+.batch-strip {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding-bottom: 0.4rem;
+}
+
+.batch-item {
+  position: relative;
+  flex: 0 0 auto;
+  width: 74px;
+  height: 74px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #ddd;
+  background: #fff;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &.completed { border-color: #3ddc84; }
+  &.failed { border-color: #d94a4a; }
+}
+
+.batch-status {
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  font-size: 1.3rem;
+  line-height: 1;
+  padding: 1px 5px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+.batch-hint {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #888;
+  margin: 0.5rem 0 0;
 }
 </style>

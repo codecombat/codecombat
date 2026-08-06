@@ -3,7 +3,7 @@
  * here is plain maths over pixel buffers, so it runs without a camera, a
  * canvas or a network.
  */
-const { parseWorksheetQR } = require('lib/doc-capture/qr')
+const { parseWorksheetQR, worksheetQRText } = require('lib/doc-capture/qr')
 const { isSkin, isDrawnMark, removeHands, flattenPage, cleanPage } = require('lib/doc-capture/cleanup')
 const { orderQuad } = require('lib/doc-capture/geom')
 
@@ -78,6 +78,26 @@ describe('parseWorksheetQR', () => {
     expect(parseWorksheetQR('/ai-junior/scan/make-a-game/not-an-id').userId).toBe(null)
   })
 
+  it('reads a short code, with and without a student', () => {
+    const withUser = parseWorksheetQR('HTTPS://CODECOMBAT.COM/S/6600A6512EF4805A67A8C507000001')
+    expect(withUser.scenarioHandle).toBe('6600a6')
+    expect(withUser.userId).toBe('512ef4805a67a8c507000001')
+    expect(withUser.isPrefix).toBe(true)
+
+    const without = parseWorksheetQR('https://codecombat.com/s/6600a6')
+    expect(without.scenarioHandle).toBe('6600a6')
+    expect(without.userId).toBe(null)
+  })
+
+  it('marks full paths as not being prefixes, so they are not re-resolved', () => {
+    expect(parseWorksheetQR('/ai-junior/scan/make-a-game').isPrefix).toBe(false)
+  })
+
+  it('rejects a short code that is not the right shape', () => {
+    expect(parseWorksheetQR('/s/zzzzzz')).toBe(null)
+    expect(parseWorksheetQR('/s/6600')).toBe(null)
+  })
+
   it('rejects anything that is not an AI Junior worksheet', () => {
     expect(parseWorksheetQR('https://example.com/hello')).toBe(null)
     expect(parseWorksheetQR('https://codecombat.com/play')).toBe(null)
@@ -85,6 +105,39 @@ describe('parseWorksheetQR', () => {
     expect(parseWorksheetQR('')).toBe(null)
     expect(parseWorksheetQR(null)).toBe(null)
     expect(parseWorksheetQR(undefined)).toBe(null)
+  })
+})
+
+describe('worksheetQRText', () => {
+  const SCENARIO = '6600a6c23a9490c3f23997af'
+  const USER = '512ef4805a67a8c507000001'
+
+  it('is entirely uppercase, so the QR uses its compact alphanumeric mode', () => {
+    const text = worksheetQRText('https://codecombat.com', SCENARIO, USER)
+    expect(text).toBe(text.toUpperCase())
+  })
+
+  it('identifies the scenario by a short prefix of its id', () => {
+    expect(worksheetQRText('https://codecombat.com', SCENARIO, USER))
+      .toBe('HTTPS://CODECOMBAT.COM/S/6600A6512EF4805A67A8C507000001')
+  })
+
+  it('leaves the student out when the sheet is not for one', () => {
+    expect(worksheetQRText('https://codecombat.com', SCENARIO, null))
+      .toBe('HTTPS://CODECOMBAT.COM/S/6600A6')
+  })
+
+  it('round-trips through the parser', () => {
+    const parsed = parseWorksheetQR(worksheetQRText('https://codecombat.com', SCENARIO, USER))
+    expect(parsed.scenarioHandle).toBe(SCENARIO.slice(0, 6))
+    expect(parsed.userId).toBe(USER)
+    expect(parsed.isPrefix).toBe(true)
+  })
+
+  it('stays far shorter than the path it replaces', () => {
+    const short = worksheetQRText('https://codecombat.com', SCENARIO, USER)
+    const long = `https://codecombat.com/ai-junior/scan/design-a-character/${USER}`
+    expect(short.length).toBeLessThan(long.length * 0.75)
   })
 })
 
