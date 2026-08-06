@@ -46,7 +46,7 @@ _.extend(AIJuniorProjectSchema.properties, {
   spokenLanguage: {
     type: 'string',
     title: 'Spoken Language',
-    description: 'The spoken language of the player, when this project was made'
+    description: 'The spoken language of the player, when this project was made',
   },
   processingStatus: {
     type: 'string',
@@ -55,11 +55,23 @@ _.extend(AIJuniorProjectSchema.properties, {
     title: 'Processing Status',
   },
   processingStartTime: c.stringDate({ title: 'Processing Start Time' }),
+  processingError: {
+    type: 'string',
+    title: 'Processing Error',
+    description: 'Error message from the most recent failed processing attempt',
+  },
   uploadedWorksheet: {
     type: 'string',
     format: 'image-file',
     title: 'Uploaded Worksheet',
     description: 'Path to the uploaded worksheet file',
+  },
+  shared: {
+    type: 'string',
+    enum: ['none', 'result', 'full'],
+    default: 'none',
+    title: 'Shared',
+    description: 'Whether anyone with the link may view this creation: just the result, or the worksheet inputs too',
   },
   created: c.date({ title: 'Date Created' }),
 })
