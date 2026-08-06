@@ -213,6 +213,8 @@ module.exports = (CocoRouter = (function () {
         'editor/archived-elements': go('core/SingletonAppVueComponentView'),
         'editor/podcast': go('editor/podcast/PodcastSearchView'),
         'editor/podcast/:podcastId': go('editor/podcast/PodcastEditView'),
+        'editor/minigame': go('editor/minigame/MiniGameSearchView'),
+        'editor/minigame/:slugOrId': go('editor/minigame/MiniGameEditView'),
         'editor/chat': go('editor/chat/ChatSearchView'),
         'editor/chat/:chatID': go('editor/chat/ChatEditView'),
         'editor/ai-scenario': go('editor/ai-scenario/AIScenarioSearchView'),
@@ -367,6 +369,8 @@ module.exports = (CocoRouter = (function () {
         'tournaments/:pageType/:objectId': go('ladder/MainTournamentView'),
 
         'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }), // extra slash is to get Facebook app to work
+        // Public since the GD-880 cutover — the hackstack Star Lab iframe embeds this page.
+        'play/minigame/:slug': go('play/MiniGamePlayView'),
         'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView'),
         'play/ladder/:levelID': go('ladder/LadderView'),
         'play/ladder': go('ladder/MainLadderView'),
