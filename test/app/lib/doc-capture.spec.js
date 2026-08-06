@@ -4,7 +4,7 @@
  * canvas or a network.
  */
 const { parseWorksheetQR } = require('lib/doc-capture/qr')
-const { isSkin, removeHands, flattenPage, cleanPage } = require('lib/doc-capture/cleanup')
+const { isSkin, isDrawnMark, removeHands, flattenPage, cleanPage } = require('lib/doc-capture/cleanup')
 const { orderQuad } = require('lib/doc-capture/geom')
 
 /** An RGBA buffer of a given flat colour. */
@@ -40,6 +40,7 @@ function pixel (img, x, y) {
 const PAPER = [253, 251, 245]
 const SKIN = [216, 160, 116]
 const INK = [30, 40, 160]
+const PURPLE = [126, 46, 196]
 
 describe('parseWorksheetQR', () => {
   it('reads the scenario and student out of a scan URL', () => {
@@ -102,6 +103,21 @@ describe('isSkin', () => {
   })
 })
 
+describe('isDrawnMark', () => {
+  it('recognises crayon, pencil and marker as deliberate marks', () => {
+    expect(isDrawnMark(...PURPLE)).toBe(true)
+    expect(isDrawnMark(...INK)).toBe(true)
+    expect(isDrawnMark(40, 160, 60)).toBe(true)
+    expect(isDrawnMark(20, 20, 20)).toBe(true)
+  })
+
+  it('does not treat paper, skin or a soft shadow as a mark', () => {
+    expect(isDrawnMark(...PAPER)).toBe(false)
+    expect(isDrawnMark(...SKIN)).toBe(false)
+    expect(isDrawnMark(150, 148, 145)).toBe(false)
+  })
+})
+
 describe('removeHands', () => {
   it('paints out a finger that reaches in from the edge of the page', () => {
     const page = blank(300, 200, PAPER)
@@ -134,6 +150,30 @@ describe('removeHands', () => {
 
     expect(isSkin(...pixel(image, 20, 150))).toBe(false)
     expect(isSkin(...pixel(image, 165, 65))).toBe(true)
+  })
+
+  it('keeps a coloured drawing that runs right up against a finger', () => {
+    // The halo of tolerance grown around a hand used to be painted flat, which
+    // erased the end of any drawing that reached the finger.
+    const page = blank(300, 200, PAPER)
+    fillRect(page, 0, 120, 60, 60, SKIN) // thumb on the left edge
+    fillRect(page, 60, 140, 90, 16, PURPLE) // crayon line running into it
+    const { image } = removeHands(page)
+
+    expect(isSkin(...pixel(image, 20, 150))).toBe(false) // thumb gone
+    const [r, g, b] = pixel(image, 70, 148) // crayon just past the thumb
+    expect(`${r},${g},${b}`).toBe(`${PURPLE[0]},${PURPLE[1]},${PURPLE[2]}`)
+    expect(pixel(image, 140, 148)[2]).toBeGreaterThan(150) // and further along
+  })
+
+  it('keeps a drawing that reaches the edge of the paper', () => {
+    // Drawing to the very edge is not the same as a hand coming in from
+    // outside: a hand meets the edge along a span, a drawing grazes it.
+    const page = blank(300, 200, PAPER)
+    fillRect(page, 0, 90, 120, 14, PURPLE)
+    const { image, removed } = removeHands(page)
+    expect(removed).toBe(0)
+    expect(pixel(image, 5, 96)[2]).toBeGreaterThan(150)
   })
 
   it('ignores a skin-coloured speck too small to be a hand', () => {

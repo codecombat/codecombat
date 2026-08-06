@@ -21,6 +21,9 @@ const DEFAULTS = {
   // Fingers enter from outside, so only blobs that reach the paper's edge are
   // treated as hands. A face drawn in the middle of the sheet never qualifies.
   borderMarginFraction: 0.035,
+  // How much of the page edge a blob must run along before it counts as a hand
+  // rather than a drawing that reaches the margin.
+  minBorderContactFraction: 0.05,
   // Grow the mask to swallow the shadow and the slightly-out-of-gamut fringe
   // around a finger, in units of the downscaled mask's smaller dimension.
   dilateFraction: 0.012,
@@ -56,6 +59,23 @@ export function isSkin (r, g, b) {
   return rgbRule || ycbcrRule
 }
 
+/**
+ * Does this pixel look like something a child deliberately put on the page?
+ *
+ * Used to protect drawings from the margin of tolerance around a detected hand.
+ * Anything strongly coloured, or dark enough to be pencil or marker, is treated
+ * as a mark and never painted over — so a purple crayon line running right up
+ * to the edge of the paper survives a thumb sitting next to it.
+ */
+export function isDrawnMark (r, g, b) {
+  if (isSkin(r, g, b)) return false
+  const max = Math.max(r, g, b)
+  const min = Math.min(r, g, b)
+  const saturation = max === 0 ? 0 : (max - min) / max
+  if (saturation > 0.3) return true // crayon, marker, coloured pencil
+  return max < 95 // graphite and black marker, but not a soft grey shadow
+}
+
 /** Nearest-neighbour downscale of an RGBA buffer into a smaller RGBA buffer. */
 function downscaleRGBA (img, maxDim) {
   const scale = Math.min(1, maxDim / Math.max(img.width, img.height))
@@ -89,7 +109,7 @@ function components (mask, width, height, borderMargin) {
     stack[top++] = start
     labels[start] = id
     let size = 0
-    let touchesBorder = false
+    let borderContact = 0
     const pixels = []
     while (top > 0) {
       const p = stack[--top]
@@ -99,14 +119,14 @@ function components (mask, width, height, borderMargin) {
       pixels.push(p)
       if (x <= borderMargin || y <= borderMargin ||
           x >= width - 1 - borderMargin || y >= height - 1 - borderMargin) {
-        touchesBorder = true
+        borderContact++
       }
       if (x > 0 && mask[p - 1] && labels[p - 1] === -1) { labels[p - 1] = id; stack[top++] = p - 1 }
       if (x < width - 1 && mask[p + 1] && labels[p + 1] === -1) { labels[p + 1] = id; stack[top++] = p + 1 }
       if (y > 0 && mask[p - width] && labels[p - width] === -1) { labels[p - width] = id; stack[top++] = p - width }
       if (y < height - 1 && mask[p + width] && labels[p + width] === -1) { labels[p + width] = id; stack[top++] = p + width }
     }
-    found.push({ id, size, touchesBorder, pixels })
+    found.push({ id, size, borderContact, touchesBorder: borderContact > 0, pixels })
   }
   return found
 }
@@ -249,10 +269,16 @@ export function removeHands (img, options = {}) {
 
   const borderMargin = Math.round(Math.min(mw, mh) * opts.borderMarginFraction)
   const minArea = mw * mh * opts.minAreaFraction
+  // A hand enters the frame, so it meets the edge along a real span. A drawing
+  // that merely runs out to the edge of the paper touches it at a few pixels.
+  // Requiring a span rather than a touch is what tells a thumb from a child who
+  // drew all the way to the margin.
+  const minBorderContact = Math.max(4, Math.round(Math.min(mw, mh) * opts.minBorderContactFraction))
   const keep = new Uint8Array(mw * mh)
   let kept = 0
   for (const comp of components(mask, mw, mh, borderMargin)) {
-    if (!comp.touchesBorder || comp.size < minArea) continue
+    if (comp.size < minArea) continue
+    if (comp.borderContact < minBorderContact) continue
     for (const p of comp.pixels) keep[p] = 1
     kept += comp.size
   }
@@ -280,8 +306,14 @@ export function removeHands (img, options = {}) {
     const my = Math.min(mh - 1, (y * sy) | 0)
     for (let x = 0; x < img.width; x++) {
       const mx = Math.min(mw - 1, (x * sx) | 0)
-      if (!grown[my * mw + mx]) continue
+      const m = my * mw + mx
+      if (!grown[m]) continue
       const i = (y * img.width + x) * 4
+      // Inside the detected hand itself, paint unconditionally. In the halo of
+      // tolerance grown around it — there to swallow the shadow and the fringe —
+      // leave anything that looks drawn. Painting the whole halo flat is what
+      // erased the end of a drawing that ran up against a finger.
+      if (!keep[m] && isDrawnMark(data[i], data[i + 1], data[i + 2])) continue
       data[i] = paper
       data[i + 1] = paper
       data[i + 2] = paper
