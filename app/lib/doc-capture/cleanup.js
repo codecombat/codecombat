@@ -45,6 +45,14 @@ const DEFAULTS = {
   // Below this the "paper" is really a dark photo and flattening would only
   // amplify noise.
   minBackground: 24,
+  // What counts as paper when trimming a rectified page back to the sheet.
+  paperMinBrightness: 150,
+  paperMaxSaturation: 0.28,
+  paperLineShare: 0.6,
+  // Corrections smaller than this are noise; larger than this mean the page was
+  // not really found, and cropping on a bad guess is worse than leaving it.
+  minTrimFraction: 0.004,
+  maxTrimFraction: 0.09,
 }
 
 function clamp255 (v) {
@@ -356,13 +364,99 @@ export function removeHands (img, options = {}) {
   return { image: { width: img.width, height: img.height, data }, removed: removed / (img.width * img.height) }
 }
 
+/**
+ * Crop a rectified page back to the paper.
+ *
+ * Detected corners land a little outside the sheet often enough to matter: the
+ * warp then carries a band of whatever the page was lying on around one or two
+ * edges. Measured over a corpus of real scans that band, not any hand, was the
+ * biggest thing the cleanup pass was painting out — and painting it reached
+ * inward over the title. Cropping it away first is both more honest and
+ * cheaper, and it leaves the output still meaning "exactly the sheet", which
+ * everything downstream assumes when it maps field percentages onto the page.
+ *
+ * Only small corrections are made. A large inset means the page was not found
+ * at all, and guessing then is worse than doing nothing.
+ *
+ * @returns {{image, trimmed: number}} trimmed is the fraction of each edge
+ *   removed, 0 when the page already filled the frame
+ */
+export function trimToPaper (img, options = {}) {
+  const opts = { ...DEFAULTS, ...options }
+  const small = downscaleRGBA(img, opts.backgroundMaxDim)
+  const { width: w, height: h, data } = small
+
+  // Paper is the bright, barely-coloured majority of a rectified worksheet.
+  const paper = new Uint8Array(w * h)
+  for (let i = 0, p = 0; i < data.length; i += 4, p++) {
+    const max = Math.max(data[i], data[i + 1], data[i + 2])
+    const min = Math.min(data[i], data[i + 1], data[i + 2])
+    const saturation = max === 0 ? 0 : (max - min) / max
+    if (max > opts.paperMinBrightness && saturation < opts.paperMaxSaturation) paper[p] = 1
+  }
+
+  // Rows and columns that are mostly paper. Working per line rather than per
+  // component keeps this to an inset on each side, which is the only correction
+  // that leaves the page a rectangle.
+  const edge = (length, other, at) => {
+    const solid = []
+    for (let a = 0; a < length; a++) {
+      let count = 0
+      for (let b = 0; b < other; b++) count += paper[at(a, b)]
+      solid.push(count / other >= opts.paperLineShare)
+    }
+    let lo = 0
+    while (lo < length && !solid[lo]) lo++
+    let hi = length - 1
+    while (hi > lo && !solid[hi]) hi--
+    return { lo, hi }
+  }
+  const cols = edge(w, h, (x, y) => y * w + x)
+  const rows = edge(h, w, (y, x) => y * w + x)
+  if (cols.hi <= cols.lo || rows.hi <= rows.lo) return { image: img, trimmed: 0 }
+
+  const inset = Math.max(
+    cols.lo / w, (w - 1 - cols.hi) / w,
+    rows.lo / h, (h - 1 - rows.hi) / h,
+  )
+  if (inset < opts.minTrimFraction || inset > opts.maxTrimFraction) return { image: img, trimmed: 0 }
+
+  // One inset all round keeps the aspect ratio, which the page's own 11:8.5 is.
+  const dx = Math.round(inset * img.width)
+  const dy = Math.round(inset * img.height)
+  const srcW = img.width - 2 * dx
+  const srcH = img.height - 2 * dy
+  if (srcW < img.width * 0.7 || srcH < img.height * 0.7) return { image: img, trimmed: 0 }
+
+  // Rescale back to the original size so the page still means the whole sheet.
+  const out = new Uint8ClampedArray(img.data.length)
+  for (let y = 0; y < img.height; y++) {
+    const sy = Math.min(img.height - 1, dy + Math.round((y * srcH) / img.height))
+    for (let x = 0; x < img.width; x++) {
+      const sx = Math.min(img.width - 1, dx + Math.round((x * srcW) / img.width))
+      const si = (sy * img.width + sx) * 4
+      const di = (y * img.width + x) * 4
+      out[di] = img.data[si]
+      out[di + 1] = img.data[si + 1]
+      out[di + 2] = img.data[si + 2]
+      out[di + 3] = 255
+    }
+  }
+  return { image: { width: img.width, height: img.height, data: out }, trimmed: inset }
+}
+
 /** flattenPage + removeHands, in the order that makes each work best. */
 export function cleanPage (img, options = {}) {
-  // Hands first: flattening amplifies a shadowed finger toward skin tone and
+  // Trim first: the surroundings carried in by a slightly oversized quad look
+  // like a hand to the next step, and like uneven lighting to the one after.
+  const trimResult = options.trim === false ? { image: img, trimmed: 0 } : trimToPaper(img, options)
+  // Hands next: flattening amplifies a shadowed finger toward skin tone and
   // makes the mask messier, while removing it first leaves flat paper behind.
-  const handsResult = options.removeHands === false ? { image: img, removed: 0 } : removeHands(img, options)
+  const handsResult = options.removeHands === false
+    ? { image: trimResult.image, removed: 0 }
+    : removeHands(trimResult.image, options)
   const image = options.flatten === false ? handsResult.image : flattenPage(handsResult.image, options)
-  return { image, handsRemoved: handsResult.removed }
+  return { image, handsRemoved: handsResult.removed, trimmed: trimResult.trimmed, skipped: handsResult.skipped }
 }
 
 export const __debug = { components, dilate, downscaleRGBA }
