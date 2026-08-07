@@ -73,6 +73,16 @@ _.extend(AIProjectSchema.properties, {
     title: 'Changed',
     readOnly: true,
   }),
+  playtime: {
+    title: 'Playtime',
+    type: 'integer',
+    minimum: 0,
+    description: 'Total seconds spent in this project, server-metered from heartbeats. Never client-writable.',
+  },
+  playtimeLastHeartbeatAt: c.date({
+    title: 'Playtime Last Heartbeat At',
+    description: 'Server-managed anchor for the last playtime heartbeat. Never client-writable.',
+  }),
   evaluations: {
     type: 'array',
     items: {
