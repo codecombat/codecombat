@@ -59,26 +59,26 @@ export default {
   props: {
     scenarioId: {
       type: String,
-      required: true
+      required: true,
     },
     userId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
       scenario: null,
       projects: [],
       loading: true,
-      error: null
+      error: null,
     }
   },
   async created () {
     try {
       const [scenarioResponse, projectsResponse] = await Promise.all([
         getAIJuniorScenario({ scenarioHandle: this.scenarioId }),
-        getAIJuniorProjectsForScenarioAndUser({ scenarioHandle: this.scenarioId, userId: this.userId })
+        getAIJuniorProjectsForScenarioAndUser({ scenarioHandle: this.scenarioId, userId: this.userId }),
       ])
 
       this.scenario = scenarioResponse
@@ -89,7 +89,7 @@ export default {
       this.error = 'An error occurred while fetching the projects. Please try again later.'
       this.loading = false
     }
-  }
+  },
 }
 </script>
 
