@@ -43,7 +43,7 @@ export default Vue.extend({
       showGoogleClassroom: me.useGoogleClassroom(),
       newClass: {
         name: this.classroom?.name || this.value?.name || '',
-        course: this.classroom?.initialFreeCourses?.[0] || (utils.isCodeCombat ? utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE : undefined),
+        initCourse: this.classroom?.initialFreeCourses?.[0] || (utils.isCodeCombat ? utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE : undefined),
       },
       googleSyncInProgress: false,
       otherProductSyncInProgress: false,
@@ -105,7 +105,6 @@ export default Vue.extend({
     newClass: {
       deep: true,
       handler (newV) {
-        console.log('newClass first page updates:', newV)
         this.$emit('input', newV)
       },
     },
@@ -249,7 +248,7 @@ export default Vue.extend({
             class="form-control"
           >
         </div>
-        <CourseSelect v-model="newClass.course" />
+        <CourseSelect v-model="newClass.initCourse" />
       </div>
     </div>
   </div>
