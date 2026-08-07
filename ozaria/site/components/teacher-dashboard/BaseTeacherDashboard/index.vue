@@ -6,6 +6,7 @@ import ModalAddStudents from '../modals/ModalAddStudents'
 import ModalRemoveStudents from '../modals/ModalRemoveStudents'
 import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
 import ModalEditClass from '../modals/ModalEditClass'
+import ModalEditClassV2 from '../modals/ModalEditClassV2'
 
 import SecondaryTeacherNavigation from '../common/SecondaryTeacherNavigation'
 import TitleBar from '../common/TitleBar'
@@ -35,6 +36,7 @@ export default {
   components: {
     Panel,
     ModalEditClass,
+    ModalEditClassV2,
     ModalAssignContent,
     ModalAddStudents,
     ModalApplyLicenses,
@@ -532,7 +534,7 @@ export default {
       v-else-if="showOnboardingModal"
       @close="closeOnboardingModal"
     />
-    <modal-edit-class
+    <modal-edit-class-v2
       v-if="showNewClassModal && !editCurrent && !showNonTeacherPreview"
       :classroom="newClassroom"
       :as-club="newClassroomAsClub"
