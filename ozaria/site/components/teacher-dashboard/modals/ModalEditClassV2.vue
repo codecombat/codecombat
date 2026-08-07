@@ -74,15 +74,19 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import utils from 'core/utils'
 import Classroom from 'models/Classroom'
 import ClassroomsApi from 'app/core/api/classrooms.js'
+import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 
 import Modal from '../../common/Modal'
 import PageFirst from './ModalEditClass/PageFirst'
 import PageSecond from './ModalEditClass/PageSecond'
 import SecondaryButton from '../common/buttons/SecondaryButton'
 import TertiaryButton from '../common/buttons/TertiaryButton'
+
+import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 
 export default Vue.extend({
   components: {
@@ -135,6 +139,9 @@ export default Vue.extend({
     }
   },
   computed: {
+    ...mapGetters({
+      courses: 'courses/sorted',
+    }),
     isCodeCombat () {
       return utils.isCodeCombat
     },
@@ -165,11 +172,24 @@ export default Vue.extend({
     newClass: {
       deep: true,
       handler (newV) {
-        console.log('newClass updates:', newV)
       },
     },
   },
+  async mounted () {
+    if (this.classroomInstance?._id || this.classroomInstance?.id) {
+      await this.fetchCourseInstances(this.classroomInstance?._id || this.classroomInstance?.id)
+    }
+    await this.fetchCourses()
+  },
   methods: {
+    ...mapActions({
+      createClassroom: 'classrooms/createClassroom',
+      createFreeCourseInstances: 'courseInstances/createFreeCourseInstances',
+      updateClassroom: 'classrooms/updateClassroom',
+      fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers',
+      fetchCourses: 'courses/fetchReleased',
+      fetchCourseInstances: 'courseInstances/fetchCourseInstancesForClassroom',
+    }),
     back () {
       this.currentPage = 1
     },
@@ -185,64 +205,39 @@ export default Vue.extend({
     async saveClass () {
       this.saving = true
       this.errMsg = ''
-      if (!this.isFormValid) {
-        this.$v.$touch() // $touch updates the validation state of all fields and scroll to the wrong input
-        this.errMsg = 'Please fill out all required fields'
-        this.saving = false
-        return
-      }
+      const newClass = { ...this.newClass.pageFirst, ...this.newClass.pageSecond }
       const updates = {}
 
-      if (this.asClub) {
-        let errorMsg
-        if (this.newClubType === 'club-ozaria' && this.isCodeCombat) {
-          errorMsg = 'Error creating ozaria club in CodeCombat'
-        } else if (moment(this.newClassDateEnd).isBefore(moment(this.newClassDateStart))) {
-          errorMsg = 'End date should be after start date'
-        } else if (this.newClubType.includes('camp') && moment(this.newClassDateEnd).diff(moment(this.newClassDateStart), 'days') > 7) {
-          errorMsg = 'Camp should be at most 7 days'
-        } else if (this.newClubType.includes('club') && moment(this.newClassDateEnd).diff(moment(this.newClassDateStart), 'weeks') > 14) {
-          errorMsg = 'Club should be at most 14 weeks'
-        }
+      updates.type = newClass.classroomType
 
-        if (errorMsg) {
-          this.errMsg = errorMsg
-          this.saving = false
-          return
-        }
-        updates.type = this.newClubType
-      } else {
-        updates.type = this.newClassroomType
-      }
-
-      if (this.newClassDateStart && this.newClassDateEnd && moment(this.newClassDateEnd).isBefore(moment(this.newClassDateStart))) {
+      if (newClass.classDateStart && newClass.classDateEnd && moment(newClass.classDateEnd).isBefore(moment(newClass.classDateStart))) {
         this.errMsg = 'End date should be after start date'
         this.saving = false
         return
       }
 
-      updates.name = this.newClassName
+      updates.name = newClass.name
       const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
       const hackstackConfig = _.clone((this.classroom || {}).hackstackConfig || {})
-      aceConfig.language = this.newProgrammingLanguage
-      aceConfig.liveCompletion = this.newLiveCompletion
-      aceConfig.disablePaste = this.newDisablePaste
-      updates.classroomItems = this.newClassroomItems
+      aceConfig.language = newClass.codeLanguage
+      aceConfig.liveCompletion = newClass.liveCompletion
+      aceConfig.disablePaste = newClass.disablePaste
+      updates.classroomItems = newClass.classroomItems
 
       // Make sure that codeFormats includes codeFormatDefault, including when these aren't specified
-      if (!this.newCodeFormats.includes(this.newCodeFormatDefault)) {
-        this.newCodeFormats.push(this.newCodeFormatDefault)
+      if (!newClass.codeFormats.includes(newClass.codeFormatDefault)) {
+        newClass.codeFormats.push(newClass.codeFormatDefault)
       }
-      aceConfig.codeFormats = this.newCodeFormats
-      aceConfig.codeFormatDefault = this.newCodeFormatDefault
+      aceConfig.codeFormats = newClass.codeFormats
+      aceConfig.codeFormatDefault = newClass.codeFormatDefault
 
-      if (this.newLevelChat) {
+      if (newClass.levelChat) {
         aceConfig.levelChat = 'fixed_prompt_only'
       } else {
         aceConfig.levelChat = 'none'
       }
 
-      if (this.newRemix) {
+      if (newClass.remix) {
         hackstackConfig.remixAllowed = true
       } else {
         hackstackConfig.remixAllowed = false
@@ -251,12 +246,12 @@ export default Vue.extend({
       updates.aceConfig = aceConfig
       updates.hackstackConfig = hackstackConfig
 
-      updates.description = this.newClassroomDescription
-      updates.averageStudentExp = this.newAverageStudentExp
-      updates.classDateStart = this.newClassDateStart
-      updates.classDateEnd = this.newClassDateEnd
-      updates.classesPerWeek = String(this.newClassesPerWeek)
-      updates.minutesPerClass = String(this.newMinutesPerClass)
+      updates.description = newClass.classroomDescription
+      updates.averageStudentExp = newClass.averageStudentExp
+      updates.classDateStart = newClass.classDateStart
+      updates.classDateEnd = newClass.classDateEnd
+      updates.classesPerWeek = String(newClass.classesPerWeek)
+      updates.minutesPerClass = String(newClass.minutesPerClass)
 
       if (this.isGoogleClassroomForm) {
         updates.googleClassroomId = this.googleClassId
@@ -283,12 +278,12 @@ export default Vue.extend({
       }
 
       if (utils.isCodeCombat) {
-        if (this.newInitialFreeCourses?.length === 0 && this.classroomInstance.isNew()) {
+        if (!newClass.initCourse && this.classroomInstance.isNew()) {
           this.errMsg = 'Please select at least one course'
           this.saving = false
           return
         }
-        updates.initialFreeCourses = this.newInitialFreeCourses
+        updates.initialFreeCourses = [newClass.initCourse]
       }
 
       let savedClassroom
@@ -336,6 +331,43 @@ export default Vue.extend({
         if (path !== '/teachers' && !path.match('/teachers/classes')) {
           window.location.href = '/teachers/classes'
         }
+      }
+    },
+    async handleClassroomImport (savedClassroom, updates) {
+      if (this.isGoogleClassroomForm) {
+        await GoogleClassroomHandler.markAsImported(this.googleClassId)
+        GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
+        try {
+          const importedMembers = await GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
+          if (importedMembers.length > 0) {
+            console.debug('Students imported to classroom:', importedMembers)
+          }
+        } catch (e) {
+          this.errMsg = e || 'Error in importing students'
+          noty({ text: this.errMsg, layout: 'topCenter', type: 'error', timeout: 5000 })
+        }
+      }
+
+      if (this.isOtherProductForm) {
+        const members = updates.members
+          .map(memberId => ({
+            _id: memberId,
+            role: 'student',
+          }))
+
+        // set linkink in both classrooms
+        ClassroomsApi.update({
+          classroomID: this.otherProductClassroom._id,
+          updates: { otherProductId: savedClassroom._id },
+        }, { callOz: true }).catch(console.log)
+        if (members.length > 0) {
+          await this.addMembersToClassroom({ classroom: savedClassroom, members, componentName: COMPONENT_NAMES.MY_CLASSES_ALL })
+        }
+      }
+
+      if (this.lmsProductForm) {
+        noty({ text: 'Importing classroom...', layout: 'topCenter', type: 'info', timeout: 3000 })
+        await this.handleLmsClassroomImport(savedClassroom)
       }
     },
     archiveClass () {
