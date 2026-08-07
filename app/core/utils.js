@@ -1868,6 +1868,17 @@ module.exports.getJuniorUrl = function () {
   return `${cocoBaseURL()}${juniorPath}`
 }
 
+// Where a sessionless (teacher-preview) play session should send the teacher "back to courses".
+// China teachers without the new dashboard still get the old /teachers/courses page, which
+// Router.js keeps alive for exactly that audience; everyone else gets the curriculum guide.
+module.exports.sessionlessCoursesUrl = function (levelProduct = 'codecombat') {
+  if (me?.showChinaResourceInfo?.() && !me.isNewDashboardActive()) {
+    return '/teachers/courses'
+  }
+  const guideProduct = levelProduct === 'codecombat-junior' ? 'junior' : levelProduct
+  return `/teachers/guide/${guideProduct}`
+}
+
 const AI_MODE_ICON_MAP = {
   use: 'ai-use',
   practice: 'ai-practice',

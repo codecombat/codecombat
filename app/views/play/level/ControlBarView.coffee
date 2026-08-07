@@ -136,8 +136,10 @@ module.exports = class ControlBarView extends CocoView
       @homeViewClass = 'views/play/CampaignView'
       @homeViewArgs.push gameDevCampaign
     else if me.isSessionless()
-      @homeLink = "/teachers/courses"
-      @homeViewClass = "views/courses/TeacherCoursesView"
+      # No @homeViewClass here: rendering a view directly would bypass the Router's
+      # /teachers/courses handling, which is what kept resurrecting the old dashboard (ENG-2635)
+      @homeLink = utils.sessionlessCoursesUrl(@product)
+      @homeViewClass = null
     else if @level.isLadder()
       levelID = @level.get('slug')?.replace(/\-tutorial$/, '') or @level.id
       @homeLink = "/play/ladder/#{levelID}"
@@ -187,7 +189,11 @@ module.exports = class ControlBarView extends CocoView
       window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug
     e.preventDefault()
     e.stopImmediatePropagation()
-    Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs
+    # The publication schema only allows viewClass as a function or string, so
+    # omit it when we want the Router's route table to decide (ENG-2635)
+    payload = route: @homeLink, viewArgs: @homeViewArgs
+    payload.viewClass = @homeViewClass if @homeViewClass
+    Backbone.Mediator.publish 'router:navigate', payload
 
   onClickSignupButton: (e) ->
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Control Bar', level: @levelID

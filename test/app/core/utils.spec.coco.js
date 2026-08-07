@@ -1353,4 +1353,49 @@ describe('Utility library', function () {
       expect(utils.getJuniorUrl()).toEqual(`${utils.cocoBaseURL()}/play/odyssey`);
     });
   });
+
+  describe('sessionlessCoursesUrl', () => {
+    let me;
+    let originalMe;
+
+    beforeEach(() => {
+      originalMe = global.me;
+      me = {
+        showChinaResourceInfo: jasmine.createSpy(),
+        isNewDashboardActive: jasmine.createSpy()
+      };
+      global.me = me;
+    });
+
+    afterEach(() => {
+      global.me = originalMe;
+    });
+
+    it('should return the codecombat curriculum guide by default', () => {
+      me.showChinaResourceInfo.and.returnValue(false);
+      expect(utils.sessionlessCoursesUrl()).toEqual('/teachers/guide/codecombat');
+    });
+
+    it('should map codecombat-junior to the junior guide', () => {
+      me.showChinaResourceInfo.and.returnValue(false);
+      expect(utils.sessionlessCoursesUrl('codecombat-junior')).toEqual('/teachers/guide/junior');
+    });
+
+    it('should pass other products through', () => {
+      me.showChinaResourceInfo.and.returnValue(false);
+      expect(utils.sessionlessCoursesUrl('ozaria')).toEqual('/teachers/guide/ozaria');
+    });
+
+    it('should keep the old courses page for China teachers without the new dashboard', () => {
+      me.showChinaResourceInfo.and.returnValue(true);
+      me.isNewDashboardActive.and.returnValue(false);
+      expect(utils.sessionlessCoursesUrl()).toEqual('/teachers/courses');
+    });
+
+    it('should use the guide for China teachers with the new dashboard', () => {
+      me.showChinaResourceInfo.and.returnValue(true);
+      me.isNewDashboardActive.and.returnValue(true);
+      expect(utils.sessionlessCoursesUrl()).toEqual('/teachers/guide/codecombat');
+    });
+  });
 })
