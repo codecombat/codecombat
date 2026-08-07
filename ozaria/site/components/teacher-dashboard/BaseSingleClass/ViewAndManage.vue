@@ -53,6 +53,7 @@ export default {
       getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
       getLevelsForClassroom: 'levels/getLevelsForClassroom',
       getSessionsForClassroom: 'levelSessions/getSessionsForClassroom',
+      getAiProjectsForClassroom: 'aiProjects/getSessionsForClassroom',
       getLastFetchedMemberSessionsDate: 'levelSessions/getLastFetchedMemberSessionsDate',
       getLoading: 'teacherDashboard/getLoadingState',
     }),
@@ -112,10 +113,12 @@ export default {
       const levelSessions = new LevelSessions(this.getSessionsForClassroom(classroom.get('_id')))
       classroom.sessions = levelSessions
 
+      const aiProjects = this.getAiProjectsForClassroom(classroom.get('_id')) || []
+
       const progressData = helper.calculateAllProgress(classroomsStub, courses, courseInstances, students)
 
       studentProgressCalculator.exportStudentProgress({
-        classroom, sortedCourses, students, courses, courseInstances, levels, progressData,
+        classroom, sortedCourses, students, courses, courseInstances, levels, progressData, aiProjects,
       })
       this.exportingProgress = false
     },
