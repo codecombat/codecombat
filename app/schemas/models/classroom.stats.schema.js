@@ -30,6 +30,14 @@ _.extend(ClassroomStatsSchema.properties, {
     type: 'number',
     description: 'The total play time on this day for a course',
   },
+  hsLevels: {
+    type: 'number',
+    description: 'the number of distinct AI HackStack projects (scenarios played) on this day for a course',
+  },
+  hsPlayTime: {
+    type: 'number',
+    description: 'the AI HackStack play time on this day for a course, also folded into playtime',
+  },
   projects: {
     type: 'number',
     description: 'The project number on this day for a course',
