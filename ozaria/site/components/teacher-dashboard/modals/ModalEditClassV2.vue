@@ -1,0 +1,551 @@
+<template>
+  <modal
+    :title="title"
+    @close="$emit('close')"
+  >
+    <div
+      class="style-ozaria teacher-form edit-class container"
+      :class="{ 'edit-class-coco': isCodeCombat }"
+    >
+      <PageFirst
+        v-if="currentPage === 1"
+        ref="pageFirst"
+        v-model="newClass.pageFirst"
+        :classroom="classroom"
+      />
+      <PageSecond
+        v-else
+        ref="pageSecond"
+        v-model="newClass.pageSecond"
+        :classroom="classroom"
+      />
+      <div class="form-group row">
+        <div class="col-xs-12 buttons">
+          <tertiary-button
+            v-if="currentPage === 2"
+            class="class-unarchive"
+            @click="back"
+          >
+            {{ $t('common.back') }}
+          </tertiary-button>
+          <tertiary-button
+            v-if="archived"
+            class="class-unarchive"
+            @click="unarchiveClass"
+          >
+            <img src="/images/ozaria/teachers/dashboard/svg_icons/IconUnarchive.svg">
+            {{ $t("teacher.unarchive_class") }}
+          </tertiary-button>
+          <tertiary-button
+            v-if="!classroomInstance.isNew() && !archived"
+            class="class-archive"
+            @click="archiveClass"
+          >
+            <img src="/images/ozaria/teachers/dashboard/svg_icons/IconArchive.svg">
+            {{ $t("teacher.archive_class") }}
+          </tertiary-button>
+          <div
+            class="submit-button"
+          >
+            <secondary-button
+              :disabled="saving"
+              class="class-submit"
+              @click="clickedCTA"
+            >
+              {{ ctaButtonText }}
+            </secondary-button>
+            <span
+              v-if="saving"
+              class="saving-text"
+            >
+              {{ $t('common.saving') }}
+            </span>
+            <span
+              v-if="errMsg"
+              class="error-msg error"
+            >
+              {{ errMsg }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </modal>
+</template>
+
+<script>
+import utils from 'core/utils'
+import Classroom from 'models/Classroom'
+import ClassroomsApi from 'app/core/api/classrooms.js'
+
+import Modal from '../../common/Modal'
+import PageFirst from './ModalEditClass/PageFirst'
+import PageSecond from './ModalEditClass/PageSecond'
+import SecondaryButton from '../common/buttons/SecondaryButton'
+import TertiaryButton from '../common/buttons/TertiaryButton'
+
+export default Vue.extend({
+  components: {
+    Modal,
+    PageFirst,
+    PageSecond,
+    TertiaryButton,
+    SecondaryButton,
+  },
+  props: {
+    classroom: {
+      type: Object,
+      required: true,
+      default: () => {},
+    },
+    asClub: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data () {
+    return {
+      currentPage: 1,
+      saving: false,
+      errMsg: '',
+      archived: this.classroom?.archived || false,
+      newClass: {
+        pageFirst: {
+          name: '',
+          initCourse: '',
+        },
+        pageSecond: {
+          codeLanguage: 'python',
+          codeFormats: ['text-code'],
+          codeFormatDefault: 'text-code',
+          classroomItems: true,
+          disablePaste: false,
+          liveCompletion: true,
+          remix: false,
+          levelChat: true,
+          classroomDescription: '',
+          averageStudentExp: '',
+          classroomType: '',
+          classesPerWeek: '',
+          minutesPerClass: '',
+          classDateStart: '',
+          classDateEnd: '',
+        },
+      },
+    }
+  },
+  computed: {
+    isCodeCombat () {
+      return utils.isCodeCombat
+    },
+    title () {
+      let title = ''
+      if (this.classroomInstance.isNew()) {
+        title += $.i18n.t('courses.create_new_class')
+      } else {
+        title += $.i18n.t('courses.edit_settings1')
+      }
+      if (this.asClub) {
+        title += ' (As Club / Camp)'
+      }
+      return title
+    },
+    ctaButtonText () {
+      if (this.currentPage === 1) {
+        return 'Next'
+      } else {
+        return this.classroomInstance.isNew() ? $.i18n.t('courses.create_class') : $.i18n.t('common.save_changes')
+      }
+    },
+    classroomInstance () {
+      return new Classroom(this.classroom)
+    },
+  },
+  watch: {
+    newClass: {
+      deep: true,
+      handler (newV) {
+        console.log('newClass updates:', newV)
+      },
+    },
+  },
+  methods: {
+    back () {
+      this.currentPage = 1
+    },
+    async clickedCTA () {
+      if (this.currentPage === 1) {
+        const firstPageValid = this.$refs.pageFirst.validate()
+        if (!firstPageValid) return
+        this.currentPage = 2
+      } else {
+        await this.saveClass()
+      }
+    },
+    async saveClass () {
+      this.saving = true
+      this.errMsg = ''
+      if (!this.isFormValid) {
+        this.$v.$touch() // $touch updates the validation state of all fields and scroll to the wrong input
+        this.errMsg = 'Please fill out all required fields'
+        this.saving = false
+        return
+      }
+      const updates = {}
+
+      if (this.asClub) {
+        let errorMsg
+        if (this.newClubType === 'club-ozaria' && this.isCodeCombat) {
+          errorMsg = 'Error creating ozaria club in CodeCombat'
+        } else if (moment(this.newClassDateEnd).isBefore(moment(this.newClassDateStart))) {
+          errorMsg = 'End date should be after start date'
+        } else if (this.newClubType.includes('camp') && moment(this.newClassDateEnd).diff(moment(this.newClassDateStart), 'days') > 7) {
+          errorMsg = 'Camp should be at most 7 days'
+        } else if (this.newClubType.includes('club') && moment(this.newClassDateEnd).diff(moment(this.newClassDateStart), 'weeks') > 14) {
+          errorMsg = 'Club should be at most 14 weeks'
+        }
+
+        if (errorMsg) {
+          this.errMsg = errorMsg
+          this.saving = false
+          return
+        }
+        updates.type = this.newClubType
+      } else {
+        updates.type = this.newClassroomType
+      }
+
+      if (this.newClassDateStart && this.newClassDateEnd && moment(this.newClassDateEnd).isBefore(moment(this.newClassDateStart))) {
+        this.errMsg = 'End date should be after start date'
+        this.saving = false
+        return
+      }
+
+      updates.name = this.newClassName
+      const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
+      const hackstackConfig = _.clone((this.classroom || {}).hackstackConfig || {})
+      aceConfig.language = this.newProgrammingLanguage
+      aceConfig.liveCompletion = this.newLiveCompletion
+      aceConfig.disablePaste = this.newDisablePaste
+      updates.classroomItems = this.newClassroomItems
+
+      // Make sure that codeFormats includes codeFormatDefault, including when these aren't specified
+      if (!this.newCodeFormats.includes(this.newCodeFormatDefault)) {
+        this.newCodeFormats.push(this.newCodeFormatDefault)
+      }
+      aceConfig.codeFormats = this.newCodeFormats
+      aceConfig.codeFormatDefault = this.newCodeFormatDefault
+
+      if (this.newLevelChat) {
+        aceConfig.levelChat = 'fixed_prompt_only'
+      } else {
+        aceConfig.levelChat = 'none'
+      }
+
+      if (this.newRemix) {
+        hackstackConfig.remixAllowed = true
+      } else {
+        hackstackConfig.remixAllowed = false
+      }
+
+      updates.aceConfig = aceConfig
+      updates.hackstackConfig = hackstackConfig
+
+      updates.description = this.newClassroomDescription
+      updates.averageStudentExp = this.newAverageStudentExp
+      updates.classDateStart = this.newClassDateStart
+      updates.classDateEnd = this.newClassDateEnd
+      updates.classesPerWeek = String(this.newClassesPerWeek)
+      updates.minutesPerClass = String(this.newMinutesPerClass)
+
+      if (this.isGoogleClassroomForm) {
+        updates.googleClassroomId = this.googleClassId
+        updates.name = this.googleClassrooms.find((c) => c.id === this.googleClassId).name
+      }
+
+      if (this.isOtherProductForm) {
+        updates.name = this.otherProductClassroom.name
+        updates.members = this.otherProductClassroom.members
+        updates.otherProductId = this.otherProductClassroom._id
+      }
+
+      if (this.lmsProductForm) {
+        updates.name = this.lmsClassroom.name
+        updates.lmsClassroom = {
+          classId: this.lmsClassroomId,
+          name: this.lmsClassroom.name,
+          provider: this.getProvider,
+        }
+      }
+
+      if (this.classGrades?.length > 0) {
+        updates.grades = this.classGrades
+      }
+
+      if (utils.isCodeCombat) {
+        if (this.newInitialFreeCourses?.length === 0 && this.classroomInstance.isNew()) {
+          this.errMsg = 'Please select at least one course'
+          this.saving = false
+          return
+        }
+        updates.initialFreeCourses = this.newInitialFreeCourses
+      }
+
+      let savedClassroom
+      if (this.classroomInstance.isNew()) {
+        try {
+          const classReqData = { ...this.classroom.attributes, ...updates }
+          savedClassroom = await this.createClassroom(classReqData)
+          const copyEsportsCampToOzaria = async () => {
+            if (this.asClub && this.newClubType === 'camp-esports') {
+              const name = `${updates.name} (Ozaria)`
+              const reqData = { ...classReqData, name }
+              await ClassroomsApi.post(reqData, { callOz: true })
+              noty({ text: 'Esports camp copied to ozaria', layout: 'topCenter', type: 'success', timeout: 5000 })
+            }
+          }
+          await copyEsportsCampToOzaria()
+        } catch (err) {
+          console.error('failed to create classroom', err)
+          this.errMsg = err?.message || 'Failed to create classroom'
+          this.saving = false
+          return
+        }
+        await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
+
+        this.$emit('created')
+      } else {
+        try {
+          savedClassroom = await this.updateClassroom({ classroom: this.classroom, updates })
+        } catch (err) {
+          console.error('failed to update classroom', err)
+          this.errMsg = err?.message || 'Failed to update classroom'
+          this.saving = false
+          return
+        }
+        await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
+        this.$emit('updated')
+      }
+      await this.handleClassroomImport(savedClassroom, updates)
+
+      this.$emit('close')
+      this.saving = false
+      // redirect to classes if user was not on classes page when creating a new class
+      if (this.classroomInstance.isNew()) {
+        const path = window.location.pathname
+        if (path !== '/teachers' && !path.match('/teachers/classes')) {
+          window.location.href = '/teachers/classes'
+        }
+      }
+    },
+    archiveClass () {
+      this.updateClassroom({ classroom: this.classroom, updates: { archived: true } })
+      this.classroomInstance.revokeStudentLicenses()
+      this.$emit('close')
+    },
+    unarchiveClass () {
+      this.updateClassroom({ classroom: this.classroom, updates: { archived: false } })
+      if (!this.getSessionsMapForClassroom(this.classroom._id)) {
+        this.fetchClassroomSessions({ classroom: this.classroom })
+      }
+      this.$emit('close')
+    },
+  },
+})
+</script>
+<style scoped lang="scss">
+@import "app/styles/ozaria/_ozaria-style-params.scss";
+::v-deep {
+
+  .link-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 15px;
+  }
+
+  .edit-class {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 5px 0px 5px;
+    width: 600px;
+  }
+  .edit-class-coco {
+    width: 650px;
+  }
+
+  .form-container {
+    width: 100%;
+    min-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &.container {
+      max-width: 100%;
+      .row {
+        width: 100%;
+      }
+    }
+
+    .form-group .control-label-desc {
+      display: inline-block;
+      text-align: justify;
+      line-height: 19px;
+      margin-top: 3px;
+    }
+  }
+
+  .class-name, .language, .autoComplete {
+    width: 100%;
+  }
+
+  .language input {
+    text-transform: capitalize;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+
+    button {
+      width: 180px;
+      height: 35px;
+      margin: 0 10px;
+      text-transform: capitalize;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+  }
+
+  .new-classes-per-week-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    > div {
+      width: 45%;
+    }
+  }
+
+  .class-grades-input {
+    display: block;
+
+    .elementary {
+      border-radius: 0px;
+      border: 2px solid #D4B235;
+      color: #D4B235;
+      &.selected, &:hover {
+        background: #D4B235;
+        color: #131B25;
+      }
+    }
+    .middle {
+      border-radius: 0px;
+      border: 2px solid #74C6DF;
+      color: #74C6DF;
+      &.selected, &:hover {
+        background: #74C6DF;
+        color: #131B25;
+      }
+    }
+    .high {
+      border-radius: 0px;
+      border: 2px solid #FF8600;
+      color: #FF8600;
+      &.selected, &:hover {
+        background: #FF8600;
+        color: #131B25;
+      }
+    }
+  }
+
+  .form-group {
+    &.has-error {
+      .form-error {
+        @include font-p-4-paragraph-smallest-gray;
+        display: inline-block;
+        color: $color-concept-flag-color !important;
+      }
+      .form-control {
+        color: $color-concept-flag-color !important;
+      }
+    }
+  }
+
+  .has-error {
+    .form-control {
+      border-color: #a94442 !important;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    }
+    .control-label {
+      color: #a94442 !important;
+    }
+  }
+
+  .form-error {
+    display: none;
+  }
+
+  .ozaria-primary-button {
+    color: #000000;
+  }
+
+  .form-checkbox-input {
+    @include font-p-4-paragraph-smallest-gray;
+    input {
+      width: 6%;
+    }
+  }
+
+  .ml-small {
+    margin-left: 5px;
+  }
+
+  .more-options-text-container {
+    margin-bottom: -5px;
+    margin-top: -5px;
+  }
+
+  .more-options-text {
+    font-size: 15px;
+
+    span {
+      font-size: 18px;
+      line-height: 15px;
+    }
+  }
+  p.help-block {
+    margin-bottom: 0;
+  }
+  .error {
+    color: red;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  .submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .saving-text {
+      @include font-p-4-paragraph-smallest-gray;
+      margin-top: 5px;
+    }
+
+    .error-msg {
+      margin-top: 5px;
+    }
+  }
+}
+</style>
