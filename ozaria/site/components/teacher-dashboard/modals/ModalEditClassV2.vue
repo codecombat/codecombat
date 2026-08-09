@@ -17,6 +17,7 @@
         v-else
         ref="pageSecond"
         v-model="newClass.pageSecond"
+        :page-first="newClass.pageFirst"
         :classroom="classroom"
       />
       <div class="form-group row">
@@ -158,7 +159,7 @@ export default Vue.extend({
       return title
     },
     ctaButtonText () {
-      if (this.currentPage === 1) {
+      if (this.currentPage === 1 && this.newClass.pageFirst.initCourse !== utils.courseIDs.INTRO_TO_AI) {
         return 'Next'
       } else {
         return this.classroomInstance.isNew() ? $.i18n.t('courses.create_class') : $.i18n.t('common.save_changes')
@@ -194,9 +195,9 @@ export default Vue.extend({
       this.currentPage = 1
     },
     async clickedCTA () {
-      if (this.currentPage === 1) {
-        const firstPageValid = this.$refs.pageFirst.validate()
-        if (!firstPageValid) return
+      const firstPageValid = this.$refs.pageFirst.validate()
+      if (!firstPageValid) return
+      if (this.currentPage === 1 && this.newClass.pageFirst.initCourse !== utils.courseIDs.INTRO_TO_AI) {
         this.currentPage = 2
       } else {
         await this.saveClass()

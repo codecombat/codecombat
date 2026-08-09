@@ -1,7 +1,11 @@
 <template>
   <div class="page-second">
+    <div class="title">
+      {{ `${pageFirst.name} - ${courseName}` }}
+    </div>
     <CodeLanguageFormatSelect
       v-model="newAce"
+      :course="pageFirst.course"
     />
     <MoreOptions
       v-model="newOptions"
@@ -11,6 +15,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import utils from 'core/utils'
 import CodeLanguageFormatSelect from './CodeLanguageFormatSelect'
 import MoreOptions from './MoreOptions'
 export default {
@@ -26,6 +32,10 @@ export default {
     value: {
       type: Object,
       required: true,
+    },
+    pageFirst: {
+      type: Object,
+      default: () => ({}),
     },
   },
   data () {
@@ -53,6 +63,18 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapGetters({
+      courses: 'courses/sorted',
+    }),
+    courseName () {
+      const course = this.courses.find(({ _id }) => _id === this.pageFirst?.initCourse)
+      if (!course) {
+        return ''
+      }
+      return utils.i18n(course, 'name')
+    },
+  },
   watch: {
     newAce: {
       deep: true,
@@ -69,3 +91,9 @@ export default {
   },
 }
 </script>
+<style scoped lang="scss">
+.title {
+  text-align: center;
+  font-weight: 800;
+}
+</style>
