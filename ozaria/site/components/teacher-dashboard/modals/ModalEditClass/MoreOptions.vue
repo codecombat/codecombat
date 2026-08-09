@@ -301,7 +301,7 @@
         class="more-options-text"
         @click="toggleMoreOptions"
       >
-        {{ moreOptionsText }}
+        {{ $t('courses.more_options') }}
         <span v-html="moreOptionsIcon" />
       </a>
       <!--eslint-enable-->
@@ -367,10 +367,6 @@ export default {
     },
     isOzaria () {
       return utils.isOzaria
-    },
-    moreOptionsText () {
-      const i18n = this.moreOptions ? 'hide_options' : 'more_options'
-      return this.$t(`courses.${i18n}`)
     },
     moreOptionsIcon () {
       return this.moreOptions ? '&nbsp;&and;' : '&nbsp;&or;'

@@ -46,7 +46,7 @@
     </div>
 
     <div
-      v-if="isCodeCombat && !hideCodeLanguageAndFormat"
+      v-if="isCodeCombat && notChapter && !hideCodeLanguageAndFormat"
       class="code-format col-xs-12"
     >
       <label
@@ -112,7 +112,7 @@
       <span class="help-block small text-navy">{{ $t("teachers.code_formats_description") }}</span>
     </div>
     <div
-      v-if="isCodeCombat"
+      v-if="isCodeCombat && notChapter"
       class="col-xs-12 default-code-format"
     >
       <label for="default-code-format-select">
@@ -184,6 +184,10 @@ export default {
       type: Object,
       required: true,
     },
+    course: {
+      type: String,
+      default: '',
+    },
   },
   data () {
     return {
@@ -200,6 +204,9 @@ export default {
     }),
     isCodeCombat () {
       return utils.isCodeCombat
+    },
+    notChapter () {
+      return this.course !== utils.allCourseIDs.CHAPTER_ONE
     },
     hideCodeLanguageAndFormat () {
       return this.asClub && ['club-esports', 'club-roblox', 'club-hackstack', 'camp-esports'].includes(this.newClubType)

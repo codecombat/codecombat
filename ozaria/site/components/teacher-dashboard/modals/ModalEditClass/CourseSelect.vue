@@ -4,7 +4,7 @@
     class="col-xs-12 initial-free-courses"
   >
     <label class="control-label checkbox-label">
-      {{ $t("teachers.initial_free_courses") }}
+      {{ $t("teachers.select_initial_course") }}
     </label>
     <div class="initial-courses options">
       <div
@@ -13,7 +13,7 @@
         class="initial-course option"
       >
         <label
-          class="checkbox-inline"
+          class="option-block"
         >
           <input
             v-model="newCourse"
@@ -23,12 +23,9 @@
           >
           <span class="option-name q-tooltip">
             {{ initialFreeCourse.name }}
-            <questionmark-view
-              popover-placement="top"
-            >
-              <template #popover><span>{{ initialFreeCourse.blurb }}</span></template>
-            </questionmark-view>
           </span>
+          <br>
+          <span class="small text-navy">{{ initialFreeCourse.blurb }}</span>
         </label>
       </div>
     </div>
@@ -41,12 +38,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import utils from 'core/utils'
-import QuestionmarkView from '../../../../../../app/views/ai-league/QuestionmarkView.vue'
 export default {
   name: 'EditClassCourseSelect',
-  components: {
-    QuestionmarkView,
-  },
   props: {
     asClub: {
       type: Boolean,
@@ -97,3 +90,12 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.option-block{
+  display: block;
+  border-radius: 5px;
+  border: 1px dotted black;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+</style>
