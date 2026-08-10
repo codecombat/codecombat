@@ -212,6 +212,7 @@
 </template>
 
 <script>
+import compileTemplate from 'lodash-4/template'
 import AIJuniorShareBox from './AIJuniorShareBox.vue'
 
 // Simple `<%= name %>` interpolations, which is all scenario outputs use.
@@ -452,7 +453,7 @@ export default {
           if (filled[match[1]] == null) filled[match[1]] = ''
         }
         try {
-          return _.template(template, filled)
+          return compileTemplate(template)(filled)
         } catch (err) {
           console.log('Template context error:', err, template, filled)
           return ''
