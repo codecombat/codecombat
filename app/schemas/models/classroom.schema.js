@@ -14,6 +14,7 @@ c.extendNamedProperties(ClassroomSchema) // name first
 _.extend(ClassroomSchema.properties, {
   name: { type: 'string', minLength: 1 },
   members: c.array({ title: 'Members' }, c.objectId()),
+  membersCount: { type: 'integer', title: 'Members Count', description: 'Cached count of members.length, kept in sync whenever members changes. Avoids scanning the members array for analytics/reporting queries.' },
   deletedMembers: c.array({ title: 'Deleted Members' }, c.objectId()),
   ownerID: c.objectId(),
   description: { type: 'string' },

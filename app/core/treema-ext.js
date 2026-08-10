@@ -878,10 +878,23 @@ class TaskTreema extends TreemaNode.nodeMap.string {
   }
 }
 
+// A plain number that happens to be measured in percent, like the AI Junior worksheet geometry.
+class PercentTreema extends TreemaNode.nodeMap.number {
+  static initClass () {
+    this.prototype.valueClass = 'treema-percent'
+  }
+
+  buildValueForDisplay (valEl, data) {
+    return this.buildValueForDisplaySimply(valEl, _.isNumber(data) ? `${data}%` : JSON.stringify(data) || '')
+  }
+}
+PercentTreema.initClass()
+
 // class CheckboxTreema extends TreemaNode.nodeMap.boolean
 // TODO: try this out
 
 module.exports.setup = function () {
+  TreemaNode.setNodeSubclass('percent', PercentTreema)
   TreemaNode.setNodeSubclass('date-time', DateTimeTreema)
   TreemaNode.setNodeSubclass('version', VersionTreema)
   TreemaNode.setNodeSubclass('markdown', LiveEditingMarkup)

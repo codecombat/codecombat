@@ -93,6 +93,12 @@ module.exports = (CocoRouter = (function () {
         'ai-junior/project/:scenarioId/:userId/:projectId': go('core/SingletonAppVueComponentView'),
 
         'ai-junior/demo': go('core/SingletonAppVueComponentView'),
+        'ai-junior/print/:scenarioHandle': go('core/SingletonAppVueComponentView'),
+        'ai-junior/print/:scenarioHandle/:classroomId': go('core/SingletonAppVueComponentView'),
+        'ai-junior/scan': go('core/SingletonAppVueComponentView'),
+        'ai-junior/scan/:scenarioHandle': go('core/SingletonAppVueComponentView'),
+        'ai-junior/scan/:scenarioHandle/:forUserId': go('core/SingletonAppVueComponentView'),
+        'ai-junior/creation/:projectId': go('core/SingletonAppVueComponentView'),
 
         licensor: go('LicensorView'),
 
@@ -369,10 +375,8 @@ module.exports = (CocoRouter = (function () {
         'tournaments/:pageType/:objectId': go('ladder/MainTournamentView'),
 
         'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }), // extra slash is to get Facebook app to work
-        // Admin-only while mini-games are in authoring; becomes the public play page at the GD-880 cutover.
-        'play/minigame/:slug' (slug) {
-          if (me.isAdmin()) { return this.routeDirectly('play/MiniGamePlayView', [slug]) }
-        },
+        // Public since the GD-880 cutover — the hackstack Star Lab iframe embeds this page.
+        'play/minigame/:slug': go('play/MiniGamePlayView'),
         'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView'),
         'play/ladder/:levelID': go('ladder/LadderView'),
         'play/ladder': go('ladder/MainLadderView'),
