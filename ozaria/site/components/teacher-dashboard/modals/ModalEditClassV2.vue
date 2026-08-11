@@ -4,7 +4,7 @@
     @close="$emit('close')"
   >
     <div
-      class="style-ozaria teacher-form edit-class container"
+      class="teacher-form edit-class container"
       :class="{ 'edit-class-coco': isCodeCombat }"
     >
       <PageFirst
@@ -20,31 +20,33 @@
         :page-first="newClass.pageFirst"
         :classroom="classroom"
       />
-      <div class="form-group row">
+      <div class="form-group row buttons-row">
         <div class="col-xs-12 buttons">
-          <tertiary-button
-            v-if="currentPage === 2"
-            class="class-unarchive"
-            @click="back"
-          >
-            {{ $t('common.back') }}
-          </tertiary-button>
-          <tertiary-button
-            v-if="archived"
-            class="class-unarchive"
-            @click="unarchiveClass"
-          >
-            <img src="/images/ozaria/teachers/dashboard/svg_icons/IconUnarchive.svg">
-            {{ $t("teacher.unarchive_class") }}
-          </tertiary-button>
-          <tertiary-button
-            v-if="!classroomInstance.isNew() && !archived"
-            class="class-archive"
-            @click="archiveClass"
-          >
-            <img src="/images/ozaria/teachers/dashboard/svg_icons/IconArchive.svg">
-            {{ $t("teacher.archive_class") }}
-          </tertiary-button>
+          <div class="buttons-left">
+            <tertiary-button
+              v-if="currentPage === 2"
+              class="class-unarchive"
+              @click="back"
+            >
+              {{ $t('common.back') }}
+            </tertiary-button>
+            <tertiary-button
+              v-if="archived"
+              class="class-unarchive"
+              @click="unarchiveClass"
+            >
+              <img src="/images/ozaria/teachers/dashboard/svg_icons/IconUnarchive.svg">
+              {{ $t("teacher.unarchive_class") }}
+            </tertiary-button>
+            <tertiary-button
+              v-if="!classroomInstance.isNew() && !archived"
+              class="class-archive"
+              @click="archiveClass"
+            >
+              <img src="/images/ozaria/teachers/dashboard/svg_icons/IconArchive.svg">
+              {{ $t("teacher.archive_class") }}
+            </tertiary-button>
+          </div>
           <div
             class="submit-button"
           >
@@ -441,10 +443,20 @@ export default Vue.extend({
     text-transform: capitalize;
   }
 
+  .buttons-row {
+    width: 100%;
+  }
+
   .buttons {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 15px;
+
+    .buttons-left {
+      display: flex;
+      align-items: center;
+    }
 
     button {
       width: 180px;

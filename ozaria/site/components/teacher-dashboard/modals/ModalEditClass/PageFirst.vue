@@ -226,30 +226,39 @@ export default Vue.extend({
         @otherProductClassroomIdUpdated="updateOtherProductClassroomId"
         @lmsClassroomIdUpdated="updateLmsClassroomId"
       />
-      <div
+      <template
         v-else
-        class="form-group row class-name"
-        :class="{ 'has-error': $v.newClass.name.$error }"
       >
-        <div class="col-xs-12">
-          <label for="form-class-name">
-            <span class="control-label"> {{ $t("teachers.class_name") }} </span>
-            <span
-              v-if="!$v.newClass.name.required"
-              class="form-error"
-            >
-              {{ $t("form_validation_errors.required") }}
-            </span>
-          </label>
-          <input
-            id="form-class-name"
-            v-model="$v.newClass.name.$model"
-            type="text"
-            class="form-control"
+        <div
+          class="form-group row class-name"
+        >
+          <div
+            class="col-xs-12"
+            :class="{ 'has-error': $v.newClass.name.$error }"
           >
+            <label for="form-class-name">
+              <span class="control-label"> {{ $t("teachers.class_name") }} </span>
+              <span
+                v-if="!$v.newClass.name.required"
+                class="form-error"
+              >
+                {{ $t("form_validation_errors.required") }}
+              </span>
+            </label>
+            <input
+              id="form-class-name"
+              v-model="$v.newClass.name.$model"
+              type="text"
+              class="form-control"
+            >
+          </div>
         </div>
-        <CourseSelect v-model="newClass.initCourse" />
-      </div>
+        <div
+          class="form-group row"
+        >
+          <CourseSelect v-model="newClass.initCourse" />
+        </div>
+      </template>
     </div>
   </div>
 </template>

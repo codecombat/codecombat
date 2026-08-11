@@ -25,11 +25,11 @@
             {{ initialFreeCourse.name }}
           </span>
           <br>
-          <span class="small text-navy">{{ initialFreeCourse.blurb }}</span>
+          <span class="help-block small">{{ initialFreeCourse.blurb }}</span>
         </label>
       </div>
     </div>
-    <p class="help-block small text-navy">
+    <p class="help-block small">
       {{ $t('teachers.initial_free_courses_description') }}
     </p>
   </div>
@@ -91,11 +91,18 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.option-block{
+.option-block {
   display: block;
   border-radius: 5px;
   border: 1px dotted black;
   cursor: pointer;
   padding: 5px 10px;
+}
+.help-block {
+  display: block;
+  margin-top: 2px;
+  margin-bottom: 5px;
+  font-size: 13px;
+  color: black;
 }
 </style>
