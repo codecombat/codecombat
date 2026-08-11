@@ -241,14 +241,20 @@ module.exports = (CampaignEditorView = (function () {
 
       const fetches = miniGames.map((miniGameTile, i) => {
         const original = miniGameTile && miniGameTile.miniGame
-        if (!original) { return Promise.resolve() }
+        if (!original) {
+          // No reference, no route key: a slug left over from a previous reference would send
+          // Star Lab to whatever game used to be here.
+          if (miniGameTile && miniGameTile.slug) { miniGames[i] = _.omit(miniGameTile, 'slug') }
+          return Promise.resolve()
+        }
+        // Keeping the old slug when the lookup fails is how a tile ends up pointing at one
+        // mini-game by original and another by slug, so an unresolved tile blocks the save.
+        const failed = () => { throw new Error(`Could not resolve the mini-game slug for ${original}. Check the mini-game reference on tile ${i + 1} and save again.`) }
         return Promise.resolve($.ajax({ url: `/db/mini_game/${original}/version`, method: 'GET' }))
           .then(doc => {
-            if (doc && doc.slug) { miniGames[i] = _.assign({}, miniGameTile, { slug: doc.slug }) }
-          })
-          .catch(() => {
-            // A lookup failure must not block the save; the previously stored slug stands.
-          })
+            if (!doc || !doc.slug) { failed() }
+            miniGames[i] = _.assign({}, miniGameTile, { slug: doc.slug })
+          }, failed)
       })
 
       return Promise.all(fetches).then(() => {
@@ -435,6 +441,10 @@ module.exports = (CampaignEditorView = (function () {
         this.updateCampaignLevels()
         this.toSave.set(this.toSave.filter(m => m.hasLocalChanges()))
         return this.openModalView(new SaveCampaignModal({}, this.toSave))
+      }).catch(err => {
+        // Leave the editor usable: the save is abandoned, not half-applied.
+        this.openingModal = false
+        noty({ timeout: 8000, text: err?.message || 'Could not prepare the campaign for saving.', type: 'error', layout: 'topCenter' })
       })
     }
 
