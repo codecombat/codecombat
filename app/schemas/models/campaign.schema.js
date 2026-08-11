@@ -241,7 +241,7 @@ _.extend(CampaignSchema.properties, {
             properties: {
               type: c.shortString({ title: 'Type', description: 'stars: earn stars. registered: be signed up.', enum: ['stars', 'registered'] }),
               campaign: c.shortString({ title: 'Send To Campaign', description: 'stars only: where clicking the locked tile sends the player to go earn stars, e.g. intro-to-ai. Stars count no matter which campaign they came from. Empty sends them to the galaxy map.' }),
-              amount: { type: 'number', title: 'Amount', description: 'stars only: how many stars are needed, across all campaigns.', minimum: 0 },
+              amount: { type: 'integer', title: 'Amount', description: 'stars only: how many stars are needed, across all campaigns.', minimum: 0 },
             },
           },
         },
