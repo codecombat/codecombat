@@ -43,7 +43,7 @@ export default Vue.extend({
       showGoogleClassroom: me.useGoogleClassroom(),
       newClass: {
         name: this.classroom?.name || this.value?.name || '',
-        initCourse: this.classroom?.initialFreeCourses?.[0] || (utils.isCodeCombat ? utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE : undefined),
+        initCourse: this.classroom?.initialFreeCourses?.[0] || this.value?.initCourse || (utils.isCodeCombat ? utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE : undefined),
       },
       googleSyncInProgress: false,
       otherProductSyncInProgress: false,
