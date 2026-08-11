@@ -23,6 +23,9 @@ class MiniGameOriginalNode extends treemaExt.LatestVersionOriginalReferenceNode 
       model.setURL(`/db/mini_game/${data}/version`)
       model.fetch({
         success: () => {
+          // The author may have picked a different mini-game while this was in flight; taking
+          // the stale doc would leave the row displaying one game and linking to another.
+          if (this.getData() !== data) { return }
           this.instance = model
           if (!this.isEditing()) { this.refreshDisplay() }
         },
