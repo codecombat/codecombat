@@ -45,9 +45,11 @@ class MiniGameOriginalNode extends treemaExt.LatestVersionOriginalReferenceNode 
   searchCallback () {
     const term = (this.getValEl().find('input').val() || '').trim().toLowerCase()
     if (term) {
-      this.collection.models = this.collection.models.filter(model => {
+      const matches = this.collection.models.filter(model => {
         return `${model.get('name') || ''} ${model.get('slug') || ''}`.toLowerCase().includes(term)
       })
+      // reset() rather than assigning models, so length and _byId stay in step with them.
+      this.collection.reset(matches)
     }
     return super.searchCallback()
   }
