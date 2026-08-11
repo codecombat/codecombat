@@ -556,19 +556,6 @@ export default Vue.extend({
     margin-left: 5px;
   }
 
-  .more-options-text-container {
-    margin-bottom: -5px;
-    margin-top: -5px;
-  }
-
-  .more-options-text {
-    font-size: 15px;
-
-    span {
-      font-size: 18px;
-      line-height: 15px;
-    }
-  }
   p.help-block {
     margin-bottom: 0;
   }

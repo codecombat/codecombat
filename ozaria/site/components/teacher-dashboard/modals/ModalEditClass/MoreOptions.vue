@@ -402,3 +402,20 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.more-options-text-container {
+  margin-bottom: -5px;
+  margin-top: -5px;
+  display: flex;
+  justify-content: center;
+}
+
+.more-options-text {
+  font-size: 15px;
+
+  span {
+    font-size: 18px;
+    line-height: 15px;
+  }
+}
+</style>
