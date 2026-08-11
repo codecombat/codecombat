@@ -59,7 +59,12 @@ class MiniGameOriginalNode extends treemaExt.LatestVersionOriginalReferenceNode 
       // The editor route takes a slug or an _id, so prefer the loaded doc's slug.
       const handle = this.instance?.get('slug') || originalId
       this.$el.find('.mini-game-link').remove()
-      this.$el.find('.treema-row').prepend($(`<span class='mini-game-link'><a href='/editor/minigame/${handle}' title='Edit Mini-Game' target='_blank' rel='noopener noreferrer'>(e)</a>&nbsp;</span>`))
+      // Built as elements, not markup: the original is whatever the campaign doc holds, and
+      // interpolating it into an href would let a quote in that value inject into the editor.
+      const link = $('<a></a>')
+        .attr({ href: `/editor/minigame/${encodeURIComponent(handle)}`, title: 'Edit Mini-Game', target: '_blank', rel: 'noopener noreferrer' })
+        .text('(e)')
+      this.$el.find('.treema-row').prepend($('<span></span>').addClass('mini-game-link').append(link).append(' '))
     }
     return valEl
   }
