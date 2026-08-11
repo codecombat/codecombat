@@ -237,7 +237,7 @@ _.extend(CampaignSchema.properties, {
         ruleToUnlock: {
           type: 'array',
           title: 'Rule To Unlock',
-          description: 'All rules must pass for the tile to unlock. Empty means always unlocked. The first unmet rule supplies the lock message, so order them the way a player should work through them.',
+          description: 'All rules must pass for the tile to unlock. Empty means always unlocked. The first unmet rule supplies the lock message and where its click leads, so order them the way a player should work through them.',
           items: {
             type: 'object',
             title: 'Rule',
@@ -245,9 +245,9 @@ _.extend(CampaignSchema.properties, {
             // rule Star Lab ships with, so a new rule starts editable rather than empty.
             default: { type: 'stars', campaign: 'intro-to-ai', amount: 1 },
             properties: {
-              type: c.shortString({ title: 'Type', description: 'stars: earn stars in a campaign. registered: be signed up.', enum: ['stars', 'registered'], default: 'stars' }),
-              campaign: c.shortString({ title: 'Campaign Slug', description: 'stars only: the campaign whose stars count, e.g. intro-to-ai.' }),
-              amount: { type: 'number', title: 'Amount', description: 'stars only: how many stars are needed.', minimum: 0 },
+              type: c.shortString({ title: 'Type', description: 'stars: earn stars. registered: be signed up.', enum: ['stars', 'registered'], default: 'stars' }),
+              campaign: c.shortString({ title: 'Send To Campaign', description: 'stars only: where clicking the locked tile sends the player to go earn stars, e.g. intro-to-ai. Stars count no matter which campaign they came from. Empty sends them to the galaxy map.' }),
+              amount: { type: 'number', title: 'Amount', description: 'stars only: how many stars are needed, across all campaigns.', minimum: 0 },
             },
           },
         },
