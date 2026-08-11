@@ -33,8 +33,23 @@ class MiniGameOriginalNode extends treemaExt.LatestVersionOriginalReferenceNode 
     }
   }
 
-  buildSearchURL (term) {
-    return `${this.url}?term=${encodeURIComponent(term)}&project=_id,original,name,slug&limit=10`
+  /**
+   * `mini_games` carries no text index (no SearchablePlugin), so the server answers
+   * `?term=` with a 500 on a `$text` query. The catalog is a handful of docs, so fetch it
+   * whole and match the term in the browser instead.
+   */
+  buildSearchURL () {
+    return `${this.url}?project=_id,original,name,slug&limit=100`
+  }
+
+  searchCallback () {
+    const term = (this.getValEl().find('input').val() || '').trim().toLowerCase()
+    if (term) {
+      this.collection.models = this.collection.models.filter(model => {
+        return `${model.get('name') || ''} ${model.get('slug') || ''}`.toLowerCase().includes(term)
+      })
+    }
+    return super.searchCallback()
   }
 
   buildValueForDisplay (valEl, data) {

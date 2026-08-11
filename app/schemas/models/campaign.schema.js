@@ -212,8 +212,11 @@ _.extend(CampaignSchema.properties, {
     items: {
       type: 'object',
       title: 'Mini-Game Tile',
+      // Treema only renders a property of a fresh object when the object schema defaults it,
+      // so this is what makes a newly added tile show its fields instead of an empty row.
+      default: { miniGame: '', displayName: '', icon: '', position: { row: 0, column: 0 }, ruleToUnlock: [] },
       properties: {
-        miniGame: c.stringID({ title: 'Mini-Game', format: 'mini-game-original', description: 'The MiniGame original this tile plays.', links: [{ rel: 'db', href: '/db/mini_game/{{$}}/version', model: 'MiniGame' }] }),
+        miniGame: { type: 'string', title: 'Mini-Game', format: 'mini-game-original', description: 'The MiniGame original this tile plays.', links: [{ rel: 'db', href: '/db/mini_game/{{$}}/version', model: 'MiniGame' }] },
         // - denormalized from the referenced MiniGame on save; the route, the analytics
         //   `gameName` and the tile identity all key off this.
         slug: { type: 'string', format: 'hidden' },
@@ -238,6 +241,9 @@ _.extend(CampaignSchema.properties, {
           items: {
             type: 'object',
             title: 'Rule',
+            // Defaults double as the fields treema renders on a fresh rule; this one is the
+            // rule Star Lab ships with, so a new rule starts editable rather than empty.
+            default: { type: 'stars', campaign: 'intro-to-ai', amount: 1 },
             properties: {
               type: c.shortString({ title: 'Type', description: 'stars: earn stars in a campaign. registered: be signed up.', enum: ['stars', 'registered'], default: 'stars' }),
               campaign: c.shortString({ title: 'Campaign Slug', description: 'stars only: the campaign whose stars count, e.g. intro-to-ai.' }),
