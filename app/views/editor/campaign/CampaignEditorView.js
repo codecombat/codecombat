@@ -33,6 +33,7 @@ const RevertModal = require('views/modal/RevertModal')
 const modelDeltas = require('lib/modelDeltas')
 const globalVar = require('core/globalVar')
 const { HackstackScenarioIDNode } = require('views/editor/ai-scenario/AIScenarioNode')
+const { MiniGameOriginalNode } = require('views/editor/minigame/MiniGameNode')
 const { LevelOriginalNode } = require('views/editor/level/LevelOriginalNode')
 const { CampaignIDNode } = require('./CampaignIDNode')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
@@ -231,6 +232,32 @@ module.exports = (CampaignEditorView = (function () {
       }
     }
 
+    // Denormalize the slug of each referenced mini-game into this.campaign.miniGames (GD-887).
+    // A tile stores the durable `original`, but Star Lab keys the route, the tile identity and
+    // the analytics gameName off the slug, so it has to be resolved and written at save time.
+    updateMiniGameSlugs () {
+      const miniGames = _.cloneDeep(this.campaign.get('miniGames') || [])
+      if (!miniGames.length) { return Promise.resolve() }
+
+      const fetches = miniGames.map((miniGameTile, i) => {
+        const original = miniGameTile && miniGameTile.miniGame
+        if (!original) { return Promise.resolve() }
+        return Promise.resolve($.ajax({ url: `/db/mini_game/${original}/version`, method: 'GET' }))
+          .then(doc => {
+            if (doc && doc.slug) { miniGames[i] = _.assign({}, miniGameTile, { slug: doc.slug }) }
+          })
+          .catch(() => {
+            // A lookup failure must not block the save; the previously stored slug stands.
+          })
+      })
+
+      return Promise.all(fetches).then(() => {
+        if (_.isEqual(miniGames, this.campaign.get('miniGames'))) { return }
+        this.campaign.set('miniGames', miniGames)
+        this.toSave.add(this.campaign)
+      })
+    }
+
     updateCampaignLevels () {
       let level, model
       if (this.campaign.hasLocalChanges()) { this.toSave.add(this.campaign) }
@@ -399,9 +426,10 @@ module.exports = (CampaignEditorView = (function () {
     onClickSaveButton (e) {
       if (this.openingModal) { return }
       this.openingModal = true
-      // Before saving, denormalize module campaign properties (name/fullName/slug) into modules.
+      // Before saving, denormalize module campaign properties (name/fullName/slug) into modules,
+      // and the referenced mini-game slugs into miniGames.
       this.updateModuleCampaigns()
-      return this.loadMissingLevelsAndRelatedModels().then(() => {
+      return this.updateMiniGameSlugs().then(() => this.loadMissingLevelsAndRelatedModels()).then(() => {
         this.openingModal = false
         this.propagateCampaignIndexes()
         this.updateCampaignLevels()
@@ -433,6 +461,7 @@ module.exports = (CampaignEditorView = (function () {
           rewards: RewardsNode,
           scenario: HackstackScenarioIDNode,
           'level-original': LevelOriginalNode,
+          'mini-game-original': MiniGameOriginalNode,
         },
         supermodel: this.supermodel,
       }
