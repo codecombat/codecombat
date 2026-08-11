@@ -1,7 +1,6 @@
 <template>
   <div class="form-group row code-language-format">
     <div
-      v-if="!hideCodeLanguageAndFormat"
       class="col-xs-12 language"
     >
       <label
@@ -46,7 +45,7 @@
     </div>
 
     <div
-      v-if="isCodeCombat && notChapter && !hideCodeLanguageAndFormat"
+      v-if="isCodeCombat && notChapter"
       class="code-format col-xs-12"
     >
       <label
@@ -208,9 +207,6 @@ export default {
     notChapter () {
       return this.course !== utils.allCourseIDs.CHAPTER_ONE
     },
-    hideCodeLanguageAndFormat () {
-      return this.asClub && ['club-esports', 'club-roblox', 'club-hackstack', 'camp-esports'].includes(this.newClubType)
-    },
     enableBlocks () {
       return ['python', 'javascript', 'lua'].includes(this.newAce.codeLanguage || 'python')
     },
@@ -317,14 +313,6 @@ export default {
         }
         this.$emit('input', newV)
       },
-    },
-    newClubType (newVal) {
-      if (['camp-junior', 'annual-plan-cn-coco'].includes(newVal)) {
-        if (!this.newInitialFreeCourses.includes(utils.courseIDs.JUNIOR)) {
-          this.newInitialFreeCourses.push(utils.courseIDs.JUNIOR)
-          this.$emit('initialFreeCoursesUpdated', this.newInitialFreeCourses)
-        }
-      }
     },
   },
   mounted () {

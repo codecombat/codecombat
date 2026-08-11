@@ -5,7 +5,7 @@
     </div>
     <CodeLanguageFormatSelect
       v-model="newAce"
-      :course="pageFirst.course"
+      :course="pageFirst.initCourse"
     />
     <MoreOptions
       v-model="newOptions"
@@ -33,9 +33,11 @@ export default {
       type: Object,
       required: true,
     },
+    // Shape: { name: String, initCourse: String }
     pageFirst: {
       type: Object,
       default: () => ({}),
+      validator: value => Object.keys(value).length === 0 || (('name' in value) && ('initCourse' in value)),
     },
   },
   data () {
