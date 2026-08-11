@@ -260,6 +260,10 @@ module.exports = (CampaignEditorView = (function () {
       return Promise.all(fetches).then(() => {
         if (_.isEqual(miniGames, this.campaign.get('miniGames'))) { return }
         this.campaign.set('miniGames', miniGames)
+        // Treema holds the authoritative copy: onTreemaChanged copies its data back over the
+        // model on the next edit, so a resolved slug written only to the model gets reverted,
+        // and the patch/delta views keep showing the tile without one.
+        if (this.treema) { this.treema.set('/miniGames', miniGames) }
         this.toSave.add(this.campaign)
       })
     }
@@ -435,16 +439,25 @@ module.exports = (CampaignEditorView = (function () {
       // Before saving, denormalize module campaign properties (name/fullName/slug) into modules,
       // and the referenced mini-game slugs into miniGames.
       this.updateModuleCampaigns()
-      return this.updateMiniGameSlugs().then(() => this.loadMissingLevelsAndRelatedModels()).then(() => {
+      // Only the preparation is caught here: a failure past this point is a bug worth an
+      // unhandled rejection in the console, not a "could not prepare the campaign" noty.
+      const prepared = this.updateMiniGameSlugs()
+        .then(() => this.loadMissingLevelsAndRelatedModels())
+        .then(() => true)
+        .catch(err => {
+          // Leave the editor usable: the save is abandoned, not half-applied.
+          console.error('Could not prepare the campaign for saving', err)
+          this.openingModal = false
+          noty({ timeout: 8000, text: err?.message || 'Could not prepare the campaign for saving.', type: 'error', layout: 'topCenter' })
+          return false
+        })
+      return prepared.then(ready => {
+        if (!ready) { return }
         this.openingModal = false
         this.propagateCampaignIndexes()
         this.updateCampaignLevels()
         this.toSave.set(this.toSave.filter(m => m.hasLocalChanges()))
         return this.openModalView(new SaveCampaignModal({}, this.toSave))
-      }).catch(err => {
-        // Leave the editor usable: the save is abandoned, not half-applied.
-        this.openingModal = false
-        noty({ timeout: 8000, text: err?.message || 'Could not prepare the campaign for saving.', type: 'error', layout: 'topCenter' })
       })
     }
 
