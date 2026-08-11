@@ -1,7 +1,7 @@
 <template>
   <div class="page-second">
-    <div class="title">
-      {{ `${pageFirst.name} - ${courseName}` }}
+    <div class="form-group row small">
+      {{ `${pageFirst.name} : ${courseName}` }}
     </div>
     <CodeLanguageFormatSelect
       v-model="newAce"
@@ -92,8 +92,4 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.title {
-  text-align: center;
-  font-weight: 800;
-}
 </style>
