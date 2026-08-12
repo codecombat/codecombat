@@ -27,7 +27,7 @@
             li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : "") + (hero.silverFrame ? " subscribe-unlock " : "") + (hero.premium ? " premium " : "") + (showLockBadge ? " needs-unlock" : "") + (signupLocked ? " signup-locked" : "") + (hero.petRow != null ? " pet-row-" + hero.petRow + " pet-column-" + hero.petColumn : ""))
               .hero-avatar
               if showLockBadge
-                img.lock-indicator(src="/images/pages/game-menu/lock.png", draggable="false")
+                img.lock-indicator(src="/images/pages/game-menu/lock.png", draggable="false", data-i18n="[alt]play.locked", alt="Locked")
       .carousel-inner
         for hero in heroes
           div(class="item hero-item" + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : ""), data-hero-id=hero.get('original'))
