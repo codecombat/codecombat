@@ -1560,7 +1560,6 @@ module.exports = {
       //    choose_junior_hero: "Choose Your Young Hero",
       //    sign_up_to_unlock: "Sign Up to Unlock!",
       //    sign_up_pet_blurb: "Create a free account to play as this pet!",
-      //    pet_subscribe_blurb: "Subscribe today to unlock this pet right away!",
       programming_language: '[AI_TRANSLATION]پروگرامنگ زبان',
       programming_language_description: '[AI_TRANSLATION]آپ کونسی پروگرامنگ زبان استعمال کرنا چاہتے ہیں؟',
       default: '[AI_TRANSLATION]Default',

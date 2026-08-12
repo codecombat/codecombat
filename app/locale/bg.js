@@ -1560,7 +1560,6 @@ module.exports = {
       //    choose_junior_hero: "Choose Your Young Hero",
       //    sign_up_to_unlock: "Sign Up to Unlock!",
       //    sign_up_pet_blurb: "Create a free account to play as this pet!",
-      //    pet_subscribe_blurb: "Subscribe today to unlock this pet right away!",
       programming_language: 'Език за програмиране',
       programming_language_description: 'Кой език за програмиране би искал да използваш?',
       default: 'По подразбиране',
