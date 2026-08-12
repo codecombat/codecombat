@@ -5,7 +5,7 @@
     </div>
     <CodeLanguageFormatSelect
       v-model="newAce"
-      :course="pageFirst.initCourse"
+      :courses="[pageFirst.initCourse]"
     />
     <MoreOptions
       v-model="newOptions"
@@ -94,4 +94,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.page-second {
+  width: 100%;
+}
 </style>
