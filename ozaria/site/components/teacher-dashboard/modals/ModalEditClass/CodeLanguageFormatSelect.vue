@@ -1,157 +1,164 @@
 <template>
-  <div class="form-group row code-language-format">
+  <div class="code-language-format">
     <div
-      class="col-xs-12 language"
+      class="form-group row language"
     >
-      <label
-        for="form-lang-item"
-        class="q-tooltip"
-      >
-        <span class="control-label"> {{ $t("teachers.programming_language") }} </span>
-        <questionmark-view
-          v-if="isCodeCombat"
-          popover-placement="top"
+      <div class="col-xs-12">
+        <label
+          for="form-lang-item"
+          class="q-tooltip"
         >
-          <template #popover>
-            <p class="help-block small text-navy">
-              {{ $t("teachers.hackstack_no_code_language_format") }}
-            </p>
-          </template>
-        </questionmark-view>
-      </label>
-      <select
-        id="form-lang-item"
-        v-model="newAce.codeLanguage"
-        class="form-control"
-        :class="{ 'placeholder-text': !newAce.codeLanguage }"
-        name="classLanguage"
-        :disabled="availableLanguages?.filter(l => !l.disabled).length === 0"
-      >
-        <option
-          v-for="enabledLanguage in availableLanguages"
-          :key="enabledLanguage.id"
-          :value="enabledLanguage.id"
-          :disabled="enabledLanguage.disabled"
+          <span class="control-label"> {{ $t("teachers.programming_language") }} </span>
+          <questionmark-view
+            v-if="isCodeCombat"
+            popover-placement="top"
+          >
+            <template #popover>
+              <p class="help-block small text-navy">
+                {{ $t("teachers.hackstack_no_code_language_format") }}
+              </p>
+            </template>
+          </questionmark-view>
+        </label>
+        <select
+          id="form-lang-item"
+          v-model="newAce.codeLanguage"
+          class="form-control"
+          :class="{ 'placeholder-text': !newAce.codeLanguage }"
+          name="classLanguage"
+          :disabled="availableLanguages?.filter(l => !l.disabled).length === 0"
         >
-          {{ enabledLanguage.name }}
-        </option>
-      </select>
-      <span
-        v-if="!isNewClassroom"
-        class="help-block small text-navy"
-      >
-        {{ $t("teachers.programming_language_edit_desc_new") }}
-      </span>
+          <option
+            v-for="enabledLanguage in availableLanguages"
+            :key="enabledLanguage.id"
+            :value="enabledLanguage.id"
+            :disabled="enabledLanguage.disabled"
+          >
+            {{ enabledLanguage.name }}
+          </option>
+        </select>
+        <span
+          v-if="!isNewClassroom"
+          class="help-block small text-navy"
+        >
+          {{ $t("teachers.programming_language_edit_desc_new") }}
+        </span>
+      </div>
     </div>
 
     <div
       v-if="isCodeCombat && notChapter"
-      class="code-format col-xs-12"
+      class="form-group row code-format"
     >
-      <label
-        class="code-format-label q-tooltip checkbox-label"
-      >
-        <span class="control-label"> {{ $t("teachers.code_formats") }} </span>
-        <questionmark-view popover-placement="top">
-          <template #popover>
-            <p
-              v-if="!enableBlocks"
-              class="help-block small text-navy"
-            >
-              {{ $t("teachers.code_formats_disabled_by", { language: codeLanguageObject[newAce.codeLanguage]?.name }) }}
-            </p>
-            <p
-              v-if="!hasJunior"
-              class="help-block small text-navy"
-            >
-              {{ $t("teachers.junior_code_format_only") }}
-            </p>
-            <p
-              v-if="hasHackstack"
-              class="help-block small text-navy"
-            >
-              {{ $t("teachers.hackstack_no_code_language_format") }}
-            </p>
-            <p class="help-block small text-navy">
-              {{ $t('teachers.code_formats_mobile') }}
-            </p>
-            <p class="help-block small text-navy">
-              {{ $t('teachers.code_formats_fallback') }}
-            </p>
-          </template>
-        </questionmark-view>
-      </label>
-      <div class="options">
-        <div
-          v-for="codeFormat in availableCodeFormats"
-          :key="codeFormat.id"
-          class="option"
+      <div class="col-xs-12">
+        <label
+          class="code-format-label q-tooltip checkbox-label"
         >
-          <label
-            class="checkbox-inline"
-            :disabled="codeFormat.disabled"
+          <span class="control-label"> {{ $t("teachers.code_formats") }} </span>
+          <questionmark-view popover-placement="top">
+            <template #popover>
+              <p
+                v-if="!enableBlocks"
+                class="help-block small text-navy"
+              >
+                {{ $t("teachers.code_formats_disabled_by", { language: codeLanguageObject[newAce.codeLanguage]?.name }) }}
+              </p>
+              <p
+                v-if="!hasJunior"
+                class="help-block small text-navy"
+              >
+                {{ $t("teachers.junior_code_format_only") }}
+              </p>
+              <p
+                v-if="hasHackstack"
+                class="help-block small text-navy"
+              >
+                {{ $t("teachers.hackstack_no_code_language_format") }}
+              </p>
+              <p class="help-block small text-navy">
+                {{ $t('teachers.code_formats_mobile') }}
+              </p>
+              <p class="help-block small text-navy">
+                {{ $t('teachers.code_formats_fallback') }}
+              </p>
+            </template>
+          </questionmark-view>
+        </label>
+        <div class="options">
+          <div
+            v-for="codeFormat in availableCodeFormats"
+            :key="codeFormat.id"
+            class="option"
           >
-            <input
-              v-model="newAce.codeFormats"
-              :value="codeFormat.id"
+            <label
+              class="checkbox-inline"
               :disabled="codeFormat.disabled"
-              name="codeFormats"
-              type="checkbox"
             >
-            <span class="option-name">{{ codeFormat.name }}</span>
-            <span
-              v-if="codeFormat.helpText"
-              class="small text-navy"
-            >
-              ({{ codeFormat.helpText }})
-            </span>
-          </label>
+              <input
+                v-model="newAce.codeFormats"
+                :value="codeFormat.id"
+                :disabled="codeFormat.disabled"
+                name="codeFormats"
+                type="checkbox"
+              >
+              <span class="option-name">{{ codeFormat.name }}</span>
+              <span
+                v-if="codeFormat.helpText"
+                class="small text-navy"
+              >
+                ({{ codeFormat.helpText }})
+              </span>
+            </label>
+          </div>
         </div>
+        <span class="help-block small text-navy">{{ $t("teachers.code_formats_description") }}</span>
       </div>
-      <span class="help-block small text-navy">{{ $t("teachers.code_formats_description") }}</span>
     </div>
+
     <div
       v-if="isCodeCombat && notChapter"
-      class="col-xs-12 default-code-format"
+      class="form-group row default-code-format"
     >
-      <label for="default-code-format-select">
-        <span class="control-label"> {{ $t("teachers.default_code_format") }} </span>
-      </label>
-      <input
-        v-if="enabledCodeFormats.length === 1"
-        v-model="newAce.codeFormatDefault"
-        type="text"
-        class="form-control"
-        disabled
-      >
-      <select
-        v-else
-        id="default-code-format-select"
-        v-model="newAce.codeFormatDefault"
-        class="form-control"
-        name="codeFormatDefault"
-        :disabled="enabledCodeFormats.length === 0"
-      >
-        <option
-          v-for="codeFormat in enabledCodeFormats"
-          :key="codeFormat.id"
-          :value="codeFormat.id"
+      <div class="col-xs-12">
+        <label for="default-code-format-select">
+          <span class="control-label"> {{ $t("teachers.default_code_format") }} </span>
+        </label>
+        <input
+          v-if="enabledCodeFormats.length === 1"
+          v-model="newAce.codeFormatDefault"
+          type="text"
+          class="form-control"
+          disabled
         >
-          {{ codeFormat.name }}
-        </option>
-      </select>
-      <span
-        v-if="!hasOnlyHackstack"
-        class="help-block small text-navy"
-      >
-        {{ $t("teachers.default_code_format_description") }}
-      </span>
-      <span
-        v-if="hasOnlyHackstack"
-        class="help-block small text-navy"
-      >
-        {{ $t("teachers.hackstack_no_code_language_format") }}
-      </span>
+        <select
+          v-else
+          id="default-code-format-select"
+          v-model="newAce.codeFormatDefault"
+          class="form-control"
+          name="codeFormatDefault"
+          :disabled="enabledCodeFormats.length === 0"
+        >
+          <option
+            v-for="codeFormat in enabledCodeFormats"
+            :key="codeFormat.id"
+            :value="codeFormat.id"
+          >
+            {{ codeFormat.name }}
+          </option>
+        </select>
+        <span
+          v-if="!hasOnlyHackstack"
+          class="help-block small text-navy"
+        >
+          {{ $t("teachers.default_code_format_description") }}
+        </span>
+        <span
+          v-if="hasOnlyHackstack"
+          class="help-block small text-navy"
+        >
+          {{ $t("teachers.hackstack_no_code_language_format") }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -167,10 +174,6 @@ export default {
     QuestionmarkView,
   },
   props: {
-    isNewClassroom: {
-      type: Boolean,
-      default: false,
-    },
     classroomId: {
       type: String,
       default: '',
@@ -183,9 +186,9 @@ export default {
       type: Object,
       required: true,
     },
-    course: {
-      type: String,
-      default: '',
+    courses: {
+      type: Array,
+      default: () => [],
     },
   },
   data () {
@@ -205,7 +208,7 @@ export default {
       return utils.isCodeCombat
     },
     notChapter () {
-      return this.course !== utils.allCourseIDs.CHAPTER_ONE
+      return !this.courses.includes(utils.allCourseIDs.CHAPTER_ONE)
     },
     enableBlocks () {
       return ['python', 'javascript', 'lua'].includes(this.newAce.codeLanguage || 'python')
@@ -217,12 +220,8 @@ export default {
       return this.hasCourse(utils.courseIDs.HACKSTACK)
     },
     hasOnlyHackstack () {
-      if (this.isNewClassroom) {
-        return this.newInitialFreeCourses.includes(utils.courseIDs.INTRO_TO_AI) && this.newInitialFreeCourses?.length === 1
-      } else {
-        const courseInstances = this.getCourseInstances(this.classroomId)
-        return courseInstances?.every(ci => utils.HACKSTACK_COURSE_IDS.includes(ci.courseID))
-      }
+      const hsCourses = this.courses.filter(c => utils.HACKSTACK_COURSE_IDS.includes(c))
+      return this.courses.length === hsCourses.length
     },
     availableCodeFormats () {
       const codeFormats = JSON.parse(JSON.stringify(this.codeFormatObject))
@@ -265,25 +264,8 @@ export default {
 
       return Object.values(languages)
     },
-    initialFreeCourses () {
-      if (!this.isCodeCombat) {
-        return []
-      }
-      const freeCocoCourseIDs = [...utils.freeCocoCourseIDs, utils.OZ_COURSE_IDS_MAP.CHAPTER_ONE]
-      return [
-        ...freeCocoCourseIDs.map(id => {
-          const course = this.courses.find(({ _id }) => _id === id)
-          if (!course) {
-            // computed value uses in template before mounted, so no courses yet
-            return {}
-          }
-          return {
-            id,
-            name: utils.i18n(course, 'name'),
-            blurb: $.i18n.t(`teachers.free_course_blurb_${course.slug}`),
-          }
-        }),
-      ]
+    isNewClassroom () {
+      return !this.classroomId
     },
   },
   watch: {
@@ -328,11 +310,7 @@ export default {
   },
   methods: {
     hasCourse (courseId) {
-      if (this.isNewClassroom) {
-        return this.newInitialFreeCourses.includes(courseId)
-      } else {
-        return this.getCourseInstances(this.classroomId)?.some(ci => ci.courseID === courseId)
-      }
+      return this.courses.includes(courseId)
     },
   },
 }
