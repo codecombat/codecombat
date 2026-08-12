@@ -181,6 +181,20 @@ $heroCanvasHeight: 275px
               left: calc(21px * $AV_SCALE)
               top: calc(18px * $AV_SCALE)
 
+          // Any pet the player cannot pick yet: greyed portrait plus a padlock,
+          // matching the campaign map's locked-level treatment. Frames stay in
+          // colour, so silver/gem still read as different unlock paths.
+          .lock-indicator
+            position: absolute
+            width: 40%
+            left: 30%
+            top: 30%
+            @include filter(invert(90%))
+
+          &.needs-unlock
+            .hero-avatar
+              @include filter(grayscale(1) brightness(0.75))
+
           &.subscribe-unlock
             background-image: url(/images/pages/play/modal/hero-portrait-silver.png)
             background-size: 100% 100%
@@ -228,13 +242,6 @@ $heroCanvasHeight: 275px
                 height: calc(54px * $AV_SCALE)
                 left: calc(21px * $AV_SCALE)
                 top: calc(19px * $AV_SCALE)
-
-            .lock-indicator
-              position: absolute
-              width: 40%
-              left: 30%
-              top: 30%
-              @include filter(invert(90%))
 
           &.purchasable
             .hero-avatar
