@@ -79,7 +79,9 @@
           else
             #locked-hero-explanation
               h2(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscribe_unlock' : 'play.subscribers_only')
-              span.spr.subscribers(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscriber_heroes' : 'play.subscriber_gems')
+              //- play.subscriber_heroes names classic heroes and play.subscriber_gems
+                offers a gem purchase that junior pets do not have, so neither fits here
+              span.spr.subscribers(data-i18n="choose_hero.pet_subscribe_blurb")
             button.btn.subscribe-button#subscribe-hero-button(data-hero-slug=visibleHero.get('slug'))
               span.spr(data-i18n="subscribe.subscribe_title") Subscribe
 

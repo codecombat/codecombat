@@ -1560,6 +1560,7 @@ module.exports = {
       //    choose_junior_hero: "Choose Your Young Hero",
       //    sign_up_to_unlock: "Sign Up to Unlock!",
       //    sign_up_pet_blurb: "Create a free account to play as this pet!",
+      //    pet_subscribe_blurb: "Subscribe today to unlock this pet right away!",
       programming_language: '프로그래밍 언어',
       programming_language_description: '어떤 프로그래밍 언어를 사용하실 건가요?',
       default: '기본',

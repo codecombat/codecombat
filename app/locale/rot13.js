@@ -1560,6 +1560,7 @@ module.exports = {
       choose_junior_hero: 'Pubbfr Lbhe Lbhat Ureb',
       sign_up_to_unlock: 'Fvta Hc gb Haybpx!',
       sign_up_pet_blurb: 'Perngr n serr nppbhag gb cynl nf guvf crg!',
+      pet_subscribe_blurb: 'Fhofpevor gbqnl gb haybpx guvf crg evtug njnl!',
       programming_language: 'Cebtenzzvat Ynathntr',
       programming_language_description: 'Juvpu cebtenzzvat ynathntr qb lbh jnag gb hfr?',
       default: 'Qrsnhyg',
