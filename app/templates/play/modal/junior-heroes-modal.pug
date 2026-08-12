@@ -18,10 +18,15 @@
       .carousel-indicator-container
         ol.carousel-indicators
           for hero, index in heroes
-            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : "") + (hero.silverFrame ? " subscribe-unlock " : "") + (hero.premium ? " premium " : "") + (hero.locked || hero.requiresSignup ? " needs-unlock" : "") + (hero.petRow != null ? " pet-row-" + hero.petRow + " pet-column-" + hero.petColumn : ""))
+            //- Beta arm only, so the junior-pet-access control keeps today's look and
+              stays a clean baseline. Roll out to everyone once the experiment closes.
+              Signup pets count as locked here even though hero.locked is false - they
+              cannot be played until the child has an account.
+            - var showLockBadge = inPetAccessBeta && (hero.locked || hero.requiresSignup)
+            - var signupLocked = inPetAccessBeta && hero.requiresSignup
+            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : "") + (hero.silverFrame ? " subscribe-unlock " : "") + (hero.premium ? " premium " : "") + (showLockBadge ? " needs-unlock" : "") + (signupLocked ? " signup-locked" : "") + (hero.petRow != null ? " pet-row-" + hero.petRow + " pet-column-" + hero.petColumn : ""))
               .hero-avatar
-              //- Signup-tier pets keep locked = false but still need a badge
-              if hero.locked || hero.requiresSignup
+              if showLockBadge
                 img.lock-indicator(src="/images/pages/game-menu/lock.png", draggable="false")
       .carousel-inner
         for hero in heroes
@@ -79,9 +84,10 @@
           else
             #locked-hero-explanation
               h2(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscribe_unlock' : 'play.subscribers_only')
-              //- play.subscriber_heroes names classic heroes and play.subscriber_gems
-                offers a gem purchase that junior pets do not have, so neither fits here
-              span.spr.subscribers(data-i18n="choose_hero.pet_subscribe_blurb")
+              //- play.subscriber_heroes names classic heroes, which means nothing to a
+                junior player. play.subscriber_gems stays: for a control-arm gem pet,
+                subscribing really is what unlocks the gem purchase.
+              span.spr.subscribers(data-i18n=visibleHero.unlockBySubscribing ? 'choose_hero.pet_subscribe_blurb' : 'play.subscriber_gems')
             button.btn.subscribe-button#subscribe-hero-button(data-hero-slug=visibleHero.get('slug'))
               span.spr(data-i18n="subscribe.subscribe_title") Subscribe
 

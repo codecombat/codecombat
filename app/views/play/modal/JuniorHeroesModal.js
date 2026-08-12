@@ -186,9 +186,10 @@ module.exports = (JuniorHeroesModal = (function () {
         hero.petRow = petAccess.position?.row
         hero.petColumn = petAccess.position?.column
         hero.purchasable = false // no gem purchases in the experiment tiers; premium tier upsells the subscription
-        // Frames: gem for the premium tier always (hero.premium), silver for any other gated pet -
-        // module pets while locked, and signup pets while the user is still anonymous
-        hero.silverFrame = (hero.locked || hero.requiresSignup) && petAccess.access !== 'premium'
+        // Frames: gem for the premium tier always (hero.premium), silver for locked module pets.
+        // Signup pets keep the plain frame they have once unlocked - they are selectable already,
+        // so the greyed portrait is the only hint they need.
+        hero.silverFrame = hero.locked && petAccess.access !== 'premium'
       } else {
         const access = (rosterBySlug[hero.attributes.slug] || {}).access
         hero.free = access === 'free'
