@@ -269,7 +269,7 @@ module.exports = (CourseVictoryModal = (function () {
     onToMap () {
       let link
       if (me.isSessionless()) {
-        link = '/teachers/courses'
+        link = utils.sessionlessCoursesUrl(this.level.get('product'))
       } else {
         link = `/play/${this.course.get('campaignID')}?course-instance=${this.courseInstanceID}`
       }
@@ -281,7 +281,7 @@ module.exports = (CourseVictoryModal = (function () {
       let link
       window.tracker?.trackEvent('Play Level Victory Modal Done', { category: 'Students', levelSlug: this.level.get('slug') })
       if (me.isSessionless()) {
-        link = '/teachers/courses'
+        link = utils.sessionlessCoursesUrl(this.level.get('product'))
       } else {
         link = '/students'
       }

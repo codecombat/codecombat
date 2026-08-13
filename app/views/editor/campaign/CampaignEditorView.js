@@ -33,6 +33,7 @@ const RevertModal = require('views/modal/RevertModal')
 const modelDeltas = require('lib/modelDeltas')
 const globalVar = require('core/globalVar')
 const { HackstackScenarioIDNode } = require('views/editor/ai-scenario/AIScenarioNode')
+const { MiniGameOriginalNode } = require('views/editor/minigame/MiniGameNode')
 const { LevelOriginalNode } = require('views/editor/level/LevelOriginalNode')
 const { CampaignIDNode } = require('./CampaignIDNode')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
@@ -231,6 +232,42 @@ module.exports = (CampaignEditorView = (function () {
       }
     }
 
+    // Denormalize the slug of each referenced mini-game into this.campaign.miniGames (GD-887).
+    // A tile stores the durable `original`, but Star Lab keys the route, the tile identity and
+    // the analytics gameName off the slug, so it has to be resolved and written at save time.
+    updateMiniGameSlugs () {
+      const miniGames = _.cloneDeep(this.campaign.get('miniGames') || [])
+      if (!miniGames.length) { return Promise.resolve() }
+
+      const fetches = miniGames.map((miniGameTile, i) => {
+        const original = miniGameTile && miniGameTile.miniGame
+        if (!original) {
+          // No reference, no route key: a slug left over from a previous reference would send
+          // Star Lab to whatever game used to be here.
+          if (miniGameTile && miniGameTile.slug) { miniGames[i] = _.omit(miniGameTile, 'slug') }
+          return Promise.resolve()
+        }
+        // Keeping the old slug when the lookup fails is how a tile ends up pointing at one
+        // mini-game by original and another by slug, so an unresolved tile blocks the save.
+        const failed = () => { throw new Error(`Could not resolve the mini-game slug for ${original}. Check the mini-game reference on tile ${i + 1} and save again.`) }
+        return Promise.resolve($.ajax({ url: `/db/mini_game/${original}/version`, method: 'GET' }))
+          .then(doc => {
+            if (!doc || !doc.slug) { failed() }
+            miniGames[i] = _.assign({}, miniGameTile, { slug: doc.slug })
+          }, failed)
+      })
+
+      return Promise.all(fetches).then(() => {
+        if (_.isEqual(miniGames, this.campaign.get('miniGames'))) { return }
+        this.campaign.set('miniGames', miniGames)
+        // Treema holds the authoritative copy: onTreemaChanged copies its data back over the
+        // model on the next edit, so a resolved slug written only to the model gets reverted,
+        // and the patch/delta views keep showing the tile without one.
+        if (this.treema) { this.treema.set('/miniGames', miniGames) }
+        this.toSave.add(this.campaign)
+      })
+    }
+
     updateCampaignLevels () {
       let level, model
       if (this.campaign.hasLocalChanges()) { this.toSave.add(this.campaign) }
@@ -399,9 +436,23 @@ module.exports = (CampaignEditorView = (function () {
     onClickSaveButton (e) {
       if (this.openingModal) { return }
       this.openingModal = true
-      // Before saving, denormalize module campaign properties (name/fullName/slug) into modules.
+      // Before saving, denormalize module campaign properties (name/fullName/slug) into modules,
+      // and the referenced mini-game slugs into miniGames.
       this.updateModuleCampaigns()
-      return this.loadMissingLevelsAndRelatedModels().then(() => {
+      // Only the preparation is caught here: a failure past this point is a bug worth an
+      // unhandled rejection in the console, not a "could not prepare the campaign" noty.
+      const prepared = this.updateMiniGameSlugs()
+        .then(() => this.loadMissingLevelsAndRelatedModels())
+        .then(() => true)
+        .catch(err => {
+          // Leave the editor usable: the save is abandoned, not half-applied.
+          console.error('Could not prepare the campaign for saving', err)
+          this.openingModal = false
+          noty({ timeout: 8000, text: err?.message || 'Could not prepare the campaign for saving.', type: 'error', layout: 'topCenter' })
+          return false
+        })
+      return prepared.then(ready => {
+        if (!ready) { return }
         this.openingModal = false
         this.propagateCampaignIndexes()
         this.updateCampaignLevels()
@@ -433,6 +484,7 @@ module.exports = (CampaignEditorView = (function () {
           rewards: RewardsNode,
           scenario: HackstackScenarioIDNode,
           'level-original': LevelOriginalNode,
+          'mini-game-original': MiniGameOriginalNode,
         },
         supermodel: this.supermodel,
       }

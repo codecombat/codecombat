@@ -135,7 +135,7 @@
         return link
       mapLink: ->
         if me.isSessionless()
-          link = "/teachers/courses"
+          link = utils.sessionlessCoursesUrl(@level.product)
         else
           link = "/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
         return link
