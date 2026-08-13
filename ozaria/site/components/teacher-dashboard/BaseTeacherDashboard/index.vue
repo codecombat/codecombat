@@ -56,6 +56,7 @@ export default {
     return {
       showRestrictedDiv: false,
       showNewClassModal: false,
+      showNewClubModal: false,
       showAssignContentModal: false,
       showApplyLicensesModal: false,
       showAddStudentsModal: false,
@@ -256,15 +257,14 @@ export default {
     },
 
     openNewClubModal () {
-      if (this.showNewClassModal) {
+      if (this.showNewClubModal) {
         return
       }
 
       // Handle tour accidentally obscuring user opening new class modal
       this.runningTour?.complete?.()
 
-      this.newClassroomAsClub = true
-      this.showNewClassModal = true
+      this.showNewClubModal = true
     },
 
     /**
@@ -274,13 +274,9 @@ export default {
      **/
     closeShowNewModal () {
       this.showNewClassModal = false
+      this.showNewClubModal = false
       if (this.editCurrent) {
         this.editCurrent = false
-        return
-      }
-
-      if (this.newClassroomAsClub) {
-        this.newClassroomAsClub = false
         return
       }
 
@@ -537,14 +533,13 @@ export default {
     <modal-edit-class-v2
       v-if="showNewClassModal && !editCurrent && !showNonTeacherPreview"
       :classroom="newClassroom"
-      :as-club="newClassroomAsClub"
       @close="closeShowNewModal"
       @created="handleCreatedClass"
     />
     <modal-edit-class
-      v-if="showNewClassModal && editCurrent"
+      v-if="showNewClubModal || editCurrent"
       :classroom="editClassroomObject"
-      :as-club="isCodeNinjaClubCamp(editClassroomObject)"
+      :as-club="true"
       @close="closeShowNewModal"
     />
     <modal-assign-content
