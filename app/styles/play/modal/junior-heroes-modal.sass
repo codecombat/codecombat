@@ -181,6 +181,33 @@ $heroCanvasHeight: 275px
               left: calc(21px * $AV_SCALE)
               top: calc(18px * $AV_SCALE)
 
+          // Any pet the player cannot pick yet: greyed portrait plus a padlock,
+          // matching the campaign map's locked-level treatment. Frames stay in
+          // colour, so silver/gem still read as different unlock paths.
+          .lock-indicator
+            position: absolute
+            width: 40%
+            left: 30%
+            top: 30%
+            @include filter(invert(90%))
+
+          &.needs-unlock
+            .hero-avatar
+              @include filter(grayscale(1) brightness(0.75))
+
+          // Signup pets keep the plain frame, so grey the whole tile - frame included -
+          // instead of the portrait alone. Skipped while active so the selected-frame
+          // highlight still reads; the portrait keeps greying via the rule above.
+          // Only grayscale goes on the tile: a filter applies to the whole subtree, so
+          // dimming here would dim the padlock too and it would not match the other
+          // tiers. The portrait carries brightness itself, and lock.png is already
+          // achromatic, so grayscale leaves the badge pixel-identical.
+          &.needs-unlock.signup-locked:not(.active)
+            @include filter(grayscale(1))
+
+            .hero-avatar
+              @include filter(brightness(0.75))
+
           &.subscribe-unlock
             background-image: url(/images/pages/play/modal/hero-portrait-silver.png)
             background-size: 100% 100%
@@ -228,13 +255,6 @@ $heroCanvasHeight: 275px
                 height: calc(54px * $AV_SCALE)
                 left: calc(21px * $AV_SCALE)
                 top: calc(19px * $AV_SCALE)
-
-            .lock-indicator
-              position: absolute
-              width: 40%
-              left: 30%
-              top: 30%
-              @include filter(invert(90%))
 
           &.purchasable
             .hero-avatar
@@ -422,7 +442,9 @@ $heroCanvasHeight: 275px
       text-align: center
       margin: 0 auto
 
-    span.subscribers
+    // .signup-required carries its blurb on a plain .spr span, so it needs the same
+    // centring the subscribe branch gets from .subscribers
+    span.subscribers, &.signup-required span
       text-align: center
       display: table
       margin: 0 auto

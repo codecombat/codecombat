@@ -26,7 +26,6 @@ const userUtils = require('lib/user-utils')
 const _ = require('lodash')
 const moment = window.moment
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
-const GALAXY_TUTORIAL_EXPERIMENT = 'galaxy-tutorial'
 const JUNIOR_PET_ACCESS_EXPERIMENT = 'junior-pet-access'
 // Users created before this date are grandfathered out of junior-pet-access; set to the rollout date before enabling
 const JUNIOR_PET_ACCESS_CUTOFF_DATE = '2026-07-29'
@@ -1611,33 +1610,6 @@ module.exports = (User = (function () {
         return 'control'
       }
       return this.tryStartExperiment(JUNIOR_PET_ACCESS_EXPERIMENT)
-    }
-
-    getGalaxyTutorialExperimentValue () {
-      // Returns the value the user is already assigned to (or a query-string override),
-      // or null if the user has never been enrolled. This intentionally ignores the
-      // home-user gating so that anyone already enrolled keeps their assigned value.
-      return utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery(GALAXY_TUTORIAL_EXPERIMENT),
-        me.getExperimentValue(GALAXY_TUTORIAL_EXPERIMENT, null),
-      ) ?? null
-    }
-
-    getOrStartGalaxyTutorialExperimentValue () {
-      // Home users only: exclude teachers/students and users on the China infrastructure
-      // up front, before even looking at an existing value.
-      if (me.isTeacher() || me.isStudent()) {
-        return 'control'
-      }
-      if (features?.chinaInfra) {
-        return 'control'
-      }
-      // Continue the experiment for anyone already enrolled.
-      const value = this.getGalaxyTutorialExperimentValue()
-      if (value != null) {
-        return value
-      }
-      return this.tryStartExperiment(GALAXY_TUTORIAL_EXPERIMENT)
     }
   }
 
