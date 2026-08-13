@@ -1,6 +1,16 @@
 <template>
   <div class="ai-junior-scenario">
     <div
+      v-if="hasAccess() && scenario"
+      class="scan-cta no-print"
+    >
+      <a
+        class="btn btn-primary"
+        :href="`/ai-junior/scan/${scenarioId}`"
+      >📷 Scan a paper worksheet</a>
+      <span class="scan-hint">Already filled one in on paper? Photograph it instead of drawing here.</span>
+    </div>
+    <div
       v-if="hasAccess()"
       class="main-column"
     >
@@ -30,13 +40,13 @@ import { getAIJuniorScenario } from 'app/core/api/ai-junior-scenarios'
 export default {
   name: 'AIJuniorScenarioView',
   components: {
-    AIJuniorWorksheet
+    AIJuniorWorksheet,
   },
   props: {
     scenarioId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
@@ -74,6 +84,20 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.scan-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.scan-hint {
+  font-size: 1.4rem;
+  color: #666;
 }
 
 .curriculum-info {

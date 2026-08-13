@@ -205,6 +205,49 @@ _.extend(CampaignSchema.properties, {
       },
     },
   },
+  miniGames: {
+    type: 'array',
+    title: 'Mini-Games',
+    description: 'Star Lab tiles: which mini-games this campaign shows, where they sit, and how they unlock.',
+    items: {
+      type: 'object',
+      title: 'Mini-Game Tile',
+      properties: {
+        miniGame: { type: 'string', title: 'Mini-Game', format: 'mini-game-original', description: 'The MiniGame original this tile plays.', links: [{ rel: 'db', href: '/db/mini_game/{{$}}/version', model: 'MiniGame' }] },
+        // - denormalized from the referenced MiniGame on save; the route, the analytics
+        //   `gameName` and the tile identity all key off this.
+        slug: { type: 'string', format: 'hidden' },
+        displayName: { type: 'string', title: 'Display Name', description: 'Tile label. Falls back to the mini-game name.' },
+        icon: { type: 'string', format: 'image-file', title: 'Icon', description: 'The image to use for the tile on the interface.' },
+        position: {
+          type: 'object',
+          title: 'Position',
+          description: 'Position of the tile on the interface.',
+          properties: {
+            // same shape and precedence as modules[].position
+            row: { type: 'number', title: 'Row', description: 'The row of the tile on the interface.' },
+            column: { type: 'number', title: 'Column', description: 'The column of the tile on the interface.' },
+            x: { type: 'number', title: 'X', description: 'The x position of the tile on the interface.' },
+            y: { type: 'number', title: 'Y', description: 'The y position of the tile on the interface.' },
+          },
+        },
+        ruleToUnlock: {
+          type: 'array',
+          title: 'Rule To Unlock',
+          description: 'All rules must pass for the tile to unlock. Empty means always unlocked. The first unmet rule supplies the lock message and where its click leads, so order them the way a player should work through them.',
+          items: {
+            type: 'object',
+            title: 'Rule',
+            properties: {
+              type: c.shortString({ title: 'Type', description: 'stars: earn stars. registered: be signed up.', enum: ['stars', 'registered'] }),
+              campaign: c.shortString({ title: 'Send To Campaign', description: 'stars only: where clicking the locked tile sends the player to go earn stars, e.g. intro-to-ai. Stars count no matter which campaign they came from. Empty sends them to the galaxy map.' }),
+              amount: { type: 'integer', title: 'Amount', description: 'stars only: how many stars are needed, across all campaigns.', minimum: 0 },
+            },
+          },
+        },
+      },
+    },
+  },
   parentCampaignSlug: { type: 'string', title: 'Parent Campaign Slug', description: 'The slug of the parent campaign.' },
   visualConnections: {
     type: 'array',

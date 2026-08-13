@@ -15,9 +15,13 @@ class MiniGameEditView extends EditView {
     super({})
     this.resource = new MiniGame({ _id: resourceId })
     this.supermodel.loadModel(this.resource)
-    // Loaded via supermodel so buildTreema (fired from onLoaded) sees a synced collection —
-    // SoundFileTreema reads its pick-existing dropdown once, at render time.
-    this.files = this.supermodel.loadCollection(new DocumentFiles(this.resource), 'files').model
+    // Files feed SoundFileTreema's optional pick-existing dropdown. Deliberately NOT loaded
+    // through the supermodel: the /files endpoint depends on the storage backend (and hangs
+    // on s3 — dead branch in server/middleware/files.js), and optional chrome must never
+    // block the editor from rendering. Tradeoff: sound nodes rendered before the fetch
+    // resolves show an empty dropdown until re-rendered.
+    this.files = new DocumentFiles(this.resource)
+    this.files.fetch()
   }
 
   buildTreema () {
