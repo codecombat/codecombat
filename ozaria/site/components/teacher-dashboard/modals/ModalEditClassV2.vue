@@ -50,13 +50,13 @@
           <div
             class="submit-button"
           >
-            <secondary-button
+            <purple-button
               :disabled="saving"
               class="class-submit"
               @click="clickedCTA"
             >
               {{ ctaButtonText }}
-            </secondary-button>
+            </purple-button>
             <span
               v-if="saving"
               class="saving-text"
@@ -86,8 +86,8 @@ import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 import Modal from '../../common/Modal'
 import PageFirst from './ModalEditClass/PageFirst'
 import PageSecond from './ModalEditClass/PageSecond'
-import SecondaryButton from '../common/buttons/SecondaryButton'
 import TertiaryButton from '../common/buttons/TertiaryButton'
+import PurpleButton from '../common/buttons/PurpleButton'
 
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 
@@ -97,7 +97,7 @@ export default Vue.extend({
     PageFirst,
     PageSecond,
     TertiaryButton,
-    SecondaryButton,
+    PurpleButton,
   },
   props: {
     classroom: {
@@ -197,9 +197,13 @@ export default Vue.extend({
       this.currentPage = 1
     },
     async clickedCTA () {
+      this.errMsg = ''
       if (this.currentPage === 1) {
         const firstPageValid = this.$refs.pageFirst.validate()
-        if (!firstPageValid) return
+        if (!firstPageValid) {
+          this.errMsg = 'Missing required data'
+          return
+        }
         if (this.newClass.pageFirst.initCourse !== utils.courseIDs.INTRO_TO_AI) {
           this.currentPage = 2
           return
