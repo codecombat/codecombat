@@ -197,13 +197,15 @@ export default Vue.extend({
       this.currentPage = 1
     },
     async clickedCTA () {
-      const firstPageValid = this.$refs.pageFirst.validate()
-      if (!firstPageValid) return
-      if (this.currentPage === 1 && this.newClass.pageFirst.initCourse !== utils.courseIDs.INTRO_TO_AI) {
-        this.currentPage = 2
-      } else {
-        await this.saveClass()
+      if (this.currentPage === 1) {
+        const firstPageValid = this.$refs.pageFirst.validate()
+        if (!firstPageValid) return
+        if (this.newClass.pageFirst.initCourse !== utils.courseIDs.INTRO_TO_AI) {
+          this.currentPage = 2
+          return
+        }
       }
+      await this.saveClass()
     },
     async saveClass () {
       this.saving = true
