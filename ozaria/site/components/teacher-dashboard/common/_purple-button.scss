@@ -11,6 +11,17 @@
     transition: background-color .35s;
   }
 
+  &.disabled {
+    background-color: #ADADAD;
+    color: #000000;
+    cursor: default;
+
+    &:hover {
+      background-color: #ADADAD;
+      transition: unset;
+    }
+  }
+
   display: flex;
   height: 33px;
   padding: 0 17px;
