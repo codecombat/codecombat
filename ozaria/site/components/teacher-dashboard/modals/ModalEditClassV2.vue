@@ -105,10 +105,6 @@ export default Vue.extend({
       required: true,
       default: () => {},
     },
-    asClub: {
-      type: Boolean,
-      default: false,
-    },
   },
   data () {
     return {
@@ -120,6 +116,8 @@ export default Vue.extend({
         pageFirst: {
           name: '',
           initCourse: '',
+          googleClassroomId: null,
+
         },
         pageSecond: {
           codeLanguage: 'python',
@@ -139,6 +137,10 @@ export default Vue.extend({
           classDateEnd: '',
         },
       },
+      googleClassroomId: null,
+      lmsClassroomId: null,
+      otherProductClassroomId: null,
+      members: null,
     }
   },
   computed: {
@@ -262,19 +264,19 @@ export default Vue.extend({
       updates.classesPerWeek = String(newClass.classesPerWeek)
       updates.minutesPerClass = String(newClass.minutesPerClass)
 
-      if (this.isGoogleClassroomForm) {
-        updates.googleClassroomId = this.googleClassId
-        updates.name = this.googleClassrooms.find((c) => c.id === this.googleClassId).name
+      if (this.googleClassroomId) {
+        updates.googleClassroomId = this.googleClassroomId
       }
 
-      if (this.isOtherProductForm) {
-        updates.name = this.otherProductClassroom.name
-        updates.members = this.otherProductClassroom.members
-        updates.otherProductId = this.otherProductClassroom._id
+      if (this.otherProductId) {
+        updates.otherProductId = this.otherProductId
+
+        if (this.members) {
+          updates.members = this.members
+        }
       }
 
-      if (this.lmsProductForm) {
-        updates.name = this.lmsClassroom.name
+      if (this.lmsClassroomId) {
         updates.lmsClassroom = {
           classId: this.lmsClassroomId,
           name: this.lmsClassroom.name,
