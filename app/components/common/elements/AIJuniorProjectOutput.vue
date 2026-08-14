@@ -71,8 +71,26 @@
         :class="{ 'with-original': isCompleted && originals.length }"
       >
         <div class="creation">
+          <!-- A creation that is only the generated picture: the scenario's
+               template is a bare <img> around it, so the iframe adds nothing.
+               The slider takes its place — identical at rest, comparable
+               without a detour through a button, and something the reveal can
+               actually animate. -->
           <div
-            v-if="hasPreview && !showCompare"
+            v-if="creationComparison && !showCompare"
+            class="project-preview"
+          >
+            <ImageCompareSlider
+              :original="creationComparison.original"
+              :generated="creationComparison.generated"
+              :original-label="creationComparison.originalLabel"
+              generated-label="Your creation"
+              auto-reveal
+            />
+          </div>
+
+          <div
+            v-else-if="hasPreview && !showCompare"
             class="project-preview"
           >
             <div
@@ -114,19 +132,23 @@
           </div>
 
           <div
-            v-for="item in unreferencedItems"
+            v-for="(item, index) in unreferencedItems"
             :key="item.promptId"
             class="response-image"
           >
             <!-- Where the generated image is shown on its own, the slider is
                  that image — it rests fully on the generated side — so it costs
                  nothing to make it draggable. -->
+            <!-- A row of sprites cascades rather than sweeping in unison,
+                 which reads as one effect instead of three collisions. -->
             <ImageCompareSlider
               v-if="item.comparison"
               :original="item.comparison.original"
               :generated="item.comparison.generated"
               :original-label="item.comparison.originalLabel"
               generated-label="Your creation"
+              auto-reveal
+              :reveal-delay="index * 180"
             />
             <a
               v-else
@@ -147,7 +169,7 @@
             class="creation-actions no-print"
           >
             <button
-              v-if="hasPreview && !showCompare"
+              v-if="hasPreview && !showCompare && !creationComparison"
               class="btn btn-default"
               @click="fullscreenPreview"
             >
@@ -399,7 +421,20 @@ export default {
       if (!this.hasPreview) return []
       return this.comparisons.filter((comparison) => this.templateNames.includes(comparison.promptId))
     },
+    // A creation the scenario renders as nothing but the generated image. Its
+    // template contributes only the `<img>` tag, which the slider already is,
+    // so the iframe is pure overhead — and a picture inside an iframe cannot
+    // be compared or swept.
+    creationComparison () {
+      if (!this.hasPreview) return null
+      const html = String(this.scenario.output?.html || '').trim()
+      const bareImage = html.match(/^<img\b[^>]*\bsrc\s*=\s*["']?<%[=-]?\s*([A-Za-z_$][\w$]*)\s*%>["']?[^>]*>$/i)
+      if (!bareImage) return null
+      return this.comparisonByPromptId[bareImage[1]] || null
+    },
     canCompare () {
+      // Pointless where the creation is already the slider.
+      if (this.creationComparison) return false
       return this.isCompleted && this.previewComparisons.length > 0
     },
     showCreationActions () {
@@ -760,6 +795,9 @@ export default {
 
 .project-preview {
   margin: 0 0 1rem;
+  /* Centres the slider when it stands in for the preview; the iframe is a
+     full-width block and is unaffected. */
+  text-align: center;
 }
 
 .preview-wrap {
