@@ -1,6 +1,6 @@
 <template lang="pug">
 flat-layout
-  .video-container.container
+  .play-level-video-container.container
     .video-background.container
       .row.title-row
         .col-sm-12(v-if="videoData")
@@ -162,7 +162,9 @@ export default Vue.extend({
       @include box-shadow(0px 0px 8px #333)
       color: white
 
-  .video-container
+  // This style block is unscoped, so the root class name must be unique
+  // app-wide (a generic name here leaks onto other pages after navigation)
+  .play-level-video-container
     z-index: 3
     width: 100%
     height: 100%
