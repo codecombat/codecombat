@@ -526,13 +526,9 @@ module.exports = (ThangTypeEditView = (function () {
     }
 
     onClickUploadRasterAnimation () {
-      return this.pickRasterFile(inkBlob => {
-        return this.saveRasterFile(inkBlob).then(path => {
-          this.pendingRasterAnimation = { inkBlob, path }
-          noty({ text: 'Sheet uploaded. Now choose the frames JSON file.', type: 'information', timeout: 5000 })
-          return this.$el.find('input#real-raster-animation-json-input').click()
-        }).catch(error => noty({ text: `Raster upload failed: ${_.escape((error != null ? error.message : undefined) || error)}`, type: 'error', timeout: 10000 }))
-      })
+      // Frames JSON first (this click is the user gesture the native file
+      // dialog needs), then the filepicker modal for the sheet image.
+      return this.$el.find('input#real-raster-animation-json-input').click()
     }
 
     pickRasterFile (callback) {
@@ -602,37 +598,52 @@ module.exports = (ThangTypeEditView = (function () {
     async rasterAnimationJSONChosen (e) {
       const file = e.target.files[0]
       e.target.value = '' // allow re-selecting the same file later
-      const pending = this.pendingRasterAnimation
-      this.pendingRasterAnimation = null
-      if (!file || !pending) { return }
+      if (!file) { return }
+      let data
       try {
-        const text = await this.readFileAsText(file)
-        const data = JSON.parse(text)
-        const img = await this.loadRasterFileImage(pending.path)
-        this.cacheRasterRawImage(pending.path, img)
-        const sheetWidth = img.naturalWidth || img.width
-        const sheetHeight = img.naturalHeight || img.height
-        const { rasterFrames, framerate } = this.convertRasterFramesData(data, sheetWidth, sheetHeight)
-        if (!rasterFrames.length) { throw new Error('no frames found in JSON') }
-        const defaultName = (pending.inkBlob.filename || 'animation').replace(/\.[^.]+$/, '')
-        const name = this.promptRasterAssetName('Animation name for this raster sheet? Reference it from an action via animation: <name>.', defaultName)
-        if (!name) { return }
-        const raw = this.ensureRawData()
-        if (raw.animations[name] && !window.confirm(`Animation '${name}' already exists. Replace it?`)) { return }
-        const frameBounds = rasterFrames.map(([x, y, w, h, regX, regY]) => [-regX, -regY, w, h])
-        const left = _.min(frameBounds.map(b => b[0]))
-        const top = _.min(frameBounds.map(b => b[1]))
-        const right = _.max(frameBounds.map(b => b[0] + b[2]))
-        const bottom = _.max(frameBounds.map(b => b[1] + b[3]))
-        const entry = { bounds: [left, top, right - left, bottom - top], frameBounds, rasterSheet: pending.path, rasterFrames }
-        if (framerate) { entry.framerate = framerate }
-        raw.animations[name] = entry
-        this.fileLoaded()
-        return noty({ text: `Raster animation '${_.escape(name)}' added (${rasterFrames.length} frames).`, type: 'success', timeout: 5000 })
+        data = JSON.parse(await this.readFileAsText(file))
       } catch (error) {
-        console.error('Raster animation import failed:', error)
-        return noty({ text: `Raster animation import failed: ${_.escape((error != null ? error.message : undefined) || error)}`, type: 'error', timeout: 10000 })
+        return noty({ text: `Could not parse frames JSON: ${_.escape((error != null ? error.message : undefined) || error)}`, type: 'error', timeout: 10000 })
       }
+      noty({ text: 'Frames JSON loaded. Now choose the sheet image.', type: 'information', timeout: 5000 })
+      return this.pickRasterFile(inkBlob => {
+        return this.saveRasterFile(inkBlob)
+          .then(path => this.addRasterAnimation(data, inkBlob, path))
+          .catch(error => {
+            console.error('Raster animation import failed:', error)
+            return noty({ text: `Raster animation import failed: ${_.escape((error != null ? error.message : undefined) || error)}`, type: 'error', timeout: 10000 })
+          })
+      })
+    }
+
+    async addRasterAnimation (data, inkBlob, path) {
+      const img = await this.loadRasterFileImage(path)
+      this.cacheRasterRawImage(path, img)
+      const sheetWidth = img.naturalWidth || img.width
+      const sheetHeight = img.naturalHeight || img.height
+      const { rasterFrames, framerate } = this.convertRasterFramesData(data, sheetWidth, sheetHeight)
+      if (!rasterFrames.length) { throw new Error('no frames found in JSON') }
+      const defaultName = (inkBlob.filename || 'animation').replace(/\.[^.]+$/, '')
+      const name = this.promptRasterAssetName('Animation name for this raster sheet? Reference it from an action via animation: <name>.', defaultName)
+      if (!name) { return }
+      const raw = this.ensureRawData()
+      if (raw.animations[name] && !window.confirm(`Animation '${name}' already exists. Replace it?`)) { return }
+      const frameBounds = rasterFrames.map(([x, y, w, h, regX, regY]) => [-regX, -regY, w, h])
+      const left = _.min(frameBounds.map(b => b[0]))
+      const top = _.min(frameBounds.map(b => b[1]))
+      const right = _.max(frameBounds.map(b => b[0] + b[2]))
+      const bottom = _.max(frameBounds.map(b => b[1] + b[3]))
+      const entry = { bounds: [left, top, right - left, bottom - top], frameBounds, rasterSheet: path, rasterFrames }
+      if (framerate) { entry.framerate = framerate }
+      raw.animations[name] = entry
+      this.fileLoaded()
+      if (this.thangType.get('spriteType') !== 'singular') {
+        // Raster animations render only through the singular path; setting via
+        // treema (after fileLoaded synced raw) keeps model and treema in step.
+        this.treema.set('/spriteType', 'singular')
+        noty({ text: 'spriteType set to singular (required for raster animations).', type: 'information', timeout: 5000 })
+      }
+      return noty({ text: `Raster animation '${_.escape(name)}' added (${rasterFrames.length} frames).`, type: 'success', timeout: 5000 })
     }
 
     // Accepts EaselJS SpriteSheet frames (array of [x, y, w, h, imageIndex, regX, regY]

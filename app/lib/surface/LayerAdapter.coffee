@@ -331,7 +331,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       actionNames = (bundle.actionName for bundle in bundleGrouping)
       args = [thangType, colorConfig, actionNames, builder]
       if thangType.get('raw') or thangType.get('prerenderedSpriteSheetData')
-        if (thangType.get('spriteType') or @defaultSpriteType) is 'segmented'
+        # Raster keyframe animations only work through the singular path.
+        if (thangType.get('spriteType') or @defaultSpriteType) is 'segmented' and not thangType.hasRasterAnimations()
           @renderSegmentedThangType(args...)
         else
           @renderSingularThangType(args...)
@@ -615,7 +616,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       sprite = new RasterAtlasSprite(lank.thangType)
 
     else
-      SpriteClass = if (lank.thangType.get('spriteType') or @defaultSpriteType) is 'segmented' then SegmentedSprite else SingularSprite
+      # Raster keyframe animations only work through SingularSprite.
+      useSegmented = (lank.thangType.get('spriteType') or @defaultSpriteType) is 'segmented' and not lank.thangType.hasRasterAnimations()
+      SpriteClass = if useSegmented then SegmentedSprite else SingularSprite
       prefix = @renderGroupingKey(lank.thangType, null, lank.options.colorConfig) + '.'
       sprite = new SpriteClass(@spriteSheet, lank.thangType, prefix, @resolutionFactor)
 
