@@ -501,10 +501,11 @@ module.exports = (ThangType = (function () {
       const vectorParser = new SpriteBuilder(this, {})
       if (portrait.animation) {
         sprite = vectorParser.buildMovieClip(portrait.animation)
-        sprite.gotoAndStop(0)
+        if (sprite) { sprite.gotoAndStop(0) }
       } else if (portrait.container) {
         sprite = vectorParser.buildContainerFromStore(portrait.container)
       }
+      if (!sprite) { return } // e.g. raster asset not loaded yet
 
       const pt = portrait.positions != null ? portrait.positions.registration : undefined
       sprite.regX = ((pt != null ? pt.x : undefined) / scale) || 0
