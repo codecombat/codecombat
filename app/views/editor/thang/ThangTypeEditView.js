@@ -673,7 +673,9 @@ module.exports = (ThangTypeEditView = (function () {
           result.push([x, y, frames.width, frames.height, frames.regX != null ? frames.regX : frames.width / 2, frames.regY != null ? frames.regY : frames.height / 2])
         }
       } else if (_.isObject(frames)) {
-        for (const key of _.keys(frames).sort()) {
+        // Natural sort: 'run_2' before 'run_10', matching artists' intent.
+        const naturally = (a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
+        for (const key of _.keys(frames).sort(naturally)) {
           const f = frames[key]
           if (f && f.frame) {
             const r = f.frame
