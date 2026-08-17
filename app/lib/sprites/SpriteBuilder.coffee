@@ -75,8 +75,9 @@ module.exports = class SpriteBuilder
     frameBounds = []
     for frameData, i in rasterFrames
       [x, y, w, h, regX, regY] = frameData
-      regX ?= 0
-      regY ?= 0
+      # Frame-center default, matching the editor importer's convention.
+      regX ?= w / 2
+      regY ?= h / 2
       bitmap = new createjs.Bitmap(img)
       bitmap.sourceRect = new createjs.Rectangle(x, y, w, h)
       bitmap.regX = regX
