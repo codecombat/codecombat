@@ -75,6 +75,7 @@ module.exports = (ThangType = (function () {
       super.initialize()
       this.building = {}
       this.spriteSheets = {}
+      this.on('change:raw', this.clearRasterRawCaches, this)
       if (utils.showOzaria()) {
         this.textureAtlases = new Map()
 
@@ -108,6 +109,7 @@ module.exports = (ThangType = (function () {
       this.buildActions()
       this.spriteSheets = {}
       this.building = {}
+      this.clearRasterRawCaches() // editor mutates raw in place, so change:raw alone isn't enough
     }
 
     isFullyLoaded () {
@@ -144,6 +146,10 @@ module.exports = (ThangType = (function () {
     // is silently dropped by createjs.SpriteSheetBuilder).
 
     getRasterRawAssetPaths () {
+      // Memoized: called per lank add and per spritesheet rebuild, and the
+      // answer is a constant [] for every vector-only thang. Invalidated in
+      // clearRasterRawCaches (change:raw + resetSpriteSheetCache).
+      if (this._rasterRawAssetPaths != null) { return this._rasterRawAssetPaths }
       const raw = this.get('raw')
       if (!raw) { return [] }
       const paths = []
@@ -153,7 +159,8 @@ module.exports = (ThangType = (function () {
       for (const animation of _.values(raw.animations || {})) {
         if (animation.rasterSheet) { paths.push(animation.rasterSheet) }
       }
-      return _.uniq(paths)
+      this._rasterRawAssetPaths = _.uniq(paths)
+      return this._rasterRawAssetPaths
     }
 
     hasRasterRawAssets () {
@@ -165,9 +172,16 @@ module.exports = (ThangType = (function () {
     }
 
     hasRasterAnimations () {
+      if (this._hasRasterAnimations != null) { return this._hasRasterAnimations }
       const raw = this.get('raw')
       if (!raw) { return false }
-      return _.some(raw.animations || {}, animation => animation.rasterSheet)
+      this._hasRasterAnimations = _.some(raw.animations || {}, animation => animation.rasterSheet)
+      return this._hasRasterAnimations
+    }
+
+    clearRasterRawCaches () {
+      this._rasterRawAssetPaths = null
+      this._hasRasterAnimations = null
     }
 
     rasterRawImagesLoaded () {
