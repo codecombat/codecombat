@@ -125,8 +125,9 @@ module.exports = class SpriteOptimizer
     containersByFrequency = _.sortBy _.pairs(containerFrequencies), ([containerName, frequency]) -> -frequency
     for [container, frequency] in containersByFrequency
       if @raw.containers[container]?.img
-        # Raster-backed containers keep their artist-chosen names; identity
-        # renaming so the rebuild below doesn't drop them.
+        # Referenced raster-backed containers keep their artist-chosen names
+        # (identity renaming). Unreferenced ones are dropped by the rebuild
+        # below, exactly like unreferenced vector containers.
         containerRenamings[container] = container
         continue
       containerKey = @keyForContainer @raw.containers[container]
