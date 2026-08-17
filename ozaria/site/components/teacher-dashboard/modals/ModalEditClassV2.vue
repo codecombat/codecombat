@@ -117,7 +117,9 @@ export default Vue.extend({
           name: '',
           initCourse: '',
           googleClassroomId: null,
-
+          lmsClassroomId: null,
+          otherProductClassroomId: null,
+          members: null,
         },
         pageSecond: {
           codeLanguage: 'python',
@@ -137,10 +139,6 @@ export default Vue.extend({
           classDateEnd: '',
         },
       },
-      googleClassroomId: null,
-      lmsClassroomId: null,
-      otherProductClassroomId: null,
-      members: null,
     }
   },
   computed: {
@@ -194,6 +192,7 @@ export default Vue.extend({
       fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers',
       fetchCourses: 'courses/fetchReleased',
       fetchCourseInstances: 'courseInstances/fetchCourseInstancesForClassroom',
+      addMembersToClassroom: 'classrooms/addMembersToClassroom',
     }),
     back () {
       this.currentPage = 1
@@ -264,23 +263,23 @@ export default Vue.extend({
       updates.classesPerWeek = String(newClass.classesPerWeek)
       updates.minutesPerClass = String(newClass.minutesPerClass)
 
-      if (this.googleClassroomId) {
-        updates.googleClassroomId = this.googleClassroomId
+      if (newClass.googleClassroomId) {
+        updates.googleClassroomId = newClass.googleClassroomId
       }
 
-      if (this.otherProductId) {
-        updates.otherProductId = this.otherProductId
+      if (newClass.otherProductClassroomId) {
+        updates.otherProductId = newClass.otherProductClassroomId
 
-        if (this.members) {
-          updates.members = this.members
+        if (newClass.members) {
+          updates.members = newClass.members
         }
       }
 
-      if (this.lmsClassroomId) {
+      if (newClass.lmsClassroomId) {
         updates.lmsClassroom = {
-          classId: this.lmsClassroomId,
-          name: this.lmsClassroom.name,
-          provider: this.getProvider,
+          classId: newClass.lmsClassroomId,
+          name: newClass.name,
+          provider: this.lmsKey,
         }
       }
 
@@ -345,8 +344,9 @@ export default Vue.extend({
       }
     },
     async handleClassroomImport (savedClassroom, updates) {
-      if (this.isGoogleClassroomForm) {
-        await GoogleClassroomHandler.markAsImported(this.googleClassId)
+      const pageFirst = this.newClass.pageFirst
+      if (pageFirst.googleClassroomId) {
+        await GoogleClassroomHandler.markAsImported(pageFirst.googleClassroomId)
         GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
         try {
           const importedMembers = await GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
@@ -359,8 +359,8 @@ export default Vue.extend({
         }
       }
 
-      if (this.isOtherProductForm) {
-        const members = updates.members
+      if (pageFirst.otherProductClassroomId) {
+        const members = (updates.members || [])
           .map(memberId => ({
             _id: memberId,
             role: 'student',
@@ -368,7 +368,7 @@ export default Vue.extend({
 
         // set linkink in both classrooms
         ClassroomsApi.update({
-          classroomID: this.otherProductClassroom._id,
+          classroomID: pageFirst.otherProductClassroomId,
           updates: { otherProductId: savedClassroom._id },
         }, { callOz: true }).catch(console.log)
         if (members.length > 0) {
@@ -376,7 +376,7 @@ export default Vue.extend({
         }
       }
 
-      if (this.lmsProductForm) {
+      if (pageFirst.lmsClassroomId) {
         noty({ text: 'Importing classroom...', layout: 'topCenter', type: 'info', timeout: 3000 })
         await this.handleLmsClassroomImport(savedClassroom)
       }
@@ -392,6 +392,14 @@ export default Vue.extend({
         this.fetchClassroomSessions({ classroom: this.classroom })
       }
       this.$emit('close')
+    },
+    lmsKey () {
+      if (me.isSchoology()) {
+        return 'schoology'
+      } else if (me.isClassLink()) {
+        return 'classlink'
+      }
+      return null
     },
   },
 })

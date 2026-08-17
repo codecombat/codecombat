@@ -97,14 +97,6 @@ export default Vue.extend({
       }
       return textMap[this.lmsKey]
     },
-    lmsKey () {
-      if (me.isSchoology()) {
-        return 'schoology'
-      } else if (me.isClassLink()) {
-        return 'classlink'
-      }
-      return null
-    },
     getProvider () {
       return this.lmsKey
     },
@@ -177,12 +169,14 @@ export default Vue.extend({
     },
     updateOtherProductClassroomId (newVal) {
       this.newClass.otherProductClassroomId = newVal
-      this.newClass.name = (this.otherProductClassrooms || [])
+      const otherProductClassroom = (this.otherProductClassrooms || [])
         .find((classroom) => classroom._id === newVal)
+      this.newClass.name = otherProductClassroom.name
+      this.newClass.members = otherProductClassroom.members
     },
     updateLmsClassroomId (newVal) {
       this.newClass.lmsClassroomId = newVal
-      this.newClass.name = (this.lmsClassrooms || []).find((c) => c.id === newVal)
+      this.newClass.name = (this.lmsClassrooms || []).find((c) => c.id === newVal).name
     },
   },
 })
