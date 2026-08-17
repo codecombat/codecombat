@@ -676,6 +676,10 @@ module.exports = (ThangTypeEditView = (function () {
           }
         }
       } else if (frames && frames.width && frames.height) {
+        if (sheetWidth % frames.width !== 0) {
+          // Columns are derived from the sheet width; padding makes the layout ambiguous.
+          throw new Error(`sheet width ${sheetWidth} is not a multiple of frame width ${frames.width} — grid format needs an unpadded sheet`)
+        }
         const cols = Math.max(1, Math.floor(sheetWidth / frames.width))
         const rows = Math.max(1, Math.floor(sheetHeight / frames.height))
         const count = frames.count || (cols * rows)
