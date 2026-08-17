@@ -138,6 +138,66 @@ module.exports = (ThangType = (function () {
       })
     }
 
+    // Raster raw assets: images referenced from raw.containers[*].img and
+    // raw.animations[*].rasterSheet. These must be loaded before a spritesheet
+    // build can rasterize them (an unloaded Bitmap has no bounds and its frame
+    // is silently dropped by createjs.SpriteSheetBuilder).
+
+    getRasterRawAssetPaths () {
+      const raw = this.get('raw')
+      if (!raw) { return [] }
+      const paths = []
+      for (const container of _.values(raw.containers || {})) {
+        if (container.img) { paths.push(container.img) }
+      }
+      for (const animation of _.values(raw.animations || {})) {
+        if (animation.rasterSheet) { paths.push(animation.rasterSheet) }
+      }
+      return _.uniq(paths)
+    }
+
+    hasRasterRawAssets () {
+      return this.getRasterRawAssetPaths().length > 0
+    }
+
+    getRasterRawImage (path) {
+      return this.rasterRawImages != null ? this.rasterRawImages[path] : undefined
+    }
+
+    rasterRawImagesLoaded () {
+      if (!_.isEmpty(this.loadingRasterRawPaths)) { return false }
+      return _.every(this.getRasterRawAssetPaths(), path => {
+        return (this.rasterRawImages != null ? this.rasterRawImages[path] : undefined) || (this.failedRasterRawPaths != null ? this.failedRasterRawPaths[path] : undefined)
+      })
+    }
+
+    loadRasterRawImages () {
+      if (this.rasterRawImages == null) { this.rasterRawImages = {} }
+      if (this.loadingRasterRawPaths == null) { this.loadingRasterRawPaths = {} }
+      if (this.failedRasterRawPaths == null) { this.failedRasterRawPaths = {} }
+      const toLoad = this.getRasterRawAssetPaths().filter(path => !this.rasterRawImages[path] && !this.loadingRasterRawPaths[path])
+      for (const path of toLoad) {
+        this.loadingRasterRawPaths[path] = true
+        const img = new Image()
+        img.crossOrigin = 'Anonymous'
+        const settle = () => {
+          delete this.loadingRasterRawPaths[path]
+          if (_.isEmpty(this.loadingRasterRawPaths)) { this.trigger('raster-raw-images-loaded', this) }
+        }
+        img.onload = () => {
+          this.rasterRawImages[path] = img
+          settle()
+        }
+        img.onerror = event => {
+          console.error('Failed to load raster raw image', path, event)
+          this.failedRasterRawPaths[path] = true
+          this.trigger('raster-raw-images-load-errored', this, path)
+          settle()
+        }
+        img.src = `/file/${path}`
+      }
+    }
+
     getActions () {
       if (!this.isFullyLoaded()) { return {} }
       return this.actions || this.buildActions()
@@ -214,6 +274,7 @@ module.exports = (ThangType = (function () {
       const rect = new createjs.Rectangle(((pt != null ? pt.x : undefined) / scale) || 0, ((pt != null ? pt.y : undefined) / scale) || 0, 100 / scale, 100 / scale)
       if (portrait.animation) {
         const mc = this.vectorParser.buildMovieClip(portrait.animation)
+        if (!mc) { return } // e.g. raster sheet not loaded yet
         mc.nominalBounds = (mc.frameBounds = null) // override what the movie clip says on bounding
         this.builder.addMovieClip(mc, rect, scale)
         let { frames } = this.builder._animations[portrait.animation]
@@ -221,6 +282,7 @@ module.exports = (ThangType = (function () {
         return this.builder.addAnimation('portrait', frames, true)
       } else if (portrait.container) {
         const s = this.vectorParser.buildContainerFromStore(portrait.container)
+        if (!s) { return } // e.g. raster image not loaded yet
         const frame = this.builder.addFrame(s, rect, scale)
         return this.builder.addAnimation('portrait', [frame], false)
       }
