@@ -541,12 +541,14 @@ module.exports = (ThangTypeEditView = (function () {
     }
 
     saveRasterFile (inkBlob) {
+      // '#', '?' and '%' in a filename would truncate or misparse the /file/ image URL.
+      const filename = (inkBlob.filename || 'asset.png').replace(/[#?%]/g, '-')
       const filePath = `db/thang.type/${this.thangType.get('original')}`
       return new Promise((resolve, reject) => {
         $.ajax('/file', {
           type: 'POST',
-          data: { url: inkBlob.url, filename: inkBlob.filename, mimetype: inkBlob.mimetype, path: filePath, force: true },
-          success: () => resolve(`${filePath}/${inkBlob.filename}`),
+          data: { url: inkBlob.url, filename, mimetype: inkBlob.mimetype, path: filePath, force: true },
+          success: () => resolve(`${filePath}/${filename}`),
           error: jqxhr => reject(new Error((jqxhr.responseJSON != null ? jqxhr.responseJSON.message : undefined) || `upload failed (${jqxhr.status})`)),
         })
       })
