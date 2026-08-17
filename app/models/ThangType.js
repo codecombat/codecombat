@@ -164,6 +164,12 @@ module.exports = (ThangType = (function () {
       return this.rasterRawImages != null ? this.rasterRawImages[path] : undefined
     }
 
+    hasRasterAnimations () {
+      const raw = this.get('raw')
+      if (!raw) { return false }
+      return _.some(raw.animations || {}, animation => animation.rasterSheet)
+    }
+
     rasterRawImagesLoaded () {
       if (!_.isEmpty(this.loadingRasterRawPaths)) { return false }
       return _.every(this.getRasterRawAssetPaths(), path => {
@@ -732,7 +738,9 @@ module.exports = (ThangType = (function () {
       const rawAnimation = this.get('raw').animations[animation]
       if (!rawAnimation) {
         console.error('thang type', this.get('name'), 'is missing animation', animation, 'from action', action)
+        return []
       }
+      if (rawAnimation.rasterSheet) { return [] } // raster animations have no vector containers
       let { containers } = rawAnimation
       for (animation of Array.from(this.get('raw').animations[animation].animations)) {
         containers = containers.concat(this.getContainersForAnimation(animation.gn, action))
