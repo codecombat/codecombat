@@ -234,6 +234,11 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       thangType.loadAllRasterTextureAtlases()
       @listenToOnce(thangType, 'texture-atlas-loaded', -> @somethingLoaded(thangType))
       @numThingsLoading++
+    else if thangType.hasRasterRawAssets() and not thangType.rasterRawImagesLoaded()
+      # Listen before loading in case cached images settle synchronously.
+      @listenToOnce(thangType, 'raster-raw-images-loaded', @somethingLoaded)
+      @numThingsLoading++
+      thangType.loadRasterRawImages()
     else if prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheetToLoad()
       startedLoading = prerenderedSpriteSheet.loadImage()
       return if not startedLoading
@@ -459,6 +464,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         frame = spriteSheetBuilder.addFrame(container, null, scale)
       else
         container = spriteBuilder.buildContainerFromStore(containerGlobalName)
+        continue unless container  # e.g. raster image not loaded yet; rebuild picks it up
         frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor * (thangType.get('scale') or 1))
       spriteSheetBuilder.addAnimation(containerKey, [frame], false)
 
@@ -519,6 +525,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         continue
 
       mc = spriteBuilder.buildMovieClip(animationName, null, null, null, {'temp':0})
+      continue unless mc  # e.g. raster sheet not loaded yet; rebuild picks it up
 
       if renderAll
         res = spriteSheetBuilder.addMovieClip(mc, null, scale * @resolutionFactor)
@@ -559,6 +566,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
           spriteSheetBuilder.addAnimation(name, [frame], false)
         continue
       container = spriteBuilder.buildContainerFromStore(containerName)
+      continue unless container  # e.g. raster image not loaded yet; rebuild picks it up
       scale = actions[0].scale or thangType.get('scale') or 1
       frame = spriteSheetBuilder.addFrame(container, null, scale * @resolutionFactor)
       for action in actions

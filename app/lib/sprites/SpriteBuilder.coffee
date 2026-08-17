@@ -17,6 +17,8 @@ module.exports = class SpriteBuilder
     unless animData
       console.error 'couldn\'t find animData from', @animationStore, 'for', animationName
       return null
+    if animData.rasterSheet
+      return @buildRasterMovieClip animationName, animData, mode, startPosition, loops, labels
     locals = {}
     _.extend locals, @buildMovieClipShapes(animData.shapes)
     _.extend locals, @buildMovieClipContainers(animData.containers)
@@ -44,6 +46,60 @@ module.exports = class SpriteBuilder
     anim.nominalBounds = new createjs.Rectangle(animData.bounds...)
     if animData.frameBounds
       anim.frameBounds = (new createjs.Rectangle(bounds...) for bounds in animData.frameBounds)
+    anim
+
+  # Raster-backed animation: a MovieClip showing one source-rect crop of a
+  # packed raster sheet per timeline frame. Returns null until the sheet image
+  # is loaded, so callers skip it and a rebuild after 'raster-raw-images-loaded'
+  # picks it up. The bitmaps are timeline-managed (no addChild), like the
+  # tween targets of an Animate-published clip.
+  buildRasterMovieClip: (animationName, animData, mode, startPosition, loops, labels) ->
+    img = @thangType.getRasterRawImage? animData.rasterSheet
+    unless img
+      console.warn 'Raster sheet not loaded yet for animation', animationName, animData.rasterSheet
+      return null
+    rasterFrames = animData.rasterFrames or []
+    unless rasterFrames.length
+      console.error 'Raster animation has no rasterFrames', animationName
+      return null
+    anim = new createjs.MovieClip()
+    if not labels
+      labels = {}
+      labels[animationName] = 0
+    anim.initialize(mode ? createjs.MovieClip.INDEPENDENT, startPosition ? 0, loops ? true, labels)
+    numFrames = rasterFrames.length
+    frameBounds = []
+    for frameData, i in rasterFrames
+      [x, y, w, h, regX, regY] = frameData
+      regX ?= 0
+      regY ?= 0
+      bitmap = new createjs.Bitmap(img)
+      bitmap.sourceRect = new createjs.Rectangle(x, y, w, h)
+      bitmap.regX = regX
+      bitmap.regY = regY
+      bitmap._off = i isnt 0
+      frameBounds.push new createjs.Rectangle(-regX, -regY, w, h)
+      if numFrames is 1
+        tween = createjs.Tween.get(bitmap).wait(1)
+      else
+        tween = createjs.Tween.get(bitmap)
+        tween = tween.wait(i) if i > 0
+        tween = tween.to({_off: false}, 0).wait(1).to({_off: true}, 0)
+        remaining = numFrames - i - 1
+        tween = tween.wait(remaining) if remaining > 0
+      anim.timeline.addTween(tween)
+    if animData.bounds
+      anim.nominalBounds = new createjs.Rectangle(animData.bounds...)
+    else
+      left = _.min(b.x for b in frameBounds)
+      top = _.min(b.y for b in frameBounds)
+      right = _.max(b.x + b.width for b in frameBounds)
+      bottom = _.max(b.y + b.height for b in frameBounds)
+      anim.nominalBounds = new createjs.Rectangle(left, top, right - left, bottom - top)
+    if animData.frameBounds
+      anim.frameBounds = (new createjs.Rectangle(bounds...) for bounds in animData.frameBounds)
+    else
+      anim.frameBounds = frameBounds
     anim
 
   dereferenceArgs: (args, locals) ->
@@ -119,6 +175,8 @@ module.exports = class SpriteBuilder
   buildContainerFromStore: (containerKey) ->
     console.error 'Yo we don\'t have no containerKey' unless containerKey
     contData = @containerStore[containerKey]
+    if contData?.img
+      return @buildRasterContainer containerKey, contData
     cont = new createjs.Container()
     cont.initialize()
     for childData in contData.c
@@ -130,6 +188,27 @@ module.exports = class SpriteBuilder
         child.setTransform(childData.t...)
       cont.addChild(child)
     cont.bounds = new createjs.Rectangle(contData.b...)
+    cont
+
+  # Raster-backed container: a single Bitmap placed at the container's bounds
+  # offset instead of vector children. Returns null until the image is loaded.
+  buildRasterContainer: (containerKey, contData) ->
+    img = @thangType.getRasterRawImage? contData.img
+    unless img
+      console.warn 'Raster image not loaded yet for container', containerKey, contData.img
+      return null
+    naturalWidth = img.naturalWidth or img.width
+    naturalHeight = img.naturalHeight or img.height
+    b = contData.b or [0, 0, naturalWidth, naturalHeight]
+    cont = new createjs.Container()
+    cont.initialize()
+    bitmap = new createjs.Bitmap(img)
+    bitmap.x = b[0]
+    bitmap.y = b[1]
+    bitmap.scaleX = b[2] / naturalWidth if naturalWidth
+    bitmap.scaleY = b[3] / naturalHeight if naturalHeight
+    cont.addChild(bitmap)
+    cont.bounds = new createjs.Rectangle(b...)
     cont
 
   # Builds the spritesheet using the texture atlas images for each animation/action and updates its reference in the movieClip file

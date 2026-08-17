@@ -124,6 +124,11 @@ module.exports = class SpriteOptimizer
           containerFrequencies[relatedAction.container] = (containerFrequencies[relatedAction.container] ? 0) + 1
     containersByFrequency = _.sortBy _.pairs(containerFrequencies), ([containerName, frequency]) -> -frequency
     for [container, frequency] in containersByFrequency
+      if @raw.containers[container]?.img
+        # Raster-backed containers keep their artist-chosen names; identity
+        # renaming so the rebuild below doesn't drop them.
+        containerRenamings[container] = container
+        continue
       containerKey = @keyForContainer @raw.containers[container]
       if @aggressiveContainers and newContainerName = containerDuplicates[containerKey]
         # TODO: fix issue where the same animation might have multiple tweens targeting the same container (which breaks) if we consolidate identical containers. Exmaple: Hero A Cinematic eatPopcorn animation, with three tweens referencing what would be c0 (most common container, a hand used 13 times overall)
@@ -134,7 +139,12 @@ module.exports = class SpriteOptimizer
         if @debug and not _.isEqual @raw.containers[container], firstContainers[containerKey]
           console.log container, _.cloneDeep(@raw.containers[container]), 'is the same as', _.cloneDeep(firstContainers[containerKey])
       else
-        containerDuplicates[containerKey] = containerRenamings[container] = @nameContainer _.size(containerRenamings)
+        n = _.size containerRenamings
+        # Skip generated names already claimed by a kept-as-is raster container
+        # (or by an earlier renaming, once skips shift the numbering).
+        assignedNames = _.values containerRenamings
+        n++ while @raw.containers[@nameContainer(n)]?.img or @nameContainer(n) in assignedNames
+        containerDuplicates[containerKey] = containerRenamings[container] = @nameContainer n
         firstContainers[containerKey] = @raw.containers[container]
 
     if @debug
