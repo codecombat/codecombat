@@ -249,6 +249,15 @@ module.exports = (ThangType = (function () {
       const ss = this.spriteSheets[key]
       if (!this.isFullyLoaded() || !this.get('raw')) { return false }
       if (ss) { return ss }
+      if (this.hasRasterRawAssets() && !this.rasterRawImagesLoaded()) {
+        // Building now would silently drop raster frames (unloaded Bitmaps
+        // have no bounds). Load first; clearing the cache on arrival lets the
+        // next build attempt succeed. Portrait paths reach here without any
+        // LayerAdapter having loaded the images.
+        this.loadRasterRawImages()
+        this.listenToOnce(this, 'raster-raw-images-loaded', this.resetSpriteSheetCache)
+        return false
+      }
       if (this.building[key]) {
         this.options = null
         return key
@@ -366,7 +375,14 @@ module.exports = (ThangType = (function () {
     }
 
     finishBuild () {
-      if (_.isEmpty(this.builder._animations)) { return }
+      if (_.isEmpty(this.builder._animations)) {
+        // Nothing built (e.g. raster assets not loaded yet) — release the
+        // in-flight flag or this key would return the string key forever.
+        this.building[this.spriteSheetKey(this.options)] = false
+        this.builder = null
+        this.options = null
+        return
+      }
       const key = this.spriteSheetKey(this.options)
       let spriteSheet = null
       if (this.options.async) {
