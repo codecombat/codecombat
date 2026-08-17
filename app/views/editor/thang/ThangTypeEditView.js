@@ -583,6 +583,11 @@ module.exports = (ThangTypeEditView = (function () {
       let name = window.prompt(message, defaultName)
       if (!name) { return null }
       name = name.trim().replace(/\//g, '-') // slashes would corrupt treema paths
+      if (['__proto__', 'constructor', 'prototype'].includes(name)) {
+        // '__proto__' as a key mutates the raw object's prototype instead of adding an entry.
+        noty({ text: `'${_.escape(name)}' is a reserved name — pick another.`, type: 'error', timeout: 5000 })
+        return null
+      }
       return name || null
     }
 
