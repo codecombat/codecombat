@@ -657,12 +657,18 @@ module.exports = (ThangTypeEditView = (function () {
       const framerate = data.framerate
       const frames = data.frames != null ? data.frames : data
       const result = []
+      const rejectUnsupported = f => {
+        // Silently importing these produces garbage crops / jittering frames.
+        if (f.rotated) { throw new Error("rotated frames are not supported — disable 'Allow rotation' in TexturePacker and re-export") }
+        if (f.trimmed) { throw new Error("trimmed frames are not supported — set Trim mode to 'None' in TexturePacker and re-export") }
+      }
       if (_.isArray(frames)) {
         for (const f of frames) {
           if (_.isArray(f)) {
             const [x, y, w, h] = f
             result.push([x, y, w, h, f[5] != null ? f[5] : w / 2, f[6] != null ? f[6] : h / 2])
           } else if (f && f.frame) {
+            rejectUnsupported(f)
             const r = f.frame
             result.push([r.x, r.y, r.w, r.h, r.w / 2, r.h / 2])
           }
@@ -682,6 +688,7 @@ module.exports = (ThangTypeEditView = (function () {
         for (const key of _.keys(frames).sort(naturally)) {
           const f = frames[key]
           if (f && f.frame) {
+            rejectUnsupported(f)
             const r = f.frame
             result.push([r.x, r.y, r.w, r.h, r.w / 2, r.h / 2])
           }
