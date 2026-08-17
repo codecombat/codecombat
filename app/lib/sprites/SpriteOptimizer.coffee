@@ -123,12 +123,14 @@ module.exports = class SpriteOptimizer
         if relatedAction.container
           containerFrequencies[relatedAction.container] = (containerFrequencies[relatedAction.container] ? 0) + 1
     containersByFrequency = _.sortBy _.pairs(containerFrequencies), ([containerName, frequency]) -> -frequency
+    assignedContainerNames = new Set()
     for [container, frequency] in containersByFrequency
       if @raw.containers[container]?.img
         # Referenced raster-backed containers keep their artist-chosen names
         # (identity renaming). Unreferenced ones are dropped by the rebuild
         # below, exactly like unreferenced vector containers.
         containerRenamings[container] = container
+        assignedContainerNames.add container
         continue
       containerKey = @keyForContainer @raw.containers[container]
       if @aggressiveContainers and newContainerName = containerDuplicates[containerKey]
@@ -143,9 +145,10 @@ module.exports = class SpriteOptimizer
         n = _.size containerRenamings
         # Skip generated names already claimed by a kept-as-is raster container
         # (or by an earlier renaming, once skips shift the numbering).
-        assignedNames = _.values containerRenamings
-        n++ while @raw.containers[@nameContainer(n)]?.img or @nameContainer(n) in assignedNames
-        containerDuplicates[containerKey] = containerRenamings[container] = @nameContainer n
+        n++ while @raw.containers[@nameContainer(n)]?.img or assignedContainerNames.has(@nameContainer(n))
+        newName = @nameContainer n
+        containerDuplicates[containerKey] = containerRenamings[container] = newName
+        assignedContainerNames.add newName
         firstContainers[containerKey] = @raw.containers[container]
 
     if @debug
