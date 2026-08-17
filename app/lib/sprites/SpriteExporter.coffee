@@ -20,9 +20,16 @@ class SpriteExporter extends CocoClass
     @resolutionFactor = options.resolutionFactor or 1
     @actionNames = options.actionNames or (action.name for action in @thangType.getDefaultActions())
     @spriteType = options.spriteType or @thangType.get('spriteType') or 'segmented'
+    # Raster keyframe animations only work through the singular path.
+    @spriteType = 'singular' if @thangType.hasRasterAnimations()
     super()
 
   build: ->
+    if @thangType.hasRasterRawAssets() and not @thangType.rasterRawImagesLoaded()
+      # Building with unloaded raster images would silently drop their frames.
+      @listenToOnce @thangType, 'raster-raw-images-loaded', @build
+      @thangType.loadRasterRawImages()
+      return
     spriteSheetBuilder = new createjs.SpriteSheetBuilder()
     if @spriteType is 'segmented'
       @renderSegmentedThangType(spriteSheetBuilder)
@@ -41,6 +48,7 @@ class SpriteExporter extends CocoClass
     spriteBuilder = new SpriteBuilder(@thangType, {colorConfig: @colorConfig})
     for containerGlobalName in containersToRender
       container = spriteBuilder.buildContainerFromStore(containerGlobalName)
+      continue unless container  # e.g. raster image failed to load
       frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor * (@thangType.get('scale') or 1))
       spriteSheetBuilder.addAnimation(containerGlobalName, [frame], false)
 
@@ -58,6 +66,7 @@ class SpriteExporter extends CocoClass
     for animationName, actions of animationGroups
       scale = actions[0].scale or @thangType.get('scale') or 1
       mc = spriteBuilder.buildMovieClip(animationName, null, null, null, {'temp':0})
+      continue unless mc  # e.g. raster sheet failed to load
       spriteSheetBuilder.addMovieClip(mc, null, scale * @resolutionFactor)
       frames = spriteSheetBuilder._animations['temp'].frames
       framesMap = _.zipObject _.range(frames.length), frames
@@ -78,6 +87,7 @@ class SpriteExporter extends CocoClass
     containerGroups = _.groupBy containerActions, (action) -> action.container
     for containerName, actions of containerGroups
       container = spriteBuilder.buildContainerFromStore(containerName)
+      continue unless container  # e.g. raster image failed to load
       scale = actions[0].scale or @thangType.get('scale') or 1
       frame = spriteSheetBuilder.addFrame(container, null, scale * @resolutionFactor)
       for action in actions
