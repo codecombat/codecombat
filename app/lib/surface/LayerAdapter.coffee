@@ -495,8 +495,12 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
 
-    animationGroups = _.groupBy animationActions, (action) -> action.animation
-    for animationName, actions of animationGroups
+    # Group by animation AND effective scale: frames are baked at one scale,
+    # so actions sharing an animation at different scales need separate frames
+    # (the editor path already keys its frames map by scale, ThangType.js addGeneralFrames).
+    animationGroups = _.groupBy animationActions, (action) -> action.animation + '~' + (action.scale or thangType.get('scale') or 1)
+    for groupKey, actions of animationGroups
+      animationName = actions[0].animation
       renderAll = _.any actions, (action) -> action.frames is undefined
       scale = actions[0].scale or thangType.get('scale') or 1
 
