@@ -638,7 +638,7 @@ module.exports = (ThangTypeEditView = (function () {
       const right = _.max(frameBounds.map(b => b[0] + b[2]))
       const bottom = _.max(frameBounds.map(b => b[1] + b[3]))
       const entry = { bounds: [left, top, right - left, bottom - top], frameBounds, rasterSheet: path, rasterFrames }
-      if (framerate) { entry.framerate = framerate }
+      if (framerate != null) { entry.framerate = framerate }
       raw.animations[name] = entry
       this.fileLoaded()
       if (this.thangType.get('spriteType') !== 'singular') {
