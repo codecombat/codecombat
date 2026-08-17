@@ -21,8 +21,12 @@ module.exports = class SpriteBuilder
       return @buildRasterMovieClip animationName, animData, mode, startPosition, loops, labels
     locals = {}
     _.extend locals, @buildMovieClipShapes(animData.shapes)
-    _.extend locals, @buildMovieClipContainers(animData.containers)
-    _.extend locals, @buildMovieClipAnimations(animData.animations)
+    containers = @buildMovieClipContainers(animData.containers)
+    return null unless containers  # nested raster image not loaded yet
+    _.extend locals, containers
+    animations = @buildMovieClipAnimations(animData.animations)
+    return null unless animations  # nested raster sheet not loaded yet
+    _.extend locals, animations
     _.extend locals, @buildMovieClipGraphics(animData.graphics)
     anim = new createjs.MovieClip()
     if not labels
@@ -131,6 +135,7 @@ module.exports = class SpriteBuilder
     map = {}
     for localContainer in localContainers
       container = @buildContainerFromStore(localContainer.gn)
+      return null unless container  # raster image not loaded yet
       container.setTransform(localContainer.t...)
       container._off = localContainer.o if localContainer.o?
       container.alpha = localContainer.al if localContainer.al?
@@ -141,6 +146,7 @@ module.exports = class SpriteBuilder
     map = {}
     for localAnimation in localAnimations
       animation = @buildMovieClip(localAnimation.gn, localAnimation.a...)
+      return null unless animation  # nested raster sheet not loaded yet
       animation.setTransform(localAnimation.t...)
       animation._off = true if localAnimation.off
       map[localAnimation.bn] = animation
@@ -185,6 +191,7 @@ module.exports = class SpriteBuilder
       else
         continue if not childData.gn
         child = @buildContainerFromStore(childData.gn)
+        return null unless child  # nested raster image not loaded yet
         child.setTransform(childData.t...)
       cont.addChild(child)
     cont.bounds = new createjs.Rectangle(contData.b...)
