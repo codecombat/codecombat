@@ -240,6 +240,10 @@ module.exports = (ThangTypeEditView = (function () {
         this.files = this.supermodel.loadCollection(new DocumentFiles(this.thangType), 'files').model
         return this.updateFileSize()
       })
+      this.listenTo(this.thangType, 'raster-raw-images-load-errored', (thangType, path) => {
+        // Otherwise a 404'd asset just renders a placeholder with no explanation.
+        noty({ text: `Raster image failed to load: /file/${_.escape(path)}`, type: 'error', timeout: 10000 })
+      })
     }
     //    @refreshAnimation = _.debounce @refreshAnimation, 500
 
