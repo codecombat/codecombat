@@ -236,7 +236,10 @@ module.exports = (Classroom = (function () {
       const project = this.getProjectLevel(courseID)
       const courseLevels = this.getLevels({ courseID, withoutLadderLevels: true, levelsCollection })
       const levelSessionMap = {}
-      for (const session of Array.from(sessions)) { levelSessionMap[session.get('level').original] = session }
+      for (const session of Array.from(sessions)) {
+        const original = session.get('level')?.original ?? session.get('scenario')
+        levelSessionMap[original] = session
+      }
       let currentIndex = -1
       let lastStarted = null
       let levelsTotal = 0

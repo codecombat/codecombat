@@ -118,7 +118,7 @@ style.
             else
               ul.list-unstyled
                 if view.course
-                  for concept in view.course.get('concepts').slice().reverse().slice(0, 7)
+                  for concept in (view.course.get('concepts') || []).slice().reverse().slice(0, 7)
                     if concept == 'create_playable_game' || concept == 'create_sharable_web_page' || concept == 'create_sharable_interactive_web_page'
                       // Too wide, weird "concepts", we'll just skip
                       - continue;
