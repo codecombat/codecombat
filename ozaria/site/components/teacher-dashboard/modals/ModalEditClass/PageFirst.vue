@@ -31,22 +31,13 @@ export default Vue.extend({
     },
   },
   validations: {
-    newClass: {
-      name: {
-        required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm && !this.isLmsProductForm }),
-      },
+    name: {
+      required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm && !this.isLmsProductForm }),
     },
   },
   data () {
     return {
       showGoogleClassroom: me.useGoogleClassroom(),
-      newClass: {
-        name: this.classroom?.name || this.value?.name || '',
-        initCourse: this.classroom?.initialFreeCourses?.[0] || this.value?.initCourse || (utils.isCodeCombat ? utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE : undefined),
-        googleClassroomId: this.classroom?.googleClassroomId,
-        otherProductId: this.classroom?.otherProductId,
-        lmsClassroomId: this.classroom?.lmsClassroom?.classId,
-      },
       isSyncInProgress: false,
       // one of null, 'google', 'otherProduct', 'lms'
       lmsSelected: null,
@@ -58,6 +49,32 @@ export default Vue.extend({
   computed: {
     isCodeCombat () {
       return utils.isCodeCombat
+    },
+    // Proxies onto the single draft object owned by the parent (this.value) -
+    // no local copy, so there is only ever one source of truth for the draft.
+    name: {
+      get () { return this.value.name },
+      set (val) { this.updateDraft({ name: val }) },
+    },
+    initCourse: {
+      get () { return this.value.initCourse },
+      set (val) { this.updateDraft({ initCourse: val }) },
+    },
+    googleClassroomId: {
+      get () { return this.value.googleClassroomId },
+      set (val) { this.updateDraft({ googleClassroomId: val }) },
+    },
+    otherProductClassroomId: {
+      get () { return this.value.otherProductClassroomId },
+      set (val) { this.updateDraft({ otherProductClassroomId: val }) },
+    },
+    lmsClassroomId: {
+      get () { return this.value.lmsClassroomId },
+      set (val) { this.updateDraft({ lmsClassroomId: val }) },
+    },
+    members: {
+      get () { return this.value.members },
+      set (val) { this.updateDraft({ members: val }) },
     },
     // kept as computed for compatibility with existing validations/template bindings
     isGoogleClassroomForm () {
@@ -116,15 +133,10 @@ export default Vue.extend({
       return !this.classroom?._id
     },
   },
-  watch: {
-    newClass: {
-      deep: true,
-      handler (newV) {
-        this.$emit('input', newV)
-      },
-    },
-  },
   methods: {
+    updateDraft (patch) {
+      this.$emit('input', { ...this.value, ...patch })
+    },
     async linkGoogleClassroom () {
       window.tracker?.trackEvent('Add New Class: Link Google Classroom Clicked', { category: 'Teachers' })
       this.isSyncInProgress = true
@@ -195,19 +207,21 @@ export default Vue.extend({
       return !this.$v.$invalid
     },
     updateGoogleClassroomId (newVal) {
-      this.newClass.googleClassroomId = newVal
-      this.newClass.name = this.googleClassrooms.find((c) => c.id === newVal).name
+      const name = this.googleClassrooms.find((c) => c.id === newVal).name
+      this.updateDraft({ googleClassroomId: newVal, name })
     },
     updateOtherProductClassroomId (newVal) {
-      this.newClass.otherProductClassroomId = newVal
       const otherProductClassroom = (this.otherProductClassrooms || [])
         .find((classroom) => classroom._id === newVal)
-      this.newClass.name = otherProductClassroom.name
-      this.newClass.members = otherProductClassroom.members
+      this.updateDraft({
+        otherProductClassroomId: newVal,
+        name: otherProductClassroom.name,
+        members: otherProductClassroom.members,
+      })
     },
     updateLmsClassroomId (newVal) {
-      this.newClass.lmsClassroomId = newVal
-      this.newClass.name = (this.lmsClassrooms || []).find((c) => c.id === newVal).name
+      const name = (this.lmsClassrooms || []).find((c) => c.id === newVal).name
+      this.updateDraft({ lmsClassroomId: newVal, name })
     },
   },
 })
@@ -284,12 +298,12 @@ export default Vue.extend({
         >
           <div
             class="col-xs-12"
-            :class="{ 'has-error': $v.newClass.name.$error }"
+            :class="{ 'has-error': $v.name.$error }"
           >
             <label for="form-class-name">
               <span class="control-label"> {{ $t("teachers.class_name") }} </span>
               <span
-                v-if="!$v.newClass.name.required"
+                v-if="!$v.name.required"
                 class="form-error"
               >
                 {{ $t("form_validation_errors.required") }}
@@ -297,7 +311,7 @@ export default Vue.extend({
             </label>
             <input
               id="form-class-name"
-              v-model="$v.newClass.name.$model"
+              v-model="$v.name.$model"
               type="text"
               class="form-control"
             >
@@ -307,7 +321,7 @@ export default Vue.extend({
       <div
         class="form-group row"
       >
-        <CourseSelect v-model="newClass.initCourse" />
+        <CourseSelect v-model="initCourse" />
       </div>
     </div>
   </div>

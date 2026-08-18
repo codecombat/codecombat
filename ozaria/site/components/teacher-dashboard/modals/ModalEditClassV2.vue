@@ -114,12 +114,12 @@ export default Vue.extend({
       archived: this.classroom?.archived || false,
       newClass: {
         pageFirst: {
-          name: '',
-          initCourse: '',
-          googleClassroomId: null,
-          lmsClassroomId: null,
-          otherProductClassroomId: null,
-          members: null,
+          name: this.classroom?.name || '',
+          initCourse: this.classroom?.initialFreeCourses?.[0] || (utils.isCodeCombat ? utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE : undefined),
+          googleClassroomId: this.classroom?.googleClassroomId || null,
+          lmsClassroomId: this.classroom?.lmsClassroom?.classId || null,
+          otherProductClassroomId: this.classroom?.otherProductId || null,
+          members: this.classroom.members || null,
         },
         pageSecond: {
           codeLanguage: 'python',
