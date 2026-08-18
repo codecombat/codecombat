@@ -9,9 +9,10 @@
     >
       <PageFirst
         v-if="currentPage === 1"
-        ref="pageFirst"
         v-model="newClass.pageFirst"
         :classroom="classroom"
+        :show-validation="pageFirstShowValidation"
+        :valid.sync="pageFirstValid"
       />
       <PageSecond
         v-else
@@ -112,6 +113,8 @@ export default Vue.extend({
       saving: false,
       errMsg: '',
       archived: this.classroom?.archived || false,
+      pageFirstValid: false,
+      pageFirstShowValidation: false,
       newClass: {
         pageFirst: {
           name: this.classroom?.name || '',
@@ -208,8 +211,8 @@ export default Vue.extend({
     async clickedCTA () {
       this.errMsg = ''
       if (this.currentPage === 1) {
-        const firstPageValid = this.$refs.pageFirst.validate()
-        if (!firstPageValid) {
+        this.pageFirstShowValidation = true
+        if (!this.pageFirstValid) {
           this.errMsg = 'Missing required data'
           return
         }

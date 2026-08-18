@@ -29,10 +29,28 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    // Parent sets this to true once it has attempted to move past this page,
+    // so validation errors are only revealed on a submit attempt rather than while typing.
+    showValidation: {
+      type: Boolean,
+      default: false,
+    },
   },
   validations: {
     name: {
       required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm && !this.isLmsProductForm }),
+    },
+    // A form being active means its picker is shown, so the corresponding
+    // external classroom must actually be selected (name alone isn't enough:
+    // an existing classroom already has a name before anything is picked).
+    googleClassroomId: {
+      required: requiredIf(function () { return this.isGoogleClassroomForm }),
+    },
+    otherProductClassroomId: {
+      required: requiredIf(function () { return this.isOtherProductForm }),
+    },
+    lmsClassroomId: {
+      required: requiredIf(function () { return this.isLmsProductForm }),
     },
   },
   data () {
@@ -132,6 +150,26 @@ export default Vue.extend({
     isNewClassroom () {
       return !this.classroom?._id
     },
+    isValid () {
+      return !this.$v.$invalid
+    },
+  },
+  watch: {
+    isValid: {
+      immediate: true,
+      handler (valid) {
+        this.$emit('update:valid', valid)
+      },
+    },
+    // Reveal validation errors only once the parent has attempted to move past this page.
+    showValidation: {
+      immediate: true,
+      handler (shouldShow) {
+        if (shouldShow) {
+          this.$v.$touch()
+        }
+      },
+    },
   },
   methods: {
     updateDraft (patch) {
@@ -201,10 +239,6 @@ export default Vue.extend({
         showNotification: true,
       })
       window.location.reload()
-    },
-    validate () {
-      this.$v.$touch()
-      return !this.$v.$invalid
     },
     updateGoogleClassroomId (newVal) {
       const name = this.googleClassrooms.find((c) => c.id === newVal).name
