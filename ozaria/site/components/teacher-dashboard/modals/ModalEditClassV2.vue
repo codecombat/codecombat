@@ -88,7 +88,7 @@ import PageFirst from './ModalEditClass/PageFirst'
 import PageSecond from './ModalEditClass/PageSecond'
 import TertiaryButton from '../common/buttons/TertiaryButton'
 import PurpleButton from '../common/buttons/PurpleButton'
-
+import BackgroundJobApi from 'app/core/api/background-job.js'
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 
 export default Vue.extend({
@@ -169,6 +169,14 @@ export default Vue.extend({
     },
     classroomInstance () {
       return new Classroom(this.classroom)
+    },
+    lmsKey () {
+      if (me.isSchoology()) {
+        return 'schoology'
+      } else if (me.isClassLink()) {
+        return 'classlink'
+      }
+      return null
     },
   },
   watch: {
@@ -393,13 +401,16 @@ export default Vue.extend({
       }
       this.$emit('close')
     },
-    lmsKey () {
-      if (me.isSchoology()) {
-        return 'schoology'
-      } else if (me.isClassLink()) {
-        return 'classlink'
-      }
-      return null
+    async handleLmsClassroomImport (savedClassroom) {
+      const job = await BackgroundJobApi.create('oauth2-roster-class', {
+        classroomId: savedClassroom._id,
+        lmsClassroomId: savedClassroom.lmsClassroom.classId,
+        provider: savedClassroom.lmsClassroom.provider,
+      })
+      await BackgroundJobApi.pollTillResult(job.job, {
+        showNotification: true,
+      })
+      window.location.reload()
     },
   },
 })

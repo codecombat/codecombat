@@ -10,6 +10,7 @@ import ButtonGoogleClassroom from 'ozaria/site/components/teacher-dashboard/moda
 import ButtonImportClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonImportClassroom.vue'
 import CourseSelect from './CourseSelect'
 import ClassroomImportComponent from '../modal-edit-class-components/ClassroomImportComponent.vue'
+import BackgroundJobApi from 'app/core/api/background-job.js'
 
 export default Vue.extend({
   components: {
@@ -100,8 +101,19 @@ export default Vue.extend({
     getProvider () {
       return this.lmsKey
     },
+    lmsKey () {
+      if (me.isSchoology()) {
+        return 'schoology'
+      } else if (me.isClassLink()) {
+        return 'classlink'
+      }
+      return null
+    },
     lmsClassroom () {
       return this.lmsClassrooms?.find((c) => c.id === this.lmsClassroomId)
+    },
+    isNewClassroom () {
+      return !this.classroom?._id
     },
   },
   watch: {
@@ -159,6 +171,25 @@ export default Vue.extend({
       }
       this.isSyncInProgress = false
     },
+    async reImportExistingLmsClassroom () {
+      this.lmsSyncInProgress = true
+      noty({ text: 'Re-Importing classroom...', layout: 'topCenter', type: 'info', timeout: 3000 })
+      await this.handleLmsClassroomImport(this.classroom)
+      this.lmsSyncInProgress = false
+      this.$emit('close')
+      window.location.reload()
+    },
+    async handleLmsClassroomImport (savedClassroom) {
+      const job = await BackgroundJobApi.create('oauth2-roster-class', {
+        classroomId: savedClassroom._id,
+        lmsClassroomId: savedClassroom.lmsClassroom.classId,
+        provider: savedClassroom.lmsClassroom.provider,
+      })
+      await BackgroundJobApi.pollTillResult(job.job, {
+        showNotification: true,
+      })
+      window.location.reload()
+    },
     validate () {
       this.$v.$touch()
       return !this.$v.$invalid
@@ -213,7 +244,7 @@ export default Vue.extend({
         class="lms-classroom-div"
       >
         <button-import-classroom
-          v-if="classroomInstance.isNew()"
+          v-if="isNewClassroom"
           :in-progress="isSyncInProgress"
           :icon-src="lmsProductImage"
           :icon-src-alt-text="lmsProductText"
