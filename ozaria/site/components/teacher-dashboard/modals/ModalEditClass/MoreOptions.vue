@@ -94,11 +94,11 @@
       class="form-group row remix"
     >
       <div class="col-xs-12">
-        <label for="level-chat">
+        <label for="remix">
           <span class="control-label"> {{ $t("teachers.ai_hs_remix") }} </span>
         </label>
         <input
-          id="level-chat"
+          id="remix"
           v-model="newClass.remix"
           type="checkbox"
           name="remix"
@@ -298,8 +298,9 @@
     >
       <!-- eslint-disable vue/no-v-html -->
       <a
+        href="#"
         class="more-options-text"
-        @click="toggleMoreOptions"
+        @click.prevent="toggleMoreOptions"
       >
         {{ $t('courses.more_options') }}
         <span v-html="moreOptionsIcon" />
@@ -337,7 +338,6 @@ export default {
     const cLevelChat = this.classroom?.aceConfig?.levelChat || this.value.levelChat
     const cGrades = this.classroom?.grades || []
     return {
-      classGrades: (utils.isOzaria && !me.isCodeNinja()) ? cGrades : null,
       moreOptions: false,
       newClass: {
         classroomItems: typeof cItems === 'undefined' ? true : cItems,
@@ -352,6 +352,7 @@ export default {
         minutesPerClass: this.classroom?.minutesPerClass || '',
         classDateStart: this.classroom?.classDateStart || '',
         classDateEnd: this.classroom?.classDateEnd || '',
+        classGrades: (utils.isOzaria && !me.isCodeNinja()) ? cGrades : null,
       },
     }
   },

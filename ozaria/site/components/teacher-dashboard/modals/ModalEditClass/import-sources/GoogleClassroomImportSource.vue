@@ -59,20 +59,19 @@ export default Vue.extend({
     async link () {
       window.tracker?.trackEvent('Add New Class: Link Google Classroom Clicked', { category: 'Teachers' })
       this.isSyncInProgress = true
-      await new Promise((resolve, reject) =>
-        application.gplusHandler.loadAPI({
-          success: resolve,
-          error: reject,
-        }))
-      await GoogleClassroomHandler.importClassrooms()
-        .then(() => {
-          this.googleClassrooms = me.get('googleClassrooms').filter((c) => !c.importedToOzaria && !c.deletedFromGC)
-          this.$emit('activate')
-          window.tracker?.trackEvent('Add New Class: Link Google Classroom Successful', { category: 'Teachers' })
-        })
-        .catch((e) => {
-          noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
-        })
+      try {
+        await new Promise((resolve, reject) =>
+          application.gplusHandler.loadAPI({
+            success: resolve,
+            error: reject,
+          }))
+        await GoogleClassroomHandler.importClassrooms()
+        this.googleClassrooms = me.get('googleClassrooms').filter((c) => !c.importedToOzaria && !c.deletedFromGC)
+        this.$emit('activate')
+        window.tracker?.trackEvent('Add New Class: Link Google Classroom Successful', { category: 'Teachers' })
+      } catch (err) {
+        noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
+      }
       this.isSyncInProgress = false
     },
   },

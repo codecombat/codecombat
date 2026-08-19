@@ -538,7 +538,7 @@ export default {
     />
     <modal-edit-class
       v-if="showNewClubModal || editCurrent"
-      :classroom="editClassroomObject"
+      :classroom="showNewClubModal ? newClassroom : editClassroomObject"
       :as-club="true"
       @close="closeShowNewModal"
     />

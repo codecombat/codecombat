@@ -62,6 +62,7 @@ export default {
         minutesPerClass: '',
         classDateStart: '',
         classDateEnd: '',
+        classGrades: null,
       },
     }
   },

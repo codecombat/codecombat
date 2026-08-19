@@ -52,7 +52,7 @@
             class="submit-button"
           >
             <purple-button
-              :disabled="saving"
+              :inactive="saving"
               class="class-submit"
               @click="clickedCTA"
             >
@@ -349,7 +349,7 @@ export default Vue.extend({
         this.importLinkHandlers[newClass.importLink.source].applyToUpdates(updates, newClass.importLink, newClass)
       }
 
-      if (this.classGrades?.length > 0) {
+      if (newClass.classGrades?.length > 0) {
         updates.grades = this.classGrades
       }
 
