@@ -3472,6 +3472,7 @@ module.exports = {
       certificate_stats: 'Course Stats',
       certificate_lines_of: 'lines of',
       certificate_levels_completed: 'levels completed',
+      certificate_ai_projects_completed: 'AI projects completed',
       certificate_for: 'For',
       for_ozaria_chapters_1_4: 'For Ozaria Chapters 1 - 4',
       certificate_number: 'No.',

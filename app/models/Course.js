@@ -36,6 +36,10 @@ module.exports = (Course = (function () {
     isCh1Course () {
       return this.get('_id') === utils.courseIDs.CHAPTER_ONE
     }
+
+    isHackStackCourse () {
+      return utils.HACKSTACK_COURSE_IDS.includes(this.get('_id'))
+    }
   }
   Course.initClass()
   return Course
