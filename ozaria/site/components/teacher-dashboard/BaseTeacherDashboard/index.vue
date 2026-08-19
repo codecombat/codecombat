@@ -183,6 +183,7 @@ export default {
       await this.handleTrialRequest()
       this.showTeacherDetailsModal = this.shouldShowTeacherDetailsModal()
     }
+    this.newClassroomAsClub = me.isCodeNinja()
   },
 
   metaInfo () {
@@ -496,7 +497,7 @@ export default {
           :all-classes-page="isAllClassesPage"
           :show-preview-mode="showNonTeacherPreview"
           @change-course="onChangeCourse"
-          @newClass="openNewClassModal"
+          @newClass="isCodeCombat ? openNewClassModal() : openNewClubModal()"
           @newClub="openNewClubModal"
           @addStudentsClicked="showAddStudentsModal = true"
           @editClass="openEditClassModal"
@@ -539,7 +540,7 @@ export default {
     <modal-edit-class
       v-if="showNewClubModal || editCurrent"
       :classroom="showNewClubModal ? newClassroom : editClassroomObject"
-      :as-club="true"
+      :as-club="newClassroomAsClub"
       @close="closeShowNewModal"
     />
     <modal-assign-content
