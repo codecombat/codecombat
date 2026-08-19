@@ -5021,6 +5021,18 @@ module.exports = {
       top_teacher_info_2: 'Teacher __A__ uses our platform',
       ai_league: 'AI League',
       ai_league_stats: '__n__ players played in AI League arenas',
+      ai_hackstack_progress: 'AI HackStack Progress',
+      ai_hackstack_summary: 'AI HackStack Summary',
+      using_ai_hackstack: "Using CodeCombat's AI HackStack...",
+      completed: 'completed...',
+      ai_project: 'AI project',
+      ai_projects: 'AI projects',
+      practicing_with: 'practicing with...',
+      ai_prompt: 'AI prompt',
+      ai_prompts: 'AI prompts',
+      and_created: 'and created...',
+      ai_capstone_project: 'AI capstone project',
+      ai_capstone_projects: 'AI capstone projects',
     },
 
     efficacy: {
