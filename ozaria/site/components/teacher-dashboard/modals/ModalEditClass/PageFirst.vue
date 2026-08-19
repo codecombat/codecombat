@@ -3,21 +3,22 @@ import { validationMixin } from 'vuelidate'
 import { requiredIf } from 'vuelidate/lib/validators'
 
 import utils from 'core/utils'
-import ClassroomsApi from 'app/core/api/classrooms.js'
-import OAuth2Api from 'app/core/api/oauth2.js'
-import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
-import ButtonGoogleClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonGoogleClassroom.vue'
-import ButtonImportClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonImportClassroom.vue'
 import CourseSelect from './CourseSelect'
-import ClassroomImportComponent from '../modal-edit-class-components/ClassroomImportComponent.vue'
-import BackgroundJobApi from 'app/core/api/background-job.js'
+import GoogleClassroomImportSource from './import-sources/GoogleClassroomImportSource.vue'
+import OtherProductImportSource from './import-sources/OtherProductImportSource.vue'
+import LmsImportSource from './import-sources/LmsImportSource.vue'
+
+// Each entry's component owns its own button, fetch, and picker for that source,
+// and emits a normalized `linked` payload: { source, externalId, name, members? }.
+const IMPORT_SOURCES = [
+  { key: 'google', component: GoogleClassroomImportSource },
+  { key: 'otherProduct', component: OtherProductImportSource },
+  { key: 'lms', component: LmsImportSource },
+]
 
 export default Vue.extend({
   components: {
-    ButtonGoogleClassroom,
-    ButtonImportClassroom,
     CourseSelect,
-    ClassroomImportComponent,
   },
   mixins: [validationMixin],
   props: {
@@ -38,35 +39,26 @@ export default Vue.extend({
   },
   validations: {
     name: {
-      required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm && !this.isLmsProductForm }),
+      required: requiredIf(function () { return !this.activeSource }),
     },
-    // A form being active means its picker is shown, so the corresponding
-    // external classroom must actually be selected (name alone isn't enough:
-    // an existing classroom already has a name before anything is picked).
-    googleClassroomId: {
-      required: requiredIf(function () { return this.isGoogleClassroomForm }),
-    },
-    otherProductClassroomId: {
-      required: requiredIf(function () { return this.isOtherProductForm }),
-    },
-    lmsClassroomId: {
-      required: requiredIf(function () { return this.isLmsProductForm }),
+    importLink: {
+      externalId: {
+        required: requiredIf(function () { return !!this.activeSource }),
+      },
     },
   },
   data () {
     return {
-      showGoogleClassroom: me.useGoogleClassroom(),
-      isSyncInProgress: false,
       // one of null, 'google', 'otherProduct', 'lms'
-      lmsSelected: null,
-      googleClassrooms: null,
-      otherProductClassrooms: null,
-      lmsClassrooms: null,
+      activeSource: null,
     }
   },
   computed: {
     isCodeCombat () {
       return utils.isCodeCombat
+    },
+    importSources () {
+      return IMPORT_SOURCES
     },
     // Proxies onto the single draft object owned by the parent (this.value) -
     // no local copy, so there is only ever one source of truth for the draft.
@@ -78,77 +70,9 @@ export default Vue.extend({
       get () { return this.value.initCourse },
       set (val) { this.updateDraft({ initCourse: val }) },
     },
-    googleClassroomId: {
-      get () { return this.value.googleClassroomId },
-      set (val) { this.updateDraft({ googleClassroomId: val }) },
-    },
-    otherProductClassroomId: {
-      get () { return this.value.otherProductClassroomId },
-      set (val) { this.updateDraft({ otherProductClassroomId: val }) },
-    },
-    lmsClassroomId: {
-      get () { return this.value.lmsClassroomId },
-      set (val) { this.updateDraft({ lmsClassroomId: val }) },
-    },
-    members: {
-      get () { return this.value.members },
-      set (val) { this.updateDraft({ members: val }) },
-    },
-    // kept as computed for compatibility with existing validations/template bindings
-    isGoogleClassroomForm () {
-      return this.lmsSelected === 'google'
-    },
-    isOtherProductForm () {
-      return this.lmsSelected === 'otherProduct'
-    },
-    isLmsProductForm () {
-      return this.lmsSelected === 'lms'
-    },
-    linkGoogleButtonAllowed () {
-      return this.showGoogleClassroom && !this.isGoogleClassroomForm && !this.isOtherProductForm
-    },
-    linkOtherProductButtonAllowed () {
-      return utils.isCodeCombat &&
-        !this.classroom.otherProductId &&
-        !this.isGoogleClassroomForm &&
-        !this.isOtherProductForm
-    },
-    googleClassroomDisabled () {
-      return !me.googleClassroomEnabled()
-    },
-    showLmsButton () {
-      return me.isSchoology() || me.isClassLink()
-    },
-    lmsProductImage () {
-      const imageMap = {
-        schoology: '/images/pages/modal/auth/schoology.png',
-        classlink: '/images/pages/modal/auth/classlink-logo-small.png',
-      }
-      return imageMap[this.lmsKey]
-    },
-    lmsProductText () {
-      const textMap = {
-        schoology: 'Schoology',
-        classlink: 'ClassLink',
-      }
-      return textMap[this.lmsKey]
-    },
-    getProvider () {
-      return this.lmsKey
-    },
-    lmsKey () {
-      if (me.isSchoology()) {
-        return 'schoology'
-      } else if (me.isClassLink()) {
-        return 'classlink'
-      }
-      return null
-    },
-    lmsClassroom () {
-      return this.lmsClassrooms?.find((c) => c.id === this.lmsClassroomId)
-    },
-    isNewClassroom () {
-      return !this.classroom?._id
+    importLink: {
+      get () { return this.value.importLink || { source: null, externalId: null, members: null } },
+      set (val) { this.updateDraft({ importLink: val }) },
     },
     isValid () {
       return !this.$v.$invalid
@@ -175,87 +99,11 @@ export default Vue.extend({
     updateDraft (patch) {
       this.$emit('input', { ...this.value, ...patch })
     },
-    async linkGoogleClassroom () {
-      window.tracker?.trackEvent('Add New Class: Link Google Classroom Clicked', { category: 'Teachers' })
-      this.isSyncInProgress = true
-      await new Promise((resolve, reject) =>
-        application.gplusHandler.loadAPI({
-          success: resolve,
-          error: reject,
-        }))
-      GoogleClassroomHandler.importClassrooms()
-        .then(() => {
-          this.googleClassrooms = me.get('googleClassrooms').filter((c) => !c.importedToOzaria && !c.deletedFromGC)
-          this.lmsSelected = 'google'
-          window.tracker?.trackEvent('Add New Class: Link Google Classroom Successful', { category: 'Teachers' })
-        })
-        .catch((e) => {
-          noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
-        })
-      this.isSyncInProgress = false
-    },
-    async linkOtherProductClassroom () {
-      window.tracker?.trackEvent('Add New Class: Link Other Product Classroom Clicked', { category: 'Teachers' })
-      this.isSyncInProgress = true
-
-      try {
-        this.otherProductClassrooms = (await ClassroomsApi.fetchByOwner(me.get('_id'), { callOz: true }))
-          .filter(otherClassroom => !otherClassroom.otherProductId)
-        this.lmsSelected = 'otherProduct'
-        window.tracker?.trackEvent('Add New Class: Link Other Product Classroom Successful', { category: 'Teachers' })
-      } catch (error) {
-        console.log(error)
-        noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
-      }
-      this.isSyncInProgress = false
-    },
-
-    async linkLmsClassroom () {
-      this.isSyncInProgress = true
-      try {
-        this.lmsClassrooms = await OAuth2Api.getLmsClassrooms(this.getProvider)
-        this.lmsSelected = 'lms' // schoology, classlink based on edlink
-      } catch (error) {
-        console.log(error)
-        noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
-      }
-      this.isSyncInProgress = false
-    },
-    async reImportExistingLmsClassroom () {
-      this.lmsSyncInProgress = true
-      noty({ text: 'Re-Importing classroom...', layout: 'topCenter', type: 'info', timeout: 3000 })
-      await this.handleLmsClassroomImport(this.classroom)
-      this.lmsSyncInProgress = false
-      this.$emit('close')
-      window.location.reload()
-    },
-    async handleLmsClassroomImport (savedClassroom) {
-      const job = await BackgroundJobApi.create('oauth2-roster-class', {
-        classroomId: savedClassroom._id,
-        lmsClassroomId: savedClassroom.lmsClassroom.classId,
-        provider: savedClassroom.lmsClassroom.provider,
-      })
-      await BackgroundJobApi.pollTillResult(job.job, {
-        showNotification: true,
-      })
-      window.location.reload()
-    },
-    updateGoogleClassroomId (newVal) {
-      const name = this.googleClassrooms.find((c) => c.id === newVal).name
-      this.updateDraft({ googleClassroomId: newVal, name })
-    },
-    updateOtherProductClassroomId (newVal) {
-      const otherProductClassroom = (this.otherProductClassrooms || [])
-        .find((classroom) => classroom._id === newVal)
+    onLinked (payload) {
       this.updateDraft({
-        otherProductClassroomId: newVal,
-        name: otherProductClassroom.name,
-        members: otherProductClassroom.members,
+        name: payload.name,
+        importLink: { source: payload.source, externalId: payload.externalId, members: payload.members || null },
       })
-    },
-    updateLmsClassroomId (newVal) {
-      const name = (this.lmsClassrooms || []).find((c) => c.id === newVal).name
-      this.updateDraft({ lmsClassroomId: newVal, name })
     },
   },
 })
@@ -263,70 +111,22 @@ export default Vue.extend({
 
 <template>
   <div class="page-first">
-    <div class="link-buttons-container">
-      <div
-        v-if="linkGoogleButtonAllowed"
-        class="google-classroom-div"
-      >
-        <button-google-classroom
-          :inactive="googleClassroomDisabled"
-          :in-progress="isSyncInProgress"
-          text="Link Google Classroom"
-          @click="linkGoogleClassroom"
-        />
-      </div>
-      <div
-        v-if="linkOtherProductButtonAllowed"
-        class="google-classroom-div"
-      >
-        <button-import-classroom
-          :in-progress="isSyncInProgress"
-          icon-src="/images/ozaria/home/ozaria-logo.png"
-          :icon-src-inactive="isCodeCombat ? '/images/ozaria/home/ozaria-logo.png' : '/images/pages/base/logo_square_250.png'"
-          :text="$t(isCodeCombat ? 'teachers.import_ozaria_classroom' : 'teachers.import_codecombat_classroom')"
-          @click="linkOtherProductClassroom"
-        />
-      </div>
-      <div
-        v-if="showLmsButton"
-        class="lms-classroom-div"
-      >
-        <button-import-classroom
-          v-if="isNewClassroom"
-          :in-progress="isSyncInProgress"
-          :icon-src="lmsProductImage"
-          :icon-src-alt-text="lmsProductText"
-          :icon-src-inactive="lmsProductImage"
-          :text="$t('teachers.import_classroom')"
-          @click="linkLmsClassroom"
-        />
-        <button-import-classroom
-          v-else
-          :in-progress="isSyncInProgress"
-          :icon-src="lmsProductImage"
-          :icon-src-alt-text="lmsProductText"
-          :icon-src-inactive="lmsProductImage"
-          :text="$t('teachers.re_import_classroom')"
-          @click="reImportExistingLmsClassroom"
-        />
-      </div>
-    </div>
     <div class="form-container container">
-      <classroom-import-component
-        v-if="isOtherProductForm || isGoogleClassroomForm || isLmsProductForm"
-        :is-google-classroom-form="isGoogleClassroomForm"
-        :is-other-product-form="isOtherProductForm"
-        :lms-product-form="isLmsProductForm"
-        :other-product-classrooms="otherProductClassrooms"
-        :google-classrooms="googleClassrooms"
-        :lms-classrooms="lmsClassrooms"
-        @googleClassroomIdUpdated="updateGoogleClassroomId"
-        @otherProductClassroomIdUpdated="updateOtherProductClassroomId"
-        @lmsClassroomIdUpdated="updateLmsClassroomId"
-      />
-      <template
-        v-else
-      >
+      <div class="link-buttons-container">
+        <component
+          :is="source.component"
+          v-for="source in importSources"
+          :key="source.key"
+          :classroom="classroom"
+          :active="activeSource === source.key"
+          :hidden-by-other="!!activeSource && activeSource !== source.key"
+          :show-validation="showValidation"
+          :selected-external-id="activeSource === source.key ? importLink.externalId : null"
+          @activate="activeSource = source.key"
+          @linked="onLinked"
+        />
+      </div>
+      <template v-if="!activeSource">
         <div
           class="form-group row class-name"
         >

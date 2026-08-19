@@ -83,14 +83,28 @@ import utils from 'core/utils'
 import Classroom from 'models/Classroom'
 import ClassroomsApi from 'app/core/api/classrooms.js'
 import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
+import LmsRosterImportHandler from 'core/social-handlers/LmsRosterImportHandler'
 
 import Modal from '../../common/Modal'
 import PageFirst from './ModalEditClass/PageFirst'
 import PageSecond from './ModalEditClass/PageSecond'
 import TertiaryButton from '../common/buttons/TertiaryButton'
 import PurpleButton from '../common/buttons/PurpleButton'
-import BackgroundJobApi from 'app/core/api/background-job.js'
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
+
+// A classroom is linked to at most one external source at a time.
+function initialImportLink (classroom) {
+  if (classroom?.googleClassroomId) {
+    return { source: 'google', externalId: classroom.googleClassroomId, members: null }
+  }
+  if (classroom?.otherProductId) {
+    return { source: 'otherProduct', externalId: classroom.otherProductId, members: null }
+  }
+  if (classroom?.lmsClassroom?.classId) {
+    return { source: 'lms', externalId: classroom.lmsClassroom.classId, members: null }
+  }
+  return { source: null, externalId: null, members: null }
+}
 
 export default Vue.extend({
   components: {
@@ -119,10 +133,7 @@ export default Vue.extend({
         pageFirst: {
           name: this.classroom?.name || '',
           initCourse: this.classroom?.initialFreeCourses?.[0] || (utils.isCodeCombat ? utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE : undefined),
-          googleClassroomId: this.classroom?.googleClassroomId || null,
-          lmsClassroomId: this.classroom?.lmsClassroom?.classId || null,
-          otherProductClassroomId: this.classroom?.otherProductId || null,
-          members: this.classroom.members || null,
+          importLink: initialImportLink(this.classroom),
         },
         pageSecond: {
           codeLanguage: 'python',
@@ -180,6 +191,66 @@ export default Vue.extend({
         return 'classlink'
       }
       return null
+    },
+    // Keyed the same way as the import-source components' `source`, so saveClass/
+    // handleClassroomImport don't need a per-source if-block for each one.
+    importLinkHandlers () {
+      return {
+        google: {
+          applyToUpdates: (updates, importLink) => {
+            updates.googleClassroomId = importLink.externalId
+          },
+          afterSave: async (savedClassroom, importLink) => {
+            await GoogleClassroomHandler.markAsImported(importLink.externalId)
+            try {
+              const importedMembers = await GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
+              if (importedMembers.length > 0) {
+                console.debug('Students imported to classroom:', importedMembers)
+              }
+            } catch (e) {
+              this.errMsg = e || 'Error in importing students'
+              noty({ text: this.errMsg, layout: 'topCenter', type: 'error', timeout: 5000 })
+            }
+          },
+        },
+        otherProduct: {
+          applyToUpdates: (updates, importLink) => {
+            updates.otherProductId = importLink.externalId
+            if (importLink.members) {
+              updates.members = importLink.members
+            }
+          },
+          afterSave: async (savedClassroom, importLink, updates) => {
+            const members = (updates.members || [])
+              .map(memberId => ({
+                _id: memberId,
+                role: 'student',
+              }))
+
+            // set linking in both classrooms
+            ClassroomsApi.update({
+              classroomID: importLink.externalId,
+              updates: { otherProductId: savedClassroom._id },
+            }, { callOz: true }).catch(console.log)
+            if (members.length > 0) {
+              await this.addMembersToClassroom({ classroom: savedClassroom, members, componentName: COMPONENT_NAMES.MY_CLASSES_ALL })
+            }
+          },
+        },
+        lms: {
+          applyToUpdates: (updates, importLink, newClass) => {
+            updates.lmsClassroom = {
+              classId: importLink.externalId,
+              name: newClass.name,
+              provider: this.lmsKey,
+            }
+          },
+          afterSave: async (savedClassroom) => {
+            noty({ text: 'Importing classroom...', layout: 'topCenter', type: 'info', timeout: 3000 })
+            await LmsRosterImportHandler.importClassroom(savedClassroom)
+          },
+        },
+      }
     },
   },
   watch: {
@@ -274,24 +345,8 @@ export default Vue.extend({
       updates.classesPerWeek = String(newClass.classesPerWeek)
       updates.minutesPerClass = String(newClass.minutesPerClass)
 
-      if (newClass.googleClassroomId) {
-        updates.googleClassroomId = newClass.googleClassroomId
-      }
-
-      if (newClass.otherProductClassroomId) {
-        updates.otherProductId = newClass.otherProductClassroomId
-
-        if (newClass.members) {
-          updates.members = newClass.members
-        }
-      }
-
-      if (newClass.lmsClassroomId) {
-        updates.lmsClassroom = {
-          classId: newClass.lmsClassroomId,
-          name: newClass.name,
-          provider: this.lmsKey,
-        }
+      if (newClass.importLink?.source) {
+        this.importLinkHandlers[newClass.importLink.source].applyToUpdates(updates, newClass.importLink, newClass)
       }
 
       if (this.classGrades?.length > 0) {
@@ -355,41 +410,9 @@ export default Vue.extend({
       }
     },
     async handleClassroomImport (savedClassroom, updates) {
-      const pageFirst = this.newClass.pageFirst
-      if (pageFirst.googleClassroomId) {
-        await GoogleClassroomHandler.markAsImported(pageFirst.googleClassroomId)
-        GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
-        try {
-          const importedMembers = await GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
-          if (importedMembers.length > 0) {
-            console.debug('Students imported to classroom:', importedMembers)
-          }
-        } catch (e) {
-          this.errMsg = e || 'Error in importing students'
-          noty({ text: this.errMsg, layout: 'topCenter', type: 'error', timeout: 5000 })
-        }
-      }
-
-      if (pageFirst.otherProductClassroomId) {
-        const members = (updates.members || [])
-          .map(memberId => ({
-            _id: memberId,
-            role: 'student',
-          }))
-
-        // set linkink in both classrooms
-        ClassroomsApi.update({
-          classroomID: pageFirst.otherProductClassroomId,
-          updates: { otherProductId: savedClassroom._id },
-        }, { callOz: true }).catch(console.log)
-        if (members.length > 0) {
-          await this.addMembersToClassroom({ classroom: savedClassroom, members, componentName: COMPONENT_NAMES.MY_CLASSES_ALL })
-        }
-      }
-
-      if (pageFirst.lmsClassroomId) {
-        noty({ text: 'Importing classroom...', layout: 'topCenter', type: 'info', timeout: 3000 })
-        await this.handleLmsClassroomImport(savedClassroom)
+      const importLink = this.newClass.pageFirst.importLink
+      if (importLink?.source) {
+        await this.importLinkHandlers[importLink.source].afterSave(savedClassroom, importLink, updates)
       }
     },
     archiveClass () {
@@ -403,17 +426,6 @@ export default Vue.extend({
         this.fetchClassroomSessions({ classroom: this.classroom })
       }
       this.$emit('close')
-    },
-    async handleLmsClassroomImport (savedClassroom) {
-      const job = await BackgroundJobApi.create('oauth2-roster-class', {
-        classroomId: savedClassroom._id,
-        lmsClassroomId: savedClassroom.lmsClassroom.classId,
-        provider: savedClassroom.lmsClassroom.provider,
-      })
-      await BackgroundJobApi.pollTillResult(job.job, {
-        showNotification: true,
-      })
-      window.location.reload()
     },
   },
 })
