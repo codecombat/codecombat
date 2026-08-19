@@ -156,10 +156,11 @@ export default Vue.extend({
       return courses
     },
 
+    // every AI HackStack course with students, at 0% too (the issue: "each course that has students")
     hsCoursesWithProgress () {
       if (!this.org.progress) return []
       const courses = _.cloneDeep(this.sortedCourses.filter(course => utils.HACKSTACK_COURSE_IDS.includes(course._id)))
-      return this.formatCourse(courses, this.org.progress, this.org.newReport)
+      return this.formatCourse(courses, this.org.progress, this.org.newReport, { keepStarted: true })
     },
 
     hsStudentsWithCode () {
@@ -371,7 +372,7 @@ export default Vue.extend({
       return Math.round(num / 1000000000000) + 'T'
     },
 
-    formatCourse (courses, progress, newReport) {
+    formatCourse (courses, progress, newReport, { keepStarted = false } = {}) {
       let alreadyCoveredConcepts = []
       for (const course of courses) {
         course.name = utils.i18n(course, 'name')
@@ -391,7 +392,7 @@ export default Vue.extend({
         alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
       }
       if (newReport) {
-        courses = _.filter(courses, (course) => course.completeLevels >= 1)
+        courses = _.filter(courses, (course) => course.completeLevels >= 1 || (keepStarted && course.studentsStarting >= 1))
       } else {
         courses = _.filter(courses, (course) => (course.studentsStarting + course.studentsCompleting) >= Math.min(100, Math.max(2, Math.ceil(0.02 * progress.studentsWithCode))))
       }
