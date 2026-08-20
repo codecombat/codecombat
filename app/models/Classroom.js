@@ -363,7 +363,6 @@ module.exports = (Classroom = (function () {
       const projectsByScenario = _.groupBy(allProjects, 'scenario')
       const levelsTotal = scenarios.length
       let levelsLeft = levelsTotal
-      let capstones = 0
       let completedCapstones = 0
       for (const scenarioOriginal in projectsByScenario) {
         const projects = projectsByScenario[scenarioOriginal]
@@ -372,7 +371,6 @@ module.exports = (Classroom = (function () {
           continue
         }
         const isCapstone = utils.isCapstone(scenario.mode)
-        if (isCapstone) capstones += 1
         const isComplete = checkIfProjectComplete(scenario, projects)
         if (isComplete) {
           levelsLeft -= 1
@@ -390,7 +388,6 @@ module.exports = (Classroom = (function () {
           done: levelsLeft === 0,
           numDone: levelsTotal - levelsLeft,
           pctDone: ((100 * (levelsTotal - levelsLeft)) / levelsTotal).toFixed(1) + '%',
-          capstones,
           completedCapstones,
         },
         courseComplete,
