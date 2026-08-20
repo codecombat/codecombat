@@ -350,7 +350,7 @@ module.exports = (Classroom = (function () {
     }
 
     statsForAIProjects (sessions, courseId) {
-      const emptyResults = { levels: { size: 0, left: 0, done: true, numDone: 0, pctDone: '0.0%' }, courseComplete: false }
+      const emptyResults = { levels: { size: 0, left: 0, done: true, numDone: 0, pctDone: '0.0%', capstones: 0, completedCapstones: 0 }, courseComplete: false }
       const course = this.get('courses')?.find(c => c._id === courseId)
       if (!course) {
         return emptyResults
@@ -363,15 +363,23 @@ module.exports = (Classroom = (function () {
       const projectsByScenario = _.groupBy(allProjects, 'scenario')
       const levelsTotal = scenarios.length
       let levelsLeft = levelsTotal
+      let capstones = 0
+      let completedCapstones = 0
       for (const scenarioOriginal in projectsByScenario) {
         const projects = projectsByScenario[scenarioOriginal]
         const scenario = scenarios.find(s => s.original === scenarioOriginal)
         if (!scenario) {
           continue
         }
+        const isCapstone = utils.isCapstone(scenario.mode)
+        if (isCapstone) capstones += 1
         const isComplete = checkIfProjectComplete(scenario, projects)
         if (isComplete) {
           levelsLeft -= 1
+
+          if (isCapstone) {
+            completedCapstones += 1
+          }
         }
       }
       const courseComplete = levelsLeft === 0
@@ -382,6 +390,8 @@ module.exports = (Classroom = (function () {
           done: levelsLeft === 0,
           numDone: levelsTotal - levelsLeft,
           pctDone: ((100 * (levelsTotal - levelsLeft)) / levelsTotal).toFixed(1) + '%',
+          capstones,
+          completedCapstones,
         },
         courseComplete,
       }

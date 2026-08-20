@@ -82,6 +82,10 @@ style.
                   span= view.courseStats.levels.numDone
                   span= ' '
                   span(data-i18n="user.certificate_ai_projects_completed")
+                li
+                  span= view.courseStats.levels.completedCapstones
+                  span= ' '
+                  span(data-i18n="play_level.level_type_capstone_level")
               else if view.courseStats.levels && view.courseStats.levels.numDone
                 li
                   span= view.courseStats.levels.numDone
