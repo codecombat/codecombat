@@ -38,10 +38,6 @@ _.extend(ClassroomStatsSchema.properties, {
     type: 'number',
     description: 'the AI HackStack play time on this day for a course, also folded into playtime',
   },
-  hsProjects: {
-    type: 'number',
-    description: 'the number of AI HackStack projects marked ready to review on this day for a course',
-  },
   hsCapstones: {
     type: 'number',
     description: 'the number of AI HackStack capstone projects marked ready to review on this day for a course',
