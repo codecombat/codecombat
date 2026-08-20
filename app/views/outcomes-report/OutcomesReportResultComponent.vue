@@ -168,7 +168,7 @@ export default Vue.extend({
     },
 
     hsProjects () {
-      return this.org.progress.hsProjects || 0
+      return this.org.progress.hsLevels || 0 // completed projects; the stats store them as hsLevels
     },
 
     hsChatMessages () {
