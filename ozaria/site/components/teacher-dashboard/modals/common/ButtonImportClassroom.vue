@@ -45,12 +45,12 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div class="google-classroom-button">
-    <div
+  <div class="classroom-button-main">
+    <button
       v-tooltip.bottom="{
         content: inactive ? inactiveMessage : null
       }"
-      class="link-google-classroom"
+      class="link-classroom-btn moon-btn"
       :class="{ disabled: inactive || inProgress }"
       @click="onClick"
     >
@@ -63,14 +63,18 @@ export default Vue.extend({
         :src="iconSrc"
         :alt="iconSrcAltText"
       >
-      <span class="google-classroom-text"> {{ text }} </span>
-    </div>
+      <span class="classroom-text"> {{ text }} </span>
+    </button>
   </div>
 </template>
 
 <style lang="scss" scoped>
+@import "app/styles/bootstrap/variables";
+@import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
-.google-classroom-button {
+@import "ozaria/site/components/teacher-dashboard/common/moon-button";
+
+.classroom-button-main {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,26 +83,7 @@ export default Vue.extend({
      width: 30px;
   }
 }
-.link-google-classroom {
-  cursor: pointer;
-  background: #FFFFFF;
-  box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.11), 2px 4px 5px rgba(0, 0, 0, 0.11);
-  display: inline-block;
-  padding: 5px;
-
-  &.disabled {
-    background: #D8D8D8;
-    border-color: #DADADA;
-    cursor: default;
-    color: #757575;
-  }
-}
-.google-classroom-text {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 18px;
-  margin-left: 10px;
+.link-classroom-btn {
+  padding: 8px 12px;
 }
 </style>
