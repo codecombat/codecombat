@@ -350,7 +350,7 @@ module.exports = (Classroom = (function () {
     }
 
     statsForAIProjects (sessions, courseId) {
-      const emptyResults = { levels: { size: 0, left: 0, done: true, numDone: 0, pctDone: '0.0%', capstones: 0, completedCapstones: 0 }, courseComplete: false }
+      const emptyResults = { levels: { size: 0, left: 0, done: true, numDone: 0, pctDone: '0.0%', completedCapstones: 0 }, courseComplete: false }
       const course = this.get('courses')?.find(c => c._id === courseId)
       if (!course) {
         return emptyResults
