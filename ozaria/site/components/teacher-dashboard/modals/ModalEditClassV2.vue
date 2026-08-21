@@ -4,7 +4,7 @@
     @close="$emit('close')"
   >
     <div
-      class="teacher-form edit-class container"
+      class="teacher-form edit-class"
       :class="{ 'edit-class-coco': isCodeCombat }"
     >
       <PageFirst
@@ -493,7 +493,7 @@ export default Vue.extend({
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
+    margin-top: 5px;
 
     .buttons-left {
       display: flex;

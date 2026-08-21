@@ -29,8 +29,8 @@
         </label>
       </div>
     </div>
-    <p class="help-block small">
-      {{ $t('teachers.initial_free_courses_description') }}
+    <p class="help-text">
+      {{ $t('teachers.recommended_courses_helptext') }}
     </p>
   </div>
 </template>
@@ -104,5 +104,12 @@ export default {
   margin-bottom: 5px;
   font-size: 13px;
   color: black;
+  line-height: 20px
+}
+.help-text {
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 </style>
