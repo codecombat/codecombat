@@ -1901,6 +1901,10 @@ module.exports.isUseMode = (mode) => {
   return USE_MODES.includes(mode)
 }
 
+module.exports.isCapstone = (mode) => {
+  return mode === CAPSTONE_MODE
+}
+
 module.exports.aiTranslate = async (modelName, docId, langs) => {
   if (!modelName || !docId || !langs) {
     throw new Error('modelName, docId, and langs are required')
