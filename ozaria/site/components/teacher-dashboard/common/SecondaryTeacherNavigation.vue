@@ -6,7 +6,6 @@ import GradeFilterComponent from 'ozaria/site/components/teacher-dashboard/commo
 import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
 import ModalTestStudentPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalTestStudentPromotion.vue'
 import ModalEndOfTrial from 'ozaria/site/components/teacher-dashboard/modals/ModalEndOfTrial.vue'
-import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
 import ModalOzariaAILeague from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaAILeague'
 import ModalAIAlgebraPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalAIAlgebraPromotion'
@@ -22,7 +21,6 @@ export default {
   components: {
     DashboardToggle,
     ModalTestStudentPromotion,
-    ModalCurriculumPromotion,
     ModalOzariaHackStack,
     ModalOzariaAILeague,
     ModalAIAlgebraPromotion,
@@ -185,11 +183,6 @@ export default {
     isHighlightedOption (option) {
       if (!this.gradeBand) { return false }
       return option.gradeBands.includes(this.gradeBand)
-    },
-
-    onCurriculumClicked (e) {
-      this.$refs.modalCurriculumPromotion.close()
-      this.trackEvent(e)
     },
 
     trackEvent (e) {
@@ -533,7 +526,6 @@ export default {
         reload-location="/teachers/classes"
       />
     </li>
-    <ModalCurriculumPromotion ref="modalCurriculumPromotion" />
     <ModalEndOfTrial ref="modalEndOfTrial" />
     <ModalOzariaHackStack
       v-if="isOzaria"
