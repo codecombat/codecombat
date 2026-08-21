@@ -18,7 +18,7 @@ export default Vue.extend({
 
 <template>
   <button
-    :class="['purple-btn', { disabled: inactive }]"
+    :class="['purple-secondary-btn', { disabled: inactive }]"
     :disabled="inactive"
     @click="onClick"
   >
@@ -30,5 +30,5 @@ export default Vue.extend({
 @import "app/styles/bootstrap/variables";
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
-@import "ozaria/site/components/teacher-dashboard/common/purple-button";
+@import "ozaria/site/components/teacher-dashboard/common/purple-secondary-button";
 </style>
