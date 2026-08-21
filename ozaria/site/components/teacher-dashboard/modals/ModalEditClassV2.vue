@@ -24,29 +24,29 @@
       <div class="form-group row buttons-row">
         <div class="col-xs-12 buttons">
           <div class="buttons-left">
-            <tertiary-button
+            <purple-secondary-button
               v-if="currentPage === 2"
-              class="class-unarchive"
+              class="back"
               @click="back"
             >
               {{ $t('common.back') }}
-            </tertiary-button>
-            <tertiary-button
+            </purple-secondary-button>
+            <purple-secondary-button
               v-if="archived"
               class="class-unarchive"
               @click="unarchiveClass"
             >
               <img src="/images/ozaria/teachers/dashboard/svg_icons/IconUnarchive.svg">
               {{ $t("teacher.unarchive_class") }}
-            </tertiary-button>
-            <tertiary-button
+            </purple-secondary-button>
+            <purple-secondary-button
               v-if="!classroomInstance.isNew() && !archived"
               class="class-archive"
               @click="archiveClass"
             >
               <img src="/images/ozaria/teachers/dashboard/svg_icons/IconArchive.svg">
               {{ $t("teacher.archive_class") }}
-            </tertiary-button>
+            </purple-secondary-button>
           </div>
           <div
             class="submit-button"
@@ -88,8 +88,8 @@ import LmsRosterImportHandler from 'core/social-handlers/LmsRosterImportHandler'
 import Modal from '../../common/Modal'
 import PageFirst from './ModalEditClass/PageFirst'
 import PageSecond from './ModalEditClass/PageSecond'
-import TertiaryButton from '../common/buttons/TertiaryButton'
 import PurpleButton from '../common/buttons/PurpleButton'
+import PurpleSecondaryButton from '../common/buttons/PurpleSecondaryButton'
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 
 // A classroom is linked to at most one external source at a time.
@@ -111,8 +111,8 @@ export default Vue.extend({
     Modal,
     PageFirst,
     PageSecond,
-    TertiaryButton,
     PurpleButton,
+    PurpleSecondaryButton,
   },
   props: {
     classroom: {

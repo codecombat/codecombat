@@ -1,5 +1,5 @@
 <template>
-  <div class="page-second">
+  <div class="page-second container">
     <div class="form-group row small">
       {{ `${pageFirst.name} : ${courseName}` }}
     </div>
