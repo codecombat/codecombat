@@ -27,8 +27,8 @@ const parameterDefaults = () => ({
   startDate: null,
   endDate: moment(new Date()).format('YYYY-MM-DD'),
   editing: me.isAdmin(),
-  includeOther: false,
-  showOther: false,
+  includeOther: true,
+  showOther: true,
 })
 
 export default {
@@ -67,8 +67,8 @@ export default {
       loadingText: null,
       fetchAttempts: 0,
       fetchInterval: 2000,
-      includeOther: false,
-      showOther: false,
+      includeOther: true,
+      showOther: true,
       showLicense: false,
       showLicenseSummary: false
     }
@@ -530,16 +530,6 @@ main#page-outcomes-report
           span= $t('outcomes.show_license_stats')
         .col-xs-7
           input#showLicense.form-control(type="checkbox" v-model="showLicense" name="showLicense")
-      .form-group(v-if="!includeOther")
-        label.control-label.col-xs-5(for="includeOtherProduct")
-          span= $t('outcomes.include_other_product', { product: this.otherProduct })
-        .col-xs-7
-          input#includeOtherProduct.form-control(type="checkbox" v-model="includeOther" name="includeOtherProduct")
-      .form-group(v-else)
-        label.control-label.col-xs-5(for="showOtherProduct")
-          span= $t('outcomes.show_other_product', { product: this.otherProduct })
-        .col-xs-7
-          input#showOtherProduct.form-control(type="checkbox" v-model="showOther" name="showOtherProduct")
     .clearfix
 </template>
 
