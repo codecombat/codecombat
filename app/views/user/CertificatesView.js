@@ -165,7 +165,12 @@ module.exports = (CertificatesView = (function () {
 
     calculateStats () {
       if (!this.classroom.loaded || !this.sessions.loaded || !this.courseLevels.loaded) { return }
-      this.courseStats = this.classroom.statsForSessions(this.sessions, this.course.id, this.courseLevels)
+      if (this.course.isHackStackCourse()) {
+        this.courseStats = this.classroom.statsForAIProjects(this.sessions, this.course.id)
+        this.courseStats.isAI = true
+      } else {
+        this.courseStats = this.classroom.statsForSessions(this.sessions, this.course.id, this.courseLevels)
+      }
 
       if (this.courseStats.levels.project) {
         const projectSession = this.sessions.find(session => session.get('level').original === this.courseStats.levels.project.get('original'))
