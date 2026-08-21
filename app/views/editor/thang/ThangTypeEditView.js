@@ -47,6 +47,8 @@ const RevertModal = require('views/modal/RevertModal')
 require('lib/game-libraries')
 
 const AnimateImporterWorker = require('./animate-import.worker.js')
+const initializeFilepicker = require('core/services/filepicker')
+const { saveFile } = require('core/api/files')
 
 const CENTER = { x: 200, y: 400 }
 
@@ -173,9 +175,12 @@ module.exports = (ThangTypeEditView = (function () {
         'click #clear-button': 'clearRawData',
         'click #upload-button' () { return this.$el.find('input#real-upload-button').click() },
         'click #upload-animate-button' () { return this.$el.find('input#real-animate-upload-button').click() },
+        'click #upload-raster-image-button': 'onClickUploadRasterImage',
+        'click #upload-raster-animation-button': 'onClickUploadRasterAnimation',
         'click #set-vector-icon': 'onClickSetVectorIcon',
         'change #real-upload-button': 'animationFileChosen',
         'change #real-animate-upload-button': 'animateAnimationFileChosen',
+        'change #real-raster-animation-json-input': 'rasterAnimationJSONChosen',
         'change #animations-select': 'showAnimation',
         'click #marker-button': 'toggleDots',
         'click #stop-button': 'stopAnimation',
@@ -235,6 +240,10 @@ module.exports = (ThangTypeEditView = (function () {
       this.listenToOnce(this.thangType, 'sync', function () {
         this.files = this.supermodel.loadCollection(new DocumentFiles(this.thangType), 'files').model
         return this.updateFileSize()
+      })
+      this.listenTo(this.thangType, 'raster-raw-images-load-errored', (thangType, path) => {
+        // Otherwise a 404'd asset just renders a placeholder with no explanation.
+        noty({ text: `Raster image failed to load: /file/${_.escape(path)}`, type: 'error', timeout: 10000 })
       })
     }
     //    @refreshAnimation = _.debounce @refreshAnimation, 500
@@ -509,6 +518,189 @@ module.exports = (ThangTypeEditView = (function () {
       const parser = new SpriteParser(this.thangType)
       parser.parse(result)
       return this.fileLoaded()
+    }
+
+    // raster upload
+
+    onClickUploadRasterImage () {
+      return this.pickRasterFile(inkBlob => {
+        return this.saveRasterFile(inkBlob)
+          .then(path => this.addRasterContainer(inkBlob, path))
+          .catch(error => noty({ text: `Raster upload failed: ${_.escape((error != null ? error.message : undefined) || error)}`, type: 'error', timeout: 10000 }))
+      })
+    }
+
+    onClickUploadRasterAnimation () {
+      // Frames JSON first (this click is the user gesture the native file
+      // dialog needs), then the filepicker modal for the sheet image.
+      return this.$el.find('input#real-raster-animation-json-input').click()
+    }
+
+    pickRasterFile (callback) {
+      initializeFilepicker()
+      return window.filepicker.pick({ mimetypes: ['image/png', 'image/webp'] }, callback)
+    }
+
+    saveRasterFile (inkBlob) {
+      // '#', '?' and '%' in a filename would truncate or misparse the /file/ image URL.
+      const filename = (inkBlob.filename || 'asset.png').replace(/[#?%]/g, '-')
+      const filePath = `db/thang.type/${this.thangType.get('original')}`
+      return saveFile({ url: inkBlob.url, filename, mimetype: inkBlob.mimetype, path: filePath, force: true })
+        .then(() => `${filePath}/${filename}`)
+    }
+
+    loadRasterFileImage (path) {
+      return new Promise((resolve, reject) => {
+        const img = new Image()
+        img.crossOrigin = 'Anonymous'
+        img.onload = () => resolve(img)
+        img.onerror = () => reject(new Error(`could not load image /file/${path}`))
+        img.src = `/file/${path}`
+      })
+    }
+
+    cacheRasterRawImage (path, img) {
+      // Seed the model's raster image cache so preview/spritesheet builds
+      // don't need to wait for another network load.
+      if (this.thangType.rasterRawImages == null) { this.thangType.rasterRawImages = {} }
+      this.thangType.rasterRawImages[path] = img
+    }
+
+    ensureRawData () {
+      const raw = this.thangType.attributes.raw = this.thangType.attributes.raw || {}
+      if (raw.shapes == null) { raw.shapes = {} }
+      if (raw.containers == null) { raw.containers = {} }
+      if (raw.animations == null) { raw.animations = {} }
+      return raw
+    }
+
+    promptRasterAssetName (message, defaultName) {
+      let name = window.prompt(message, defaultName)
+      if (!name) { return null }
+      name = name.trim().replace(/\//g, '-') // slashes would corrupt treema paths
+      if (['__proto__', 'constructor', 'prototype'].includes(name)) {
+        // '__proto__' as a key mutates the raw object's prototype instead of adding an entry.
+        noty({ text: `'${_.escape(name)}' is a reserved name — pick another.`, type: 'error', timeout: 5000 })
+        return null
+      }
+      return name || null
+    }
+
+    async addRasterContainer (inkBlob, path) {
+      const defaultName = (inkBlob.filename || 'image').replace(/\.[^.]+$/, '')
+      const name = this.promptRasterAssetName('Container name for this raster image? Reference it from an action via container: <name>.', defaultName)
+      if (!name) { return }
+      const raw = this.ensureRawData()
+      if (raw.containers[name] && !window.confirm(`Container '${name}' already exists. Replace it?`)) { return }
+      const img = await this.loadRasterFileImage(path)
+      this.cacheRasterRawImage(path, img)
+      const w = img.naturalWidth || img.width
+      const h = img.naturalHeight || img.height
+      raw.containers[name] = { b: [-w / 2, -h / 2, w, h], img: path }
+      this.fileLoaded()
+      return noty({ text: `Raster image container '${_.escape(name)}' added (${w}×${h}).`, type: 'success', timeout: 5000 })
+    }
+
+    async rasterAnimationJSONChosen (e) {
+      const file = e.target.files[0]
+      e.target.value = '' // allow re-selecting the same file later
+      if (!file) { return }
+      let data
+      try {
+        data = JSON.parse(await this.readFileAsText(file))
+      } catch (error) {
+        return noty({ text: `Could not parse frames JSON: ${_.escape((error != null ? error.message : undefined) || error)}`, type: 'error', timeout: 10000 })
+      }
+      noty({ text: 'Frames JSON loaded. Now choose the sheet image.', type: 'information', timeout: 5000 })
+      return this.pickRasterFile(inkBlob => {
+        return this.saveRasterFile(inkBlob)
+          .then(path => this.addRasterAnimation(data, inkBlob, path))
+          .catch(error => {
+            console.error('Raster animation import failed:', error)
+            return noty({ text: `Raster animation import failed: ${_.escape((error != null ? error.message : undefined) || error)}`, type: 'error', timeout: 10000 })
+          })
+      })
+    }
+
+    async addRasterAnimation (data, inkBlob, path) {
+      const img = await this.loadRasterFileImage(path)
+      this.cacheRasterRawImage(path, img)
+      const sheetWidth = img.naturalWidth || img.width
+      const sheetHeight = img.naturalHeight || img.height
+      const { rasterFrames, framerate } = this.convertRasterFramesData(data, sheetWidth, sheetHeight)
+      if (!rasterFrames.length) { throw new Error('no frames found in JSON') }
+      const defaultName = (inkBlob.filename || 'animation').replace(/\.[^.]+$/, '')
+      const name = this.promptRasterAssetName('Animation name for this raster sheet? Reference it from an action via animation: <name>.', defaultName)
+      if (!name) { return }
+      const raw = this.ensureRawData()
+      if (raw.animations[name] && !window.confirm(`Animation '${name}' already exists. Replace it?`)) { return }
+      const frameBounds = rasterFrames.map(([x, y, w, h, regX, regY]) => [-regX, -regY, w, h])
+      const left = _.min(frameBounds.map(b => b[0]))
+      const top = _.min(frameBounds.map(b => b[1]))
+      const right = _.max(frameBounds.map(b => b[0] + b[2]))
+      const bottom = _.max(frameBounds.map(b => b[1] + b[3]))
+      const entry = { bounds: [left, top, right - left, bottom - top], frameBounds, rasterSheet: path, rasterFrames }
+      if (framerate != null) { entry.framerate = framerate }
+      raw.animations[name] = entry
+      this.fileLoaded()
+      if (this.thangType.get('spriteType') !== 'singular') {
+        // Raster animations render only through the singular path; setting via
+        // treema (after fileLoaded synced raw) keeps model and treema in step.
+        this.treema.set('/spriteType', 'singular')
+        noty({ text: 'spriteType set to singular (required for raster animations).', type: 'information', timeout: 5000 })
+      }
+      return noty({ text: `Raster animation '${_.escape(name)}' added (${rasterFrames.length} frames).`, type: 'success', timeout: 5000 })
+    }
+
+    // Accepts EaselJS SpriteSheet frames (array of [x, y, w, h, imageIndex, regX, regY]
+    // arrays, or uniform grid {width, height, count, regX, regY}) and TexturePacker
+    // JSON (array or hash of {frame: {x, y, w, h}}). Registration defaults to frame center.
+    convertRasterFramesData (data, sheetWidth, sheetHeight) {
+      const framerate = data.framerate
+      const frames = data.frames != null ? data.frames : data
+      const result = []
+      const rejectUnsupported = f => {
+        // Silently importing these produces garbage crops / jittering frames.
+        if (f.rotated) { throw new Error("rotated frames are not supported — disable 'Allow rotation' in TexturePacker and re-export") }
+        if (f.trimmed) { throw new Error("trimmed frames are not supported — set Trim mode to 'None' in TexturePacker and re-export") }
+      }
+      if (_.isArray(frames)) {
+        for (const f of frames) {
+          if (_.isArray(f)) {
+            const [x, y, w, h] = f
+            result.push([x, y, w, h, f[5] != null ? f[5] : w / 2, f[6] != null ? f[6] : h / 2])
+          } else if (f && f.frame) {
+            rejectUnsupported(f)
+            const r = f.frame
+            result.push([r.x, r.y, r.w, r.h, r.w / 2, r.h / 2])
+          }
+        }
+      } else if (frames && frames.width && frames.height) {
+        if (sheetWidth % frames.width !== 0) {
+          // Columns are derived from the sheet width; padding makes the layout ambiguous.
+          throw new Error(`sheet width ${sheetWidth} is not a multiple of frame width ${frames.width} — grid format needs an unpadded sheet`)
+        }
+        const cols = Math.max(1, Math.floor(sheetWidth / frames.width))
+        const rows = Math.max(1, Math.floor(sheetHeight / frames.height))
+        const count = frames.count || (cols * rows)
+        for (let i = 0; i < count; i++) {
+          const x = (i % cols) * frames.width
+          const y = Math.floor(i / cols) * frames.height
+          result.push([x, y, frames.width, frames.height, frames.regX != null ? frames.regX : frames.width / 2, frames.regY != null ? frames.regY : frames.height / 2])
+        }
+      } else if (_.isObject(frames)) {
+        // Natural sort: 'run_2' before 'run_10', matching artists' intent.
+        const naturally = (a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
+        for (const key of _.keys(frames).sort(naturally)) {
+          const f = frames[key]
+          if (f && f.frame) {
+            rejectUnsupported(f)
+            const r = f.frame
+            result.push([r.x, r.y, r.w, r.h, r.w / 2, r.h / 2])
+          }
+        }
+      }
+      return { rasterFrames: result, framerate }
     }
 
     fileLoaded () {

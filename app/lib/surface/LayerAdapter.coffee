@@ -234,6 +234,11 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       thangType.loadAllRasterTextureAtlases()
       @listenToOnce(thangType, 'texture-atlas-loaded', -> @somethingLoaded(thangType))
       @numThingsLoading++
+    else if thangType.hasRasterRawAssets() and not thangType.rasterRawImagesLoaded()
+      # Listen before loading in case cached images settle synchronously.
+      @listenToOnce(thangType, 'raster-raw-images-loaded', @somethingLoaded)
+      @numThingsLoading++
+      thangType.loadRasterRawImages()
     else if prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheetToLoad()
       startedLoading = prerenderedSpriteSheet.loadImage()
       return if not startedLoading
@@ -326,7 +331,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       actionNames = (bundle.actionName for bundle in bundleGrouping)
       args = [thangType, colorConfig, actionNames, builder]
       if thangType.get('raw') or thangType.get('prerenderedSpriteSheetData')
-        if (thangType.get('spriteType') or @defaultSpriteType) is 'segmented'
+        # Raster keyframe animations only work through the singular path.
+        if (thangType.get('spriteType') or @defaultSpriteType) is 'segmented' and not thangType.hasRasterAnimations()
           @renderSegmentedThangType(args...)
         else
           @renderSingularThangType(args...)
@@ -459,6 +465,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         frame = spriteSheetBuilder.addFrame(container, null, scale)
       else
         container = spriteBuilder.buildContainerFromStore(containerGlobalName)
+        continue unless container  # e.g. raster image not loaded yet; rebuild picks it up
         frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor * (thangType.get('scale') or 1))
       spriteSheetBuilder.addAnimation(containerKey, [frame], false)
 
@@ -488,8 +495,12 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
 
-    animationGroups = _.groupBy animationActions, (action) -> action.animation
-    for animationName, actions of animationGroups
+    # Group by animation AND effective scale: frames are baked at one scale,
+    # so actions sharing an animation at different scales need separate frames
+    # (the editor path already keys its frames map by scale, ThangType.js addGeneralFrames).
+    animationGroups = _.groupBy animationActions, (action) -> action.animation + '~' + (action.scale or thangType.get('scale') or 1)
+    for groupKey, actions of animationGroups
+      animationName = actions[0].animation
       renderAll = _.any actions, (action) -> action.frames is undefined
       scale = actions[0].scale or thangType.get('scale') or 1
 
@@ -519,6 +530,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         continue
 
       mc = spriteBuilder.buildMovieClip(animationName, null, null, null, {'temp':0})
+      continue unless mc  # e.g. raster sheet not loaded yet; rebuild picks it up
 
       if renderAll
         res = spriteSheetBuilder.addMovieClip(mc, null, scale * @resolutionFactor)
@@ -559,6 +571,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
           spriteSheetBuilder.addAnimation(name, [frame], false)
         continue
       container = spriteBuilder.buildContainerFromStore(containerName)
+      continue unless container  # e.g. raster image not loaded yet; rebuild picks it up
       scale = actions[0].scale or thangType.get('scale') or 1
       frame = spriteSheetBuilder.addFrame(container, null, scale * @resolutionFactor)
       for action in actions
@@ -607,7 +620,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       sprite = new RasterAtlasSprite(lank.thangType)
 
     else
-      SpriteClass = if (lank.thangType.get('spriteType') or @defaultSpriteType) is 'segmented' then SegmentedSprite else SingularSprite
+      # Raster keyframe animations only work through SingularSprite.
+      useSegmented = (lank.thangType.get('spriteType') or @defaultSpriteType) is 'segmented' and not lank.thangType.hasRasterAnimations()
+      SpriteClass = if useSegmented then SegmentedSprite else SingularSprite
       prefix = @renderGroupingKey(lank.thangType, null, lank.options.colorConfig) + '.'
       sprite = new SpriteClass(@spriteSheet, lank.thangType, prefix, @resolutionFactor)
 
