@@ -158,6 +158,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters({
       courses: 'courses/sorted',
+      getSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
     }),
     isCodeCombat () {
       return utils.isCodeCombat
@@ -168,9 +169,6 @@ export default Vue.extend({
         title += $.i18n.t('courses.create_new_class')
       } else {
         title += $.i18n.t('courses.edit_settings1')
-      }
-      if (this.asClub) {
-        title += ' (As Club / Camp)'
       }
       return title
     },
@@ -349,8 +347,9 @@ export default Vue.extend({
         this.importLinkHandlers[newClass.importLink.source].applyToUpdates(updates, newClass.importLink, newClass)
       }
 
-      if (newClass.classGrades?.length > 0) {
-        updates.grades = this.classGrades
+      const grades = newClass.grades || []
+      if (grades.length > 0) {
+        updates.grades = grades
       }
 
       if (utils.isCodeCombat) {
@@ -367,15 +366,6 @@ export default Vue.extend({
         try {
           const classReqData = { ...this.classroom.attributes, ...updates }
           savedClassroom = await this.createClassroom(classReqData)
-          const copyEsportsCampToOzaria = async () => {
-            if (this.asClub && this.newClubType === 'camp-esports') {
-              const name = `${updates.name} (Ozaria)`
-              const reqData = { ...classReqData, name }
-              await ClassroomsApi.post(reqData, { callOz: true })
-              noty({ text: 'Esports camp copied to ozaria', layout: 'topCenter', type: 'success', timeout: 5000 })
-            }
-          }
-          await copyEsportsCampToOzaria()
         } catch (err) {
           console.error('failed to create classroom', err)
           this.errMsg = err?.message || 'Failed to create classroom'
@@ -397,7 +387,15 @@ export default Vue.extend({
         await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
         this.$emit('updated')
       }
-      await this.handleClassroomImport(savedClassroom, updates)
+      try {
+        await this.handleClassroomImport(savedClassroom, updates)
+      } catch (err) {
+        noty({
+          type: 'error',
+          message: `Classroom import failed: ${err?.message}`,
+          timeout: 5000,
+        })
+      }
 
       this.$emit('close')
       this.saving = false

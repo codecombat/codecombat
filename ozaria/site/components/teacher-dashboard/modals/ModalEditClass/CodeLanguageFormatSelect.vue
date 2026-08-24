@@ -211,7 +211,7 @@ export default {
       return !this.courses.includes(utils.allCourseIDs.CHAPTER_ONE)
     },
     enableBlocks () {
-      return ['python', 'javascript', 'lua'].includes(this.newAce.codeLanguage || 'python')
+      return ['python', 'javascript'].includes(this.newAce.codeLanguage || 'python')
     },
     hasJunior () {
       return this.hasCourse(utils.courseIDs.JUNIOR)
@@ -252,9 +252,6 @@ export default {
     },
     availableLanguages () {
       const languages = JSON.parse(JSON.stringify(this.codeLanguageObject))
-      // ozaria do not have these 2 langs
-      delete languages.coffeescript
-      delete languages.lua
 
       if (this.hasOnlyHackstack) {
         for (const lang of Object.values(languages)) {
@@ -296,17 +293,6 @@ export default {
         this.$emit('input', newV)
       },
     },
-  },
-  mounted () {
-    if (!this.newInitialFreeCourses?.length) {
-      if (this.isNewClassroom && this.isCodeCombat) {
-        this.newInitialFreeCourses = [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]
-      } else {
-        this.newInitialFreeCourses = Array.isArray(this.selectedInitialFreeCourses)
-          ? [...this.selectedInitialFreeCourses]
-          : []
-      }
-    }
   },
   methods: {
     hasCourse (courseId) {

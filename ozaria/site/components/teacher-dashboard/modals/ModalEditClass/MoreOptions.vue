@@ -332,10 +332,10 @@ export default {
     },
   },
   data () {
-    const cItems = this.classroom?.classroomItems || this.value.classroomItems
-    const cLiveCompletion = this.classroom?.aceConfig?.liveCompletion || this.value.liveCompletion
-    const cDisablePaste = this.classroom?.aceConfig?.disablePaste || this.value.disablePaste
-    const cLevelChat = this.classroom?.aceConfig?.levelChat || this.value.levelChat
+    const cItems = this.classroom?.classroomItems ?? this.value.classroomItems
+    const cLiveCompletion = this.classroom?.aceConfig?.liveCompletion ?? this.value.liveCompletion
+    const cDisablePaste = this.classroom?.aceConfig?.disablePaste ?? this.value.disablePaste
+    const cLevelChat = this.classroom?.aceConfig?.levelChat ?? this.value.levelChat
     const cGrades = this.classroom?.grades || []
     return {
       moreOptions: false,
@@ -390,6 +390,7 @@ export default {
       } else {
         this.classGrades.push(grade)
       }
+      this.$set(this.newClass, 'grades', this.classGrades)
     },
     updateClassDateStart (newV) {
       this.$set(this.newClass, 'classDateStart', newV)

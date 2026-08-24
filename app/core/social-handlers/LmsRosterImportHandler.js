@@ -5,10 +5,18 @@ import BackgroundJobApi from 'app/core/api/background-job.js'
 // sequence only lives in one place.
 export default {
   async importClassroom (savedClassroom) {
+    const lmsClassroom = savedClassroom.lmsClassroom
+    if (!lmsClassroom?.classId || !lmsClassroom?.provider) {
+      noty({
+        text: 'Classroom is not linked to an LMS classroom',
+        type: 'error',
+      })
+      return
+    }
     const job = await BackgroundJobApi.create('oauth2-roster-class', {
       classroomId: savedClassroom._id,
-      lmsClassroomId: savedClassroom.lmsClassroom.classId,
-      provider: savedClassroom.lmsClassroom.provider,
+      lmsClassroomId: lmsClassroom.classId,
+      provider: lmsClassroom.provider,
     })
     await BackgroundJobApi.pollTillResult(job.job, {
       showNotification: true,

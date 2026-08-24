@@ -372,7 +372,7 @@
         <li>
           <a
             v-tooltip.top="{
-              content: 'Comprehensive Sensei guide to running the Roblox: Intro to Coding and Game Design camp with CodeCombat Junior and CodeCombat Worlds.',
+              content: 'Comprehensive Sensei Guide',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"

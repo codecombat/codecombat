@@ -72,14 +72,14 @@ export default {
           const course = this.courses.find(({ _id }) => _id === id)
           if (!course) {
             // computed value uses in template before mounted, so no courses yet
-            return {}
+            return null
           }
           return {
             id,
             name: utils.i18n(course, 'name'),
             blurb: $.i18n.t(`teachers.free_course_blurb_${course.slug}`),
           }
-        }),
+        }).filter(Boolean),
       ]
     },
   },
