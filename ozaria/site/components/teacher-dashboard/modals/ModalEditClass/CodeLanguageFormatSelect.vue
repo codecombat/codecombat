@@ -22,9 +22,9 @@
         </label>
         <select
           id="form-lang-item"
-          v-model="newAce.codeLanguage"
+          v-model="codeLanguage"
           class="form-control"
-          :class="{ 'placeholder-text': !newAce.codeLanguage }"
+          :class="{ 'placeholder-text': !codeLanguage }"
           name="classLanguage"
           :disabled="availableLanguages?.filter(l => !l.disabled).length === 0"
         >
@@ -61,7 +61,7 @@
                 v-if="!enableBlocks"
                 class="help-block small text-navy"
               >
-                {{ $t("teachers.code_formats_disabled_by", { language: codeLanguageObject[newAce.codeLanguage]?.name }) }}
+                {{ $t("teachers.code_formats_disabled_by", { language: codeLanguageObject[codeLanguage]?.name }) }}
               </p>
               <p
                 v-if="!hasJunior"
@@ -95,7 +95,7 @@
               :disabled="codeFormat.disabled"
             >
               <input
-                v-model="newAce.codeFormats"
+                v-model="codeFormats"
                 :value="codeFormat.id"
                 :disabled="codeFormat.disabled"
                 name="codeFormats"
@@ -125,7 +125,7 @@
         </label>
         <input
           v-if="enabledCodeFormats.length === 1"
-          v-model="newAce.codeFormatDefault"
+          v-model="codeFormatDefault"
           type="text"
           class="form-control"
           disabled
@@ -133,7 +133,7 @@
         <select
           v-else
           id="default-code-format-select"
-          v-model="newAce.codeFormatDefault"
+          v-model="codeFormatDefault"
           class="form-control"
           name="codeFormatDefault"
           :disabled="enabledCodeFormats.length === 0"
@@ -174,11 +174,7 @@ export default {
     QuestionmarkView,
   },
   props: {
-    classroomId: {
-      type: String,
-      default: '',
-    },
-    asClub: {
+    isNewClassroom: {
       type: Boolean,
       default: false,
     },
@@ -191,19 +187,24 @@ export default {
       default: () => [],
     },
   },
-  data () {
-    return {
-      newAce: {
-        codeLanguage: this.value.codeLanguage || 'python',
-        codeFormats: this.value.codeFormats,
-        codeFormatDefault: this.value.codeFormatDefault,
-      },
-    }
-  },
   computed: {
     ...mapGetters({
       getCourseInstances: 'courseInstances/getCourseInstancesOfClass',
     }),
+    // Proxies onto the single draft object owned by the parent (this.value) -
+    // no local copy, so there is only ever one source of truth for the draft.
+    codeLanguage: {
+      get () { return this.value.codeLanguage },
+      set (val) { this.updateDraft({ codeLanguage: val }) },
+    },
+    codeFormats: {
+      get () { return this.value.codeFormats },
+      set (val) { this.updateDraft({ codeFormats: val }) },
+    },
+    codeFormatDefault: {
+      get () { return this.value.codeFormatDefault },
+      set (val) { this.updateDraft({ codeFormatDefault: val }) },
+    },
     isCodeCombat () {
       return utils.isCodeCombat
     },
@@ -211,7 +212,7 @@ export default {
       return !this.courses.includes(utils.allCourseIDs.CHAPTER_ONE)
     },
     enableBlocks () {
-      return ['python', 'javascript'].includes(this.newAce.codeLanguage || 'python')
+      return ['python', 'javascript'].includes(this.codeLanguage || 'python')
     },
     hasJunior () {
       return this.hasCourse(utils.courseIDs.JUNIOR)
@@ -242,7 +243,7 @@ export default {
       return Object.values(codeFormats)
     },
     enabledCodeFormats () {
-      return this.availableCodeFormats.filter(cf => !cf.disabled && this.newAce.codeFormats.includes(cf.id))
+      return this.availableCodeFormats.filter(cf => !cf.disabled && this.codeFormats.includes(cf.id))
     },
     codeFormatObject () {
       return utils.getCodeFormats()
@@ -261,42 +262,55 @@ export default {
 
       return Object.values(languages)
     },
-    isNewClassroom () {
-      return !this.classroomId
-    },
   },
   watch: {
+    // Reads/writes are computed from the watcher args rather than re-reading this.codeFormats,
+    // since a proxied prop only reflects a write after the parent's next render pass.
+    // Every branch is guarded to only updateDraft when the derived value actually differs -
+    // this watcher re-fires on any upstream reference churn (e.g. the `courses` prop being a
+    // fresh array each render), and an unconditional emit there becomes an infinite render loop:
+    // emit -> parent re-renders -> new `courses` array -> watcher fires -> emit -> ...
     availableCodeFormats () {
       const ava = this.availableCodeFormats.filter(cf => !cf.disabled).map(cf => cf.id)
-      const filtered = this.newAce.codeFormats.filter(cf => ava.includes(cf))
-      this.newAce.codeFormats = filtered.length > 0 ? filtered : (ava.length ? [ava[0]] : [])
-      if (!this.newAce.codeFormats.includes(this.newAce.codeFormatDefault)) {
-        this.newAce.codeFormatDefault = this.newAce.codeFormats[0]
+      const filtered = this.codeFormats.filter(cf => ava.includes(cf))
+      const newCodeFormats = filtered.length > 0 ? filtered : (ava.length ? [ava[0]] : [])
+      const patch = {}
+      if (!_.isEqual(newCodeFormats, this.codeFormats)) {
+        patch.codeFormats = newCodeFormats
+      }
+      const effectiveCodeFormats = patch.codeFormats || this.codeFormats
+      if (!effectiveCodeFormats.includes(this.codeFormatDefault)) {
+        patch.codeFormatDefault = effectiveCodeFormats[0]
+      }
+      if (Object.keys(patch).length > 0) {
+        this.updateDraft(patch)
       }
     },
-    newAce: {
-      deep: true,
-      handler (newV, oldV) {
-        if (this.hasJunior && !newV.codeFormats.includes('blocks-icons') && this.enableBlocks) {
-          this.newAce.codeFormats.push('blocks-icons')
-          return // change newAce call self again, so prevent multiple $emit
-        }
-        if (newV.codeFormats.length === 0) {
-          this.$nextTick(() => {
-            this.newAce.codeFormats = oldV.codeFormats
-          })
-        }
-        if (!newV.codeFormats.includes(newV.codeFormatDefault)) {
-          this.newAce.codeFormatDefault = newV.codeFormats[0]
-          return
-        }
-        this.$emit('input', newV)
-      },
+    codeFormats (newV, oldV) {
+      if (_.isEqual(newV, oldV)) {
+        return
+      }
+      if (this.hasJunior && !newV.includes('blocks-icons') && this.enableBlocks) {
+        this.updateDraft({ codeFormats: [...newV, 'blocks-icons'] })
+        return
+      }
+      if (newV.length === 0) {
+        this.$nextTick(() => {
+          this.updateDraft({ codeFormats: oldV })
+        })
+        return
+      }
+      if (!newV.includes(this.codeFormatDefault)) {
+        this.updateDraft({ codeFormatDefault: newV[0] })
+      }
     },
   },
   methods: {
     hasCourse (courseId) {
       return this.courses.includes(courseId)
+    },
+    updateDraft (patch) {
+      this.$emit('input', { ...this.value, ...patch })
     },
   },
 }

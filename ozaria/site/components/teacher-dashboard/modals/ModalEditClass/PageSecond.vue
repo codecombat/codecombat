@@ -4,12 +4,14 @@
       {{ `${pageFirst.name} : ${courseName}` }}
     </div>
     <CodeLanguageFormatSelect
-      v-model="newAce"
-      :courses="[pageFirst.initCourse]"
+      :value="value"
+      :is-new-classroom="isNewClassroom"
+      :courses="initCourses"
+      @input="$emit('input', $event)"
     />
     <MoreOptions
-      v-model="newOptions"
-      :classroom="classroom"
+      :value="value"
+      @input="$emit('input', $event)"
     />
   </div>
 </template>
@@ -25,10 +27,8 @@ export default {
     MoreOptions,
   },
   props: {
-    classroom: {
-      type: Object,
-      required: true,
-    },
+    // Single source of truth for this page's draft, owned by the parent (ModalEditClassV2) -
+    // CodeLanguageFormatSelect and MoreOptions both proxy directly onto it, no local copies.
     value: {
       type: Object,
       required: true,
@@ -39,32 +39,10 @@ export default {
       default: () => ({}),
       validator: value => Object.keys(value).length === 0 || (('name' in value) && ('initCourse' in value)),
     },
-  },
-  data () {
-    const cFormats = this.classroom?.aceConfig?.codeFormats
-    const cFormatDefault = this.classroom?.aceConfig?.codeFormatDefault
-    return {
-      newAce: {
-        codeLanguage: this.classroom?.aceConfig?.language || 'python',
-        codeFormats: typeof cFormats === 'undefined' ? ['text-code'] : cFormats,
-        codeFormatDefault: typeof cFormatDefault === 'undefined' ? 'text-code' : cFormatDefault,
-      },
-      newOptions: {
-        classroomItems: true,
-        disablePaste: false,
-        liveCompletion: true,
-        remix: false,
-        levelChat: true,
-        classroomDescription: '',
-        averageStudentExp: '',
-        classroomType: '',
-        classesPerWeek: '',
-        minutesPerClass: '',
-        classDateStart: '',
-        classDateEnd: '',
-        classGrades: null,
-      },
-    }
+    isNewClassroom: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
@@ -77,19 +55,11 @@ export default {
       }
       return utils.i18n(course, 'name')
     },
-  },
-  watch: {
-    newAce: {
-      deep: true,
-      handler (newV) {
-        this.$emit('input', { ...newV, ...this.newOptions })
-      },
-    },
-    newOptions: {
-      deep: true,
-      handler (newV) {
-        this.$emit('input', { ...this.newAce, ...newV })
-      },
+    // Memoized so CodeLanguageFormatSelect's `courses` prop keeps a stable reference across
+    // re-renders instead of a fresh array literal each time, which otherwise causes its
+    // course-derived computeds/watchers to re-fire on every unrelated re-render.
+    initCourses () {
+      return [this.pageFirst.initCourse]
     },
   },
 }

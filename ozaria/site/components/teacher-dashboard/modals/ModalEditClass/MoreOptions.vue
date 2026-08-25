@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="isOzaria && !me.isCodeNinja()"
+      v-if="isOzaria"
       class="form-group row class-grades"
     >
       <div class="col-xs-12">
@@ -12,7 +12,7 @@
             type="button"
             class="btn elementary"
             name="elementary"
-            :class="{ selected: classGrades.includes('elementary')}"
+            :class="{ selected: grades.includes('elementary')}"
             @click="updateGrades"
           >
             {{ $t('teachers.elementary') }}
@@ -21,7 +21,7 @@
             type="button"
             class="btn middle"
             name="middle"
-            :class="{ selected: classGrades.includes('middle')}"
+            :class="{ selected: grades.includes('middle')}"
             @click="updateGrades"
           >
             {{ $t('teachers.middle') }}
@@ -30,7 +30,7 @@
             type="button"
             class="btn high"
             name="high"
-            :class="{ selected: classGrades.includes('high')}"
+            :class="{ selected: grades.includes('high')}"
             @click="updateGrades"
           >
             {{ $t('teachers.high_school') }}
@@ -48,7 +48,7 @@
         </label>
         <input
           id="classroom-items"
-          v-model="newClass.classroomItems"
+          v-model="classroomItems"
           name="classroomItems"
           type="checkbox"
         >
@@ -67,7 +67,7 @@
         </label>
         <input
           id="paste"
-          v-model="newClass.disablePaste"
+          v-model="disablePaste"
           type="checkbox"
         >
         <span class="help-block small text-navy">{{ $t("teachers.classroom_disable_paste") }}</span>
@@ -83,7 +83,7 @@
         </label>
         <input
           id="liveCompletion"
-          v-model="newClass.liveCompletion"
+          v-model="liveCompletion"
           type="checkbox"
         >
         <span class="help-block small text-navy">{{ $t("teachers.classroom_live_completion") }}</span>
@@ -99,7 +99,7 @@
         </label>
         <input
           id="remix"
-          v-model="newClass.remix"
+          v-model="remix"
           type="checkbox"
           name="remix"
         >
@@ -116,7 +116,7 @@
         </label>
         <input
           id="level-chat"
-          v-model="newClass.levelChat"
+          v-model="levelChat"
           type="checkbox"
           name="levelChat"
         >
@@ -135,7 +135,7 @@
         </label>
         <textarea
           id="classroom-announcement"
-          v-model="newClass.classroomDescription"
+          v-model="classroomDescription"
           name="description"
           rows="2"
           class="form-control"
@@ -153,7 +153,7 @@
         </label>
         <select
           id="average-student-exp"
-          v-model="newClass.averageStudentExp"
+          v-model="averageStudentExp"
           name="averageStudentExp"
           class="form-control"
         >
@@ -179,20 +179,16 @@
       </div>
     </div>
     <div
-      v-if="!asClub && (moreOptions && isCodeCombat || me.isCodeNinja())"
+      v-if="moreOptions && isCodeCombat"
       class="form-group row"
     >
       <div class="col-md-12">
         <label for="type">
           <span class="control-label"> {{ $t("courses.class_type_label") }} </span>
-          <i
-            v-if="!me.isILK()"
-            class="spl text-muted"
-          >{{ $t("signup.optional") }}</i>
         </label>
         <select
           id="type"
-          v-model="newClass.classroomType"
+          v-model="classroomType"
           name="type"
           class="form-control"
         >
@@ -200,7 +196,6 @@
             {{ $t('courses.avg_student_exp_select') }}
           </option>
           <option
-            v-if="!me.isCodeNinja()"
             value="in-school"
           >
             {{ $t('courses.class_type_in_school') }}
@@ -209,25 +204,21 @@
             {{ $t('courses.class_type_after_school') }}
           </option>
           <option
-            v-if="!me.isCodeNinja()"
             value="online"
           >
             {{ $t('courses.class_type_online') }}
           </option>
           <option
-            v-if="!me.isCodeNinja()"
             value="camp"
           >
             {{ $t('courses.class_type_camp') }}
           </option>
           <option
-            v-if="!me.isCodeNinja()"
             value="homeschool"
           >
             {{ $t('courses.class_type_homeschool') }}
           </option>
           <option
-            v-if="!me.isCodeNinja()"
             value="other"
           >
             {{ $t('courses.class_type_other') }}
@@ -236,14 +227,14 @@
       </div>
     </div>
     <class-start-end-date-component
-      v-if="!asClub && (moreOptions && isCodeCombat || me.isCodeNinja())"
-      :class-date-start="newClass.classDateStart"
-      :class-date-end="newClass.classDateEnd"
+      v-if="moreOptions && isCodeCombat"
+      :class-date-start="classDateStart"
+      :class-date-end="classDateEnd"
       @classDateStartUpdated="updateClassDateStart"
       @classDateEndUpdated="updateClassDateEnd"
     />
     <div
-      v-if="moreOptions && isCodeCombat && !me.isCodeNinja()"
+      v-if="moreOptions && isCodeCombat"
       class="form-group row"
     >
       <div class="col-sm-12">
@@ -255,7 +246,7 @@
         <div>
           <select
             id="form-new-classes-per-week"
-            v-model="newClass.classesPerWeek"
+            v-model="classesPerWeek"
             class="form-control"
           >
             <option
@@ -270,7 +261,7 @@
         </div>
         <div>
           <select
-            v-model="newClass.minutesPerClass"
+            v-model="minutesPerClass"
             class="form-control"
           >
             <option value="<30">
@@ -318,45 +309,72 @@ export default {
     ClassStartEndDateComponent,
   },
   props: {
-    classroom: {
-      type: Object,
-      required: true,
-    },
-    asClub: {
-      type: Boolean,
-      default: false,
-    },
     value: {
       type: Object,
       required: true,
     },
   },
   data () {
-    const cItems = this.classroom?.classroomItems ?? this.value.classroomItems
-    const cLiveCompletion = this.classroom?.aceConfig?.liveCompletion ?? this.value.liveCompletion
-    const cDisablePaste = this.classroom?.aceConfig?.disablePaste ?? this.value.disablePaste
-    const cLevelChat = this.classroom?.aceConfig?.levelChat ?? this.value.levelChat
-    const cGrades = this.classroom?.grades || []
     return {
+      // Local UI-only state - whether the advanced section is expanded, not part of the draft.
       moreOptions: false,
-      newClass: {
-        classroomItems: typeof cItems === 'undefined' ? true : cItems,
-        disablePaste: typeof cDisablePaste === 'undefined' ? false : cDisablePaste,
-        liveCompletion: typeof cLiveCompletion === 'undefined' ? true : cLiveCompletion,
-        remix: this.classroom?.hackstackConfig?.remixAllowed || false,
-        levelChat: typeof cLevelChat === 'undefined' ? true : cLevelChat === 'fixed_prompt_only',
-        classroomDescription: this.classroom?.description || '',
-        averageStudentExp: this.classroom?.averageStudentExp || '',
-        classroomType: this.classroom?.type || '',
-        classesPerWeek: this.classroom?.classesPerWeek || '',
-        minutesPerClass: this.classroom?.minutesPerClass || '',
-        classDateStart: this.classroom?.classDateStart || '',
-        classDateEnd: this.classroom?.classDateEnd || '',
-        classGrades: (utils.isOzaria && !me.isCodeNinja()) ? cGrades : null,
-      },
     }
   },
   computed: {
+    // Proxies onto the single draft object owned by the parent (this.value) -
+    // no local copy, so there is only ever one source of truth for the draft.
+    classroomItems: {
+      get () { return this.value.classroomItems },
+      set (val) { this.updateDraft({ classroomItems: val }) },
+    },
+    disablePaste: {
+      get () { return this.value.disablePaste },
+      set (val) { this.updateDraft({ disablePaste: val }) },
+    },
+    liveCompletion: {
+      get () { return this.value.liveCompletion },
+      set (val) { this.updateDraft({ liveCompletion: val }) },
+    },
+    remix: {
+      get () { return this.value.remix },
+      set (val) { this.updateDraft({ remix: val }) },
+    },
+    levelChat: {
+      get () { return this.value.levelChat },
+      set (val) { this.updateDraft({ levelChat: val }) },
+    },
+    classroomDescription: {
+      get () { return this.value.classroomDescription },
+      set (val) { this.updateDraft({ classroomDescription: val }) },
+    },
+    averageStudentExp: {
+      get () { return this.value.averageStudentExp },
+      set (val) { this.updateDraft({ averageStudentExp: val }) },
+    },
+    classroomType: {
+      get () { return this.value.classroomType },
+      set (val) { this.updateDraft({ classroomType: val }) },
+    },
+    classesPerWeek: {
+      get () { return this.value.classesPerWeek },
+      set (val) { this.updateDraft({ classesPerWeek: val }) },
+    },
+    minutesPerClass: {
+      get () { return this.value.minutesPerClass },
+      set (val) { this.updateDraft({ minutesPerClass: val }) },
+    },
+    classDateStart: {
+      get () { return this.value.classDateStart },
+      set (val) { this.updateDraft({ classDateStart: val }) },
+    },
+    classDateEnd: {
+      get () { return this.value.classDateEnd },
+      set (val) { this.updateDraft({ classDateEnd: val }) },
+    },
+    grades: {
+      get () { return this.value.grades || [] },
+      set (val) { this.updateDraft({ grades: val }) },
+    },
     range () {
       return _.range
     },
@@ -374,29 +392,21 @@ export default {
     },
 
   },
-  watch: {
-    newClass: {
-      deep: true,
-      handler (newV) {
-        this.$emit('input', newV)
-      },
-    },
-  },
   methods: {
+    updateDraft (patch) {
+      this.$emit('input', { ...this.value, ...patch })
+    },
     updateGrades (event) {
       const grade = event.target.name
-      if (this.classGrades.includes(grade)) {
-        this.classGrades.splice(this.classGrades.indexOf(grade), 1)
-      } else {
-        this.classGrades.push(grade)
-      }
-      this.$set(this.newClass, 'grades', this.classGrades)
+      this.grades = this.grades.includes(grade)
+        ? this.grades.filter(g => g !== grade)
+        : [...this.grades, grade]
     },
     updateClassDateStart (newV) {
-      this.$set(this.newClass, 'classDateStart', newV)
+      this.classDateStart = newV
     },
     updateClassDateEnd (newV) {
-      this.$set(this.newClass, 'classDateEnd', newV)
+      this.classDateEnd = newV
     },
     toggleMoreOptions () {
       this.moreOptions = !this.moreOptions

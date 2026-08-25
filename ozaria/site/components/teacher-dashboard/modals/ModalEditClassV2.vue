@@ -19,7 +19,7 @@
         ref="pageSecond"
         v-model="newClass.pageSecond"
         :page-first="newClass.pageFirst"
-        :classroom="classroom"
+        :is-new-classroom="classroomInstance.isNew()"
       />
       <div class="form-group row buttons-row">
         <div class="col-xs-12 buttons">
@@ -106,6 +106,28 @@ function initialImportLink (classroom) {
   return { source: null, externalId: null, members: null }
 }
 
+function initialPageSecond (classroom) {
+  const aceConfig = classroom?.aceConfig || {}
+  return {
+    codeLanguage: aceConfig.language || 'python',
+    codeFormats: aceConfig.codeFormats ?? ['text-code'],
+    codeFormatDefault: aceConfig.codeFormatDefault ?? 'text-code',
+    classroomItems: classroom?.classroomItems ?? true,
+    disablePaste: aceConfig.disablePaste ?? false,
+    liveCompletion: aceConfig.liveCompletion ?? true,
+    remix: classroom?.hackstackConfig?.remixAllowed || false,
+    levelChat: aceConfig.levelChat === undefined ? true : aceConfig.levelChat === 'fixed_prompt_only',
+    classroomDescription: classroom?.description || '',
+    averageStudentExp: classroom?.averageStudentExp || '',
+    classroomType: classroom?.type || '',
+    classesPerWeek: classroom?.classesPerWeek || '',
+    minutesPerClass: classroom?.minutesPerClass || '',
+    classDateStart: classroom?.classDateStart || '',
+    classDateEnd: classroom?.classDateEnd || '',
+    grades: classroom?.grades || [],
+  }
+}
+
 export default Vue.extend({
   components: {
     Modal,
@@ -135,23 +157,7 @@ export default Vue.extend({
           initCourse: this.classroom?.initialFreeCourses?.[0] || (utils.isCodeCombat ? utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE : undefined),
           importLink: initialImportLink(this.classroom),
         },
-        pageSecond: {
-          codeLanguage: 'python',
-          codeFormats: ['text-code'],
-          codeFormatDefault: 'text-code',
-          classroomItems: true,
-          disablePaste: false,
-          liveCompletion: true,
-          remix: false,
-          levelChat: true,
-          classroomDescription: '',
-          averageStudentExp: '',
-          classroomType: '',
-          classesPerWeek: '',
-          minutesPerClass: '',
-          classDateStart: '',
-          classDateEnd: '',
-        },
+        pageSecond: initialPageSecond(this.classroom),
       },
     }
   },
