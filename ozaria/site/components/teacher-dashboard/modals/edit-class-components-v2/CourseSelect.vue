@@ -3,9 +3,11 @@
     v-if="isCodeCombat"
     class="col-xs-12 initial-free-courses"
   >
-    <span class="control-label">
-      {{ $t("teachers.select_initial_course") }}
-    </span>
+    <label for="initial-courses">
+      <h5>
+        {{ $t("teachers.select_initial_course") }}
+      </h5>
+    </label>
     <div class="initial-courses options">
       <div
         v-for="initialFreeCourse in initialFreeCourses"

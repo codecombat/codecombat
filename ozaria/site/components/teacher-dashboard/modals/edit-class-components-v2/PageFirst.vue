@@ -135,13 +135,9 @@ export default Vue.extend({
             :class="{ 'has-error': $v.name.$error }"
           >
             <label for="form-class-name">
-              <span class="control-label"> {{ $t("teachers.class_name") }} </span>
-              <span
-                v-if="!$v.name.required"
-                class="form-error"
-              >
-                {{ $t("form_validation_errors.required") }}
-              </span>
+              <h5 class="control-label">
+                {{ $t("teachers.class_name") }}
+              </h5>
             </label>
             <input
               id="form-class-name"
