@@ -23,11 +23,18 @@
             type="radio"
             name="initialFreeCourses"
           >
-          <span class="option-name">
-            {{ initialFreeCourse.name }}
-          </span>
-          <br>
-          <span class="help-block small">{{ initialFreeCourse.blurb }}</span>
+          <div class="option-content">
+            <div class="option-title-row">
+              <span class="option-name">{{ initialFreeCourse.name }}</span>
+              <span
+                class="grade-badge"
+                :title="`Grades: ${getGradeBadge(initialFreeCourse.id)}`"
+              >
+                {{ getGradeBadge(initialFreeCourse.id) }}
+              </span>
+            </div>
+            <span class="help-block small">{{ initialFreeCourse.blurb }}</span>
+          </div>
         </label>
       </div>
     </div>
@@ -83,28 +90,70 @@ export default {
       this.$emit('input', newV)
     },
   },
+  methods: {
+    getGradeBadge (courseId) {
+      if (utils.COCO_COURSE_IDS.includes(courseId)) {
+        return '6-12'
+      } else if (utils.JUNIOR_COURSE_IDS.includes(courseId)) {
+        return 'K-5'
+      } else if (utils.OZ_COURSE_IDS.includes(courseId)) {
+        return '6-8'
+      } else if (utils.HACKSTACK_COURSE_IDS.includes(courseId)) {
+        return '6-12'
+      }
+      return null
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
 .option-block {
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   border-radius: 5px;
   border: 1px dotted black;
   cursor: pointer;
-  padding: 5px 10px;
+  padding: 10px;
+
+  .option-content {
+    flex: 1;
+  }
+
+  .option-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
   .option-name {
     font-size: 18px;
     line-height: 20px;
     font-weight: bold;
   }
+
+  .grade-badge {
+    padding: 2px 8px;
+    border-radius: 10px;
+    background-color: #7a65fc;
+    color: white;
+    font-size: 11px;
+    line-height: 14px;
+    font-weight: bold;
+  }
 }
 .help-block {
   display: block;
-  margin-top: 2px;
+  margin-top: 5px;
   margin-bottom: 5px;
   font-size: 13px;
   color: black;
   line-height: 20px
+}
+
+.initial-courses {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 </style>
