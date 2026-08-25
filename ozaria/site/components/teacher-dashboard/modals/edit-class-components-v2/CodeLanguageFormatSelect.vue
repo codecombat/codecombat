@@ -286,23 +286,29 @@ export default {
         this.updateDraft(patch)
       }
     },
-    codeFormats (newV, oldV) {
-      if (_.isEqual(newV, oldV)) {
-        return
-      }
-      if (this.hasJunior && !newV.includes('blocks-icons') && this.enableBlocks) {
-        this.updateDraft({ codeFormats: [...newV, 'blocks-icons'] })
-        return
-      }
-      if (newV.length === 0) {
-        this.$nextTick(() => {
-          this.updateDraft({ codeFormats: oldV })
-        })
-        return
-      }
-      if (!newV.includes(this.codeFormatDefault)) {
-        this.updateDraft({ codeFormatDefault: newV[0] })
-      }
+    // immediate: true so a class that mounts with Junior selected but no blocks-icons
+    // (e.g. a fresh aceConfig defaulting to ['text-code']) gets normalized before save,
+    // rather than only on a subsequent user-driven change to codeFormats.
+    codeFormats: {
+      immediate: true,
+      handler (newV, oldV) {
+        if (_.isEqual(newV, oldV)) {
+          return
+        }
+        if (this.hasJunior && !newV.includes('blocks-icons') && this.enableBlocks) {
+          this.updateDraft({ codeFormats: [...newV, 'blocks-icons'] })
+          return
+        }
+        if (newV.length === 0 && oldV) {
+          this.$nextTick(() => {
+            this.updateDraft({ codeFormats: oldV })
+          })
+          return
+        }
+        if (!newV.includes(this.codeFormatDefault)) {
+          this.updateDraft({ codeFormatDefault: newV[0] })
+        }
+      },
     },
   },
   methods: {

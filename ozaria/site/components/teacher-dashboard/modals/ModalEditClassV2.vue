@@ -180,7 +180,7 @@ export default Vue.extend({
     },
     ctaButtonText () {
       if (this.currentPage === 1 && this.newClass.pageFirst.initCourse !== utils.courseIDs.INTRO_TO_AI) {
-        return 'Next'
+        return $.i18n.t('common.next')
       } else {
         return this.classroomInstance.isNew() ? $.i18n.t('courses.create_class') : $.i18n.t('common.save_changes')
       }
@@ -354,7 +354,7 @@ export default Vue.extend({
       }
 
       const grades = newClass.grades || []
-      if (grades.length > 0) {
+      if (grades.length > 0 || !this.classroomInstance.isNew()) {
         updates.grades = grades
       }
 

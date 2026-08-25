@@ -180,7 +180,8 @@ export default Vue.extend({
 }
 .help-info-row {
   text-align: center;
-  margin-top: -5px;
+  margin-top: -10px;
+  margin-bottom: 5px;
 }
 .help-info {
   display: inline-block;
