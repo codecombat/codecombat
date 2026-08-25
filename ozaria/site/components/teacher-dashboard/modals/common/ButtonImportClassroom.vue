@@ -51,6 +51,7 @@ export default Vue.extend({
         content: inactive ? inactiveMessage : null
       }"
       class="link-classroom-btn moon-btn"
+      type="button"
       :disabled="inactive || inProgress"
       @click="onClick"
     >
