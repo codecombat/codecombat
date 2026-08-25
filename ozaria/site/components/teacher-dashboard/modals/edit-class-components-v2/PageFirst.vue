@@ -157,6 +157,39 @@ export default Vue.extend({
       >
         <CourseSelect v-model="initCourse" />
       </div>
+      <div
+        class="form-group row help-info-row"
+      >
+        <div class="help-info">
+          <p class="question help-text help-title">
+            {{ $t('teachers.recommended_courses_helptext_question') }}
+          </p>
+          <p class="answer help-text">
+            {{ $t('teachers.recommended_courses_helptext_answer') }}
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
+<style lang="scss" scoped>
+@import "ozaria/site/styles/common/variables.scss";
+.help-text {
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 2px;
+}
+.help-title {
+  font-weight: bold;
+}
+.help-info-row {
+  text-align: center;
+  margin-top: -5px;
+}
+.help-info {
+  display: inline-block;
+  text-align: center;
+  background-color: $mist;
+  padding: 5px 15px;
+}
+</style>

@@ -1,11 +1,11 @@
 <template>
   <div
-    v-if="isCodeCombat && !asClub"
+    v-if="isCodeCombat"
     class="col-xs-12 initial-free-courses"
   >
-    <label class="control-label checkbox-label">
+    <span class="control-label">
       {{ $t("teachers.select_initial_course") }}
-    </label>
+    </span>
     <div class="initial-courses options">
       <div
         v-for="initialFreeCourse in initialFreeCourses"
@@ -21,7 +21,7 @@
             type="radio"
             name="initialFreeCourses"
           >
-          <span class="option-name q-tooltip">
+          <span class="option-name">
             {{ initialFreeCourse.name }}
           </span>
           <br>
@@ -29,9 +29,6 @@
         </label>
       </div>
     </div>
-    <p class="help-text">
-      {{ $t('teachers.recommended_courses_helptext') }}
-    </p>
   </div>
 </template>
 
@@ -41,10 +38,6 @@ import utils from 'core/utils'
 export default {
   name: 'EditClassCourseSelect',
   props: {
-    asClub: {
-      type: Boolean,
-      default: false,
-    },
     value: {
       type: String,
       default: '',
@@ -76,7 +69,7 @@ export default {
           }
           return {
             id,
-            name: utils.i18n(course, 'name'),
+            name: $.i18n.t(`teachers.course_title_${course.slug}`),
             blurb: $.i18n.t(`teachers.free_course_blurb_${course.slug}`),
           }
         }).filter(Boolean),
@@ -97,6 +90,12 @@ export default {
   border: 1px dotted black;
   cursor: pointer;
   padding: 5px 10px;
+
+  .option-name {
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: bold;
+  }
 }
 .help-block {
   display: block;
@@ -105,11 +104,5 @@ export default {
   font-size: 13px;
   color: black;
   line-height: 20px
-}
-.help-text {
-  font-size: 14px;
-  line-height: 20px;
-  margin-bottom: 5px;
-  font-weight: bold;
 }
 </style>
