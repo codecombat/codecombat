@@ -3702,7 +3702,7 @@ module.exports = {
 
     concepts: {
       abstraction: 'Abstraction',
-      accessability: 'Accessability',
+      accessibility: 'Accessibility',
       advanced_algorithms: 'Advanced Algorithms',
       advanced_css: 'Advanced CSS',
       advanced_css_rules: 'Advanced CSS Rules',
@@ -3733,7 +3733,7 @@ module.exports = {
       array_searching: 'Array Searching',
       array_sorting: 'Array Sorting',
       arrays: 'Arrays',
-      asymetric_cryptography: 'Asymetric Cryptography',
+      asymmetric_cryptography: 'Asymmetric Cryptography',
       attack_surface: 'Attack Surface',
       authentication: 'Authentication',
       authorization: 'Authorization',
