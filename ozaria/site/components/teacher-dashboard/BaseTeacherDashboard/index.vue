@@ -6,6 +6,7 @@ import ModalAddStudents from '../modals/ModalAddStudents'
 import ModalRemoveStudents from '../modals/ModalRemoveStudents'
 import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
 import ModalEditClass from '../modals/ModalEditClass'
+import ModalEditClassV2 from '../modals/ModalEditClassV2'
 
 import SecondaryTeacherNavigation from '../common/SecondaryTeacherNavigation'
 import TitleBar from '../common/TitleBar'
@@ -35,6 +36,7 @@ export default {
   components: {
     Panel,
     ModalEditClass,
+    ModalEditClassV2,
     ModalAssignContent,
     ModalAddStudents,
     ModalApplyLicenses,
@@ -54,6 +56,7 @@ export default {
     return {
       showRestrictedDiv: false,
       showNewClassModal: false,
+      showNewClubModal: false,
       showAssignContentModal: false,
       showApplyLicensesModal: false,
       showAddStudentsModal: false,
@@ -180,6 +183,7 @@ export default {
       await this.handleTrialRequest()
       this.showTeacherDetailsModal = this.shouldShowTeacherDetailsModal()
     }
+    this.newClassroomAsClub = me.isCodeNinja()
   },
 
   metaInfo () {
@@ -254,15 +258,14 @@ export default {
     },
 
     openNewClubModal () {
-      if (this.showNewClassModal) {
+      if (this.showNewClubModal) {
         return
       }
 
       // Handle tour accidentally obscuring user opening new class modal
       this.runningTour?.complete?.()
 
-      this.newClassroomAsClub = true
-      this.showNewClassModal = true
+      this.showNewClubModal = true
     },
 
     /**
@@ -272,13 +275,9 @@ export default {
      **/
     closeShowNewModal () {
       this.showNewClassModal = false
+      this.showNewClubModal = false
       if (this.editCurrent) {
         this.editCurrent = false
-        return
-      }
-
-      if (this.newClassroomAsClub) {
-        this.newClassroomAsClub = false
         return
       }
 
@@ -495,7 +494,7 @@ export default {
           :all-classes-page="isAllClassesPage"
           :show-preview-mode="showNonTeacherPreview"
           @change-course="onChangeCourse"
-          @newClass="openNewClassModal"
+          @newClass="isCodeCombat ? openNewClassModal() : openNewClubModal()"
           @newClub="openNewClubModal"
           @addStudentsClicked="showAddStudentsModal = true"
           @editClass="openEditClassModal"
@@ -529,17 +528,16 @@ export default {
       v-else-if="showOnboardingModal"
       @close="closeOnboardingModal"
     />
-    <modal-edit-class
+    <modal-edit-class-v2
       v-if="showNewClassModal && !editCurrent && !showNonTeacherPreview"
       :classroom="newClassroom"
-      :as-club="newClassroomAsClub"
       @close="closeShowNewModal"
       @created="handleCreatedClass"
     />
     <modal-edit-class
-      v-if="showNewClassModal && editCurrent"
-      :classroom="editClassroomObject"
-      :as-club="isCodeNinjaClubCamp(editClassroomObject)"
+      v-if="showNewClubModal || editCurrent"
+      :classroom="showNewClubModal ? newClassroom : editClassroomObject"
+      :as-club="newClassroomAsClub"
       @close="closeShowNewModal"
     />
     <modal-assign-content

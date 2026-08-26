@@ -55,6 +55,6 @@ export function hasSeenTeacherDetailModalRecently (teacherId) {
 }
 
 export function markTeacherDetailsModalAsSeen (teacherId) {
-  const HRS_12 = 60 * 12
-  storage.save(teacherModalSeenKey(teacherId), true, HRS_12)
+  const ONE_MONTH_IN_MINS = 60 * 24 * 30
+  storage.save(teacherModalSeenKey(teacherId), true, ONE_MONTH_IN_MINS)
 }

@@ -1,14 +1,15 @@
-.purple-btn {
-  background-color: $purple;
+.purple-secondary-btn {
+  border: 2px solid $purple;
   border-radius: 4px;
-  border-width: 0;
   text-shadow: unset;
-  @include font-p-3-small-button-text-white;
+  @include font-p-3-small-button-text-black;
   background-image: unset;
+  background-color: rgb(239, 239, 239);
 
   &:hover {
-    background-color: $purple-dark;
-    transition: background-color .35s;
+    background-color: $purple;
+    color: #fff;
+    transition: background-color .35s, color .35s;
   }
 
   &.disabled {

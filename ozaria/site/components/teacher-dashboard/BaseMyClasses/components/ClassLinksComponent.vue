@@ -172,9 +172,8 @@
               autoHide: false
             }"
             href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
-            class="purple-btn disabled"
+            class="purple-btn"
             target="_blank"
-            disabled
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Sensei Guide</span>
@@ -305,9 +304,8 @@
               autoHide: false
             }"
             href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
-            class="purple-btn disabled"
+            class="purple-btn"
             target="_blank"
-            disabled
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Sensei Guide</span>
@@ -374,14 +372,13 @@
         <li>
           <a
             v-tooltip.top="{
-              content: 'Comprehensive Sensei guide to running the Roblox: Intro to Coding and Game Design camp with CodeCombat Junior and CodeCombat Worlds.',
+              content: 'Comprehensive Sensei Guide',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
             href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
-            class="purple-btn disabled"
+            class="purple-btn"
             target="_blank"
-            disabled
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Sensei Guide</span>
@@ -439,9 +436,8 @@
               autoHide: false
             }"
             href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
-            class="purple-btn disabled"
+            class="purple-btn"
             target="_blank"
-            disabled
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Sensei Guide</span>
@@ -513,9 +509,8 @@
               autoHide: false
             }"
             href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
-            class="purple-btn disabled"
+            class="purple-btn"
             target="_blank"
-            disabled
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Sensei Guide</span>
