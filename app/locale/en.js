@@ -1893,6 +1893,7 @@ module.exports = {
       initial_free_courses_description: '*Courses can be updated using Assign Content after creating class too.',
       recommended_courses_helptext_question: 'Not seeing the course you want?',
       recommended_courses_helptext_answer: 'Course content can be easily changed, added or removed after creating the class.',
+      recommended_courses_helptext_info: 'See all course options after classroom creation.',
       junior_code_format_only: 'Blocks (Icons) only available for Junior',
       hackstack_no_code_language_format: 'AI HackStack does not need a programming language or code format',
       licenses_activated_success: 'Licenses have been Activated Successfully!',

@@ -157,11 +157,14 @@ export default Vue.extend({
         class="form-group row help-info-row"
       >
         <div class="help-info">
-          <p class="question help-text help-title">
+          <p class="question help-text help-bold">
             {{ $t('teachers.recommended_courses_helptext_question') }}
           </p>
           <p class="answer help-text">
             {{ $t('teachers.recommended_courses_helptext_answer') }}
+          </p>
+          <p class="answer help-text help-bold">
+            {{ $t('teachers.recommended_courses_helptext_info') }}
           </p>
         </div>
       </div>
@@ -175,7 +178,7 @@ export default Vue.extend({
   line-height: 20px;
   margin-bottom: 2px;
 }
-.help-title {
+.help-bold {
   font-weight: bold;
 }
 .help-info-row {
@@ -188,5 +191,12 @@ export default Vue.extend({
   text-align: center;
   background-color: $mist;
   padding: 5px 15px;
+}
+.link-buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 5px;
 }
 </style>

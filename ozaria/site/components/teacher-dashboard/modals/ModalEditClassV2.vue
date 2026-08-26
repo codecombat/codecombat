@@ -438,14 +438,6 @@ export default Vue.extend({
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 ::v-deep {
 
-  .link-buttons-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 15px;
-  }
-
   .edit-class {
     display: flex;
     flex-direction: column;
