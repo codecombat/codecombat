@@ -454,9 +454,6 @@ export default {
       this.sidebarCollapsed = !this.sidebarCollapsed
       storage.save(SIDEBAR_COLLAPSED_KEY, this.sidebarCollapsed)
     },
-    shouldShowCreateStudents (_classroom) {
-      return false
-    },
   },
 }
 </script>
@@ -552,7 +549,6 @@ export default {
     <modal-add-students
       v-if="showAddStudentsModal"
       :classroom="classroom"
-      :create-students="shouldShowCreateStudents(classroom)"
       @close="showAddStudentsModal = false"
     />
     <modal-remove-students
