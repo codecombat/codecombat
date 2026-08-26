@@ -7,26 +7,31 @@ import fetchJson from './fetch-json'
  * @param {string} levelOriginal level to fetch ranking from. Must have level type `ladder`.
  * @param {Object} options Coverted into query params.
  */
+
+const $param = function (obj) {
+  return new URLSearchParams(obj).toString()
+}
+
 export const getLeaderboard = (levelOriginal, options) => {
-  return fetchJson(`/db/level/${levelOriginal}/rankings?${$.param(options)}`)
+  return fetchJson(`/db/level/${levelOriginal}/rankings?${$param(options)}`)
 }
 
 export const getMyRank = (levelOriginal, sessionId, options) => {
-  return fetchJson(`/db/level/${levelOriginal}/rankings/${sessionId}?${$.param(options)}`)
+  return fetchJson(`/db/level/${levelOriginal}/rankings/${sessionId}?${$param(options)}`)
 }
 
 export const getLeaderboardPlayerCount = (levelOriginal, options) => {
-  return fetchJson(`/db/level/${levelOriginal}/rankings-count?${$.param(options)}`)
+  return fetchJson(`/db/level/${levelOriginal}/rankings-count?${$param(options)}`)
 }
 
 export const getCodePointsLeaderboard = (clanId, options) => {
-  return fetchJson(`/db/clan/${clanId || '-'}/code-points?${$.param(options)}`)
+  return fetchJson(`/db/clan/${clanId || '-'}/code-points?${$param(options)}`)
 }
 
 export const getCodePointsRankForUser = (clanId, userId, options) => {
-  return fetchJson(`/db/clan/${clanId || '-'}/code-points/user/${userId || me.id}?${$.param(options)}`)
+  return fetchJson(`/db/clan/${clanId || '-'}/code-points/user/${userId || me.id}?${$param(options)}`)
 }
 
 export const getCodePointsPlayerCount = (clanId, options) => {
-  return fetchJson(`/db/clan/${clanId || '-'}/code-points-member-count?${$.param(options)}`)
+  return fetchJson(`/db/clan/${clanId || '-'}/code-points-member-count?${$param(options)}`)
 }

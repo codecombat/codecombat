@@ -511,6 +511,33 @@ courseCampaignSlugs[allCourseIDs.CYBER] = 'cyber'
 courseCampaignSlugs[allCourseIDs.AI_SANDBOX] = 'ai-sandbox'
 courseCampaignSlugs[allCourseIDs.AI_EXPLORATIONS] = 'ai-explorations'
 
+const orderedHomeCampaignSlugs = [
+  'dungeon',
+  'campaign-game-dev-1',
+  'campaign-web-dev-1',
+  'forest',
+  'campaign-game-dev-2',
+  'campaign-web-dev-2',
+  'desert',
+  'campaign-game-dev-3',
+  'mountain',
+  'glacier',
+]
+
+const orderedHSCampaignSlugs = [
+  'intro-to-ai',
+  'math-and-stats',
+  'artificial-intelligence-1',
+  'career-readiness',
+  'cyber',
+  'artificial-intelligence-2',
+  'career-readiness-2',
+  'english-language-arts',
+  'computer-science-ai',
+  'ai-sandbox',
+  'ai-explorations',
+]
+
 const registerHocProgressModalCheck = function () {
   let hocProgressModalCheck
   return hocProgressModalCheck = setInterval(() => {
@@ -1881,7 +1908,7 @@ const AI_MODE_ICON_MAP = {
   use: 'ai-use',
   practice: 'ai-practice',
   'learn to use': 'ai-learn',
-  capstone: 'ai-capstone'
+  capstone: 'ai-capstone',
 }
 
 module.exports.aiProjectModes = Object.keys(AI_MODE_ICON_MAP)
@@ -2111,6 +2138,8 @@ module.exports = {
   GD_COURSE_IDS,
   WD_COURSE_IDS,
   showOzaria,
+  orderedHSCampaignSlugs,
+  orderedHomeCampaignSlugs,
 }
 
 function __guard__ (value, transform) {
