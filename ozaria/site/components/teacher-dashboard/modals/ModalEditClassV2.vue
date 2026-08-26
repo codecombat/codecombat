@@ -507,50 +507,6 @@ export default Vue.extend({
     }
   }
 
-  .new-classes-per-week-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-
-    > div {
-      width: 45%;
-    }
-  }
-
-  .class-grades-input {
-    display: block;
-
-    .elementary {
-      border-radius: 0px;
-      border: 2px solid #D4B235;
-      color: #D4B235;
-      &.selected, &:hover {
-        background: #D4B235;
-        color: #131B25;
-      }
-    }
-    .middle {
-      border-radius: 0px;
-      border: 2px solid #74C6DF;
-      color: #74C6DF;
-      &.selected, &:hover {
-        background: #74C6DF;
-        color: #131B25;
-      }
-    }
-    .high {
-      border-radius: 0px;
-      border: 2px solid #FF8600;
-      color: #FF8600;
-      &.selected, &:hover {
-        background: #FF8600;
-        color: #131B25;
-      }
-    }
-  }
-
   .form-group {
     &.has-error {
       .form-error {
@@ -579,10 +535,6 @@ export default Vue.extend({
     display: none;
   }
 
-  .ozaria-primary-button {
-    color: #000000;
-  }
-
   .form-checkbox-input {
     @include font-p-4-paragraph-smallest-gray;
     input {
@@ -590,13 +542,6 @@ export default Vue.extend({
     }
   }
 
-  .ml-small {
-    margin-left: 5px;
-  }
-
-  p.help-block {
-    margin-bottom: 0;
-  }
   .error {
     color: red;
     font-size: 14px;

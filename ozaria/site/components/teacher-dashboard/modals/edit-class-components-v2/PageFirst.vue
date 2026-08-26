@@ -176,7 +176,7 @@ export default Vue.extend({
 .help-text {
   font-size: 14px;
   line-height: 20px;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 .help-bold {
   font-weight: bold;
