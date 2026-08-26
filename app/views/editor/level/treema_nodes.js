@@ -603,6 +603,7 @@ module.exports.conceptNodes = function (concepts) {
           return result1
         })()) // Allow both
       }
+      options.sort()
       return super.limitChoices(options)
     }
 
