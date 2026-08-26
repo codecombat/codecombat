@@ -398,7 +398,7 @@ export default Vue.extend({
       } catch (err) {
         noty({
           type: 'error',
-          message: `Classroom import failed: ${err?.message}`,
+          text: `Classroom import failed: ${err?.message}`,
           timeout: 5000,
         })
       }

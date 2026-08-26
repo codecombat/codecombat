@@ -88,14 +88,18 @@ export default Vue.extend({
         this.$emit('activate')
       } catch (error) {
         console.log(error)
-        noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
+        noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 5000 })
       }
       this.isSyncInProgress = false
     },
     async reImport () {
       this.isSyncInProgress = true
       noty({ text: 'Re-Importing classroom...', layout: 'topCenter', type: 'info', timeout: 3000 })
-      await LmsRosterImportHandler.importClassroom(this.classroom)
+      try {
+        await LmsRosterImportHandler.importClassroom(this.classroom)
+      } catch (err) {
+        noty({ text: `Importing classroom failed: ${err?.message}`, layout: 'topCenter', type: 'error', timeout: 5000 })
+      }
       this.isSyncInProgress = false
     },
   },
