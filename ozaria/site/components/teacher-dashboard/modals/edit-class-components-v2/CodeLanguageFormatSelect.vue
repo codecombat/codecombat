@@ -47,7 +47,7 @@
     </div>
 
     <div
-      v-if="isCodeCombat && notChapter"
+      v-if="enableBlocks"
       class="form-group row code-format"
     >
       <div class="col-xs-12">
@@ -116,7 +116,7 @@
     </div>
 
     <div
-      v-if="isCodeCombat && notChapter"
+      v-if="enableBlocks"
       class="form-group row default-code-format"
     >
       <div class="col-xs-12">
@@ -212,7 +212,7 @@ export default {
       return !this.courses.includes(utils.allCourseIDs.CHAPTER_ONE)
     },
     enableBlocks () {
-      return ['python', 'javascript'].includes(this.codeLanguage || 'python')
+      return this.hasJunior && ['python', 'javascript'].includes(this.codeLanguage || 'python')
     },
     hasJunior () {
       return this.hasCourse(utils.courseIDs.JUNIOR)
@@ -227,9 +227,6 @@ export default {
     availableCodeFormats () {
       const codeFormats = JSON.parse(JSON.stringify(this.codeFormatObject))
       if (!this.hasJunior) {
-        codeFormats['blocks-icons'].disabled = true
-      }
-      if (!this.enableBlocks) {
         codeFormats['blocks-icons'].disabled = true
         codeFormats['blocks-and-code'].disabled = true
         codeFormats['blocks-text'].disabled = true
@@ -253,6 +250,8 @@ export default {
     },
     availableLanguages () {
       const languages = JSON.parse(JSON.stringify(this.codeLanguageObject))
+      delete languages.coffeescript
+      delete languages.lua
 
       if (this.hasOnlyHackstack) {
         for (const lang of Object.values(languages)) {
@@ -295,7 +294,7 @@ export default {
         if (_.isEqual(newV, oldV)) {
           return
         }
-        if (this.hasJunior && !newV.includes('blocks-icons') && this.enableBlocks) {
+        if (!newV.includes('blocks-icons') && this.enableBlocks) {
           this.updateDraft({ codeFormats: [...newV, 'blocks-icons'] })
           return
         }
