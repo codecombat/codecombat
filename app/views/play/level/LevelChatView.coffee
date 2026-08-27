@@ -73,6 +73,8 @@ module.exports = class LevelChatView extends CocoView
     #@updateMultiplayerVisibility()
     @$el.toggle @visible
     @$('.ai-helper-chat-icon').toggle @visible
+    # Playback timeline makes room for the chat icon so they don't overlap
+    @$el.closest('#level-view').toggleClass 'ai-chat-icon-shown', @visible
     @onWindowResize {}
 
   regularlyClearOldMessages: ->
@@ -509,4 +511,5 @@ module.exports = class LevelChatView extends CocoView
     key.deleteScope('level')
     clearInterval @clearOldMessagesInterval if @clearOldMessagesInterval
     $(window).off 'resize', @onWindowResize
+    @$el.closest('#level-view').removeClass 'ai-chat-icon-shown'
     super()
