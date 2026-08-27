@@ -48,7 +48,7 @@ module.exports = class SingularSprite extends createjs.Sprite
         @regX = -reg.x * scale
         @regY = -reg.y * scale
         @scaleX = @scaleY = 1 / @resolutionFactor
-        @framerate = action.framerate ? rawFramerate ? 20
+        @framerate = (action.framerate ? rawFramerate ? 20) * (action.speed ? 1)
         if randomStart and frames = @spriteSheet.getAnimation(animationName)?.frames
           @currentAnimationFrame = Math.floor(Math.random() * frames.length)
 
