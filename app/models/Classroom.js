@@ -364,6 +364,7 @@ module.exports = (Classroom = (function () {
       const levelsTotal = scenarios.length
       let levelsLeft = levelsTotal
       let completedCapstones = 0
+      let totalMessages = 0
       for (const scenarioOriginal in projectsByScenario) {
         const projects = projectsByScenario[scenarioOriginal]
         const scenario = scenarios.find(s => s.original === scenarioOriginal)
@@ -372,6 +373,7 @@ module.exports = (Classroom = (function () {
         }
         const isCapstone = utils.isCapstone(scenario.mode)
         const isComplete = checkIfProjectComplete(scenario, projects)
+        totalMessages += projects.reduce((acc, p) => acc + p.totalChatMessages, 0)
         if (isComplete) {
           levelsLeft -= 1
 
@@ -390,6 +392,7 @@ module.exports = (Classroom = (function () {
           pctDone: ((100 * (levelsTotal - levelsLeft)) / levelsTotal).toFixed(1) + '%',
           completedCapstones,
         },
+        totalMessages,
         courseComplete,
       }
       return stats
