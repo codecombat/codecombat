@@ -5491,7 +5491,7 @@ module.exports = {
       payment_history_btn_all: 'View all Invoices',
       payment_history_btn_less: 'View recent Invoices',
       your_progress_title: 'Your Progress',
-      your_progress_desc: "You've started your learning jorney. Keep it up!",
+      your_progress_desc: "You've started your learning journey. Keep it up!",
       current_status: 'Current Status',
       codecombat_continue_title: 'Play next level',
       codecombat_continue_desc: 'Continue your coding adventure',

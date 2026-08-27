@@ -9,7 +9,10 @@ import fetchJson from './fetch-json'
  */
 
 const $param = function (obj) {
-  return new URLSearchParams(obj).toString()
+  const cleanParams = Object.fromEntries(
+    Object.entries(obj || {}).filter(([_, value]) => value !== undefined),
+  )
+  return new URLSearchParams(cleanParams).toString()
 }
 
 export const getLeaderboard = (levelOriginal, options) => {

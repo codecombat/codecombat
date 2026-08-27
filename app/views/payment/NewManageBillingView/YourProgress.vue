@@ -50,7 +50,8 @@
           </div>
         </div>
         <div class="continue">
-          <div
+          <button
+            type="button"
             class="continue-btn"
             @click="goto(stat.next)"
           >
@@ -66,7 +67,7 @@
                 {{ $t(`payments.${stat.product}_continue_desc`) }}
               </div>
             </div>
-          </div>
+          </button>
         </div>
       </div>
     </div>
@@ -223,7 +224,8 @@ export default {
     }
 
     .continue-btn {
-      cursor: pointer;
+      background-color: transparent !important;
+      text-align: left;
       width: 380px;
       border: 2px solid #dbdbdb;
       display: grid;

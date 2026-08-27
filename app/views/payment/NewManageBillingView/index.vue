@@ -55,7 +55,7 @@ export default {
         const idx = cocoCampaignIndexMap.get(item._id.campaign)
         return idx !== undefined && item.levels > 0 ? Math.max(max, idx) : max
       }, -1)
-      if (!maxIdx) {
+      if (maxIdx === undefined || maxIdx === -1) {
         return {}
       }
       const latestCampaign = utils.orderedHomeCampaignSlugs[maxIdx]
@@ -76,7 +76,7 @@ export default {
         const idx = hsCampaignIndexMap.get(item._id.campaign)
         return idx !== undefined && item.levels > 0 ? Math.max(max, idx) : max
       }, -1)
-      if (!maxIdx) {
+      if (maxIdx === undefined || maxIdx === -1) {
         return {}
       }
       const latestCampaign = utils.orderedHSCampaignSlugs[maxIdx]
@@ -85,7 +85,7 @@ export default {
       return {
         campaign: latestCampaign,
         campaignName: utils.i18n(campaign, 'fullName'),
-        total: this.hsStats?.campaignAllLevels[latestCampaign],
+        total: this.hsStats?.campaignAllLevels?.[latestCampaign],
         levels: maxStats.levels,
       }
     },
@@ -113,7 +113,7 @@ export default {
       if (arenas.length === 0) {
         return
       }
-      const arena = arenas[0]
+      const arena = arenas[arenas.length - 1]
       const level = await levelsApi.getByIdOrSlug(arena.slug, {
         data: {
           project: 'name, i18n',
