@@ -541,9 +541,48 @@ module.exports = (ThangTypeEditView = (function () {
       return window.filepicker.pick({ mimetypes: ['image/png', 'image/webp'] }, callback)
     }
 
+    // Names of raw assets whose backing file is exactly this path.
+    rasterPathReferences (path) {
+      const raw = this.thangType.get('raw') || {}
+      const names = []
+      for (const [name, container] of _.pairs(raw.containers || {})) {
+        if (container.img === path) { names.push(name) }
+      }
+      for (const [name, animation] of _.pairs(raw.animations || {})) {
+        if (animation.rasterSheet === path) { names.push(name) }
+      }
+      return names
+    }
+
+    rasterFileExists (filename) {
+      const models = (this.files != null ? this.files.models : undefined) || []
+      return _.some(models, file => file.get('filename') === filename)
+    }
+
+    // Force-uploading a reused name would replace the bytes backing existing
+    // assets before any prompt — confirm the bulk update, or pick a fresh name.
+    chooseRasterFilename (desired) {
+      const filePath = `db/thang.type/${this.thangType.get('original')}`
+      const references = this.rasterPathReferences(`${filePath}/${desired}`)
+      if (references.length) {
+        const replaceAll = window.confirm(`'${desired}' already backs: ${references.join(', ')}.\nReplace the image for ALL of them (including past thang versions)?\nCancel stores your upload under a new name instead.`)
+        if (replaceAll) { return desired }
+      } else if (!this.rasterFileExists(desired)) {
+        return desired
+      }
+      const match = desired.match(/^(.*?)(\.[^.]*)?$/)
+      const base = match[1]
+      const ext = match[2] || ''
+      for (let n = 2; ; n++) {
+        const candidate = `${base}-${n}${ext}`
+        if (!this.rasterPathReferences(`${filePath}/${candidate}`).length && !this.rasterFileExists(candidate)) { return candidate }
+      }
+    }
+
     saveRasterFile (inkBlob) {
       // '#', '?' and '%' in a filename would truncate or misparse the /file/ image URL.
-      const filename = (inkBlob.filename || 'asset.png').replace(/[#?%]/g, '-')
+      const desired = (inkBlob.filename || 'asset.png').replace(/[#?%]/g, '-')
+      const filename = this.chooseRasterFilename(desired)
       const filePath = `db/thang.type/${this.thangType.get('original')}`
       return saveFile({ url: inkBlob.url, filename, mimetype: inkBlob.mimetype, path: filePath, force: true })
         .then(() => `${filePath}/${filename}`)
