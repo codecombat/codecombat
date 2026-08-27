@@ -668,6 +668,10 @@ module.exports = (ThangTypeEditView = (function () {
         for (const f of frames) {
           if (_.isArray(f)) {
             const [x, y, w, h] = f
+            if (f[4]) {
+              // Single-sheet importer: a nonzero imageIndex references another image we don't have.
+              throw new Error(`frame references image index ${f[4]} — multi-image EaselJS sheets are not supported, repack to a single sheet`)
+            }
             result.push([x, y, w, h, f[5] != null ? f[5] : w / 2, f[6] != null ? f[6] : h / 2])
           } else if (f && f.frame) {
             rejectUnsupported(f)
