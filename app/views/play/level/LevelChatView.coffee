@@ -77,8 +77,10 @@ module.exports = class LevelChatView extends CocoView
     @$aiIcon.toggle @visible
     # Move the icon onto the playback bar so it tracks the timeline in every
     # layout; delegated events don't reach it there, so bind click directly.
+    # #playback-view is an empty placeholder when LevelPlaybackView doesn't
+    # render (web-dev levels), so check for its play button, not the div.
     playbackView = @$el.closest('#level-view').find('#playback-view')
-    onPlaybackBar = @visible and playbackView.length > 0
+    onPlaybackBar = @visible and playbackView.find('#play-button').length > 0
     if onPlaybackBar
       @$aiIcon.appendTo(playbackView).on 'click', (e) => @onAIHelperChatClick(e)
     @$el.closest('#level-view').toggleClass 'ai-chat-icon-shown', onPlaybackBar
