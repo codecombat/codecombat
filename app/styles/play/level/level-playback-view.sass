@@ -158,13 +158,40 @@
         // Don't load jQuery UI background image here
         background: transparent none
 
-// AI chat icon (LevelChatView) sits absolutely at bottom-left over the playback bar,
-// ending at ~x59px incl. hover scale; shift the timeline start clear of it.
+// AI chat icon (LevelChatView) is re-parented onto this bar so it follows the
+// timeline in every layout; play button and scrubber start shift clear of it.
+#playback-view .ai-helper-chat-icon
+  position: absolute
+  left: 16px
+  top: 23px  // centers the 24px icon on the scrubber's vertical middle (y35)
+  line-height: 0  // no inline baseline gap: button is exactly the img's 24px
+  display: none
+  cursor: pointer
+  transition: transform 0.2s ease-in-out
+  pointer-events: auto  // clickable even when .controls-disabled cuts bar input
+  background: none
+  border: none
+  padding: 0
+  margin: 0
+  outline: none
+  // Counter the generic "#playback-view button" opacity/hover-background rules
+  @include opacity(1)
+  &:hover
+    background: none
+    transform: scale(1.1)
+  &:focus
+    outline: none
+  img
+    display: block
+    width: 24px
+    height: 24px
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))
+
 #level-view.ai-chat-icon-shown #playback-view
   #play-button
-    margin-left: 65px
+    margin-left: 46px
   .scrubber
-    left: 115px
+    left: 100px
 
 body.ipad #playback-view
   // Counteract 50px height of absolutely positioned control bar, but overlap by 20px of jagged transparent top.

@@ -72,9 +72,16 @@ module.exports = class LevelChatView extends CocoView
     @chatTables = $('.table', @$el)
     #@updateMultiplayerVisibility()
     @$el.toggle @visible
-    @$('.ai-helper-chat-icon').toggle @visible
-    # Playback timeline makes room for the chat icon so they don't overlap
-    @$el.closest('#level-view').toggleClass 'ai-chat-icon-shown', @visible
+    @$aiIcon?.remove()  # previous render may have re-parented it outside @$el
+    @$aiIcon = @$('.ai-helper-chat-icon')
+    @$aiIcon.toggle @visible
+    # Move the icon onto the playback bar so it tracks the timeline in every
+    # layout; delegated events don't reach it there, so bind click directly.
+    playbackView = @$el.closest('#level-view').find('#playback-view')
+    onPlaybackBar = @visible and playbackView.length > 0
+    if onPlaybackBar
+      @$aiIcon.appendTo(playbackView).on 'click', (e) => @onAIHelperChatClick(e)
+    @$el.closest('#level-view').toggleClass 'ai-chat-icon-shown', onPlaybackBar
     @onWindowResize {}
 
   regularlyClearOldMessages: ->
@@ -511,5 +518,6 @@ module.exports = class LevelChatView extends CocoView
     key.deleteScope('level')
     clearInterval @clearOldMessagesInterval if @clearOldMessagesInterval
     $(window).off 'resize', @onWindowResize
+    @$aiIcon?.remove()
     @$el.closest('#level-view').removeClass 'ai-chat-icon-shown'
     super()
