@@ -5499,6 +5499,9 @@ module.exports = {
       aileague_continue_desc: 'Battle to win prizes',
       hackstack_continue_title: 'Continue building',
       hackstack_continue_desc: 'Vibe code something amazing',
+      codecombat_desc_template: '__levels__/__total__ levels in the __name__',
+      aileague_desc_template: 'Ranking __myRank__ in the __name__',
+      hs_desc_template: '__levels__/__total__ levels in the __name__',
     },
 
     form_validation_errors: {

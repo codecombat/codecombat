@@ -99,8 +99,7 @@ export default {
         hackstack: '/images/pages/hackstack/ai-hs-icon.webp',
         aileague: '/images/pages/league/logo_badge.png',
       },
-      statMap: {
-      },
+      statMap: {},
     }
   },
   computed: {
@@ -111,36 +110,42 @@ export default {
   watch: {
     cocoProgress () {
       if (Object.values(this.cocoProgress).length) {
-        const { levels, total, campaign } = this.cocoProgress
+        const { levels, total, campaign, campaignName } = this.cocoProgress
         this.$set(this.statMap, 'codecombat', {
           product: 'codecombat',
-          displayName: 'CodeCombat',
+          displayName: $.i18n.t('schools_page.codecombat'),
           progress: levels / total,
-          desc: `${levels}/${total} in the ${campaign}`,
+          desc: $.i18n.t('payments.codecombat_desc_template', {
+            levels, total, name: campaignName || campaign,
+          }),
           next: `/play/${campaign}`,
         })
       }
     },
     aileagueProgress () {
       if (Object.values(this.aileagueProgress).length) {
-        const { myRank, total, slug } = this.aileagueProgress
+        const { myRank, total, slug, name } = this.aileagueProgress
         this.$set(this.statMap, 'aileague', {
           product: 'aileague',
-          displayName: 'AI League',
+          displayName: $.i18n.t('schools_page.ai_league'),
           progress: (total > 1) ? ((total - myRank) / (total - 1)) : 1,
-          desc: `Ranking #${myRank} in the ${slug}`,
+          desc: $.i18n.t('payments.aileague_desc_template', {
+            myRank, name: name || slug,
+          }),
           next: `/play/ladder/${slug}`,
         })
       }
     },
     hsProgress () {
       if (Object.values(this.hsProgress).length) {
-        const { levels, total, campaign } = this.hsProgress
+        const { levels, total, campaign, campaignName } = this.hsProgress
         this.$set(this.statMap, 'hackstack', {
           product: 'hackstack',
-          displayName: 'AI Hackstack',
+          displayName: $.i18n.t('schools_page.ai_hackstack'),
           progress: levels / total,
-          desc: `${levels}/${total} levels in the ${campaign}`,
+          desc: $.i18n.t('payments.hs_desc_template', {
+            levels, total, name: campaignName || campaign,
+          }),
           next: `/ai/play/${campaign}`,
         })
       }

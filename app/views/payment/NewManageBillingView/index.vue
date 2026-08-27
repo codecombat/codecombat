@@ -24,6 +24,8 @@ import YourProgress from './YourProgress'
 import usersApi from 'core/api/users'
 import levelSessionApi from 'core/api/level-sessions'
 import utils from 'core/utils'
+import campaignsApi from 'core/api/campaigns'
+import levelsApi from 'core/api/levels'
 const leaderboardApi = require('core/api/leaderboard')
 
 const cocoCampaignIndexMap = new Map(
@@ -41,6 +43,7 @@ export default {
   },
   data () {
     return {
+      campaigns: [],
       hsStats: {},
       cocoStats: {},
       aileagueStats: {},
@@ -60,8 +63,10 @@ export default {
         acc[item._id.codeLanguage] = item.levels
         return acc
       }, {})
+      const campaign = this.campaigns.find(c => c.slug === latestCampaign)
       return {
         campaign: latestCampaign,
+        campaignName: utils.i18n(campaign, 'fullName'),
         total: this.cocoStats?.campaignAllLevels?.[latestCampaign],
         levels: Math.max(...Object.values(maxStats)),
       }
@@ -76,14 +81,21 @@ export default {
       }
       const latestCampaign = utils.orderedHSCampaignSlugs[maxIdx]
       const maxStats = this.hsStats?.progress?.find(c => c._id.campaign === latestCampaign)
+      const campaign = this.campaigns.find(c => c.slug === latestCampaign)
       return {
         campaign: latestCampaign,
+        campaignName: utils.i18n(campaign, 'fullName'),
         total: this.hsStats?.campaignAllLevels[latestCampaign],
         levels: maxStats.levels,
       }
     },
   },
-  mounted () {
+  async mounted () {
+    this.campaigns = await campaignsApi.getAll({
+      data: {
+        project: 'slug,name,fullName,i18n',
+      },
+    })
     this.fetchProgress()
     this.fetchAILeagueStats()
   },
@@ -102,6 +114,11 @@ export default {
         return
       }
       const arena = arenas[0]
+      const level = await levelsApi.getByIdOrSlug(arena.slug, {
+        data: {
+          project: 'name, i18n',
+        },
+      })
       const total = await leaderboardApi.getLeaderboardPlayerCount(arena.levelOriginal)
       const sessions = await levelSessionApi.fetchMySessions(arena.slug)
       if (!sessions?.length) {
@@ -112,6 +129,7 @@ export default {
         slug: arena.slug,
         total: parseInt(total),
         myRank: parseInt(mine),
+        name: utils.i18n(level, 'name'),
       }
     },
   },
