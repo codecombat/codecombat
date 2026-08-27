@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'الإنجازات',
       settings: 'الإعدادات',
-      poll: 'تصويت',
       next: 'التالي',
       change_hero: 'تغيير البطل',
       change_hero_or_language: 'تغيير البطل او اللغه',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '[AI_TRANSLATION](الجهاز غير مطلوب). هذا النشاط من Alexa مقدم من',
       future_eng_4: '[AI_TRANSLATION]مهندس أمازون المستقبلي',
       future_eng_5: '[AI_TRANSLATION]برنامج يخلق فرص التعليم والعمل لجميع طلاب K-12 في الولايات المتحدة الراغبين في متابعة علوم الكمبيوتر.',
-    },
-
-    live_class: {
-      title: '[AI_TRANSLATION]شكرًا لك!',
-      content: '[AI_TRANSLATION]رائع! لقد أطلقنا للتو دروساً حية على الإنترنت.',
-      link: '[AI_TRANSLATION]جاهز للتقدم في مهارات البرمجة؟',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]رائع!\n',
-      join_paragraph: '[AI_TRANSLATION]انضم لأكبر بطولة برمجة دولية للـ Python AI لجميع الأعمار وتنافس لتصدر لوحة المتصدرين! تبدأ المعركة العالمية هذا الشهر في الأول من أغسطس وتشمل جوائز بقيمة $5K وحفل توزيع جوائز افتراضي حيث سنعلن عن الفائزين ونعترف بمهاراتك البرمجية.',
-      link: '[AI_TRANSLATION]انقر هنا للتسجيل ومعرفة المزيد',
-      global_tournament: '[AI_TRANSLATION]البطولة العالمية',
-      register: '[AI_TRANSLATION]تسجيل',
-      date: '[AI_TRANSLATION]١ أغسطس - ٣١ أغسطس',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: '[AI_TRANSLATION]محرر المراحل',
       course_title: '[AI_TRANSLATION]محرر الدورة',
       achievement_title: '[AI_TRANSLATION]محرر الإنجازات',
-      poll_title: '[AI_TRANSLATION]محرر الاستطلاع',
       resource_title: '[AI_TRANSLATION]محرر الموارد',
       chat_title: '[AI_TRANSLATION]محرر الدردشة',
       ai_scenario_title: '[AI_TRANSLATION]محرر سيناريوهات الذكاء الاصطناعي',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: '[AI_TRANSLATION]تسجيل الدخول لإنشاء مستوى جديد',
       new_achievement_title: '[AI_TRANSLATION]أنشئ إنجازًا جديدًا',
       new_achievement_title_login: '[AI_TRANSLATION]سجل الدخول لإنشاء إنجاز جديد',
-      new_poll_title: '[AI_TRANSLATION]أنشئ استطلاع جديد',
-      new_poll_title_login: '[AI_TRANSLATION]سجل الدخول لإنشاء استفتاء جديد',
       new_course_title: '[AI_TRANSLATION]أنشئ دورة جديدة',
       new_course_title_login: '[AI_TRANSLATION]تسجيل الدخول لإنشاء دورة جديدة',
       new_resource_title: '[AI_TRANSLATION]أنشئ مورد جديد',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: '[AI_TRANSLATION]ابحث عن أنواع Thang هنا',
       level_search_title: '[AI_TRANSLATION]ابحث عن مستويات هنا',
       achievement_search_title: '[AI_TRANSLATION]بحث عن الإنجازات',
-      poll_search_title: '[AI_TRANSLATION]استعراض استطلاعات الرأي',
       course_search_title: '[AI_TRANSLATION]ابحث عن الدورات',
       resource_search_title: '[AI_TRANSLATION]بحث الموارد',
       chat_search_title: '[AI_TRANSLATION]بحث في المحادثات',

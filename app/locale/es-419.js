@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Logros',
       settings: 'Configuración',
-      poll: 'Encuestas',
       next: 'Próximo',
       change_hero: 'Cambiar héroe',
       change_hero_or_language: 'Cambiar héroe o lenguaje',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '(No se requiere dispositivo). Esta actividad de Alexa es traída a ti por el',
       future_eng_4: 'Amazon Future Engineer',
       future_eng_5: 'programa que crea oportunidades de aprendizaje y trabajo para todos los estudiantes de K-12 en los Estados Unidos que desean dedicarse a Ciencias de la Computación.',
-    },
-
-    live_class: {
-      title: 'Gracias!',
-      content: '¡Increíble! Acabamos de lanzar clases en línea en vivo.',
-      link: '¿Listo para salir adelante en tu codificación?',
-    },
-
-    code_quest: {
-      great: '¡Excelente!',
-      join_paragraph: '¡Únete al torneo internacional de codificación Python AI más grande para todas las edades y compite por la cima de la clasificación! Esta batalla global de un mes comienza el 1 de agosto e incluye premios por valor de $ 5,000 y una ceremonia de premios virtual donde anunciaremos a los ganadores y reconoceremos sus habilidades de codificación.',
-      link: 'Haga clic aquí para registrarse y obtener más información',
-      global_tournament: 'Torneo global',
-      register: 'Registrarse',
-      date: '1 ago - 31 ago',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: 'Editor de Nivel',
       course_title: 'Editor de Curso',
       achievement_title: 'Editor de logros',
-      poll_title: 'Editor de Encuesta',
       resource_title: 'Editor de recursos',
       chat_title: '[AI_TRANSLATION]Editor de Chat',
       ai_scenario_title: '[AI_TRANSLATION]Editor de Escenarios IA',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: 'Ingresa para Crear un Nuevo Nivel',
       new_achievement_title: 'Crear un Nuevo Logro',
       new_achievement_title_login: 'Ingresa para Crear un Nuevo Logro',
-      new_poll_title: 'Crear una nueva encuesta',
-      new_poll_title_login: 'Ingresa para crear una nueva encuesta',
       new_course_title: 'Crear un nuevo curso',
       new_course_title_login: 'Inicia sesión para crear un nuevo curso',
       new_resource_title: 'Crear un nuevo recurso',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: 'Buscar tipos de Tiliche aquí',
       level_search_title: 'Buscar Niveles aquí',
       achievement_search_title: 'Buscar logros',
-      poll_search_title: 'Buscar Encuesta',
       course_search_title: 'Buscar cursos',
       resource_search_title: 'Buscar recursos',
       chat_search_title: '[AI_TRANSLATION]Buscar chats',

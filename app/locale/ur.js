@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: '[AI_TRANSLATION]کامیابیاں',
       settings: '[AI_TRANSLATION]ترتیبات',
-      poll: '[AI_TRANSLATION]پول',
       next: '[AI_TRANSLATION]اگلا',
       change_hero: '[AI_TRANSLATION]ہیرو کو تبدیل کرو',
       change_hero_or_language: '[AI_TRANSLATION]ہیرو یا زبان تبدیل کریں۔',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '[AI_TRANSLATION](ڈوائسس کی ضرورت نہیں ہے)۔ یہ الیکسا سرگرمی آپ کے لیے پیش کی گئی ہے بذریعہ',
       future_eng_4: '[AI_TRANSLATION]Amazon Future Engineer',
       future_eng_5: '[AI_TRANSLATION]ایک پروگرام جو کمپیوٹر سائنس کا تعاقب کرنے کے خواہاں تمام K-12 طلباء کے لئے سیکھنے اور کام کرنے کے مواقع پیدا کرتا ہے۔',
-    },
-
-    live_class: {
-      title: '[AI_TRANSLATION]شکریہ!  ',
-      content: '[AI_TRANSLATION]حیرت انگیز! ہم نے ابھی ابھی آن لائن براہ راست کلاسز شروع کی ہیں۔',
-      link: '[AI_TRANSLATION]کیا کوڈنگ میں آگے بڑھنے کے لیے تیار ہو؟',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]زبردست!',
-      join_paragraph: '[AI_TRANSLATION]سب کے لئے بڑا انٹرنیشنل پائیتھون اے آئی کوڈنگ ٹورنامنٹ جوائن کریں اور لیڈربورڈ کی چوٹی کے لئے مقابلہ کریں! یہ مہینے کا عالمی لڑائی 1 اگست سے شروع ہوتی ہے اور اس میں $5k کے انعامات اور ایک ورچوئل ایوارڈ تقریب شامل ہے جہاں ہم فاتحین کا اعلان کریں گے اور آپ کی کوڈنگ مہارت کو تسلیم کریں گے۔',
-      link: '[AI_TRANSLATION]رجسٹر ہونے اور مزید جاننے کے لیے یہاں کلک کریں۔',
-      global_tournament: '[AI_TRANSLATION]عالمی ٹورنامنٹ',
-      register: '[AI_TRANSLATION]رجسٹر کریں',
-      date: '[AI_TRANSLATION]1 اگست - 31 اگست\n',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: '[AI_TRANSLATION]لیول ایڈیٹر',
       course_title: '[AI_TRANSLATION]کورس ایڈیٹر',
       achievement_title: '[AI_TRANSLATION]کامیابی ایڈیٹر',
-      poll_title: '[AI_TRANSLATION]پول ایڈیٹر',
       resource_title: '[AI_TRANSLATION]ریسورس ایڈیٹر  ',
       chat_title: '[AI_TRANSLATION]چیٹ ایڈیٹر',
       ai_scenario_title: '[AI_TRANSLATION]AI منظر نامہ ایڈیٹر',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: '[AI_TRANSLATION]نئے لیول بنانے کے لیے لاگ ان کریں',
       new_achievement_title: '[AI_TRANSLATION]ایک نیا حصول پیدا کریں',
       new_achievement_title_login: '[AI_TRANSLATION]نیا کارنامہ بنانے کے لیے لاگ ان کریں  ',
-      new_poll_title: '[AI_TRANSLATION]نیا پول بنائیں',
-      new_poll_title_login: '[AI_TRANSLATION]نیا پول بنانے کے لیے لاگ ان کریں',
       new_course_title: '[AI_TRANSLATION]ایک نیا کورس بنائیں',
       new_course_title_login: '[AI_TRANSLATION]ایک نیا کورس بنانے کے لیے لاگ ان کریں',
       new_resource_title: '[AI_TRANSLATION]ایک نیا وسیلہ بنائیں۔',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: '[AI_TRANSLATION]تھینگ اقسام یہاں تلاش کریں',
       level_search_title: '[AI_TRANSLATION]یہاں لیولز ڈھونڈیں',
       achievement_search_title: '[AI_TRANSLATION]اچیومینٹس تلاش کریں',
-      poll_search_title: '[AI_TRANSLATION]پولز تلاش کریں',
       course_search_title: '[AI_TRANSLATION]کورسز تلاش کریں',
       resource_search_title: '[AI_TRANSLATION]وسائل تلاش کریں',
       chat_search_title: '[AI_TRANSLATION]چیٹ میں تلاش کرو',

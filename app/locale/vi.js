@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Thành Tích',
       settings: 'Tùy Chỉnh',
-      poll: 'Bỏ phiếu',
       next: 'Tiếp',
       change_hero: 'Đổi Tướng',
       change_hero_or_language: 'Đổi nhân vật hoặc ngôn ngữ lập trình',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '[AI_TRANSLATION](thiết bị không bắt buộc). Hoạt động Alexa này được mang lại bởi',
       future_eng_4: '[AI_TRANSLATION]Kỹ Sư Tương Lai của Amazon',
       future_eng_5: '[AI_TRANSLATION]chương trình tạo cơ hội học tập và làm việc cho tất cả học sinh K-12 ở Hoa Kỳ muốn theo đuổi khoa học máy tính.',
-    },
-
-    live_class: {
-      title: '[AI_TRANSLATION]Cảm ơn bạn!',
-      content: '[AI_TRANSLATION]Tuyệt vời! Chúng tôi vừa ra mắt các lớp học trực tuyến.',
-      link: '[AI_TRANSLATION]Sẵn sàng để tiến lên trong việc lập trình chưa?',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]Tuyệt vời!',
-      join_paragraph: '[AI_TRANSLATION]Tham gia giải đấu lập trình AI Python quốc tế lớn nhất cho mọi lứa tuổi và cạnh tranh để đứng đầu bảng xếp hạng! Trận chiến toàn cầu kéo dài suốt tháng bắt đầu từ ngày 1 tháng 8 và bao gồm giải thưởng trị giá 5k USD và một buổi lễ trao giải ảo nơi chúng tôi sẽ công bố người chiến thắng và ghi nhận kỹ năng lập trình của bạn.',
-      link: '[AI_TRANSLATION]Bấm vào đây để đăng ký và tìm hiểu thêm',
-      global_tournament: '[AI_TRANSLATION]Giải đấu toàn cầu',
-      register: '[AI_TRANSLATION]Đăng Ký',
-      date: '[AI_TRANSLATION]1 Thg 8 - 31 Thg 8',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: '[AI_TRANSLATION]Trình chỉnh sửa cấp độ',
       course_title: '[AI_TRANSLATION]Trình chỉnh sửa khoá học',
       achievement_title: '[AI_TRANSLATION]Trình Chỉnh Sửa Thành Tích',
-      poll_title: '[AI_TRANSLATION]Trình chỉnh sửa bình chọn',
       resource_title: '[AI_TRANSLATION]Trình chỉnh sửa tài nguyên',
       chat_title: '[AI_TRANSLATION]Trình chỉnh sửa trò chuyện',
       ai_scenario_title: '[AI_TRANSLATION]Trình soạn thảo kịch bản AI',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: '[AI_TRANSLATION]Đăng Nhập để Tạo Cấp Độ Mới',
       new_achievement_title: '[AI_TRANSLATION]Tạo Một Thành Tựu Mới',
       new_achievement_title_login: '[AI_TRANSLATION]Đăng Nhập để Tạo Thành Tích Mới',
-      new_poll_title: '[AI_TRANSLATION]Tạo Cuộc Khảo Sát Mới',
-      new_poll_title_login: '[AI_TRANSLATION]Đăng Nhập để Tạo Bình Chọn Mới',
       new_course_title: '[AI_TRANSLATION]Tạo Khóa Học Mới',
       new_course_title_login: '[AI_TRANSLATION]Đăng nhập để tạo khóa học mới',
       new_resource_title: '[AI_TRANSLATION]Tạo một Tài nguyên Mới',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: '[AI_TRANSLATION]Tìm Kiếm Kiểu Thang Ở Đây',
       level_search_title: '[AI_TRANSLATION]Tìm cấp độ ở đây',
       achievement_search_title: '[AI_TRANSLATION]Tìm Kiếm Thành Tích',
-      poll_search_title: '[AI_TRANSLATION]Tìm kiếm Khảo sát',
       course_search_title: '[AI_TRANSLATION]Tìm kiếm Khóa học',
       resource_search_title: '[AI_TRANSLATION]Tìm kiếm Tài nguyên',
       chat_search_title: '[AI_TRANSLATION]Tìm Kiếm Cuộc Trò Chuyện',

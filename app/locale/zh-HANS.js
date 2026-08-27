@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: '成就',
       settings: '设置',
-      poll: '投票',
       next: '下一页',
       change_hero: '重新选择英雄',
       change_hero_or_language: '切换英雄或者语言',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '(不需要设备)。这个 Alexa 活动是由',
       future_eng_4: '亚马逊未来的工程师',
       future_eng_5: '计划带来的，该计划为全球所有希望从事计算机科学的 K-12 学生创造学习和工作机会。',
-    },
-
-    live_class: {
-      title: '谢谢你！',
-      content: '太棒了! 我们刚刚推出了在线直播课程。',
-      link: '准备好在编码上领先一步了吗？',
-    },
-
-    code_quest: {
-      great: '很好！',
-      join_paragraph: '加入最大规模的国际 Python 人工智能编码锦标赛，争夺排行榜的冠军! 这场为期一个月的全球战役从 8 月 1 日开始，包括价值 5 千美元的奖金和一个虚拟的颁奖典礼，我们将宣布获奖者并表彰你的编码技能。',
-      link: '点击这里注册并了解更多',
-      global_tournament: '全球锦标赛',
-      register: '注册',
-      date: '8月1日 - 8月31日',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: '关卡编辑器',
       course_title: '课程编辑器',
       achievement_title: '目标编辑器',
-      poll_title: '调查编辑器',
       resource_title: '[AI_TRANSLATION]资源编辑器',
       chat_title: '[AI_TRANSLATION]聊天编辑器',
       ai_scenario_title: '[AI_TRANSLATION]AI Scenario Editor',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: '登录以创建新关卡',
       new_achievement_title: '创建新目标',
       new_achievement_title_login: '登录以创建新目标',
-      new_poll_title: '创建新调查',
-      new_poll_title_login: '登陆以创建新调查',
       new_course_title: '[AI_TRANSLATION]创建一个新课程',
       new_course_title_login: '[AI_TRANSLATION]登录以创建新课程',
       new_resource_title: '[AI_TRANSLATION]创建一个新资源',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: '在这里搜索物品类型',
       level_search_title: '在这里搜索关卡',
       achievement_search_title: '搜索目标',
-      poll_search_title: '搜寻投票',
       course_search_title: '[AI_TRANSLATION]搜索课程',
       resource_search_title: '[AI_TRANSLATION]搜索资源',
       chat_search_title: '[AI_TRANSLATION]搜索聊天',
