@@ -75,6 +75,7 @@ module.exports = (ThangType = (function () {
       super.initialize()
       this.building = {}
       this.spriteSheets = {}
+      this.on('change:raw', this.clearRasterRawCaches, this)
       if (utils.showOzaria()) {
         this.textureAtlases = new Map()
 
@@ -108,6 +109,7 @@ module.exports = (ThangType = (function () {
       this.buildActions()
       this.spriteSheets = {}
       this.building = {}
+      this.clearRasterRawCaches() // editor mutates raw in place, so change:raw alone isn't enough
     }
 
     isFullyLoaded () {
@@ -136,6 +138,84 @@ module.exports = (ThangType = (function () {
         this.trigger('raster-image-load-errored', this)
         return this.rasterImage.off('load')
       })
+    }
+
+    // Raster raw assets: images referenced from raw.containers[*].img and
+    // raw.animations[*].rasterSheet. These must be loaded before a spritesheet
+    // build can rasterize them (an unloaded Bitmap has no bounds and its frame
+    // is silently dropped by createjs.SpriteSheetBuilder).
+
+    getRasterRawAssetPaths () {
+      // Memoized: called per lank add and per spritesheet rebuild, and the
+      // answer is a constant [] for every vector-only thang. Invalidated in
+      // clearRasterRawCaches (change:raw + resetSpriteSheetCache).
+      if (this._rasterRawAssetPaths != null) { return this._rasterRawAssetPaths }
+      const raw = this.get('raw')
+      if (!raw) { return [] }
+      const paths = []
+      for (const container of _.values(raw.containers || {})) {
+        if (container.img) { paths.push(container.img) }
+      }
+      for (const animation of _.values(raw.animations || {})) {
+        if (animation.rasterSheet) { paths.push(animation.rasterSheet) }
+      }
+      this._rasterRawAssetPaths = _.uniq(paths)
+      return this._rasterRawAssetPaths
+    }
+
+    hasRasterRawAssets () {
+      return this.getRasterRawAssetPaths().length > 0
+    }
+
+    getRasterRawImage (path) {
+      return this.rasterRawImages != null ? this.rasterRawImages[path] : undefined
+    }
+
+    hasRasterAnimations () {
+      if (this._hasRasterAnimations != null) { return this._hasRasterAnimations }
+      const raw = this.get('raw')
+      if (!raw) { return false }
+      this._hasRasterAnimations = _.some(raw.animations || {}, animation => animation.rasterSheet)
+      return this._hasRasterAnimations
+    }
+
+    clearRasterRawCaches () {
+      this._rasterRawAssetPaths = null
+      this._hasRasterAnimations = null
+    }
+
+    rasterRawImagesLoaded () {
+      if (!_.isEmpty(this.loadingRasterRawPaths)) { return false }
+      return _.every(this.getRasterRawAssetPaths(), path => {
+        return (this.rasterRawImages != null ? this.rasterRawImages[path] : undefined) || (this.failedRasterRawPaths != null ? this.failedRasterRawPaths[path] : undefined)
+      })
+    }
+
+    loadRasterRawImages () {
+      if (this.rasterRawImages == null) { this.rasterRawImages = {} }
+      if (this.loadingRasterRawPaths == null) { this.loadingRasterRawPaths = {} }
+      if (this.failedRasterRawPaths == null) { this.failedRasterRawPaths = {} }
+      const toLoad = this.getRasterRawAssetPaths().filter(path => !this.rasterRawImages[path] && !this.loadingRasterRawPaths[path])
+      for (const path of toLoad) {
+        this.loadingRasterRawPaths[path] = true
+        const img = new Image()
+        img.crossOrigin = 'Anonymous'
+        const settle = () => {
+          delete this.loadingRasterRawPaths[path]
+          if (_.isEmpty(this.loadingRasterRawPaths)) { this.trigger('raster-raw-images-loaded', this) }
+        }
+        img.onload = () => {
+          this.rasterRawImages[path] = img
+          settle()
+        }
+        img.onerror = event => {
+          console.error('Failed to load raster raw image', path, event)
+          this.failedRasterRawPaths[path] = true
+          this.trigger('raster-raw-images-load-errored', this, path)
+          settle()
+        }
+        img.src = `/file/${path}`
+      }
     }
 
     getActions () {
@@ -183,6 +263,15 @@ module.exports = (ThangType = (function () {
       const ss = this.spriteSheets[key]
       if (!this.isFullyLoaded() || !this.get('raw')) { return false }
       if (ss) { return ss }
+      if (this.hasRasterRawAssets() && !this.rasterRawImagesLoaded()) {
+        // Building now would silently drop raster frames (unloaded Bitmaps
+        // have no bounds). Load first; clearing the cache on arrival lets the
+        // next build attempt succeed. Portrait paths reach here without any
+        // LayerAdapter having loaded the images.
+        this.loadRasterRawImages()
+        this.listenToOnce(this, 'raster-raw-images-loaded', this.resetSpriteSheetCache)
+        return false
+      }
       if (this.building[key]) {
         this.options = null
         return key
@@ -214,6 +303,7 @@ module.exports = (ThangType = (function () {
       const rect = new createjs.Rectangle(((pt != null ? pt.x : undefined) / scale) || 0, ((pt != null ? pt.y : undefined) / scale) || 0, 100 / scale, 100 / scale)
       if (portrait.animation) {
         const mc = this.vectorParser.buildMovieClip(portrait.animation)
+        if (!mc) { return } // e.g. raster sheet not loaded yet
         mc.nominalBounds = (mc.frameBounds = null) // override what the movie clip says on bounding
         this.builder.addMovieClip(mc, rect, scale)
         let { frames } = this.builder._animations[portrait.animation]
@@ -221,6 +311,7 @@ module.exports = (ThangType = (function () {
         return this.builder.addAnimation('portrait', frames, true)
       } else if (portrait.container) {
         const s = this.vectorParser.buildContainerFromStore(portrait.container)
+        if (!s) { return } // e.g. raster image not loaded yet
         const frame = this.builder.addFrame(s, rect, scale)
         return this.builder.addAnimation('portrait', [frame], false)
       }
@@ -298,7 +389,14 @@ module.exports = (ThangType = (function () {
     }
 
     finishBuild () {
-      if (_.isEmpty(this.builder._animations)) { return }
+      if (_.isEmpty(this.builder._animations)) {
+        // Nothing built (e.g. raster assets not loaded yet) — release the
+        // in-flight flag or this key would return the string key forever.
+        this.building[this.spriteSheetKey(this.options)] = false
+        this.builder = null
+        this.options = null
+        return
+      }
       const key = this.spriteSheetKey(this.options)
       let spriteSheet = null
       if (this.options.async) {
@@ -417,10 +515,11 @@ module.exports = (ThangType = (function () {
       const vectorParser = new SpriteBuilder(this, {})
       if (portrait.animation) {
         sprite = vectorParser.buildMovieClip(portrait.animation)
-        sprite.gotoAndStop(0)
+        if (sprite) { sprite.gotoAndStop(0) }
       } else if (portrait.container) {
         sprite = vectorParser.buildContainerFromStore(portrait.container)
       }
+      if (!sprite) { return } // e.g. raster asset not loaded yet
 
       const pt = portrait.positions != null ? portrait.positions.registration : undefined
       sprite.regX = ((pt != null ? pt.x : undefined) / scale) || 0
@@ -670,7 +769,9 @@ module.exports = (ThangType = (function () {
       const rawAnimation = this.get('raw').animations[animation]
       if (!rawAnimation) {
         console.error('thang type', this.get('name'), 'is missing animation', animation, 'from action', action)
+        return []
       }
+      if (rawAnimation.rasterSheet) { return [] } // raster animations have no vector containers
       let { containers } = rawAnimation
       for (animation of Array.from(this.get('raw').animations[animation].animations)) {
         containers = containers.concat(this.getContainersForAnimation(animation.gn, action))

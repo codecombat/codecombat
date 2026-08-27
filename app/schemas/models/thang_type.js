@@ -20,6 +20,7 @@ const ShapeObjectSchema = c.object({ title: 'Shape' }, {
 
 const ContainerObjectSchema = c.object({ format: 'container' }, {
   b: c.array({ title: 'Bounds' }, { type: 'number' }),
+  img: { type: 'string', format: 'image-file', title: 'Raster Image', description: 'Raster image file backing this container instead of vector children.' },
   c: c.array({ title: 'Children' }, {
     anyOf: [
       { type: 'string', title: 'Shape Child' },
@@ -34,6 +35,10 @@ const ContainerObjectSchema = c.object({ format: 'container' }, {
 const RawAnimationObjectSchema = c.object({}, {
   bounds: c.array({ title: 'Bounds' }, { type: 'number' }),
   frameBounds: c.array({ title: 'Frame Bounds' }, c.array({ title: 'Bounds' }, { type: 'number' })),
+  rasterSheet: { type: 'string', format: 'image-file', title: 'Raster Sheet', description: 'Packed spritesheet image backing this animation instead of vector tweens.' },
+  rasterFrames: c.array({ title: 'Raster Frames', description: 'Per-frame source rects in the raster sheet: [x, y, w, h, regX, regY].' },
+    c.array({ title: 'Frame' }, { type: 'number' })),
+  framerate: { type: 'number', title: 'Framerate', description: 'Playback framerate for raster frames.' },
   shapes: c.array({}, {
     bn: { type: 'string', title: 'Block Name' },
     gn: { type: 'string', title: 'Global Name' },

@@ -27,7 +27,8 @@ module.exports = class SingularSprite extends createjs.Sprite
     reg = action.positions?.registration or @thangType.get('positions')?.registration or {x:0, y:0}
 
     if action.animation
-      @framerate = (action.framerate ? 20) * (action.speed ? 1)
+      rawFramerate = @thangType.get('raw')?.animations?[action.animation]?.framerate  # raster sheets carry their import framerate
+      @framerate = (action.framerate ? rawFramerate ? 20) * (action.speed ? 1)
 
       func = if @paused then '_gotoAndStop' else '_gotoAndPlay'
       animationName = @spriteSheetPrefix + actionName
@@ -47,7 +48,7 @@ module.exports = class SingularSprite extends createjs.Sprite
         @regX = -reg.x * scale
         @regY = -reg.y * scale
         @scaleX = @scaleY = 1 / @resolutionFactor
-        @framerate = action.framerate or 20
+        @framerate = (action.framerate ? rawFramerate ? 20) * (action.speed ? 1)
         if randomStart and frames = @spriteSheet.getAnimation(animationName)?.frames
           @currentAnimationFrame = Math.floor(Math.random() * frames.length)
 
