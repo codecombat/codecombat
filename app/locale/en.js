@@ -6619,7 +6619,7 @@ module.exports = {
       'AlternatePromptChoicesForm_save-choices': 'Save Choices',
       App_alt: '',
       App_loading: 'Loading...',
-      'ChatInputForm_enter-your-prompt-here': 'Tell HackStack what to do…',
+      'ChatInputForm_enter-your-prompt-here': 'Tell HackStack what to do…', // {change}
       'ChatLayout_tw-fixed-tw-inset-0-tw-z-30-tw-bg-black5': 'tw-fixed tw-inset-0 tw-z-30 tw-bg-black/50 tw-transition-opacity tw-duration-300 tw-ease-in-out md:tw-hidden',
       'ChatMessage_are-you-sure-you-want-to-delete-this-mes': 'Are you sure you want to Delete this Message?',
       ChatMessage_delete: 'Delete',
