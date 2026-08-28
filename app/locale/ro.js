@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Realizări',
       settings: 'Setări',
-      poll: 'Sondaj',
       next: 'Următorul',
       change_hero: 'Schimbă eroul',
       change_hero_or_language: 'Schimbă eroul sau limba',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '(echipamentul nu este necesar). Această activitate cu Alexa este prezentată de',
       future_eng_4: 'Amazon Future Engineer (Viitorii Ingineri Amazon)',
       future_eng_5: 'un program care creează oportunități pentru învățare și munncă pentru toți elevii K-12 din Statele Unite care doresc să urmeze o cariere în informatică.',
-    },
-
-    live_class: {
-      title: 'Mulțumesc!',
-      content: 'Uimitor! Tocmai am lansat clase on-line în timp real.',
-      link: 'Ești pregătit să mergi mai departe cu programarea?',
-    },
-
-    code_quest: {
-      great: 'Minunat!',
-      join_paragraph: 'Alătură-te celui mai mare turneu internațional de programare Python AI pentru toate vârstele și concurează pentru a ajunge în vârful tabelei de scor! Această bătălie globală de o lună, începe pe 1 August și include premii în valoare de $5k și o ceremonie virtuală de decernare a premiilor unde vom anunța câștigătorii și vom recunoaște abilitățile voastre de a scrie cod.',
-      link: 'Apasă aici pentru înregistrare și mai multe detalii',
-      global_tournament: 'Turneu global',
-      register: 'Înregistrare',
-      date: '1 Aug - 31 Aug',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: 'Editor Nivele',
       //    course_title: "Course Editor",
       achievement_title: 'Editor Achievement',
-      poll_title: 'Editor Sondaje',
       //    resource_title: "Resource Editor",
       //    chat_title: "Chat Editor",
       //    ai_scenario_title: "AI Scenario Editor",
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: 'Loghează-te pentru a crea un Nivel Nou',
       new_achievement_title: 'Crează un Achivement Nou',
       new_achievement_title_login: 'Loghează-te pentru a crea un Achivement Nou',
-      new_poll_title: 'Crează un Sondaj Nou',
-      new_poll_title_login: 'Loghează-te pentru a crea un Sondaj Nou',
       //    new_course_title: "Create a New Course",
       //    new_course_title_login: "Log In to Create a New Course",
       //    new_resource_title: "Create a New Resource",
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: 'Caută tipuri de Thang aici',
       level_search_title: 'Caută nivele aici',
       achievement_search_title: 'Caută Achievements',
-      poll_search_title: 'Caută Sondaje',
       //    course_search_title: "Search Courses",
       //    resource_search_title: "Search Resources",
       //    chat_search_title: "Search Chats",

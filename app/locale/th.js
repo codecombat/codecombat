@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'ความสำเร็จ',
       settings: 'ตั้งค่า',
-      poll: '[AI_TRANSLATION]การสำรวจความคิดเห็น',
       next: 'ต่อไป',
       change_hero: '[AI_TRANSLATION]เปลี่ยนฮีโร่',
       change_hero_or_language: '[AI_TRANSLATION]เปลี่ยนฮีโร่หรือภาษา',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '[AI_TRANSLATION](อุปกรณ์ไม่จำเป็น) กิจกรรม Alexa นี้ มีให้โดย  ',
       future_eng_4: '[AI_TRANSLATION]Amazon Future Engineer',
       future_eng_5: '[AI_TRANSLATION]โปรแกรมที่สร้างโอกาสในการเรียนรู้และทำงานสำหรับนักเรียน K-12 ทุกคนในสหรัฐอเมริกาที่ต้องการศึกษาวิทยาการคอมพิวเตอร์',
-    },
-
-    live_class: {
-      title: '[AI_TRANSLATION]ขอบคุณ!',
-      content: '[AI_TRANSLATION]น่าทึ่ง! เราเพิ่งเปิดคลาสออนไลน์สด',
-      link: '[AI_TRANSLATION]พร้อมที่จะก้าวหน้าในการเขียนโค้ดหรือยัง?',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]เยี่ยม!',
-      join_paragraph: '[AI_TRANSLATION]เข้าร่วมการแข่งขันเขียนโค้ด Python AI ระดับนานาชาติที่ใหญ่ที่สุดสำหรับทุกวัยและแข่งขันเพื่อเป็นที่หนึ่งในกระดานคะแนน! การต่อสู้ทั่วโลกเดือนนี้เริ่มต้นวันที่ 1 สิงหาคมและมีรางวัลมูลค่า $5k พร้อมพิธีมอบรางวัลออนไลน์ที่เราจะประกาศผู้ชนะและรับรู้ความสามารถในการเขียนโค้ดของคุณ',
-      link: '[AI_TRANSLATION]คลิกที่นี่เพื่อสมัครและเรียนรู้เพิ่มเติม',
-      global_tournament: '[AI_TRANSLATION]การแข่งขันทั่วโลก',
-      register: '[AI_TRANSLATION]ลงทะเบียน  ',
-      date: '[AI_TRANSLATION]1 ส.ค. - 31 ส.ค.',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: '[AI_TRANSLATION]ตัวแก้ไขระดับ',
       course_title: '[AI_TRANSLATION]ตัวแก้ไขคอร์ส',
       achievement_title: '[AI_TRANSLATION]ตัวแก้ไขการบรรลุผล',
-      poll_title: '[AI_TRANSLATION]ผู้แก้ไขโพล',
       resource_title: '[AI_TRANSLATION]แก้ไขแหล่งข้อมูล',
       chat_title: '[AI_TRANSLATION]แชทเอดิเตอร์',
       ai_scenario_title: '[AI_TRANSLATION]AI Scenario Editor',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: '[AI_TRANSLATION]ลงชื่อเข้าใช้เพื่อสร้างระดับใหม่',
       new_achievement_title: '[AI_TRANSLATION]สร้างความสำเร็จใหม่',
       new_achievement_title_login: '[AI_TRANSLATION]เข้าสู่ระบบเพื่อสร้างความสำเร็จใหม่',
-      new_poll_title: '[AI_TRANSLATION]สร้างโพลใหม่',
-      new_poll_title_login: '[AI_TRANSLATION]เข้าสู่ระบบเพื่อสร้างโพลใหม่',
       new_course_title: '[AI_TRANSLATION]สร้างหลักสูตรใหม่',
       new_course_title_login: '[AI_TRANSLATION]ล็อกอินเพื่อสร้างคอร์สใหม่',
       new_resource_title: '[AI_TRANSLATION]สร้างทรัพยากรใหม่',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: '[AI_TRANSLATION]ค้นหาประเภท Thang ที่นี่',
       level_search_title: '[AI_TRANSLATION]ค้นหาระดับที่นี่',
       achievement_search_title: '[AI_TRANSLATION]ค้นหาความสำเร็จ',
-      poll_search_title: '[AI_TRANSLATION]ค้นหาโพล',
       course_search_title: '[AI_TRANSLATION]ค้นหาคอร์ส  ',
       resource_search_title: '[AI_TRANSLATION]ค้นหาทรัพยากร',
       chat_search_title: '[AI_TRANSLATION]ค้นหาการสนทนา',

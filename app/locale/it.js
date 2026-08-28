@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Imprese',
       settings: 'Impostazioni',
-      poll: 'Sondaggio',
       next: 'Procedi',
       change_hero: 'Cambia eroe',
       change_hero_or_language: '[AI_TRANSLATION]Cambia Eroe o Lingua',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '[AI_TRANSLATION](il dispositivo non è richiesto). Questa attività Alexa è offerta da',
       future_eng_4: '[AI_TRANSLATION]Amazon Future Engineer',
       future_eng_5: '[AI_TRANSLATION]programma che crea opportunità di apprendimento e lavoro per tutti gli studenti K-12 negli Stati Uniti che desiderano studiare informatica.',
-    },
-
-    live_class: {
-      title: '[AI_TRANSLATION]Grazie!',
-      content: '[AI_TRANSLATION]Fantastico! Abbiamo appena lanciato le lezioni online in diretta.',
-      link: '[AI_TRANSLATION]Pronto a superare te stesso nel coding?',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]Grande!  ',
-      join_paragraph: '[AI_TRANSLATION]Partecipa al più grande torneo internazionale di codifica AI in Python per tutte le età e competi per il vertice della classifica! Questa battaglia globale di un mese inizia il 1° agosto e include premi per un valore di $5k e una cerimonia virtuale di premiazione dove annunceremo i vincitori e riconosceremo le tue abilità di coding.  ',
-      link: '[AI_TRANSLATION]Clicca qui per registrarti e saperne di più.',
-      global_tournament: '[AI_TRANSLATION]Torneo Globale  ',
-      register: '[AI_TRANSLATION]Registrati',
-      date: '[AI_TRANSLATION]1 Ago - 31 Ago',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: 'Modifica Livello',
       course_title: 'Modifica Corso',
       achievement_title: 'Editor imprese',
-      poll_title: 'Editor di sondaggi',
       resource_title: '[AI_TRANSLATION]Editor Risorse',
       chat_title: '[AI_TRANSLATION]Editor di Chat',
       ai_scenario_title: '[AI_TRANSLATION]Editor Scenari AI',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: 'Accedi per creare un nuovo livello',
       new_achievement_title: 'Crea una nuova Impresa',
       new_achievement_title_login: 'Accedi per creare una nuova Impresa',
-      new_poll_title: 'Crea un nuovo sondaggio',
-      new_poll_title_login: 'Accedi per creare un nuovo sondaggio',
       new_course_title: '[AI_TRANSLATION]Crea un Nuovo Corso  ',
       new_course_title_login: '[AI_TRANSLATION]Accedi per Creare un Nuovo Corso',
       new_resource_title: '[AI_TRANSLATION]Crea una nuova risorsa',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: 'Cerca tipi di Thang qui',
       level_search_title: 'Cerca livelli qui',
       achievement_search_title: 'Cerca Imprese',
-      poll_search_title: 'Cerca sondaggi',
       course_search_title: '[AI_TRANSLATION]Cerca corsi  ',
       resource_search_title: '[AI_TRANSLATION]Cerca Risorse',
       chat_search_title: '[AI_TRANSLATION]Cerca nelle chat',

@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: '成就',
       settings: '設定',
-      poll: '投票',
       next: '下一步',
       change_hero: '更換英雄',
       change_hero_or_language: '更換英雄 或 變更語言',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '[AI_TRANSLATION](设备不是必需)。此 Alexa 活动由以下机构提供:',
       future_eng_4: '[AI_TRANSLATION]亞馬遜未來工程師  ',
       future_eng_5: '[AI_TRANSLATION]為美國所有願意學習電腦科學的K-12學生創造學習和工作機會的項目。  ',
-    },
-
-    live_class: {
-      title: '[AI_TRANSLATION]謝謝你！  ',
-      content: '[AI_TRANSLATION]太棒了！我們剛剛推出了線上直播課程。  ',
-      link: '[AI_TRANSLATION]準備好在編碼上更進一步了嗎？',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]太棒了！  ',
-      join_paragraph: '[AI_TRANSLATION]加入最大型的國際 Python AI 編程錦標賽，無論年齡都可以參加，爭奪排行榜首位！這場為期一個月的全球戰鬥從 8 月 1 日開始，獎品總值 $5k，還有一次虛擬頒獎典禮，我們會在那裡宣布獲獎者並傳揚你的編程技能。\n',
-      link: '[AI_TRANSLATION]點擊此處註冊並了解更多',
-      global_tournament: '[AI_TRANSLATION]全球比賽',
-      register: '[AI_TRANSLATION]註冊',
-      date: '[AI_TRANSLATION]8月1日-8月31日',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: '關卡編輯器',
       course_title: '課程編輯器',
       achievement_title: '目標編輯器',
-      poll_title: '投票編輯器',
       resource_title: '資源編輯器',
       chat_title: '[AI_TRANSLATION]聊天編輯器',
       ai_scenario_title: '[AI_TRANSLATION]AI 情境編輯器',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: '登錄以建立新關卡',
       new_achievement_title: '建立新成就',
       new_achievement_title_login: '登錄以建立新成就',
-      new_poll_title: '創建一個新的投票',
-      new_poll_title_login: '登入去創建一個新的投票',
       new_course_title: '[AI_TRANSLATION]建立新課程',
       new_course_title_login: '[AI_TRANSLATION]登錄來創建新課程',
       new_resource_title: '[AI_TRANSLATION]建立新資源',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: '在這搜尋物體類型',
       level_search_title: '在這搜尋關卡',
       achievement_search_title: '搜尋成就',
-      poll_search_title: '搜尋投票',
       course_search_title: '[AI_TRANSLATION]搜尋課程',
       resource_search_title: '[AI_TRANSLATION]搜尋資源',
       chat_search_title: '[AI_TRANSLATION]搜尋聊天',

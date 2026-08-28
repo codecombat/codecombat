@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Úspěchy',
       settings: 'Nastavení',
-      poll: 'Hlasování',
       next: 'Další',
       change_hero: 'Změnit hrdinu',
       change_hero_or_language: 'Změnit hrdinu nebo jazyk',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '[AI_TRANSLATION](zařízení není vyžadováno). Tato aktivita Alexa je vám přinesena',
       future_eng_4: '[AI_TRANSLATION]Budoucí inženýr Amazonu',
       future_eng_5: '[AI_TRANSLATION]program, který vytváří učební a pracovní příležitosti pro všechny studenty K-12 ve Spojených státech, kteří chtějí studovat informatiku.',
-    },
-
-    live_class: {
-      title: '[AI_TRANSLATION]Děkuju!',
-      content: '[AI_TRANSLATION]Úžasné! Právě jsme spustili živé online třídy.',
-      link: '[AI_TRANSLATION]Připraven se zlepšit v kódování?',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]Skvělý!',
-      join_paragraph: '[AI_TRANSLATION]Připoj se k největšímu mezinárodnímu turnaji v Python AI programování pro všechny věkové kategorie a soutěž o první místo na žebříčku! Tato měsíční celosvětová bitva začíná 1. srpna a zahrnuje ceny v hodnotě $5k plus virtuální ceremoniál, kde oznámíme vítěze a oceníme tvé programátorské dovednosti.',
-      link: '[AI_TRANSLATION]Klikněte zde pro registraci a další informace',
-      global_tournament: '[AI_TRANSLATION]Globální Turnaj',
-      register: '[AI_TRANSLATION]Registrovat se',
-      date: '[AI_TRANSLATION]1. srpna - 31. srpna',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: 'Editor úrovní',
       course_title: 'Editor kurzů',
       achievement_title: 'Editor Úspěchů',
-      poll_title: 'Editor dotazníků',
       resource_title: '[AI_TRANSLATION]Editor zdrojů',
       chat_title: '[AI_TRANSLATION]Editor chatu',
       ai_scenario_title: '[AI_TRANSLATION]Editor scénářů AI',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: 'Přihlašte se pro vytvoření nové úrovně',
       new_achievement_title: 'Vytvořit nový Úspěch',
       new_achievement_title_login: 'Přihlašte se pro vytvoření nového Úspěchu',
-      new_poll_title: 'Vytvořit nový dotazník',
-      new_poll_title_login: 'Přyhlašte se pro vytvoření nového dotazníku',
       new_course_title: 'Vytvořit nový kurz',
       new_course_title_login: 'Přyhlašte se pro vytvoření nového kurzu',
       new_resource_title: '[AI_TRANSLATION]Vytvořte nový zdroj',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: 'Vyhledat typy Thangů',
       level_search_title: 'Vyhledat úrovně',
       achievement_search_title: 'Hledat Úspěchy',
-      poll_search_title: 'Vyhledat dotazníky',
       course_search_title: 'Vyhledat kurzy',
       resource_search_title: '[AI_TRANSLATION]Hledat zdroje',
       chat_search_title: '[AI_TRANSLATION]Hledat v chatech',

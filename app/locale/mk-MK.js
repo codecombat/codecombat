@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Постигнувања',
       settings: 'Подесувања',
-      poll: 'Гласање',
       next: 'Следно',
       change_hero: 'Смени херој',
       change_hero_or_language: 'Смени херој или јазик',
@@ -1289,21 +1288,6 @@ module.exports = {
     //    future_eng_3: "(device is not required). This Alexa activity is brought to you by the",
     //    future_eng_4: "Amazon Future Engineer",
     //    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science.",
-    //  },
-
-    //  live_class: {
-    //    title: "Thank you!",
-    //    content: "Amazing! We just launched live online classes.",
-    //    link: "Ready to get ahead on your coding?",
-    //  },
-
-    //  code_quest: {
-    //    great: "Great!",
-    //    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills.",
-    //    link: "Click here to register and learn more",
-    //    global_tournament: "Global Tournament",
-    //    register: "Register",
-    //    date: "Aug 1 - Aug 31",
     //  },
 
     //  play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
     //    level_title: "Level Editor",
     //    course_title: "Course Editor",
     //    achievement_title: "Achievement Editor",
-    //    poll_title: "Poll Editor",
     //    resource_title: "Resource Editor",
     //    chat_title: "Chat Editor",
     //    ai_scenario_title: "AI Scenario Editor",
@@ -3218,8 +3201,6 @@ module.exports = {
     //    new_level_title_login: "Log In to Create a New Level",
     //    new_achievement_title: "Create a New Achievement",
     //    new_achievement_title_login: "Log In to Create a New Achievement",
-    //    new_poll_title: "Create a New Poll",
-    //    new_poll_title_login: "Log In to Create a New Poll",
     //    new_course_title: "Create a New Course",
     //    new_course_title_login: "Log In to Create a New Course",
     //    new_resource_title: "Create a New Resource",
@@ -3246,7 +3227,6 @@ module.exports = {
     //    thang_search_title: "Search Thang Types Here",
     //    level_search_title: "Search Levels Here",
     //    achievement_search_title: "Search Achievements",
-    //    poll_search_title: "Search Polls",
     //    course_search_title: "Search Courses",
     //    resource_search_title: "Search Resources",
     //    chat_search_title: "Search Chats",

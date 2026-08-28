@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Prestationer',
       settings: 'Inställningar',
-      poll: 'Omröstning',
       next: 'Nästa',
       change_hero: 'Byt Hjälte',
       change_hero_or_language: 'Byt Hjälte eller Språk',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '(enhet krävs inte). Denna Alexa-aktivitet får du av',
       future_eng_4: 'Amazon Future Engineer',
       future_eng_5: 'program som skapar inlärnings- och arbetsmöjligheter för alla K-12-studenter i USA som vill bedriva datavetenskap.',
-    },
-
-    live_class: {
-      title: 'Tack!',
-      content: 'Fantastisk! Vi har precis lanserat live-onlinekurser.',
-      link: 'Är du redo att komma igång med din kodning?',
-    },
-
-    code_quest: {
-      great: 'Bra!',
-      join_paragraph: 'Gå med i den största internationella Python AI-kodningsturneringen för alla åldrar och tävla om toppen på topplistan! Den här månadslånga globala striden börjar den 1 augusti och inkluderar 5 000 dollar i priser och en virtuell prisutdelning där vi tillkännager vinnare och ser dina kodningsförmåga.',
-      link: 'Klicka här för att registrera dig och lära dig mer',
-      global_tournament: 'Global turnering',
-      register: 'Registrera',
-      date: '1 Aug till 31 Aug',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: 'Redigerare: Nivåer',
       course_title: 'Redigerare: Kurser',
       achievement_title: 'Redigerare: Prestationer',
-      poll_title: 'Redigerare: Omröstning',
       //    resource_title: "Resource Editor",
       //    chat_title: "Chat Editor",
       //    ai_scenario_title: "AI Scenario Editor",
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: 'Logga in för att skapa en ny nivå',
       new_achievement_title: 'Skapa en ny prestation',
       new_achievement_title_login: 'Logga in för att skapa en ny prestation',
-      new_poll_title: 'Skapa en ny omröstning',
-      new_poll_title_login: 'Logga in för att skapa en ny omröstning',
       //    new_course_title: "Create a New Course",
       //    new_course_title_login: "Log In to Create a New Course",
       //    new_resource_title: "Create a New Resource",
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: 'Sök enhetstyper här',
       level_search_title: 'Sök nivåer här',
       achievement_search_title: 'Sök prestationer',
-      poll_search_title: 'Sök röstningar',
       //    course_search_title: "Search Courses",
       //    resource_search_title: "Search Resources",
       //    chat_search_title: "Search Chats",
