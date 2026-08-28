@@ -6823,7 +6823,7 @@ module.exports = {
       hint_output: 'Open Output to see and test results.',
       hint_choice: 'Choose a response to continue.',
       hint_prompt_input: 'Tell HackStack what to do.',
-      hint_prompt_credit: 'Each prompt uses 1 credit — make it count.',
+      hint_prompt_credit: 'Each prompt uses 1 credit —\nmake it count.',
       ready_to_review_helptext: 'Mark this when your project is complete. Your teacher will then see it as ready to review on their side.',
       ready_to_review_confirm_text: 'Ready to Submit? Click OK to notify your teacher to review your project.',
       no_course_instances: 'You do not have any course instances. Please contact your teacher to get access to the AI Hackstack.',
