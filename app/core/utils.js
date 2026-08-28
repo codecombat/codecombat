@@ -1883,6 +1883,15 @@ module.exports.getJuniorUrl = function () {
   return `${cocoBaseURL()}${juniorPath}`
 }
 
+// China teachers without the new dashboard keep the old page; Router.js makes the same check.
+module.exports.sessionlessCoursesUrl = function (levelProduct = 'codecombat') {
+  if (me?.showChinaResourceInfo?.() && !me.isNewDashboardActive()) {
+    return '/teachers/courses'
+  }
+  const guideProduct = levelProduct === 'codecombat-junior' ? 'junior' : levelProduct
+  return `/teachers/guide/${guideProduct}`
+}
+
 const AI_MODE_ICON_MAP = {
   use: 'ai-use',
   practice: 'ai-practice',
@@ -1905,6 +1914,10 @@ const USE_MODES = [PRACTICE_MODE, USE_MODE, CAPSTONE_MODE]
 
 module.exports.isUseMode = (mode) => {
   return USE_MODES.includes(mode)
+}
+
+module.exports.isCapstone = (mode) => {
+  return mode === CAPSTONE_MODE
 }
 
 module.exports.aiTranslate = async (modelName, docId, langs) => {

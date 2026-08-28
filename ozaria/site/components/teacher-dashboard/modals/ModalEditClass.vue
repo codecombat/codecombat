@@ -854,7 +854,6 @@ export default Vue.extend({
             <label>
               <span class="control-label"> {{ $t("courses.classroom_announcement") }} </span>
               <i class="spl text-muted">{{ $t("signup.optional") }}</i>
-              <button class="pick-image-button btn btn-middle btn-forest">{{ $t("common.pick_image") }}</button>
             </label>
             <textarea
               id="classroom-announcement"

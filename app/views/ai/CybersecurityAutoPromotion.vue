@@ -12,7 +12,7 @@ export default {
   computed: {
     showPromotion () {
       const aweekago = dayjs().subtract(1, 'week')
-      return utils.isCodeCombat && aweekago.isAfter(me.get('dateCreated'))
+      return utils.isCodeCombat && aweekago.isAfter(me.get('dateCreated')) && dayjs().isBefore('2026-09-30')
     },
   },
   methods: {

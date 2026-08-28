@@ -30,6 +30,7 @@ _.extend(MiniGameSchema.properties, {
     })),
   sounds: c.array({ title: 'Sounds', description: 'Codec pairs: consumers hand the game both URLs and the engine picks per browser.' },
     _.assign(c.sound({ key: c.shortString({ title: 'Key' }) }), { required: ['key'] })),
+  updated: c.stringDate({ title: 'Updated', readOnly: true, description: 'Set server-side on every save.' }),
 })
 
 MiniGameSchema.required = ['name']

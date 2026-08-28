@@ -2,7 +2,7 @@
   <div class="ai-junior-view">
     <header class="ai-junior-header">
       <a
-        href="/ai-junior/demo"
+        href="/ai-junior"
         class="ai-junior-logo"
       >
         AI Junior

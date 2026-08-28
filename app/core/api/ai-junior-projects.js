@@ -17,3 +17,14 @@ export const getAIJuniorProjects = (options = {}) => fetchJson('/db/ai_junior_pr
 export const getAIJuniorProject = ({ projectHandle }, options = {}) => fetchJson(`/db/ai_junior_project/${projectHandle}`, options)
 
 export const getAIJuniorProjectsForScenarioAndUser = ({ scenarioHandle, userId }, options = {}) => fetchJson(`/db/ai_junior_project?scenarioHandle=${scenarioHandle}&userId=${userId}&sort=-1`, options)
+
+// shared: 'none' | 'result' | 'full'
+export const shareAIJuniorProject = ({ projectHandle, shared }, options = {}) =>
+  fetchJson(`/db/ai_junior_project/${projectHandle}/share`, _.assign({}, options, {
+    method: 'POST',
+    json: { shared },
+  }))
+
+// Public — works with no session, which is the whole point of a share link.
+export const getSharedAIJuniorProject = ({ projectHandle }, options = {}) =>
+  fetchJson(`/db/ai_junior_project/${projectHandle}/shared`, options)

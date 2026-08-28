@@ -236,7 +236,10 @@ module.exports = (Classroom = (function () {
       const project = this.getProjectLevel(courseID)
       const courseLevels = this.getLevels({ courseID, withoutLadderLevels: true, levelsCollection })
       const levelSessionMap = {}
-      for (const session of Array.from(sessions)) { levelSessionMap[session.get('level').original] = session }
+      for (const session of Array.from(sessions)) {
+        const original = session.get('level')?.original ?? session.get('scenario')
+        levelSessionMap[original] = session
+      }
       let currentIndex = -1
       let lastStarted = null
       let levelsTotal = 0
@@ -347,7 +350,7 @@ module.exports = (Classroom = (function () {
     }
 
     statsForAIProjects (sessions, courseId) {
-      const emptyResults = { levels: { size: 0, left: 0, done: true, numDone: 0, pctDone: '0.0%' }, courseComplete: false }
+      const emptyResults = { levels: { size: 0, left: 0, done: true, numDone: 0, pctDone: '0.0%', completedCapstones: 0 }, courseComplete: false, totalMessages: 0 }
       const course = this.get('courses')?.find(c => c._id === courseId)
       if (!course) {
         return emptyResults
@@ -360,15 +363,23 @@ module.exports = (Classroom = (function () {
       const projectsByScenario = _.groupBy(allProjects, 'scenario')
       const levelsTotal = scenarios.length
       let levelsLeft = levelsTotal
+      let completedCapstones = 0
+      let totalMessages = 0
       for (const scenarioOriginal in projectsByScenario) {
         const projects = projectsByScenario[scenarioOriginal]
         const scenario = scenarios.find(s => s.original === scenarioOriginal)
         if (!scenario) {
           continue
         }
+        const isCapstone = utils.isCapstone(scenario.mode)
         const isComplete = checkIfProjectComplete(scenario, projects)
+        totalMessages += projects.reduce((acc, p) => acc + (p.totalChatMessages || 0), 0)
         if (isComplete) {
           levelsLeft -= 1
+
+          if (isCapstone) {
+            completedCapstones += 1
+          }
         }
       }
       const courseComplete = levelsLeft === 0
@@ -379,7 +390,9 @@ module.exports = (Classroom = (function () {
           done: levelsLeft === 0,
           numDone: levelsTotal - levelsLeft,
           pctDone: ((100 * (levelsTotal - levelsLeft)) / levelsTotal).toFixed(1) + '%',
+          completedCapstones,
         },
+        totalMessages,
         courseComplete,
       }
       return stats

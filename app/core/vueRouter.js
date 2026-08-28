@@ -12,6 +12,14 @@ export default function getVueRouter () {
 
       routes: [
         {
+          // Public share page. Deliberately a sibling of /ai-junior rather than
+          // a child: it must render without the AI Junior header or its
+          // "you do not have access" banner for logged-out visitors.
+          path: '/ai-junior/creation/:projectId',
+          component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorSharedView'),
+          props: true,
+        },
+        {
           path: '/ai-junior',
           component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorView'),
           children: [
@@ -37,6 +45,16 @@ export default function getVueRouter () {
             {
               path: 'demo',
               component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorDemoView'),
+              props: true,
+            },
+            {
+              path: 'print/:scenarioHandle/:classroomId?',
+              component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorClassPrintView'),
+              props: true,
+            },
+            {
+              path: 'scan/:scenarioHandle?/:forUserId?',
+              component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorCaptureView'),
               props: true,
             },
           ],
