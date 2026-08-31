@@ -13,7 +13,7 @@ export default Vue.extend({
   computed: {
     showPromotion () {
       const now = new Date()
-      const endOfAug2026 = new Date(2026, 9, 1) // Months are 0-indexed in JavaScript
+      const endOfAug2026 = new Date('2026-09-01') // Months are 0-indexed in JavaScript
       return me.showChinaHomeVersion() && (now < endOfAug2026)
     },
   },

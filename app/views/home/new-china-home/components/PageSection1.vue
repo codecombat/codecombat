@@ -34,7 +34,7 @@
               {{ ctaText() }}
             </CTAButton>
             <CTAButton
-              v-if="new Date() < new Date('20206-09-01')"
+              v-if="new Date() < new Date('2026-09-01')"
               class="cta-button"
               href="/play/ladder/desert-duel"
               target="_self"
