@@ -436,8 +436,7 @@ const WD_COURSE_IDS = [
   allCourseIDs.WEB_DEVELOPMENT_2,
 ]
 
-const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.INTRO_TO_AI]
-const allFreeCourseIDs = [...freeCocoCourseIDs, allCourseIDs.CHAPTER_ONE]
+const allFreeCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.CHAPTER_ONE, allCourseIDs.INTRO_TO_AI]
 
 const courseNumericalStatus = {};
 (function () {
