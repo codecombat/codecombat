@@ -4,7 +4,7 @@
       img.header-img(:src="headerImage")
       #close-modal.btn.well.well-sm.well-parchment(data-dismiss="modal")
         span.glyphicon.glyphicon-remove
-  
+
     .modal-body
       .container-fluid
         .row
@@ -26,7 +26,7 @@
               h3.text-uppercase {{ $t('play_level.concept_challenge_complete') }}
               img(:src="heroImage").hero-img
               div {{ $t('play_level.combo_challenge_complete_body', { concept: primaryConcept }) }}
-                  
+
             div.clearfix.well.well-sm.well-parchment(v-else-if="assessmentNext")
               img.lock-banner(src="/images/pages/play/modal/unlocked_banner.png")
               h5.text-uppercase
@@ -37,13 +37,13 @@
               h3.text-uppercase
                 | {{ $dbt(nextAssessment, 'name') }}
               div.no-imgs(v-html="marked($dbt(nextAssessment, 'description'))")
-                
+
             div#level-status.clearfix.well.well-sm.well-parchment(v-else)
               h3.text-uppercase
                 | {{ $t('play_level.level_complete') }}: {{ $dbt(level, 'name')}}
               img(:src="heroImage").hero-img
               div(v-if="level.victory") {{ $dbt(level.victory, 'body') }}
-              
+
         .row(v-if="level.assessment === 'cumulative'")
           .col-sm-5.col-sm-offset-7
             button#replay-level-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase(
@@ -57,9 +57,9 @@
               :href="challengeLink"
             )
              | {{ $t('play_level.start_challenge') }}
-        
-            
-            
+
+
+
         .row
           .col-sm-6.text-uppercase
             .well.well-sm.well-parchment
@@ -78,7 +78,7 @@
               h5.text-uppercase {{ $t('play_level.next_level') }}:
               h3.text-uppercase {{ $dbt(nextLevel, 'name') }}
               div.no-imgs(v-html="marked($dbt(nextLevel, 'description'))")
-    
+
         .row
           .col-sm-6.text-uppercase
             a#map-btn.btn.btn-illustrated.btn-block.btn-lg.text-uppercase(
@@ -113,7 +113,7 @@
   LevelSession = require 'models/LevelSession'
   heroMap = _.invert(thangTypeConstants.heroes)
   { getNextLevelLink } = require 'ozaria/site/common/ozariaUtils'
-  
+
   module.exports = Vue.extend({
     # TODO: Move these props to vuex
     props: ['nextLevel', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats', 'supermodel', 'parent', 'codeLanguage'],
@@ -122,7 +122,7 @@
     }
     computed: {
       ozariaCourse: ->
-        return utils.orderedCourseIDs.includes(@course._id)
+        return utils.OZ_COURSE_IDS.includes(@course._id)
       challengeLink: ->
         if me.isSessionless()
           link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
@@ -186,7 +186,7 @@
       allConceptsUsed: ->
         @conceptGoalsCompleted is @conceptGoals.length
       level: -> @$store.state.game.level
-      heroImage: -> 
+      heroImage: ->
         unless @$store.state.me.heroConfig?.thangType
           return "/images/pages/play/modal/captain.png"
         slug = heroMap[@$store.state.me.heroConfig.thangType]
@@ -215,7 +215,7 @@
           'Play Level Victory Modal Start Challenge',
             {
               category: 'Students',
-              levelSlug: @level.slug, 
+              levelSlug: @level.slug,
               nextAssessmentSlug: @nextAssessment.slug
             },
             []
@@ -226,10 +226,10 @@
             {
               category: 'Students',
               levelSlug: @level.slug
-            }, 
+            },
             []
         )
-      
+
       onNextLevelVideo: ->
         window.tracker?.trackEvent(
           'Play Level Victory Modal Next Level Video',
@@ -241,7 +241,7 @@
             },
             []
         )
-      
+
       onNextLevel: ->
         window.tracker?.trackEvent(
           'Play Level Victory Modal Next Level',
@@ -257,7 +257,7 @@
             @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: @nextLevel.slug, levelPath: "level", hadEverChosenHero: true, parent: @parent, courseID: @course._id, courseInstanceID: @courseInstanceID, codeLanguage:@codeLanguage
             unless @setupManager?.navigatingToPlay
               @setupManager.open()
-                 
+
       onReplayLevel: ->
         window.tracker?.trackEvent(
                 'Play Level Victory Modal Replay',
@@ -294,14 +294,14 @@
     img.header-img
       position: relative
       top: -15px
-    
+
     h3
       margin-top: 0
-      
+
     h5
       font-size: 18px
       margin: 0
-      
+
     h3, h5
       color: black
 
@@ -309,7 +309,7 @@
       float: left
       width: 120px
       margin-right: 10px
-    
+
     .well
       margin: 10px 0 0
 
@@ -327,13 +327,13 @@
 
         @media screen and ( max-height: 675px )
           margin-top: 0
-    
+
     svg
       width: 60px
       position: absolute
       top: 0
       left: 0
-    
+
     .left-column
       padding: 0 15px
       width: 250px
@@ -343,17 +343,17 @@
       width: 60px
       height: 70px
       display: inline-block
-    
+
     .combo-img
       position: absolute
       width: 70px
       top: -4px
       left: -4px
-    
+
     .combo-results
       display: flex
-    
-    .no-imgs  
+
+    .no-imgs
       // they are not necessarily built for the provided space, eg Wakka Maul
       img
         display: none
