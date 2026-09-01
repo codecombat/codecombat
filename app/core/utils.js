@@ -320,6 +320,10 @@ if (isCodeCombat) {
     courseIDs.COMPUTER_SCIENCE,
     courseIDs.AI_EXPLORATIONS,
     courseIDs.AI_SANDBOX,
+    otherCourseIDs.CHAPTER_ONE,
+    otherCourseIDs.CHAPTER_TWO,
+    otherCourseIDs.CHAPTER_THREE,
+    otherCourseIDs.CHAPTER_FOUR,
   ]
   otherOrderedCourseIDs = [
     otherCourseIDs.CHAPTER_ONE,

@@ -148,7 +148,7 @@ module.exports = (CourseVictoryModal = (function () {
         // TODO: use supermodel.loadCollection for better caching but watch out for @session overwriting
         this.levelSessions = new LevelSessions()
         return this.levelSessions.fetchForCourseInstance(this.courseInstanceID, {}).then(() => this.levelSessionsLoaded())
-      } else if (utils.orderedCourseIDs.includes(this.courseID)) { // if it is ozaria course and there is no course instance, load campaign so that we can calculate next levels
+      } else if (utils.OZ_COURSE_IDS.includes(this.courseID)) { // if it is ozaria course and there is no course instance, load campaign so that we can calculate next levels
         return api.campaigns.get({ campaignHandle: (this.course != null ? this.course.get('campaignID') : undefined) }).then(campaign => {
           this.campaign = campaign
           return this.levelSessionsLoaded()
@@ -168,7 +168,7 @@ module.exports = (CourseVictoryModal = (function () {
       }
 
       // get next level for ozaria course, no nextAssessment for ozaria courses
-      if (utils.orderedCourseIDs.includes(this.courseID)) {
+      if (utils.OZ_COURSE_IDS.includes(this.courseID)) {
         return this.getNextLevelOzaria().then(level => {
           this.nextLevel.set(level)
           return this.loadViews()
