@@ -325,12 +325,7 @@ if (isCodeCombat) {
     otherCourseIDs.CHAPTER_THREE,
     otherCourseIDs.CHAPTER_FOUR,
   ]
-  otherOrderedCourseIDs = [
-    otherCourseIDs.CHAPTER_ONE,
-    otherCourseIDs.CHAPTER_TWO,
-    otherCourseIDs.CHAPTER_THREE,
-    otherCourseIDs.CHAPTER_FOUR,
-  ]
+  otherOrderedCourseIDs = []
 
   hourOfCodeOptions = {
     campaignId: freeCampaignIds[1],
