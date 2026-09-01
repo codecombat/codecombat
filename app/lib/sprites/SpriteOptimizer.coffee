@@ -123,7 +123,15 @@ module.exports = class SpriteOptimizer
         if relatedAction.container
           containerFrequencies[relatedAction.container] = (containerFrequencies[relatedAction.container] ? 0) + 1
     containersByFrequency = _.sortBy _.pairs(containerFrequencies), ([containerName, frequency]) -> -frequency
+    assignedContainerNames = new Set()
     for [container, frequency] in containersByFrequency
+      if @raw.containers[container]?.img
+        # Referenced raster-backed containers keep their artist-chosen names
+        # (identity renaming). Unreferenced ones are dropped by the rebuild
+        # below, exactly like unreferenced vector containers.
+        containerRenamings[container] = container
+        assignedContainerNames.add container
+        continue
       containerKey = @keyForContainer @raw.containers[container]
       if @aggressiveContainers and newContainerName = containerDuplicates[containerKey]
         # TODO: fix issue where the same animation might have multiple tweens targeting the same container (which breaks) if we consolidate identical containers. Exmaple: Hero A Cinematic eatPopcorn animation, with three tweens referencing what would be c0 (most common container, a hand used 13 times overall)
@@ -134,7 +142,13 @@ module.exports = class SpriteOptimizer
         if @debug and not _.isEqual @raw.containers[container], firstContainers[containerKey]
           console.log container, _.cloneDeep(@raw.containers[container]), 'is the same as', _.cloneDeep(firstContainers[containerKey])
       else
-        containerDuplicates[containerKey] = containerRenamings[container] = @nameContainer _.size(containerRenamings)
+        n = _.size containerRenamings
+        # Skip generated names already claimed by a kept-as-is raster container
+        # (or by an earlier renaming, once skips shift the numbering).
+        n++ while @raw.containers[@nameContainer(n)]?.img or assignedContainerNames.has(@nameContainer(n))
+        newName = @nameContainer n
+        containerDuplicates[containerKey] = containerRenamings[container] = newName
+        assignedContainerNames.add newName
         firstContainers[containerKey] = @raw.containers[container]
 
     if @debug

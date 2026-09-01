@@ -19,11 +19,6 @@ const Level = require('models/Level')
 const User = require('models/User')
 const utils = require('core/utils')
 const ShareProgressModal = require('views/play/modal/ShareProgressModal')
-const UserPollsRecord = require('models/UserPollsRecord')
-const Poll = require('models/Poll')
-const PollModal = require('views/play/modal/PollModal')
-const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
-const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
 const JuniorOriginalChoiceModal = require('views/core/JuniorOriginalChoiceModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
@@ -120,7 +115,6 @@ class CampaignView extends RootView {
       'click .portals .main-campaign': 'onClickPortalCampaign',
       'click a .campaign-switch': 'onClickCampaignSwitch',
       'mousemove .portals': 'onMouseMovePortals',
-      'click .poll': 'showPoll',
       'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton',
       'click .premium-menu-icon': 'onClickPremiumButton',
       'click .premium-btn': 'onClickPremiumButton',
@@ -967,7 +961,7 @@ class CampaignView extends RootView {
     })
 
     if (!application.isIPadApp) {
-      _.defer(() => this.$el?.find('.game-controls .btn:not(.poll), .other-products .btn, .campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
+      _.defer(() => this.$el?.find('.game-controls .btn, .other-products .btn, .campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
       const view = this
       // Keep original behavior for levels and campaign switches
       this.$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each(function () {
@@ -1429,7 +1423,7 @@ class CampaignView extends RootView {
   }
 
   calculateExperienceScore () {
-    const adultPoint = ['18-24', '25-34', '35-44', '45-100'].includes(me.get('ageRange')) ? 1 : 0 // They have to have answered the poll for this, likely after Shadow Guard.
+    const adultPoint = ['18-24', '25-34', '35-44', '45-100'].includes(me.get('ageRange')) ? 1 : 0 // Legacy: ageRange was set by the retired how-old-are-you poll (GD-868)
     let speedPoints = 0
     const speedThresholds = [
       ['dungeons-of-kithgard', 50],
@@ -1826,9 +1820,6 @@ class CampaignView extends RootView {
   onSessionsLoaded (e) {
     if (this.editorMode) { return }
     this.render()
-    if (!me.get('anonymous') && !me.inEU()) {
-      this.loadUserPollsRecord()
-    }
   }
 
   onCampaignsLoaded (e) {
@@ -2309,100 +2300,6 @@ class CampaignView extends RootView {
     }
   }
 
-  loadUserPollsRecord () {
-    if (storage.load('ignored-poll')) { return }
-    const url = `/db/user.polls.record/-/user/${me.id}`
-    this.userPollsRecord = new UserPollsRecord().setURL(url)
-    const onRecordSync = () => {
-      if (this.destroyed) { return }
-      this.userPollsRecord.url = () => '/db/user.polls.record/' + this.userPollsRecord.id
-      const lastVoted = new Date(this.userPollsRecord.get('changed') || 0)
-      const interval = new Date() - lastVoted
-      if (interval > (22 * 60 * 60 * 1000)) { // Wait almost a day before showing the next poll
-        this.loadPoll()
-      } else {
-        console.log('Poll will be ready in', ((22 * 60 * 60 * 1000) - interval) / (60 * 60 * 1000), 'hours.')
-      }
-    }
-    this.listenToOnce(this.userPollsRecord, 'sync', onRecordSync)
-    this.userPollsRecord = this.supermodel.loadModel(this.userPollsRecord, null, 0).model
-    if (this.userPollsRecord.loaded) {
-      onRecordSync()
-    }
-  }
-
-  loadPoll (url, forceShowPoll) {
-    if (url == null) { url = `/db/poll/${this.userPollsRecord.id}/next` }
-    let tempLoadingPoll = new Poll().setURL(url)
-    const onPollSync = () => {
-      if (this.destroyed) { return }
-      tempLoadingPoll.url = () => '/db/poll/' + tempLoadingPoll.id
-      this.poll = tempLoadingPoll
-      const delay = forceShowPoll ? 1000 : 5000 // Wait a little bit before showing the poll
-      setTimeout(() => this.activatePoll?.(forceShowPoll), delay)
-    }
-    const onPollError = (poll, response, request) => {
-      if (response.status === 404) {
-        console.log('There are no more polls left.')
-      } else {
-        console.error("Couldn't load poll:", response.status, response.statusText)
-      }
-      if (this.poll) {
-        delete this.poll
-      }
-    }
-    this.listenToOnce(tempLoadingPoll, 'sync', onPollSync)
-    this.listenToOnce(tempLoadingPoll, 'error', onPollError)
-    tempLoadingPoll = this.supermodel.loadModel(tempLoadingPoll, null, 0).model
-    if (tempLoadingPoll.loaded) {
-      onPollSync()
-    }
-  }
-
-  activatePoll (forceShowPoll) {
-    if (this.shouldShow('promotion')) { return }
-    if (!this.poll) { return }
-    const pollTitle = utils.i18n(this.poll.attributes, 'name')
-    const $pollButton = this.$el.find('button.poll')
-      .removeClass('hidden')
-      .addClass('highlighted')
-      .attr({ title: pollTitle })
-      .addClass('has-tooltip')
-      .tooltip({ title: pollTitle })
-
-    if ((me.get('lastLevel') === 'shadow-guard') || forceShowPoll) {
-      return this.showPoll()
-    } else {
-      $pollButton.tooltip('show')
-      setTimeout(() => {
-        $pollButton?.tooltip('hide')
-        if (!this.destroyed) {
-          storage.save('ignored-poll', true, 5) //  Don't show again in next N minutes
-        }
-      }, 20000) // Don't leave the poll open forever
-    }
-  }
-
-  showPoll () {
-    if (!this.shouldShow('poll')) { return false }
-    if (this.poll.get('slug') === 'how-old-are-you' && userUtils.isCreatedViaLibrary()) {
-      return false // since the answers of how-old-are-you poll do no have nextPoll, so just return is fine
-    }
-    const pollModal = new PollModal({ supermodel: this.supermodel, poll: this.poll, userPollsRecord: this.userPollsRecord })
-    this.openModalView(pollModal)
-    const $pollButton = this.$el.find('button.poll')
-    pollModal.on('vote-updated', () => $pollButton.removeClass('highlighted').tooltip('hide'))
-    pollModal.once('trigger-next-poll', nextPollId => {
-      this.loadPoll('/db/poll/' + nextPollId, true)
-    })
-    pollModal.once('trigger-show-live-classes', () => {
-      this.openModalView(new LiveClassroomModal())
-    })
-    pollModal.once('trigger-codequest-modal', () => {
-      this.openModalView(new Codequest2020Modal())
-    })
-  }
-
   onClickPremiumButton (e) {
     const trackProperties = { category: 'Subscription', label: 'campaignview premium button' }
     if (me.isParentHome()) {
@@ -2714,12 +2611,8 @@ class CampaignView extends RootView {
       return this.isJuniorCampaign()
     }
 
-    if (['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements'].includes(what)) {
-      let extraCond = true
-      if (me.showChinaHomeVersion() && what === 'poll') {
-        extraCond = false
-      }
-      return !isStudentOrTeacher && !this.editorMode && extraCond
+    if (['settings', 'leaderboard', 'back-to-campaigns', 'items', 'heros', 'achievements'].includes(what)) {
+      return !isStudentOrTeacher && !this.editorMode
     }
 
     if (['clans'].includes(what)) {

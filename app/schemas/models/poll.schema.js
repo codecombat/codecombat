@@ -1,3 +1,5 @@
+// Polls feature was removed client-side (GD-868), but the server Poll model and
+// APIClient.ageStats still import this schema — delete only as part of GD-891.
 const c = require('./../schemas')
 const str = require('underscore.string')
 const countryList = require('country-list')

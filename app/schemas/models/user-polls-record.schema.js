@@ -1,3 +1,6 @@
+// Polls feature was removed client-side (GD-868), but the server UserPollsRecord
+// model still imports this schema — poll gem rewards feed earned-gems recalculation
+// (earned_achievement_handler). Delete only as part of GD-891.
 const c = require('./../schemas')
 
 const UserPollsRecordSchema = c.object({ title: 'UserPollsRecord' })
