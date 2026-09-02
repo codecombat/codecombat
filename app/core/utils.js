@@ -1965,10 +1965,10 @@ module.exports.courseDescription = (includedCourseIDs, credit = undefined) => {
     if (credit && courseSame(includedCourseIDs, hsCourses)) {
       return $.i18n.t('teacher.hackstack_license') + $.i18n.t('teacher.hackstack_credits', credit)
     }
-    if (courseSame(includedCourseIDs, LICENSE_PRESETS['COCO-OLD(No HS, OZ)'])) {
+    if (courseSame(includedCourseIDs, LICENSE_PRESETS['CodeCombat(CS, WD, GD, JR)'])) {
       return $.i18n.t('teacher.coco_full_license')
     }
-    if (courseSame(includedCourseIDs, LICENSE_PRESETS['CH1+CH2+CH3+CH4(OZ only)'])) {
+    if (courseSame(includedCourseIDs, LICENSE_PRESETS['Ozaria'])) {
       return $.i18n.t('teacher.ozar_full_license')
     }
     return $.i18n.t('teacher.customized_license') + ': ' + (includedCourseIDs.map(id => courseAcronyms[id])).join('+')
