@@ -2007,7 +2007,6 @@ module.exports = {
   otherCourseIDs,
   allCourseIDs,
   allFreeCourseIDs,
-  freeCocoCourseIDs,
   courseNumericalStatus,
   coursesWithProjects,
   CSCourseIDs,
