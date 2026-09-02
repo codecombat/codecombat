@@ -569,7 +569,7 @@ export default Vue.extend({
             .el(v-if="org.kind != 'student'")
               .big #{formatNumber(course.studentsStarting)}
               .under= (course.studentsStarting === 1 ? $t("courses.student") : $t("courses.students")).toLocaleLowerCase()
-            .el.concepts-list
+            .el.concepts-list(v-if="course.newConcepts.length")
               b= $t('outcomes.key_concepts') + ':'
               ul
                 li(v-for="concept in course.newConcepts.slice(0, 6)")
