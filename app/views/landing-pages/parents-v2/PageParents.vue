@@ -732,6 +732,9 @@ export default {
 
   mounted () {
     // add the contact-modal trigger one to `contact us` in the footnote
+    if (features.china) {
+      application.router.navigate('/', { trigger: true })
+    }
     const element = this.$refs?.contactFootnote?.$el
     if (element) {
       $('.mixed-color-label__highlight', element).addClass('contact-modal')
