@@ -5803,6 +5803,9 @@ module.exports = {
     library: {
       enter_library_card: 'Enter your Library Card Number:',
       access_coco: 'Access CodeCombat',
+      play_premium: 'Play CodeCombat Premium',
+      play_free: 'Play CodeCombat Free',
+      not_in_library_network: "You're not connected to your library's network, so you can only access free content.",
       already_using_library_id: 'Already using library id',
       play_coco: 'to play CodeCombat',
       not_library_id: 'Not your library id',
