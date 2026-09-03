@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Errungenschaften',
       settings: 'Einstellungen',
-      poll: 'Umfrage',
       next: 'Weiter',
       change_hero: 'Held wechseln',
       change_hero_or_language: 'Held oder Sprache wechseln',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '[AI_TRANSLATION](Gerät ist nicht erforderlich). Diese Alexa-Aktivität wird Ihnen präsentiert von der',
       future_eng_4: '[AI_TRANSLATION]Amazon Future Engineer',
       future_eng_5: '[AI_TRANSLATION]Programm, das Lern- und Arbeitsmöglichkeiten für alle K-12-Studenten in den Vereinigten Staaten schaffen soll, die Informatik verfolgen möchten.',
-    },
-
-    live_class: {
-      title: '[AI_TRANSLATION]Danke!',
-      content: '[AI_TRANSLATION]Super! Wir haben gerade unsere Live-Online-Kurse gestartet.',
-      link: '[AI_TRANSLATION]Bereit, beim Programmieren einen Vorsprung zu bekommen?',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]Super!  ',
-      join_paragraph: '[AI_TRANSLATION]Nimm am größten internationalen Python AI Coding-Turnier für alle Altersgruppen teil und kämpfe um die Spitze der Rangliste! Dieser einmonatige globale Wettkampf beginnt am 1. August und beinhaltet Preise im Wert von 5.000 $ sowie eine virtuelle Preisverleihung, bei der wir die Gewinner bekannt geben und Deine Coding-Fähigkeiten würdigen.',
-      link: '[AI_TRANSLATION]Klick hier, um dich zu registrieren und mehr zu erfahren',
-      global_tournament: '[AI_TRANSLATION]Globales Turnier',
-      register: '[AI_TRANSLATION]Registrieren',
-      date: '[AI_TRANSLATION]1. Aug - 31. Aug',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: 'Level Editor',
       course_title: 'Kurs-Editor',
       achievement_title: 'Achievement Editor',
-      poll_title: 'Umfrage Editor',
       resource_title: '[AI_TRANSLATION]Ressourcen-Editor',
       chat_title: '[AI_TRANSLATION]Chat-Editor',
       ai_scenario_title: '[AI_TRANSLATION]AI Szenario-Editor',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: 'Melde dich an um ein neues Level zu erstellen',
       new_achievement_title: 'Erstelle ein neues Achievement',
       new_achievement_title_login: 'Melde dich an um einen neuen Erfolg zu erstellen',
-      new_poll_title: 'Erstelle eine neue Umfrage',
-      new_poll_title_login: 'Melde dich an um eine neue Umfrage zu erstellen',
       new_course_title: '[AI_TRANSLATION]Erstelle einen neuen Kurs',
       new_course_title_login: '[AI_TRANSLATION]Logge dich ein, um einen neuen Kurs zu erstellen\n',
       new_resource_title: '[AI_TRANSLATION]Erstelle eine neue Ressource',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: 'Durchsuche Thang-Typen hier',
       level_search_title: 'Durchsuche Levels hier',
       achievement_search_title: 'Durchsuche Erfolge',
-      poll_search_title: 'Durchsuche Umfragen',
       course_search_title: '[AI_TRANSLATION]Kurse suchen  ',
       resource_search_title: '[AI_TRANSLATION]Ressourcen durchsuchen',
       chat_search_title: '[AI_TRANSLATION]Chats durchsuchen',

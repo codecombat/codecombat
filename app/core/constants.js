@@ -18,10 +18,16 @@ const OZARIA_COURSE_IDS = [
 ]
 
 const LICENSE_PRESETS = {
-  'COCO-OLD(No HS, OZ)': [
+  'Coding License(JR, CC, OZ)': [
+    ...utils.JUNIOR_COURSE_IDS,
+    ...utils.COCO_COURSE_IDS,
+    ...OZARIA_COURSE_IDS,
+  ],
+  'CodeCombat(CS, WD, GD, JR)': [
     ...utils.COCO_COURSE_IDS,
     ...utils.JUNIOR_COURSE_IDS,
   ],
+  Ozaria: OZARIA_COURSE_IDS,
   'CS1+CS2+GD1+WD1': STARTER_LICENSE_COURSE_IDS,
   'CS1+GD1+WD1+JR': [
     '560f1a9f22961295f9427742', // Introduction to Computer Science
@@ -57,7 +63,6 @@ const LICENSE_PRESETS = {
     '5789587aad86a6efb573701e', // Game Development 1
     '57b621e7ad86a6efb5737e64' // GD 2
   ],
-  'CH1+CH2+CH3+CH4(OZ only)': OZARIA_COURSE_IDS
 }
 
 const FREE_COURSE_IDS = [

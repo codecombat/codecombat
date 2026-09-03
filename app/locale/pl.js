@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Osiągnięcia',
       settings: 'Opcje',
-      poll: 'Ankieta',
       next: 'Dalej',
       change_hero: 'Wybierz bohatera',
       change_hero_or_language: 'Zmień Bohatera lub Język',
@@ -1289,21 +1288,6 @@ module.exports = {
     //    future_eng_3: "(device is not required). This Alexa activity is brought to you by the",
     //    future_eng_4: "Amazon Future Engineer",
     //    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science.",
-    //  },
-
-    //  live_class: {
-    //    title: "Thank you!",
-    //    content: "Amazing! We just launched live online classes.",
-    //    link: "Ready to get ahead on your coding?",
-    //  },
-
-    //  code_quest: {
-    //    great: "Great!",
-    //    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills.",
-    //    link: "Click here to register and learn more",
-    //    global_tournament: "Global Tournament",
-    //    register: "Register",
-    //    date: "Aug 1 - Aug 31",
     //  },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: 'Edytor poziomów',
       course_title: 'Edytor kursu',
       achievement_title: 'Edytor osiągnięć',
-      poll_title: 'Edytor ankiet',
       //    resource_title: "Resource Editor",
       //    chat_title: "Chat Editor",
       //    ai_scenario_title: "AI Scenario Editor",
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: 'Zaloguj się, aby stworzyć nowy poziom',
       new_achievement_title: 'Stwórz nowe osiągnięcie',
       new_achievement_title_login: 'Zaloguj się, aby stworzyć nowy osiągnięcie',
-      new_poll_title: 'Stwórz nową ankietę',
-      new_poll_title_login: 'Zaloguj się aby stworzyć nową ankietę',
       //    new_course_title: "Create a New Course",
       //    new_course_title_login: "Log In to Create a New Course",
       //    new_resource_title: "Create a New Resource",
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: 'Przeszukaj obiekty',
       level_search_title: 'Przeszukaj poziomy',
       achievement_search_title: 'Szukaj osiągnięcia',
-      poll_search_title: 'Szukaj ankiety',
       //    course_search_title: "Search Courses",
       //    resource_search_title: "Search Resources",
       //    chat_search_title: "Search Chats",

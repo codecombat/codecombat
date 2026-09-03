@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Başarımlar',
       settings: 'Ayarlar',
-      poll: 'Anket',
       next: 'İleri',
       change_hero: 'Kahramanı Değiştir',
       change_hero_or_language: 'Kahramanı veya Dili değiştir',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '[AI_TRANSLATION](cihaz gerekli değil). Bu Alexa etkinliği, sizin için getirildi',
       future_eng_4: '[AI_TRANSLATION]Amazon Gelecek Mühendisi  ',
       future_eng_5: '[AI_TRANSLATION]K-12 seviyesindeki tüm Amerika Birleşik Devletleri öğrencileri için bilgisayar bilimleri alanında öğrenme ve çalışma fırsatları sunan program.',
-    },
-
-    live_class: {
-      title: '[AI_TRANSLATION]Teşekkürler!',
-      content: '[AI_TRANSLATION]Harika! Çevrimiçi canlı derslere başladık.  ',
-      link: '[AI_TRANSLATION]Kodlamada öne geçmeye hazır mısın?',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]Harika!  ',
-      join_paragraph: "[AI_TRANSLATION]Her yaştan katılımcı için en büyük uluslararası Python AI kodlama turnuvasına katıl ve liderlik tablosunda üst sıralar için yarış! Bu bir aylık küresel savaş 1 Ağustos'ta başlıyor ve $5,000 değerinde ödüller ile kazananların ve kodlama becerilerinin duyurulacağı sanal bir ödül töreni içeriyor.  ",
-      link: '[AI_TRANSLATION]Kayıt olmak ve daha fazlasını öğrenmek için buraya tıkla  ',
-      global_tournament: '[AI_TRANSLATION]Global Turnuva',
-      register: '[AI_TRANSLATION]Kayıt Ol',
-      date: '[AI_TRANSLATION]1 Ağustos - 31 Ağustos  ',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: 'Bölüm Düzenleyici',
       course_title: '[AI_TRANSLATION]Kurs Editörü',
       achievement_title: 'Başarı Düzenleyici',
-      poll_title: '[AI_TRANSLATION]Anket Düzenleyici',
       resource_title: '[AI_TRANSLATION]Kaynak Editörü  ',
       chat_title: '[AI_TRANSLATION]Sohbet Editörü  ',
       ai_scenario_title: '[AI_TRANSLATION]AI Senaryo Düzenleyici  ',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: '[AI_TRANSLATION]Yeni Bir Seviye Yaratmak için Giriş Yap  ',
       new_achievement_title: 'Yeni Bir Başarı Oluştur',
       new_achievement_title_login: '[AI_TRANSLATION]Yeni Bir Başarı Yaratmak için Giriş Yap  ',
-      new_poll_title: '[AI_TRANSLATION]Yeni Bir Anket Oluştur  ',
-      new_poll_title_login: '[AI_TRANSLATION]Yeni Bir Anket Yaratmak için Giriş Yap  ',
       new_course_title: '[AI_TRANSLATION]Yeni Kurs Oluştur  ',
       new_course_title_login: '[AI_TRANSLATION]Yeni Bir Kurs Yaratmak için Giriş Yap  ',
       new_resource_title: '[AI_TRANSLATION]Yeni Kaynak Oluştur  ',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: '[AI_TRANSLATION]Burada Thang Türlerini Ara  ',
       level_search_title: 'Seviye ara',
       achievement_search_title: 'Başarı Ara',
-      poll_search_title: '[AI_TRANSLATION]Anketleri Ara  ',
       course_search_title: '[AI_TRANSLATION]Dersleri Ara  ',
       resource_search_title: '[AI_TRANSLATION]Kaynakları Ara  ',
       chat_search_title: '[AI_TRANSLATION]Sohbetleri Ara  ',

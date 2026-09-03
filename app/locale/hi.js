@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: '[AI_TRANSLATION]उपलब्धियां',
       settings: '[AI_TRANSLATION]सेटिंग्स',
-      poll: '[AI_TRANSLATION]पोल',
       next: '[AI_TRANSLATION]अगला  ',
       change_hero: '[AI_TRANSLATION]हीरो बदलें  ',
       change_hero_or_language: '[AI_TRANSLATION]नायक या भाषा बदलें',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '[AI_TRANSLATION](डिवाइस की आवश्यकता नहीं है)। यह एलेक्सा गतिविधि आपके लिए लाई गई है',
       future_eng_4: '[AI_TRANSLATION]Amazon Future Engineer',
       future_eng_5: '[AI_TRANSLATION]कार्यक्रम जो संयुक्त राज्य अमेरिका में सभी K-12 छात्रों के लिए कंप्यूटर विज्ञान को आगे बढ़ाने के लिए सीखने और काम के अवसर पैदा करता है।',
-    },
-
-    live_class: {
-      title: '[AI_TRANSLATION]धन्यवाद!',
-      content: '[AI_TRANSLATION]अद्भुत! हमने अभी-अभी लाइव ऑनलाइन कक्षाओं की शुरुआत की है।',
-      link: '[AI_TRANSLATION]अपने कोडिंग में आगे बढ़ने के लिए तैयार?',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]बढ़िया!',
-      join_paragraph: '[AI_TRANSLATION]सभी उम्र के लिए सबसे बड़े अंतरराष्ट्रीय पायथन एआई कोडिंग टूर्नामेंट में शामिल हों और लीडरबोर्ड के टॉप के लिए प्रतिस्पर्धा करें! यह महीने भर की वैश्विक लड़ाई 1 अगस्त से शुरू होती है और इसमें $5k के इनाम और एक वर्चुअल पुरस्कार समारोह शामिल है, जहां हम विजेताओं की घोषणा करेंगे और आपके कोडिंग कौशल को मान्यता देंगे।',
-      link: '[AI_TRANSLATION]पंजीकरण करने और अधिक जानने के लिए यहां क्लिक करें',
-      global_tournament: '[AI_TRANSLATION]ग्लोबल टूर्नामेंट',
-      register: '[AI_TRANSLATION]रजिस्टर करें',
-      date: '[AI_TRANSLATION]1 अगस्त - 31 अगस्त',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: '[AI_TRANSLATION]स्तर संपादक',
       course_title: '[AI_TRANSLATION]कोर्स एडिटर',
       achievement_title: '[AI_TRANSLATION]उपलब्धि संपादक',
-      poll_title: '[AI_TRANSLATION]संपादक पोल',
       resource_title: '[AI_TRANSLATION]रिसोर्स एडिटर',
       chat_title: '[AI_TRANSLATION]चैट एडिटर',
       ai_scenario_title: '[AI_TRANSLATION]एआई परिदृश्य संपादक',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: '[AI_TRANSLATION]नया स्तर बनाने के लिए लॉग इन करें',
       new_achievement_title: '[AI_TRANSLATION]एक नई उपलब्धि बनाओ',
       new_achievement_title_login: '[AI_TRANSLATION]नया अचीवमेंट बनाने के लिए लॉग इन करें',
-      new_poll_title: '[AI_TRANSLATION]नया पोल बनाओ',
-      new_poll_title_login: '[AI_TRANSLATION]लॉग इन करें नई पोल बनाने के लिए',
       new_course_title: '[AI_TRANSLATION]एक नया कोर्स बनाएं',
       new_course_title_login: '[AI_TRANSLATION]नया कोर्स बनाने के लिए लॉग इन करें',
       new_resource_title: '[AI_TRANSLATION]एक नया संसाधन बनाएँ',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: '[AI_TRANSLATION]थैंग प्रकार यहां खोजें',
       level_search_title: '[AI_TRANSLATION]यहाँ स्तर खोजें',
       achievement_search_title: '[AI_TRANSLATION]उपलब्धियों की खोज',
-      poll_search_title: '[AI_TRANSLATION]पोल्स खोजें',
       course_search_title: '[AI_TRANSLATION]कोर्स खोजें',
       resource_search_title: '[AI_TRANSLATION]संसाधनों की खोज करो',
       chat_search_title: '[AI_TRANSLATION]चैट्स खोजें',

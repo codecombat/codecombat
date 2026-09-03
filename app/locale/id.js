@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Prestasi',
       settings: 'Pengaturan',
-      poll: 'Poll',
       next: 'Lanjut',
       change_hero: 'Ganti Jagoan',
       change_hero_or_language: 'Ganti Jagoan atau Bahasa',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '(perangkat tidak diperlukan). Aktivitas Alexa ini dipersembahkan oleh',
       future_eng_4: 'Insinyur Masa Depan Amazon',
       future_eng_5: 'program yang menciptakan kesempatan belajar dan bekerja bagi semua siswa K-12 di Amerika Serikat yang ingin mengejar ilmu komputer.',
-    },
-
-    live_class: {
-      title: 'Terima kasih!',
-      content: 'Luar biasa! Kami baru saja meluncurkan kelas online langsung.',
-      link: 'Siap melanjutkan pengkodean Anda?',
-    },
-
-    code_quest: {
-      great: 'Hebat!',
-      join_paragraph: 'Bergabunglah dengan turnamen pengkodean Python AI internasional terbesar untuk segala usia dan berkompetisi untuk menduduki peringkat teratas papan peringkat! Pertarungan global selama sebulan ini dimulai 1 Agustus dan termasuk hadiah senilai $5.000 dan penghargaan penghargaan tempat kami di virtual mengumumkannya pemenang dan kenali keterampilan pengkodean Anda. ',
-      link: 'Klik di sini untuk mendaftar dan belajar lebih lanjut',
-      global_tournament: 'Turnamen Global',
-      register: 'Daftar',
-      date: '1 Agustus - 31 Agustus',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: 'Editor Level',
       course_title: 'Editor Kursus',
       achievement_title: 'Editor Prestasi',
-      poll_title: 'Editor Jajak Pendapat',
       resource_title: '[AI_TRANSLATION]Editor Sumber Daya',
       chat_title: '[AI_TRANSLATION]Editor Obrolan',
       ai_scenario_title: '[AI_TRANSLATION]Editor Skenario AI',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: 'Masuk untuk Membuat Tingkat Baru',
       new_achievement_title: 'Ciptakan Prestasi Baru',
       new_achievement_title_login: 'Masuk untuk Menciptakan Prestasi Baru',
-      new_poll_title: 'Buat Jajak Pendapat Baru',
-      new_poll_title_login: 'Masuk untuk Membuat Jajak Pendapat Baru',
       new_course_title: '[AI_TRANSLATION]Buat Kursus Baru',
       new_course_title_login: '[AI_TRANSLATION]Masuk untuk Membuat Kursus Baru',
       new_resource_title: '[AI_TRANSLATION]Buat Sumber Daya Baru',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: 'Telusuri Jenis Thang Di Sini',
       level_search_title: 'Telusuri Tingkat Di Sini',
       achievement_search_title: 'Pencapaian Penelusuran',
-      poll_search_title: 'Telusuri Jajak Pendapat',
       course_search_title: '[AI_TRANSLATION]Cari Kursus  ',
       resource_search_title: '[AI_TRANSLATION]Cari Sumber Daya',
       chat_search_title: '[AI_TRANSLATION]Cari Obrolan',

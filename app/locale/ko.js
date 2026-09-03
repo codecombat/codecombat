@@ -568,7 +568,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: '성취한 목표',
       settings: '설정',
-      poll: '투표',
       next: '다음',
       change_hero: '영웅 교체',
       change_hero_or_language: '영웅과 프로그래밍 언어 교체',
@@ -1289,21 +1288,6 @@ module.exports = {
       future_eng_3: '(디바이스는 필요 없습니다). 이 Alexa 활동이 당신을 위해 주어진 것입니다.',
       future_eng_4: '미래의 Amazon 엔지니어',
       future_eng_5: '컴퓨터 공학을 추구하는 미국의 모든 K-12 학생들에게 학습과 직업 기회를 만드는 프로그램입니다.',
-    },
-
-    live_class: {
-      title: '[AI_TRANSLATION]고마워!',
-      content: '[AI_TRANSLATION]대박! 방금 라이브 온라인 수업을 시작했어.',
-      link: '[AI_TRANSLATION]코딩 앞서갈 준비 됐어?',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]좋아!',
-      join_paragraph: '[AI_TRANSLATION]모든 연령을 위한 국제적인 최대 규모의 Python AI 코딩 대회에 참가하고 리더보드 상위를 노리세요! 이 한 달간의 글로벌 전투는 8월 1일에 시작되며, $5k 상당의 상품과 수상자 발표 및 코딩 실력을 인정받는 가상 시상식이 포함되어 있습니다.\n',
-      link: '[AI_TRANSLATION]여기를 클릭하여 등록하고 더 알아봐',
-      global_tournament: '[AI_TRANSLATION]글로벌 토너먼트',
-      register: '[AI_TRANSLATION]등록해',
-      date: '[AI_TRANSLATION]8월 1일 - 8월 31일\n',
     },
 
     play_game_dev_level: {
@@ -3124,7 +3108,6 @@ module.exports = {
       level_title: '레벨 에디터',
       course_title: '[AI_TRANSLATION]코스 에디터',
       achievement_title: '업적 에디터',
-      poll_title: '투표 에디터',
       resource_title: '[AI_TRANSLATION]자원 편집기',
       chat_title: '[AI_TRANSLATION]챗 에디터',
       ai_scenario_title: '[AI_TRANSLATION]AI 시나리오 편집기',
@@ -3218,8 +3201,6 @@ module.exports = {
       new_level_title_login: '새로운 레벨을 만드시려면 로그인하세요.',
       new_achievement_title: '새 업적 만들기',
       new_achievement_title_login: '새로운 업적을 만드시려면 로그인하세요.',
-      new_poll_title: '새 설문 만들기',
-      new_poll_title_login: '새로운 설문을 만드시려면 로그인하세요.',
       new_course_title: '[AI_TRANSLATION]새 코스 만들기',
       new_course_title_login: '[AI_TRANSLATION]새 코스를 만들려면 로그인하세요.',
       new_resource_title: '[AI_TRANSLATION]새로운 자원 만들기',
@@ -3246,7 +3227,6 @@ module.exports = {
       thang_search_title: 'Thang 타입들은 여기에서 찾으세요',
       level_search_title: '레벨들은 여기에서 찾으세요',
       achievement_search_title: '업적 검색',
-      poll_search_title: '[AI_TRANSLATION]설문 조사 검색',
       course_search_title: '[AI_TRANSLATION]코스 검색',
       resource_search_title: '[AI_TRANSLATION]리소스 검색',
       chat_search_title: '[AI_TRANSLATION]채팅 검색  ',
