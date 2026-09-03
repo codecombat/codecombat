@@ -18,7 +18,7 @@
     </div>
     <div class="body">
       <div class="sub-title">
-        <div />
+        <div /> <!-- grid layout space placeholder -->
         <div class="current-status">
           {{ $t('payments.current_status') }}
         </div>
@@ -31,7 +31,7 @@
         :key="stat.product"
         class="products"
       >
-        <div />
+        <div /> <!-- grid layout space placeholder -->
         <div class="current-status">
           <img :src="iconMap[stat.product]">
           <div class="infos">
@@ -100,19 +100,16 @@ export default {
         hackstack: '/images/pages/hackstack/ai-hs-icon.webp',
         aileague: '/images/pages/league/logo_badge.png',
       },
-      statMap: {},
     }
   },
   computed: {
     stats () {
-      return Object.values(this.statMap)
+      return [this.cocoStat, this.aileagueStat, this.hsStat].filter(x => Object.keys(x).length)
     },
-  },
-  watch: {
-    cocoProgress () {
+    cocoStat () {
       if (Object.values(this.cocoProgress).length) {
         const { levels, total, campaign, campaignName } = this.cocoProgress
-        this.$set(this.statMap, 'codecombat', {
+        return {
           product: 'codecombat',
           displayName: $.i18n.t('schools_page.codecombat'),
           progress: levels / total,
@@ -120,13 +117,15 @@ export default {
             levels, total, name: campaignName || campaign,
           }),
           next: `/play/${campaign}`,
-        })
+        }
+      } else {
+        return {}
       }
     },
-    aileagueProgress () {
+    aileagueStat () {
       if (Object.values(this.aileagueProgress).length) {
         const { myRank, total, slug, name } = this.aileagueProgress
-        this.$set(this.statMap, 'aileague', {
+        return {
           product: 'aileague',
           displayName: $.i18n.t('schools_page.ai_league'),
           progress: (total > 1) ? ((total - myRank) / (total - 1)) : 1,
@@ -134,13 +133,15 @@ export default {
             myRank, name: name || slug,
           }),
           next: `/play/ladder/${slug}`,
-        })
+        }
+      } else {
+        return {}
       }
     },
-    hsProgress () {
+    hsStat () {
       if (Object.values(this.hsProgress).length) {
         const { levels, total, campaign, campaignName } = this.hsProgress
-        this.$set(this.statMap, 'hackstack', {
+        return {
           product: 'hackstack',
           displayName: $.i18n.t('schools_page.ai_hackstack'),
           progress: levels / total,
@@ -148,7 +149,9 @@ export default {
             levels, total, name: campaignName || campaign,
           }),
           next: `/ai/play/${campaign}`,
-        })
+        }
+      } else {
+        return {}
       }
     },
   },
@@ -157,7 +160,9 @@ export default {
       application.router.navigate(link, { trigger: true })
     },
     track (link) {
-      window.tracker?.trackEvent(`click link to ${link} from ${this.location}`)
+      window.tracker?.trackEvent('ManagePayment View click link from YourProgress', {
+        link,
+      })
     },
   },
 }

@@ -32,7 +32,7 @@ const cocoCampaignIndexMap = new Map(
   utils.orderedHomeCampaignSlugs.map((slug, idx) => [slug, idx]),
 )
 const hsCampaignIndexMap = new Map(
-  utils.orderedHSCampaignSlugs.map((slug, idx) => [slug, idx]),
+  utils.orderedHomeHSCampaignSlugs.map((slug, idx) => [slug, idx]),
 )
 export default {
   name: 'NewManageBillingView',
@@ -79,7 +79,7 @@ export default {
       if (maxIdx === undefined || maxIdx === -1) {
         return {}
       }
-      const latestCampaign = utils.orderedHSCampaignSlugs[maxIdx]
+      const latestCampaign = utils.orderedHomeHSCampaignSlugs[maxIdx]
       const maxStats = this.hsStats?.progress?.find(c => c._id.campaign === latestCampaign)
       const campaign = this.campaigns.find(c => c.slug === latestCampaign)
       return {

@@ -524,7 +524,7 @@ const orderedHomeCampaignSlugs = [
   'glacier',
 ]
 
-const orderedHSCampaignSlugs = [
+const orderedHomeHSCampaignSlugs = [
   'intro-to-ai',
   'math-and-stats',
   'artificial-intelligence-1',
@@ -2138,7 +2138,7 @@ module.exports = {
   GD_COURSE_IDS,
   WD_COURSE_IDS,
   showOzaria,
-  orderedHSCampaignSlugs,
+  orderedHomeHSCampaignSlugs,
   orderedHomeCampaignSlugs,
 }
 
