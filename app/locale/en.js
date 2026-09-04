@@ -5736,6 +5736,18 @@ module.exports = {
       payment_history: 'Payment History',
       payment_history_btn_all: 'View all Invoices',
       payment_history_btn_less: 'View recent Invoices',
+      your_progress_title: 'Your Progress',
+      your_progress_desc: "You've started your learning journey. Keep it up!",
+      current_status: 'Current Status',
+      codecombat_continue_title: 'Play next level',
+      codecombat_continue_desc: 'Continue your coding adventure',
+      aileague_continue_title: 'Compete in the arena',
+      aileague_continue_desc: 'Battle to win prizes',
+      hackstack_continue_title: 'Continue building',
+      hackstack_continue_desc: 'Vibe code something amazing',
+      codecombat_desc_template: '__levels__/__total__ levels in the __name__',
+      aileague_desc_template: 'Ranking __myRank__ in the __name__',
+      hs_desc_template: '__levels__/__total__ levels in the __name__',
     },
 
     form_validation_errors: {
