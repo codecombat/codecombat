@@ -157,12 +157,10 @@ export default {
   },
   methods: {
     goto (link) {
-      application.router.navigate(link, { trigger: true })
-    },
-    track (link) {
       window.tracker?.trackEvent('ManagePayment View click link from YourProgress', {
         link,
       })
+      application.router.navigate(link, { trigger: true })
     },
   },
 }
