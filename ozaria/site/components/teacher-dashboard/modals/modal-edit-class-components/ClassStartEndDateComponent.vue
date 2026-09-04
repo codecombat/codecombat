@@ -61,7 +61,7 @@ export default Vue.extend({
         return this.classDateStart
       },
       set (newV) {
-        this.$emit('classDateStartUpdated', this.checkAndSetDate(new Date(newV)))
+        this.$emit('classDateStartUpdated', this.checkAndSetDate(dayjs(newV).toDate()))
       },
     },
     newClassDateEnd: {
@@ -69,7 +69,7 @@ export default Vue.extend({
         return this.classDateEnd
       },
       set (newV) {
-        this.$emit('classDateEndUpdated', this.checkAndSetDate(new Date(newV)))
+        this.$emit('classDateEndUpdated', this.checkAndSetDate(dayjs(newV).toDate()))
       },
     },
   },
@@ -78,10 +78,10 @@ export default Vue.extend({
       if (isNaN(d.getTime())) {
         return ''
       }
-      if (d < new Date(this.guardDate.min)) {
+      if (d < dayjs(this.guardDate.min).toDate()) {
         d = this.guardDate.min
       }
-      if (d > new Date(this.guardDate.max)) {
+      if (d > dayjs(this.guardDate.max).toDate()) {
         d = this.guardDate.max
       }
       return dayjs(d).format('YYYY-MM-DD')
