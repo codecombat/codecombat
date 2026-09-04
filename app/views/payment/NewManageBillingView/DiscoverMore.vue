@@ -38,8 +38,29 @@ export default {
       type: String,
       default: 'ManageBillingView',
     },
+    cocoProgress: {
+      type: Object,
+      default: () => ({}),
+    },
+    hsProgress: {
+      type: Object,
+      default: () => ({}),
+    },
+    aileagueProgress: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   computed: {
+    hasCocoProgress () {
+      return Object.keys(this.cocoProgress).length
+    },
+    hasHsProgress () {
+      return Object.keys(this.hsProgress).length
+    },
+    hasAiLeagueProgress () {
+      return Object.keys(this.aileagueProgress).length
+    },
     cards () {
       return [
         // junior
@@ -53,6 +74,7 @@ export default {
         },
         // codecombat
         {
+          hide: this.hasCocoProgress,
           title: this.$t('parents_v2.codecombat_title'),
           text: this.$t('new_premium.codecombat_text_short'),
           link: 'https://codecombat.com/play',
@@ -62,6 +84,7 @@ export default {
         },
         // esports
         {
+          hide: this.hasAiLeagueProgress,
           title: this.$t('parents_v2.ai_league_sports_title'),
           text: this.$t('new_premium.ai_league_text_short'),
           link: 'https://codecombat.com/league',
@@ -81,6 +104,7 @@ export default {
         },
         // hackstack
         {
+          hide: this.hasHsProgress,
           title: this.$t('parents_v2.ai_hackstack_title'),
           text: this.$t('new_premium.ai_hackstack_text_short'),
           image: '/images/pages/premium/tiles/pbox_5.webp',
@@ -114,7 +138,7 @@ export default {
             },
           ],
         },
-      ]
+      ].filter(i => !i.hide)
     },
   },
   methods: {
