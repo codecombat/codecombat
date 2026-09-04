@@ -140,9 +140,10 @@ export default Vue.extend({
       }, { used: 0, count: 0, teachers: new Set(), schools: new Set() })
     },
 
+    // the coding courses; AI HackStack courses render in their own section below
     coursesWithProgress () {
       if (!this.org.progress) return []
-      let courses = _.cloneDeep(this.sortedCourses)
+      let courses = _.cloneDeep(this.sortedCourses.filter(course => !utils.HACKSTACK_COURSE_IDS.includes(course._id)))
       patchWd2Progress(this.org.progress)
       courses = this.formatCourse(courses, this.org.progress, this.org.newReport)
       if (this.showOther && this.otherOrg?.progress) {
@@ -153,6 +154,33 @@ export default Vue.extend({
       }
 
       return courses
+    },
+
+    // every AI HackStack course with students, at 0% too (the issue: "each course that has students")
+    hsCoursesWithProgress () {
+      if (!this.org.progress) return []
+      const courses = _.cloneDeep(this.sortedCourses.filter(course => utils.HACKSTACK_COURSE_IDS.includes(course._id)))
+      return this.formatCourse(courses, this.org.progress, this.org.newReport, { keepStarted: true })
+    },
+
+    hsStudentsWithCode () {
+      return this.org.progress.hsStudentsWithCode || 0
+    },
+
+    hsProjects () {
+      return this.org.progress.hsLevels || 0 // completed projects; the stats store them as hsLevels
+    },
+
+    hsChatMessages () {
+      return this.org.progress.hsChatMessages || 0
+    },
+
+    hsPlayTime () {
+      return this.org.progress.hsPlayTime || 0
+    },
+
+    hsCapstones () {
+      return this.org.progress.hsCapstones || 0
     },
 
     schoolCount () {
@@ -344,7 +372,7 @@ export default Vue.extend({
       return Math.round(num / 1000000000000) + 'T'
     },
 
-    formatCourse (courses, progress, newReport) {
+    formatCourse (courses, progress, newReport, { keepStarted = false } = {}) {
       let alreadyCoveredConcepts = []
       for (const course of courses) {
         course.name = utils.i18n(course, 'name')
@@ -364,7 +392,7 @@ export default Vue.extend({
         alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
       }
       if (newReport) {
-        courses = _.filter(courses, (course) => course.completeLevels >= 1)
+        courses = _.filter(courses, (course) => course.completeLevels >= 1 || (keepStarted && course.studentsStarting >= 1))
       } else {
         courses = _.filter(courses, (course) => (course.studentsStarting + course.studentsCompleting) >= Math.min(100, Math.max(2, Math.ceil(0.02 * progress.studentsWithCode))))
       }
@@ -523,6 +551,41 @@ export default Vue.extend({
             .overlay-text.mid-text= course.acronym
             .overlay-text.bot-text= Math.round(100 * course.completion) + '% ' + $t('courses.complete')
 
+  .block(v-if="included && coursesLoaded && hsCoursesWithProgress[0] && (hsCoursesWithProgress[0].completion !== null || hsCoursesWithProgress[0].studentsStarting > 1)" :class="isSubOrg && hsCoursesWithProgress.length > 1 ? 'dont-break' : ''")
+    h1= $t('outcomes.ai_hackstack_progress')
+    for course in hsCoursesWithProgress
+      if !isSubOrg || hsCoursesWithProgress.length == 1
+        .course.dont-break.full-row
+          h3= course.name
+          .bar
+            .el
+              svg(width=100, height=100)
+                - var radius = 50
+                circle.bottom(r=radius,cx=radius, cy=radius)
+                circle.top(r=radius / 2, cx=radius, cy=radius, :style="'stroke-dasharray: ' + 3.1415926 * 50 * course.completion + 'px ' + 3.1415926 * 50 + 'px'")
+            .el
+              .big #{Math.round(100 * course.completion)}%
+              .under= $t('courses.complete')
+            .el(v-if="org.kind != 'student'")
+              .big #{formatNumber(course.studentsStarting)}
+              .under= (course.studentsStarting === 1 ? $t("courses.student") : $t("courses.students")).toLocaleLowerCase()
+            .el.concepts-list(v-if="course.newConcepts.length")
+              b= $t('outcomes.key_concepts') + ':'
+              ul
+                li(v-for="concept in course.newConcepts.slice(0, 6)")
+                  span {{$t('concepts.' + concept)}}
+      else
+        .course.inline
+          .el
+            svg(width=100, height=100)
+              - var radius = 50
+              circle.bottom(r=radius,cx=radius,cy=radius)
+              circle.top(r=radius / 2, cx=radius, cy=radius, :style="'stroke-dasharray: ' + 3.1415926 * 50 * course.completion + 'px ' + 3.1415926 * 50 + 'px'")
+            if org.kind != 'student'
+              .overlay-text.top-text #{formatNumber(course.studentsStarting)} #{(course.studentsStarting === 1 ? $t('courses.student') : $t('courses.students')).toLocaleLowerCase()}
+            .overlay-text.mid-text= course.acronym
+            .overlay-text.bot-text= Math.round(100 * course.completion) + '% ' + $t('courses.complete')
+
   .block(v-if="org.progress && programs > 1 && included && codeLanguageStats.length > 1 && !codeLanguageString")
     // TODO: somehow note the code language if we are skipping this section (like 100% Python at school level)
     .course.dont-break.full-row
@@ -585,6 +648,48 @@ export default Vue.extend({
           small= $t('outcomes.report_content_1') + (projects == 1 ? $t('outcomes.project') : $t('outcomes.projects'))
     if org.progress && sampleSize < populationSize
       em=  "* " + $t('outcomes.progress_stats', {sampleSize: formatNumber(sampleSize), populationSize: formatNumber(populationSize)})
+
+  .dont-break.block.summary(v-if="org.progress && hsStudentsWithCode > 0 && included")
+    h1= $t('outcomes.ai_hackstack_summary')
+    if org.kind != 'student'
+      h4= $t('outcomes.using_ai_hackstack')
+      .fakebar
+        div
+          | #{formatNumber(hsStudentsWithCode)}
+          = " "
+          small= (hsStudentsWithCode == 1 ? $t('courses.student') : $t('courses.students')).toLocaleLowerCase()
+    if org.kind === 'student'
+      h4= (org.displayName || org.name) + ' ' + $t('outcomes.completed')
+    else
+      h4= $t('outcomes.completed')
+    .fakebar
+      div
+        | #{formatNumber(hsProjects)}
+        = " "
+        small= hsProjects == 1 ? $t('outcomes.ai_project') : $t('outcomes.ai_projects')
+    h4= $t('outcomes.practicing_with')
+    .fakebar
+      div
+        | #{formatNumber(hsChatMessages)}
+        = " "
+        small= hsChatMessages == 1 ? $t('outcomes.ai_prompt') : $t('outcomes.ai_prompts')
+    if hsPlayTime > 0
+      h4= $t('outcomes.in')
+      .fakebar
+        div
+          if hsPlayTime > 1.5 * 3600
+            span= formatNumber(Math.round(hsPlayTime / 3600))
+          else
+            span= (hsPlayTime / 3600).toFixed(1)
+          = " "
+          small= $t('outcomes.coding_hours')
+    if hsCapstones > 0
+      h4= $t('outcomes.and_created')
+      .fakebar
+        div
+          | #{formatNumber(hsCapstones)}
+          = " "
+          small= hsCapstones == 1 ? $t('outcomes.ai_capstone_project') : $t('outcomes.ai_capstone_projects')
 
   .block(v-if="['school', 'teacher', 'school-district'].includes(org.kind) && leagueStats && leagueStats.totalPlayers > 1")
     h1= $t('outcomes.ai_league')
