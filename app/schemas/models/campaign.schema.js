@@ -219,6 +219,7 @@ _.extend(CampaignSchema.properties, {
         slug: { type: 'string', format: 'hidden' },
         displayName: { type: 'string', title: 'Display Name', description: 'Tile label. Falls back to the mini-game name.' },
         icon: { type: 'string', format: 'image-file', title: 'Icon', description: 'The image to use for the tile on the interface.' },
+        accentColor: { type: 'string', format: 'color', title: 'Accent Color', description: 'Glow behind the tile on the Star Lab map, e.g. #FF5A3C. Leave empty for a neutral glow.' },
         position: {
           type: 'object',
           title: 'Position',
