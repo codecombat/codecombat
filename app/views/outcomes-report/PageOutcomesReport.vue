@@ -27,7 +27,7 @@ const parameterDefaults = () => ({
   startDate: null,
   endDate: moment(new Date()).format('YYYY-MM-DD'),
   editing: me.isAdmin(),
-  includeOther: true,
+  includeOther: false,
   showOther: true,
 })
 
@@ -139,13 +139,18 @@ export default {
 
   created () {
     this.kind = this.$route.params.kind || null
+    if (this.kind !== 'classroom') {
+      this.includeOther = true
+    }
     this.orgIdOrSlug = this.$route.params.idOrSlug || null
     this.country = this.$route.params.country || null
     this.fetchCourses()
     if (me.isInternal() || me.isAdmin()) {
       this.showLicenseSummary = true
     }
-    this.fetchOtherCourses(this.otherProduct)
+    if (this.includeOther) {
+      this.fetchOtherCourses(this.otherProduct)
+    }
   },
 
   mounted () {
