@@ -19,7 +19,12 @@
         <template
           #description
         >
-          <a @click="cancelModal = true">
+          <a
+            role="button"
+            tabindex="0"
+            @click="cancelModal = true"
+            @keydown.enter.prevent="cancelModal = true"
+          >
             {{ $t('payments.billing_portal_btn_desc') }}
           </a>
         </template>
@@ -132,7 +137,7 @@ export default {
     },
     remainLevels () {
       const allLevels = Math.sumPrecise(Object.values(this.cocoStats?.campaignAllLevels ?? {}))
-      const langLevels = this.cocoStats?.progress?.reduce((sum, it) => {
+      const langLevels = (this.cocoStats?.progress ?? []).reduce((sum, it) => {
         const lang = it._id.codeLanguage
         if (!(lang in sum)) {
           sum[lang] = 0
@@ -140,8 +145,8 @@ export default {
         sum[lang] += it.levels
         return sum
       }, {})
-      const maxLevels = Math.max(...Object.values(langLevels))
-      return allLevels - maxLevels
+      const maxLevels = Math.max(0, ...Object.values(langLevels))
+      return Math.max(0, allLevels - maxLevels)
     },
   },
   async created () {
