@@ -11,12 +11,19 @@
       <div class="desc">
         {{ $t('payments.billing_portal_desc') }}
       </div>
-      <div
+      <CTAButton
         class="button"
-        @click="onManageBilling"
+        @clickedCTA="onManageBilling"
       >
         {{ $t('payments.billing_portal_btn') }}
-      </div>
+        <template
+          #description
+        >
+          <a @click="cancelModal = true">
+            {{ $t('payments.billing_portal_btn_desc') }}
+          </a>
+        </template>
+      </CTAButton>
     </div>
     <div class="payment-history card">
       <div class="header">
@@ -52,15 +59,44 @@
         <div>{{ $t('account.no_payments_found') }}</div>
       </div>
     </div>
+    <ModalBeforeYouGo
+      v-if="cancelModal"
+      :remain-credits="remainCredits"
+      :remain-solutions="remainSolutions"
+      :remain-levels="remainLevels"
+      :manage-url="customerPortalUrl"
+      @close="cancelModal = false"
+    />
   </div>
 </template>
 
 <script>
 import { createPaymentCustomerPortal } from '../../../core/api/payment-customer-portal'
 import paymentApi from '../../../core/api/payment'
+import usersApi from '../../../core/api/users'
+import CTAButton from 'app/components/common/buttons/CTAButton'
+import ModalBeforeYouGo from './ModalBeforeYouGo'
 
 export default {
   name: 'BillingPortal',
+  components: {
+    CTAButton,
+    ModalBeforeYouGo,
+  },
+  props: {
+    cocoStats: {
+      type: Object,
+      default: () => ({}),
+    },
+    hsProgress: {
+      type: Object,
+      default: () => ({}),
+    },
+    aileagueProgress: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data () {
     return {
       history_title: { date: 'Date', amount: 'Amount' },
@@ -68,6 +104,8 @@ export default {
       customerPortalUrl: '',
       view_all: false,
       errMsg: '',
+      cancelModal: false,
+      aiCredits: [],
     }
   },
   computed: {
@@ -85,6 +123,26 @@ export default {
         return this.$t('payments.payment_history_btn_all')
       }
     },
+    remainCredits () {
+      return this.aiCredits?.[0]?.creditsLeft ?? 0
+    },
+    remainSolutions () {
+      const haveSolutions = (this.cocoStats?.progress?.length ? 1 : 0) + (Object.keys(this.hsProgress)?.length ? 1 : 0) + (Object.keys(this.aileagueProgress)?.length ? 1 : 0)
+      return 6 - haveSolutions
+    },
+    remainLevels () {
+      const allLevels = Math.sumPrecise(Object.values(this.cocoStats?.campaignAllLevels ?? {}))
+      const langLevels = this.cocoStats?.progress?.reduce((sum, it) => {
+        const lang = it._id.codeLanguage
+        if (!(lang in sum)) {
+          sum[lang] = 0
+        }
+        sum[lang] += it.levels
+        return sum
+      }, {})
+      const maxLevels = Math.max(...Object.values(langLevels))
+      return allLevels - maxLevels
+    },
   },
   async created () {
     let errMsg
@@ -101,6 +159,7 @@ export default {
     }
     await this.fetchCustomerPortalUrl()
     await this.loadPaymentHistory()
+    this.aiCredits = (await usersApi.getUserCredits('HACKSTACK_QUERY'))?.result
   },
   methods: {
     toggleView () {
@@ -146,6 +205,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/bootstrap/variables";
+@import "app/styles/component_variables.scss";
 .portal {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -189,13 +250,14 @@ export default {
   }
   .button {
     grid-column: 2;
-    grid-row: 3;
     font-weight: 700;
     width: fit-content;
-    background-color: rgb(122, 101, 252);
-    border-radius: 6px;
-    padding: 6px 16px;
-    color: white;
+
+    ::v-deep {
+      a {
+        color: var(--color-primary);
+      }
+    }
   }
 }
 .payment-history {

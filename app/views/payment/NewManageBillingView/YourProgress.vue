@@ -194,7 +194,7 @@ export default {
 
 .body {
   display: grid;
-  grid-template-columns: 1fr 4fr 4fr;
+  grid-template-columns: 1fr 8fr 8fr;
   grid-template-rows: 1fr;
   align-items: center;
   gap: 12px;
