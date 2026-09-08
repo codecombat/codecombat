@@ -78,6 +78,26 @@ describe('AI Junior worksheet batch identity', () => {
     expect(scenariosApi.getAIJuniorScenario).not.toHaveBeenCalled()
   }))
 
+  it('resolves compact fingerprints to the exact scenario before cropping', runAsync(async () => {
+    window.spyOn(scenariosApi, 'resolveAIJuniorWorksheetCode').and.returnValue(Promise.resolve({ scenarioId: SECOND }))
+    await wrapper.vm.onQRFound({ scenarioHandle: 'c63bd7549611', userId: STUDENT, isFingerprint: true })
+    expect(scenariosApi.resolveAIJuniorWorksheetCode).toHaveBeenCalledWith('c63bd7549611')
+    expect(wrapper.vm.activeScenarioHandle).toBe(SECOND)
+    expect(wrapper.vm.ownerId).toBe(STUDENT)
+    expect(wrapper.vm.scanner.regions[0].id).toBe(SECOND)
+  }))
+
+  it('ignores a compact lookup that completes after moving to another sheet', runAsync(async () => {
+    let finish
+    window.spyOn(scenariosApi, 'resolveAIJuniorWorksheetCode').and.returnValue(new Promise(resolve => { finish = resolve }))
+    const pending = wrapper.vm.onQRFound({ scenarioHandle: 'c63bd7549611', userId: STUDENT, isFingerprint: true })
+    wrapper.vm.nextSheet()
+    finish({ scenarioId: SECOND })
+    await pending
+    expect(wrapper.vm.scenario).toBe(null)
+    expect(scenariosApi.getAIJuniorScenario).not.toHaveBeenCalled()
+  }))
+
   it('keeps manual capture as the default', () => {
     expect(wrapper.vm.autoCaptureWanted).toBe(false)
   })

@@ -269,7 +269,7 @@
 </template>
 
 <script>
-import { getAIJuniorScenario, getAIJuniorScenarios } from 'app/core/api/ai-junior-scenarios'
+import { getAIJuniorScenario, getAIJuniorScenarios, resolveAIJuniorWorksheetCode } from 'app/core/api/ai-junior-scenarios'
 import { createNewAIJuniorProject, processAIJuniorProject, getAIJuniorProject } from 'app/core/api/ai-junior-projects'
 import usersApi from 'app/core/api/users'
 import { DocumentScanner, drawOverlay, pickCorner } from 'app/lib/doc-capture/capture'
@@ -446,12 +446,15 @@ export default {
 
     // The worksheet's QR code names both the activity and the child it was
     // printed for, which is everything a bare /ai-junior/scan page needs.
-    async onQRFound ({ scenarioHandle, userId, isPrefix }) {
+    async onQRFound ({ scenarioHandle, userId, isPrefix, isFingerprint }) {
       if (this.activeScenarioHandle || this.qrSearching || this.stage !== 'capture') return
       const revision = this.sheetRevision
       this.qrSearching = true
       try {
-        if (isPrefix) {
+        if (isFingerprint) {
+          const resolved = await resolveAIJuniorWorksheetCode(scenarioHandle)
+          scenarioHandle = resolved.scenarioId
+        } else if (isPrefix) {
           const scenarios = await getAIJuniorScenarios()
           const matches = (scenarios || []).filter(s => String(s._id).startsWith(scenarioHandle))
           if (matches.length !== 1) {
