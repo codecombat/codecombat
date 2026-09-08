@@ -58,6 +58,10 @@ const SCENARIO_MARGIN_COMPENSATION_FACTOR = 0.33 // Compensates for bottom margi
 const COMPLETE_STATUS = 'complete'
 const STARTED_STATUS = 'started'
 
+// The hub map (/play with no campaign slug) has no campaign document of its own, so hub-level settings such as
+// ambientSound come from this campaign. Referenced by id: campaign slugs re-derive from `name` on every save.
+const HUB_CAMPAIGN_ID = '6a9fe655540e9017bfb987df' // rpg
+
 class LevelSessionsCollection extends CocoCollection {
   static initClass () {
     this.prototype.url = ''
@@ -178,14 +182,7 @@ class CampaignView extends RootView {
     if (!this.terrain) {
       this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
       this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
-      this.probablyCachedMusic = storage.load('loaded-menu-music')
-      const musicDelay = this.probablyCachedMusic ? 1000 : 10000
-      const delayMusicStart = () => setTimeout(() => {
-        if (!this.destroyed) {
-          this.playMusic()
-        }
-      }, musicDelay)
-      this.playMusicTimeout = delayMusicStart()
+      this.loadHubCampaign()
       return
     }
     if (this.terrain) {
@@ -1826,6 +1823,22 @@ class CampaignView extends RootView {
     return this.render()
   }
 
+  loadHubCampaign () {
+    // The overworld list only carries hero campaigns and a slim projection, so the hub campaign gets its own fetch.
+    // Kept outside the supermodel: the hub must still render if that campaign is ever missing.
+    const hubCampaign = new Campaign({ _id: HUB_CAMPAIGN_ID })
+    this.listenToOnce(hubCampaign, 'sync', () => {
+      this.stopListening(hubCampaign)
+      this.hubCampaign = hubCampaign
+      this.playHubMusic()
+    })
+    this.listenToOnce(hubCampaign, 'error', () => {
+      this.stopListening(hubCampaign)
+      this.playHubMusic()
+    })
+    hubCampaign.fetch()
+  }
+
   preloadLevel (levelSlug) {
     const levelURL = `/db/level/${levelSlug}`
     const level = new Level().setURL(levelURL)
@@ -2079,7 +2092,7 @@ class CampaignView extends RootView {
   playAmbientSound () {
     if (!me.get('volume')) { return }
     if (this.ambientSound) { return }
-    const file = this.campaign?.get('ambientSound')?.[AudioPlayer.ext.substr(1)]
+    const file = this.getAmbientSoundFile()
     if (!file) { return }
     const src = `/file/${file}`
     if (!AudioPlayer.getStatus(src)?.loaded) {
@@ -2094,6 +2107,25 @@ class CampaignView extends RootView {
     }
     this.ambientSound = createjs.Sound.play(src, { loop: -1, volume: 0.1 })
     createjs.Tween.get(this.ambientSound).to({ volume: 0.5 }, 1000)
+  }
+
+  getAmbientSoundFile () {
+    const campaign = this.campaign || this.hubCampaign
+    return campaign?.get('ambientSound')?.[AudioPlayer.ext.substr(1)]
+  }
+
+  playHubMusic () {
+    if (this.getAmbientSoundFile()) {
+      return this.playAmbientSound()
+    }
+    // No hub track configured: fall back to the menu music, delayed so it doesn't compete with initial asset loading.
+    this.probablyCachedMusic = storage.load('loaded-menu-music')
+    const musicDelay = this.probablyCachedMusic ? 1000 : 10000
+    this.playMusicTimeout = setTimeout(() => {
+      if (!this.destroyed) {
+        this.playMusic()
+      }
+    }, musicDelay)
   }
 
   playMusic () {
