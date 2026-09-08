@@ -1,5 +1,5 @@
 <script>
-// import { getAIJuniorScenario } from 'core/api/ai-junior-scenarios'
+import { resolveAIJuniorWorksheetCode } from 'core/api/ai-junior-scenarios'
 import { createNewAIJuniorProject, processAIJuniorProject } from 'core/api/ai-junior-projects'
 import QRCode from 'qrcode'
 import { worksheetQRText } from 'lib/doc-capture/qr'
@@ -112,11 +112,12 @@ export default Vue.extend({
     },
   },
 
-  emits: ['process-project'],
+  emits: ['process-project', 'qr-ready'],
 
   data: () => ({
     error: null,
     qrCodeUrl: '',
+    qrRevision: 0,
     styleElement: null,
     printStyleElement: null,
     PALETTE,
@@ -246,26 +247,24 @@ export default Vue.extend({
 
     async generateQRCode () {
       if (!this.scenarioSlug) { return }
-      // Only a class print needs to name the child: the code says which sheet
-      // belongs to whom. On a sheet printed for yourself the scanner is already
-      // the owner, so leaving the id out shortens the payload enough to drop a
-      // whole QR version — 25 modules instead of 29, for nothing.
+      // Only class prints need the student's ID. A compact scenario code uses
+      // 25 modules alone, or 29 with a student, on codecombat.com (M correction).
       const userId = this.printUser?._id || null
-      // A short uppercase code rather than the full path. It still resolves to
-      // the scan flow — so a phone's own camera app lands in the right place —
-      // but at a third of the characters and in QR's alphanumeric mode, which
-      // between them make each printed module half as small again. On real
-      // scans the previous code was landing at about two pixels per module and
-      // never decoded once.
       const scenarioId = this.scenario?._id || this.scenarioSlug
-      const url = worksheetQRText(window.location.origin, scenarioId, userId)
+      const revision = (this.qrRevision || 0) + 1
+      this.qrRevision = revision
+      this.qrCodeUrl = ''
+      this.$emit('qr-ready', false)
       try {
-        // Printed at a fixed size, so what decides whether a phone can read it
-        // is how few modules have to fit in that square. The default four-module
-        // quiet zone is wider than it needs to be, and with the short payload
-        // levels M and L land on the same 29-module symbol — so the stronger
-        // error correction costs nothing.
-        this.qrCodeUrl = await QRCode.toDataURL(url, { errorCorrectionLevel: 'M', margin: 2 })
+        // Full IDs still work if an older server lacks the compact-code API.
+        const resolved = await resolveAIJuniorWorksheetCode(scenarioId).catch(() => null)
+        const compactCode = resolved?.scenarioId === scenarioId ? resolved.code : null
+        const url = worksheetQRText(window.location.origin, scenarioId, userId, compactCode)
+        const dataUrl = await QRCode.toDataURL(url, { errorCorrectionLevel: 'M', margin: 2 })
+        if (this.qrRevision === revision && !this._isDestroyed) {
+          this.qrCodeUrl = dataUrl
+          this.$emit('qr-ready', true)
+        }
       } catch (err) {
         console.error('Error generating QR code:', err)
       }
@@ -292,7 +291,7 @@ export default Vue.extend({
     },
 
     printWorksheet () {
-      window.print()
+      if (this.qrCodeUrl) window.print()
     },
 
     scaleWorksheet () {
@@ -798,6 +797,7 @@ export default Vue.extend({
       <div class="worksheet-buttons no-print">
         <button
           class="worksheet-button"
+          :disabled="!qrCodeUrl"
           @click="printWorksheet"
         >
           Print

@@ -54,29 +54,25 @@ export async function decodeQR (source, imageData) {
   return decodeQRFromImageData(imageData)
 }
 
-// How many leading hex characters of the scenario id go in a short code. There
-// are single-digit numbers of scenarios, so this is unambiguous with enormous
-// margin, and every character saved makes the printed modules bigger.
-export const SCENARIO_PREFIX_LENGTH = 6
-
 /**
  * The compact form printed on a worksheet.
  *
  * Written entirely in uppercase on purpose. QR has an alphanumeric mode that
  * packs digits, uppercase letters and a handful of symbols (including `:` `/`
- * and `.`) at 11 bits per two characters instead of 8 bits per character, and a
- * single lowercase letter anywhere in the payload forces the whole thing into
- * byte mode. Uppercasing the URL costs nothing — scheme and host are
- * case-insensitive, and the route matching the path is too — and it takes this
- * payload from 33 modules to 29.
+ * and `.`) at 11 bits per two characters instead of 8 bits per character.
+ * Lowercase letters need a byte-mode segment. Scheme and host are case-
+ * insensitive, and our route is too, so uppercase keeps the payload smaller. The server supplies
+ * a collision-checked 12-character fingerprint of the whole scenario ID. A
+ * full ID is the fallback when the compact code is unavailable.
  *
  * @param {string} origin e.g. https://codecombat.com
  * @param {string} scenarioId 24-character hex ObjectId
  * @param {string|null} userId 24-character hex ObjectId, when the sheet is for
  *   a particular child
+ * @param {string|null} compactCode server-issued worksheet code
  */
-export function worksheetQRText (origin, scenarioId, userId) {
-  const scenario = String(scenarioId || '').slice(0, SCENARIO_PREFIX_LENGTH)
+export function worksheetQRText (origin, scenarioId, userId, compactCode) {
+  const scenario = /^[a-f0-9]{12}$/i.test(compactCode || '') ? compactCode : String(scenarioId || '')
   const token = `${scenario}${userId || ''}`
   return `${origin}/s/${token}`.toUpperCase()
 }
@@ -86,13 +82,14 @@ export function worksheetQRText (origin, scenarioId, userId) {
  *
  * Three forms are accepted. The short one is what worksheets print now; the
  * other two keep sheets printed earlier working:
- *   /s/<scenarioIdPrefix>[<userId>]
+ *   /s/<12-character fingerprint or full scenarioId>[<userId>]
+ *     (legacy six-character prefixes still accepted)
  *   /ai-junior/scan/<scenarioHandle>[/<userId>]
  *   /ai-junior/project/<scenarioHandle>[/<userId>[/<projectId>]]
  *
- * @returns {{scenarioHandle: string, userId: string|null, isPrefix: boolean}|null}
+ * @returns {{scenarioHandle: string, userId: string|null, isPrefix: boolean, isFingerprint?: boolean}|null}
  *   `isPrefix` marks a scenario identified by the leading characters of its id
- *   rather than by a slug or a whole id, so the caller knows to resolve it.
+ *   rather than by a slug or a whole id. `isFingerprint` needs server resolution.
  */
 export function parseWorksheetQR (text) {
   if (!text || typeof text !== 'string') return null
@@ -105,19 +102,25 @@ export function parseWorksheetQR (text) {
     return null
   }
 
-  const short = /^\/s\/([0-9a-f]{6})([0-9a-f]{24})?$/i.exec(path)
+  const short = /^\/s\/([0-9a-f]{24}|[0-9a-f]{12}|[0-9a-f]{6})([0-9a-f]{24})?$/i.exec(path)
   if (short) {
     return {
       scenarioHandle: short[1].toLowerCase(),
       userId: short[2] ? short[2].toLowerCase() : null,
-      isPrefix: true,
+      isPrefix: short[1].length === 6,
+      ...(short[1].length === 12 ? { isFingerprint: true } : {}),
     }
   }
 
-  const match = /^\/ai-junior\/(?:scan|project)\/([^/]+)(?:\/([^/]+))?/.exec(path)
+  const match = /^\/ai-junior\/(?:scan|project)\/([^/]+)(?:\/([^/]+))?(?:\/[a-f0-9]{24})?\/?$/i.exec(path)
   if (!match) return null
-  const scenarioHandle = decodeURIComponent(match[1])
-  const userId = match[2] ? decodeURIComponent(match[2]) : null
+  let scenarioHandle, userId
+  try {
+    scenarioHandle = decodeURIComponent(match[1])
+    userId = match[2] ? decodeURIComponent(match[2]) : null
+  } catch (err) {
+    return null
+  }
   if (!scenarioHandle) return null
   return {
     scenarioHandle,

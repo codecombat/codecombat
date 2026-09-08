@@ -14,7 +14,7 @@
       <div class="toolbar-actions">
         <button
           class="btn btn-primary btn-lg"
-          :disabled="loading || !members.length"
+          :disabled="loading || !allQRReady"
           @click="printAll"
         >
           🖨 Print All
@@ -70,6 +70,7 @@
         <AIJuniorWorksheet
           :scenario="scenario"
           :print-user="member"
+          @qr-ready="onWorksheetQR(member._id, $event)"
         />
       </div>
     </div>
@@ -92,8 +93,12 @@ export default {
     classroom: null,
     classrooms: [],
     members: [],
+    readyQRs: {},
   }),
   computed: {
+    allQRReady () {
+      return this.members.length > 0 && this.members.every(member => this.readyQRs[member._id])
+    },
     scenarioHandle () {
       return this.$route.params.scenarioHandle
     },
@@ -119,8 +124,11 @@ export default {
     }
   },
   methods: {
+    onWorksheetQR (id, ready) {
+      this.$set(this.readyQRs, id, ready)
+    },
     printAll () {
-      window.print()
+      if (this.allQRReady) window.print()
     },
   },
 }
