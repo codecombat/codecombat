@@ -182,6 +182,7 @@ class CampaignView extends RootView {
     if (!this.terrain) {
       this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
       this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
+      this.loadHubCampaign()
       return
     }
     if (this.terrain) {
@@ -1819,9 +1820,23 @@ class CampaignView extends RootView {
   }
 
   onCampaignsLoaded (e) {
-    this.hubCampaign = this.campaigns.get(HUB_CAMPAIGN_ID)
-    this.playHubMusic()
     return this.render()
+  }
+
+  loadHubCampaign () {
+    // The overworld list only carries hero campaigns and a slim projection, so the hub campaign gets its own fetch.
+    // Kept outside the supermodel: the hub must still render if that campaign is ever missing.
+    const hubCampaign = new Campaign({ _id: HUB_CAMPAIGN_ID })
+    this.listenToOnce(hubCampaign, 'sync', () => {
+      this.stopListening(hubCampaign)
+      this.hubCampaign = hubCampaign
+      this.playHubMusic()
+    })
+    this.listenToOnce(hubCampaign, 'error', () => {
+      this.stopListening(hubCampaign)
+      this.playHubMusic()
+    })
+    hubCampaign.fetch()
   }
 
   preloadLevel (levelSlug) {

@@ -265,6 +265,11 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
   describe('hub music', function () {
     const HUB_CAMPAIGN_ID = '6a9fe655540e9017bfb987df'
     const ambientSound = name => ({ mp3: `db/campaign/x/${name}.mp3`, ogg: `db/campaign/x/${name}.ogg` })
+    const hubCampaignRequest = () => _.last(jasmine.Ajax.requests.filter(new RegExp(`/db/campaign/${HUB_CAMPAIGN_ID}`)))
+    const respondWithHubCampaign = attrs => hubCampaignRequest().respondWith({
+      status: 200,
+      responseText: JSON.stringify(_.extend({ _id: HUB_CAMPAIGN_ID, slug: 'rpg' }, attrs)),
+    })
 
     beforeEach(function () {
       jasmine.clock().install()
@@ -278,12 +283,12 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
       jasmine.clock().uninstall()
     })
 
+    it('fetches the hub campaign on its own, since the overworld list does not include it', function () {
+      expect(hubCampaignRequest()).toBeDefined()
+    })
+
     it('plays the hub campaign ambient sound instead of the menu music', function () {
-      this.campaignView.campaigns.reset([
-        factories.makeCampaign({ ambientSound: ambientSound('other') }),
-        factories.makeCampaign({ _id: HUB_CAMPAIGN_ID, ambientSound: ambientSound('hub') }),
-      ])
-      this.campaignView.onCampaignsLoaded()
+      respondWithHubCampaign({ ambientSound: ambientSound('hub') })
 
       expect(this.campaignView.getAmbientSoundFile()).toMatch(/\/hub\.(mp3|ogg)$/)
       expect(this.campaignView.playAmbientSound).toHaveBeenCalled()
@@ -292,17 +297,15 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
     })
 
     it('falls back to the menu music when the hub campaign has no ambient sound', function () {
-      this.campaignView.campaigns.reset([factories.makeCampaign({ _id: HUB_CAMPAIGN_ID })])
-      this.campaignView.onCampaignsLoaded()
+      respondWithHubCampaign({})
 
       expect(this.campaignView.playAmbientSound).not.toHaveBeenCalled()
       jasmine.clock().tick(10001)
       expect(this.campaignView.playMusic).toHaveBeenCalled()
     })
 
-    it('falls back to the menu music when the hub campaign is not in the list', function () {
-      this.campaignView.campaigns.reset([factories.makeCampaign({ ambientSound: ambientSound('other') })])
-      this.campaignView.onCampaignsLoaded()
+    it('falls back to the menu music when the hub campaign fails to load', function () {
+      hubCampaignRequest().respondWith({ status: 404, responseText: JSON.stringify({}) })
 
       expect(this.campaignView.playAmbientSound).not.toHaveBeenCalled()
       jasmine.clock().tick(10001)
