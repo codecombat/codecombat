@@ -295,6 +295,8 @@ export default {
   data () {
     return {
       scenario: null,
+      sheetRevision: 0,
+      useRouteIdentity: true,
       loadError: null,
       stage: 'capture',
       cameraOn: false,
@@ -320,7 +322,7 @@ export default {
       qrSearching: false,
       // User-facing toggle; the confidence gate below is what actually decides
       // whether any given frame is good enough to fire on.
-      autoCaptureWanted: true,
+      autoCaptureWanted: false,
       holdingSteady: false,
     }
   },
@@ -345,15 +347,15 @@ export default {
     },
     // Which activity this scan belongs to, from the route or from the QR code.
     activeScenarioHandle () {
-      return this.scenarioHandle || this.qrScenarioHandle
+      return (this.useRouteIdentity && this.scenarioHandle) || this.qrScenarioHandle
     },
     ownerId () {
-      return this.forUserId || this.qrUserId || me.id
+      return (this.useRouteIdentity && this.forUserId) || this.qrUserId || me.id
     },
     // Without a scenario there are no regions to crop, so firing the shutter
     // early would produce a page nothing could be done with.
     awaitingQR () {
-      return !this.activeScenarioHandle
+      return !this.activeScenarioHandle || !this.scenario
     },
     statusMessage () {
       if (this.awaitingQR) {
@@ -415,6 +417,7 @@ export default {
     if (this.cameraSupported && window.isSecureContext) this.startCamera()
   },
   beforeDestroy () {
+    this.sheetRevision++
     if (this.batchTimer) clearInterval(this.batchTimer)
     window.removeEventListener('resize', this.sizeOverlay)
     if (this.scanner) {
@@ -426,12 +429,15 @@ export default {
   methods: {
     // --- scenario / QR ----------------------------------------------------
 
-    async loadScenario (handle) {
+    async loadScenario (handle, revision = this.sheetRevision) {
       try {
-        this.scenario = await getAIJuniorScenario({ scenarioHandle: handle })
+        const scenario = await getAIJuniorScenario({ scenarioHandle: handle })
+        if (revision !== this.sheetRevision) return false
+        this.scenario = scenario
         this.loadError = null
         return true
       } catch (error) {
+        if (revision !== this.sheetRevision) return false
         console.error('Error fetching scenario:', error)
         this.loadError = 'Could not load this activity. Please go back and try again.'
         return false
@@ -441,42 +447,46 @@ export default {
     // The worksheet's QR code names both the activity and the child it was
     // printed for, which is everything a bare /ai-junior/scan page needs.
     async onQRFound ({ scenarioHandle, userId, isPrefix }) {
-      if (this.activeScenarioHandle) return
-      // A short code names the scenario by the leading characters of its id, so
-      // resolve it against the (very small) scenario list before loading.
-      if (isPrefix) {
-        try {
-          const scenarios = await getAIJuniorScenarios()
-          const match = (scenarios || []).find((s) => String(s._id).startsWith(scenarioHandle))
-          if (!match) return
-          scenarioHandle = match.slug || String(match._id)
-        } catch (error) {
-          console.error('Could not resolve the worksheet code:', error)
-          return
-        }
-      }
+      if (this.activeScenarioHandle || this.qrSearching || this.stage !== 'capture') return
+      const revision = this.sheetRevision
       this.qrSearching = true
-      const loaded = await this.loadScenario(scenarioHandle)
-      this.qrSearching = false
-      if (!loaded) return
-      this.qrScenarioHandle = scenarioHandle
-      this.qrUserId = userId
-      if (this.scanner) {
-        this.scanner.wantQR = false
-        this.scanner.autoCapture = this.autoCaptureWanted
-        this.scanner.regions = this.imageFieldInputs
-        this.scanner.tracker.reset()
+      try {
+        if (isPrefix) {
+          const scenarios = await getAIJuniorScenarios()
+          const matches = (scenarios || []).filter(s => String(s._id).startsWith(scenarioHandle))
+          if (matches.length !== 1) {
+            if (revision === this.sheetRevision) this.loadError = 'This old worksheet code is ambiguous or unavailable. Please print a new worksheet.'
+            return
+          }
+          scenarioHandle = String(matches[0]._id)
+        }
+        if (revision !== this.sheetRevision) return
+        const loaded = await this.loadScenario(scenarioHandle, revision)
+        if (!loaded || revision !== this.sheetRevision) return
+        this.qrScenarioHandle = scenarioHandle
+        this.qrUserId = userId
+        if (this.scanner) {
+          this.scanner.wantQR = false
+          this.scanner.autoCapture = this.autoCaptureWanted
+          this.scanner.regions = this.imageFieldInputs
+          this.scanner.tracker.reset()
+        }
+        if (userId && userId !== me.id) await this.loadOwnerName(userId, revision)
+      } catch (error) {
+        if (revision === this.sheetRevision) this.loadError = 'Could not read this worksheet code. Please try again.'
+      } finally {
+        if (revision === this.sheetRevision) this.qrSearching = false
       }
-      if (userId && userId !== me.id) this.loadOwnerName(userId)
     },
 
-    async loadOwnerName (userId) {
+    async loadOwnerName (userId, revision = this.sheetRevision) {
       try {
         const user = await usersApi.getByHandle(userId)
+        if (revision !== this.sheetRevision) return
         this.qrUserName = user?.name || user?.firstName || null
       } catch (error) {
         // Not fatal — the scan works whether or not we can show a name.
-        this.qrUserName = null
+        if (revision === this.sheetRevision) this.qrUserName = null
       }
     },
 
@@ -485,7 +495,10 @@ export default {
     async startCamera () {
       this.cameraError = null
       try {
-        await this.scanner.start()
+        const scanner = this.scanner
+        if (!scanner) return
+        const stream = await scanner.start()
+        if (!stream || this.scanner !== scanner) return
         this.cameraOn = true
         this.$nextTick(this.sizeOverlay)
       } catch (error) {
@@ -499,31 +512,37 @@ export default {
     onFileChosen (event) {
       const file = event.target.files && event.target.files[0]
       if (!file) return
+      this.resetSheetIdentity()
+      if (this.scanner) this.scanner.stop()
+      this.cameraOn = false
+      if (this.useRouteIdentity && this.scenarioHandle && !this.scenario) this.loadScenario(this.scenarioHandle)
+      const revision = this.sheetRevision
       this.cameraError = null
       if (this.objectUrl) URL.revokeObjectURL(this.objectUrl)
       this.objectUrl = URL.createObjectURL(file)
 
       const image = new Image()
       image.onload = () => {
+        if (revision !== this.sheetRevision || !this.scanner) return
         this.scanner.stop()
         this.cameraOn = false
         const still = this.$refs.still
         still.src = this.objectUrl
         this.stillLoaded = true
         this.$nextTick(async () => {
+          if (revision !== this.sheetRevision || !this.scanner) return
           this.sizeOverlay()
           this.scanner.useStill(image)
           // A photo picked on a phone is often the only shot we get, so read
           // the code straight out of it rather than asking for a live preview.
           if (this.awaitingQR) {
-            this.qrSearching = true
             await this.scanner.scanQROnce()
-            this.qrSearching = false
-            this.scanner.detectOnce()
+            if (revision === this.sheetRevision && this.scanner) this.scanner.detectOnce()
           }
         })
       }
       image.onerror = () => {
+        if (revision !== this.sheetRevision) return
         this.cameraError = 'Could not read that picture. Please try taking it again.'
       }
       image.src = this.objectUrl
@@ -686,6 +705,45 @@ export default {
       this.cameraOn = false
     },
 
+    resetSheetIdentity () {
+      this.sheetRevision++
+      this.qrSearching = false
+      this.qrScenarioHandle = null
+      this.qrUserId = null
+      this.qrUserName = null
+      this.loadError = null
+      if (!this.useRouteIdentity || !this.scenarioHandle) this.scenario = null
+      if (this.scanner) {
+        this.scanner.lastQRText = null
+        this.scanner.wantQR = !this.activeScenarioHandle
+        this.scanner.autoCapture = this.autoCaptureWanted && !this.awaitingQR
+        this.scanner.regions = this.imageFieldInputs
+        this.scanner.tracker.reset()
+      }
+    },
+
+    nextSheet () {
+      const wasCamera = !this.stillLoaded
+      // A route's student identifies the first sheet, not the whole stack.
+      this.useRouteIdentity = false
+      this.resetSheetIdentity()
+      this.stage = 'capture'
+      this.pageDataUrl = null
+      this.regionThumbs = []
+      this.lastCapture = null
+      this.manual = false
+      this.hasQuad = false
+      this.stillLoaded = false
+      if (this.objectUrl) URL.revokeObjectURL(this.objectUrl)
+      this.objectUrl = null
+      if (this.scanner) {
+        this.scanner.clearStill()
+        this.scanner.exitManualMode()
+        if (wasCamera && this.cameraSupported) this.startCamera()
+      }
+      this.$nextTick(this.sizeOverlay)
+    },
+
     retake () {
       this.stage = 'capture'
       this.pageDataUrl = null
@@ -763,7 +821,7 @@ export default {
           status: 'processing',
         })
         this.submitting = false
-        this.retake()
+        this.nextSheet()
         this.startBatchPolling()
       } catch (error) {
         console.error('Error submitting scanned worksheet:', error)

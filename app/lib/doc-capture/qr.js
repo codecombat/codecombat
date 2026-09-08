@@ -54,11 +54,6 @@ export async function decodeQR (source, imageData) {
   return decodeQRFromImageData(imageData)
 }
 
-// How many leading hex characters of the scenario id go in a short code. There
-// are single-digit numbers of scenarios, so this is unambiguous with enormous
-// margin, and every character saved makes the printed modules bigger.
-export const SCENARIO_PREFIX_LENGTH = 6
-
 /**
  * The compact form printed on a worksheet.
  *
@@ -68,7 +63,9 @@ export const SCENARIO_PREFIX_LENGTH = 6
  * single lowercase letter anywhere in the payload forces the whole thing into
  * byte mode. Uppercasing the URL costs nothing — scheme and host are
  * case-insensitive, and the route matching the path is too — and it takes this
- * payload from 33 modules to 29.
+ * payload smaller than the same URL encoded in byte mode. Full scenario IDs
+ * are intentional: the old six-character timestamp prefix collides for
+ * scenarios created within the same 256-second window.
  *
  * @param {string} origin e.g. https://codecombat.com
  * @param {string} scenarioId 24-character hex ObjectId
@@ -76,7 +73,7 @@ export const SCENARIO_PREFIX_LENGTH = 6
  *   a particular child
  */
 export function worksheetQRText (origin, scenarioId, userId) {
-  const scenario = String(scenarioId || '').slice(0, SCENARIO_PREFIX_LENGTH)
+  const scenario = String(scenarioId || '')
   const token = `${scenario}${userId || ''}`
   return `${origin}/s/${token}`.toUpperCase()
 }
@@ -86,7 +83,7 @@ export function worksheetQRText (origin, scenarioId, userId) {
  *
  * Three forms are accepted. The short one is what worksheets print now; the
  * other two keep sheets printed earlier working:
- *   /s/<scenarioIdPrefix>[<userId>]
+ *   /s/<scenarioId>[<userId>] (legacy six-character prefixes still accepted)
  *   /ai-junior/scan/<scenarioHandle>[/<userId>]
  *   /ai-junior/project/<scenarioHandle>[/<userId>[/<projectId>]]
  *
@@ -105,19 +102,24 @@ export function parseWorksheetQR (text) {
     return null
   }
 
-  const short = /^\/s\/([0-9a-f]{6})([0-9a-f]{24})?$/i.exec(path)
+  const short = /^\/s\/([0-9a-f]{24}|[0-9a-f]{6})([0-9a-f]{24})?$/i.exec(path)
   if (short) {
     return {
       scenarioHandle: short[1].toLowerCase(),
       userId: short[2] ? short[2].toLowerCase() : null,
-      isPrefix: true,
+      isPrefix: short[1].length === 6,
     }
   }
 
-  const match = /^\/ai-junior\/(?:scan|project)\/([^/]+)(?:\/([^/]+))?/.exec(path)
+  const match = /^\/ai-junior\/(?:scan|project)\/([^/]+)(?:\/([^/]+))?(?:\/[a-f0-9]{24})?\/?$/i.exec(path)
   if (!match) return null
-  const scenarioHandle = decodeURIComponent(match[1])
-  const userId = match[2] ? decodeURIComponent(match[2]) : null
+  let scenarioHandle, userId
+  try {
+    scenarioHandle = decodeURIComponent(match[1])
+    userId = match[2] ? decodeURIComponent(match[2]) : null
+  } catch (err) {
+    return null
+  }
   if (!scenarioHandle) return null
   return {
     scenarioHandle,

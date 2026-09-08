@@ -251,20 +251,14 @@ export default Vue.extend({
       // the owner, so leaving the id out shortens the payload enough to drop a
       // whole QR version — 25 modules instead of 29, for nothing.
       const userId = this.printUser?._id || null
-      // A short uppercase code rather than the full path. It still resolves to
-      // the scan flow — so a phone's own camera app lands in the right place —
-      // but at a third of the characters and in QR's alphanumeric mode, which
-      // between them make each printed module half as small again. On real
-      // scans the previous code was landing at about two pixels per module and
-      // never decoded once.
+      // Keep the URL uppercase for QR alphanumeric mode, but retain the full
+      // scenario id: timestamp prefixes collide when activities are created
+      // together (and may silently send a drawing to the wrong activity).
       const scenarioId = this.scenario?._id || this.scenarioSlug
       const url = worksheetQRText(window.location.origin, scenarioId, userId)
       try {
-        // Printed at a fixed size, so what decides whether a phone can read it
-        // is how few modules have to fit in that square. The default four-module
-        // quiet zone is wider than it needs to be, and with the short payload
-        // levels M and L land on the same 29-module symbol — so the stronger
-        // error correction costs nothing.
+        // M correction and a quiet zone keep the exact-id code readable at
+        // the worksheet's fixed print size.
         this.qrCodeUrl = await QRCode.toDataURL(url, { errorCorrectionLevel: 'M', margin: 2 })
       } catch (err) {
         console.error('Error generating QR code:', err)
