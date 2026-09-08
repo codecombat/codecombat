@@ -261,4 +261,52 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
       expect(this.campaignView.showRobloxModal).not.toHaveBeenCalled()
     })
   })
+
+  describe('hub music', function () {
+    const HUB_CAMPAIGN_ID = '6a9fe655540e9017bfb987df'
+    const ambientSound = name => ({ mp3: `db/campaign/x/${name}.mp3`, ogg: `db/campaign/x/${name}.ogg` })
+
+    beforeEach(function () {
+      jasmine.clock().install()
+      this.campaignView = new CampaignView()
+      spyOn(this.campaignView, 'render')
+      spyOn(this.campaignView, 'playAmbientSound')
+      spyOn(this.campaignView, 'playMusic')
+    })
+
+    afterEach(function () {
+      jasmine.clock().uninstall()
+    })
+
+    it('plays the hub campaign ambient sound instead of the menu music', function () {
+      this.campaignView.campaigns.reset([
+        factories.makeCampaign({ ambientSound: ambientSound('other') }),
+        factories.makeCampaign({ _id: HUB_CAMPAIGN_ID, ambientSound: ambientSound('hub') }),
+      ])
+      this.campaignView.onCampaignsLoaded()
+
+      expect(this.campaignView.getAmbientSoundFile()).toMatch(/\/hub\.(mp3|ogg)$/)
+      expect(this.campaignView.playAmbientSound).toHaveBeenCalled()
+      jasmine.clock().tick(10001)
+      expect(this.campaignView.playMusic).not.toHaveBeenCalled()
+    })
+
+    it('falls back to the menu music when the hub campaign has no ambient sound', function () {
+      this.campaignView.campaigns.reset([factories.makeCampaign({ _id: HUB_CAMPAIGN_ID })])
+      this.campaignView.onCampaignsLoaded()
+
+      expect(this.campaignView.playAmbientSound).not.toHaveBeenCalled()
+      jasmine.clock().tick(10001)
+      expect(this.campaignView.playMusic).toHaveBeenCalled()
+    })
+
+    it('falls back to the menu music when the hub campaign is not in the list', function () {
+      this.campaignView.campaigns.reset([factories.makeCampaign({ ambientSound: ambientSound('other') })])
+      this.campaignView.onCampaignsLoaded()
+
+      expect(this.campaignView.playAmbientSound).not.toHaveBeenCalled()
+      jasmine.clock().tick(10001)
+      expect(this.campaignView.playMusic).toHaveBeenCalled()
+    })
+  })
 }))
