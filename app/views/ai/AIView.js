@@ -111,14 +111,18 @@ module.exports = (AIView = (function () {
     watchCreditWallModal (modal, onClose) {
       const wasAnonymous = me.isAnonymous()
       const wasPremium = me.isPremium()
-      // Signup reloads the page on success and would land on /play; come back
-      // here instead (same as HeroVictoryModal). Cleared again on a plain close
-      // so a later signup from the map is not sent back to this level.
-      const returnURL = window.location.href
-      window.nextURL = returnURL
+      // The signup modal (anonymous only) reloads the page on success and would
+      // land on /play; come back here instead (same as HeroVictoryModal), and
+      // clear it again on a plain close so a later signup from the map is not
+      // sent back to this level. The subscribe modal never reloads, so it gets
+      // no return URL: one left behind would misroute a later signup.
+      const returnURL = wasAnonymous ? window.location.href : null
+      if (returnURL) {
+        window.nextURL = returnURL
+      }
       this.listenToOnce(modal, 'hidden', () => {
         const converted = (wasAnonymous && !me.isAnonymous()) || (!wasPremium && me.isPremium())
-        if (!converted && window.nextURL === returnURL) {
+        if (returnURL && !converted && window.nextURL === returnURL) {
           window.nextURL = null
         }
         onClose?.({ converted })
