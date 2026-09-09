@@ -52,36 +52,77 @@ module.exports = (AIView = (function () {
       return super.destroy()
     }
 
-    handleAICreditLimitReached (code, body) {
+    /**
+     * The credit wall for the HackStack SPA. `code` 402 is the redeem endpoint
+     * refusing a send; 4020 is the SPA's own credit-line click (same prompts,
+     * no toast). Returns which prompt the player got, so the SPA can
+     * instrument the wall: 'signup' (anonymous), 'subscribe' (free home),
+     * 'interval' (a toast saying when credits refill: premium home, enrolled
+     * student), 'sales' (teacher, a new tab), or null (nothing to act on).
+     * When a modal opened, `onClose({ converted })` fires once when it closes,
+     * `converted` meaning the player registered or subscribed while it was up
+     * (GD-861 play-while-you-wait). Signup success reloads the page, so a
+     * converted signup close is rarely observed; `window.nextURL` brings the
+     * player back to this level after that reload instead of to /play.
+     */
+    handleAICreditLimitReached (code, body, onClose) {
       if (code !== 402 && code !== 4020) {
-        return
+        return null
       }
       let message = $.i18n.t('play_level.not_enough_credits_bot')
       const creditsLeft = typeof body === 'string' ? JSON.parse(body)?.creditsLeft : body.creditsLeft
       const creditObj = creditsLeft.find((c) => c.creditsLeft <= 0)
       const interval = creditObj.durationKey
       const amount = creditObj.durationAmount
+      let prompt = null
+      let modal = null
       if (me.isTeacher()) {
+        prompt = 'sales'
         window.tracker?.trackEvent('AI HS prompting sales call')
         window.open('/schools?openContactModal=true&source=ai-hs-credit-limit-reached', '_blank')
       } else if (me.isAnonymous()) {
-        this.openModalView(new CreateAccountModal({ mode: 'signup' }))
+        prompt = 'signup'
+        modal = this.openModalView(new CreateAccountModal({ mode: 'signup' }))
         window.tracker?.trackEvent('AI HS prompting signup', { path: window.location.pathname })
       } else if (me.isHomeUser()) {
         if (me.hasSubscription()) {
+          prompt = 'interval'
           message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
         } else {
-          this.openModalView(new SubscribeModal())
+          prompt = 'subscribe'
+          modal = this.openModalView(new SubscribeModal())
           window.tracker?.trackEvent('AI HS prompting subscribe', { path: window.location.pathname })
         }
       } else if (me.isStudent()) {
         if (me.isEnrolled()) {
+          prompt = 'interval'
           message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
         }
+      }
+      if (modal) {
+        this.watchCreditWallModal(modal, onClose)
       }
       if (code === 402) {
         noty({ text: message, type: 'error', timeout: 10000, layout: 'center' })
       }
+      return prompt
+    }
+
+    watchCreditWallModal (modal, onClose) {
+      const wasAnonymous = me.isAnonymous()
+      const wasPremium = me.isPremium()
+      // Signup reloads the page on success and would land on /play; come back
+      // here instead (same as HeroVictoryModal). Cleared again on a plain close
+      // so a later signup from the map is not sent back to this level.
+      const returnURL = window.location.href
+      window.nextURL = returnURL
+      this.listenToOnce(modal, 'hidden', () => {
+        const converted = (wasAnonymous && !me.isAnonymous()) || (!wasPremium && me.isPremium())
+        if (!converted && window.nextURL === returnURL) {
+          window.nextURL = null
+        }
+        onClose?.({ converted })
+      })
     }
 
     AICreditLimitReachedMsg (body) {
