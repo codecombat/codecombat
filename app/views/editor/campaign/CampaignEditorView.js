@@ -782,8 +782,9 @@ class LevelNode extends TreemaObjectNode {
 
   buildValueForDisplay (valEl, data) {
     let { name } = data
-    if (data.requiresSubscription) {
-      name = '[P] ' + name
+    // Most levels are premium now, so the exception worth seeing is a free one.
+    if (!data.requiresSubscription) {
+      name = '[F] ' + name
     }
     if (data.displayName) {
       name = name + ' - ' + data.displayName
