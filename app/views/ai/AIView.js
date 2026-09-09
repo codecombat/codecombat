@@ -136,14 +136,12 @@ module.exports = (AIView = (function () {
     AICreditLimitReachedMsg (body) {
       const creditsLeft = typeof body === 'string' ? JSON.parse(body)?.creditsLeft : body.creditsLeft
       const creditObj = creditsLeft.find((c) => c.creditsLeft <= 0)
-      const interval = creditObj.durationKey
-      const amount = creditObj.durationAmount
 
       if (me.isAnonymous()) {
         return $.i18n.t('play_level.create_account_to_get_credits')
       } else if (me.isHomeUser() || me.isParentHome()) {
         if (me.isPremium()) {
-          return $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
+          return this.creditsZeroMessage(creditObj)
         }
         return $.i18n.t('play_level.get_credits')
       } else if (me.isTeacher()) {
@@ -151,10 +149,22 @@ module.exports = (AIView = (function () {
         return $.i18n.t('play_level.get_ai_hs_license')
       } else if (me.isStudent()) {
         if (me.isEnrolled()) {
-          return $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
+          return this.creditsZeroMessage(creditObj)
         }
         return $.i18n.t('play_level.ask_teacher_for_credits')
       }
+    }
+
+    /**
+     * The credit line's zero state for players whose credits refill on a schedule (premium
+     * home, enrolled students): "Out of credits until {period}." with the period from the
+     * operation's interval, or the bare "Out of credits." when the interval has no mapping —
+     * never a guessed date (GD-861 amendment; the same sentence in both experiment arms).
+     */
+    creditsZeroMessage (creditObj) {
+      const periods = { day: 'day', week: 'week', month: 'month' }
+      const period = creditObj.durationAmount === 1 ? periods[creditObj.durationKey] : null
+      return $.i18n.t(period ? `play_level.credits_zero_until_${period}` : 'play_level.credits_zero')
     }
 
     openSubscribeModal () {
