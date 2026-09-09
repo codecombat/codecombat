@@ -10,7 +10,10 @@
 const factories = require('test/app/factories')
 const CampaignView = require('views/play/CampaignView')
 const Levels = require('collections/Levels')
+const ThangType = require('models/ThangType')
+const Level = require('models/Level')
 const storage = require('core/storage')
+const editorLevelCardTemplate = require('templates/play/campaign-editor-level-card')
 
 describe('CampaignView', () => describe('when 4 earned levels', function () {
   beforeEach(function () {
@@ -310,6 +313,91 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
       expect(this.campaignView.playAmbientSound).not.toHaveBeenCalled()
       jasmine.clock().tick(10001)
       expect(this.campaignView.playMusic).toHaveBeenCalled()
+    })
+  })
+
+  describe('campaign editor level markers', function () {
+    beforeEach(function () {
+      this.campaignView = new CampaignView({ editorMode: true }, 'dungeon')
+      spyOn(this.campaignView, 'render')
+    })
+
+    afterEach(function () {
+      // Otherwise the view keeps re-rendering on every `me` change in later specs.
+      this.campaignView.destroy()
+    })
+
+    it('starts with compact markers, not the player flags', function () {
+      expect(this.campaignView.showFullFlags).toBe(false)
+    })
+
+    it('re-renders once when the flag toggle actually changes', function () {
+      this.campaignView.setShowFullFlags(true)
+      this.campaignView.setShowFullFlags(true)
+      expect(this.campaignView.showFullFlags).toBe(true)
+      expect(this.campaignView.render.calls.count()).toBe(1)
+    })
+
+    it('can start with the player flags when the editor remembered that choice', function () {
+      const view = new CampaignView({ editorMode: true, showFullFlags: true }, 'dungeon')
+      expect(view.showFullFlags).toBe(true)
+      view.destroy()
+    })
+
+    it('never shows full flags on the player map', function () {
+      const view = new CampaignView()
+      spyOn(view, 'render')
+      view.setShowFullFlags(true)
+      expect(view.showFullFlags).toBe(false)
+      expect(view.render).not.toHaveBeenCalled()
+      view.destroy()
+    })
+
+    describe('hover card', function () {
+      beforeEach(function () {
+        const sword = new ThangType({ original: 'sword-original', name: 'Long Sword' })
+        sword.setURL('/db/thang.type/sword-original/version')
+        this.campaignView.supermodel.registerModel(sword)
+        const bonus = new Level({ original: 'bonus-original', name: 'Bonus Level' })
+        bonus.setURL('/db/level/bonus-original/version')
+        this.campaignView.supermodel.registerModel(bonus)
+        this.campaignView.campaign = factories.makeCampaign()
+        this.campaignView.campaign.renderedLevels = [{
+          original: 'level-original',
+          name: 'Treasure Cave',
+          slug: 'treasure-cave',
+          kind: 'mastery',
+          type: 'hero',
+          releasePhase: 'beta',
+          requiresSubscription: true,
+          practice: false,
+          unlocksItem: 'sword-original',
+          rewards: [{ item: 'sword-original' }, { level: 'bonus-original' }, { hero: 'missing-hero' }],
+        }]
+      })
+
+      it('names rewards from the loaded models and falls back to the original id', function () {
+        const data = this.campaignView.getEditorLevelCardData('level-original')
+        expect(data.name).toBe('Treasure Cave')
+        expect(data.kind).toBe('mastery')
+        expect(data.releasePhase).toBe('beta')
+        expect(data.requiresSubscription).toBe(true)
+        expect(_.pluck(data.rewards, 'name')).toEqual(['Long Sword', 'Bonus Level', 'missing-hero'])
+        expect(_.pluck(data.rewards, 'type')).toEqual(['item', 'level', 'hero'])
+      })
+
+      it('returns nothing for a level that is not on the map', function () {
+        expect(this.campaignView.getEditorLevelCardData('nope')).toBeNull()
+      })
+
+      it('renders the name, kind and reward names into the card', function () {
+        const $card = $('<div>').html(editorLevelCardTemplate(this.campaignView.getEditorLevelCardData('level-original')))
+        expect($card.find('.card-name').text()).toBe('Treasure Cave')
+        expect($card.find('.card-facts .kind').text()).toBe('mastery')
+        expect($card.find('.card-facts').text()).toContain('premium')
+        expect($card.find('.card-reward-name').map(function () { return $(this).text() }).get()).toEqual(['Long Sword', 'Bonus Level', 'missing-hero'])
+        expect($card.find('.card-reward-portrait').length).toBe(2)
+      })
     })
   })
 }))

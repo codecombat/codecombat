@@ -3292,6 +3292,7 @@ module.exports = {
       achievement_query_goals: 'Key achievement off of level goals',
       level_completion: 'Level Completion',
       pop_i18n: 'Populate I18N',
+      campaign_show_player_flags: 'Show player-facing level flags',
       ai_translate: 'AI Translate',
       tasks: 'Tasks',
       clear_storage: 'Clear your local changes',
