@@ -363,6 +363,11 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
         this.campaignView.supermodel.registerModel(bonus)
         this.campaignView.campaign = factories.makeCampaign()
         this.campaignView.campaign.renderedLevels = [{
+          original: 'on-map-original',
+          name: 'Level On This Map',
+          slug: 'level-on-this-map',
+          rewards: [],
+        }, {
           original: 'level-original',
           name: 'Treasure Cave',
           slug: 'treasure-cave',
@@ -372,7 +377,7 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
           requiresSubscription: true,
           practice: false,
           unlocksItem: 'sword-original',
-          rewards: [{ item: 'sword-original' }, { level: 'bonus-original' }, { hero: 'missing-hero' }],
+          rewards: [{ item: 'sword-original' }, { level: 'bonus-original' }, { level: 'on-map-original' }, { hero: 'missing-hero' }],
         }]
       })
 
@@ -382,8 +387,8 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
         expect(data.kind).toBe('mastery')
         expect(data.releasePhase).toBe('beta')
         expect(data.requiresSubscription).toBe(true)
-        expect(_.pluck(data.rewards, 'name')).toEqual(['Long Sword', 'Bonus Level', 'missing-hero'])
-        expect(_.pluck(data.rewards, 'type')).toEqual(['item', 'level', 'hero'])
+        expect(_.pluck(data.rewards, 'name')).toEqual(['Long Sword', 'Bonus Level', 'Level On This Map', 'missing-hero'])
+        expect(_.pluck(data.rewards, 'type')).toEqual(['item', 'level', 'level', 'hero'])
       })
 
       it('returns nothing for a level that is not on the map', function () {
@@ -395,7 +400,7 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
         expect($card.find('.card-name').text()).toBe('Treasure Cave')
         expect($card.find('.card-facts .kind').text()).toBe('mastery')
         expect($card.find('.card-facts').text()).toContain('premium')
-        expect($card.find('.card-reward-name').map(function () { return $(this).text() }).get()).toEqual(['Long Sword', 'Bonus Level', 'missing-hero'])
+        expect($card.find('.card-reward-name').map(function () { return $(this).text() }).get()).toEqual(['Long Sword', 'Bonus Level', 'Level On This Map', 'missing-hero'])
         expect($card.find('.card-reward-portrait').length).toBe(2)
       })
     })

@@ -1092,12 +1092,15 @@ class CampaignView extends RootView {
   getEditorLevelCardData (levelOriginal) {
     const level = (this.campaign?.renderedLevels || []).find(l => l.original === levelOriginal)
     if (!level) { return null }
-    // Reward models are loaded by the editor; fall back to the id when one is still missing.
-    const nameOf = (Model, original) => this.supermodel?.getModelByOriginal(Model, original)?.get('name') || original
+    // Reward thang types are loaded by the editor; fall back to the id when one is still missing.
+    const thangTypeName = original => this.supermodel?.getModelByOriginal(ThangType, original)?.get('name') || original
+    // Rewarded levels are usually on this map already; otherwise the editor loaded them into the supermodel.
+    const levelName = original => this.campaign.renderedLevels.find(l => l.original === original)?.name ||
+      this.supermodel?.getModelByOriginal(Level, original)?.get('name') || original
     const rewards = (level.rewards || []).map(reward => {
-      if (reward.item) { return { type: level.unlocksPet && reward.item === level.unlocksItem ? 'pet' : 'item', original: reward.item, name: nameOf(ThangType, reward.item) } }
-      if (reward.hero) { return { type: 'hero', original: reward.hero, name: nameOf(ThangType, reward.hero) } }
-      if (reward.level) { return { type: 'level', original: reward.level, name: nameOf(Level, reward.level) } }
+      if (reward.item) { return { type: level.unlocksPet && reward.item === level.unlocksItem ? 'pet' : 'item', original: reward.item, name: thangTypeName(reward.item) } }
+      if (reward.hero) { return { type: 'hero', original: reward.hero, name: thangTypeName(reward.hero) } }
+      if (reward.level) { return { type: 'level', original: reward.level, name: levelName(reward.level) } }
       return null
     }).filter(Boolean)
     return {
@@ -1128,14 +1131,17 @@ class CampaignView extends RootView {
     }
     $card.html(editorLevelCardTemplate(data)).show()
     // Center the card above the marker; flip below it when there is no room at the top of the map.
-    const position = $level.position()
-    const centerX = position.left + ($level.outerWidth() / 2)
+    // Rendered rects, not CSS offsets: the marker sits on negative margins and a scaleY transform.
+    const mapRect = $map[0].getBoundingClientRect()
+    const levelRect = $level[0].getBoundingClientRect()
+    const centerX = levelRect.left - mapRect.left + (levelRect.width / 2)
+    const top = levelRect.top - mapRect.top
     const gap = 6
-    const above = position.top - gap
+    const above = top - gap
     const fitsAbove = above - $card.outerHeight() >= 0
     $card.toggleClass('below', !fitsAbove).css({
       left: `${centerX}px`,
-      top: `${fitsAbove ? above : position.top + $level.outerHeight() + gap}px`,
+      top: `${fitsAbove ? above : top + levelRect.height + gap}px`,
     })
   }
 
