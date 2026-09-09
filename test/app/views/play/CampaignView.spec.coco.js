@@ -75,7 +75,7 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
       this.campaignView.classroom.isStudentOnOptionalLevel.and.callFake((id, courseId, original) => original.match(/optional/i))
       this.campaignView.courseInstance = { get (startLockedLevel) { return undefined } }
       this.campaignView.course = { get (slug) { return 'course1' } }
-      return this.campaignView.campaign = {
+      this.campaignView.campaign = {
         levelIsPractice (level) { return Boolean(level.practice) },
         levelIsAssessment (level) { return Boolean(level.assessment) },
       }
