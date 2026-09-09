@@ -102,7 +102,11 @@ module.exports = (AIView = (function () {
       if (modal) {
         this.watchCreditWallModal(modal, onClose)
       }
-      if (code === 402) {
+      // In the play-while-you-wait beta the signup modal is the whole answer to an anonymous
+      // player's refused send: no red toast on top of it (control keeps today's toast; the SPA
+      // swallows its own error by the same rule).
+      const silenced = prompt === 'signup' && me.getPlayWhileYouWaitExperimentValue?.() === 'beta'
+      if (code === 402 && !silenced) {
         noty({ text: message, type: 'error', timeout: 10000, layout: 'center' })
       }
       return prompt
