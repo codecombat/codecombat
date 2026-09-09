@@ -6919,7 +6919,6 @@ module.exports = {
       not_enrolled: 'Not Enrolled',
       need_sign_up: 'Sign up to access',
       locked_by_teacher: 'Locked by teacher',
-      no_credits_needed: 'No credits needed',
     },
     new_premium: {
       mastering_code: 'Master coding and AI with **premium home access**',
