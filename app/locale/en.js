@@ -6900,6 +6900,14 @@ module.exports = {
       ready_to_review_confirm_text: 'Ready to Submit? Click OK to notify your teacher to review your project.',
       no_course_instances: 'You do not have any course instances. Please contact your teacher to get access to the AI Hackstack.',
       restart_scenario_confirm: 'Your progress will be lost. Are you sure you want to restart?',
+      credit_wall_play_in_latent_space: 'Play in Latent Space',
+      credit_wall_refill_play_latent_space: 'Credits refill next __interval__ — play in Latent Space meanwhile',
+      credit_wall_nudge_title: 'Out of credits — not out of fun.',
+      credit_wall_nudge_body_anonymous: 'Clean Set is free to play — no credits needed.',
+      credit_wall_nudge_body_free: 'Take a break in Latent Space — Signal Filter is open for you.',
+      credit_wall_nudge_play_clean_set: 'Play Clean Set',
+      credit_wall_nudge_open_latent_space: 'Open Latent Space',
+      credit_wall_nudge_maybe_later: 'Maybe later',
     },
     galaxy: {
       title: 'Welcome to HackStack Galaxy',
@@ -6908,6 +6916,7 @@ module.exports = {
       not_enrolled: 'Not Enrolled',
       need_sign_up: 'Sign up to access',
       locked_by_teacher: 'Locked by teacher',
+      no_credits_needed: 'No credits needed',
     },
     new_premium: {
       mastering_code: 'Master coding and AI with **premium home access**',
