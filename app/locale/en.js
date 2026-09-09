@@ -6908,6 +6908,7 @@ module.exports = {
       credit_wall_zero_play_while_you_wait: '__stem__ — play while you wait',
       credit_wall_nudge_eyebrow: 'Out of credits?',
       credit_wall_nudge_headline: 'Keep learning — by playing.',
+      credit_wall_nudge_headline_premium: 'Play while you wait.',
       credit_wall_nudge_badge_anonymous: 'FREE · no account needed',
       credit_wall_nudge_badge_free: 'FREE · no credits needed',
       credit_wall_nudge_hook_anonymous: 'Clean Set: sort the good data and shred the junk before the AI learns nonsense.',

@@ -102,10 +102,12 @@ module.exports = (AIView = (function () {
       if (modal) {
         this.watchCreditWallModal(modal, onClose)
       }
-      // In the play-while-you-wait beta the modal (signup for anonymous, subscribe for free
-      // home) is the whole answer to a refused send: no red toast on top of it (control keeps
-      // today's toast; the SPA swallows its own error by the same rule).
-      const silenced = modal != null && me.getPlayWhileYouWaitExperimentValue?.() === 'beta'
+      // In the play-while-you-wait beta what follows a refused send is the whole answer — the
+      // modal (signup for anonymous, subscribe for free home) or, for premium home, the SPA's
+      // own nudge modal — so no red toast on top of it (control keeps today's toast; the SPA
+      // swallows its own error by the same rule). Students get the interval prompt too, but
+      // they never read beta.
+      const silenced = (modal != null || prompt === 'interval') && me.getPlayWhileYouWaitExperimentValue?.() === 'beta'
       if (code === 402 && !silenced) {
         noty({ text: message, type: 'error', timeout: 10000, layout: 'center' })
       }
