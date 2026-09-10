@@ -541,7 +541,16 @@ module.exports = (ThangType = (function () {
         b64png: src,
         force: 'true',
       }
-      return $.ajax('/file', { type: 'POST', data: body, success: callback || this.onFileUploaded })
+      // Callers chain navigation on the callback, so settle it on failure as well.
+      return $.ajax('/file', {
+        type: 'POST',
+        data: body,
+        success: callback || this.onFileUploaded,
+        error: (jqXHR) => {
+          console.warn(`Portrait upload failed for ${this.get('name')} (HTTP ${jqXHR.status}); level editor will show the generic wizard`)
+          if (typeof callback === 'function') { callback() }
+        },
+      })
     }
 
     onFileUploaded () {

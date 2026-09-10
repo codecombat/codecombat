@@ -6599,7 +6599,7 @@ module.exports = {
       hint_click_to_continue: 'Pyvpx naljurer gb pbagvahr',
       hint_click_target: 'Pyvpx gur vgrz gb pbagvahr',
       hint_start_this_level: 'Fgneg guvf yriry.',
-      hint_star_lab_welcome: 'Gnxr n oernx naq cynl NV-vafcverq zvav-tnzrf.',
+      hint_latent_space_welcome: 'Gnxr n oernx naq gel NV-vafcverq rkcrevzragf.',
       hint_level_learn: 'Yrnea ubj gb pung jvgu UnpxFgnpx.',
       hint_level_practice: 'Hfr Cenpgvpr yriryf gb punatr rkvfgvat cebwrpgf.',
       hint_level_create: 'Ohvyq cebwrpgf sebz fpengpu jvgu Perngr yriryf.',

@@ -6582,7 +6582,6 @@ module.exports = {
       //    hint_click_to_continue: "Click anywhere to continue",
       //    hint_click_target: "Click the item to continue",
       //    hint_start_this_level: "Start this level.",
-      //    hint_star_lab_welcome: "Take a break and play AI-inspired mini-games.",
       //    hint_level_learn: "Learn how to chat with HackStack.",
       //    hint_level_practice: "Use Practice levels to change existing projects.",
       //    hint_level_create: "Build projects from scratch with Create levels.",
