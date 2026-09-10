@@ -1299,12 +1299,6 @@ module.exports = (User = (function () {
       return this.patch({ headers: { 'X-Change-Plan': 'true' } })
     }
 
-    unsubscribeRecipient (id, options = {}) {
-      options.url = _.result(this, 'url') + `/stripe/recipients/${id}`
-      options.method = 'DELETE'
-      return $.ajax(options)
-    }
-
     age () { return utils.yearsSinceMonth(this.get('birthday')) }
 
     isRegisteredForAILeague () {
