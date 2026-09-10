@@ -11,24 +11,33 @@
       <div class="desc">
         {{ $t('payments.billing_portal_desc') }}
       </div>
-      <CTAButton
-        class="button"
-        @clickedCTA="onManageBilling"
-      >
-        {{ $t('payments.billing_portal_btn') }}
-        <template
-          #description
+      <div class="cta">
+        <div
+          v-if="errMsg"
+          class="error error-info"
         >
-          <a
-            role="button"
-            tabindex="0"
-            @click="cancelModal = true"
-            @keydown.enter.prevent="cancelModal = true"
+          {{ errMsg }}
+        </div>
+        <CTAButton
+          class="button"
+          :class="{ disabled: !customerPortalUrl }"
+          @clickedCTA="onManageBilling"
+        >
+          {{ $t('payments.billing_portal_btn') }}
+          <template
+            #description
           >
-            {{ $t('payments.billing_portal_btn_desc') }}
-          </a>
-        </template>
-      </CTAButton>
+            <a
+              role="button"
+              tabindex="0"
+              @click="cancelModal = true"
+              @keydown.enter.prevent="cancelModal = true"
+            >
+              {{ $t('payments.billing_portal_btn_desc') }}
+            </a>
+          </template>
+        </CTAButton>
+      </div>
     </div>
     <div class="payment-history card">
       <div class="header">
@@ -150,19 +159,16 @@ export default {
     },
   },
   async created () {
-    let errMsg
     if (!me || !me.get('email')) {
-      errMsg = 'You must be logged-in to manage billing info'
+      this.errMsg = 'You must be logged-in to manage billing info'
     } else if (me.isStudent()) {
-      errMsg = 'Students dont have access to billing'
+      this.errMsg = 'Students dont have access to billing'
     } else if (!me.get('emailVerified')) {
-      errMsg = $.i18n.t('payments.email_not_verified')
+      this.errMsg = $.i18n.t('payments.email_not_verified')
     }
-    if (errMsg) {
-      // noty
-      return (window.location.href = '/')
+    if (!this.errMsg) {
+      await this.fetchCustomerPortalUrl()
     }
-    await this.fetchCustomerPortalUrl()
     await this.loadPaymentHistory()
     this.aiCredits = (await usersApi.getUserCredits('HACKSTACK_QUERY'))?.result
   },
@@ -225,6 +231,13 @@ export default {
 .button.cta {
   cursor: pointer;
 }
+
+.button.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
 .card {
   border: 2px solid #dbdbdb;
   display: grid;
@@ -253,7 +266,7 @@ export default {
     grid-column: 2;
     grid-row: 2;
   }
-  .button {
+  .cta {
     grid-column: 2;
     font-weight: 700;
     width: fit-content;
@@ -309,5 +322,11 @@ export default {
       background-color: #f2f2f2;
     }
   }
+}
+.error-info {
+  font-size: 70%;
+}
+.error {
+  color: red;
 }
 </style>
