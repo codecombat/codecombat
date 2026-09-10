@@ -591,7 +591,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Достижения',
       settings: 'Настройки',
-      poll: 'Опрос',
       next: 'Далее',
       change_hero: 'Выбрать героя',
       change_hero_or_language: 'Выбрать героя или язык',
@@ -1316,21 +1315,6 @@ module.exports = {
       future_eng_3: '(устройство не требуется). Эта деятельность Alexa приходит к тебе по',
       future_eng_4: 'Amazon Future Engineer',
       future_eng_5: 'программа, которая создает возможности обучения и работы  для всех старшеклассников(K-12) в США, которые хотят заниматься информатикой.',
-    },
-
-    live_class: {
-      title: 'Спасибо!',
-      content: 'Отлично! Мы только что запустили онлайн-классы.',
-      link: 'Готовы продвигаться вперед в программировании?',
-    },
-
-    code_quest: {
-      great: 'Превосходно!',
-      join_paragraph: 'Присоединяйтесь к крупнейшему международному турниру по программированию на Python AI для всех возрастов и соревнуйтесь за первое место в таблице лидеров! Эта глобальная битва продолжительностью в месяц начинается 1 Августа и включает в себя призы на сумму 5 тыс. долларов и виртуальную церемонию награждения, на которой мы объявим победителей и признаем ваши навыки программирования.',
-      link: 'Нажмите здесь, чтобы зарегистрироваться и узнать больше',
-      global_tournament: 'Глобальный турнир',
-      register: 'Зарегестрироваться',
-      date: '1 Авг- 31 Авг',
     },
 
     play_game_dev_level: {
@@ -3160,7 +3144,6 @@ module.exports = {
       level_title: 'Редактор уровней',
       course_title: 'Редактор курса',
       achievement_title: 'Редактор достижений',
-      poll_title: 'Редактор опросов',
       resource_title: '[AI_TRANSLATION]Редактор ресурсов',
       chat_title: '[AI_TRANSLATION]Редактор Чата',
       ai_scenario_title: '[AI_TRANSLATION]Редактор сценариев AI',
@@ -3254,8 +3237,6 @@ module.exports = {
       new_level_title_login: 'Войти, чтобы создать новый уровень',
       new_achievement_title: 'Создать новое достижение',
       new_achievement_title_login: 'Войти, чтобы создать новое достижение',
-      new_poll_title: 'Создать новый опрос',
-      new_poll_title_login: 'Войдите, чтобы создать новый опрос',
       new_course_title: '[AI_TRANSLATION]Создать новый курс',
       new_course_title_login: '[AI_TRANSLATION]Войдите, чтобы создать новый курс',
       new_resource_title: '[AI_TRANSLATION]Создать новый ресурс',
@@ -3282,7 +3263,6 @@ module.exports = {
       thang_search_title: 'Искать типы объектов',
       level_search_title: 'Искать уровни',
       achievement_search_title: 'Искать достижения',
-      poll_search_title: 'Искать опросы',
       course_search_title: '[AI_TRANSLATION]Искать курсы',
       resource_search_title: '[AI_TRANSLATION]Искать Ресурсы\n',
       chat_search_title: '[AI_TRANSLATION]Искать чаты',
@@ -6647,7 +6627,6 @@ module.exports = {
       //    hint_click_to_continue: "Click anywhere to continue",
       //    hint_click_target: "Click the item to continue",
       //    hint_start_this_level: "Start this level.",
-      //    hint_star_lab_welcome: "Take a break and play AI-inspired mini-games.",
       //    hint_level_learn: "Learn how to chat with HackStack.",
       //    hint_level_practice: "Use Practice levels to change existing projects.",
       //    hint_level_create: "Build projects from scratch with Create levels.",

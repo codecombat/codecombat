@@ -591,7 +591,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'הישגים',
       settings: 'הגדרות',
-      poll: 'סקר',
       next: 'הבא',
       change_hero: 'החלף גיבור',
       //    change_hero_or_language: "Change Hero or Language",
@@ -1316,21 +1315,6 @@ module.exports = {
     //    future_eng_3: "(device is not required). This Alexa activity is brought to you by the",
     //    future_eng_4: "Amazon Future Engineer",
     //    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science.",
-    //  },
-
-    //  live_class: {
-    //    title: "Thank you!",
-    //    content: "Amazing! We just launched live online classes.",
-    //    link: "Ready to get ahead on your coding?",
-    //  },
-
-    //  code_quest: {
-    //    great: "Great!",
-    //    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills.",
-    //    link: "Click here to register and learn more",
-    //    global_tournament: "Global Tournament",
-    //    register: "Register",
-    //    date: "Aug 1 - Aug 31",
     //  },
 
     play_game_dev_level: {
@@ -3160,7 +3144,6 @@ module.exports = {
       level_title: 'עורך שלבים',
       course_title: 'עורך קורסים',
       achievement_title: 'עורך הישגים',
-      poll_title: 'עורך סקרים',
       //    resource_title: "Resource Editor",
       //    chat_title: "Chat Editor",
       //    ai_scenario_title: "AI Scenario Editor",
@@ -3254,8 +3237,6 @@ module.exports = {
       new_level_title_login: 'היכנסו כדי ליצור שלב חדש',
       new_achievement_title: 'יצירת הישג חדש',
       new_achievement_title_login: 'היכנסו כדי ליצור הישג חדש',
-      new_poll_title: 'יצירת סקר חדש',
-      new_poll_title_login: 'היכנסו כדי ליצור סקר חדש',
       //    new_course_title: "Create a New Course",
       //    new_course_title_login: "Log In to Create a New Course",
       //    new_resource_title: "Create a New Resource",
@@ -3282,7 +3263,6 @@ module.exports = {
       thang_search_title: 'חפשו סוגי Thang כאן',
       level_search_title: 'חפשו שלבים כאן',
       achievement_search_title: 'חיפוש הישגים',
-      poll_search_title: 'חיפוש סקרים',
       //    course_search_title: "Search Courses",
       //    resource_search_title: "Search Resources",
       //    chat_search_title: "Search Chats",
@@ -6647,7 +6627,6 @@ module.exports = {
     //    hint_click_to_continue: "Click anywhere to continue",
     //    hint_click_target: "Click the item to continue",
     //    hint_start_this_level: "Start this level.",
-    //    hint_star_lab_welcome: "Take a break and play AI-inspired mini-games.",
     //    hint_level_learn: "Learn how to chat with HackStack.",
     //    hint_level_practice: "Use Practice levels to change existing projects.",
     //    hint_level_create: "Build projects from scratch with Create levels.",

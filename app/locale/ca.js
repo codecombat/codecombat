@@ -591,7 +591,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Triomfs',
       settings: 'Configuració',
-      poll: 'Enquesta',
       next: 'Següent',
       change_hero: 'Canviar heroi',
       change_hero_or_language: 'Canviar heroi o Idioma',
@@ -1317,21 +1316,6 @@ module.exports = {
       future_eng_4: 'Amazon Future Engineer',
       future_eng_5: "que crea oportunitats d'aprenentatge i treball per a tots els estudiants de K-12 als Estats Units que vulguin cursar informàtica.",
     },
-
-    //  live_class: {
-    //    title: "Thank you!",
-    //    content: "Amazing! We just launched live online classes.",
-    //    link: "Ready to get ahead on your coding?",
-    //  },
-
-    //  code_quest: {
-    //    great: "Great!",
-    //    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills.",
-    //    link: "Click here to register and learn more",
-    //    global_tournament: "Global Tournament",
-    //    register: "Register",
-    //    date: "Aug 1 - Aug 31",
-    //  },
 
     play_game_dev_level: {
       created_by: 'Creat per {{name}}',
@@ -3160,7 +3144,6 @@ module.exports = {
       level_title: 'Editor de nivells',
       course_title: 'Editor de Cursos',
       achievement_title: 'Editor de triomfs',
-      poll_title: "Editor d'Enquestes",
       //    resource_title: "Resource Editor",
       //    chat_title: "Chat Editor",
       //    ai_scenario_title: "AI Scenario Editor",
@@ -3254,8 +3237,6 @@ module.exports = {
       new_level_title_login: 'Inicia sessió per a crear un nou nivell',
       new_achievement_title: 'Crea un nou triomf',
       new_achievement_title_login: 'Inicia sessió per a crear un nou triomf',
-      new_poll_title: 'Crea una nova enquesta',
-      new_poll_title_login: 'Inicia sessió per a crear una nova enquesta',
       //    new_course_title: "Create a New Course",
       //    new_course_title_login: "Log In to Create a New Course",
       //    new_resource_title: "Create a New Resource",
@@ -3282,7 +3263,6 @@ module.exports = {
       thang_search_title: 'Cerca tipus de Thang aquí',
       level_search_title: 'Cerca nivells aquí',
       achievement_search_title: 'Cerca assoliments',
-      poll_search_title: 'Cerca enquestes',
       //    course_search_title: "Search Courses",
       //    resource_search_title: "Search Resources",
       //    chat_search_title: "Search Chats",
@@ -6647,7 +6627,6 @@ module.exports = {
     //    hint_click_to_continue: "Click anywhere to continue",
     //    hint_click_target: "Click the item to continue",
     //    hint_start_this_level: "Start this level.",
-    //    hint_star_lab_welcome: "Take a break and play AI-inspired mini-games.",
     //    hint_level_learn: "Learn how to chat with HackStack.",
     //    hint_level_practice: "Use Practice levels to change existing projects.",
     //    hint_level_create: "Build projects from scratch with Create levels.",

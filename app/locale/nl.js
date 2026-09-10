@@ -591,7 +591,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Prestaties',
       settings: 'Instellingen',
-      poll: 'Stemming',
       next: 'Volgende',
       change_hero: 'Verander held',
       change_hero_or_language: 'Verander Held of Taal',
@@ -1316,21 +1315,6 @@ module.exports = {
       future_eng_3: '(apparaat is niet nodig). Deze Alexa activiteit wordt je aangeboden door',
       future_eng_4: '[AI_TRANSLATION]Amazon Future Engineer',
       future_eng_5: 'programma wat leer-en werkmogelijkheden creëert voor alle K-12 leerlingen in de Verenigde Staten die verder willen gaan in computer science.',
-    },
-
-    live_class: {
-      title: 'Bedankt!',
-      content: 'Geweldig! We zijn gestart met online klassen.',
-      link: 'Klaar om verder te gaan met programmeren?',
-    },
-
-    code_quest: {
-      great: 'Super!',
-      join_paragraph: 'Doe mee aan de grootste international Python AI coding wedstrijd voor alle leeftijden en strijd voor een plek op het leaderboard! Deze maand-lang durende wedstrijd start 1 Augustus en heeft $5k aan prijzen en een virtuele prijsuitrijking, waar we de winnaars uitroepen en jouw programmeer talent de erkenning geven die het verdient.',
-      link: 'Klik hier voor meer informatie en registratie',
-      global_tournament: 'Wereldtoernooi',
-      register: 'Registreer',
-      date: '1 Aug - 31 Aug',
     },
 
     play_game_dev_level: {
@@ -3160,7 +3144,6 @@ module.exports = {
       level_title: 'Level Editor',
       course_title: 'Cursus Editor',
       achievement_title: 'Prestatie Editor',
-      poll_title: 'Poll Editor',
       resource_title: '[AI_TRANSLATION]Resource Editor',
       chat_title: '[AI_TRANSLATION]Chateditor',
       ai_scenario_title: '[AI_TRANSLATION]AI Scenario Editor',
@@ -3254,8 +3237,6 @@ module.exports = {
       new_level_title_login: 'Log in om een New Level te maken',
       new_achievement_title: 'Maak een Nieuwe Prestatie',
       new_achievement_title_login: 'Log in om een Nieuwe Prestatie te maken',
-      new_poll_title: 'Maak een nieuwe enquête',
-      new_poll_title_login: 'Log in om een nieuwe enquête te maken',
       new_course_title: '[AI_TRANSLATION]Maak een Nieuwe Cursus',
       new_course_title_login: '[AI_TRANSLATION]Log in om een nieuwe cursus te maken',
       new_resource_title: '[AI_TRANSLATION]Maak een Nieuwe Bron',
@@ -3282,7 +3263,6 @@ module.exports = {
       thang_search_title: 'Zoek Thang Types Hier',
       level_search_title: 'Zoek Levels Hier',
       achievement_search_title: 'Zoek Prestaties',
-      poll_search_title: 'Zoek peilingen',
       course_search_title: '[AI_TRANSLATION]Zoek Cursussen  ',
       resource_search_title: '[AI_TRANSLATION]Zoek Hulpbronnen',
       chat_search_title: '[AI_TRANSLATION]Zoek Chats',
@@ -6647,7 +6627,6 @@ module.exports = {
       //    hint_click_to_continue: "Click anywhere to continue",
       //    hint_click_target: "Click the item to continue",
       //    hint_start_this_level: "Start this level.",
-      //    hint_star_lab_welcome: "Take a break and play AI-inspired mini-games.",
       //    hint_level_learn: "Learn how to chat with HackStack.",
       //    hint_level_practice: "Use Practice levels to change existing projects.",
       //    hint_level_create: "Build projects from scratch with Create levels.",

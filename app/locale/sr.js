@@ -591,7 +591,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Достигнућа',
       settings: 'Подешавања',
-      poll: 'Покрени',
       next: 'Следећи',
       change_hero: 'Промени хероја',
       change_hero_or_language: 'Замени хероја или језик',
@@ -1317,21 +1316,6 @@ module.exports = {
       future_eng_4: 'Амазон будући инжењер',
       future_eng_5: 'програм који креира могућности за учење и рад за све К-12 ученике у Сједињеним Америчким Државама који желе да студирају компјутерске науке. ',
     },
-
-    //  live_class: {
-    //    title: "Thank you!",
-    //    content: "Amazing! We just launched live online classes.",
-    //    link: "Ready to get ahead on your coding?",
-    //  },
-
-    //  code_quest: {
-    //    great: "Great!",
-    //    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills.",
-    //    link: "Click here to register and learn more",
-    //    global_tournament: "Global Tournament",
-    //    register: "Register",
-    //    date: "Aug 1 - Aug 31",
-    //  },
 
     play_game_dev_level: {
       created_by: 'Креирао {{name}}',
@@ -3160,7 +3144,6 @@ module.exports = {
       level_title: 'Уредник нивоа',
       course_title: 'Уредник курса',
       achievement_title: 'Уредник постигнућа',
-      poll_title: 'Уредник анкете',
       //    resource_title: "Resource Editor",
       //    chat_title: "Chat Editor",
       //    ai_scenario_title: "AI Scenario Editor",
@@ -3254,8 +3237,6 @@ module.exports = {
       new_level_title_login: 'Упиши се да направиш нови ниво',
       new_achievement_title: 'Направи ново достигнуће',
       new_achievement_title_login: 'Упиши се да направиш ново достигнуће',
-      new_poll_title: 'Направи нову анкету',
-      new_poll_title_login: 'Упиши се да направиш нову анкету',
       //    new_course_title: "Create a New Course",
       //    new_course_title_login: "Log In to Create a New Course",
       //    new_resource_title: "Create a New Resource",
@@ -3282,7 +3263,6 @@ module.exports = {
       thang_search_title: 'Претражи типове танга овде',
       level_search_title: 'Претражи нивое овде',
       achievement_search_title: 'Претражи постигнућа',
-      poll_search_title: 'Претражи анкете',
       //    course_search_title: "Search Courses",
       //    resource_search_title: "Search Resources",
       //    chat_search_title: "Search Chats",
@@ -6647,7 +6627,6 @@ module.exports = {
     //    hint_click_to_continue: "Click anywhere to continue",
     //    hint_click_target: "Click the item to continue",
     //    hint_start_this_level: "Start this level.",
-    //    hint_star_lab_welcome: "Take a break and play AI-inspired mini-games.",
     //    hint_level_learn: "Learn how to chat with HackStack.",
     //    hint_level_practice: "Use Practice levels to change existing projects.",
     //    hint_level_create: "Build projects from scratch with Create levels.",

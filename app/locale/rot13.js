@@ -591,7 +591,6 @@ module.exports = {
       pets: 'Crgf', // Gbbygvc ba crg fubc ohggba sebz /cynl
       achievements: 'Npuvrirzragf', // Gbbygvc ba npuvrirzrag yvfg ohggba sebz /cynl
       settings: 'Frggvatf', // Gbbygvc ba frggvatf ohggba sebz /cynl
-      poll: 'Cbyy', // Gbbygvc ba cbyy ohggba sebz /cynl
       next: 'Arkg', // Tb sebz pubbfr ureb gb pubbfr vairagbel orsber cynlvat n yriry
       change_hero: 'Punatr Ureb', // Tb onpx sebz pubbfr vairagbel gb pubbfr ureb
       change_hero_or_language: 'Punatr Ureb be Ynathntr',
@@ -1316,21 +1315,6 @@ module.exports = {
       future_eng_3: '(qrivpr vf abg erdhverq). Guvf Nyrkn npgvivgl vf oebhtug gb lbh ol gur',
       future_eng_4: 'Nznmba Shgher Ratvarre',
       future_eng_5: 'cebtenz juvpu perngrf yrneavat naq jbex bccbeghavgvrf sbe nyy X-12 fghqragf va gur Havgrq Fgngrf jub jvfu gb chefhr pbzchgre fpvrapr.',
-    },
-
-    live_class: {
-      title: 'Gunax lbh!',
-      content: 'Nznmvat! Jr whfg ynhapurq yvir bayvar pynffrf.',
-      link: 'Ernql gb trg nurnq ba lbhe pbqvat?',
-    },
-
-    code_quest: {
-      great: 'Terng!',
-      join_paragraph: "Wbva gur ynetrfg vagreangvbany Clguba NV pbqvat gbheanzrag sbe nyy ntrf naq pbzcrgr sbe gur gbc bs gur yrnqreobneq! Guvf zbagu-ybat tybony onggyr fgnegf Nhthfg 1fg naq vapyhqrf $5x jbegu bs cevmrf naq n iveghny njneqf prerzbal jurer jr'yy naabhapr jvaaref naq erpbtavmr lbhe pbqvat fxvyyf.",
-      link: 'Pyvpx urer gb ertvfgre naq yrnea zber',
-      global_tournament: 'Tybony Gbheanzrag',
-      register: 'Ertvfgre',
-      date: 'Nht 1 - Nht 31',
     },
 
     play_game_dev_level: {
@@ -3160,7 +3144,6 @@ module.exports = {
       level_title: 'Yriry Rqvgbe',
       course_title: 'Pbhefr Rqvgbe',
       achievement_title: 'Npuvrirzrag Rqvgbe',
-      poll_title: 'Cbyy Rqvgbe',
       resource_title: 'Erfbhepr Rqvgbe',
       chat_title: 'Pung Rqvgbe',
       ai_scenario_title: 'NV Fpranevb Rqvgbe',
@@ -3254,8 +3237,6 @@ module.exports = {
       new_level_title_login: 'Ybt Va gb Perngr n Arj Yriry',
       new_achievement_title: 'Perngr n Arj Npuvrirzrag',
       new_achievement_title_login: 'Ybt Va gb Perngr n Arj Npuvrirzrag',
-      new_poll_title: 'Perngr n Arj Cbyy',
-      new_poll_title_login: 'Ybt Va gb Perngr n Arj Cbyy',
       new_course_title: 'Perngr n Arj Pbhefr',
       new_course_title_login: 'Ybt Va gb Perngr n Arj Pbhefr',
       new_resource_title: 'Perngr n Arj Erfbhepr',
@@ -3282,7 +3263,6 @@ module.exports = {
       thang_search_title: 'Frnepu Gunat Glcrf Urer',
       level_search_title: 'Frnepu Yriryf Urer',
       achievement_search_title: 'Frnepu Npuvrirzragf',
-      poll_search_title: 'Frnepu Cbyyf',
       course_search_title: 'Frnepu Pbhefrf',
       resource_search_title: 'Frnepu Erfbheprf',
       chat_search_title: 'Frnepu Pungf',
@@ -6664,7 +6644,7 @@ module.exports = {
       hint_click_to_continue: 'Pyvpx naljurer gb pbagvahr',
       hint_click_target: 'Pyvpx gur vgrz gb pbagvahr',
       hint_start_this_level: 'Fgneg guvf yriry.',
-      hint_star_lab_welcome: 'Gnxr n oernx naq cynl NV-vafcverq zvav-tnzrf.',
+      hint_latent_space_welcome: 'Gnxr n oernx naq gel NV-vafcverq rkcrevzragf.',
       hint_level_learn: 'Yrnea ubj gb pung jvgu UnpxFgnpx.',
       hint_level_practice: 'Hfr Cenpgvpr yriryf gb punatr rkvfgvat cebwrpgf.',
       hint_level_create: 'Ohvyq cebwrpgf sebz fpengpu jvgu Perngr yriryf.',

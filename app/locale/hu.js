@@ -591,7 +591,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Eredmények',
       settings: 'Beállítások',
-      poll: 'Kérdőív',
       next: 'Következő',
       change_hero: 'Hős váltás',
       change_hero_or_language: 'Válts hőst vagy nyelvet',
@@ -1316,21 +1315,6 @@ module.exports = {
       future_eng_3: '[AI_TRANSLATION](az eszköz nem szükséges). Ezt az Alexa tevékenységet támogatta',
       future_eng_4: '[AI_TRANSLATION]Amazon Jövőbeli Mérnöke',
       future_eng_5: '[AI_TRANSLATION]program, amely tanulási és munkalehetőségeket teremt az Egyesült Államokban minden K-12 diák számára, akik szeretnék tanulni a számítástechnikát.',
-    },
-
-    live_class: {
-      title: 'Köszönjük!',
-      content: 'Elképesztő! Épp most indítottunk egy élő online órát.',
-      link: 'Készen állsz arra, hogy előrébb juss a kódolásban?',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]Nagyszerű!\n',
-      join_paragraph: '[AI_TRANSLATION]Csatlakozz a legnagyobb nemzetközi Python AI kódolási versenyhez minden korosztály számára, és versenyezz a ranglista éléért! Ez az egy hónapos globális küzdelem augusztus 1-jén kezdődik, és 5000 dollár értékű díjakat tartalmaz, valamint egy virtuális díjátadó ünnepséget, ahol bejelentjük a győzteseket és elismerjük kódolási képességeidet.',
-      link: '[AI_TRANSLATION]Kattints ide a regisztrációhoz és további információkért',
-      global_tournament: '[AI_TRANSLATION]Globális Torna',
-      register: '[AI_TRANSLATION]Regisztrálj',
-      date: '[AI_TRANSLATION]Aug 1 - Aug 31',
     },
 
     play_game_dev_level: {
@@ -3160,7 +3144,6 @@ module.exports = {
       level_title: 'Szint Szerkesztő',
       course_title: 'Kurzus szerkesztő',
       achievement_title: 'Eredmény szerkesztő',
-      poll_title: 'Kérdőív szerkesztő',
       resource_title: '[AI_TRANSLATION]Erőforrás Szerkesztő',
       chat_title: '[AI_TRANSLATION]Csevegő Szerkesztő',
       ai_scenario_title: '[AI_TRANSLATION]AI Szcenárió Szerkesztő',
@@ -3254,8 +3237,6 @@ module.exports = {
       new_level_title_login: 'Új pálya létrehozásához be kell lépned',
       new_achievement_title: 'Új eredmény létrehozása',
       new_achievement_title_login: 'Új eredmény létrehozásához be kell lépned',
-      new_poll_title: 'Új kérdőív létrehozása',
-      new_poll_title_login: 'Új kérdőív létrehozásához be kell lépned',
       new_course_title: '[AI_TRANSLATION]Új tanfolyam létrehozása',
       new_course_title_login: '[AI_TRANSLATION]Jelentkezz be egy új kurzus létrehozásához',
       new_resource_title: '[AI_TRANSLATION]Létrehoz egy új erőforrást',
@@ -3282,7 +3263,6 @@ module.exports = {
       thang_search_title: 'Dologtípus keresése itt',
       level_search_title: 'Pályák keresése itt',
       achievement_search_title: 'Eredmények keresése',
-      poll_search_title: 'Kérdőív keresése',
       course_search_title: '[AI_TRANSLATION]Kurzusok keresése',
       resource_search_title: '[AI_TRANSLATION]Átfogó Eszközök & Erőforrások ',
       chat_search_title: '[AI_TRANSLATION]Beszélgetések keresése',
@@ -6647,7 +6627,6 @@ module.exports = {
       //    hint_click_to_continue: "Click anywhere to continue",
       //    hint_click_target: "Click the item to continue",
       //    hint_start_this_level: "Start this level.",
-      //    hint_star_lab_welcome: "Take a break and play AI-inspired mini-games.",
       //    hint_level_learn: "Learn how to chat with HackStack.",
       //    hint_level_practice: "Use Practice levels to change existing projects.",
       //    hint_level_create: "Build projects from scratch with Create levels.",

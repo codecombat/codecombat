@@ -214,6 +214,9 @@ export default {
     enableBlocks () {
       return this.hasJunior && ['python', 'javascript'].includes(this.codeLanguage || 'python')
     },
+    hasOzaria () {
+      return this.courses.includes(utils.allCourseIDs.CHAPTER_ONE)
+    },
     hasJunior () {
       return this.hasCourse(utils.courseIDs.JUNIOR)
     },
@@ -257,6 +260,10 @@ export default {
         for (const lang of Object.values(languages)) {
           lang.disabled = true
         }
+      }
+      if (this.hasOzaria) {
+        delete languages.cpp
+        delete languages.java
       }
 
       return Object.values(languages)

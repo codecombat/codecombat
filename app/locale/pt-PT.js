@@ -591,7 +591,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Conquistas',
       settings: 'Definições',
-      poll: 'Votações',
       next: 'Próximo',
       change_hero: 'Alterar Herói',
       change_hero_or_language: 'Alterar Herói ou Linguagem',
@@ -1316,21 +1315,6 @@ module.exports = {
       future_eng_3: '(não é necessário dispositivo). Esta actividade Alexa é trazida até si pela',
       future_eng_4: 'Futuro Engenheiro da Amazon',
       future_eng_5: 'progrma que cria oportunidades de aprendizagem e de trabalho para todos os estudantes do K-12 nos Estados Unidos que desejem seguir a ciência da computação.',
-    },
-
-    live_class: {
-      title: 'Obrigado!',
-      content: 'Incrível! Acabámos de lançar aulas online ao vivo.',
-      link: 'Pronto para avançar com a tua programação?',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]Ótimo!  ',
-      join_paragraph: '[AI_TRANSLATION]Junta-te ao maior torneio internacional de codificação em Python AI para todas as idades e compete para o topo da tabela classificativa! Esta batalha global de um mês começa a 1 de agosto e inclui 5 mil dólares em prémios e uma cerimónia de prémios virtual onde vamos anunciar os vencedores e reconhecer as tuas habilidades de codificação.',
-      link: '[AI_TRANSLATION]Clica aqui para te registares e aprender mais',
-      global_tournament: '[AI_TRANSLATION]Torneio Global',
-      register: '[AI_TRANSLATION]Registar',
-      date: '[AI_TRANSLATION]1 Ago - 31 Ago',
     },
 
     play_game_dev_level: {
@@ -3160,7 +3144,6 @@ module.exports = {
       level_title: 'Editor de Níveis',
       course_title: 'Editor de Cursos',
       achievement_title: 'Editor de Conquistas',
-      poll_title: 'Editor de Votações',
       resource_title: '[AI_TRANSLATION]Editor de Recursos',
       chat_title: '[AI_TRANSLATION]Editor de Chat',
       ai_scenario_title: '[AI_TRANSLATION]Editor do Cenário de IA',
@@ -3254,8 +3237,6 @@ module.exports = {
       new_level_title_login: 'Inicia Sessão para Criares um Novo Nível',
       new_achievement_title: 'Criar uma Nova Conquista',
       new_achievement_title_login: 'Inicia Sessão para Criares uma Nova Conquista',
-      new_poll_title: 'Criar uma Nova Votação',
-      new_poll_title_login: 'Iniciar Sessão para Criar uma Nova Votação',
       new_course_title: '[AI_TRANSLATION]Criar Novo Curso',
       new_course_title_login: '[AI_TRANSLATION]Iniciar Sessão para Criar um Novo Curso  ',
       new_resource_title: '[AI_TRANSLATION]Criar Novo Recurso',
@@ -3282,7 +3263,6 @@ module.exports = {
       thang_search_title: 'Procurar Thangs Aqui',
       level_search_title: 'Procurar Níveis Aqui',
       achievement_search_title: 'Procurar Conquistas',
-      poll_search_title: 'Procurar Votações',
       course_search_title: '[AI_TRANSLATION]Procurar Cursos',
       resource_search_title: '[AI_TRANSLATION]Procurar Recursos',
       chat_search_title: '[AI_TRANSLATION]Procurar Chats',
@@ -6647,7 +6627,6 @@ module.exports = {
       //    hint_click_to_continue: "Click anywhere to continue",
       //    hint_click_target: "Click the item to continue",
       //    hint_start_this_level: "Start this level.",
-      //    hint_star_lab_welcome: "Take a break and play AI-inspired mini-games.",
       //    hint_level_learn: "Learn how to chat with HackStack.",
       //    hint_level_practice: "Use Practice levels to change existing projects.",
       //    hint_level_create: "Build projects from scratch with Create levels.",

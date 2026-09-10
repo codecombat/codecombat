@@ -591,7 +591,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Conquistas',
       settings: 'Configurações',
-      poll: 'Enquete',
       next: 'Próximo',
       change_hero: 'Alterar Herói',
       change_hero_or_language: 'Mudar herói ou idioma',
@@ -1317,21 +1316,6 @@ module.exports = {
       //    future_eng_4: "Amazon Future Engineer",
       //    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science.",
     },
-
-    //  live_class: {
-    //    title: "Thank you!",
-    //    content: "Amazing! We just launched live online classes.",
-    //    link: "Ready to get ahead on your coding?",
-    //  },
-
-    //  code_quest: {
-    //    great: "Great!",
-    //    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills.",
-    //    link: "Click here to register and learn more",
-    //    global_tournament: "Global Tournament",
-    //    register: "Register",
-    //    date: "Aug 1 - Aug 31",
-    //  },
 
     play_game_dev_level: {
       created_by: 'Criado por {{name}}',
@@ -3160,7 +3144,6 @@ module.exports = {
       level_title: 'Editor de Nível',
       course_title: 'Editor de Curso',
       achievement_title: 'Editor de Conquistas',
-      poll_title: 'Editor de Enquete',
       //    resource_title: "Resource Editor",
       //    chat_title: "Chat Editor",
       //    ai_scenario_title: "AI Scenario Editor",
@@ -3254,8 +3237,6 @@ module.exports = {
       new_level_title_login: 'Faça login para Criar um Novo Nível',
       new_achievement_title: 'Criar Nova Conquista',
       new_achievement_title_login: 'Faça login para Criar uma Nova Conquista',
-      new_poll_title: 'Criar uma nova enquete',
-      new_poll_title_login: 'Faça login para criar uma nova enquete',
       new_course_title: 'Criar um novo curso',
       new_course_title_login: 'Faça login para criar um novo Curso',
       new_resource_title: 'Criar um Novo Recurso',
@@ -3282,7 +3263,6 @@ module.exports = {
       thang_search_title: 'Procurar Tipos de Thang Aqui',
       level_search_title: 'Procurar Níveis Aqui',
       achievement_search_title: 'Buscar Conquistas',
-      poll_search_title: 'Buscar enquetes',
       course_search_title: 'Pesquisar Cursos',
       resource_search_title: 'Pesquisar Recursos',
       //    chat_search_title: "Search Chats",
@@ -6647,7 +6627,6 @@ module.exports = {
     //    hint_click_to_continue: "Click anywhere to continue",
     //    hint_click_target: "Click the item to continue",
     //    hint_start_this_level: "Start this level.",
-    //    hint_star_lab_welcome: "Take a break and play AI-inspired mini-games.",
     //    hint_level_learn: "Learn how to chat with HackStack.",
     //    hint_level_practice: "Use Practice levels to change existing projects.",
     //    hint_level_create: "Build projects from scratch with Create levels.",

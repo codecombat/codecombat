@@ -30,6 +30,8 @@ const { DEEP_API_LIST } = require('core/constants')
 const JUNIOR_PET_ACCESS_EXPERIMENT = 'junior-pet-access'
 // Users created before this date are grandfathered out of junior-pet-access; set to the rollout date before enabling
 const JUNIOR_PET_ACCESS_CUTOFF_DATE = '2026-07-29'
+// GD-861: Latent Space nudges at the HackStack credit wall; assigned by the SPA at first credit exhaustion
+const PLAY_WHILE_YOU_WAIT_EXPERIMENT = 'play-while-you-wait'
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
@@ -1642,6 +1644,39 @@ module.exports = (User = (function () {
         return 'control'
       }
       return this.tryStartExperiment(JUNIOR_PET_ACCESS_EXPERIMENT)
+    }
+
+    getPlayWhileYouWaitExperimentValue () {
+      // Pre-conditions, re-evaluated on every read, before the query override or
+      // user.experiments: classrooms and China infra never get the Latent Space
+      // credit-wall surfaces, even with a stored assignment. Admins are not
+      // excluded here so ?play-while-you-wait=beta still works for QA.
+      if (this.isStudent() || this.isTeacher()) {
+        return 'control'
+      }
+      if (features?.chinaInfra) {
+        return 'control'
+      }
+      return utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery(PLAY_WHILE_YOU_WAIT_EXPERIMENT),
+        this.getExperimentValue(PLAY_WHILE_YOU_WAIT_EXPERIMENT, null),
+      ) ?? null
+    }
+
+    getOrStartPlayWhileYouWaitExperimentValue () {
+      const value = this.getPlayWhileYouWaitExperimentValue()
+      if (value != null) {
+        return value
+      }
+      // Assignment Post-conditions: no pre-condition blocked and no value stored
+      // yet. The SPA calls this at the player's first credit exhaustion, so only
+      // wall-hitters enter. Admins are never assigned; anonymous players are,
+      // and keep their cohort after signing up because the stored value
+      // returns above before this point.
+      if (this.isAdmin()) {
+        return 'control'
+      }
+      return this.tryStartExperiment(PLAY_WHILE_YOU_WAIT_EXPERIMENT)
     }
   }
 

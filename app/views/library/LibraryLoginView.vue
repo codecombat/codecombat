@@ -12,44 +12,36 @@
             class="common__head-logo"
           >
         </div>
-        <form
-          v-if="!alreadyLoggedIn"
-          @submit.prevent="() => onLibraryLogin({ libraryName: 'arapahoe' })"
-        >
-          <div class="arapahoe__body">
-            <div class="arapahoe__body__library">
-              <h2 class="arapahoe__body__library-text">
-                {{ $t('library.enter_library_card') }}
-              </h2>
-              <div class="arapahoe__body__library-input">
-                <input
-                  v-model="libraryProfileId"
-                  type="text"
-                  class="form-control arapahoe__body__library-input-box"
-                >
-              </div>
-            </div>
+        <div class="arapahoe__body">
+          <div
+            v-if="checkingNetwork"
+            class="arapahoe__checking"
+          >
+            {{ $t('common.loading') }}
+          </div>
+          <template v-else>
             <div class="arapahoe__body__submit">
               <button
-                type="submit"
-                class="arapahoe__body__submit-btn btn btn-primary"
+                type="button"
+                class="arapahoe__body__submit-btn purple-btn"
+                @click="playCoco"
               >
-                {{ $t('library.access_coco') }}
+                {{ canAccessPremium ? $t('library.play_premium') : $t('library.play_free') }}
               </button>
             </div>
             <div
-              v-if="errMsg"
-              class="arapahoe__error error"
+              v-if="!canAccessPremium"
+              class="arapahoe__msg warning"
             >
-              {{ errMsg }}
+              {{ $t('library.not_in_library_network') }}
             </div>
+          </template>
+          <div
+            v-if="errMsg"
+            class="arapahoe__error error"
+          >
+            {{ errMsg }}
           </div>
-        </form>
-        <div
-          v-else
-          class="common__already"
-        >
-          {{ $t('library.already_logged_in') }}
         </div>
       </div>
       <div
@@ -92,7 +84,7 @@
             <div class="shreve__body__submit">
               <button
                 type="submit"
-                class="shreve__body__submit-btn btn btn-primary"
+                class="shreve__body__submit-btn purple-btn"
               >
                 {{ $t('library.access_coco') }}
               </button>
@@ -152,7 +144,7 @@
             <div class="lafourche__body__submit">
               <button
                 type="submit"
-                class="lafourche__body__submit-btn btn btn-primary"
+                class="lafourche__body__submit-btn purple-btn"
               >
                 {{ $t('library.access_coco') }}
               </button>
@@ -225,7 +217,7 @@
             class="houston__login__btn"
           >
             <button
-              class="btn btn-primary btn-lg"
+              class="purple-btn"
               @click="redirectToOpenAthens"
             >
               Login / Sign Up
@@ -305,10 +297,18 @@ export default {
       libraryPassword: null,
       errMsg: null,
       progressState: null,
-      alreadyLoggedIn: false
+      alreadyLoggedIn: false,
+      isInLibraryNetwork: null,
+      hasSubscription: false,
     }
   },
   computed: {
+    canAccessPremium () {
+      return this.hasSubscription || !!this.isInLibraryNetwork
+    },
+    checkingNetwork () {
+      return !this.hasSubscription && this.isInLibraryNetwork === null && !this.errMsg
+    },
     isHoustonLibrary () {
       return this.isOpenAthens && this.libName === 'houston'
     },
@@ -331,7 +331,7 @@ export default {
       return this.libName === 'way-finder'
     }
   },
-  mounted () {
+  async mounted () {
     this.libraryProfileId = me.get('library')?.profileId
     this.alreadyLoggedIn = !me.isAnonymous()
     if (this.isDeeplink === 'true' && !this.alreadyLoggedIn) {
@@ -341,15 +341,18 @@ export default {
     }
     if (this.isHoustonLibrary || this.isOpenAthens || this.isAirdrieLogin) {
       this.handleByOpenAthens()
+      return
+    }
+    // ezproxy based now, instead of username before
+    if (this.isArapahoe) {
+      this.hasSubscription = me.hasSubscription()
+      await this.handleArapahoe()
     }
   },
   methods: {
     async onLibraryLogin ({ libraryName }) {
       this.errMsg = null
       try {
-        if (this.isArapahoe) {
-          await usersLib.loginArapahoe({ libraryProfileId: this.libraryProfileId, libraryName })
-        }
         if (this.isLafourche) {
           await usersLib.loginLafourche({ libraryProfileId: this.libraryProfileId, libraryPassword: this.libraryPassword, libraryName })
         }
@@ -410,12 +413,32 @@ export default {
       // window.location = `https://connect.openathens.net/codecombat.com/6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6/login?entity=https://idp.bigpharma.com/entity`
       const entityParam = this.entityID ? `&entityID=${encodeURIComponent(this.entityID)}` : ''
       window.location = `https://connect.openathens.net/oidc/auth?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}${entityParam}`
+    },
+    async handleArapahoe () {
+      if (this.hasSubscription) {
+        return
+      }
+      try {
+        const resp = await extraProvisions()
+        this.isInLibraryNetwork = !!resp?.isInLibraryNetwork
+      } catch (err) {
+        console.error('handleArapahoe err', err)
+        this.errMsg = err?.message || 'Failed to verify library network'
+      }
+    },
+    playCoco () {
+      window.location = '/play'
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/bootstrap/variables";
+@import "ozaria/site/styles/common/variables.scss";
+@import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "ozaria/site/components/teacher-dashboard/common/purple-button";
+
 .library-login {
   font-size: 62.5%;
 }
@@ -438,7 +461,7 @@ export default {
   }
 }
 .arapahoe, .lafourche, .shreve {
-  background-color: #f4f2f2;
+  background-color: $mist;
 
   &__body {
 
@@ -456,11 +479,6 @@ export default {
       }
     }
 
-    &__submit {
-      &-btn {
-        padding: 1rem 1.5rem;
-      }
-    }
   }
 
   &__msg {
@@ -474,7 +492,7 @@ export default {
 }
 
 .houston {
-  background-color: #f4f2f2;
+  background-color: $mist;
 
   &__progress {
     font-size: 1.8rem;
@@ -493,6 +511,11 @@ export default {
   }
 }
 
+.purple-btn {
+  display: inline-flex;
+  min-width: 16rem;
+}
+
 .unknown {
   text-align: center;
   font-size: 2rem;
@@ -503,5 +526,14 @@ export default {
   text-align: center;
   font-size: 2rem;
   margin-top: 1rem;
+}
+
+.warning {
+  color: #8a6d3b;
+  background-color: #fcf3d9;
+  border: 1px solid #f0d99a;
+  border-radius: 4px;
+  font-weight: 600;
+  margin-top: 1.5rem;
 }
 </style>

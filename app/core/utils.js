@@ -320,13 +320,12 @@ if (isCodeCombat) {
     courseIDs.COMPUTER_SCIENCE,
     courseIDs.AI_EXPLORATIONS,
     courseIDs.AI_SANDBOX,
-  ]
-  otherOrderedCourseIDs = [
     otherCourseIDs.CHAPTER_ONE,
     otherCourseIDs.CHAPTER_TWO,
     otherCourseIDs.CHAPTER_THREE,
     otherCourseIDs.CHAPTER_FOUR,
   ]
+  otherOrderedCourseIDs = []
 
   hourOfCodeOptions = {
     campaignId: freeCampaignIds[1],
@@ -437,8 +436,7 @@ const WD_COURSE_IDS = [
   allCourseIDs.WEB_DEVELOPMENT_2,
 ]
 
-const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.INTRO_TO_AI]
-const allFreeCourseIDs = [...freeCocoCourseIDs, allCourseIDs.CHAPTER_ONE]
+const allFreeCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.CHAPTER_ONE, allCourseIDs.INTRO_TO_AI]
 
 const courseNumericalStatus = {};
 (function () {
@@ -510,6 +508,33 @@ courseCampaignSlugs[allCourseIDs.CAREER_READINESS_2] = 'career-readiness-2'
 courseCampaignSlugs[allCourseIDs.CYBER] = 'cyber'
 courseCampaignSlugs[allCourseIDs.AI_SANDBOX] = 'ai-sandbox'
 courseCampaignSlugs[allCourseIDs.AI_EXPLORATIONS] = 'ai-explorations'
+
+const orderedHomeCampaignSlugs = [
+  'dungeon',
+  'campaign-game-dev-1',
+  'campaign-web-dev-1',
+  'forest',
+  'campaign-game-dev-2',
+  'campaign-web-dev-2',
+  'desert',
+  'campaign-game-dev-3',
+  'mountain',
+  'glacier',
+]
+
+const orderedHomeHSCampaignSlugs = [
+  'intro-to-ai',
+  'math-and-stats',
+  'artificial-intelligence-1',
+  'career-readiness',
+  'cyber',
+  'artificial-intelligence-2',
+  'career-readiness-2',
+  'english-language-arts',
+  'computer-science-ai',
+  'ai-sandbox',
+  'ai-explorations',
+]
 
 const registerHocProgressModalCheck = function () {
   let hocProgressModalCheck
@@ -1896,7 +1921,7 @@ const AI_MODE_ICON_MAP = {
   use: 'ai-use',
   practice: 'ai-practice',
   'learn to use': 'ai-learn',
-  capstone: 'ai-capstone'
+  capstone: 'ai-capstone',
 }
 
 module.exports.aiProjectModes = Object.keys(AI_MODE_ICON_MAP)
@@ -1981,10 +2006,10 @@ module.exports.courseDescription = (includedCourseIDs, credit = undefined) => {
     if (credit && courseSame(includedCourseIDs, hsCourses)) {
       return $.i18n.t('teacher.hackstack_license') + $.i18n.t('teacher.hackstack_credits', credit)
     }
-    if (courseSame(includedCourseIDs, LICENSE_PRESETS['COCO-OLD(No HS, OZ)'])) {
+    if (courseSame(includedCourseIDs, LICENSE_PRESETS['CodeCombat(CS, WD, GD, JR)'])) {
       return $.i18n.t('teacher.coco_full_license')
     }
-    if (courseSame(includedCourseIDs, LICENSE_PRESETS['CH1+CH2+CH3+CH4(OZ only)'])) {
+    if (courseSame(includedCourseIDs, LICENSE_PRESETS['Ozaria'])) {
       return $.i18n.t('teacher.ozar_full_license')
     }
     return $.i18n.t('teacher.customized_license') + ': ' + (includedCourseIDs.map(id => courseAcronyms[id])).join('+')
@@ -2024,7 +2049,6 @@ module.exports = {
   otherCourseIDs,
   allCourseIDs,
   allFreeCourseIDs,
-  freeCocoCourseIDs,
   courseNumericalStatus,
   coursesWithProjects,
   CSCourseIDs,
@@ -2126,6 +2150,8 @@ module.exports = {
   GD_COURSE_IDS,
   WD_COURSE_IDS,
   showOzaria,
+  orderedHomeHSCampaignSlugs,
+  orderedHomeCampaignSlugs,
 }
 
 function __guard__ (value, transform) {

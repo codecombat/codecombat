@@ -21,11 +21,6 @@ const User = require('models/User')
 const utils = require('core/utils')
 const constants = require('core/constants')
 const ShareProgressModal = require('views/play/modal/ShareProgressModal')
-const UserPollsRecord = require('models/UserPollsRecord')
-const Poll = require('models/Poll')
-const PollModal = require('views/play/modal/PollModal')
-const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
-const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
 const JuniorOriginalChoiceModal = require('views/core/JuniorOriginalChoiceModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
@@ -64,6 +59,10 @@ const SCENARIO_MARGIN_COMPENSATION_FACTOR = 0.33 // Compensates for bottom margi
 
 const COMPLETE_STATUS = 'complete'
 const STARTED_STATUS = 'started'
+
+// The hub map (/play with no campaign slug) has no campaign document of its own, so hub-level settings such as
+// ambientSound come from this campaign. Referenced by id: campaign slugs re-derive from `name` on every save.
+const HUB_CAMPAIGN_ID = '6a9fe655540e9017bfb987df' // rpg
 
 class LevelSessionsCollection extends CocoCollection {
   static initClass () {
@@ -122,7 +121,6 @@ class CampaignView extends RootView {
       'click .portals .main-campaign': 'onClickPortalCampaign',
       'click a .campaign-switch': 'onClickCampaignSwitch',
       'mousemove .portals': 'onMouseMovePortals',
-      'click .poll': 'showPoll',
       'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton',
       'click .premium-menu-icon': 'onClickPremiumButton',
       'click .premium-btn': 'onClickPremiumButton',
@@ -192,14 +190,7 @@ class CampaignView extends RootView {
     if (!this.terrain) {
       this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
       this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
-      this.probablyCachedMusic = storage.load('loaded-menu-music')
-      const musicDelay = this.probablyCachedMusic ? 1000 : 10000
-      const delayMusicStart = () => setTimeout(() => {
-        if (!this.destroyed) {
-          this.playMusic()
-        }
-      }, musicDelay)
-      this.playMusicTimeout = delayMusicStart()
+      this.loadHubCampaign()
       return
     }
     if (this.terrain) {
@@ -985,7 +976,7 @@ class CampaignView extends RootView {
     })
 
     if (!application.isIPadApp) {
-      _.defer(() => this.$el?.find('.game-controls .btn:not(.poll), .other-products .btn, .campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
+      _.defer(() => this.$el?.find('.game-controls .btn, .other-products .btn, .campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
       const view = this
       // Keep original behavior for levels and campaign switches
       this.$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each(function () {
@@ -1457,7 +1448,7 @@ class CampaignView extends RootView {
   }
 
   calculateExperienceScore () {
-    const adultPoint = ['18-24', '25-34', '35-44', '45-100'].includes(me.get('ageRange')) ? 1 : 0 // They have to have answered the poll for this, likely after Shadow Guard.
+    const adultPoint = ['18-24', '25-34', '35-44', '45-100'].includes(me.get('ageRange')) ? 1 : 0 // Legacy: ageRange was set by the retired how-old-are-you poll (GD-868)
     let speedPoints = 0
     const speedThresholds = [
       ['dungeons-of-kithgard', 50],
@@ -1854,13 +1845,26 @@ class CampaignView extends RootView {
   onSessionsLoaded (e) {
     if (this.editorMode) { return }
     this.render()
-    if (!me.get('anonymous') && !me.inEU()) {
-      this.loadUserPollsRecord()
-    }
   }
 
   onCampaignsLoaded (e) {
     return this.render()
+  }
+
+  loadHubCampaign () {
+    // The overworld list only carries hero campaigns and a slim projection, so the hub campaign gets its own fetch.
+    // Kept outside the supermodel: the hub must still render if that campaign is ever missing.
+    const hubCampaign = new Campaign({ _id: HUB_CAMPAIGN_ID })
+    this.listenToOnce(hubCampaign, 'sync', () => {
+      this.stopListening(hubCampaign)
+      this.hubCampaign = hubCampaign
+      this.playHubMusic()
+    })
+    this.listenToOnce(hubCampaign, 'error', () => {
+      this.stopListening(hubCampaign)
+      this.playHubMusic()
+    })
+    hubCampaign.fetch()
   }
 
   preloadLevel (levelSlug) {
@@ -2136,7 +2140,7 @@ class CampaignView extends RootView {
   playAmbientSound () {
     if (!me.get('volume')) { return }
     if (this.ambientSound) { return }
-    const file = this.campaign?.get('ambientSound')?.[AudioPlayer.ext.substr(1)]
+    const file = this.getAmbientSoundFile()
     if (!file) { return }
     const src = `/file/${file}`
     if (!AudioPlayer.getStatus(src)?.loaded) {
@@ -2151,6 +2155,25 @@ class CampaignView extends RootView {
     }
     this.ambientSound = createjs.Sound.play(src, { loop: -1, volume: 0.1 })
     createjs.Tween.get(this.ambientSound).to({ volume: 0.5 }, 1000)
+  }
+
+  getAmbientSoundFile () {
+    const campaign = this.campaign || this.hubCampaign
+    return campaign?.get('ambientSound')?.[AudioPlayer.ext.substr(1)]
+  }
+
+  playHubMusic () {
+    if (this.getAmbientSoundFile()) {
+      return this.playAmbientSound()
+    }
+    // No hub track configured: fall back to the menu music, delayed so it doesn't compete with initial asset loading.
+    this.probablyCachedMusic = storage.load('loaded-menu-music')
+    const musicDelay = this.probablyCachedMusic ? 1000 : 10000
+    this.playMusicTimeout = setTimeout(() => {
+      if (!this.destroyed) {
+        this.playMusic()
+      }
+    }, musicDelay)
   }
 
   playMusic () {
@@ -2355,100 +2378,6 @@ class CampaignView extends RootView {
       e.stopImmediatePropagation()
       return this.promptForSubscription(campaignSlug, 'premium campaign switch clicked')
     }
-  }
-
-  loadUserPollsRecord () {
-    if (storage.load('ignored-poll')) { return }
-    const url = `/db/user.polls.record/-/user/${me.id}`
-    this.userPollsRecord = new UserPollsRecord().setURL(url)
-    const onRecordSync = () => {
-      if (this.destroyed) { return }
-      this.userPollsRecord.url = () => '/db/user.polls.record/' + this.userPollsRecord.id
-      const lastVoted = new Date(this.userPollsRecord.get('changed') || 0)
-      const interval = new Date() - lastVoted
-      if (interval > (22 * 60 * 60 * 1000)) { // Wait almost a day before showing the next poll
-        this.loadPoll()
-      } else {
-        console.log('Poll will be ready in', ((22 * 60 * 60 * 1000) - interval) / (60 * 60 * 1000), 'hours.')
-      }
-    }
-    this.listenToOnce(this.userPollsRecord, 'sync', onRecordSync)
-    this.userPollsRecord = this.supermodel.loadModel(this.userPollsRecord, null, 0).model
-    if (this.userPollsRecord.loaded) {
-      onRecordSync()
-    }
-  }
-
-  loadPoll (url, forceShowPoll) {
-    if (url == null) { url = `/db/poll/${this.userPollsRecord.id}/next` }
-    let tempLoadingPoll = new Poll().setURL(url)
-    const onPollSync = () => {
-      if (this.destroyed) { return }
-      tempLoadingPoll.url = () => '/db/poll/' + tempLoadingPoll.id
-      this.poll = tempLoadingPoll
-      const delay = forceShowPoll ? 1000 : 5000 // Wait a little bit before showing the poll
-      setTimeout(() => this.activatePoll?.(forceShowPoll), delay)
-    }
-    const onPollError = (poll, response, request) => {
-      if (response.status === 404) {
-        console.log('There are no more polls left.')
-      } else {
-        console.error("Couldn't load poll:", response.status, response.statusText)
-      }
-      if (this.poll) {
-        delete this.poll
-      }
-    }
-    this.listenToOnce(tempLoadingPoll, 'sync', onPollSync)
-    this.listenToOnce(tempLoadingPoll, 'error', onPollError)
-    tempLoadingPoll = this.supermodel.loadModel(tempLoadingPoll, null, 0).model
-    if (tempLoadingPoll.loaded) {
-      onPollSync()
-    }
-  }
-
-  activatePoll (forceShowPoll) {
-    if (this.shouldShow('promotion')) { return }
-    if (!this.poll) { return }
-    const pollTitle = utils.i18n(this.poll.attributes, 'name')
-    const $pollButton = this.$el.find('button.poll')
-      .removeClass('hidden')
-      .addClass('highlighted')
-      .attr({ title: pollTitle })
-      .addClass('has-tooltip')
-      .tooltip({ title: pollTitle })
-
-    if ((me.get('lastLevel') === 'shadow-guard') || forceShowPoll) {
-      return this.showPoll()
-    } else {
-      $pollButton.tooltip('show')
-      setTimeout(() => {
-        $pollButton?.tooltip('hide')
-        if (!this.destroyed) {
-          storage.save('ignored-poll', true, 5) //  Don't show again in next N minutes
-        }
-      }, 20000) // Don't leave the poll open forever
-    }
-  }
-
-  showPoll () {
-    if (!this.shouldShow('poll')) { return false }
-    if (this.poll.get('slug') === 'how-old-are-you' && userUtils.isCreatedViaLibrary()) {
-      return false // since the answers of how-old-are-you poll do no have nextPoll, so just return is fine
-    }
-    const pollModal = new PollModal({ supermodel: this.supermodel, poll: this.poll, userPollsRecord: this.userPollsRecord })
-    this.openModalView(pollModal)
-    const $pollButton = this.$el.find('button.poll')
-    pollModal.on('vote-updated', () => $pollButton.removeClass('highlighted').tooltip('hide'))
-    pollModal.once('trigger-next-poll', nextPollId => {
-      this.loadPoll('/db/poll/' + nextPollId, true)
-    })
-    pollModal.once('trigger-show-live-classes', () => {
-      this.openModalView(new LiveClassroomModal())
-    })
-    pollModal.once('trigger-codequest-modal', () => {
-      this.openModalView(new Codequest2020Modal())
-    })
   }
 
   onClickPremiumButton (e) {
@@ -2770,12 +2699,8 @@ class CampaignView extends RootView {
       return this.isJuniorCampaign()
     }
 
-    if (['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements'].includes(what)) {
-      let extraCond = true
-      if (me.showChinaHomeVersion() && what === 'poll') {
-        extraCond = false
-      }
-      return !isStudentOrTeacher && !this.editorMode && extraCond
+    if (['settings', 'leaderboard', 'back-to-campaigns', 'items', 'heros', 'achievements'].includes(what)) {
+      return !isStudentOrTeacher && !this.editorMode
     }
 
     if (['clans'].includes(what)) {

@@ -591,7 +591,6 @@ module.exports = {
       //    pets: "Pets",
       achievements: 'Logros',
       settings: 'Ajustes',
-      poll: 'Encuesta',
       next: 'Siguiente Heroe',
       change_hero: 'Seleccionar Heroe',
       change_hero_or_language: 'Cambiar héroe o idioma',
@@ -1316,21 +1315,6 @@ module.exports = {
       future_eng_3: '[AI_TRANSLATION](dispositivo no es necesario). Esta actividad de Alexa es presentada por',
       future_eng_4: '[AI_TRANSLATION]Ingeniero del Futuro de Amazon',
       //    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science.",
-    },
-
-    live_class: {
-      title: '[AI_TRANSLATION]¡Gracias!',
-      content: '[AI_TRANSLATION]¡Increíble! Acabamos de lanzar clases en línea en vivo.',
-      link: '[AI_TRANSLATION]¿Listo para avanzar en tu codificación?',
-    },
-
-    code_quest: {
-      great: '[AI_TRANSLATION]¡Genial!',
-      join_paragraph: '[AI_TRANSLATION]¡Únete al mayor torneo internacional de codificación Python AI para todas las edades y compite por el primer lugar del ranking! Esta batalla global de un mes comienza el 1 de agosto e incluye premios valorados en $5,000 y una ceremonia de premios virtual donde anunciaremos a los ganadores y reconoceremos tus habilidades en programación.',
-      link: '[AI_TRANSLATION]Haz clic aquí para registrarte y obtener más información',
-      global_tournament: '[AI_TRANSLATION]Torneo Global',
-      register: '[AI_TRANSLATION]Registrarse',
-      date: '[AI_TRANSLATION]1 de ago - 31 de ago',
     },
 
     play_game_dev_level: {
@@ -3160,7 +3144,6 @@ module.exports = {
       level_title: '[AI_TRANSLATION]Editor de Niveles',
       course_title: '[AI_TRANSLATION]Editor de Curso',
       achievement_title: '[AI_TRANSLATION]Editor de logros',
-      poll_title: '[AI_TRANSLATION]Editor de Encuestas',
       resource_title: '[AI_TRANSLATION]Editor de recursos\n',
       chat_title: '[AI_TRANSLATION]Editor de Chat',
       ai_scenario_title: '[AI_TRANSLATION]Editor de Escenarios de IA',
@@ -3254,8 +3237,6 @@ module.exports = {
       new_level_title_login: '[AI_TRANSLATION]Inicia Sesión para Crear un Nuevo Nivel',
       new_achievement_title: '[AI_TRANSLATION]Crear un Nuevo Logro.',
       new_achievement_title_login: '[AI_TRANSLATION]Inicia Sesión para Crear un Nuevo Logro',
-      new_poll_title: '[AI_TRANSLATION]Crear una Nueva Encuesta.',
-      new_poll_title_login: '[AI_TRANSLATION]Inicia Sesión para Crear una Nueva Encuesta',
       new_course_title: '[AI_TRANSLATION]Crear un Nuevo Curso.',
       new_course_title_login: '[AI_TRANSLATION]Inicia Sesión para Crear un Nuevo Curso',
       new_resource_title: '[AI_TRANSLATION]Crear un Nuevo Recurso.',
@@ -3282,7 +3263,6 @@ module.exports = {
       thang_search_title: '[AI_TRANSLATION]Busca tipos de cosas aquí.',
       level_search_title: '[AI_TRANSLATION]Busca niveles aquí.',
       achievement_search_title: '[AI_TRANSLATION]Busca logros.',
-      poll_search_title: '[AI_TRANSLATION]Busca encuestas.',
       course_search_title: '[AI_TRANSLATION]Busca cursos.',
       resource_search_title: '[AI_TRANSLATION]Busca recursos.',
       chat_search_title: '[AI_TRANSLATION]Busca chats.',
@@ -6647,7 +6627,6 @@ module.exports = {
       //    hint_click_to_continue: "Click anywhere to continue",
       //    hint_click_target: "Click the item to continue",
       //    hint_start_this_level: "Start this level.",
-      //    hint_star_lab_welcome: "Take a break and play AI-inspired mini-games.",
       //    hint_level_learn: "Learn how to chat with HackStack.",
       //    hint_level_practice: "Use Practice levels to change existing projects.",
       //    hint_level_create: "Build projects from scratch with Create levels.",

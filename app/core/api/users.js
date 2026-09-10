@@ -249,4 +249,11 @@ module.exports = {
     })
   },
 
+  fetchHeroProgressForUser (id) {
+    return fetchJson(`/db/user/${id}/hero/progress`)
+  },
+
+  fetchHackstackProgressForUser (id) {
+    return fetchJson(`/db/user/${id}/hackstack/progress`)
+  },
 }

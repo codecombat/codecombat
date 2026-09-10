@@ -307,7 +307,7 @@ module.exports = (Classroom = (function () {
           }), currentIndex, needsPractice)
         }
       }
-      if (utils.isOzaria && utils.orderedCourseIDs.includes(courseID)) {
+      if (utils.OZ_COURSE_IDS.includes(courseID)) {
         const nextLevelOriginal = findNextLevelsBySession(sessions, courseLevels.models, null, this, courseID)
         nextLevel = new Level(getLevelsDataByOriginals(courseLevels.models, [nextLevelOriginal])[0])
       } else {
