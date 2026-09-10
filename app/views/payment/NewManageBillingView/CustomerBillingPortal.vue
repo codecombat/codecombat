@@ -142,7 +142,8 @@ export default {
     },
     remainSolutions () {
       const haveSolutions = (this.cocoStats?.progress?.length ? 1 : 0) + (Object.keys(this.hsProgress)?.length ? 1 : 0) + (Object.keys(this.aileagueProgress)?.length ? 1 : 0)
-      return 6 - haveSolutions
+      const totalSolutions = 6 // cards.length in DiscoverMore
+      return totalSolutions - haveSolutions
     },
     remainLevels () {
       const allLevels = Math.sumPrecise(Object.values(this.cocoStats?.campaignAllLevels ?? {}))
@@ -193,7 +194,6 @@ export default {
       }
     },
     onManageBilling (e) {
-      e.preventDefault()
       if (!this.customerPortalUrl) return
       window.location.href = this.customerPortalUrl
     },
