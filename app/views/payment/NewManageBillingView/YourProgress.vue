@@ -194,7 +194,7 @@ export default {
 
 .body {
   display: grid;
-  grid-template-columns: 1fr 4fr 4fr;
+  grid-template-columns: 0.1fr 8fr 8fr;
   grid-template-rows: 1fr;
   align-items: center;
   gap: 12px;
@@ -259,5 +259,10 @@ export default {
 
     background-color: #9487ff;
   }
+}
+.titles {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 </style>
