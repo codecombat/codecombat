@@ -186,7 +186,8 @@ module.exports = (AccountSettingsView = (function () {
       const enteredPassword = $form.find('input[name="password"]').val()
       const emailMatching = enteredEmailOrUsername && enteredEmailOrUsername.toLowerCase() === this.user.get('email')?.toLowerCase()
       const usernameMatching = enteredEmailOrUsername && enteredEmailOrUsername === this.user.get('name')
-      if (emailMatching || usernameMatching) {
+      const phoneMatching = enteredEmailOrUsername && enteredEmailOrUsername === this.user.get('phone')
+      if (emailMatching || usernameMatching || phoneMatching) {
         let isPasswordCorrect = false
         let toBeDelayed = true
         $.ajax({

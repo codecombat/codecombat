@@ -2135,7 +2135,7 @@ module.exports = {
       current_password: '[AI_TRANSLATION]当前密码',
       new_password: '新密码',
       new_password_verify: '再次输入密码',
-      type_in_email: '输入您的邮箱地址或用户名删除账号。',
+      type_in_email: '输入您的邮箱/用户名/手机号以删除账号。',
       type_in_email_progress: '输入邮箱地址来确认重置游戏进度。',
       type_in_password: '同样的，输入您的密码。',
       email_subscriptions: '邮箱订阅',
