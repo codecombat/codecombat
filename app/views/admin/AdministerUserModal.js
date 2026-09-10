@@ -15,7 +15,6 @@ const ModelModal = require('views/modal/ModelModal')
 const template = require('app/templates/admin/administer-user-modal')
 const User = require('models/User')
 const Prepaid = require('models/Prepaid')
-const StripeCoupons = require('collections/StripeCoupons')
 const forms = require('core/forms')
 const errors = require('core/errors')
 const Prepaids = require('collections/Prepaids')
@@ -107,8 +106,6 @@ module.exports = (AdministerUserModal = (function () {
         this.callSalesProducts = this.user.getProductsByType('call-sales')
         this.renderSelectors('#call-sales-products')
       })
-      this.coupons = new StripeCoupons()
-      if (me.isAdmin()) { this.supermodel.trackRequest(this.coupons.fetch({ cache: false })) }
       this.prepaids = new Prepaids()
       if (me.isAdmin()) { this.supermodel.trackRequest(this.prepaids.fetchByCreator(this.userHandle, { data: { includeShared: true } })) }
       this.listenTo(this.prepaids, 'sync', () => {
@@ -179,7 +176,7 @@ module.exports = (AdministerUserModal = (function () {
         }
       })()
       this.currentCouponID = stripe.couponID
-      this.none = !(this.free || this.freeUntil || this.coupon)
+      this.none = !(this.free || this.freeUntil)
     }
 
     onClickCreatePayment () {
