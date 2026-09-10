@@ -12,6 +12,9 @@ describe('AI Junior fullscreen activities', () => {
     window.addEventListener('message', receive)
     const wrapper = shallowMount(AIJuniorProjectOutput, {
       attachTo: document.body,
+      // Fullscreen has a fixed iframe viewport. Inline preview resize
+      // messages must not change that viewport midway through a CSS test.
+      methods: { onPreviewLoad () {}, onPreviewMessage () {} },
       propsData: {
         project: { processingStatus: 'completed', promptResponses: [] },
         scenario: { output },
