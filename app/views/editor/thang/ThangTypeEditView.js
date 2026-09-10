@@ -960,6 +960,8 @@ module.exports = (ThangTypeEditView = (function () {
     }
 
     uploadPortrait (newThangType, callback) {
+      // The palette uses rasterIcon directly (ThangTypeLib.getPortraitURL), no portrait.png needed.
+      if (this.thangType.get('rasterIcon')) { return callback() }
       const portraitSource = this.getPortraitSourceForUpload()
       if (!portraitSource || !_.string.startsWith(portraitSource, 'data:')) {
         console.warn(`Portrait not uploaded for ${this.thangType.get('name')}: no rendered portrait; level editor will show the generic wizard`)

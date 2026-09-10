@@ -60,11 +60,14 @@ class ForkModal extends ModalView {
     const parentOriginal = this.model.get('original')
     if (!parentOriginal || !newModel.get('original')) { return done() }
     const url = `/file/db/thang.type/${parentOriginal}/portrait.png`
-    return fetch(url)
+    const controller = new AbortController()
+    const deadline = setTimeout(() => controller.abort(), ForkModal.portraitFetchTimeout)
+    return fetch(url, { signal: controller.signal })
       .then((response) => {
         if (!response.ok) { throw new Error(`HTTP ${response.status}`) }
         return response.blob()
       })
+      .finally(() => clearTimeout(deadline))
       .then(blob => new Promise((resolve, reject) => {
         const reader = new FileReader()
         reader.onload = () => resolve(reader.result)
@@ -80,6 +83,8 @@ class ForkModal extends ModalView {
       .then(done)
   }
 }
+
+ForkModal.portraitFetchTimeout = 15000 // ms before giving up on the parent portrait and forking without it
 
 ForkModal.prototype.id = 'fork-modal'
 ForkModal.prototype.template = template

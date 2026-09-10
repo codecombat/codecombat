@@ -172,6 +172,18 @@ describe('ThangTypeEditView portrait upload on save', function () {
     expect(callback).toHaveBeenCalled()
   })
 
+  it('skips the upload without warning for a rasterIcon thang, which the palette shows directly', function () {
+    const view = makeView()
+    view.thangType.attributes.rasterIcon = 'db/thang.type/abc/icon.png'
+    const newThangType = makeNewThangType()
+    const callback = jasmine.createSpy('callback')
+    proto.uploadPortrait.call(view, newThangType, callback)
+    expect(view.thangType.getPortraitSource).not.toHaveBeenCalled()
+    expect(newThangType.uploadGenericPortrait).not.toHaveBeenCalled()
+    expect(callback).toHaveBeenCalled()
+    expect(console.warn).not.toHaveBeenCalled()
+  })
+
   it('warns and continues for a raster thang whose sprite sheet is not on screen', function () {
     const view = makeView()
     view.thangType.attributes.raster = 'db/thang.type/abc/rock.png'
