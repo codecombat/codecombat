@@ -938,19 +938,34 @@ module.exports = (ThangTypeEditView = (function () {
 
       return res.success(() => {
         const url = `/editor/thang/${newThangType.get('slug') || newThangType.id}`
-        let portraitSource = null
-        if (this.thangType.get('raster')) {
-          // image = @currentLank.sprite.image  # Doesn't work?
-          const image = this.currentLank.sprite.spriteSheet._images[0]
-          portraitSource = imageToPortrait(image)
-        }
-        // bit of a hacky way to get that portrait
         const success = () => {
           this.thangType.clearBackup()
           return document.location.href = url
         }
-        return newThangType.uploadGenericPortrait(success, portraitSource)
+        return this.uploadPortrait(newThangType, success)
       })
+    }
+
+    // The level editor palette shows the static /file/db/thang.type/<original>/portrait.png,
+    // which only exists once a save uploads it. Render the portrait from the loaded model
+    // (sprite sheets built, raster raw images loaded) rather than from the fresh clone, which
+    // has none of that and silently produces no image for raster-raw thangs.
+    getPortraitSourceForUpload () {
+      if (this.thangType.get('raster')) {
+        // image = @currentLank.sprite.image  # Doesn't work?
+        const image = this.currentLank?.sprite?.spriteSheet?._images?.[0]
+        return image ? imageToPortrait(image) : null
+      }
+      return this.thangType.getPortraitSource(this.getLankOptions())
+    }
+
+    uploadPortrait (newThangType, callback) {
+      const portraitSource = this.getPortraitSourceForUpload()
+      if (!portraitSource || !_.string.startsWith(portraitSource, 'data:')) {
+        console.warn(`Portrait not uploaded for ${this.thangType.get('name')}: no rendered portrait; level editor will show the generic wizard`)
+        return callback()
+      }
+      return newThangType.uploadGenericPortrait(callback, portraitSource)
     }
 
     clearRawData () {
