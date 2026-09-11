@@ -105,6 +105,8 @@ module.exports = (AdministerUserModal = (function () {
       this.classrooms = new Classrooms()
       this.supermodel.trackRequest(this.user.fetch({ cache: false }))
       this.listenTo(this.user, 'sync', () => {
+        // The item picker only renders for admins on home users; load its catalog only then, once.
+        if (me.isAdmin() && this.user.isHomeUser() && !this.itemCatalog) { this.loadItemCatalog() }
         if (this.user.isStudent()) {
           this.supermodel.loadCollection(this.classrooms, { data: { memberID: this.user.id }, cache: false })
           this.listenTo(this.classrooms, 'sync', this.loadClassroomTeacherNames)
@@ -140,7 +142,6 @@ module.exports = (AdministerUserModal = (function () {
       this.itemSearchResults = []
       this.itemGrantState = ''
       this.itemGrantMessage = ''
-      if (me.isAdmin()) { this.loadItemCatalog() }
       this.licenseType = 'all'
       this.licensePresets = LICENSE_PRESETS
       this.esportsType = 'basic'
@@ -289,7 +290,7 @@ module.exports = (AdministerUserModal = (function () {
       fetcher.skip = 0
       this.itemCatalogLoading = true
       this.itemCatalog = {}
-      this.listenTo(fetcher, 'sync', () => this.onItemCatalogPage(fetcher))
+      this.listenTo(fetcher, 'sync', (collection, response) => this.onItemCatalogPage(fetcher, response))
       this.listenTo(fetcher, 'error', () => {
         this.itemCatalogLoading = false
         this.itemGrantState = 'error'
@@ -299,11 +300,12 @@ module.exports = (AdministerUserModal = (function () {
       fetcher.fetch({ data: { skip: 0, limit: ITEM_CATALOG_PAGE_SIZE }, cache: false })
     }
 
-    onItemCatalogPage (fetcher) {
+    onItemCatalogPage (fetcher, response) {
       for (const item of fetcher.models) {
         this.itemCatalog[item.get('original')] = item
       }
-      if (fetcher.models.length === ITEM_CATALOG_PAGE_SIZE) {
+      // fetcher.models accumulates across pages, so page size must come from the response.
+      if ((response?.length ?? 0) === ITEM_CATALOG_PAGE_SIZE) {
         fetcher.skip += ITEM_CATALOG_PAGE_SIZE
         fetcher.fetch({ data: { skip: fetcher.skip, limit: ITEM_CATALOG_PAGE_SIZE }, cache: false })
         return
@@ -387,8 +389,12 @@ module.exports = (AdministerUserModal = (function () {
           const earned = _.clone(this.user.get('earned') ?? {})
           earned.items = earnedItems
           this.user.set('earned', earned)
+          // Treat the server's earned as the saved baseline so the following patch does not
+          // resend it (the server ignores it, but a stale snapshot in a PUT reads badly).
+          this.user.markToRevert()
           this.modelTreemas?.[this.user.id]?.set('earned', earned)
-          this.selectedItems = []
+          // Drop only what this request granted; anything picked meanwhile stays selected.
+          this.selectedItems = this.selectedItems.filter(item => !items.includes(item.get('original')))
           this.itemGrantState = 'saved'
           this.itemGrantMessage = `Granted ${added.length} item(s), ${alreadyOwned.length} already owned`
         })
