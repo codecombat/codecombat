@@ -440,11 +440,12 @@ block modal-body-content
           input#item-search.form-control(type="text", placeholder="Search items by name or slug", autocomplete="off", disabled=view.itemCatalogLoading || !view.itemCatalog)
           ul#item-search-results.list-unstyled
             for item in view.itemSearchResults
-              li.item-search-result(data-original=item.get('original'), title="Add " + item.get('name'))
-                img.item-icon(src=item.getPortraitURL(), alt="", onerror="this.style.visibility='hidden'")
-                span.item-name= item.get('name')
-                small.text-muted.item-slug= item.get('slug')
-                small.text-muted.item-slots= item.getAllowedSlots().join(', ')
+              li
+                button.item-search-result(type="button", data-original=item.get('original'), title="Add " + item.get('name'))
+                  img.item-icon(src=item.getPortraitURL(), alt="", onerror="this.style.visibility='hidden'")
+                  span.item-name= item.get('name')
+                  small.text-muted.item-slug= item.get('slug')
+                  small.text-muted.item-slots= item.getAllowedSlots().join(', ')
           #selected-items
             if view.selectedItems.length
               .small Will be granted on Save Changes:

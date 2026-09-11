@@ -228,6 +228,24 @@ module.exports = (AdministerUserModal = (function () {
     }
 
     onClickSaveChanges () {
+      if (this.savingChanges) { return }
+      this.savingChanges = true
+      const finish = () => { this.savingChanges = false }
+      if (!this.selectedItems.length) { return this.saveSubscriptionAndGems(finish) }
+      // Grant first, before the model is mutated: the PUT response replaces the
+      // model (a concurrent grant could be overwritten with a pre-grant copy of
+      // earned), and a failed grant must not leave unsaved gems on the model.
+      return this.grantSelectedItems().then(
+        () => this.saveSubscriptionAndGems(finish),
+        () => {
+          finish()
+          this.itemGrantMessage += ' Subscription and gems changes were not saved; fix the items and save again.'
+          this.renderSelectors('#grant-items')
+        },
+      )
+    }
+
+    saveSubscriptionAndGems (finish) {
       const stripe = _.clone(this.user.get('stripe') || {})
       delete stripe.free
       delete stripe.couponID
@@ -253,14 +271,11 @@ module.exports = (AdministerUserModal = (function () {
 
       const options = {}
       options.success = () => {
+        finish()
         this.updateStripeStatus?.()
         return this.render?.()
       }
-      if (this.selectedItems.length) {
-        // Grant first: the PUT response replaces the model, and a concurrent
-        // grant could otherwise be overwritten with a pre-grant copy of earned.
-        return this.grantSelectedItems().then(() => this.user.patch(options))
-      }
+      options.error = finish
       return this.user.patch(options)
     }
 
@@ -360,7 +375,7 @@ module.exports = (AdministerUserModal = (function () {
       this.renderSelectors('#selected-items')
     }
 
-    // Always resolves; failures are shown in the panel, never thrown.
+    // Rejects on failure after showing the error in the panel, so callers can stop the save flow.
     grantSelectedItems () {
       if (!this.selectedItems.length) { return Promise.resolve() }
       const items = this.selectedItems.map(item => item.get('original'))
@@ -377,11 +392,15 @@ module.exports = (AdministerUserModal = (function () {
           this.itemGrantState = 'saved'
           this.itemGrantMessage = `Granted ${added.length} item(s), ${alreadyOwned.length} already owned`
         })
-        .catch(err => {
-          this.itemGrantState = 'error'
-          this.itemGrantMessage = err?.message || 'Granting items failed'
-        })
-        .then(() => this.renderSelectors('#grant-items'))
+        .then(
+          () => this.renderSelectors('#grant-items'),
+          err => {
+            this.itemGrantState = 'error'
+            this.itemGrantMessage = err?.message || 'Granting items failed'
+            this.renderSelectors('#grant-items')
+            throw err
+          },
+        )
     }
 
     onClickAddCreditsButton () {
