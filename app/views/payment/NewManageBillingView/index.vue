@@ -129,7 +129,7 @@ export default {
         return
       }
       const session = sessions[0]
-      const score = (session.stats || {}).totalScore
+      const score = session.totalScore
       if (score) {
         const mine = await leaderboardApi.getMyRank(arena.levelOriginal, sessions[0]._id, {
           totalScore: score,
