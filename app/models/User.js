@@ -1420,6 +1420,8 @@ module.exports = (User = (function () {
     useGoogleClassroom () { return !(features?.chinaUx != null ? features?.chinaUx : false) && (this.get('gplusID') != null) } // if signed in using google SSO
     useGoogleCalendar () { return !(features?.chinaUx != null ? features?.chinaUx : false) && (this.get('gplusID') != null) && (this.isAdmin() || this.isOnlineTeacher()) } // if signed in using google SSO
     useGoogleAnalytics () { return !((features?.china != null ? features?.china : false) || (features?.chinaInfra != null ? features?.chinaInfra : false)) }
+    useRedditPixel () { return !((features?.china != null ? features?.china : false) || (features?.chinaInfra != null ? features?.chinaInfra : false)) }
+    useTikTokPixel () { return !((features?.china != null ? features?.china : false) || (features?.chinaInfra != null ? features?.chinaInfra : false)) }
     isEdLinkAccount () { return !(features?.chinaUx != null ? features?.chinaUx : false) && (this.get('edLink') != null) }
     useDataDog () { return !((features?.china != null ? features?.china : false) || (features?.chinaInfra != null ? features?.chinaInfra : false)) }
     // features.china is set globally for our China server
