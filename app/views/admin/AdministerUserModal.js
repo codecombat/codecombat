@@ -251,12 +251,15 @@ module.exports = (AdministerUserModal = (function () {
         this.user.set('purchased', purchased)
       }
 
-      this.grantSelectedItems()
-
       const options = {}
       options.success = () => {
         this.updateStripeStatus?.()
         return this.render?.()
+      }
+      if (this.selectedItems.length) {
+        // Grant first: the PUT response replaces the model, and a concurrent
+        // grant could otherwise be overwritten with a pre-grant copy of earned.
+        return this.grantSelectedItems().then(() => this.user.patch(options))
       }
       return this.user.patch(options)
     }
@@ -338,7 +341,7 @@ module.exports = (AdministerUserModal = (function () {
     }
 
     onClickItemSearchResult (e) {
-      const original = this.$(e.currentTarget).data('original')
+      const original = this.$(e.currentTarget).attr('data-original') // .data() would coerce all-digit ids to Number
       const item = this.itemCatalog?.[original]
       if (!item) { return }
       if (!this.selectedItems.some(selected => selected.get('original') === original)) {
@@ -352,13 +355,14 @@ module.exports = (AdministerUserModal = (function () {
     }
 
     onClickRemoveSelectedItem (e) {
-      const original = this.$(e.currentTarget).data('original')
+      const original = this.$(e.currentTarget).attr('data-original')
       this.selectedItems = this.selectedItems.filter(item => item.get('original') !== original)
       this.renderSelectors('#selected-items')
     }
 
+    // Always resolves; failures are shown in the panel, never thrown.
     grantSelectedItems () {
-      if (!this.selectedItems.length) { return }
+      if (!this.selectedItems.length) { return Promise.resolve() }
       const items = this.selectedItems.map(item => item.get('original'))
       this.itemGrantState = 'saving'
       this.itemGrantMessage = `Granting ${items.length} item(s)…`
