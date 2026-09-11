@@ -14,6 +14,8 @@ require('app/styles/admin/administer-user-modal.sass')
 const ModelModal = require('views/modal/ModelModal')
 const template = require('app/templates/admin/administer-user-modal')
 const User = require('models/User')
+const ThangType = require('models/ThangType')
+const CocoCollection = require('collections/CocoCollection')
 const Prepaid = require('models/Prepaid')
 const StripeCoupons = require('collections/StripeCoupons')
 const forms = require('core/forms')
@@ -27,6 +29,9 @@ const api = require('core/api')
 const NameLoader = require('core/NameLoader')
 const OnlineTeacherSchema = require('schemas/models/online_teacher')
 const { LICENSE_PRESETS, ESPORTS_PRODUCT_STATS } = require('core/constants')
+
+const ITEM_CATALOG_PAGE_SIZE = 200
+const ITEM_SEARCH_MAX_RESULTS = 20
 
 // TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
 // TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
@@ -75,7 +80,11 @@ module.exports = (AdministerUserModal = (function () {
         'click .other-user-link': 'onClickOtherUserLink',
         'click .modal-nav-link': 'onClickModalNavLink',
         'click #volume-checkbox': 'onClickVolumeCheckbox',
-        'click #music-checkbox': 'onClickMusicCheckbox'
+        'click #music-checkbox': 'onClickMusicCheckbox',
+        'input #item-search': 'onItemSearchInput',
+        'keydown #item-search': 'onItemSearchKeydown',
+        'click .item-search-result': 'onClickItemSearchResult',
+        'click .remove-selected-item': 'onClickRemoveSelectedItem',
       }
     }
 
@@ -125,6 +134,13 @@ module.exports = (AdministerUserModal = (function () {
       if (me.isAdmin()) { this.supermodel.trackRequest(this.trialRequests.fetchByApplicant(this.userHandle)) }
       this.timeZone = features?.chinaInfra ? 'Asia/Shanghai' : 'America/Los_Angeles'
       this.userTimeZone = utils.getUserTimeZone(this.user)
+      this.itemCatalog = null // ThangType models for every store/inventory item, keyed by original
+      this.itemCatalogLoading = false
+      this.selectedItems = []
+      this.itemSearchResults = []
+      this.itemGrantState = ''
+      this.itemGrantMessage = ''
+      if (me.isAdmin()) { this.loadItemCatalog() }
       this.licenseType = 'all'
       this.licensePresets = LICENSE_PRESETS
       this.esportsType = 'basic'
@@ -235,12 +251,133 @@ module.exports = (AdministerUserModal = (function () {
         this.user.set('purchased', purchased)
       }
 
+      this.grantSelectedItems()
+
       const options = {}
       options.success = () => {
         this.updateStripeStatus?.()
         return this.render?.()
       }
       return this.user.patch(options)
+    }
+
+    // --- Item grants -------------------------------------------------------
+
+    loadItemCatalog () {
+      // Same set the store and inventory show: kind Item with a slug and a tier.
+      // Loaded outside the supermodel so the modal does not wait on it.
+      const project = ['name', 'slug', 'original', 'rasterIcon', 'kind', 'components.config', 'components.original']
+      const fetcher = new CocoCollection([], { url: '/db/thang.type?view=items', project, model: ThangType })
+      fetcher.skip = 0
+      this.itemCatalogLoading = true
+      this.itemCatalog = {}
+      this.listenTo(fetcher, 'sync', () => this.onItemCatalogPage(fetcher))
+      this.listenTo(fetcher, 'error', () => {
+        this.itemCatalogLoading = false
+        this.itemGrantState = 'error'
+        this.itemGrantMessage = 'Could not load the item list'
+        this.renderGrantItems()
+      })
+      fetcher.fetch({ data: { skip: 0, limit: ITEM_CATALOG_PAGE_SIZE }, cache: false })
+    }
+
+    onItemCatalogPage (fetcher) {
+      for (const item of fetcher.models) {
+        this.itemCatalog[item.get('original')] = item
+      }
+      if (fetcher.models.length === ITEM_CATALOG_PAGE_SIZE) {
+        fetcher.skip += ITEM_CATALOG_PAGE_SIZE
+        fetcher.fetch({ data: { skip: fetcher.skip, limit: ITEM_CATALOG_PAGE_SIZE }, cache: false })
+        return
+      }
+      this.itemCatalogLoading = false
+      this.renderGrantItems()
+    }
+
+    // The catalog can finish before the user has loaded; the full render on load picks it up then.
+    renderGrantItems () {
+      if (!this.supermodel.finished()) { return }
+      this.renderSelectors('#grant-items')
+    }
+
+    // Rows for the "owned items" list: earned first, then purchased, deduped.
+    ownedItemRows () {
+      const rows = []
+      const seen = new Set()
+      const sources = [['earned', this.user.get('earned')?.items ?? []], ['purchased', this.user.get('purchased')?.items ?? []]]
+      for (const [source, originals] of sources) {
+        for (const original of originals) {
+          if (seen.has(original)) { continue }
+          seen.add(original)
+          rows.push({ original, source, item: this.itemCatalog?.[original] ?? null })
+        }
+      }
+      return rows
+    }
+
+    onItemSearchInput (e) {
+      const term = this.$(e.currentTarget).val().trim()
+      if (!term || !this.itemCatalog) {
+        this.itemSearchResults = []
+      } else {
+        const selected = new Set(this.selectedItems.map(item => item.get('original')))
+        const matcher = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i') // lodash 2.x has no escapeRegExp
+        this.itemSearchResults = _.values(this.itemCatalog)
+          .filter(item => !selected.has(item.get('original')) && (matcher.test(item.get('name') ?? '') || matcher.test(item.get('slug') ?? '')))
+          .sort((a, b) => (a.get('name') ?? '').localeCompare(b.get('name') ?? ''))
+          .slice(0, ITEM_SEARCH_MAX_RESULTS)
+      }
+      this.renderSelectors('#item-search-results')
+    }
+
+    onItemSearchKeydown (e) {
+      if (e.key !== 'Escape') { return }
+      this.$(e.currentTarget).val('')
+      this.itemSearchResults = []
+      this.renderSelectors('#item-search-results')
+    }
+
+    onClickItemSearchResult (e) {
+      const original = this.$(e.currentTarget).data('original')
+      const item = this.itemCatalog?.[original]
+      if (!item) { return }
+      if (!this.selectedItems.some(selected => selected.get('original') === original)) {
+        this.selectedItems.push(item)
+      }
+      this.itemSearchResults = []
+      this.itemGrantState = ''
+      this.itemGrantMessage = ''
+      this.renderSelectors('#grant-items')
+      this.$('#item-search').val('').focus()
+    }
+
+    onClickRemoveSelectedItem (e) {
+      const original = this.$(e.currentTarget).data('original')
+      this.selectedItems = this.selectedItems.filter(item => item.get('original') !== original)
+      this.renderSelectors('#selected-items')
+    }
+
+    grantSelectedItems () {
+      if (!this.selectedItems.length) { return }
+      const items = this.selectedItems.map(item => item.get('original'))
+      this.itemGrantState = 'saving'
+      this.itemGrantMessage = `Granting ${items.length} item(s)…`
+      this.renderSelectors('#grant-items')
+      return api.users.grantItems({ userId: this.user.id, items })
+        .then(({ added, alreadyOwned, earnedItems }) => {
+          const earned = _.clone(this.user.get('earned') ?? {})
+          earned.items = earnedItems
+          this.user.set('earned', earned)
+          this.modelTreemas?.[this.user.id]?.set('earned', earned)
+          this.selectedItems = []
+          this.itemGrantState = 'saved'
+          this.itemGrantMessage = `Granted ${added.length} item(s), ${alreadyOwned.length} already owned`
+        })
+        .catch(err => {
+          this.itemGrantState = 'error'
+          this.itemGrantMessage = err?.message || 'Granting items failed'
+        })
+        .then(() => this.renderSelectors('#grant-items'))
     }
 
     onClickAddCreditsButton () {

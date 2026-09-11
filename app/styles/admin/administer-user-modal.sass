@@ -7,6 +7,66 @@
 
   #edit-school-admins-link
     text-decoration: underline
+
+  #grant-items
+    .item-icon
+      width: 32px
+      height: 32px
+      object-fit: contain
+      margin-right: 6px
+      vertical-align: middle
+
+    #item-search
+      max-width: 400px
+
+    #item-search-results
+      max-width: 400px
+      max-height: 240px
+      overflow-y: auto
+      margin: 4px 0 0
+
+      .item-search-result
+        padding: 3px 6px
+        cursor: pointer
+
+        &:hover
+          background: #f0f0f0
+
+        .item-name
+          margin-right: 6px
+
+        .item-slug, .item-slots
+          margin-right: 6px
+
+    #selected-items
+      margin-top: 6px
+
+      .selected-item
+        display: inline-flex
+        align-items: center
+        font-size: 12px
+        margin: 2px 6px 2px 0
+        padding: 3px 6px
+
+        .remove-selected-item
+          margin-left: 6px
+          font-size: 16px
+          line-height: 1
+
+    .item-grant-status
+      margin-top: 6px
+
+    #owned-items
+      margin-top: 6px
+
+      summary
+        cursor: pointer
+
+      .owned-item
+        padding: 2px 0
+
+        .item-name, .item-slug, code
+          margin-right: 6px
   
   #license-type-select
     .license-type
