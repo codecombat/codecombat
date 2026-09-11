@@ -30,7 +30,6 @@ const PlayItemsModal = require('views/play/modal/PlayItemsModal')
 const PlayHeroesModal = require('views/play/modal/PlayHeroesModal')
 const JuniorHeroesModal = require('views/play/modal/JuniorHeroesModal')
 const PlayAchievementsModal = require('views/play/modal/PlayAchievementsModal')
-const BuyGemsModal = require('views/play/modal/BuyGemsModal')
 const ContactModal = require('views/core/ContactModal')
 const AnonymousTeacherModal = require('views/core/AnonymousTeacherModal')
 const AmazonHocModal = require('views/play/modal/AmazonHocModal')
@@ -127,7 +126,6 @@ class CampaignView extends RootView {
       'click [data-toggle="coco-modal"][data-target="play/modal/PlayHeroesModal"]': 'openPlayHeroesModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/JuniorHeroesModal"]': 'openJuniorHeroesModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/PlayAchievementsModal"]': 'openPlayAchievementsModal',
-      'click [data-toggle="coco-modal"][data-target="play/modal/BuyGemsModal"]': 'openBuyGemsModal',
       'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal',
       'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal',
       'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal',
@@ -464,11 +462,6 @@ class CampaignView extends RootView {
   openPlayAchievementsModal (e) {
     e.stopPropagation()
     this.openModalView(new PlayAchievementsModal())
-  }
-
-  openBuyGemsModal (e) {
-    e.stopPropagation()
-    this.openModalView(new BuyGemsModal())
   }
 
   openContactModal (e) {
@@ -2657,10 +2650,6 @@ class CampaignView extends RootView {
 
     if (['videos'].includes(what)) {
       return me.isStudent() && this.course?.get('_id') === utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE && !this.editorMode
-    }
-
-    if (['buy-gems'].includes(what)) {
-      return !(isIOS || me.freeOnly() || isStudentOrTeacher || !me.canBuyGems() || (application.getHocCampaign() && me.isAnonymous())) && !this.editorMode
     }
 
     if (['premium'].includes(what)) {

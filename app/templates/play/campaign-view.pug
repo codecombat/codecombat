@@ -411,7 +411,7 @@ if !editorMode
                               span= i18n(rightCampaign.attributes, 'description')
                   else
                     .side-campaign-container.empty
-  
+
     .game-controls.header-font(class=campaign != null ? "in-campaign" : "")
       if !(features && features.brainPop)
         if view.shouldShow('premium')
@@ -424,8 +424,6 @@ if !editorMode
           button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
         if view.shouldShow('achievements')
           button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
-        if view.shouldShow('buy-gems')
-          button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
         if !me.get('anonymous', true) && view.shouldShow('settings')
           a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
     .other-products.header-font(class=campaign != null ? "in-campaign" : "")
