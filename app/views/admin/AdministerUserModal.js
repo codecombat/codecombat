@@ -38,7 +38,6 @@ module.exports = (AdministerUserModal = (function () {
 
       this.prototype.events = {
         'click #save-changes': 'onClickSaveChanges',
-        'click #create-payment-btn': 'onClickCreatePayment',
         'click #add-credits-btn': 'onClickAddCreditsButton',
         'click #add-seats-btn': 'onClickAddSeatsButton',
         'click #add-esports-product-btn': 'onClickAddEsportsProductButton',
@@ -177,35 +176,6 @@ module.exports = (AdministerUserModal = (function () {
       })()
       this.currentCouponID = stripe.couponID
       this.none = !(this.free || this.freeUntil)
-    }
-
-    onClickCreatePayment () {
-      const service = this.$('#payment-service').val()
-      let amount = parseInt(this.$('#payment-amount').val())
-      if (isNaN(amount)) { amount = 0 }
-      let gems = parseInt(this.$('#payment-gems').val())
-      if (isNaN(gems)) { gems = 0 }
-      if (_.isEmpty(service)) {
-        alert('Service cannot be empty')
-        return
-      } else if (amount < 0) {
-        alert('Payment cannot be negative')
-        return
-      } else if (gems < 0) {
-        alert('Gems cannot be negative')
-        return
-      }
-
-      const data = {
-        purchaser: this.user.get('_id'),
-        recipient: this.user.get('_id'),
-        service,
-        created: new Date().toISOString(),
-        gems,
-        amount,
-        description: this.$('#payment-description').val()
-      }
-      return $.post('/db/payment/admin', data, () => this.hide())
     }
 
     onClickSaveChanges () {
