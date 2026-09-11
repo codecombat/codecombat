@@ -453,7 +453,7 @@ block modal-body-content
               span.selected-item.label.label-default(data-original=item.get('original'))
                 img.item-icon(src=item.getPortraitURL(), alt="", onerror="this.style.visibility='hidden'")
                 span= item.get('name')
-                button.remove-selected-item.close(type="button", data-original=item.get('original'), title="Remove") &times;
+                button.remove-selected-item.close(type="button", data-original=item.get('original'), title="Remove", aria-label="Remove " + item.get('name')) &times;
           if view.itemGrantMessage
             .item-grant-status.small(role="status", aria-live="polite", class=view.itemGrantState === 'error' ? 'text-danger' : (view.itemGrantState === 'saved' ? 'text-success' : 'text-muted'))= view.itemGrantMessage
           details#owned-items

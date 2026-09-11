@@ -277,7 +277,9 @@ module.exports = (AdministerUserModal = (function () {
         return this.render?.()
       }
       options.error = finish
-      return this.user.patch(options)
+      const request = this.user.patch(options)
+      if (!request) { finish() } // nothing changed, no request sent, so no callback will run
+      return request
     }
 
     // --- Item grants -------------------------------------------------------
