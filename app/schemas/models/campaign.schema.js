@@ -208,7 +208,7 @@ _.extend(CampaignSchema.properties, {
   miniGames: {
     type: 'array',
     title: 'Mini-Games',
-    description: 'Star Lab tiles: which mini-games this campaign shows, where they sit, and how they unlock.',
+    description: 'Latent Space tiles: which mini-games this campaign shows, where they sit, and how they unlock.',
     items: {
       type: 'object',
       title: 'Mini-Game Tile',
@@ -219,7 +219,7 @@ _.extend(CampaignSchema.properties, {
         slug: { type: 'string', format: 'hidden' },
         displayName: { type: 'string', title: 'Display Name', description: 'Tile label. Falls back to the mini-game name.' },
         icon: { type: 'string', format: 'image-file', title: 'Icon', description: 'The image to use for the tile on the interface.' },
-        accentColor: { type: 'string', format: 'color', title: 'Accent Color', description: 'Glow behind the tile on the Star Lab map, e.g. #FF5A3C. Leave empty for a neutral glow.' },
+        accentColor: { type: 'string', format: 'color', title: 'Accent Color', description: 'Glow behind the tile on the Latent Space map, e.g. #FF5A3C. Leave empty for a neutral glow.' },
         position: {
           type: 'object',
           title: 'Position',

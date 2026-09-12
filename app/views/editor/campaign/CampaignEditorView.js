@@ -32,6 +32,7 @@ const PatchesView = require('views/editor/PatchesView')
 const RevertModal = require('views/modal/RevertModal')
 const modelDeltas = require('lib/modelDeltas')
 const globalVar = require('core/globalVar')
+const storage = require('core/storage')
 const { HackstackScenarioIDNode } = require('views/editor/ai-scenario/AIScenarioNode')
 const { MiniGameOriginalNode } = require('views/editor/minigame/MiniGameNode')
 const { LevelOriginalNode } = require('views/editor/level/LevelOriginalNode')
@@ -43,6 +44,8 @@ require('lib/game-libraries')
 
 const achievementProject = ['related', 'rewards', 'name', 'slug']
 const thangTypeProject = ['name', 'original']
+// Remembers the "show player-facing level flags" toggle across editor reloads.
+const SHOW_FULL_FLAGS_STORAGE_KEY = 'campaign-editor-show-full-flags'
 
 module.exports = (CampaignEditorView = (function () {
   CampaignEditorView = class CampaignEditorView extends RootView {
@@ -54,6 +57,7 @@ module.exports = (CampaignEditorView = (function () {
       this.prototype.events = {
         'click #analytics-button': 'onClickAnalyticsButton',
         'click #save-button': 'onClickSaveButton',
+        'click #toggle-flags-button': 'onClickToggleFlagsButton',
         'click #patches-button': 'onClickPatches',
         'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal',
       }
@@ -84,6 +88,7 @@ module.exports = (CampaignEditorView = (function () {
       this.campaignHandle = campaignHandle
       this.campaignPage = campaignPage
       this.campaignPage = parseInt(this.campaignPage) || 1
+      this.showFullFlags = storage.load(SHOW_FULL_FLAGS_STORAGE_KEY) === true
       this.campaign = new Campaign({ _id: this.campaignHandle })
       this.supermodel.loadModel(this.campaign)
       this.listenToOnce(this.campaign, 'sync', function (model, response, jqXHR) {
@@ -433,6 +438,13 @@ module.exports = (CampaignEditorView = (function () {
       }
     }
 
+    onClickToggleFlagsButton (e) {
+      this.showFullFlags = !this.showFullFlags
+      storage.save(SHOW_FULL_FLAGS_STORAGE_KEY, this.showFullFlags)
+      this.$('#toggle-flags-button').toggleClass('active', this.showFullFlags)
+      this.campaignView?.setShowFullFlags(this.showFullFlags)
+    }
+
     onClickSaveButton (e) {
       if (this.openingModal) { return }
       this.openingModal = true
@@ -496,7 +508,7 @@ module.exports = (CampaignEditorView = (function () {
         this.treema.childrenTreemas.levels.open()
       }
 
-      this.campaignView = new CampaignView({ editorMode: true, supermodel: this.supermodel, campaignPage: this.campaignPage }, this.campaignHandle)
+      this.campaignView = new CampaignView({ editorMode: true, showFullFlags: this.showFullFlags, supermodel: this.supermodel, campaignPage: this.campaignPage }, this.campaignHandle)
       this.campaignView.highlightElement = _.noop // make it stop
       this.listenTo(this.campaignView, 'level-moved', this.onCampaignLevelMoved)
       this.listenTo(this.campaignView, 'scenario-moved', this.onCampaignScenarioMoved)
@@ -770,8 +782,9 @@ class LevelNode extends TreemaObjectNode {
 
   buildValueForDisplay (valEl, data) {
     let { name } = data
-    if (data.requiresSubscription) {
-      name = '[P] ' + name
+    // Most levels are premium now, so the exception worth seeing is a free one.
+    if (!data.requiresSubscription) {
+      name = '[F] ' + name
     }
     if (data.displayName) {
       name = name + ' - ' + data.displayName

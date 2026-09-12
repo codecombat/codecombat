@@ -1,3 +1,11 @@
+@use "sass:math"
+
+// Matches the map aspect used by app/styles/play/campaign-view.sass.
+$mapHeight: 1280
+$mapWidth: 1920
+$compactDotWidth: 1.1%
+$compactDotHeight: math.div($compactDotWidth * $mapWidth, $mapHeight)
+
 #campaign-editor-view
   #left-column
     position: absolute
@@ -24,12 +32,126 @@
     right: 0
     width: 75%
 
-    #campaign-view .map
-      .level:not(:hover)
-        .banner[src="/images/pages/play/level-banner-unstarted.png"]
-          display: none
-        .banner[src="/images/pages/play/level-banner-unstarted-subscriber.png"]
-          display: none
+    // Compact level markers: the editor default, so 100+ levels stay distinguishable.
+    // The player-facing flags come back through the navbar toggle (see CampaignView.showFullFlags).
+    #campaign-view.compact-level-markers .map
+      .level
+        width: $compactDotWidth
+        height: $compactDotHeight
+        margin-left: -0.5 * $compactDotWidth
+        margin-bottom: math.div(-$compactDotHeight, 3)
+        border-width: 1px
+        box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.6)
+
+        &:hover
+          margin-bottom: math.div(-$compactDotHeight, 3)
+          box-shadow: 0px 0px 12px skyblue
+
+        .level-acronym
+          font-size: 0.55vw
+          display: flex
+          align-items: center
+          justify-content: center
+
+        .level-kind
+          font-size: 0.6vw
+
+        .treasure-chest
+          width: 130%
+          transform: translateX(-50%) translateX(50%) translateY(-120%) scaleY(1.33) scale(0.8)
+
+      .level-shadow
+        width: $compactDotWidth * 0.8
+        height: $compactDotHeight * 0.8
+        margin-left: -0.5 * 0.8 * $compactDotWidth
+        margin-bottom: math.div(-$compactDotHeight, 3) * 0.8
+
+    // Hover card for a level marker (both marker modes).
+    #campaign-view .map .editor-level-card
+      display: none
+      position: absolute
+      z-index: 8
+      transform: translate(-50%, -100%)
+      min-width: 220px
+      max-width: 320px
+      padding: 8px 10px
+      border-radius: 4px
+      background: rgba(20, 20, 20, 0.92)
+      color: white
+      font-size: 12px
+      line-height: 1.3
+      text-align: left
+      pointer-events: none
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5)
+
+      &.below
+        transform: translate(-50%, 0)
+
+      .card-name
+        margin: 0 0 2px
+        font-size: 14px
+        font-weight: bold
+        color: white
+
+      .card-slug
+        color: #bbb
+        font-family: monospace
+        margin-bottom: 6px
+
+      .card-facts
+        display: grid
+        grid-template-columns: max-content 1fr
+        column-gap: 8px
+        row-gap: 2px
+        margin: 0
+
+        dt
+          color: #bbb
+          font-weight: normal
+
+        dd
+          margin: 0
+
+        // Same kind colors as the marker letters on the map.
+        .kind
+          &.demo
+            color: rgb(128, 255, 128)
+          &.usage
+            color: rgb(128, 128, 255)
+          &.mastery
+            color: rgb(255, 128, 128)
+          &.practice
+            color: rgb(128, 128, 255)
+          &.advanced
+            color: rgb(128, 255, 255)
+          &.challenge
+            color: rgb(255, 255, 128)
+
+      .card-rewards
+        margin-top: 6px
+        padding-top: 6px
+        border-top: 1px solid rgba(255, 255, 255, 0.2)
+
+      .card-rewards-title
+        color: #bbb
+        margin-bottom: 2px
+
+      .card-reward
+        display: flex
+        align-items: center
+        gap: 6px
+
+      .card-reward-portrait
+        width: 24px
+        height: 24px
+        object-fit: contain
+        flex: none
+
+      .card-reward-type
+        color: #bbb
+
+      .card-reward-name
+        font-weight: bold
 
   .patches-view
     position: absolute

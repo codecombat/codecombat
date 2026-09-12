@@ -232,14 +232,21 @@ module.exports = (ChangeLanguageTab = (function () {
         this.languageChoices = this.newFancySelect($select[0])
       }
       const languageObject = this.codeLanguageObject
+      const subscriberLang = ['java', 'cpp']
       $select.parent().parent().find('.options .item').each(function () {
         const languageName = $(this).text()
         const languageID = $(this).data('value')
         const reason = languageObject[languageID].reason
+        const disabled = languageObject[languageID].disabled
         $(this).attr('title', reason)
         const blurb = $.i18n.t(`choose_hero.${languageID}_blurb`)
+        const subOnly = $.i18n.t('choose_hero.subscriber_only')
         if (languageName.indexOf(blurb) === -1) { // Avoid doubling blurb if this is called 2x
-          return $(this).text(`${languageName} - ${blurb}`)
+          let text = `${languageName} - ${blurb}`
+          if (subscriberLang.includes(languageID) && !disabled) {
+            text = `${languageName} - ${subOnly} ${blurb}`
+          }
+          return $(this).text(text)
         }
       })
     }
