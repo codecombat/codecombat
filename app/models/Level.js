@@ -589,7 +589,7 @@ module.exports = (Level = (function () {
 
     getCodeContext (plan) {
       if (!plan) return {}
-      let context = utils.i18n(plan, 'context')
+      let context = utils.i18nCommentContext(plan)
       if (utils.showOzaria()) {
         context = _.merge({
           external_ch1_avatar: store.getters?.['me/getCh1Avatar.avatarCodeString']?.crown,
