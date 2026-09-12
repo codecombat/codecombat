@@ -76,6 +76,7 @@
       :href="fullSizeHref"
       target="_blank"
       rel="noopener"
+      aria-label="Open full size"
       title="Open full size"
     >⤢</a>
   </div>

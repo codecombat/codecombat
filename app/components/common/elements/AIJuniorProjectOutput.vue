@@ -427,7 +427,9 @@ export default {
     // be compared or swept.
     creationComparison () {
       if (!this.hasPreview) return null
-      const html = String(this.scenario.output?.html || '').trim()
+      const output = this.scenario.output || {}
+      if (String(output.css || '').trim() || String(output.js || '').trim()) return null
+      const html = String(output.html || '').trim()
       const bareImage = html.match(/^<img\b[^>]*\bsrc\s*=\s*["']?<%[=-]?\s*([A-Za-z_$][\w$]*)\s*%>["']?[^>]*>$/i)
       if (!bareImage) return null
       return this.comparisonByPromptId[bareImage[1]] || null
@@ -470,8 +472,12 @@ export default {
     // Drawings already on screen inside a slider, which the aside would
     // otherwise show a second time.
     comparedDrawingIds () {
-      const shownInline = new Set(this.unreferencedItems.filter((item) => item.comparison).map((item) => item.comparison.drawingId))
-      return shownInline
+      const comparisons = [
+        this.creationComparison,
+        ...(this.showCompare ? this.previewComparisons : []),
+        ...this.unreferencedItems.map((item) => item.comparison),
+      ].filter(Boolean)
+      return new Set(comparisons.map((comparison) => comparison.drawingId))
     },
     originals () {
       if (this.project.uploadedWorksheet) {
