@@ -5,7 +5,7 @@ if (window.saveAs == null) { window.saveAs = require('file-saver/FileSaver.js') 
 if (window.saveAs.saveAs) { window.saveAs = window.saveAs.saveAs } // Module format changed with webpack?
 
 module.exports = {
-  exportStudentProgress ({ classroom, sortedCourses, students, courses, courseInstances, levels, progressData }) {
+  exportStudentProgress ({ classroom, sortedCourses, students, courses, courseInstances, levels, progressData, aiProjects }) {
     // TODO: Does not yield .csv download on Safari, and instead opens a new tab with the .csv contents
     let course, index, trimCourse, trimLevel
     let c
@@ -28,9 +28,16 @@ module.exports = {
     let csvContent = `Name,Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds),${courseLabels}Concepts\n`
     const levelCourseIdMap = {}
     const levelPracticeMap = {}
+    const hsScenarioCourseIdMap = {}
     const language = classroom.get('aceConfig')?.language
     for (trimCourse of Array.from(classroom.getSortedCourses())) {
+      const isHackStackCourse = utils.HACKSTACK_COURSE_IDS.includes(trimCourse._id)
       for (trimLevel of Array.from(trimCourse.levels)) {
+        if (isHackStackCourse) {
+          // HackStack course levels are AI scenarios; students play them through AI projects
+          hsScenarioCourseIdMap[trimLevel.original] = trimCourse._id
+          continue
+        }
         if (language && (trimLevel.primerLanguage === language)) { continue }
         if (trimLevel.practice) {
           levelPracticeMap[trimLevel.original] = true
@@ -38,6 +45,11 @@ module.exports = {
         }
         levelCourseIdMap[trimLevel.original] = trimCourse._id
       }
+    }
+    const aiProjectsByUser = {}
+    for (const project of Array.from(aiProjects || [])) {
+      if (aiProjectsByUser[project.user] == null) { aiProjectsByUser[project.user] = [] }
+      aiProjectsByUser[project.user].push(project)
     }
     for (const student of Array.from(students.models)) {
       let courseID, level
@@ -51,7 +63,7 @@ module.exports = {
         if (instance && instance.hasMember(student)) {
           for (trimLevel of Array.from(trimCourse.levels)) {
             level = levels.findWhere({ original: trimLevel.original })
-            if (level.get('assessment')) { continue }
+            if (!level || level.get('assessment')) { continue }
             const progress = progressData.get({ classroom, course, level, user: student })
             if (progress != null ? progress.completed : undefined) {
               let left
@@ -79,6 +91,19 @@ module.exports = {
           courseCountsMap[courseID].levels++
           courseCountsMap[courseID].playtime += session.get('playtime') || 0
         }
+      }
+      const hsScenariosCounted = {}
+      for (const project of Array.from(aiProjectsByUser[student.id] || [])) {
+        courseID = hsScenarioCourseIdMap[project.scenario]
+        if (!courseID) { continue }
+        if (courseCountsMap[courseID] == null) { courseCountsMap[courseID] = { levels: 0, playtime: 0 } }
+        if (!hsScenariosCounted[project.scenario]) {
+          hsScenariosCounted[project.scenario] = true
+          levelsCount++
+          courseCountsMap[courseID].levels++
+        }
+        playtime += project.playtime || 0
+        courseCountsMap[courseID].playtime += project.playtime || 0
       }
       const playtimeString = playtime === 0 ? '0' : moment.duration(playtime, 'seconds').humanize()
       for (course of Array.from(sortedCourses)) {
