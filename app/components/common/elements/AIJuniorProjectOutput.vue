@@ -86,6 +86,8 @@
                 :key="compiledOutput"
                 :srcdoc="compiledOutput"
                 class="preview-frame"
+                sandbox="allow-scripts allow-pointer-lock"
+                title="AI Junior creation"
                 allow="fullscreen"
                 @load="onPreviewLoad"
               />
@@ -212,6 +214,7 @@
 </template>
 
 <script>
+import { FRAME_BRIDGE, previewHeight } from 'app/lib/ai-junior-frame'
 import compileTemplate from 'lodash-4/template'
 import AIJuniorShareBox from './AIJuniorShareBox.vue'
 
@@ -478,7 +481,7 @@ export default {
         }
       `
       // eslint-disable-next-line no-useless-escape
-      return `<html>\n  <head>\n    <style>${baseCss}</style>\n    <style>${css}</style>\n  </head>\n  <body>\n    ${html}\n    <script>${js}<\/script>\n  </body>\n</html>`
+      return `<html>\n  <head>\n    <style>${baseCss}</style>\n    <style>${css}</style>\n  </head>\n  <body>\n    ${html}\n    <script>${js}<\/script>\n    <script>${FRAME_BRIDGE}<\/script>\n  </body>\n</html>`
     },
   },
   watch: {
@@ -499,10 +502,13 @@ export default {
     },
   },
   mounted () {
+    window.addEventListener('message', this.onPreviewMessage)
     document.addEventListener('fullscreenchange', this.onFullscreenChange)
     document.addEventListener('webkitfullscreenchange', this.onFullscreenChange)
   },
   beforeDestroy () {
+    window.removeEventListener('message', this.onPreviewMessage)
+    if (this._previewResizeTimer) clearTimeout(this._previewResizeTimer)
     if (this.elapsedTimer) clearInterval(this.elapsedTimer)
     document.removeEventListener('fullscreenchange', this.onFullscreenChange)
     document.removeEventListener('webkitfullscreenchange', this.onFullscreenChange)
@@ -524,18 +530,30 @@ export default {
         // Nothing to do if focusing is refused; the game still plays by touch.
       }
     },
-    // Size the preview iframe to its content so any scenario output — square
-    // image, 800x500 game, multi-page story — displays without inner scrollbars.
+    onPreviewMessage (event) {
+      const frame = this.$refs.previewFrame
+      const height = previewHeight(event, frame, window.innerHeight)
+      const fullscreen = document.fullscreenElement || document.webkitFullscreenElement
+      if (height === null || fullscreen === this.$refs.previewWrap) return
+      // Keep untrusted message traffic out of Vue's reactive render queue.
+      // Apply the latest valid size at most ten times per second.
+      this._pendingPreviewHeight = height
+      this._pendingPreviewFrame = frame
+      if (this._previewResizeTimer) return
+      this._previewResizeTimer = setTimeout(() => {
+        this._previewResizeTimer = null
+        const fullscreen = document.fullscreenElement || document.webkitFullscreenElement
+        const frame = this._pendingPreviewFrame
+        if (frame !== this.$refs.previewFrame || fullscreen === this.$refs.previewWrap) return
+        const size = `${this._pendingPreviewHeight}px`
+        if (frame.style.height !== size) frame.style.height = size
+      }, 100)
+    },
+    // A sandbox cannot be measured through contentDocument. Use a bounded
+    // fallback until its own resize message arrives.
     sizePreview () {
       const iframe = this.$refs.previewFrame
-      if (!iframe) return
-      try {
-        const contentHeight = iframe.contentDocument.body.scrollHeight
-        const maxHeight = Math.round(window.innerHeight * 0.85)
-        iframe.style.height = `${Math.min(Math.max(contentHeight + 24, 240), maxHeight)}px`
-      } catch (err) {
-        iframe.style.height = '600px'
-      }
+      if (iframe) iframe.style.height = `${Math.min(600, Math.round(window.innerHeight * 0.85))}px`
     },
     // Fullscreen the wrapper rather than the iframe itself: an iframe made
     // fullscreen keeps whatever width/height it was given, so the page ended up
@@ -553,11 +571,7 @@ export default {
       const element = document.fullscreenElement || document.webkitFullscreenElement
       const isFull = element === wrap
       iframe.style.height = isFull ? '100%' : ''
-      try {
-        iframe.contentDocument.body.classList.toggle('aij-fullscreen', isFull)
-      } catch (err) {
-        // Cross-origin srcdoc should not happen, but never let it break exit.
-      }
+      iframe.contentWindow?.postMessage({ type: 'ai-junior:fullscreen', enabled: isFull }, '*')
       if (isFull) this.focusPreview()
       else this.sizePreview()
     },
