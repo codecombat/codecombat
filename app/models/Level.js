@@ -589,7 +589,13 @@ module.exports = (Level = (function () {
 
     getCodeContext (plan) {
       if (!plan) return {}
-      let context = utils.i18n(plan, 'context')
+      // Layer the localized context over the English one key by key. A locale whose context is
+      // missing (or blank for) a key would otherwise make _.template throw and leave every
+      // <%= placeholder %> raw for that locale; this way only the missing key falls back to English.
+      const english = utils.removeAI(plan.context || {})
+      const localized = utils.i18n(plan, 'context') || {}
+      const filled = _.pick(localized, value => !_.isString(value) || value.trim())
+      let context = _.merge({}, english, filled)
       if (utils.showOzaria()) {
         context = _.merge({
           external_ch1_avatar: store.getters?.['me/getCh1Avatar.avatarCodeString']?.crown,
