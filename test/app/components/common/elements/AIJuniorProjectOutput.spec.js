@@ -63,4 +63,47 @@ describe('AI Junior result sandbox', () => {
     event.data.height = 1
     expect(previewHeight(event, frame, 800)).toBe(240)
   })
+
+  it('coalesces a burst of valid messages into one bounded update with the latest size', () => {
+    let flush
+    const timer = window.spyOn(window, 'setTimeout').and.callFake((fn, delay) => { flush = fn; expect(delay).toBe(100); return 123 })
+    const setHeight = jasmine.createSpy('set height')
+    const frame = { contentWindow: {}, style: {} }
+    Object.defineProperty(frame.style, 'height', { set: setHeight, get: () => '' })
+    const context = { $refs: { previewFrame: frame, previewWrap: {} } }
+    const receive = height => AIJuniorProjectOutput.methods.onPreviewMessage.call(context, { source: frame.contentWindow, data: { type: 'ai-junior:size', height } })
+    for (let height = 0; height < 500; height++) receive(height)
+    expect(timer.calls.count()).toBe(1)
+    expect(setHeight).not.toHaveBeenCalled()
+    flush()
+    expect(setHeight.calls.count()).toBe(1)
+    expect(setHeight).toHaveBeenCalledWith(`${Math.min(523, Math.round(window.innerHeight * 0.85))}px`)
+    receive(300)
+    expect(timer.calls.count()).toBe(2)
+    // A stale frame must not resize its replacement after a compare toggle.
+    context.$refs.previewFrame = { contentWindow: {}, style: {} }
+    flush()
+    expect(setHeight.calls.count()).toBe(1)
+  })
+
+  it('cancels queued resize work when the component is destroyed', () => {
+    const clear = window.spyOn(window, 'clearTimeout')
+    AIJuniorProjectOutput.beforeDestroy.call({ _previewResizeTimer: 123 })
+    expect(clear).toHaveBeenCalledWith(123)
+  })
+
+  it('retains the first size report from a replacement frame while a timer is pending', () => {
+    let flush
+    window.spyOn(window, 'setTimeout').and.callFake(fn => { flush = fn; return 123 })
+    const oldFrame = { contentWindow: {}, style: {} }
+    const newFrame = { contentWindow: {}, style: {} }
+    const context = { $refs: { previewFrame: oldFrame, previewWrap: {} } }
+    const receive = frame => AIJuniorProjectOutput.methods.onPreviewMessage.call(context, { source: frame.contentWindow, data: { type: 'ai-junior:size', height: 300 } })
+    receive(oldFrame)
+    context.$refs.previewFrame = newFrame
+    receive(newFrame)
+    flush()
+    expect(oldFrame.style.height).toBeUndefined()
+    expect(newFrame.style.height).toBe(`${Math.min(324, Math.round(window.innerHeight * 0.85))}px`)
+  })
 })

@@ -1,7 +1,19 @@
 // This code runs inside an opaque-origin sandbox. Only dimensions and a
 // fullscreen flag cross the boundary; neither side evaluates received code.
 export const FRAME_BRIDGE = `(() => {
-  const report = () => parent.postMessage({ type: 'ai-junior:size', height: document.body.scrollHeight }, '*');
+  let pending = false;
+  let lastHeight;
+  const report = () => {
+    if (pending) return;
+    pending = true;
+    setTimeout(() => {
+      pending = false;
+      const height = document.body.scrollHeight;
+      if (height === lastHeight) return;
+      lastHeight = height;
+      parent.postMessage({ type: 'ai-junior:size', height }, '*');
+    }, 100);
+  };
   addEventListener('message', event => {
     if (event.source !== parent || event.data?.type !== 'ai-junior:fullscreen') return;
     if (typeof event.data.enabled !== 'boolean') return;
@@ -13,6 +25,13 @@ export const FRAME_BRIDGE = `(() => {
   report();
 })();`
 
+/**
+ * Validate a size report from this preview and bound its requested height.
+ * @param {MessageEvent} event The untrusted cross-frame message.
+ * @param {HTMLIFrameElement} frame The currently rendered preview iframe.
+ * @param {number} viewportHeight The parent's available viewport height.
+ * @returns {number|null} A bounded pixel height, or null for an invalid report.
+ */
 export function previewHeight (event, frame, viewportHeight) {
   if (!frame || event.source !== frame.contentWindow || event.data?.type !== 'ai-junior:size') return null
   const height = event.data.height

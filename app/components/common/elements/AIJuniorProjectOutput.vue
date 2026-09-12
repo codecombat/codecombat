@@ -508,6 +508,7 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('message', this.onPreviewMessage)
+    if (this._previewResizeTimer) clearTimeout(this._previewResizeTimer)
     if (this.elapsedTimer) clearInterval(this.elapsedTimer)
     document.removeEventListener('fullscreenchange', this.onFullscreenChange)
     document.removeEventListener('webkitfullscreenchange', this.onFullscreenChange)
@@ -533,7 +534,20 @@ export default {
       const frame = this.$refs.previewFrame
       const height = previewHeight(event, frame, window.innerHeight)
       const fullscreen = document.fullscreenElement || document.webkitFullscreenElement
-      if (height !== null && fullscreen !== this.$refs.previewWrap) frame.style.height = `${height}px`
+      if (height === null || fullscreen === this.$refs.previewWrap) return
+      // Keep untrusted message traffic out of Vue's reactive render queue.
+      // Apply the latest valid size at most ten times per second.
+      this._pendingPreviewHeight = height
+      this._pendingPreviewFrame = frame
+      if (this._previewResizeTimer) return
+      this._previewResizeTimer = setTimeout(() => {
+        this._previewResizeTimer = null
+        const fullscreen = document.fullscreenElement || document.webkitFullscreenElement
+        const frame = this._pendingPreviewFrame
+        if (frame !== this.$refs.previewFrame || fullscreen === this.$refs.previewWrap) return
+        const size = `${this._pendingPreviewHeight}px`
+        if (frame.style.height !== size) frame.style.height = size
+      }, 100)
     },
     // A sandbox cannot be measured through contentDocument. Use a bounded
     // fallback until its own resize message arrives.
