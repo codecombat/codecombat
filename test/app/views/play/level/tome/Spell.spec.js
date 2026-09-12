@@ -25,12 +25,20 @@ describe('Spell.translateCommentContext', function () {
     expect(result).toBe('# Zeg hoi\n# Gebruik haakjes\nhero.moveXY(1, 2)\n')
   })
 
-  it('keeps the Lua method-call rewrite on English fallback keys', function () {
+  it('applies the Lua method-call rewrite to both translated and English fallback keys', function () {
     const luaSource = '-- <%= greet %>\n-- <%= parens %>\n'
-    const luaContext = { greet: 'Call hero.say()', parens: 'Use parentheses' }
-    const commentI18N = { nl: { context: { parens: 'Gebruik haakjes' } } }
+    const luaContext = { greet: 'Call hero.say()', parens: 'Use hero.moveXY()' }
+    const commentI18N = { nl: { context: { parens: 'Gebruik hero.moveXY()' } } }
     const result = translate({ source: luaSource, commentContext: luaContext, commentI18N, codeLanguage: 'lua', spokenLanguage: 'nl' })
-    expect(result).toBe('-- Call hero:say()\n-- Gebruik haakjes\n')
+    expect(result).toBe('-- Call hero:say()\n-- Gebruik hero:moveXY()\n')
+  })
+
+  it('untranslates Lua comments back to placeholders with the same rewrite order', function () {
+    const luaContext = { greet: 'Call hero.say()', parens: 'Use hero.moveXY()' }
+    const commentI18N = { nl: { context: { parens: 'Gebruik hero.moveXY()' } } }
+    const translated = '-- Call hero:say()\n-- Gebruik hero:moveXY()\n'
+    const result = Spell.prototype.untranslateCommentContext({ source: translated, commentContext: luaContext, commentI18N, codeLanguage: 'lua', spokenLanguage: 'nl' })
+    expect(result).toBe('-- <%= greet %>\n-- <%= parens %>\n')
   })
 
   it('renders English when there is no i18n', function () {
