@@ -4,7 +4,6 @@
  * decaffeinate suggestions:
  * DS101: Remove unnecessary use of Array.from
  * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
  * DS104: Avoid inline assignments
  * DS205: Consider reworking code to avoid use of IIFEs
  * DS206: Consider reworking classes to avoid initClass
@@ -17,14 +16,10 @@ const RootView = require('views/core/RootView')
 const template = require('app/templates/account/subscription-view')
 const CocoCollection = require('collections/CocoCollection')
 const Products = require('collections/Products')
-const Product = require('models/Product')
-const payPal = require('core/services/paypal')
 const SubscribeModal = require('views/core/SubscribeModal')
 const Payment = require('models/Payment')
 const stripeHandler = require('core/services/stripe')
-const User = require('models/User')
 const utils = require('core/utils')
-const api = require('core/api')
 
 // TODO: Link to sponsor id /user/userID instead of plain text name
 // TODO: Link to sponsor email instead of plain text email
@@ -56,10 +51,7 @@ module.exports = (SubscriptionView = (function () {
         'click .start-subscription-button': 'onClickStartSubscription',
         'click .end-subscription-button': 'onClickEndSubscription',
         'click .cancel-end-subscription-button': 'onClickCancelEndSubscription',
-        'click .confirm-end-subscription-button': 'onClickConfirmEndSubscription',
         'click .recipients-subscribe-button': 'onClickRecipientsSubscribe',
-        'click .confirm-recipient-unsubscribe-button': 'onClickRecipientConfirmUnsubscribe',
-        'click .recipient-unsubscribe-button': 'onClickRecipientUnsubscribe'
       }
 
       this.prototype.subscriptions = {
@@ -120,28 +112,12 @@ module.exports = (SubscriptionView = (function () {
       return this.$el.find('.end-subscription-button').focus().removeClass('disabled', 250)
     }
 
-    onClickConfirmEndSubscription (e) {
-      const message = this.$el.find('.unsubscribe-feedback textarea').val().trim()
-      return this.personalSub.unsubscribe(message, () => (typeof this.render === 'function' ? this.render() : undefined))
-    }
-
     // Sponsored subscriptions
 
     onClickRecipientsSubscribe (e) {
       const emails = this.$el.find('.recipient-emails').val().split('\n')
       const valid = this.emailValidator.validateEmails(emails, () => (typeof this.render === 'function' ? this.render() : undefined))
       if (valid) { return this.recipientSubs.startSubscribe(emails) }
-    }
-
-    onClickRecipientUnsubscribe (e) {
-      $(e.target).addClass('hide')
-      return $(e.target).parent().find('.confirm-recipient-unsubscribe-button').removeClass('hide')
-    }
-
-    onClickRecipientConfirmUnsubscribe (e) {
-      const email = $(e.target).closest('tr').find('td.recipient-email').text()
-      const id = $(e.target).closest('tr').data('recipient-id')
-      return this.recipientSubs.unsubscribe(email, id, () => (typeof this.render === 'function' ? this.render() : undefined))
     }
 
     onStripeReceivedToken (e) {
@@ -200,7 +176,7 @@ class PersonalSub {
     let left
     if (!this.prepaidCode) { return }
 
-    if (this.prepaidCode === __guard__(me.get('stripe'), x => x.prepaidCode)) {
+    if (this.prepaidCode === me.get('stripe')?.prepaidCode) {
       delete this.prepaidCode
       return render()
     }
@@ -246,40 +222,6 @@ class PersonalSub {
     return me.patch({ headers: { 'X-Change-Plan': 'true' } })
   }
 
-  unsubscribe (message, render) {
-    const payPalInfo = me.get('payPal')
-    const stripeInfo = _.clone(me.get('stripe'))
-    if (payPalInfo != null ? payPalInfo.billingAgreementID : undefined) {
-      api.users.cancelBillingAgreement({ userID: me.id, billingAgreementID: (payPalInfo != null ? payPalInfo.billingAgreementID : undefined) })
-        .then(response => {
-          if (window.tracker != null) {
-            window.tracker.trackEvent('Unsubscribe End', { message, category: 'Subscription' })
-          }
-          return document.location.reload()
-        }).catch(jqxhr => {
-          return console.error('PayPal unsubscribe', jqxhr)
-        })
-    } else if (stripeInfo) {
-      delete stripeInfo.planID
-      me.set('stripe', stripeInfo)
-      me.once('sync', function () {
-        if (window.tracker != null) {
-          window.tracker.trackEvent('Unsubscribe End', { message, category: 'Subscription' })
-        }
-        return document.location.reload()
-      })
-      me.patch({ headers: { 'X-Change-Plan': 'true' } })
-    } else {
-      console.error('Tried to unsubscribe without PayPal or Stripe user info.')
-      this.state = 'unknown_error'
-      this.stateMessage = 'You do not appear to be subscribed.'
-      render()
-    }
-    if (message) {
-      return $.post('/contact', { message, subject: 'Cancellation' })
-    }
-  }
-
   update (render) {
     let payments
     const stripeInfo = me.get('stripe')
@@ -316,75 +258,11 @@ class PersonalSub {
         this.active = me.isPremium()
         this.subscribed = (stripeInfo.planID != null)
 
-        const options = { cache: false, url: `/db/user/${me.id}/stripe` }
-        options.success = info => {
-          let card, sub
-          if (card = info.card) {
-            this.card = `${card.brand}: x${card.last4}`
-          }
-          if (sub = info.subscription) {
-            const periodEnd = new Date((sub.trial_end || sub.current_period_end) * 1000)
-            if (sub.cancel_at_period_end) {
-              this.activeUntil = periodEnd
-              if (this.free && (typeof this.free === 'string') && (new Date(this.free) > this.activeUntil)) {
-                // stripe.free trumps end of period cancellation date, switch to that state
-                delete this.self
-                delete this.active
-                delete this.subscribed
-              }
-            } else if (__guard__(sub.discount != null ? sub.discount.coupon : undefined, x => x.id) !== 'free') {
-              let productName
-              this.nextPaymentDate = periodEnd
-              // NOTE: This checks the product list for one that corresponds to their
-              //   country. This will not work for "free" or "halfsies" because there
-              //   are not products that correspond to those.
-              // NOTE: This does NOT use the "amount" of the coupon in this client side calculation
-              //   (those should be kept up to date on the server)
-              // TODO: Calculate and return the true price on the server side, and use that as a source of truth
-              if (__guard__(sub.discount != null ? sub.discount.coupon : undefined, x1 => x1.id)) {
-                productName = `${__guard__(sub.discount != null ? sub.discount.coupon : undefined, x2 => x2.id)}_basic_subscription`
-              } else {
-                productName = 'basic_subscription'
-              }
-              const product = _.findWhere(this.supermodel.getModels(Product), m => m.get('name') === productName)
-              if ((sub.metadata != null ? sub.metadata.type : undefined) === 'homeSubscriptions') {
-                this.cost = `$${(sub.plan.amount / 100).toFixed(2)}`
-              } else if (product) {
-                this.cost = `$${(product.get('amount') / 100).toFixed(2)}`
-              } else {
-                this.cost = `$${(sub.plan.amount / 100).toFixed(2)}`
-              }
-
-              // For the new annual plan, use the stripe information as source of truth.
-              if (__guard__(me.get('stripe'), x3 => x3.planID) === 'price_1Hja49KaReE7xLUdlPuATOvQ') {
-                let discount
-                if (__guard__(sub.discount != null ? sub.discount.coupon : undefined, x4 => x4.percent_off_precise)) {
-                  // Get percentage off from stripe data.
-                  discount = sub.plan.amount * (sub.discount.coupon.percent_off_precise / 100)
-                  this.cost = `$${((sub.plan.amount - discount) / 100).toFixed(2)}`
-                } else if (__guard__(sub.discount != null ? sub.discount.coupon : undefined, x5 => x5.amount_off)) {
-                  discount = __guard__(sub.discount != null ? sub.discount.coupon : undefined, x6 => x6.amount_off)
-                  this.cost = `$${((sub.plan.amount - discount) / 100).toFixed(2)}`
-                } else {
-                  this.cost = `$${(sub.plan.amount / 100).toFixed(2)}`
-                }
-              }
-            }
-          } else {
-            console.error(`Could not find personal subscription ${__guard__(me.get('stripe'), x7 => x7.customerID)} ${__guard__(me.get('stripe'), x8 => x8.subscriptionID)}`)
-          }
-          delete this.state
-          return render()
-        }
-        if (me.get('stripe').customerID) {
-          this.supermodel.addRequestResource('personal_payment_info', options).load()
-        } else {
-          const activeProducts = me.activeProducts('basic_subscription')
-          if (activeProducts?.length > 0) {
-            const sub = activeProducts[activeProducts.length - 1]
-            this.free = sub.endDate
-            this.self = false
-          }
+        const activeProducts = me.activeProducts('basic_subscription')
+        if (activeProducts?.length > 0) {
+          const sub = activeProducts[activeProducts.length - 1]
+          this.free = sub.endDate
+          this.self = false
         }
 
         payments = new CocoCollection([], { url: '/db/payment', model: Payment, comparator: '_id' })
@@ -464,7 +342,6 @@ class RecipientSubs {
   }
 
   startSubscribe (emails) {
-    let left
     let email
     this.recipientEmails = ((() => {
       const result = []
@@ -481,9 +358,10 @@ class RecipientSubs {
     }
 
     // TODO: this sometimes shows a rounded amount (e.g. $8.00)
-    const currentSubCount = (left = __guard__(__guard__(me.get('stripe'), x1 => x1.recipients), x => x.length)) != null ? left : 0
+    const currentSubCount = me.get('stripe')?.recipients?.length ?? 0
     const newSubCount = this.recipientEmails.length + currentSubCount
-    const amount = utils.getSponsoredSubsAmount(basicPlanPrice, newSubCount, (__guard__(me.get('stripe'), x2 => x2.subscriptionID) != null)) - utils.getSponsoredSubsAmount(basicPlanPrice, currentSubCount, (__guard__(me.get('stripe'), x3 => x3.subscriptionID) != null))
+    const hasSubscription = me.get('stripe')?.subscriptionID != null
+    const amount = utils.getSponsoredSubsAmount(basicPlanPrice, newSubCount, hasSubscription) - utils.getSponsoredSubsAmount(basicPlanPrice, currentSubCount, hasSubscription)
     const options = {
       description: `${this.recipientEmails.length} ` + $.i18n.t('subscribe.stripe_description', { defaultValue: 'Monthly Subscriptions' }),
       amount,
@@ -535,34 +413,11 @@ class RecipientSubs {
     return me.patch({ headers: { 'X-Change-Plan': 'true' } })
   }
 
-  unsubscribe (email, id, render) {
-    delete this.state
-    this.stateMessage = ''
-    delete this.justSubscribed
-    this.addSubscribing(email)
-    render()
-    return me.unsubscribeRecipient(id).then(() => {
-      this.removeSubscribing(email)
-      return this.update(render)
-    })
-  }
-
   update (render) {
     delete this.state
     delete this.stateMessage
-    if (!__guard__(me.get('stripe'), x => x.recipients)) { return }
+    if (!me.get('stripe')?.recipients) { return }
     this.unsubscribingRecipients = []
-
-    const options = { cache: false, url: `/db/user/${me.id}/stripe` }
-    options.success = info => {
-      let card
-      this.sponsorSub = info.sponsorSubscription
-      if (card = info.card) {
-        this.card = `${card.brand}: x${card.last4}`
-      }
-      return render()
-    }
-    this.supermodel.addRequestResource('recipients_payment_info', options).load()
 
     const onSubRecipientsSuccess = recipientsMap => {
       this.recipients = recipientsMap
@@ -574,7 +429,7 @@ class RecipientSubs {
           this.justSubscribed.push(recipient.emailLower)
         }
       }
-      this.nextPaymentAmount = utils.getSponsoredSubsAmount(basicPlanPrice, count, (__guard__(me.get('stripe'), x1 => x1.subscriptionID) != null))
+      this.nextPaymentAmount = utils.getSponsoredSubsAmount(basicPlanPrice, count, (me.get('stripe')?.subscriptionID != null))
       this.recipientEmails = []
       return render()
     }
@@ -584,8 +439,4 @@ class RecipientSubs {
       success: onSubRecipientsSuccess
     }, 0).load()
   }
-}
-
-function __guard__ (value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
 }
