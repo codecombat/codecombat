@@ -101,6 +101,29 @@ describe('AI Junior worksheet batch identity', () => {
   it('keeps manual capture as the default', () => {
     expect(wrapper.vm.autoCaptureWanted).toBe(false)
   })
+
+  it('ignores a camera error after switching worksheets', runAsync(async () => {
+    let fail
+    wrapper.vm.scanner.start = () => new Promise((resolve, reject) => { fail = reject })
+    const pending = wrapper.vm.startCamera()
+    wrapper.vm.nextSheet()
+    fail(new Error('Old camera request'))
+    await pending
+    expect(wrapper.vm.cameraError).toBe(null)
+    expect(wrapper.vm.cameraOn).toBe(false)
+  }))
+
+  it('does not let an older camera error overwrite a newer successful start', runAsync(async () => {
+    let fail
+    wrapper.vm.scanner.start = () => new Promise((resolve, reject) => { fail = reject })
+    const old = wrapper.vm.startCamera()
+    wrapper.vm.scanner.start = () => Promise.resolve({})
+    await wrapper.vm.startCamera()
+    fail(new Error('Old camera request'))
+    await old
+    expect(wrapper.vm.cameraError).toBe(null)
+    expect(wrapper.vm.cameraOn).toBe(true)
+  }))
 })
 
 describe('AI Junior camera cleanup', () => {
@@ -115,5 +138,79 @@ describe('AI Junior camera cleanup', () => {
     expect(await pending).toBe(null)
     expect(stop).toHaveBeenCalled()
     expect(scanner.stream).toBe(null)
+  }))
+
+  it('ignores fallback camera failures after stopping', runAsync(async () => {
+    let fail
+    let calls = 0
+    window.spyOn(navigator.mediaDevices, 'getUserMedia').and.callFake(() => ++calls === 1
+      ? Promise.reject(new Error('Preferred camera unavailable'))
+      : new Promise((resolve, reject) => { fail = reject }))
+    const scanner = new DocumentScanner({ video: {} })
+    const pending = scanner.start()
+    await Promise.resolve()
+    scanner.stop()
+    fail(new Error('Fallback camera unavailable'))
+    expect(await pending).toBe(null)
+    expect(scanner.stream).toBe(null)
+  }))
+
+  it('releases fallback streams that arrive after stopping', runAsync(async () => {
+    let finish
+    let calls = 0
+    window.spyOn(navigator.mediaDevices, 'getUserMedia').and.callFake(() => ++calls === 1
+      ? Promise.reject(new Error('Preferred camera unavailable'))
+      : new Promise(resolve => { finish = resolve }))
+    const scanner = new DocumentScanner({ video: {} })
+    const stop = jasmine.createSpy('stop')
+    const pending = scanner.start()
+    await Promise.resolve()
+    scanner.stop()
+    finish({ getTracks: () => [{ stop }] })
+    expect(await pending).toBe(null)
+    expect(stop).toHaveBeenCalled()
+  }))
+
+  for (const fails of [false, true]) {
+    it(`keeps the new stream when old playback ${fails ? 'fails' : 'finishes'}`, runAsync(async () => {
+      let finish, fail
+      let plays = 0
+      let requests = 0
+      const stopOld = jasmine.createSpy('stop old')
+      const stopNew = jasmine.createSpy('stop new')
+      const oldStream = { getTracks: () => [{ stop: stopOld }] }
+      const newStream = { getTracks: () => [{ stop: stopNew }] }
+      window.spyOn(navigator.mediaDevices, 'getUserMedia').and.callFake(() => Promise.resolve(++requests === 1 ? oldStream : newStream))
+      const video = {
+        setAttribute: () => {},
+        play: () => ++plays === 1 ? new Promise((resolve, reject) => { finish = resolve; fail = reject }) : Promise.resolve(),
+      }
+      const scanner = new DocumentScanner({ video })
+      window.spyOn(scanner, '_loop')
+      const old = scanner.start()
+      await Promise.resolve()
+      expect(await scanner.start()).toBe(newStream)
+      if (fails) fail(new Error('Old playback failed'))
+      else finish()
+      expect(await old).toBe(null)
+      expect(stopOld).toHaveBeenCalled()
+      expect(stopNew).not.toHaveBeenCalled()
+      expect(scanner.stream).toBe(newStream)
+      expect(scanner.running).toBe(true)
+      scanner.stop()
+    }))
+  }
+
+  it('still reports a current playback failure and releases its camera', runAsync(async () => {
+    const error = new Error('Current playback failed')
+    const stop = jasmine.createSpy('stop')
+    window.spyOn(navigator.mediaDevices, 'getUserMedia').and.returnValue(Promise.resolve({ getTracks: () => [{ stop }] }))
+    const scanner = new DocumentScanner({ video: { setAttribute: () => {}, play: () => Promise.reject(error) } })
+    let caught
+    try { await scanner.start() } catch (failure) { caught = failure }
+    expect(caught).toBe(error)
+    expect(stop).toHaveBeenCalled()
+    expect(scanner.stream).toBe(null)
+    expect(scanner.running).toBe(false)
   }))
 })

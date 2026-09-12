@@ -301,6 +301,7 @@ export default {
       stage: 'capture',
       cameraOn: false,
       cameraError: null,
+      cameraStartRevision: 0,
       stillLoaded: false,
       manual: false,
       hasQuad: false,
@@ -496,15 +497,19 @@ export default {
     // --- camera / photo sources -------------------------------------------
 
     async startCamera () {
+      const revision = ++this.cameraStartRevision
+      const sheetRevision = this.sheetRevision
+      const scanner = this.scanner
+      const isCurrent = () => revision === this.cameraStartRevision && sheetRevision === this.sheetRevision && this.scanner === scanner
       this.cameraError = null
       try {
-        const scanner = this.scanner
         if (!scanner) return
         const stream = await scanner.start()
-        if (!stream || this.scanner !== scanner) return
+        if (!stream || !isCurrent()) return
         this.cameraOn = true
         this.$nextTick(this.sizeOverlay)
       } catch (error) {
+        if (!isCurrent()) return
         console.error('Could not open camera:', error)
         this.cameraError = window.isSecureContext
           ? 'Could not open the camera. You can still take a photo with the button above.'

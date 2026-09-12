@@ -275,29 +275,36 @@ export class DocumentScanner {
       audio: false,
     }
     try {
-      stream = await navigator.mediaDevices.getUserMedia(wanted)
-    } catch (err) {
-      // Back-facing camera is only a preference; a laptop webcam is fine.
-      if (version !== this._startVersion) return null
-      if (constraints) throw err
-      stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      try {
+        stream = await navigator.mediaDevices.getUserMedia(wanted)
+      } catch (err) {
+        // Back-facing camera is only a preference; a laptop webcam is fine.
+        if (version !== this._startVersion) return null
+        if (constraints) throw err
+        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      }
+      if (version !== this._startVersion) {
+        stream.getTracks().forEach(track => track.stop())
+        return null
+      }
+      this.stream = stream
+      this.clearStill()
+      this.video.srcObject = stream
+      this.video.setAttribute('playsinline', '')
+      this.video.muted = true
+      await this.video.play()
+    } catch (error) {
+      if (version !== this._startVersion) {
+        stream?.getTracks().forEach(track => track.stop())
+        return null
+      }
+      this.stop()
+      throw error
     }
     if (version !== this._startVersion) {
       stream.getTracks().forEach(track => track.stop())
       return null
     }
-    this.stream = stream
-    this.clearStill()
-    this.video.srcObject = stream
-    this.video.setAttribute('playsinline', '')
-    this.video.muted = true
-    try {
-      await this.video.play()
-    } catch (error) {
-      if (version === this._startVersion) this.stop()
-      throw error
-    }
-    if (version !== this._startVersion) return null
     this.running = true
     this.tracker.reset()
     this._loop()
