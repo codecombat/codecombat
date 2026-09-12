@@ -241,6 +241,8 @@ export class DocumentScanner {
     })
     this.lastQRText = null
     this._lastQRRun = 0
+    this._sourceVersion = 0
+    this._startVersion = 0
     this._qrBusy = false
     this.stream = null
     this.running = false
@@ -261,6 +263,9 @@ export class DocumentScanner {
   }
 
   async start (constraints) {
+    this.stop()
+    const version = this._startVersion
+    let stream
     const wanted = constraints ?? {
       video: {
         facingMode: { ideal: 'environment' },
@@ -270,16 +275,36 @@ export class DocumentScanner {
       audio: false,
     }
     try {
-      this.stream = await navigator.mediaDevices.getUserMedia(wanted)
-    } catch (err) {
-      // Back-facing camera is only a preference; a laptop webcam is fine.
-      if (constraints) throw err
-      this.stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      try {
+        stream = await navigator.mediaDevices.getUserMedia(wanted)
+      } catch (err) {
+        // Back-facing camera is only a preference; a laptop webcam is fine.
+        if (version !== this._startVersion) return null
+        if (constraints) throw err
+        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      }
+      if (version !== this._startVersion) {
+        stream.getTracks().forEach(track => track.stop())
+        return null
+      }
+      this.stream = stream
+      this.clearStill()
+      this.video.srcObject = stream
+      this.video.setAttribute('playsinline', '')
+      this.video.muted = true
+      await this.video.play()
+    } catch (error) {
+      if (version !== this._startVersion) {
+        stream?.getTracks().forEach(track => track.stop())
+        return null
+      }
+      this.stop()
+      throw error
     }
-    this.video.srcObject = this.stream
-    this.video.setAttribute('playsinline', '')
-    this.video.muted = true
-    await this.video.play()
+    if (version !== this._startVersion) {
+      stream.getTracks().forEach(track => track.stop())
+      return null
+    }
     this.running = true
     this.tracker.reset()
     this._loop()
@@ -287,6 +312,8 @@ export class DocumentScanner {
   }
 
   stop () {
+    this._startVersion++
+    this._sourceVersion++
     this.running = false
     if (this._raf) cancelAnimationFrame(this._raf)
     this._raf = null
@@ -310,6 +337,7 @@ export class DocumentScanner {
    * pipeline be exercised (and real photos checked) on a machine with no camera.
    */
   useStill (image) {
+    this._sourceVersion++
     this.still = image
     this.manual = false
     this.manualQuad = null
@@ -319,6 +347,7 @@ export class DocumentScanner {
   }
 
   clearStill () {
+    this._sourceVersion++
     this.still = null
     this.tracker.reset()
     if (this.running && this.video) this.video.play()
@@ -488,6 +517,7 @@ export class DocumentScanner {
     const { width, height } = this.frameSize
     if (!width || !height) return
     this._qrBusy = true
+    const version = this._sourceVersion
     this._lastQRRun = now
     // Deliberately not the 640px detection frame: the printed code is under a
     // tenth of the page wide, which at detection resolution leaves barely one
@@ -496,11 +526,11 @@ export class DocumentScanner {
     const frame = readFrame(this.source, Math.round(width * scale), Math.round(height * scale))
     Promise.resolve(decodeQR(this.source, frame))
       .then(text => {
-        if (!text || text === this.lastQRText) return
+        if (version !== this._sourceVersion || !text || text === this.lastQRText) return
         const parsed = parseWorksheetQR(text)
         if (!parsed) return
         this.lastQRText = text
-        this.onQR({ text, ...parsed })
+        return this.onQR({ text, ...parsed })
       })
       .catch(() => {})
       .finally(() => { this._qrBusy = false })
@@ -513,12 +543,13 @@ export class DocumentScanner {
     // Full resolution here: a printed QR is small on the page, and this runs
     // once against a still rather than every frame of a preview.
     const frame = readFrame(this.source, width, height)
+    const version = this._sourceVersion
     const text = await decodeQR(this.source, frame)
-    if (!text) return null
+    if (version !== this._sourceVersion || !text) return null
     const parsed = parseWorksheetQR(text)
     if (parsed) {
       this.lastQRText = text
-      this.onQR({ text, ...parsed })
+      await this.onQR({ text, ...parsed })
     }
     return parsed
   }
