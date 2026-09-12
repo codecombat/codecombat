@@ -71,8 +71,26 @@
         :class="{ 'with-original': isCompleted && originals.length }"
       >
         <div class="creation">
+          <!-- A creation that is only the generated picture: the scenario's
+               template is a bare <img> around it, so the iframe adds nothing.
+               The slider takes its place — identical at rest, comparable
+               without a detour through a button, and something the reveal can
+               actually animate. -->
           <div
-            v-if="hasPreview"
+            v-if="creationComparison && !showCompare"
+            class="project-preview"
+          >
+            <ImageCompareSlider
+              :original="creationComparison.original"
+              :generated="creationComparison.generated"
+              :original-label="creationComparison.originalLabel"
+              generated-label="Your creation"
+              auto-reveal
+            />
+          </div>
+
+          <div
+            v-else-if="hasPreview && !showCompare"
             class="project-preview"
           >
             <div
@@ -92,20 +110,56 @@
             </div>
           </div>
 
+          <!-- Compare replaces the preview rather than sitting beside it: the
+               slider already shows the finished picture at rest, so rendering
+               both would just be the same creation twice. -->
           <div
-            v-for="response in unreferencedImages"
-            :key="response.promptId"
+            v-if="showCompare"
+            class="comparisons"
+          >
+            <div
+              v-for="comparison in previewComparisons"
+              :key="`compare-${comparison.promptId}`"
+              class="comparison"
+            >
+              <ImageCompareSlider
+                :original="comparison.original"
+                :generated="comparison.generated"
+                :original-label="comparison.originalLabel"
+                generated-label="Your creation"
+              />
+            </div>
+          </div>
+
+          <div
+            v-for="(item, index) in unreferencedItems"
+            :key="item.promptId"
             class="response-image"
           >
+            <!-- Where the generated image is shown on its own, the slider is
+                 that image — it rests fully on the generated side — so it costs
+                 nothing to make it draggable. -->
+            <!-- A row of sprites cascades rather than sweeping in unison,
+                 which reads as one effect instead of three collisions. -->
+            <ImageCompareSlider
+              v-if="item.comparison"
+              :original="item.comparison.original"
+              :generated="item.comparison.generated"
+              :original-label="item.comparison.originalLabel"
+              generated-label="Your creation"
+              auto-reveal
+              :reveal-delay="index * 180"
+            />
             <a
-              :href="response.image"
+              v-else
+              :href="item.image"
               target="_blank"
               rel="noopener"
               title="Open full size"
             >
               <img
-                :src="response.image"
-                :alt="response.promptId"
+                :src="item.image"
+                :alt="item.promptId"
               >
             </a>
           </div>
@@ -115,11 +169,18 @@
             class="creation-actions no-print"
           >
             <button
-              v-if="hasPreview"
+              v-if="hasPreview && !showCompare && !creationComparison"
               class="btn btn-default"
               @click="fullscreenPreview"
             >
               ⛶ Fullscreen
+            </button>
+            <button
+              v-if="canCompare"
+              class="btn btn-default"
+              @click="showCompare = !showCompare"
+            >
+              {{ showCompare ? '🖼 Your creation' : '↔ Compare' }}
             </button>
             <a
               v-for="response in imageResponses"
@@ -214,6 +275,7 @@
 <script>
 import compileTemplate from 'lodash-4/template'
 import AIJuniorShareBox from './AIJuniorShareBox.vue'
+import ImageCompareSlider from './ImageCompareSlider.vue'
 
 // Simple `<%= name %>` interpolations, which is all scenario outputs use.
 // Declared with the `g` flag but only ever used via matchAll, which does not
@@ -236,6 +298,7 @@ export default {
   name: 'AIJuniorProjectOutput',
   components: {
     AIJuniorShareBox,
+    ImageCompareSlider,
   },
   props: {
     project: {
@@ -261,6 +324,7 @@ export default {
     return {
       showDetails: false,
       showShare: false,
+      showCompare: false,
       elapsedSeconds: 0,
       // Reactive clock, so the progress bar keeps easing forward between polls
       // rather than only moving when a prompt finishes.
@@ -317,6 +381,64 @@ export default {
       if (!this.hasPreview) return this.imageResponses
       return this.imageResponses.filter((response) => !this.templateNames.includes(response.promptId))
     },
+    // Each generated image beside the drawing it was made from. A prompt's
+    // `files` names the image fields it was shown; a prompt without one is
+    // shown every drawing, so the first it could have used is the fair match.
+    comparisons () {
+      if (!this.isCompleted || !this.drawings.length) return []
+      const pairs = []
+      for (const response of this.imageResponses) {
+        const prompt = (this.scenario.prompts || []).find((p) => p.id === response.promptId)
+        const wanted = Array.isArray(prompt?.files) ? prompt.files : this.drawings.map((drawing) => drawing.id)
+        const drawing = this.drawings.find((candidate) => wanted.includes(candidate.id))
+        if (!drawing) continue
+        pairs.push({
+          promptId: response.promptId,
+          generated: response.image,
+          original: drawing.src,
+          originalLabel: drawing.label,
+          drawingId: drawing.id,
+        })
+      }
+      return pairs
+    },
+    comparisonByPromptId () {
+      return Object.fromEntries(this.comparisons.map((comparison) => [comparison.promptId, comparison]))
+    },
+    // The images shown on their own, each carrying the drawing it came from so
+    // the slider can stand in for a plain `<img>` wherever there is one.
+    unreferencedItems () {
+      return this.unreferencedImages.map((response) => ({
+        promptId: response.promptId,
+        image: response.image,
+        comparison: this.comparisonByPromptId[response.promptId] || null,
+      }))
+    },
+    // Comparisons for images the output template renders itself. Those live
+    // inside the preview iframe and cannot be slid over there, so comparing
+    // them swaps the preview out for the sliders instead.
+    previewComparisons () {
+      if (!this.hasPreview) return []
+      return this.comparisons.filter((comparison) => this.templateNames.includes(comparison.promptId))
+    },
+    // A creation the scenario renders as nothing but the generated image. Its
+    // template contributes only the `<img>` tag, which the slider already is,
+    // so the iframe is pure overhead — and a picture inside an iframe cannot
+    // be compared or swept.
+    creationComparison () {
+      if (!this.hasPreview) return null
+      const output = this.scenario.output || {}
+      if (String(output.css || '').trim() || String(output.js || '').trim()) return null
+      const html = String(output.html || '').trim()
+      const bareImage = html.match(/^<img\b[^>]*\bsrc\s*=\s*["']?<%[=-]?\s*([A-Za-z_$][\w$]*)\s*%>["']?[^>]*>$/i)
+      if (!bareImage) return null
+      return this.comparisonByPromptId[bareImage[1]] || null
+    },
+    canCompare () {
+      // Pointless where the creation is already the slider.
+      if (this.creationComparison) return false
+      return this.isCompleted && this.previewComparisons.length > 0
+    },
     showCreationActions () {
       return this.isCompleted && (this.hasPreview || this.imageResponses.length)
     },
@@ -333,10 +455,9 @@ export default {
     // cropped drawing, and showing both means showing the same drawing twice —
     // the page already contains it — so the page wins when it exists. Only an
     // on-screen drawing, which has no page, falls back to the crops.
-    originals () {
-      if (this.project.uploadedWorksheet) {
-        return [{ id: 'worksheet', label: 'Your worksheet', src: `/file/${this.project.uploadedWorksheet}` }]
-      }
+    // The drawings themselves, one per image field the child filled in. A
+    // scanned project has these as crops of the page as well as the page.
+    drawings () {
       const items = []
       const inputValues = this.project.inputValues || {}
       for (const input of this.scenario.inputs || []) {
@@ -347,6 +468,22 @@ export default {
         items.push({ id: input.id, label: input.label || input.text || 'What you drew', src })
       }
       return items
+    },
+    // Drawings already on screen inside a slider, which the aside would
+    // otherwise show a second time.
+    comparedDrawingIds () {
+      const comparisons = [
+        this.creationComparison,
+        ...(this.showCompare ? this.previewComparisons : []),
+        ...this.unreferencedItems.map((item) => item.comparison),
+      ].filter(Boolean)
+      return new Set(comparisons.map((comparison) => comparison.drawingId))
+    },
+    originals () {
+      if (this.project.uploadedWorksheet) {
+        return [{ id: 'worksheet', label: 'Your worksheet', src: `/file/${this.project.uploadedWorksheet}` }]
+      }
+      return this.drawings.filter((drawing) => !this.comparedDrawingIds.has(drawing.id))
     },
     originalsHeading () {
       return this.originals.length === 1 && this.originals[0].id === 'worksheet'
@@ -649,7 +786,8 @@ export default {
   font-size: 1.5rem;
 }
 
-.response-image {
+.response-image,
+.comparison {
   text-align: center;
   margin-bottom: 1.5rem;
 }
@@ -663,6 +801,9 @@ export default {
 
 .project-preview {
   margin: 0 0 1rem;
+  /* Centres the slider when it stands in for the preview; the iframe is a
+     full-width block and is unaffected. */
+  text-align: center;
 }
 
 .preview-wrap {
