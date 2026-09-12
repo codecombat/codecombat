@@ -131,7 +131,7 @@ if !editorMode
             class="level" + (level.next || _.any(level.practiceLevels || [], { next: true }) ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatus,
             data-level-slug=level.slug,
             data-level-original=level.original,
-            title=levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : ""))
+            title=editorMode ? undefined : levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : ""))
           )
             if level.unlocksHero && (!level.purchasedHero || editorMode) && (level.hidden || levelStatus === 'complete')
               img.hero-portrait(src="/file/db/thang.type/" + level.unlocksHero + "/portrait.png")
@@ -143,7 +143,14 @@ if !editorMode
               div(class="level-kind " + level.kind)= kindKey
               - var acronym = level.name.replace(/(A |The )/g, '').replace(/[^A-Z]/g, '');
               .level-acronym= acronym
-            if !level.hidden && !level.noFlag && !level.locked
+            //- Editor default is a compact marker: no flag banner, only the reward chest. The toggle brings the player flags back.
+            - var showFlags = !editorMode || showFullFlags
+            if !level.hidden && !level.noFlag && !level.locked && !showFlags
+              if level.unlocksHero && levelStatus !== 'complete'
+                img.treasure-chest(src="/images/pages/play/gold-chest.png")
+              else if level.unlocksItem && levelStatus !== 'complete'
+                img.treasure-chest(src="/images/pages/play/" + (level.requiresSubscription?'silver':'bronze') + "-chest.png")
+            if !level.hidden && !level.noFlag && !level.locked && showFlags
               if level.replayable
                 img.banner(src="/images/pages/play/level-banner-replayable.png")
               else if level.type === 'hero-ladder' || level.type === 'course-ladder' || level.type === 'ladder'

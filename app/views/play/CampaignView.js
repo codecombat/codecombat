@@ -1,6 +1,7 @@
 require('app/styles/play/campaign-view.sass')
 const RootView = require('views/core/RootView')
 const template = require('templates/play/campaign-view')
+const editorLevelCardTemplate = require('templates/play/campaign-editor-level-card')
 const LevelSession = require('models/LevelSession')
 const EarnedAchievement = require('models/EarnedAchievement')
 const CocoCollection = require('collections/CocoCollection')
@@ -58,6 +59,10 @@ const SCENARIO_MARGIN_COMPENSATION_FACTOR = 0.33 // Compensates for bottom margi
 const COMPLETE_STATUS = 'complete'
 const STARTED_STATUS = 'started'
 
+// The hub map (/play with no campaign slug) has no campaign document of its own, so hub-level settings such as
+// ambientSound come from this campaign. Referenced by id: campaign slugs re-derive from `name` on every save.
+const HUB_CAMPAIGN_ID = '6a9fe655540e9017bfb987df' // rpg
+
 class LevelSessionsCollection extends CocoCollection {
   static initClass () {
     this.prototype.url = ''
@@ -102,6 +107,8 @@ class CampaignView extends RootView {
       'click .map-background': 'onClickMap',
       'click .level': 'onClickLevel',
       'dblclick .level': 'onDoubleClickLevel',
+      'mouseenter .level': 'onMouseEnterLevel',
+      'mouseleave .level': 'onMouseLeaveLevel',
       'click .level-info-container .start-level': 'onClickStartLevel',
       'click .level-info-container .home-version button': 'onClickStartLevel',
       'click .level-info-container .view-solutions': 'onClickViewSolutions',
@@ -148,6 +155,8 @@ class CampaignView extends RootView {
     }
 
     this.editorMode = options?.editorMode
+    // Editor only: render the player-facing flag banners instead of the compact level markers.
+    this.showFullFlags = Boolean(this.editorMode && options?.showFullFlags)
     this.requiresSubscription = !me.isPremium()
     if (this.editorMode && !this.terrain) {
       this.terrain = 'dungeon'
@@ -178,14 +187,7 @@ class CampaignView extends RootView {
     if (!this.terrain) {
       this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
       this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
-      this.probablyCachedMusic = storage.load('loaded-menu-music')
-      const musicDelay = this.probablyCachedMusic ? 1000 : 10000
-      const delayMusicStart = () => setTimeout(() => {
-        if (!this.destroyed) {
-          this.playMusic()
-        }
-      }, musicDelay)
-      this.playMusicTimeout = delayMusicStart()
+      this.loadHubCampaign()
       return
     }
     if (this.terrain) {
@@ -797,6 +799,7 @@ class CampaignView extends RootView {
     context.isIPadApp = application.isIPadApp
     context.requiresSubscription = this.requiresSubscription
     context.editorMode = this.editorMode
+    context.showFullFlags = this.showFullFlags
     context.scenarios = this.campaign?.get('scenarios') || []
     // Modules: child campaigns rendered as portals on the map.
     // Enrich each module with locked state: first by premium, then by levelToUnlock (complete that level to unlock).
@@ -964,9 +967,12 @@ class CampaignView extends RootView {
       _.defer(() => this.$el?.find('.game-controls .btn, .other-products .btn, .campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
       const view = this
       // Keep original behavior for levels and campaign switches
-      this.$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each(function () {
+      // In the editor the hover card replaces the level tooltip; the campaign switches keep theirs.
+      const $tooltipTargets = this.editorMode ? this.$el.find('.campaign-switch') : this.$el.find('.level, .campaign-switch')
+      $tooltipTargets.addClass('has-tooltip').tooltip()
+      this.$el.find('.level, .campaign-switch').each(function () {
         if (!me.isAdmin() || !view.editorMode) { return }
-        $(this).draggable().on('dragstop', function () {
+        $(this).draggable().on('dragstart', () => view.hideEditorLevelCard()).on('dragstop', function () {
           const bg = $('.map-background')
           const x = (($(this).offset().left - bg.offset().left) + ($(this).outerWidth() / 2)) / bg.width()
           const y = 1 - ((($(this).offset().top - bg.offset().top) + ($(this).outerHeight() / 2)) / bg.height())
@@ -1036,6 +1042,7 @@ class CampaignView extends RootView {
         })
       })
     }
+    this.$el.toggleClass('compact-level-markers', Boolean(this.editorMode && !this.showFullFlags))
     this.updateVolume()
     this.updateHero()
     if (!window.currentModal && this.fullyRendered) {
@@ -1070,6 +1077,81 @@ class CampaignView extends RootView {
     if (this.editorMode) {
       this.generateCompletionRates()
     }
+  }
+
+  // Editor only: switch between compact level markers and the player-facing flag banners.
+  setShowFullFlags (showFullFlags) {
+    if (!this.editorMode) { return }
+    showFullFlags = Boolean(showFullFlags)
+    if (showFullFlags === this.showFullFlags) { return }
+    this.showFullFlags = showFullFlags
+    this.render()
+  }
+
+  // Editor only: everything the hover card shows for one rendered level.
+  getEditorLevelCardData (levelOriginal) {
+    const level = (this.campaign?.renderedLevels || []).find(l => l.original === levelOriginal)
+    if (!level) { return null }
+    // Reward thang types are loaded by the editor; fall back to the id when one is still missing.
+    const thangTypeName = original => this.supermodel?.getModelByOriginal(ThangType, original)?.get('name') || original
+    // Rewarded levels are usually on this map already; otherwise the editor loaded them into the supermodel.
+    const levelName = original => this.campaign.renderedLevels.find(l => l.original === original)?.name ||
+      this.supermodel?.getModelByOriginal(Level, original)?.get('name') || original
+    const rewards = (level.rewards || []).map(reward => {
+      if (reward.item) { return { type: level.unlocksPet && reward.item === level.unlocksItem ? 'pet' : 'item', original: reward.item, name: thangTypeName(reward.item) } }
+      if (reward.hero) { return { type: 'hero', original: reward.hero, name: thangTypeName(reward.hero) } }
+      if (reward.level) { return { type: 'level', original: reward.level, name: levelName(reward.level) } }
+      return null
+    }).filter(Boolean)
+    return {
+      name: level.name,
+      slug: level.slug,
+      kind: level.kind,
+      type: level.type,
+      releasePhase: level.releasePhase,
+      requiresSubscription: Boolean(level.requiresSubscription),
+      practice: Boolean(level.practice),
+      assessment: level.assessment,
+      adminOnly: Boolean(level.adminOnly),
+      replayable: Boolean(level.replayable),
+      rewards,
+    }
+  }
+
+  onMouseEnterLevel (e) {
+    if (!this.editorMode) { return }
+    const $level = $(e.currentTarget)
+    if ($level.hasClass('ui-draggable-dragging')) { return }
+    const data = this.getEditorLevelCardData($level.data('level-original'))
+    if (!data) { return }
+    const $map = this.$el.find('.map')
+    let $card = $map.find('.editor-level-card')
+    if (!$card.length) {
+      $card = $('<div class="editor-level-card"></div>').appendTo($map)
+    }
+    $card.html(editorLevelCardTemplate(data)).show()
+    // Center the card above the marker; flip below it when there is no room at the top of the map.
+    // Rendered rects, not CSS offsets: the marker sits on negative margins and a scaleY transform.
+    const mapRect = $map[0].getBoundingClientRect()
+    const levelRect = $level[0].getBoundingClientRect()
+    const centerX = levelRect.left - mapRect.left + (levelRect.width / 2)
+    const top = levelRect.top - mapRect.top
+    const gap = 6
+    const above = top - gap
+    const fitsAbove = above - $card.outerHeight() >= 0
+    $card.toggleClass('below', !fitsAbove).css({
+      left: `${centerX}px`,
+      top: `${fitsAbove ? above : top + levelRect.height + gap}px`,
+    })
+  }
+
+  onMouseLeaveLevel (e) {
+    if (!this.editorMode) { return }
+    this.hideEditorLevelCard()
+  }
+
+  hideEditorLevelCard () {
+    this.$el.find('.map .editor-level-card').hide()
   }
 
   generateCompletionRates () {
@@ -1826,6 +1908,22 @@ class CampaignView extends RootView {
     return this.render()
   }
 
+  loadHubCampaign () {
+    // The overworld list only carries hero campaigns and a slim projection, so the hub campaign gets its own fetch.
+    // Kept outside the supermodel: the hub must still render if that campaign is ever missing.
+    const hubCampaign = new Campaign({ _id: HUB_CAMPAIGN_ID })
+    this.listenToOnce(hubCampaign, 'sync', () => {
+      this.stopListening(hubCampaign)
+      this.hubCampaign = hubCampaign
+      this.playHubMusic()
+    })
+    this.listenToOnce(hubCampaign, 'error', () => {
+      this.stopListening(hubCampaign)
+      this.playHubMusic()
+    })
+    hubCampaign.fetch()
+  }
+
   preloadLevel (levelSlug) {
     const levelURL = `/db/level/${levelSlug}`
     const level = new Level().setURL(levelURL)
@@ -2079,7 +2177,7 @@ class CampaignView extends RootView {
   playAmbientSound () {
     if (!me.get('volume')) { return }
     if (this.ambientSound) { return }
-    const file = this.campaign?.get('ambientSound')?.[AudioPlayer.ext.substr(1)]
+    const file = this.getAmbientSoundFile()
     if (!file) { return }
     const src = `/file/${file}`
     if (!AudioPlayer.getStatus(src)?.loaded) {
@@ -2094,6 +2192,25 @@ class CampaignView extends RootView {
     }
     this.ambientSound = createjs.Sound.play(src, { loop: -1, volume: 0.1 })
     createjs.Tween.get(this.ambientSound).to({ volume: 0.5 }, 1000)
+  }
+
+  getAmbientSoundFile () {
+    const campaign = this.campaign || this.hubCampaign
+    return campaign?.get('ambientSound')?.[AudioPlayer.ext.substr(1)]
+  }
+
+  playHubMusic () {
+    if (this.getAmbientSoundFile()) {
+      return this.playAmbientSound()
+    }
+    // No hub track configured: fall back to the menu music, delayed so it doesn't compete with initial asset loading.
+    this.probablyCachedMusic = storage.load('loaded-menu-music')
+    const musicDelay = this.probablyCachedMusic ? 1000 : 10000
+    this.playMusicTimeout = setTimeout(() => {
+      if (!this.destroyed) {
+        this.playMusic()
+      }
+    }, musicDelay)
   }
 
   playMusic () {
