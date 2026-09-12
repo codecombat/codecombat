@@ -3,7 +3,11 @@
     <div class="title">
       {{ $t('payments.manage_payment_and_subscription') }}
     </div>
-    <CustomerBillingPortal />
+    <CustomerBillingPortal
+      :coco-stats="cocoStats"
+      :aileague-progress="aileagueStats"
+      :hs-progress="latestHSProgress"
+    />
     <YourProgress
       :coco-progress="latestCocoProgress"
       :aileague-progress="aileagueStats"
