@@ -713,6 +713,18 @@ var i18n = function (say, target, language, fallback) {
   return null // if we call i18n for a unexisting key
 }
 
+// Starter-code comment context for a programmable plan (anything with `context` + `i18n`).
+// Layers the localized context over the English one key by key. A locale whose context is
+// missing (or blank for) a key would otherwise make _.template throw and leave every
+// <%= placeholder %> raw for that locale; this way only the missing key falls back to English.
+const i18nCommentContext = function (plan) {
+  if (!plan) { return {} }
+  const english = removeAI(plan.context || {})
+  const localized = i18n(plan, 'context') || {}
+  const filled = _.pick(localized, value => !_.isString(value) || value.trim())
+  return _.merge({}, english, filled)
+}
+
 const getByPath = function (target, path) {
   if (!target) { throw new Error('Expected an object to match a query against, instead got null') }
   const pieces = path.split('.')
@@ -2073,6 +2085,7 @@ module.exports = {
   hourOfCodeOptions,
   hslToHex,
   i18n,
+  i18nCommentContext,
   inEU,
   injectCSS,
   internalCampaignIds,

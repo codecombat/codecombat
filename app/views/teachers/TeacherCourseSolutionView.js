@@ -220,7 +220,7 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
             } else {
               defaultCode = programmableMethod.languages?.[level.get('primerLanguage') || this.language] || ((this.language === 'cpp') && translateUtils.translateJS(programmableMethod.source, 'cpp')) || programmableMethod.source
             }
-            translatedDefaultCode = _.template(defaultCode)(utils.i18n(programmableMethod, 'context'))
+            translatedDefaultCode = _.template(defaultCode)(utils.i18nCommentContext(programmableMethod))
             if (!translatedDefaultCode) {
               translatedDefaultCode = '\n' // Distinguish empty starter code from nothing so it's not falsy
             }
