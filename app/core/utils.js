@@ -1549,6 +1549,12 @@ const activeArenas = function () {
   })()
 }
 
+// The arena players should land on today: the latest active one that has not ended yet.
+// Pass a type ('regular' | 'championship') to narrow it.
+const currentArena = function (type) {
+  return _.last(_.filter(activeArenas(), a => a.end > new Date() && (!type || a.type === type)))
+}
+
 const activeAndPastArenas = () => (() => {
   const result = []
   for (const a of Array.from(arenas)) {
@@ -2051,6 +2057,7 @@ module.exports = {
   CSCourseIDs,
   WDCourseIDs,
   createLevelNumberMap,
+  currentArena,
   downTheChain,
   extractPlayerCodeTag,
   freeAccessLevels,
