@@ -17,7 +17,8 @@ const WorldsPromotionModal = class WorldsPromotionModal extends ModalView {
 
   fetchRobloxLinked () {
     if (me.isAnonymous()) { return Promise.resolve(false) }
-    return new OAuth2Identities([]).fetchForProvider('roblox')
+    // Backbone fetch returns a jQuery Deferred, which has no .catch; adopt it into a native Promise.
+    return Promise.resolve(new OAuth2Identities([]).fetchForProvider('roblox'))
       .then(identities => identities.length > 0)
       .catch(() => false)
   }

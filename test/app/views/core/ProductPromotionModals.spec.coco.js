@@ -21,7 +21,8 @@ describe('WorldsPromotionModal', () => {
 
   function makeModal ({ anonymous, identities }) {
     spyOn(me, 'isAnonymous').and.returnValue(anonymous)
-    spyOn(OAuth2Identities.prototype, 'fetchForProvider').and.returnValue(Promise.resolve(identities))
+    // Real fetchForProvider returns a jQuery Deferred (no .catch), so mock that, not a native Promise
+    spyOn(OAuth2Identities.prototype, 'fetchForProvider').and.returnValue($.Deferred().resolve(identities).promise())
     const modal = new WorldsPromotionModal()
     spyOn(modal, 'navigate')
     return modal
@@ -55,7 +56,7 @@ describe('WorldsPromotionModal', () => {
 
   it('falls back to the landing page when the identity check fails', (done) => {
     spyOn(me, 'isAnonymous').and.returnValue(false)
-    spyOn(OAuth2Identities.prototype, 'fetchForProvider').and.returnValue(Promise.reject(new Error('boom')))
+    spyOn(OAuth2Identities.prototype, 'fetchForProvider').and.returnValue($.Deferred().reject(new Error('boom')).promise())
     const modal = new WorldsPromotionModal()
     spyOn(modal, 'navigate')
     modal.onClickPlayButton().then(() => {
