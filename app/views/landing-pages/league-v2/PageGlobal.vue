@@ -27,8 +27,8 @@ import SeasonArenas from './components/SeasonArenas.vue'
 import InspirationComponent from './components/Inspiration.vue'
 import SetUpTournament from './components/SetUpTournament.vue'
 
-import { activeArenas } from '../../../core/utils'
-const currentArena = _.last(_.filter(activeArenas(), a => a.end > new Date()))
+import { currentArena as getCurrentArena } from '../../../core/utils'
+const currentArena = getCurrentArena()
 
 export default {
   name: 'LeaguePageGlobalV2',
