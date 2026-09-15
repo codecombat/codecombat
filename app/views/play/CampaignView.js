@@ -2024,7 +2024,9 @@ class CampaignView extends RootView {
     const levelName = levelElement.data('level-name')
     const level = _.find(_.values(this.getLevels()), { slug: levelSlug })
 
-    if (level.requiresSignUp && me.isAnonymous()) {
+    const libPaidUser = me.get('clientCreator') && me.hasSubscription()
+    // library users can have subscription when anonymous
+    if (level.requiresSignUp && me.isAnonymous() && !libPaidUser) {
       return this.promptForSignup({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') })
     }
 
