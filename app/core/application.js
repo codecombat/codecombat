@@ -102,7 +102,7 @@ const Application = {
       this.gplusHandler = new GPlusHandler()
       this.schoologyHandler = new SchoologyHandler()
       this.classlinkHandler = new ClassLinkHandler()
-    
+    }
     // @githubHandler = new GitHubHandler(@)  # Currently unused
     $(document).bind('keydown', preventBackspace)
     CocoModel.pollAchievements()
