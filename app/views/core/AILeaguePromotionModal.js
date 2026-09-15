@@ -10,6 +10,7 @@ const LEAGUE_REGISTRATION_PATH = '/league?registering=true'
 // plain league page (anonymous, since registration needs an account).
 const AILeaguePromotionModal = class AILeaguePromotionModal extends ModalView {
   getDestination () {
+    if (me.isAnonymous()) { return '/league' }
     if (!me.isRegisteredForAILeague()) { return LEAGUE_REGISTRATION_PATH }
     const arena = utils.currentArena()
     if (!arena) { return '/league' }

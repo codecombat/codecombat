@@ -74,13 +74,20 @@ describe('WorldsPromotionModal', () => {
 })
 
 describe('AILeaguePromotionModal', () => {
-  function makeModal ({ registered, arena }) {
+  function makeModal ({ anonymous = false, registered, arena }) {
+    spyOn(me, 'isAnonymous').and.returnValue(anonymous)
     spyOn(me, 'isRegisteredForAILeague').and.returnValue(registered)
     spyOn(utils, 'currentArena').and.returnValue(arena)
     const modal = new AILeaguePromotionModal()
     spyOn(modal, 'navigate')
     return modal
   }
+
+  it('sends an anonymous player to the plain league page, since registration needs an account', () => {
+    const modal = makeModal({ anonymous: true, registered: false, arena: { slug: 'chaotic-crossing' } })
+    modal.onClickPlayButton()
+    expect(modal.navigate).toHaveBeenCalledWith('/league')
+  })
 
   it('sends an unregistered player to the league registration page', () => {
     const modal = makeModal({ registered: false, arena: { slug: 'chaotic-crossing' } })
