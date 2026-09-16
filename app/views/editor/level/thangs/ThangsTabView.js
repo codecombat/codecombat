@@ -924,6 +924,7 @@ module.exports = (ThangsTabView = (function () {
       for (thang of thangs) { delete thang.index }
 
       this.level.set('thangs', thangs)
+      this.warnDuplicatePositionComponents(thangs)
       Backbone.Mediator.publish('editor:level-thangs-changed', { thangs })
       if (this.editThangView) { return }
       if (skipSerialization) { return }
@@ -1108,6 +1109,28 @@ module.exports = (ThangsTabView = (function () {
     getPositionOriginals (thang) {
       const thangData = this.getThangByID(thang.id)
       return positionComponents.positionOriginals(thangData, this.getThangTypeComponents(thangData))
+    }
+
+    componentNameFor (original) {
+      const component = _.find(this.supermodel.getModels(LevelComponent), lc => lc.get('original') === original)
+      return component ? component.get('name') : original
+    }
+
+    // A thang with both Physical and PositionJS gets whichever attaches last; warn once per thang so
+    // the author can drop one from the thang or its ThangType.
+    warnDuplicatePositionComponents (thangs) {
+      if (!this.warnedDuplicatePosition) { this.warnedDuplicatePosition = new Set() }
+      for (const thang of thangs) {
+        const originals = positionComponents.positionOriginals(thang, this.getThangTypeComponents(thang))
+        if (originals.length < 2) {
+          this.warnedDuplicatePosition.delete(thang.id)
+          continue
+        }
+        if (this.warnedDuplicatePosition.has(thang.id)) { continue }
+        this.warnedDuplicatePosition.add(thang.id)
+        const names = originals.map(o => this.componentNameFor(o))
+        console.warn(`Level editor: thang "${thang.id}" has ${names.length} position components (${names.join(', ')}); the last one attached, ${_.last(names)}, wins pos. Remove one from the thang or its ThangType.`)
+      }
     }
 
     // Write pos into every position component the thang will end up with, creating level overrides for
