@@ -584,7 +584,8 @@ module.exports = (ThangTypeEditView = (function () {
       const desired = (inkBlob.filename || 'asset.png').replace(/[#?%]/g, '-')
       const filename = this.chooseRasterFilename(desired)
       const filePath = `db/thang.type/${this.thangType.get('original')}`
-      return saveFile({ url: inkBlob.url, filename, mimetype: inkBlob.mimetype, path: filePath, force: true })
+      // The server's POST /file schema types `force` as a string; a JSON boolean fails validation (422).
+      return saveFile({ url: inkBlob.url, filename, mimetype: inkBlob.mimetype, path: filePath, force: 'true' })
         .then(() => `${filePath}/${filename}`)
     }
 
