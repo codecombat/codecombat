@@ -416,7 +416,7 @@ class RecipientSubs {
   update (render) {
     delete this.state
     delete this.stateMessage
-    if (!me.get('stripe')?.recipients) { return }
+    if (!me.get('stripe')?.recipients) { return render() }
     this.unsubscribingRecipients = []
 
     const onSubRecipientsSuccess = recipientsMap => {
