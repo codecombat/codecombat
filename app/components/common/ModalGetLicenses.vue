@@ -76,7 +76,7 @@ export default Vue.extend({
       mustBeGreaterThanZero: (value) => value > 0,
     },
     message: {
-      maxLength: maxLength(2000),
+      maxLength: maxLength(1800),
     },
     school: {
       maxLength: maxLength(100),
@@ -322,7 +322,7 @@ export default Vue.extend({
             <span
               v-if="!$v.message.maxLength"
               class="form-error"
-            > {{ $t("form_validation_errors.maxLength") }} (2000) </span>
+            > {{ $t("form_validation_errors.maxLength") }} (1800) </span>
           </div>
           <div class="form-group row">
             <div class="col-xs-12 buttons">
