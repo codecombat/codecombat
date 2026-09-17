@@ -249,6 +249,15 @@ export default Vue.extend({
       return application.router.navigate('/announcements', { trigger: true })
     },
 
+    manageBillingABTest () {
+      const value = me.getOrStartManageBillingExperimentValue()
+      let url = '/payments/manage-billing'
+      if (value === 'beta') {
+        url += '-beta'
+      }
+      window.open(url, '_blank')
+    },
+
     getNavbarData () {
       const anonymous = {
         educators: {
@@ -527,7 +536,7 @@ export default Vue.extend({
                   li
                     a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
                   li(v-if="isCodeCombat && (me.isAdmin() || me.isParentHome() || me.isRegisteredHomeUser())")
-                    a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
+                    a.account-dropdown-item#manage-billing(href="#", role='button' @click.prevent="manageBillingABTest") {{ $t('account.manage_billing') }}
                   li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
                     a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")
                       caret.rotate-left(v-if="this.announcements.length && useDarkMode" color="white")

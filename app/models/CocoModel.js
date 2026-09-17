@@ -238,6 +238,7 @@ class CocoModel extends Backbone.Model {
         if (this.retries > 20) {
           msg = 'Your computer or our servers appear to be offline. Please try refreshing.'
           noty({ text: msg, layout: 'center', type: 'error', killer: true })
+          if (error) { error(this, res) } // let the caller release any in-flight state
           return
         } else {
           msg = $.i18n.t('loading_error.connection_failure', { defaultValue: 'Connection failed.' })

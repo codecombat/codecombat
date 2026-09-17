@@ -110,12 +110,14 @@ module.exports = class Spell
   translateCommentContext: ({ source, commentContext, commentI18N, codeLanguage, spokenLanguage }) ->
     commentContext = $.extend true, {}, commentContext
 
+    if commentI18N
+      commentContext = utils.i18nCommentContext({context: commentContext, i18n: commentI18N})
+
+    # After the locale merge, so translated comments get the Lua method-call syntax too
     if codeLanguage is 'lua'
       for k, v of commentContext
         commentContext[k] = v.replace /\b([a-zA-Z]+)\.([a-zA-Z_]+\()/, '$1:$2'
 
-    if commentI18N
-      commentContext = utils.i18n({context: commentContext, i18n: commentI18N, spokenLanguage: spokenLanguage}, 'context')
     try
       translatedSource = _.template source, commentContext
     catch e
@@ -126,10 +128,6 @@ module.exports = class Spell
   untranslateCommentContext: ({ source, commentContext, commentI18N, codeLanguage, spokenLanguage }) ->
     commentContext = $.extend true, {}, commentContext
 
-    if codeLanguage is 'lua'
-      for k, v of commentContext
-        commentContext[k] = v.replace /\b([a-zA-Z]+)\.([a-zA-Z_]+\()/, '$1:$2'
-
     if commentI18N
       while spokenLanguage
         spokenLanguage = spokenLanguage.substr 0, spokenLanguage.lastIndexOf('-') if fallingBack?
@@ -137,6 +135,12 @@ module.exports = class Spell
           commentContext = _.merge commentContext, spokenLanguageContext
           break
         fallingBack = true
+
+    # Same order as translateCommentContext so the round trip matches
+    if codeLanguage is 'lua'
+      for k, v of commentContext
+        commentContext[k] = v.replace /\b([a-zA-Z]+)\.([a-zA-Z_]+\()/, '$1:$2'
+
     for k, v of commentContext
       source = source.replace v, "<%= #{k} %>"
     source

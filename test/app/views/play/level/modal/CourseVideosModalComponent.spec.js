@@ -78,8 +78,14 @@ describe('Course Videos Modal Component', () => {
   })
 
   it('sets the iframe video src when clicked on an unlocked thumbnail', () => {
-    spyOn($.fn, 'init').and.callFake((el) => {
-      return [wrapper.find(el).element]
+    // Only intercept selector lookups into this component. Other jQuery calls (a debounced
+    // CocoView.updateProgressBar left over from an earlier spec, for example) go to the real init.
+    const realInit = $.fn.init
+    spyOn($.fn, 'init').and.callFake(function (el, ...rest) {
+      if (typeof el === 'string' && wrapper.find(el).exists()) {
+        return [wrapper.find(el).element]
+      }
+      return new realInit(el, ...rest)
     })
     expect(wrapper.find('.video-frame').attributes().src).toBeUndefined()
     wrapper.findAll('.video-image').at(0).trigger('click')

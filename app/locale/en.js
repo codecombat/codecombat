@@ -5775,6 +5775,7 @@ module.exports = {
       numberGreaterThanZero: 'Should be a number greater than 0',
       requireValidEmail: 'Please enter a valid email address.',
       requireValidPhone: 'Please enter a valid phone number, including area code.',
+      maxLength: 'Text length exceed limits',
     },
 
     partners: {

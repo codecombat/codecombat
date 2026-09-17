@@ -139,7 +139,7 @@ export default {
 
   created () {
     this.kind = this.$route.params.kind || null
-    if (this.kind !== 'classroom') {
+    if (this.kind !== 'classroom' && utils.isCodeCombat) {
       this.includeOther = true
     }
     this.orgIdOrSlug = this.$route.params.idOrSlug || null
