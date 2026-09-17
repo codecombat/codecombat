@@ -77,5 +77,13 @@ describe('lib/level-position-components', () => {
       expect(helper.positionConfigFor(POSITION_JS, pos, { config: {} })).toEqual({ x: 12.5, y: 7, z: 0 })
       expect(helper.positionConfigFor(POSITION_JS, pos, undefined)).toEqual({ x: 12.5, y: 7, z: 0 })
     })
+
+    it('takes the z of the ThangType default a fresh override has not set yet', () => {
+      const defaultComponent = { config: { pos: { x: 0, y: 0, z: 3 } } }
+      expect(helper.positionConfigFor(POSITION_JS, pos, { config: {} }, defaultComponent)).toEqual({ x: 12.5, y: 7, z: 3 })
+      expect(helper.positionConfigFor(PHYSICAL, { x: 1, y: 2 }, { config: {} }, defaultComponent)).toEqual({ x: 1, y: 2, z: 3 })
+      expect(helper.positionConfigFor(PHYSICAL, pos, { config: {} }, defaultComponent)).toEqual({ x: 12.5, y: 7, z: 2 }) // the editor z still wins for Physical
+      expect(helper.positionConfigFor(POSITION_JS, pos, { config: { pos: { x: 0, y: 0, z: 5 } } }, defaultComponent)).toEqual({ x: 12.5, y: 7, z: 5 }) // own z beats the default
+    })
   })
 })

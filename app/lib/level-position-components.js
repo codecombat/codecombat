@@ -37,11 +37,17 @@ function hasDuplicatePosition (levelThang, thangTypeComponents) {
   return positionOriginals(levelThang, thangTypeComponents).length > 1
 }
 
-// Physical keeps the z the editor computed (depth / 2). Other position
-// components (PositionJS) have no depth, so they keep their own z, default 0.
-function positionConfigFor (original, pos, component) {
-  const existingZ = component && component.config && component.config.pos ? component.config.pos.z : undefined
-  const z = original === LevelComponent.PhysicalID ? (pos.z != null ? pos.z : existingZ) : existingZ
+function configZ (component) {
+  return component && component.config && component.config.pos ? component.config.pos.z : undefined
+}
+
+// Physical takes the z the editor computed (depth / 2) when pos carries one. Otherwise a component
+// keeps its own z, falling back to the ThangType default it overrides (a fresh override has no pos
+// yet), then 0. PositionJS has no depth, so it never takes the editor z.
+function positionConfigFor (original, pos, component, defaultComponent) {
+  const ownZ = configZ(component)
+  const existingZ = ownZ != null ? ownZ : configZ(defaultComponent)
+  const z = original === LevelComponent.PhysicalID && pos.z != null ? pos.z : existingZ
   return { x: pos.x, y: pos.y, z: z != null ? z : 0 }
 }
 

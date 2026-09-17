@@ -521,9 +521,11 @@ module.exports = (ThangsTabView = (function () {
 
       if (!_.any(selected)) { return }
 
-      for (const singleSelected of selected) {
-        const thang = this.getThangByID(singleSelected.thang.id)
-        if (thang) { this.writeThangPos(thang, singleSelected.thang.pos) }
+      if (this.dragged > 10) { // same threshold as onSpriteDragged; a plain click moved nothing
+        for (const singleSelected of selected) {
+          const thang = this.getThangByID(singleSelected.thang.id)
+          if (thang) { this.writeThangPos(thang, singleSelected.thang.pos) }
+        }
       }
 
       if (this.willUnselectSprite) {
@@ -1013,8 +1015,8 @@ module.exports = (ThangsTabView = (function () {
           components.push(positionComponent)
         }
         if (positionComponent.config == null) { positionComponent.config = {} }
-        // Keep the component's own z (ThangType default or clone source); the drop position's z is the add sprite's
-        positionComponent.config.pos = positionComponents.positionConfigFor(original, { x: pos.x, y: pos.y }, positionComponent)
+        // Keep the component's own z (clone source, or the ThangType default it overrides); the drop position's z is the add sprite's
+        positionComponent.config.pos = positionComponents.positionConfigFor(original, { x: pos.x, y: pos.y }, positionComponent, _.find(thangTypeComponents, { original }))
         if (original === LevelComponent.PhysicalID && thangType.get('name') === 'Junior Wall') {
           // Hack to make cmd+double-click work when toggling floors/walls, instead of getting default of z = 1
           positionComponent.config.pos.z = pos.z
@@ -1139,20 +1141,22 @@ module.exports = (ThangsTabView = (function () {
       const thangTypeComponents = this.getThangTypeComponents(thangData)
       const originals = positionComponents.positionOriginals(thangData, thangTypeComponents)
       if (!originals.length) { return false }
+      // pos.z is depth / 2 of whichever component attached last; with two of them it is not Physical's, so let each keep its own z
+      const target = originals.length > 1 ? { x: pos.x, y: pos.y } : pos
       const updated = $.extend(true, {}, thangData)
+      if (!updated.components) { updated.components = [] }
       let changed = false
       for (const original of originals) {
+        const defaultComponent = _.find(thangTypeComponents, { original })
         let component = _.find(updated.components, { original })
+        const current = component && component.config && component.config.pos ? component.config.pos : (defaultComponent && defaultComponent.config ? defaultComponent.config.pos : undefined)
+        if (current && current.x === target.x && current.y === target.y) { continue }
         if (!component) {
-          const defaultComponent = _.find(thangTypeComponents, { original })
           component = { original, majorVersion: (defaultComponent != null ? defaultComponent.majorVersion : undefined) || 0, config: {} }
           updated.components.push(component)
-          changed = true
         }
         if (component.config == null) { component.config = {} }
-        const current = component.config.pos
-        if (current && current.x === pos.x && current.y === pos.y) { continue }
-        component.config.pos = positionComponents.positionConfigFor(original, pos, component)
+        component.config.pos = positionComponents.positionConfigFor(original, target, component, defaultComponent)
         changed = true
       }
       if (changed) { this.thangsTreema.set(this.pathForThang(updated), updated) }
@@ -1160,16 +1164,29 @@ module.exports = (ThangsTabView = (function () {
     }
 
     modifySelectedThangComponentConfig (thang, componentOriginal, modificationFunction) {
-      if (!thang) { return }
+      return this.modifySelectedThangComponentConfigs(thang, [componentOriginal], modificationFunction)
+    }
+
+    // One clone, one treema write for every component: onThangsChanged is debounced, so a second call
+    // would clone the level data from before the first write and drop it.
+    modifySelectedThangComponentConfigs (thang, componentOriginals, modificationFunction) {
+      if (!thang || !componentOriginals.length) { return }
       this.hush = true
       let thangData = this.getThangByID(thang.id)
       thangData = $.extend(true, {}, thangData)
-      let component = _.find(thangData.components, { original: componentOriginal })
-      if (!component) {
-        component = { original: componentOriginal, config: {}, majorVersion: 0 }
-        thangData.components.push(component)
+      if (!thangData.components) { thangData.components = [] }
+      const thangTypeComponents = this.getThangTypeComponents(thangData)
+      for (const componentOriginal of componentOriginals) {
+        const defaultComponent = _.find(thangTypeComponents, { original: componentOriginal })
+        let component = _.find(thangData.components, { original: componentOriginal })
+        if (!component) {
+          // A level override of a ThangType default has to stay on the default's major version
+          component = { original: componentOriginal, config: {}, majorVersion: (defaultComponent != null ? defaultComponent.majorVersion : undefined) || 0 }
+          thangData.components.push(component)
+        }
+        if (component.config == null) { component.config = {} }
+        modificationFunction(component, componentOriginal, defaultComponent)
       }
-      modificationFunction(component)
       this.thangsTreema.set(this.pathForThang(thangData), thangData)
       this.hush = false
       this.onThangsChanged(true)
@@ -1187,12 +1204,10 @@ module.exports = (ThangsTabView = (function () {
       if (!this.surfaceHasFocus()) { return }
       for (const singleSelected of this.gameUIState.get('selected')) {
         const selectedThang = singleSelected.thang
-        for (const pid of this.getPositionOriginals(selectedThang)) {
-          this.modifySelectedThangComponentConfig(selectedThang, pid, component => {
-            component.config.rotation = radians
-            selectedThang.rotation = component.config.rotation
-          })
-        }
+        this.modifySelectedThangComponentConfigs(selectedThang, this.getPositionOriginals(selectedThang), component => {
+          component.config.rotation = radians
+          selectedThang.rotation = component.config.rotation
+        })
       }
     }
 
@@ -1201,12 +1216,10 @@ module.exports = (ThangsTabView = (function () {
       for (const singleSelected of this.gameUIState.get('selected')) {
         const selectedThang = singleSelected.thang
         const rotation = ((selectedThang.rotation != null ? selectedThang.rotation : 0) + radians) % (2 * Math.PI)
-        for (const pid of this.getPositionOriginals(selectedThang)) {
-          this.modifySelectedThangComponentConfig(selectedThang, pid, component => {
-            component.config.rotation = rotation
-            selectedThang.rotation = rotation
-          })
-        }
+        this.modifySelectedThangComponentConfigs(selectedThang, this.getPositionOriginals(selectedThang), component => {
+          component.config.rotation = rotation
+          selectedThang.rotation = rotation
+        })
       }
     }
 
@@ -1216,14 +1229,13 @@ module.exports = (ThangsTabView = (function () {
         const selectedSprite = singleSelected.sprite
         const selectedThang = singleSelected.thang
         const snap = this.getSnap(selectedSprite, selectedThang)
-        const newPos = { x: selectedThang.pos.x + (snap.x || 0.5) * xDir, y: selectedThang.pos.y + (snap.y || 0.5) * yDir, z: selectedThang.pos.z }
-        for (const pid of this.getPositionOriginals(selectedThang)) {
-          this.modifySelectedThangComponentConfig(selectedThang, pid, component => {
-            component.config.pos = positionComponents.positionConfigFor(pid, newPos, component)
-            selectedThang.pos.x = newPos.x
-            selectedThang.pos.y = newPos.y
-          })
-        }
+        // x and y only: each component keeps its own z
+        const newPos = { x: selectedThang.pos.x + (snap.x || 0.5) * xDir, y: selectedThang.pos.y + (snap.y || 0.5) * yDir }
+        this.modifySelectedThangComponentConfigs(selectedThang, this.getPositionOriginals(selectedThang), (component, pid, defaultComponent) => {
+          component.config.pos = positionComponents.positionConfigFor(pid, newPos, component, defaultComponent)
+          selectedThang.pos.x = newPos.x
+          selectedThang.pos.y = newPos.y
+        })
       }
     }
 
@@ -1232,14 +1244,17 @@ module.exports = (ThangsTabView = (function () {
       for (const singleSelected of this.gameUIState.get('selected')) {
         const selectedThang = singleSelected.thang
         const thangData = this.getThangByID(selectedThang.id)
-        for (const pid of positionComponents.shapeOriginals(thangData, this.getThangTypeComponents(thangData))) {
-          this.modifySelectedThangComponentConfig(selectedThang, pid, component => {
-            component.config.width = (component.config.width != null ? component.config.width : 4) + (0.5 * xDir)
-            component.config.height = (component.config.height != null ? component.config.height : 4) + (0.5 * yDir)
-            selectedThang.width = component.config.width
-            selectedThang.height = component.config.height
-          })
-        }
+        const originals = positionComponents.shapeOriginals(thangData, this.getThangTypeComponents(thangData))
+        this.modifySelectedThangComponentConfigs(selectedThang, originals, (component, pid, defaultComponent) => {
+          // A fresh override starts from the ThangType default size, not the bare 4 x 4
+          const defaults = (defaultComponent != null ? defaultComponent.config : undefined) || {}
+          const width = component.config.width != null ? component.config.width : (defaults.width != null ? defaults.width : 4)
+          const height = component.config.height != null ? component.config.height : (defaults.height != null ? defaults.height : 4)
+          component.config.width = width + (0.5 * xDir)
+          component.config.height = height + (0.5 * yDir)
+          selectedThang.width = component.config.width
+          selectedThang.height = component.config.height
+        })
       }
     }
 
@@ -1263,13 +1278,12 @@ module.exports = (ThangsTabView = (function () {
         const selectedThang = singleSelected.thang
         const thangData = this.getThangByID(selectedThang.id)
         const collisionCategory = selectedThang.collisionCategory === 'none' ? 'ground' : 'none'
-        for (const cid of positionComponents.collisionOriginals(thangData, this.getThangTypeComponents(thangData))) {
-          this.modifySelectedThangComponentConfig(selectedThang, cid, component => {
-            if (component.config == null) { component.config = {} }
-            component.config.collisionCategory = collisionCategory
-            selectedThang.collisionCategory = collisionCategory
-          })
-        }
+        let originals = positionComponents.collisionOriginals(thangData, this.getThangTypeComponents(thangData))
+        if (!originals.length) { originals = [LevelComponent.CollidesID] } // add Collides, as the editor always did
+        this.modifySelectedThangComponentConfigs(selectedThang, originals, component => {
+          component.config.collisionCategory = collisionCategory
+          selectedThang.collisionCategory = collisionCategory
+        })
       }
     }
 
