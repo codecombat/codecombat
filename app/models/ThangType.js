@@ -567,7 +567,7 @@ module.exports = (ThangType = (function () {
       return this.wizardType
     }
 
-    getPortraitURL () { return ThangTypeLib.getPortraitURL(this.attributes) }
+    getPortraitURL (options) { return ThangTypeLib.getPortraitURL(this.attributes, options) }
 
     // Item functions
 
