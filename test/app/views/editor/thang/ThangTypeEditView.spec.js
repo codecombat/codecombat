@@ -124,6 +124,9 @@ describe('ThangTypeEditView portrait upload on save', function () {
         attributes: { name: 'Beach Rock' },
         get (key) { return this.attributes[key] },
         getPortraitSource: jasmine.createSpy('getPortraitSource').and.returnValue(dataURL),
+        hasRasterRawAssets () { return false },
+        rasterRawImagesLoaded () { return true },
+        loadRasterRawImages: jasmine.createSpy('loadRasterRawImages'),
       },
       getLankOptions () { return { resolutionFactor: 4 } },
       getPortraitSourceForUpload: proto.getPortraitSourceForUpload,
@@ -193,5 +196,24 @@ describe('ThangTypeEditView portrait upload on save', function () {
     expect(view.thangType.getPortraitSource).not.toHaveBeenCalled()
     expect(newThangType.uploadGenericPortrait).not.toHaveBeenCalled()
     expect(callback).toHaveBeenCalled()
+  })
+
+  it('waits for raster raw images before rendering the portrait', function () {
+    const view = makeView()
+    let loaded = false
+    let onLoaded = null
+    view.thangType.hasRasterRawAssets = () => true
+    view.thangType.rasterRawImagesLoaded = () => loaded
+    view.listenToOnce = (model, event, handler) => { onLoaded = handler }
+    view.uploadPortrait = proto.uploadPortrait
+    const newThangType = makeNewThangType()
+    const callback = jasmine.createSpy('callback')
+    view.uploadPortrait(newThangType, callback)
+    expect(view.thangType.loadRasterRawImages).toHaveBeenCalled()
+    expect(view.thangType.getPortraitSource).not.toHaveBeenCalled()
+    expect(callback).not.toHaveBeenCalled()
+    loaded = true
+    onLoaded()
+    expect(newThangType.uploadGenericPortrait).toHaveBeenCalledWith(callback, dataURL)
   })
 })
