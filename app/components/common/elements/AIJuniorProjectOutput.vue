@@ -453,7 +453,10 @@ export default {
           if (filled[match[1]] == null) filled[match[1]] = ''
         }
         try {
-          return compileTemplate(template)(filled)
+          // Lodash's default also interpolates `${...}`, consuming the
+          // creation's JavaScript before it runs (chapter, score, etc.). An
+          // explicit delimiter keeps runtime template literals intact.
+          return compileTemplate(template, { interpolate: /<%=([\s\S]+?)%>/g })(filled)
         } catch (err) {
           console.log('Template context error:', err, template, filled)
           return ''
