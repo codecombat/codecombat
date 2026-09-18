@@ -383,6 +383,7 @@ export default Vue.extend({
         if (newReport) {
           const courseCompleteLevels = progress.courseCompleteLevels || {}
           const courseStartingStudents = progress.courseStartingStudents || {}
+          // HS courses come back as a number, other courses as an object keyed by language
           const levels = courseCompleteLevels[course._id]
           const completeLevels = typeof levels === 'number' ? levels : Math.max(0, ...Object.values(levels || {}))
           course.studentsStarting = courseStartingStudents[course._id] || 0
