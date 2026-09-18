@@ -384,9 +384,8 @@ export default Vue.extend({
           const courseCompleteLevels = progress.courseCompleteLevels || {}
           const courseStartingStudents = progress.courseStartingStudents || {}
           const levels = courseCompleteLevels[course._id]
-          // HackStack levels are not per language, so the value is a plain number
-          const isHackStackCourse = utils.HACKSTACK_COURSE_IDS.includes(course._id)
-          const completeLevels = isHackStackCourse ? (levels || 0) : Math.max(0, ...Object.values(levels || {}))
+          // classroom reports send a plain number for HackStack, a single student report sends { python: N }
+          const completeLevels = typeof levels === 'number' ? levels : Math.max(0, ...Object.values(levels || {}))
           course.studentsStarting = courseStartingStudents[course._id] || 0
           course.completeLevels = completeLevels
           course.completion = Math.min(1, course.completeLevels / (progress.courseAllLevels[course._id] || 1))
