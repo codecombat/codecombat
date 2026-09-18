@@ -462,18 +462,17 @@ export default {
       html = render(html)
       css = render(css)
       js = render(js)
-      // `.aij-fullscreen` is added to the iframe body while the preview is
-      // fullscreen: inline the preview is measured and sized to its content,
-      // but fullscreen it has to fill and centre inside a fixed viewport.
+      // Tall stories and activities must remain scrollable in fullscreen.
+      // Preserve their authored backgrounds and nested media layout; only
+      // standalone media should be fitted directly to the viewport.
       const baseCss = `
         body { margin: 8px; font-family: sans-serif; }
         img { max-width: 100%; height: auto; }
         body.aij-fullscreen {
-          margin: 0; width: 100vw; height: 100vh; background: #111;
-          display: flex; align-items: center; justify-content: center; overflow: hidden;
+          margin: 0; min-height: 100vh;
         }
-        body.aij-fullscreen > * { margin: 0 !important; }
-        body.aij-fullscreen img, body.aij-fullscreen canvas, body.aij-fullscreen video {
+        body.aij-fullscreen > img, body.aij-fullscreen > canvas, body.aij-fullscreen > video {
+          display: block; margin: auto;
           max-width: 100vw; max-height: 100vh; width: auto; height: auto; object-fit: contain;
         }
       `
