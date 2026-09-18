@@ -15,11 +15,9 @@ let PlayItemsModal
 require('app/styles/play/modal/play-items-modal.sass')
 const ModalView = require('views/core/ModalView')
 const template = require('app/templates/play/modal/play-items-modal')
-const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt')
 const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt')
 const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt')
 const ItemDetailsView = require('./ItemDetailsView')
-const BuyGemsModal = require('views/play/modal/BuyGemsModal')
 const CreateAccountModal = require('views/core/CreateAccountModal')
 const SubscribeModal = require('views/core/SubscribeModal')
 
@@ -69,7 +67,6 @@ module.exports = (PlayItemsModal = (function () {
         'click .unlock-button': 'onUnlockButtonClicked',
         'click .subscribe-button': 'onSubscribeButtonClicked',
         'click .start-subscription-button': 'onSubscribeButtonClicked',
-        'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked',
         'click #close-modal': 'hide',
         click: 'onClickedSomewhere',
         'update .tab-pane .nano': 'showVisibleItemImages',
@@ -311,14 +308,11 @@ module.exports = (PlayItemsModal = (function () {
     askToBuyGemsOrSubscribe (unlockButton) {
       let popoverTemplate
       this.$el.find('.unlock-button').popover('destroy')
-      if (me.canBuyGems()) {
-        popoverTemplate = buyGemsPromptTemplate({})
-      } else {
-        if (!me.hasSubscription()) { // user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
-          popoverTemplate = subscribeForGemsPrompt({})
-        } else { // user has subscription and yet not enough gems, just ask him to keep playing for more gems
-          popoverTemplate = earnGemsPromptTemplate({})
-        }
+
+      if (!me.hasSubscription()) { // user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
+        popoverTemplate = subscribeForGemsPrompt({})
+      } else { // user has subscription and yet not enough gems, just ask him to keep playing for more gems
+        popoverTemplate = earnGemsPromptTemplate({})
       }
 
       unlockButton.popover({
@@ -332,12 +326,6 @@ module.exports = (PlayItemsModal = (function () {
       const popover = unlockButton.data('bs.popover')
       __guard__(popover != null ? popover.$tip : undefined, x => x.i18n()) // Doesn't work
       return this.applyRTLIfNeeded()
-    }
-
-    onBuyGemsPromptButtonClicked (e) {
-      this.playSound('menu-button-click')
-      if (me.get('anonymous')) { return this.askToSignUp() }
-      return this.openModalView(new BuyGemsModal())
     }
 
     onClickedSomewhere (e) {
