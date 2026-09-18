@@ -191,7 +191,6 @@ module.exports = (AdministerUserModal = (function () {
           default: return new Date().toISOString().slice(0, 10)
         }
       })()
-      this.currentCouponID = stripe.couponID
       this.none = !(this.free || this.freeUntil)
     }
 
@@ -216,14 +215,11 @@ module.exports = (AdministerUserModal = (function () {
     saveSubscriptionAndGems (finish) {
       const stripe = _.clone(this.user.get('stripe') || {})
       delete stripe.free
-      delete stripe.couponID
       const selection = this.$el.find('input[name="stripe-benefit"]:checked').val()
       const dateVal = this.$el.find('#free-until-date').val()
-      const couponVal = this.$el.find('#coupon-select').val()
       switch (selection) {
         case 'free': stripe.free = true; break
         case 'free-until': stripe.free = dateVal; break
-        case 'coupon': stripe.couponID = couponVal; break
       }
       this.user.set('stripe', stripe)
 
