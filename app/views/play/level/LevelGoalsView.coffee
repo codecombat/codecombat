@@ -47,6 +47,8 @@ module.exports = class LevelGoalsView extends CocoView
       propsData: { showStatus: true, product: @level.get('product', true) }
     })
     @$el.toggleClass('codecombat-junior', @level.get('product', true) is 'codecombat-junior')
+    @onResizeHandler = => @onResize()
+    $(window).on 'resize', @onResizeHandler
     null
 
   onNewGoalStates: (e) ->
@@ -122,19 +124,35 @@ module.exports = class LevelGoalsView extends CocoView
     return if (new Date() - @lastSizeTweenTime) < 500  # Don't measure this while still animating, might get the wrong value. Should match sass transition time.
     @normalHeight = @$el.outerHeight()
 
+  getScale: ->
+    # Figure out how much the CSS media queries have scaled us down.
+    el = @$el[0]
+    return 1 unless el?.offsetHeight > 0
+    el.getBoundingClientRect().height / el.offsetHeight
+
   updatePlacement: ->
     # Expand it if it's at the end. Mousing over reverses this.
     expand = @playbackEnded isnt @mouseEntered or @level.get('product', true) is 'codecombat-junior'
     return if expand is @expanded
     @updateHeight()
     sound = if expand then 'goals-expand' else 'goals-collapse'
+
+    cb = document.getElementById('control-bar-view')
+    op = @$el[0]?.offsetParent
+    cbOffset = if cb and op then cb.getBoundingClientRect().bottom - op.getBoundingClientRect().top else 0
+
     if expand
-      top = -5
+      top = cbOffset
+    else if goalsStatusEl = @$el.find('.goals-status')[0]
+      # Tuck the view up under the control bar, leaving just the status tab peeking out.
+      pad = parseInt(@$el.css('padding-bottom'), 10) or 0
+      top = cbOffset - (goalsStatusEl.offsetTop - pad) * @getScale()
     else
-      height = @normalHeight
-      height = @$el.outerHeight() if not height or @playbackEnded
-      top = 41 - height
+      height = if @normalHeight and not @playbackEnded then @normalHeight else @$el.outerHeight()
+      top = cbOffset - height * @getScale()
+
     @$el.css 'top', top
+    
     if @soundTimeout
       # Don't play the sound we were going to play after all; the transition has reversed.
       clearTimeout @soundTimeout
@@ -143,6 +161,15 @@ module.exports = class LevelGoalsView extends CocoView
       # Play it when the transition ends, not when it begins.
       @soundTimeout = _.delay @playToggleSound, 500, sound
     @expanded = expand
+
+  onResize: ->
+    return unless @levelGoalsComponent
+    # Temporarily kill the transition so we don't awkwardly animate while snapping to the new size.
+    @$el.css 'transition', 'none'
+    @normalHeight = @expanded = null
+    @updatePlacement()
+    @$el[0].offsetHeight  # trigger reflow
+    @$el.css 'transition', ''
 
   playToggleSound: (sound) =>
     return if @destroyed
@@ -154,6 +181,7 @@ module.exports = class LevelGoalsView extends CocoView
     @updatePlacement()
 
   destroy: ->
+    $(window).off 'resize', @onResizeHandler if @onResizeHandler
     silentStore = { commit: _.noop, dispatch: _.noop }
     @levelGoalsComponent?.$destroy()
     @levelGoalsComponent?.$store = silentStore
