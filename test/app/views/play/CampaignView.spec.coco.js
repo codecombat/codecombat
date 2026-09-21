@@ -523,5 +523,40 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
       meFetches()[0].respondWith({ status: 200, responseText: JSON.stringify(me.toJSON()) })
       expect(this.campaignView.render).toHaveBeenCalled()
     })
+
+    it('shows the unlocked levels even when reloading me fails', function () {
+      this.achievement.rewards = { levels: [this.rewardInNextCampaign.get('original')] }
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+      earnedAchievementPosts()[0].respondWith({ status: 201, responseText: JSON.stringify({ _id: 'earned-achievement-id' }) })
+      this.campaignView.render.calls.reset()
+      meFetches()[0].respondWith({ status: 500, responseText: JSON.stringify({}) })
+
+      expect(me.ownsLevel(this.rewardInNextCampaign.get('original'))).toBe(true)
+      expect(this.campaignView.render).toHaveBeenCalled()
+    })
+
+    it('waits for the save to retry after a dropped connection instead of giving up on the first failure', function () {
+      spyOn(_, 'delay') // CocoModel.save schedules its retry with _.delay
+      this.achievement.rewards = { levels: [this.rewardInNextCampaign.get('original')] }
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+      // A dropped connection: browsers report status 0, the fake request starts at null.
+      const dropped = earnedAchievementPosts()[0]
+      dropped.status = 0
+      dropped.responseError()
+
+      // Still in flight: a new visit to the map must not post it again, and there is nothing to reload yet.
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+      expect(earnedAchievementPosts().length).toBe(1)
+      expect(meFetches().length).toBe(0)
+
+      const retry = _.delay.calls.mostRecent().args[0]
+      retry()
+      expect(earnedAchievementPosts().length).toBe(2)
+      earnedAchievementPosts()[1].respondWith({ status: 201, responseText: JSON.stringify({ _id: 'earned-achievement-id' }) })
+      expect(meFetches().length).toBe(1)
+    })
   })
 }))

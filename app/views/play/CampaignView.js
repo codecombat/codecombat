@@ -2486,6 +2486,7 @@ class CampaignView extends RootView {
       )
 
       const saves = []
+      const savedRewardLevels = []
       for (const achievement of levelAchievements) {
         if (!campaignLevels[achievement.related]) { continue }
         const triggeredBy = sessionsCompleteMap[campaignLevels[achievement.related].slug]
@@ -2499,28 +2500,46 @@ class CampaignView extends RootView {
           collection: 'level.sessions',
         })
         ea.notyErrors = false
-        const save = ea.save()
-        if (!save) {
+        // Settle on the save's own callbacks, not its jqXHR: CocoModel.save retries by itself when the connection
+        // drops, and the first jqXHR has already failed by then.
+        const saved = $.Deferred()
+        const started = ea.save(null, {
+          success: () => {
+            savedRewardLevels.push(...achievement.rewards.levels)
+            saved.resolve()
+          },
+          error: () => {
+            console.warn('Achievement NOT complete:', achievement.name)
+            unearnedAchievementsRequested.delete(achievement._id) // Let the next visit to the map try again.
+            saved.reject()
+          },
+        })
+        if (!started) {
           unearnedAchievementsRequested.delete(achievement._id)
           continue
         }
-        save.fail(() => {
-          console.warn('Achievement NOT complete:', achievement.name)
-          unearnedAchievementsRequested.delete(achievement._id) // Let the next visit to the map try again.
-        })
-        saves.push(save)
+        saves.push(saved)
       }
       if (!saves.length) { return }
       window.tracker?.trackEvent('Fixed Unearned Achievement', { category: 'World Map', label: this.terrain })
 
       // Once every save has settled, reload me and redraw, so what just unlocked shows without a page reload.
       let pending = saves.length
-      let anySaved = false
-      for (const save of saves) {
-        save.done(() => { anySaved = true })
-        save.always(() => {
-          if (--pending > 0 || !anySaved || this.destroyed) { return }
-          me.fetch({ cache: false, success: () => { if (!this.destroyed) { this.render?.() } } })
+      for (const saved of saves) {
+        saved.always(() => {
+          if (--pending > 0 || !savedRewardLevels.length || this.destroyed) { return }
+          me.fetch({
+            cache: false,
+            success: () => { if (!this.destroyed) { this.render?.() } },
+            error: () => {
+              // The rewards are saved on the server; show the unlocked levels anyway. Gems catch up on the next load.
+              if (this.destroyed) { return }
+              const earned = me.get('earned') || {}
+              earned.levels = _.union(earned.levels || [], savedRewardLevels)
+              me.set('earned', earned)
+              this.render?.()
+            },
+          })
         })
       }
     })
