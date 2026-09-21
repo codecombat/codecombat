@@ -12,6 +12,8 @@ const CampaignView = require('views/play/CampaignView')
 const Levels = require('collections/Levels')
 const ThangType = require('models/ThangType')
 const Level = require('models/Level')
+const LevelSession = require('models/LevelSession')
+const globalVar = require('core/globalVar')
 const storage = require('core/storage')
 const editorLevelCardTemplate = require('templates/play/campaign-editor-level-card')
 
@@ -403,6 +405,123 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
         expect($card.find('.card-reward-name').map(function () { return $(this).text() }).get()).toEqual(['Long Sword', 'Bonus Level', 'Level On This Map', 'missing-hero'])
         expect($card.find('.card-reward-portrait').length).toBe(2)
       })
+    })
+  })
+
+  describe('checkForUnearnedAchievements', function () {
+    const earnedAchievementPosts = () => jasmine.Ajax.requests.filter(/\/db\/earned_achievement/).filter(r => r.method === 'POST')
+    // The view's own loading also reads under /db/user/<id>/..., so match the user document itself (the test me has no id).
+    const meFetches = () => jasmine.Ajax.requests.filter(/^\/db\/user(\/[^/?]*)?(\?|$)/).filter(r => r.method === 'GET')
+
+    beforeEach(function () {
+      this.previousCurrentView = globalVar.currentView
+      this.lastLevel = factories.makeLevel()
+      this.rewardInSameCampaign = factories.makeLevel()
+      this.rewardInNextCampaign = factories.makeLevel()
+      const campaignSlug = _.uniqueId('campaign-slug-')
+      this.campaignView = new CampaignView()
+      this.campaignView.campaign = factories.makeCampaign({ slug: campaignSlug }, { levels: new Levels([this.lastLevel, this.rewardInSameCampaign]) })
+      spyOn(this.campaignView, 'render')
+      this.session = new LevelSession({ _id: _.uniqueId('session_'), levelID: this.lastLevel.get('slug'), state: { complete: true } })
+      globalVar.currentView = { sessions: { models: [this.session] } }
+      this.achievement = { _id: _.uniqueId('achievement_'), name: 'Last Level Complete', related: this.lastLevel.get('original') }
+      this.respondWithAchievements = () => _.last(jasmine.Ajax.requests.filter(new RegExp(`/db/campaign/${campaignSlug}/achievements`))).respondWith({
+        status: 200,
+        responseText: JSON.stringify([this.achievement]),
+      })
+      this.own = (...levels) => {
+        const earned = me.get('earned') || {}
+        earned.levels = (earned.levels || []).concat(levels.map(level => level.get('original')))
+        me.set('earned', earned)
+      }
+    })
+
+    afterEach(function () {
+      globalVar.currentView = this.previousCurrentView
+    })
+
+    it('awards an achievement whose missing reward level is in another campaign', function () {
+      this.achievement.rewards = { levels: [this.rewardInNextCampaign.get('original')] }
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+
+      const posts = earnedAchievementPosts()
+      expect(posts.length).toBe(1)
+      expect(JSON.parse(posts[0].params)).toEqual(jasmine.objectContaining({
+        achievement: this.achievement._id,
+        triggeredBy: this.session.id,
+        collection: 'level.sessions',
+      }))
+    })
+
+    it('still awards an achievement whose missing reward level is in this campaign', function () {
+      this.achievement.rewards = { levels: [this.rewardInSameCampaign.get('original')] }
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+
+      expect(earnedAchievementPosts().length).toBe(1)
+    })
+
+    it('sends one request for an achievement with several missing reward levels', function () {
+      this.achievement.rewards = { levels: [this.rewardInSameCampaign.get('original'), this.rewardInNextCampaign.get('original'), 'level-in-no-campaign'] }
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+
+      expect(earnedAchievementPosts().length).toBe(1)
+    })
+
+    it('sends nothing when every reward level is already owned', function () {
+      this.achievement.rewards = { levels: [this.rewardInSameCampaign.get('original'), this.rewardInNextCampaign.get('original')] }
+      this.own(this.rewardInSameCampaign, this.rewardInNextCampaign)
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+
+      expect(earnedAchievementPosts().length).toBe(0)
+      expect(meFetches().length).toBe(0)
+    })
+
+    it('sends nothing when the related level is not complete', function () {
+      this.achievement.rewards = { levels: [this.rewardInNextCampaign.get('original')] }
+      this.session.set('state', { complete: false })
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+
+      expect(earnedAchievementPosts().length).toBe(0)
+    })
+
+    it('does not send the same achievement again on the next visit to the map', function () {
+      this.achievement.rewards = { levels: [this.rewardInNextCampaign.get('original')] }
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+
+      expect(earnedAchievementPosts().length).toBe(1)
+    })
+
+    it('tries again on the next visit when the save failed', function () {
+      this.achievement.rewards = { levels: [this.rewardInNextCampaign.get('original')] }
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+      earnedAchievementPosts()[0].respondWith({ status: 409, responseText: JSON.stringify({}) })
+      expect(meFetches().length).toBe(0)
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+
+      expect(earnedAchievementPosts().length).toBe(2)
+    })
+
+    it('reloads me and redraws the map once the award is saved', function () {
+      this.achievement.rewards = { levels: [this.rewardInNextCampaign.get('original')] }
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+      expect(meFetches().length).toBe(0)
+      earnedAchievementPosts()[0].respondWith({ status: 201, responseText: JSON.stringify({ _id: 'earned-achievement-id' }) })
+
+      expect(meFetches().length).toBe(1)
+      this.campaignView.render.calls.reset()
+      meFetches()[0].respondWith({ status: 200, responseText: JSON.stringify(me.toJSON()) })
+      expect(this.campaignView.render).toHaveBeenCalled()
     })
   })
 }))

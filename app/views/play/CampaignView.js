@@ -62,6 +62,10 @@ const STARTED_STATUS = 'started'
 // ambientSound come from this campaign. Referenced by id: campaign slugs re-derive from `name` on every save.
 const HUB_CAMPAIGN_ID = '6a9fe655540e9017bfb987df' // rpg
 
+// Achievements checkForUnearnedAchievements already asked the server to award since this page loaded, so coming back
+// to the map does not send them again. Module-level because every visit to the map builds a new CampaignView.
+const unearnedAchievementsRequested = new Set()
+
 class LevelSessionsCollection extends CocoCollection {
   static initClass () {
     this.prototype.url = ''
@@ -2473,39 +2477,51 @@ class CampaignView extends RootView {
       // If this campaign has no levels loaded (or no levels at all), skip earned-levels fixup.
       if (!campaignLevels) { return }
 
-      const levelsEarned = me.get('earned')?.levels
-        ?.filter(levelOriginal => campaignLevels[levelOriginal])
-        .map(levelOriginal => campaignLevels[levelOriginal].slug)
-        .filter(Boolean) || []
-
-      const levelsEarnedMap = Object.fromEntries(levelsEarned.map(level => [level, true]))
+      // Reward levels are compared by original, not looked up in this campaign: the last level of a campaign rewards
+      // levels of the next one, and those must heal too or the next campaign stays locked.
+      const levelsOwned = me.levels()
 
       const levelAchievements = achievements.filter(
         a => a.rewards && a.rewards.levels && a.rewards.levels.length,
       )
 
-      let hadMissedAny = false
+      const saves = []
       for (const achievement of levelAchievements) {
         if (!campaignLevels[achievement.related]) { continue }
-        const relatedLevelSlug = campaignLevels[achievement.related].slug
-        for (const levelOriginal of achievement.rewards.levels) {
-          if (!campaignLevels[levelOriginal]) { continue }
-          const rewardLevelSlug = campaignLevels[levelOriginal].slug
-          if (sessionsCompleteMap[relatedLevelSlug] && !levelsEarnedMap[rewardLevelSlug]) {
-            const ea = new EarnedAchievement({
-              achievement: achievement._id,
-              triggeredBy: sessionsCompleteMap[relatedLevelSlug],
-              collection: 'level.sessions',
-            })
-            hadMissedAny = true
-            ea.notyErrors = false
-            ea.save()
-              .error(() => console.warn('Achievement NOT complete:', achievement.name))
-          }
+        const triggeredBy = sessionsCompleteMap[campaignLevels[achievement.related].slug]
+        if (!triggeredBy) { continue }
+        if (achievement.rewards.levels.every(levelOriginal => levelsOwned.includes(levelOriginal))) { continue }
+        if (unearnedAchievementsRequested.has(achievement._id)) { continue }
+        unearnedAchievementsRequested.add(achievement._id)
+        const ea = new EarnedAchievement({
+          achievement: achievement._id,
+          triggeredBy,
+          collection: 'level.sessions',
+        })
+        ea.notyErrors = false
+        const save = ea.save()
+        if (!save) {
+          unearnedAchievementsRequested.delete(achievement._id)
+          continue
         }
+        save.fail(() => {
+          console.warn('Achievement NOT complete:', achievement.name)
+          unearnedAchievementsRequested.delete(achievement._id) // Let the next visit to the map try again.
+        })
+        saves.push(save)
       }
-      if (hadMissedAny) {
-        window.tracker?.trackEvent('Fixed Unearned Achievement', { category: 'World Map', label: this.terrain })
+      if (!saves.length) { return }
+      window.tracker?.trackEvent('Fixed Unearned Achievement', { category: 'World Map', label: this.terrain })
+
+      // Once every save has settled, reload me and redraw, so what just unlocked shows without a page reload.
+      let pending = saves.length
+      let anySaved = false
+      for (const save of saves) {
+        save.done(() => { anySaved = true })
+        save.always(() => {
+          if (--pending > 0 || !anySaved || this.destroyed) { return }
+          me.fetch({ cache: false, success: () => { if (!this.destroyed) { this.render?.() } } })
+        })
       }
     })
   }
