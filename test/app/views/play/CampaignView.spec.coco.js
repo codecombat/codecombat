@@ -536,6 +536,18 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
       expect(this.campaignView.render).toHaveBeenCalled()
     })
 
+    it('still reloads me when the player left the map before the save finished', function () {
+      this.achievement.rewards = { levels: [this.rewardInNextCampaign.get('original')] }
+      this.campaignView.checkForUnearnedAchievements()
+      this.respondWithAchievements()
+      this.campaignView.destroy()
+      earnedAchievementPosts()[0].respondWith({ status: 201, responseText: JSON.stringify({ _id: 'earned-achievement-id' }) })
+
+      expect(meFetches().length).toBe(1)
+      meFetches()[0].respondWith({ status: 500, responseText: JSON.stringify({}) })
+      expect(me.ownsLevel(this.rewardInNextCampaign.get('original'))).toBe(true)
+    })
+
     it('waits for the save to retry after a dropped connection instead of giving up on the first failure', function () {
       spyOn(_, 'delay') // CocoModel.save schedules its retry with _.delay
       this.achievement.rewards = { levels: [this.rewardInNextCampaign.get('original')] }

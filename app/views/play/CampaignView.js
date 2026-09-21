@@ -2524,20 +2524,21 @@ class CampaignView extends RootView {
       window.tracker?.trackEvent('Fixed Unearned Achievement', { category: 'World Map', label: this.terrain })
 
       // Once every save has settled, reload me and redraw, so what just unlocked shows without a page reload.
+      // me is reloaded even if the player has already left this view: the next map reads it, and it will not send
+      // these achievements again.
       let pending = saves.length
       for (const saved of saves) {
         saved.always(() => {
-          if (--pending > 0 || !savedRewardLevels.length || this.destroyed) { return }
+          if (--pending > 0 || !savedRewardLevels.length) { return }
           me.fetch({
             cache: false,
             success: () => { if (!this.destroyed) { this.render?.() } },
             error: () => {
               // The rewards are saved on the server; show the unlocked levels anyway. Gems catch up on the next load.
-              if (this.destroyed) { return }
               const earned = me.get('earned') || {}
               earned.levels = _.union(earned.levels || [], savedRewardLevels)
               me.set('earned', earned)
-              this.render?.()
+              if (!this.destroyed) { this.render?.() }
             },
           })
         })
