@@ -1,3 +1,5 @@
+// The client Jasmine runner needs an explicit done callback for promises.
+const runAsync = fn => done => { fn().then(() => done(), error => done.fail(error)) }
 /**
  * Pure-logic tests for the worksheet capture pipeline. Everything exercised
  * here is plain maths over pixel buffers, so it runs without a camera, a
@@ -117,27 +119,27 @@ describe('worksheetQRText', () => {
     expect(text).toBe(text.toUpperCase())
   })
 
-  it('identifies the scenario by a short prefix of its id', () => {
+  it('identifies the exact scenario even when several were created together', () => {
     expect(worksheetQRText('https://codecombat.com', SCENARIO, USER))
-      .toBe('HTTPS://CODECOMBAT.COM/S/6600A6512EF4805A67A8C507000001')
+      .toBe('HTTPS://CODECOMBAT.COM/S/6600A6C23A9490C3F23997AF512EF4805A67A8C507000001')
   })
 
   it('leaves the student out when the sheet is not for one', () => {
     expect(worksheetQRText('https://codecombat.com', SCENARIO, null))
-      .toBe('HTTPS://CODECOMBAT.COM/S/6600A6')
+      .toBe('HTTPS://CODECOMBAT.COM/S/6600A6C23A9490C3F23997AF')
   })
 
   it('round-trips through the parser', () => {
     const parsed = parseWorksheetQR(worksheetQRText('https://codecombat.com', SCENARIO, USER))
-    expect(parsed.scenarioHandle).toBe(SCENARIO.slice(0, 6))
+    expect(parsed.scenarioHandle).toBe(SCENARIO)
     expect(parsed.userId).toBe(USER)
-    expect(parsed.isPrefix).toBe(true)
+    expect(parsed.isPrefix).toBe(false)
   })
 
-  it('stays far shorter than the path it replaces', () => {
+  it('stays shorter than the full path', () => {
     const short = worksheetQRText('https://codecombat.com', SCENARIO, USER)
     const long = `https://codecombat.com/ai-junior/scan/design-a-character/${USER}`
-    expect(short.length).toBeLessThan(long.length * 0.75)
+    expect(short.length).toBeLessThan(long.length)
   })
 })
 
@@ -302,4 +304,65 @@ describe('orderQuad', () => {
       expect(ordered[0].y).toBeLessThan(ordered[3].y) // top-left above bottom-left
     }
   })
+})
+
+describe('AI Junior exact worksheet codes', () => {
+  it('uses the server fingerprint without mistaking it for a timestamp prefix', () => {
+    const text = worksheetQRText('https://codecombat.com', '6600a6c23a9490c3f23997af', '512ef4805a67a8c507000001', 'c63bd7549611')
+    expect(text).toBe('HTTPS://CODECOMBAT.COM/S/C63BD7549611512EF4805A67A8C507000001')
+    expect(parseWorksheetQR(text)).toEqual({ scenarioHandle: 'c63bd7549611', userId: '512ef4805a67a8c507000001', isPrefix: false, isFingerprint: true })
+  })
+
+  it('keeps compact URLs a whole QR version smaller, including worst-case student IDs', () => {
+    const QRCode = require('qrcode')
+    for (const [user, modules] of [[null, 25], ['abcdefabcdefabcdefabcdef', 29]]) {
+      const url = worksheetQRText('https://codecombat.com', '6600a6c23a9490c3f23997af', user, 'abcdefabcdef')
+      expect(QRCode.create(url, { errorCorrectionLevel: 'M' }).modules.size).toBe(modules)
+      expect(QRCode.create(worksheetQRText('https://codecombat.com', 'abcdefabcdefabcdefabcdef', user), { errorCorrectionLevel: 'M' }).modules.size).toBe(modules + 4)
+    }
+  })
+
+  it('ignores invalid compact codes and preserves the full-ID fallback', () => {
+    for (const code of ['6600a6', 'not-a-code', '/s/other']) {
+      expect(worksheetQRText('https://codecombat.com', '6600a6c23a9490c3f23997af', null, code))
+        .toBe('HTTPS://CODECOMBAT.COM/S/6600A6C23A9490C3F23997AF')
+    }
+  })
+
+  it('decodes compact personal and student QRs after resampling at small camera scales', runAsync(async () => {
+    const QRCode = require('qrcode')
+    const { decodeQRFromImageData } = require('lib/doc-capture/qr')
+    for (const user of [null, '512ef4805a67a8c507000001']) {
+      const text = worksheetQRText('https://codecombat.com', '6600a6c23a9490c3f23997af', user, 'c63bd7549611')
+      const source = document.createElement('canvas')
+      await QRCode.toCanvas(source, text, { width: 450, errorCorrectionLevel: 'M', margin: 2 })
+      for (const size of [100, 125, 150]) {
+        const camera = document.createElement('canvas')
+        camera.width = camera.height = size
+        const ctx = camera.getContext('2d')
+        ctx.drawImage(source, 0, 0, size, size)
+        expect(decodeQRFromImageData(ctx.getImageData(0, 0, size, size))).toBe(text)
+      }
+    }
+  }))
+
+  it('distinguishes scenario IDs generated in the same second', () => {
+    const first = '6600a6c23a9490c3f23997af'
+    const second = '6600a6c23a9490c3f23997b0'
+    expect(worksheetQRText('https://codecombat.com', first)).not.toBe(worksheetQRText('https://codecombat.com', second))
+  })
+
+  it('ignores malformed percent-encoding instead of breaking the photo picker', () => {
+    expect(parseWorksheetQR('/ai-junior/scan/%E0%A4%A')).toBe(null)
+    expect(parseWorksheetQR('/ai-junior/scan/activity/%FF')).toBe(null)
+  })
+
+  it('decodes the longer exact-id code at the printed QR’s pixel scale', runAsync(async () => {
+    const QRCode = require('qrcode')
+    const { decodeQRFromImageData } = require('lib/doc-capture/qr')
+    const text = worksheetQRText('https://codecombat.com', '6600a6c23a9490c3f23997af', '512ef4805a67a8c507000001')
+    const canvas = document.createElement('canvas')
+    await QRCode.toCanvas(canvas, text, { width: 150, errorCorrectionLevel: 'M', margin: 2 })
+    expect(decodeQRFromImageData(canvas.getContext('2d').getImageData(0, 0, 150, 150))).toBe(text)
+  }))
 })
