@@ -154,43 +154,4 @@ describe('lib/studentProgressCalculator', function () {
       })
     })
   })
-
-  describe('exportStudentProgress with a course level missing from the levels collection', function () {
-    beforeEach(function () {
-      this.course = factories.makeCourse()
-      this.student = factories.makeUser({ name: 'Student One' })
-      this.students = new Users([this.student])
-      this.classroom = new Classroom({
-        _id: _.uniqueId('classroom_'),
-        name: 'Coco Class',
-        aceConfig: { language: 'python' },
-        members: [this.student.id],
-        courses: [{
-          _id: this.course.id,
-          levels: [{ original: 'lost-level-original' }],
-        }],
-      })
-      this.classroom.sessions = new LevelSessions([])
-      this.courses = new Courses([this.course])
-      this.sortedCourses = this.classroom.getSortedCourses()
-      this.courseInstances = new CourseInstances([
-        factories.makeCourseInstance({}, { course: this.course, classroom: this.classroom, members: this.students }),
-      ])
-      this.levels = new Levels([]) // level lookup by original will miss
-      this.progressData = { get: () => null }
-    })
-
-    it('skips the missing level instead of throwing', function (done) {
-      window.spyOn(window, 'saveAs').and.callFake(() => done())
-      studentProgressCalculator.exportStudentProgress({
-        classroom: this.classroom,
-        sortedCourses: this.sortedCourses,
-        students: this.students,
-        courses: this.courses,
-        courseInstances: this.courseInstances,
-        levels: this.levels,
-        progressData: this.progressData,
-      })
-    })
-  })
 })

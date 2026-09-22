@@ -67,7 +67,7 @@ module.exports = {
         if (instance && instance.hasMember(student)) {
           for (trimLevel of Array.from(trimCourse.levels)) {
             level = levels.findWhere({ original: trimLevel.original })
-            if (!level || level.get('assessment')) { continue }
+            if (level.get('assessment')) { continue }
             const progress = progressData.get({ classroom, course, level, user: student })
             if (progress != null ? progress.completed : undefined) {
               let left
