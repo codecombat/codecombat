@@ -251,7 +251,7 @@ export default {
           class="icon-with-text larger-icon"
           :icon-name="'IconArchive'"
           :text="$t('teacher_dashboard.export_progress')"
-          :inactive="exportingProgress"
+          :inactive="getLoading || exportingProgress"
           @click="exportProgress"
         />
       </div>

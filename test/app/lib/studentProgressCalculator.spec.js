@@ -33,8 +33,8 @@ describe('lib/studentProgressCalculator', function () {
       this.progressData = { get: () => null }
       this.aiProjects = [
         { user: this.student.id, scenario: 'scenario-a', playtime: 100 },
-        { user: this.student.id, scenario: 'scenario-a' }, // second project on same scenario, playtime field missing
-        { user: this.student.id, scenario: 'scenario-b', playtime: 50 },
+        { user: this.student.id, scenario: 'scenario-a', playtime: 200 }, // duplicate scenario, playtime still accumulates
+        { user: this.student.id, scenario: 'scenario-b' }, // missing playtime, treated as 0
         { user: this.student.id, scenario: 'scenario-elsewhere', playtime: 999 }, // scenario not in this classroom's courses
       ]
     })
@@ -46,8 +46,9 @@ describe('lib/studentProgressCalculator', function () {
           const lines = decodeURI(reader.result).split('\n')
           expect(lines.length).toBe(this.students.length + 1)
           const studentLine = lines.find(line => line.indexOf(this.student.get('email')) !== -1)
-          // Total Levels, Total Playtime(humanize), Total Playtime(seconds), then the same three for the HS course
-          expect(studentLine).toMatch(/2,3 minutes,150,2,3 minutes,150,/)
+          // Total Levels, Total Playtime(humanize), Total Playtime(seconds), then the same three for the HS course.
+          // Playtime = 100 + 200 (dup on scenario-a) + 0 (missing on scenario-b); the out-of-classroom project contributes nothing.
+          expect(studentLine).toMatch(/2,5 minutes,300,2,5 minutes,300,/)
           const otherLine = lines.find(line => line.indexOf(this.otherStudent.get('email')) !== -1)
           expect(otherLine).toMatch(/0,0,0,0,0,0/)
           done()
