@@ -217,6 +217,7 @@ module.exports = (ThangTypeColorsTabView = (function () {
       this.spriteBuilder.setOptions(options)
       this.spriteBuilder.buildColorMaps()
       this.movieClip = this.spriteBuilder.buildMovieClip(animation)
+      if (!this.movieClip) { return } // e.g. raster sheet not loaded yet
       const bounds = (this.movieClip.frameBounds != null ? this.movieClip.frameBounds[0] : undefined) != null ? (this.movieClip.frameBounds != null ? this.movieClip.frameBounds[0] : undefined) : this.movieClip.nominalBounds
       const larger = Math.min(400 / bounds.width, 400 / bounds.height)
       this.movieClip.scaleX = larger
@@ -239,6 +240,7 @@ module.exports = (ThangTypeColorsTabView = (function () {
       this.spriteBuilder.setOptions(options)
       this.spriteBuilder.buildColorMaps()
       this.container = this.spriteBuilder.buildContainerFromStore(idle.container)
+      if (!this.container) { return } // e.g. raster image not loaded yet
       const larger = Math.min(400 / this.container.bounds.width, 400 / this.container.bounds.height)
       this.container.scaleX = larger
       this.container.scaleY = larger

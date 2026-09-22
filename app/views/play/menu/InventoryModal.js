@@ -15,7 +15,6 @@ require('app/styles/play/menu/inventory-modal.sass')
 require('app/styles/play/modal/play-items-modal.sass')
 const ModalView = require('views/core/ModalView')
 const template = require('app/templates/play/menu/inventory-modal')
-const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt')
 const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt')
 const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt')
 const { me } = require('core/auth')
@@ -24,7 +23,6 @@ const ThangTypeLib = require('lib/ThangTypeLib')
 const CocoCollection = require('collections/CocoCollection')
 const ItemDetailsView = require('views/play/modal/ItemDetailsView')
 const Purchase = require('models/Purchase')
-const BuyGemsModal = require('views/play/modal/BuyGemsModal')
 const CreateAccountModal = require('views/core/CreateAccountModal')
 const SubscribeModal = require('views/core/SubscribeModal')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
@@ -60,7 +58,6 @@ module.exports = (InventoryModal = (function () {
         'click #unequip-item-viewed': 'onClickUnequipItemViewed',
         'click #subscriber-item-viewed': 'onClickSubscribeItemViewed',
         'click #close-modal': 'hide',
-        'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked',
         'click .start-subscription-button': 'onSubscribeButtonClicked',
         click: 'onClickedSomewhere',
         'update #unequipped .nano': 'onScrollUnequipped'
@@ -900,8 +897,6 @@ module.exports = (InventoryModal = (function () {
       this.$el.find('.unlock-button').popover('destroy')
       if (me.isStudent()) {
         popoverTemplate = earnGemsPromptTemplate({})
-      } else if (me.canBuyGems()) {
-        popoverTemplate = buyGemsPromptTemplate({})
       } else {
         if (!me.hasSubscription()) { // user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
           popoverTemplate = subscribeForGemsPrompt({})
@@ -921,12 +916,6 @@ module.exports = (InventoryModal = (function () {
       const popover = unlockButton.data('bs.popover')
       __guard__(popover != null ? popover.$tip : undefined, x => x.i18n())
       return this.applyRTLIfNeeded()
-    }
-
-    onBuyGemsPromptButtonClicked (e) {
-      this.playSound('menu-button-click')
-      if (me.get('anonymous')) { return this.askToSignUp() }
-      return this.openModalView(new BuyGemsModal())
     }
 
     onSubscribeButtonClicked (e) {

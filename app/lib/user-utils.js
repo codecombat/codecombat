@@ -4,7 +4,7 @@ const globalVar = require('../core/globalVar')
 const _ = require('lodash')
 
 function extraProvisions () {
-  usersApi.extraProvisions({ userId: me.get('_id') })
+  return usersApi.extraProvisions({ userId: me.get('_id') })
     .then(({ provisionType, ...obj }) => {
       if (provisionType === 'library') {
         const { premiumAdded, isInLibraryNetwork, hideEmail, libraryName, showLoginModal, isCreatedViaLibrary } = obj
@@ -25,6 +25,7 @@ function extraProvisions () {
         const { esportsAdded } = obj
         if (esportsAdded) me.fetch({ cache: false })
       }
+      return { provisionType, ...obj }
     })
     .catch((err) => {
       console.error('provision err', err)

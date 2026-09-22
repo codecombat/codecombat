@@ -4,7 +4,7 @@ const c = require('./../schemas')
 
 const MiniGameSchema = c.object({
   title: 'Mini-Game',
-  description: 'A Star Lab mini-game: a published code bundle plus the assets it needs, loaded at runtime by slug.',
+  description: 'A Latent Space mini-game: a published code bundle plus the assets it needs, loaded at runtime by slug.',
 })
 
 // name first

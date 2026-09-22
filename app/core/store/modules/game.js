@@ -206,7 +206,7 @@ module.exports = {
           // eslint-disable-next-line camelcase
           const external_ch1_avatar = __guard__(rootState.me.ozariaUserOptions != null ? rootState.me.ozariaUserOptions.avatar : undefined, x3 => x3.avatarCodeString) != null ? __guard__(rootState.me.ozariaUserOptions != null ? rootState.me.ozariaUserOptions.avatar : undefined, x3 => x3.avatarCodeString) : 'crown'
           // eslint-disable-next-line camelcase
-          const context = _.merge({ external_ch1_avatar }, utils.i18n(plan, 'context'))
+          const context = _.merge({ external_ch1_avatar }, utils.i18nCommentContext(plan))
           source = _.template(rawSource)(context)
 
           if (!_.isEmpty(source)) {
@@ -269,7 +269,7 @@ module.exports = {
         }
 
         try {
-          source = _.template(rawSource)(utils.i18n(plan, 'context'))
+          source = _.template(rawSource)(utils.i18nCommentContext(plan))
         } catch (e) {
           console.error(`Cannot auto fill solution: ${e.message}`)
         }

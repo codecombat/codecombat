@@ -13,14 +13,12 @@ let JuniorHeroesModal
 require('app/styles/play/modal/junior-heroes-modal.sass')
 const ModalView = require('views/core/ModalView')
 const template = require('app/templates/play/modal/junior-heroes-modal')
-const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt')
 const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt')
 const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt')
 const CocoCollection = require('collections/CocoCollection')
 const ThangType = require('models/ThangType')
 const AudioPlayer = require('lib/AudioPlayer')
 const utils = require('core/utils')
-const BuyGemsModal = require('views/play/modal/BuyGemsModal')
 const CreateAccountModal = require('views/core/CreateAccountModal')
 const SubscribeModal = require('views/core/SubscribeModal')
 const Purchase = require('models/Purchase')
@@ -51,7 +49,6 @@ module.exports = (JuniorHeroesModal = (function () {
         'click #confirm-button': 'saveAndHide',
         'click .unlock-button': 'onUnlockButtonClicked',
         'click .subscribe-button': 'onSubscribeButtonClicked',
-        'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked',
         'click .start-subscription-button': 'onSubscribeButtonClicked',
         click: 'onClickedSomewhere',
       }
@@ -402,8 +399,6 @@ module.exports = (JuniorHeroesModal = (function () {
       this.$el.find('.unlock-button').popover('destroy')
       if (me.isStudent()) {
         popoverTemplate = earnGemsPromptTemplate({})
-      } else if (me.canBuyGems()) {
-        popoverTemplate = buyGemsPromptTemplate({})
       } else {
         if (!me.hasSubscription()) { // user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
           popoverTemplate = subscribeForGemsPrompt({})
@@ -423,11 +418,6 @@ module.exports = (JuniorHeroesModal = (function () {
       const popover = unlockButton.data('bs.popover')
       __guard__(popover != null ? popover.$tip : undefined, x => x.i18n()) // Doesn't work
       return this.applyRTLIfNeeded()
-    }
-
-    onBuyGemsPromptButtonClicked (e) {
-      if (me.get('anonymous')) { return this.askToSignUp() }
-      return this.openModalView(new BuyGemsModal())
     }
 
     onClickedSomewhere (e) {

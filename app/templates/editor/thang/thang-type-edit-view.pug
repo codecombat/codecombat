@@ -97,6 +97,12 @@ block outer_content
                 button(disabled=authorized === true ? undefined : "true").btn.btn-sm.btn-info#upload-button
                   span.glyphicon.glyphicon-upload
                   span.spl Upload Flash
+                button(disabled=authorized === true ? undefined : "true").btn.btn-sm.btn-info#upload-raster-image-button
+                  span.glyphicon.glyphicon-picture
+                  span.spl Upload Raster Image
+                button(disabled=authorized === true ? undefined : "true").btn.btn-sm.btn-info#upload-raster-animation-button
+                  span.glyphicon.glyphicon-film
+                  span.spl Upload Raster Anim
                 button(disabled=authorized === true ? undefined : "true").btn.btn-sm.btn-danger#clear-button
                   span.glyphicon.glyphicon-remove
                   span.spl Clear Data
@@ -115,6 +121,7 @@ block outer_content
                   button.reoptimize-btn.btn.btn-sm(type="button" disabled=authorized === true ? undefined : "true" data-containers="true" data-shapes="true") all
                 input#real-upload-button(type="file")
                 input#real-animate-upload-button(type="file", multiple=true)
+                input#real-raster-animation-json-input(type="file", accept=".json,application/json")
               #thang-type-file-size= fileSizeString
           div#thang-type-treema
           .clearfix

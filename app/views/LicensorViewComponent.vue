@@ -273,6 +273,8 @@ forms = require 'core/forms'
 {getQueryVariable} = require('core/utils')
 clientSchema = require '../schemas/models/api-client.schema'
 
+{ mapActions, mapState, mapGetters } = require('vuex')
+
 module.exports = Vue.extend({
   data: ->
     prepaids: []
@@ -313,7 +315,9 @@ module.exports = Vue.extend({
           noty text: 'Failed to find fetch features', type: 'error'
           console.error(data)
 
-  methods:
+  methods: Object.assign {}, mapActions({
+      fetchLicenseStats: 'apiClient/fetchLicenseStats',
+    }),
     runValidation: (element, requiredProps) ->
       forms.clearFormAlerts(element)
       data = forms.formToObject(element[0])
@@ -506,7 +510,8 @@ module.exports = Vue.extend({
           forms.setErrorToProperty(el, 'showClient', 'No API Client found')
           return
         for client in this.clients
-          stats = yield api.apiClients.getLicenseStats(client._id)
+          yield this.fetchLicenseStats({ clientId: client._id })
+          stats = this.getLicenseStats
           Vue.set(client, 'licenseDaysUsed', stats.licenseDaysUsed)
           Vue.set(client, 'activeLicenses', stats.activeLicenses)
           Vue.set(client, 'licenseDaysRemaining', stats.licenseDaysRemaining)
@@ -617,7 +622,9 @@ module.exports = Vue.extend({
         return
 
 
-  computed:
+  computed: Object.assign {}, mapGetters({
+      getLicenseStats: 'apiClient/getLicenseStats',
+    }),
     timestampStart: ->
       return moment.timezone().tz(this.timeZone).format('YYYY-MM-DD')
     timestampEnd: ->

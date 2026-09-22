@@ -9,7 +9,6 @@ import backgroundJobApi from 'app/core/api/background-job'
 
 import ButtonGoogleClassroom from './common/ButtonGoogleClassroom'
 import ModalDivider from '../../common/ModalDivider'
-import ModalCreateStudents from './ModalCreateStudents'
 
 require('core/services/filepicker')({
   accept: 'text/csv',
@@ -21,7 +20,6 @@ export default Vue.extend({
     SecondaryButton,
     ButtonGoogleClassroom,
     ModalDivider,
-    ModalCreateStudents,
     TertiaryButton,
   },
   props: {
@@ -45,10 +43,6 @@ export default Vue.extend({
     from: {
       type: String,
       default: null,
-    },
-    createStudents: {
-      type: Boolean,
-      default: false,
     },
   },
   data: () => ({
@@ -274,16 +268,6 @@ export default Vue.extend({
       >
         {{ $t("teachers.invite_by_email") }}
       </tertiary-button>
-      <div
-        v-if="createStudents"
-        class="create-students"
-      >
-        <modal-create-students
-          :classroom="classroom"
-          from="ModalAddStudents"
-          @done="$emit('close')"
-        />
-      </div>
     </div>
     <secondary-button
       class="done-button"

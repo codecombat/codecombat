@@ -429,6 +429,39 @@ describe('Utility library', function () {
     })
   })
 
+  describe('i18nCommentContext', function () {
+    const plan = {
+      context: { greet: 'Say hi', parens: 'Use parentheses' },
+      i18n: {
+        nl: { context: { greet: '[AI_TRANSLATION]Zeg hoi', parens: '  ' } },
+        de: { context: { greet: 'Sag hallo', parens: 'Benutze Klammern' } },
+      },
+    }
+    let previousLanguage
+    beforeEach(function () { previousLanguage = me.get('preferredLanguage') })
+    afterEach(function () { me.set('preferredLanguage', previousLanguage) })
+
+    it('layers the locale context over English key by key, treating blanks as missing', function () {
+      me.set('preferredLanguage', 'nl')
+      expect(utils.i18nCommentContext(plan)).toEqual({ greet: 'Zeg hoi', parens: 'Use parentheses' })
+    })
+
+    it('returns the full locale context when it is complete', function () {
+      me.set('preferredLanguage', 'de')
+      expect(utils.i18nCommentContext(plan)).toEqual({ greet: 'Sag hallo', parens: 'Benutze Klammern' })
+    })
+
+    it('returns the English context when the locale has none', function () {
+      me.set('preferredLanguage', 'fr')
+      expect(utils.i18nCommentContext(plan)).toEqual(plan.context)
+    })
+
+    it('handles plans without any context', function () {
+      expect(utils.i18nCommentContext({ source: '' })).toEqual({})
+      expect(utils.i18nCommentContext(undefined)).toEqual({})
+    })
+  })
+
   describe('inEU', function () {
     it('EU countries return true', function () {
       const euCountries = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'United Kingdom']

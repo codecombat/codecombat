@@ -79,6 +79,10 @@ style.
                   span= view.getCodeLanguageName()
               if view.courseStats.isAI
                 li
+                  span= view.courseStats.totalMessages
+                  span= ' '
+                  span(data-i18n="user.certificate_ai_prompts")
+                li
                   span= view.courseStats.levels.numDone
                   span= ' '
                   span(data-i18n="user.certificate_ai_projects_completed")

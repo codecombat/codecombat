@@ -11,7 +11,7 @@
     >
       <div
         v-for="(item, index) in items"
-        :key="index"
+        :key="`item-${index}`"
         :class="{
           'col-md-6': arrangement === 'vertical',
           'col-lg-4': parseInt(columns, 10) === 3 && arrangement === 'vertical',

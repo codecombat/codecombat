@@ -20,6 +20,9 @@ block header
           li#analytics-button
             a
               span.glyphicon-stats.glyphicon
+        li#toggle-flags-button(class=view.showFullFlags ? "active" : "")
+          a(data-i18n="[title]editor.campaign_show_player_flags")
+            span.glyphicon-flag.glyphicon
         if me.isAdmin()
           li#save-button
             a

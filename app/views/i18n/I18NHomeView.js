@@ -36,7 +36,6 @@ const Campaign = require('models/Campaign')
 if (utils.isOzaria) {
   Cinematic = require('ozaria/site/models/Cinematic')
 }
-const Poll = require('models/Poll')
 
 const languages = _.keys(require('locale/locale')).sort()
 const PAGE_SIZE = 100
@@ -91,7 +90,6 @@ module.exports = (I18NHomeView = (function () {
       this.levels = new CocoCollection([], { url: `/db/level${QUERY_PARAMS}`, project, model: Level })
       this.achievements = new CocoCollection([], { url: `/db/achievement${QUERY_PARAMS}`, project, model: Achievement })
       this.campaigns = new CocoCollection([], { url: `/db/campaign${QUERY_PARAMS}`, project, model: Campaign })
-      this.polls = new CocoCollection([], { url: `/db/poll${QUERY_PARAMS}`, project, model: Poll })
       this.courses = new Courses()
       this.articles = new CocoCollection([], { url: `/db/article${QUERY_PARAMS}`, project, model: Article })
       this.resourceHubResource = new CocoCollection([], { url: `/db/resource_hub_resource${QUERY_PARAMS}`, project, model: ResourceHubResource })
@@ -110,9 +108,9 @@ module.exports = (I18NHomeView = (function () {
       this.standardsCorrelations = new CocoCollection([], { url: `/db/standards${QUERY_PARAMS}`, project, model: StandardsCorrelation })
 
       if (utils.isOzaria) {
-        collections = [this.thangTypes, this.components, this.levels, this.achievements, this.campaigns, this.polls, this.courses, this.articles, this.interactive, this.cinematics, this.cutscene, this.resourceHubResource, this.concepts, this.standardsCorrelations]
+        collections = [this.thangTypes, this.components, this.levels, this.achievements, this.campaigns, this.courses, this.articles, this.interactive, this.cinematics, this.cutscene, this.resourceHubResource, this.concepts, this.standardsCorrelations]
       } else {
-        collections = [this.thangTypes, this.components, this.levels, this.achievements, this.campaigns, this.polls, this.courses, this.articles, this.resourceHubResource, this.chatMessage, this.aiScenario, this.concepts, this.standardsCorrelations]
+        collections = [this.thangTypes, this.components, this.levels, this.achievements, this.campaigns, this.courses, this.articles, this.resourceHubResource, this.chatMessage, this.aiScenario, this.concepts, this.standardsCorrelations]
       }
       for (const c of Array.from(collections)) {
         c.skip = 0
@@ -134,7 +132,6 @@ module.exports = (I18NHomeView = (function () {
             case 'Achievement': return '/i18n/achievement/'
             case 'Level': return '/i18n/level/'
             case 'Campaign': return '/i18n/campaign/'
-            case 'Poll': return '/i18n/poll/'
             case 'Course': return '/i18n/course/'
             case 'Product': return '/i18n/product/'
             case 'Article': return '/i18n/article/'
@@ -234,9 +231,9 @@ module.exports = (I18NHomeView = (function () {
       this.$el.find('option[value="en-US"]').remove()
       this.$el.find('option[value="en-GB"]').remove()
       if (utils.isCodeCombat) {
-        return this.addTypesToSelect($('#type-select'), ['ThangType', 'LevelComponent', 'Level', 'Achievement', 'Campaign', 'Poll', 'Course', 'Article', 'ResourceHubResource', 'ChatMessage', 'AIScenario'])
+        return this.addTypesToSelect($('#type-select'), ['ThangType', 'LevelComponent', 'Level', 'Achievement', 'Campaign', 'Course', 'Article', 'ResourceHubResource', 'ChatMessage', 'AIScenario'])
       } else {
-        return this.addTypesToSelect($('#type-select'), ['ThangType', 'LevelComponent', 'Level', 'Achievement', 'Campaign', 'Poll', 'Course', 'Article', 'ResourceHubResource', 'Interactive', 'Cinematic', 'Cutscene'])
+        return this.addTypesToSelect($('#type-select'), ['ThangType', 'LevelComponent', 'Level', 'Achievement', 'Campaign', 'Course', 'Article', 'ResourceHubResource', 'Interactive', 'Cinematic', 'Cutscene'])
       }
     }
 
