@@ -3,7 +3,11 @@
     <div class="title">
       {{ $t('payments.manage_payment_and_subscription') }}
     </div>
-    <CustomerBillingPortal />
+    <CustomerBillingPortal
+      :coco-stats="cocoStats"
+      :aileague-progress="aileagueStats"
+      :hs-progress="latestHSProgress"
+    />
     <YourProgress
       :coco-progress="latestCocoProgress"
       :aileague-progress="aileagueStats"
@@ -124,12 +128,19 @@ export default {
       if (!sessions?.length) {
         return
       }
-      const mine = await leaderboardApi.getMyRank(arena.levelOriginal, sessions[0]._id)
-      this.aileagueStats = {
-        slug: arena.slug,
-        total: parseInt(total),
-        myRank: parseInt(mine),
-        name: utils.i18n(level, 'name'),
+      const session = sessions[0]
+      const score = session.totalScore
+      if (score) {
+        const mine = await leaderboardApi.getMyRank(arena.levelOriginal, sessions[0]._id, {
+          totalScore: score,
+          team: 'humans',
+        })
+        this.aileagueStats = {
+          slug: arena.slug,
+          total: parseInt(total),
+          myRank: parseInt(mine),
+          name: utils.i18n(level, 'name'),
+        }
       }
     },
   },

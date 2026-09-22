@@ -266,6 +266,15 @@ export default Vue.extend({
       return application.router.navigate('/announcements', { trigger: true })
     },
 
+    manageBillingABTest () {
+      const value = me.getOrStartManageBillingExperimentValue()
+      let url = '/payments/manage-billing'
+      if (value === 'beta') {
+        url += '-beta'
+      }
+      window.open(url, '_blank')
+    },
+
     getNavbarData () {
       let anonymous = {
         educators: {

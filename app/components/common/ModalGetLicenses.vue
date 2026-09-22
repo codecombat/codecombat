@@ -1,6 +1,6 @@
 <script>
 import { validationMixin } from 'vuelidate'
-import { required, email, numeric } from 'vuelidate/lib/validators'
+import { required, email, numeric, maxLength } from 'vuelidate/lib/validators'
 import SecondaryButton from './SecondaryButton'
 import Modal from './Modal'
 import api from 'core/api'
@@ -9,44 +9,44 @@ import contact from 'core/contact'
 export default Vue.extend({
   components: {
     Modal,
-    SecondaryButton
+    SecondaryButton,
   },
   props: {
     subtitle: {
       type: String,
       // default to DT text
-      default: 'Send us a message and our classroom success team will be in touch to help find the best solution for your students\' needs!'
+      default: 'Send us a message and our classroom success team will be in touch to help find the best solution for your students\' needs!',
     },
     emailMessage: {
       type: String,
       // default to DT text
-      default: ''
+      default: '',
     },
     askSchoolInfo: {
       type: Boolean,
-      default: true
+      default: true,
     },
     licensesNeededText: {
       type: String,
-      default: $.i18n.t('teachers.licenses_needed')
+      default: $.i18n.t('teachers.licenses_needed'),
     },
     licensesNeededPlaceholder: {
       type: String,
-      default: 'How many licenses do you need?'
+      default: 'How many licenses do you need?',
     },
     modalTitle: {
       type: String,
-      default: 'Contact Our Classroom Team'
+      default: 'Contact Our Classroom Team',
     },
     backboneDismissModal: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showModalInitially: {
       type: Boolean,
       required: false,
-      default: true
-    }
+      default: true,
+    },
   },
   mixins: [validationMixin],
   data: () => ({
@@ -60,31 +60,41 @@ export default Vue.extend({
     role: '',
     phone: '',
     sendingInProgress: false,
-    showModal: false
+    showModal: false,
   }),
   validations: {
     name: {
-      required
+      required,
     },
     email: {
       required,
-      email
+      email,
     },
     licensesNeeded: {
       required,
       numeric,
-      mustBeGreaterThanZero: (value) => value > 0
+      mustBeGreaterThanZero: (value) => value > 0,
     },
-    message: {},
-    school: {},
-    district: {},
-    role: {},
-    phone: {}
+    message: {
+      maxLength: maxLength(1800),
+    },
+    school: {
+      maxLength: maxLength(100),
+    },
+    district: {
+      maxLength: maxLength(100),
+    },
+    role: {
+      maxLength: maxLength(100),
+    },
+    phone: {
+      maxLength: maxLength(100),
+    },
   },
   computed: {
     isFormValid () {
       return !this.$v.$invalid
-    }
+    },
   },
   async mounted () {
     this.showModal = this.showModalInitially
@@ -152,8 +162,8 @@ export default Vue.extend({
           noty({ text: 'Couldnt send the message', type: 'error', layout: 'center', timeout: 2000 })
         }
       }
-    }
-  }
+    },
+  },
 })
 </script>
 
@@ -236,6 +246,7 @@ export default Vue.extend({
           <div
             v-if="askSchoolInfo"
             class="form-group row school-district"
+            :class="{ 'has-error': $v.school.$error || $v.district.$error }"
           >
             <div class="col-xs-6">
               <span class="control-label"> {{ $t('teachers_quote.organization_label') }} </span>
@@ -244,6 +255,10 @@ export default Vue.extend({
                 type="text"
                 class="form-control"
               >
+              <span
+                v-if="!$v.school.maxLength"
+                class="form-error"
+              > {{ $t("form_validation_errors.maxLength") }} (100) </span>
             </div>
             <div class="col-xs-6">
               <span class="control-label"> {{ $t('teachers_quote.district_label') }} </span>
@@ -252,12 +267,17 @@ export default Vue.extend({
                 type="text"
                 class="form-control"
               >
+              <span
+                v-if="!$v.district.maxLength"
+                class="form-error"
+              > {{ $t("form_validation_errors.maxLength") }} (100) </span>
             </div>
           </div>
 
           <div
             v-if="askSchoolInfo"
             class="form-group row phone-role"
+            :class="{ 'has-error': $v.phone.$error || $v.role.$error }"
           >
             <div class="col-xs-6">
               <span class="control-label"> {{ $t('modal_free_class.phone_number') }} </span>
@@ -266,6 +286,10 @@ export default Vue.extend({
                 type="text"
                 class="form-control"
               >
+              <span
+                v-if="!$v.phone.maxLength"
+                class="form-error"
+              > {{ $t("form_validation_errors.maxLength") }} (100) </span>
             </div>
             <div class="col-xs-6">
               <span class="control-label"> {{ $t('teachers_quote.primary_role_label') }} </span>
@@ -275,6 +299,10 @@ export default Vue.extend({
                 class="form-control"
                 placeholder="Teacher, Principal, etc."
               >
+              <span
+                v-if="!$v.role.maxLength"
+                class="form-error"
+              > {{ $t("form_validation_errors.maxLength") }} (100) </span>
             </div>
           </div>
 
@@ -291,6 +319,10 @@ export default Vue.extend({
                 placeholder="Any notes..."
               />
             </div>
+            <span
+              v-if="!$v.message.maxLength"
+              class="form-error"
+            > {{ $t("form_validation_errors.maxLength") }} (1800) </span>
           </div>
           <div class="form-group row">
             <div class="col-xs-12 buttons">

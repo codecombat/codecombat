@@ -32,6 +32,7 @@ const JUNIOR_PET_ACCESS_EXPERIMENT = 'junior-pet-access'
 const JUNIOR_PET_ACCESS_CUTOFF_DATE = '2026-07-29'
 // GD-861: Latent Space nudges at the HackStack credit wall; assigned by the SPA at first credit exhaustion
 const PLAY_WHILE_YOU_WAIT_EXPERIMENT = 'play-while-you-wait'
+const MANAGE_BILLING_EXPERIMENT = 'manage-billing-ab-test'
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
@@ -1326,12 +1327,6 @@ module.exports = (User = (function () {
       return this.patch({ headers: { 'X-Change-Plan': 'true' } })
     }
 
-    unsubscribeRecipient (id, options = {}) {
-      options.url = _.result(this, 'url') + `/stripe/recipients/${id}`
-      options.method = 'DELETE'
-      return $.ajax(options)
-    }
-
     age () { return utils.yearsSinceMonth(this.get('birthday')) }
 
     isRegisteredForAILeague () {
@@ -1644,6 +1639,27 @@ module.exports = (User = (function () {
         return 'control'
       }
       return this.tryStartExperiment(JUNIOR_PET_ACCESS_EXPERIMENT)
+    }
+
+    getManageBillingExperimentValue () {
+      if (this.isStudent() || this.isTeacher()) {
+        return 'control'
+      }
+      if (features?.chinaInfra) {
+        return 'control'
+      }
+      return utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery(MANAGE_BILLING_EXPERIMENT),
+        this.getExperimentValue(MANAGE_BILLING_EXPERIMENT, null),
+      ) ?? null
+    }
+
+    getOrStartManageBillingExperimentValue () {
+      const value = this.getManageBillingExperimentValue()
+      if (value != null) {
+        return value
+      }
+      return this.tryStartExperiment(MANAGE_BILLING_EXPERIMENT)
     }
 
     getPlayWhileYouWaitExperimentValue () {

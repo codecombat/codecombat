@@ -11,29 +11,29 @@
     :style="boxStyle"
   >
     <div
-      v-if="hasMainImage"
+      v-if="hasMainImage()"
       class="rectangle"
       :class="{ 'has-padding': hasPadding, 'has-bg': mainImageBg, 'original-size': mainImageOriginal }"
     >
       <slot name="image" />
     </div>
     <div
-      v-if="!onlyMainImage"
+      v-if="!onlyMainImage()"
       class="box__div"
     >
       <div
         class="info"
-        :class="{'no-main-image':!hasMainImage}"
+        :class="{'no-main-image':!hasMainImage()}"
       >
         <div
-          v-if="hasSymbolImage"
+          v-if="hasSymbolImage()"
           class="symbol-image"
         >
           <slot name="symbolImage" />
         </div>
 
         <div
-          v-if="hasTitle"
+          v-if="hasTitle()"
           class="title"
         >
           <slot name="title" />
@@ -63,7 +63,7 @@
         </p>
       </div>
       <div
-        v-if="hasFrameImage"
+        v-if="hasFrameImage()"
         class="frame"
       >
         <slot name="frameImage" />
@@ -84,58 +84,73 @@ export default {
       default: 'vertical',
       validator: function (value) {
         return ARRANGEMENT_OPTIONS.includes(value)
-      }
+      },
     },
     signupModal: {
       type: Boolean,
-      default: false
+      default: false,
     },
     hasPadding: {
       type: Boolean,
-      default: false
+      default: false,
     },
     mainImageBg: {
       type: Boolean,
-      default: false
+      default: false,
     },
     transparent: {
       type: Boolean,
-      default: false
+      default: false,
     },
     mainImageOriginal: {
       type: Boolean,
-      default: false
+      default: false,
     },
     equalWidth: {
       type: Boolean,
-      default: false
+      default: false,
     },
     link: {
       type: String,
-      default: null
+      default: null,
     },
     target: {
       type: String,
-      default: '_blank'
+      default: '_blank',
     },
     middleText: {
       type: String,
-      default: null
+      default: null,
     },
     middleImage: {
       type: String,
-      default: null
+      default: null,
     },
     middleImageAlt: {
       type: String,
-      default: null
+      default: null,
     },
     labels: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   computed: {
+    boxStyle () {
+      if (this.arrangement === 'horizontal' && this.equalWidth) {
+        return {
+          '--rectangle-width': '50%',
+          '--div-width': '50%',
+        }
+      } else {
+        return {
+          '--rectangle-width': '25%',
+          '--div-width': '75%',
+        }
+      }
+    },
+  },
+  methods: {
     hasMainImage () {
       return this.$slots.image?.length
     },
@@ -157,20 +172,7 @@ export default {
       })
       return !hasOtherTemplate
     },
-    boxStyle () {
-      if (this.arrangement === 'horizontal' && this.equalWidth) {
-        return {
-          '--rectangle-width': '50%',
-          '--div-width': '50%'
-        }
-      } else {
-        return {
-          '--rectangle-width': '25%',
-          '--div-width': '75%'
-        }
-      }
-    }
-  }
+  },
 }
 </script>
 

@@ -52,9 +52,6 @@ block modal-header-content
       if me.isOnlineTeacher()
         div
           a.modal-nav-link(href="#other-controls") Other Controls
-      // Not currently used
-      //div
-      //  a.modal-nav-link(href="#create-payment") Create Payment
       div
         a.modal-nav-link(href="#database-entries") Database Entries
 
@@ -417,21 +414,49 @@ block modal-body-content
               span Premium Until
               =" "
               input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
-          if view.coupons
-            .radio
-              label
-                input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
-                span Coupon
-                =" "
-              select#coupon-select
-                for coupon in view.coupons.models
-                  option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
         .form-group
           label
             span Gems to add to user
             =" "
             input#stripe-add-gems(type="number", name="addGems", value=0)
             |  (they have #{view.user.gems().toLocaleString()})
+        #grant-items.form-group
+          - var ownedRows = view.ownedItemRows()
+          label(for="item-search")
+            span Items to add to user
+            if view.itemCatalogLoading
+              small.text-muted  (loading item list…)
+          input#item-search.form-control(type="text", placeholder="Search items by name or slug", autocomplete="off", disabled=view.itemCatalogLoading || !view.itemCatalog)
+          ul#item-search-results.list-unstyled
+            for item in view.itemSearchResults
+              li
+                button.item-search-result(type="button", data-original=item.get('original'), title="Add " + item.get('name'))
+                  img.item-icon(src=item.getPortraitURL(), alt="", onerror="this.style.visibility='hidden'")
+                  span.item-name= item.get('name')
+                  small.text-muted.item-slug= item.get('slug')
+                  small.text-muted.item-slots= item.getAllowedSlots().join(', ')
+          #selected-items
+            if view.selectedItems.length
+              .small Will be granted on Save Changes:
+            for item in view.selectedItems
+              span.selected-item.label.label-default(data-original=item.get('original'))
+                img.item-icon(src=item.getPortraitURL(), alt="", onerror="this.style.visibility='hidden'")
+                span= item.get('name')
+                button.remove-selected-item.close(type="button", data-original=item.get('original'), title="Remove", aria-label="Remove " + item.get('name')) &times;
+          if view.itemGrantMessage
+            .item-grant-status.small(role="status", aria-live="polite", class=view.itemGrantState === 'error' ? 'text-danger' : (view.itemGrantState === 'saved' ? 'text-success' : 'text-muted'))= view.itemGrantMessage
+          details#owned-items
+            summary.small Owned items (#{ownedRows.length})
+            ul.list-unstyled
+              for row in ownedRows
+                li.owned-item
+                  if row.item
+                    img.item-icon(src=row.item.getPortraitURL(), alt="", onerror="this.style.visibility='hidden'")
+                    span.item-name= row.item.get('name')
+                    small.text-muted.item-slug= row.item.get('slug')
+                  else
+                    code= row.original
+                  span.label(class=row.source === 'earned' ? 'label-info' : 'label-primary')= row.source
         button#save-changes.btn.btn-primary Save Changes
       hr
     else if me.isOnlineTeacher()

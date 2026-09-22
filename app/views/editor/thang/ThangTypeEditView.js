@@ -584,7 +584,8 @@ module.exports = (ThangTypeEditView = (function () {
       const desired = (inkBlob.filename || 'asset.png').replace(/[#?%]/g, '-')
       const filename = this.chooseRasterFilename(desired)
       const filePath = `db/thang.type/${this.thangType.get('original')}`
-      return saveFile({ url: inkBlob.url, filename, mimetype: inkBlob.mimetype, path: filePath, force: true })
+      // The server's POST /file schema types `force` as a string; a JSON boolean fails validation (422).
+      return saveFile({ url: inkBlob.url, filename, mimetype: inkBlob.mimetype, path: filePath, force: 'true' })
         .then(() => `${filePath}/${filename}`)
     }
 
@@ -938,19 +939,36 @@ module.exports = (ThangTypeEditView = (function () {
 
       return res.success(() => {
         const url = `/editor/thang/${newThangType.get('slug') || newThangType.id}`
-        let portraitSource = null
-        if (this.thangType.get('raster')) {
-          // image = @currentLank.sprite.image  # Doesn't work?
-          const image = this.currentLank.sprite.spriteSheet._images[0]
-          portraitSource = imageToPortrait(image)
-        }
-        // bit of a hacky way to get that portrait
         const success = () => {
           this.thangType.clearBackup()
           return document.location.href = url
         }
-        return newThangType.uploadGenericPortrait(success, portraitSource)
+        return this.uploadPortrait(newThangType, success)
       })
+    }
+
+    // The level editor palette shows the static /file/db/thang.type/<original>/portrait.png,
+    // which only exists once a save uploads it. Render the portrait from the loaded model
+    // (sprite sheets built, raster raw images loaded) rather than from the fresh clone, which
+    // has none of that and silently produces no image for raster-raw thangs.
+    getPortraitSourceForUpload () {
+      if (this.thangType.get('raster')) {
+        // image = @currentLank.sprite.image  # Doesn't work?
+        const image = this.currentLank?.sprite?.spriteSheet?._images?.[0]
+        return image ? imageToPortrait(image) : null
+      }
+      return this.thangType.getPortraitSource(this.getLankOptions())
+    }
+
+    uploadPortrait (newThangType, callback) {
+      // The palette uses rasterIcon directly (ThangTypeLib.getPortraitURL), no portrait.png needed.
+      if (this.thangType.get('rasterIcon')) { return callback() }
+      const portraitSource = this.getPortraitSourceForUpload()
+      if (!portraitSource || !_.string.startsWith(portraitSource, 'data:')) {
+        console.warn(`Portrait not uploaded for ${this.thangType.get('name')}: no rendered portrait; level editor will show the generic wizard`)
+        return callback()
+      }
+      return newThangType.uploadGenericPortrait(callback, portraitSource)
     }
 
     clearRawData () {

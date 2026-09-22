@@ -152,6 +152,15 @@ module.exports = {
     }))
   },
 
+  // Admin only: append item ThangType originals to the user's earned.items.
+  // Resolves to { added, alreadyOwned, earnedItems }.
+  grantItems ({ userId, items }, options = {}) {
+    return fetchJson(`/db/user/${userId}/grant-items`, _.assign({}, options, {
+      method: 'POST',
+      json: { items },
+    }))
+  },
+
   loginArapahoe (attrs, options) {
     if (options == null) { options = {} }
     return fetchJson('/auth/login-arapahoe', _.assign({}, options, {

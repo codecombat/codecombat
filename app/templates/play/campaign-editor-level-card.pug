@@ -1,0 +1,31 @@
+//- Hover card for a level marker in the campaign editor (admin tool, English only).
+- var flags = []
+- if (requiresSubscription) flags.push('premium')
+- if (practice) flags.push('practice')
+- if (assessment) flags.push('assessment' + (assessment === true ? '' : ': ' + assessment))
+- if (replayable) flags.push('replayable')
+- if (adminOnly) flags.push('admin only')
+- var typeLabels = { item: 'Item', pet: 'Pet', hero: 'Hero', level: 'Level' }
+h4.card-name= name
+.card-slug= slug
+dl.card-facts
+  dt Kind
+  dd(class="kind " + (kind || ''))= kind || '—'
+  dt Type
+  dd= type || '—'
+  dt Release
+  dd= releasePhase || 'released'
+  if flags.length
+    dt Flags
+    dd= flags.join(', ')
+if rewards.length
+  .card-rewards
+    .card-rewards-title Rewards
+    each reward in rewards
+      .card-reward
+        if reward.type === 'pet'
+          img.card-reward-portrait(src="/db/thang.type/" + reward.original + "/toFile/dollImages.pet", alt="")
+        else if reward.type === 'item' || reward.type === 'hero'
+          img.card-reward-portrait(src="/file/db/thang.type/" + reward.original + "/portrait.png", alt="")
+        span.card-reward-type= typeLabels[reward.type]
+        span.card-reward-name= reward.name
