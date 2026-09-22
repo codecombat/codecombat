@@ -90,6 +90,71 @@ describe('lib/studentProgressCalculator', function () {
     })
   })
 
+  describe('exportStudentProgress with a scenario shared across two HackStack courses', function () {
+    beforeEach(function () {
+      this.hsCourseIdA = utils.HACKSTACK_COURSE_IDS[1]
+      this.hsCourseIdB = utils.HACKSTACK_COURSE_IDS[2]
+      this.student = factories.makeUser({ name: 'Student One' })
+      this.otherStudent = factories.makeUser({ name: 'Student Two' })
+      this.students = new Users([this.student, this.otherStudent])
+      this.classroom = new Classroom({
+        _id: _.uniqueId('classroom_'),
+        name: 'HS Class two courses',
+        aceConfig: { language: 'python' },
+        members: [this.student.id, this.otherStudent.id],
+        courses: [{
+          _id: this.hsCourseIdA,
+          levels: [{ original: 'scenario-a' }, { original: 'scenario-b' }],
+        }, {
+          _id: this.hsCourseIdB,
+          levels: [{ original: 'scenario-a' }],
+        }],
+      })
+      this.classroom.sessions = new LevelSessions([])
+      this.courses = new Courses([
+        factories.makeCourse({ _id: this.hsCourseIdA }),
+        factories.makeCourse({ _id: this.hsCourseIdB }),
+      ])
+      this.sortedCourses = this.classroom.getSortedCourses()
+      this.courseInstances = new CourseInstances([])
+      this.levels = new Levels([])
+      this.progressData = { get: () => null }
+      this.aiProjects = [
+        { user: this.student.id, scenario: 'scenario-a', playtime: 100 },
+        { user: this.student.id, scenario: 'scenario-a', playtime: 200 }, // duplicate, playtime accumulates
+        { user: this.student.id, scenario: 'scenario-b' }, // missing playtime
+        { user: this.student.id, scenario: 'scenario-elsewhere', playtime: 999 }, // not in either HS course
+      ]
+    })
+
+    it('credits every matching course while counting the scenario once in the total', function (done) {
+      window.spyOn(window, 'saveAs').and.callFake((blob) => {
+        const reader = new FileReader()
+        reader.onload = () => {
+          const lines = decodeURI(reader.result).split('\n')
+          const studentLine = lines.find(line => line.indexOf(this.student.get('email')) !== -1)
+          // Total: 2 levels (a + b), 300s (100 + 200 + 0). Course A (has a + b): 2 levels, 300s. Course B (has a only): 1 level, 300s.
+          // Course columns come out in sortedCourses order; assert both orders.
+          expect(studentLine).toMatch(/,2,5 minutes,300,(2,5 minutes,300,1,5 minutes,300|1,5 minutes,300,2,5 minutes,300),/)
+          const otherLine = lines.find(line => line.indexOf(this.otherStudent.get('email')) !== -1)
+          expect(otherLine).toMatch(/0,0,0,0,0,0,0,0,0/)
+          done()
+        }
+        reader.readAsText(blob)
+      })
+      studentProgressCalculator.exportStudentProgress({
+        classroom: this.classroom,
+        sortedCourses: this.sortedCourses,
+        students: this.students,
+        courses: this.courses,
+        courseInstances: this.courseInstances,
+        levels: this.levels,
+        progressData: this.progressData,
+        aiProjects: this.aiProjects,
+      })
+    })
+  })
+
   describe('exportStudentProgress with a course level missing from the levels collection', function () {
     beforeEach(function () {
       this.course = factories.makeCourse()

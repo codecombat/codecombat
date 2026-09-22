@@ -28,14 +28,18 @@ module.exports = {
     let csvContent = `Name,Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds),${courseLabels}Concepts\n`
     const levelCourseIdMap = {}
     const levelPracticeMap = {}
-    const hsScenarioCourseIdMap = {}
+    // One scenario can belong to more than one HackStack course, so credit every matching course.
+    const hsScenarioCourseIdsMap = {}
     const language = classroom.get('aceConfig')?.language
     for (trimCourse of Array.from(classroom.getSortedCourses())) {
       const isHackStackCourse = utils.HACKSTACK_COURSE_IDS.includes(trimCourse._id)
       for (trimLevel of Array.from(trimCourse.levels)) {
         if (isHackStackCourse) {
-          // HackStack course levels are AI scenarios; students play them through AI projects
-          hsScenarioCourseIdMap[trimLevel.original] = trimCourse._id
+          // HackStack course levels are AI scenarios; students play them through AI projects.
+          if (hsScenarioCourseIdsMap[trimLevel.original] == null) { hsScenarioCourseIdsMap[trimLevel.original] = [] }
+          if (!hsScenarioCourseIdsMap[trimLevel.original].includes(trimCourse._id)) {
+            hsScenarioCourseIdsMap[trimLevel.original].push(trimCourse._id)
+          }
           continue
         }
         if (language && (trimLevel.primerLanguage === language)) { continue }
@@ -92,18 +96,25 @@ module.exports = {
           courseCountsMap[courseID].playtime += session.get('playtime') || 0
         }
       }
-      const hsScenariosCounted = {}
+      const hsScenariosCountedTotal = {}
+      const hsScenariosCountedByCourse = {}
       for (const project of Array.from(aiProjectsByUser[student.id] || [])) {
-        courseID = hsScenarioCourseIdMap[project.scenario]
-        if (!courseID) { continue }
-        if (courseCountsMap[courseID] == null) { courseCountsMap[courseID] = { levels: 0, playtime: 0 } }
-        if (!hsScenariosCounted[project.scenario]) {
-          hsScenariosCounted[project.scenario] = true
+        const courseIDs = hsScenarioCourseIdsMap[project.scenario]
+        if (!courseIDs || !courseIDs.length) { continue }
+        if (!hsScenariosCountedTotal[project.scenario]) {
+          hsScenariosCountedTotal[project.scenario] = true
           levelsCount++
-          courseCountsMap[courseID].levels++
         }
         playtime += project.playtime || 0
-        courseCountsMap[courseID].playtime += project.playtime || 0
+        for (const cid of courseIDs) {
+          if (courseCountsMap[cid] == null) { courseCountsMap[cid] = { levels: 0, playtime: 0 } }
+          if (hsScenariosCountedByCourse[cid] == null) { hsScenariosCountedByCourse[cid] = {} }
+          if (!hsScenariosCountedByCourse[cid][project.scenario]) {
+            hsScenariosCountedByCourse[cid][project.scenario] = true
+            courseCountsMap[cid].levels++
+          }
+          courseCountsMap[cid].playtime += project.playtime || 0
+        }
       }
       const playtimeString = playtime === 0 ? '0' : moment.duration(playtime, 'seconds').humanize()
       for (course of Array.from(sortedCourses)) {
