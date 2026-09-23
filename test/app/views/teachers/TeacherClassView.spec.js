@@ -73,7 +73,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
         this.finishedStudent = this.students.models[0]
         this.finishedStudentWithPractice = this.students.models[1]
         this.unfinishedStudent = this.students.last()
-        for (level of Array.from(this.levels.models)) {
+        for (level of this.levels.models) {
           sessions.push(factories.makeLevelSession(
             { state: { complete: true }, playtime: 60 },
             { level, creator: this.finishedStudentWithPractice }),
@@ -215,7 +215,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
         this.finishedStudent = this.students.first()
         this.unfinishedStudent = this.students.last()
         const classLanguage = __guard__(this.classroom.get('aceConfig'), x => x.language)
-        for (level of Array.from(this.levels.models)) {
+        for (level of this.levels.models) {
           if (classLanguage && (classLanguage === level.get('primerLanguage'))) { continue }
           if (level.get('practice')) { continue }
           sessions.push(factories.makeLevelSession(
@@ -278,7 +278,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
         this.finishedStudent = this.students.first()
         this.unfinishedStudent = this.students.last()
         const classLanguage = __guard__(this.classroom.get('aceConfig'), x => x.language)
-        for (level of Array.from(this.levels.models)) {
+        for (level of this.levels.models) {
           if (classLanguage && (classLanguage === level.get('primerLanguage'))) { continue }
           sessions.push(factories.makeLevelSession(
             { state: { complete: true }, playtime: 60 },
@@ -333,7 +333,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
         this.finishedStudent = this.students.first()
         this.unfinishedStudent = this.students.last()
         const classLanguage = __guard__(this.classroom.get('aceConfig'), x => x.language)
-        for (level of Array.from(this.levels.models)) {
+        for (level of this.levels.models) {
           if (classLanguage && (classLanguage === level.get('primerLanguage'))) { continue }
           sessions.push(factories.makeLevelSession(
             { state: { complete: true }, playtime: 60 },
