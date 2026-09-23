@@ -549,7 +549,7 @@ export default Vue.extend({
     BannerComponent,
   },
   async beforeRouteUpdate (to, from, next) {
-    const params = new URLSearchParams(to.query)
+    const params = new URL(to.fullPath, window.location.origin).searchParams
     const shouldOpenModal = params.get('openContactModal')
     const provider = params.get('auto-login-provider')
     if (shouldOpenModal === 'true') {
