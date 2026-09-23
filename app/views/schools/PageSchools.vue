@@ -548,6 +548,18 @@ export default Vue.extend({
     ModalGetLicenses,
     BannerComponent,
   },
+  async beforeRouteUpdate (to, from, next) {
+    const params = new URLSearchParams(to.query)
+    const shouldOpenModal = params.get('openContactModal')
+    const provider = params.get('auto-login-provider')
+    if (shouldOpenModal === 'true') {
+      this.showContactModal = true
+    } else if (provider) {
+      const queryParamsObj = Object.fromEntries(params.entries())
+      await this.autoLogin(provider, queryParamsObj)
+    }
+    next()
+  },
   data () {
     return {
       testimonials: [
