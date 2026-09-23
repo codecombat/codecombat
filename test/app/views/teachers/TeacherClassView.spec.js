@@ -177,34 +177,28 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
               fail('Could not find enroll student button for user whose enrollment was revoked')
      */
 
-      return describe('Export Student Progress (CSV) button', () => it('downloads a CSV file', function (done) {
-        window.spyOn(window, 'saveAs').and.callFake((blob, fileName) => {
-          const reader = new FileReader()
-          reader.onload = event => {
-            const encodedCSV = reader.result
-            const progressData = decodeURI(encodedCSV)
-            const lines = progressData.split('\n')
-            expect(lines.length).toBe(this.students.length + 1)
-            for (const line of Array.from(lines)) {
-              const simplerLine = line.replace(/"[^"]+"/g, '""')
-              // Name, Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds), [CS1 Levels, CS1 Playtime, ...], Concepts
-              expect(simplerLine.match(/[^,]+/g).length).toBe(6 + (this.releasedCourses.length * 3) + 1)
-              if (simplerLine.match(new RegExp(this.finishedStudent.get('email')))) {
-                expect(simplerLine).toMatch(/3,3 minutes,180,3,3 minutes,180,0/)
-              } else if (simplerLine.match(new RegExp(this.finishedStudentWithPractice.get('email')))) {
-                expect(simplerLine).toMatch(/3,3 minutes,180,3,3 minutes,180,0/)
-              } else if (simplerLine.match(new RegExp(this.unfinishedStudent.get('email')))) {
-                expect(simplerLine).toMatch(/1,a minute,60,1,a minute,60,0/)
-              } else if (simplerLine.match(/@/)) {
-                expect(simplerLine).toMatch(/0,0,0,0,0/)
-              }
-            }
-            return done()
-          }
-          return reader.readAsText(blob)
-        })
+      return describe('Export Student Progress (CSV) button', () => it('downloads a CSV file', function () {
+        window.spyOn(window, 'saveAs')
+        window.spyOn(studentProgressCalculator, 'exportStudentProgress').and.callThrough()
         this.view.calculateProgressAndLevelsAux()
-        return this.view.$el.find('.export-student-progress-btn').click()
+        this.view.$el.find('.export-student-progress-btn').click()
+        const progressData = studentProgressCalculator.exportStudentProgress.calls.mostRecent().returnValue
+        const lines = progressData.split('\n')
+        expect(lines.length).toBe(this.students.length + 1)
+        for (const line of lines) {
+          const simplerLine = line.replace(/"[^"]+"/g, '""')
+          // Name, Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds), [CS1 Levels, CS1 Playtime, ...], Concepts
+          expect(simplerLine.match(/[^,]+/g).length).toBe(6 + (this.releasedCourses.length * 3) + 1)
+          if (simplerLine.match(new RegExp(this.finishedStudent.get('email')))) {
+            expect(simplerLine).toMatch(/3,3 minutes,180,3,3 minutes,180,0/)
+          } else if (simplerLine.match(new RegExp(this.finishedStudentWithPractice.get('email')))) {
+            expect(simplerLine).toMatch(/3,3 minutes,180,3,3 minutes,180,0/)
+          } else if (simplerLine.match(new RegExp(this.unfinishedStudent.get('email')))) {
+            expect(simplerLine).toMatch(/1,a minute,60,1,a minute,60,0/)
+          } else if (simplerLine.match(/@/)) {
+            expect(simplerLine).toMatch(/0,0,0,0,0/)
+          }
+        }
       }))
     })
 
@@ -248,32 +242,26 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
         return _.defer(done)
       })
 
-      return describe('Export Student Progress (CSV) button', () => it('downloads a CSV file', function (done) {
-        window.spyOn(window, 'saveAs').and.callFake((blob, fileName) => {
-          const reader = new FileReader()
-          reader.onload = event => {
-            const encodedCSV = reader.result
-            const progressData = decodeURI(encodedCSV)
-            const lines = progressData.split('\n')
-            expect(lines.length).toBe(this.students.length + 1)
-            for (const line of Array.from(lines)) {
-              const simplerLine = line.replace(/"[^"]+"/g, '""')
-              // Name, Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds), [CS1 Levels, CS1 Playtime, ...], Concepts
-              expect(simplerLine.match(/[^,]+/g).length).toBe(6 + (this.releasedCourses.length * 3) + 1)
-              if (simplerLine.match(new RegExp(this.finishedStudent.get('email')))) {
-                expect(simplerLine).toMatch(/2,2 minutes,120,2,2 minutes,120,0/)
-              } else if (simplerLine.match(new RegExp(this.unfinishedStudent.get('email')))) {
-                expect(simplerLine).toMatch(/1,a minute,60,1,a minute,60,0/)
-              } else if (simplerLine.match(/@/)) {
-                expect(simplerLine).toMatch(/0,0,0,0/)
-              }
-            }
-            return done()
-          }
-          return reader.readAsText(blob)
-        })
+      return describe('Export Student Progress (CSV) button', () => it('downloads a CSV file', function () {
+        window.spyOn(window, 'saveAs')
+        window.spyOn(studentProgressCalculator, 'exportStudentProgress').and.callThrough()
         this.view.calculateProgressAndLevelsAux()
-        return this.view.$el.find('.export-student-progress-btn').click()
+        this.view.$el.find('.export-student-progress-btn').click()
+        const progressData = studentProgressCalculator.exportStudentProgress.calls.mostRecent().returnValue
+        const lines = progressData.split('\n')
+        expect(lines.length).toBe(this.students.length + 1)
+        for (const line of lines) {
+          const simplerLine = line.replace(/"[^"]+"/g, '""')
+          // Name, Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds), [CS1 Levels, CS1 Playtime, ...], Concepts
+          expect(simplerLine.match(/[^,]+/g).length).toBe(6 + (this.releasedCourses.length * 3) + 1)
+          if (simplerLine.match(new RegExp(this.finishedStudent.get('email')))) {
+            expect(simplerLine).toMatch(/2,2 minutes,120,2,2 minutes,120,0/)
+          } else if (simplerLine.match(new RegExp(this.unfinishedStudent.get('email')))) {
+            expect(simplerLine).toMatch(/1,a minute,60,1,a minute,60,0/)
+          } else if (simplerLine.match(/@/)) {
+            expect(simplerLine).toMatch(/0,0,0,0/)
+          }
+        }
       }))
     })
 
@@ -490,23 +478,9 @@ describe('lib/studentProgressCalculator', function () {
       ]
     })
 
-    it('counts distinct scenarios and sums project playtime into the HS course columns', function (done) {
-      window.spyOn(window, 'saveAs').and.callFake((blob) => {
-        const reader = new FileReader()
-        reader.onload = () => {
-          const lines = decodeURI(reader.result).split('\n')
-          expect(lines.length).toBe(this.students.length + 1)
-          const studentLine = lines.find(line => line.indexOf(this.student.get('email')) !== -1)
-          // Total Levels, Total Playtime(humanize), Total Playtime(seconds), then the same three for the HS course.
-          // Playtime = 100 + 200 (dup on scenario-a) + 0 (missing on scenario-b); the out-of-classroom project contributes nothing.
-          expect(studentLine).toMatch(/2,5 minutes,300,2,5 minutes,300,/)
-          const otherLine = lines.find(line => line.indexOf(this.otherStudent.get('email')) !== -1)
-          expect(otherLine).toMatch(/0,0,0,0,0,0/)
-          done()
-        }
-        reader.readAsText(blob)
-      })
-      studentProgressCalculator.exportStudentProgress({
+    it('counts distinct scenarios and sums project playtime into the HS course columns', function () {
+      window.spyOn(window, 'saveAs')
+      const csv = studentProgressCalculator.exportStudentProgress({
         classroom: this.classroom,
         sortedCourses: this.sortedCourses,
         students: this.students,
@@ -516,20 +490,19 @@ describe('lib/studentProgressCalculator', function () {
         progressData: this.progressData,
         aiProjects: this.aiProjects,
       })
+      const lines = csv.split('\n')
+      expect(lines.length).toBe(this.students.length + 1)
+      const studentLine = lines.find(line => line.indexOf(this.student.get('email')) !== -1)
+      // Total Levels, Total Playtime(humanize), Total Playtime(seconds), then the same three for the HS course.
+      // Playtime = 100 + 200 (dup on scenario-a) + 0 (missing on scenario-b); the out-of-classroom project contributes nothing.
+      expect(studentLine).toMatch(/2,5 minutes,300,2,5 minutes,300,/)
+      const otherLine = lines.find(line => line.indexOf(this.otherStudent.get('email')) !== -1)
+      expect(otherLine).toMatch(/0,0,0,0,0,0/)
     })
 
-    it('exports zeroes for HS columns when no aiProjects are provided', function (done) {
-      window.spyOn(window, 'saveAs').and.callFake((blob) => {
-        const reader = new FileReader()
-        reader.onload = () => {
-          const lines = decodeURI(reader.result).split('\n')
-          const studentLine = lines.find(line => line.indexOf(this.student.get('email')) !== -1)
-          expect(studentLine).toMatch(/0,0,0,0,0,0/)
-          done()
-        }
-        reader.readAsText(blob)
-      })
-      studentProgressCalculator.exportStudentProgress({
+    it('exports zeroes for HS columns when no aiProjects are provided', function () {
+      window.spyOn(window, 'saveAs')
+      const csv = studentProgressCalculator.exportStudentProgress({
         classroom: this.classroom,
         sortedCourses: this.sortedCourses,
         students: this.students,
@@ -538,6 +511,9 @@ describe('lib/studentProgressCalculator', function () {
         levels: this.levels,
         progressData: this.progressData,
       })
+      const lines = csv.split('\n')
+      const studentLine = lines.find(line => line.indexOf(this.student.get('email')) !== -1)
+      expect(studentLine).toMatch(/0,0,0,0,0,0/)
     })
   })
 
@@ -578,22 +554,9 @@ describe('lib/studentProgressCalculator', function () {
       ]
     })
 
-    it('credits every matching course while counting the scenario once in the total', function (done) {
-      window.spyOn(window, 'saveAs').and.callFake((blob) => {
-        const reader = new FileReader()
-        reader.onload = () => {
-          const lines = decodeURI(reader.result).split('\n')
-          const studentLine = lines.find(line => line.indexOf(this.student.get('email')) !== -1)
-          // Total: 2 levels (a + b), 300s (100 + 200 + 0). Course A (has a + b): 2 levels, 300s. Course B (has a only): 1 level, 300s.
-          // Course columns come out in sortedCourses order; assert both orders.
-          expect(studentLine).toMatch(/,2,5 minutes,300,(2,5 minutes,300,1,5 minutes,300|1,5 minutes,300,2,5 minutes,300),/)
-          const otherLine = lines.find(line => line.indexOf(this.otherStudent.get('email')) !== -1)
-          expect(otherLine).toMatch(/0,0,0,0,0,0,0,0,0/)
-          done()
-        }
-        reader.readAsText(blob)
-      })
-      studentProgressCalculator.exportStudentProgress({
+    it('credits every matching course while counting the scenario once in the total', function () {
+      window.spyOn(window, 'saveAs')
+      const csv = studentProgressCalculator.exportStudentProgress({
         classroom: this.classroom,
         sortedCourses: this.sortedCourses,
         students: this.students,
@@ -603,6 +566,18 @@ describe('lib/studentProgressCalculator', function () {
         progressData: this.progressData,
         aiProjects: this.aiProjects,
       })
+      const lines = csv.split('\n')
+      const studentLine = lines.find(line => line.indexOf(this.student.get('email')) !== -1)
+      // Total: 2 levels (a + b), 300s (100 + 200 + 0). Course A (has a + b): 2 levels, 300s. Course B (has a only): 1 level, 300s.
+      // Course columns come out in the order sortedCourses returns them.
+      const courseAFirst = this.sortedCourses[0]._id === this.hsCourseIdA
+      if (courseAFirst) {
+        expect(studentLine).toMatch(/,2,5 minutes,300,2,5 minutes,300,1,5 minutes,300,/)
+      } else {
+        expect(studentLine).toMatch(/,2,5 minutes,300,1,5 minutes,300,2,5 minutes,300,/)
+      }
+      const otherLine = lines.find(line => line.indexOf(this.otherStudent.get('email')) !== -1)
+      expect(otherLine).toMatch(/0,0,0,0,0,0,0,0,0/)
     })
   })
 })
