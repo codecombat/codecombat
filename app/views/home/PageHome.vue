@@ -217,10 +217,11 @@
         </div>
       </div>
     </div>
-    <CybersecurityAutoPromotion v-if="!isMobile" />
-    <ModalJunior />
-    <ModalHackStack />
-    <HackstackAutoPromotion v-if="!isMobile" />
+    <ModalSalesMeeting />
+    <CybersecurityAutoPromotion v-if="false && !isMobile" />
+    <ModalJunior v-if="false" />
+    <ModalHackStack v-if="false" />
+    <HackstackAutoPromotion v-if="false && !isMobile" />
   </div>
 </template>
 
@@ -243,6 +244,7 @@ import BaseCloudflareVideo from '../../components/common/BaseCloudflareVideo.vue
 import HeaderComponent from '../../components/common/elements/HeaderComponent.vue'
 import ModalJunior from './ModalJunior'
 import ModalHackStack from './ModalHackStack'
+import ModalSalesMeeting from './ModalSalesMeeting'
 import HackstackAutoPromotion from '../ai/HackstackAutoPromotion'
 import CybersecurityAutoPromotion from '../ai/CybersecurityAutoPromotion'
 import BannerComponent from '../../components/common/elements/BannerComponent.vue'
@@ -272,6 +274,7 @@ export default Vue.extend({
     HeaderComponent,
     ModalJunior,
     ModalHackStack,
+    ModalSalesMeeting,
     HackstackAutoPromotion,
     CybersecurityAutoPromotion,
     BannerComponent,

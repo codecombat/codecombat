@@ -871,7 +871,7 @@ module.exports = (User = (function () {
         return false
       }
       const seenPromotion = this.getSeenPromotion(key)
-      if (seenPromotion === false) {
+      if (!seenPromotion) {
         // don't seePromotion so should show it
         return true
       }
@@ -879,7 +879,7 @@ module.exports = (User = (function () {
     }
 
     shouldSeePromotion (key) {
-      const manualPromotionKeys = ['end-of-trial-promotion-modal']
+      const manualPromotionKeys = ['end-of-trial-promotion-modal', 'fall-2026-sales-meeting-promotion']
       if (!key) {
         return true
       }
