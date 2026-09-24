@@ -428,6 +428,7 @@ _.extend(UserSchema.properties, {
       'teacher-class-tour': [c.date(), { type: 'boolean' }],
       'first-class-tour': [c.date(), { type: 'boolean' }],
       'create-class-tour': [c.date(), { type: 'boolean' }],
+      'fall-2026-sales-meeting-promotion': [c.date(), { type: 'boolean' }],
     },
   },
 
