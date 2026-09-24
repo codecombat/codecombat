@@ -217,11 +217,11 @@
         </div>
       </div>
     </div>
-    <ModalSalesMeeting />
-    <CybersecurityAutoPromotion v-if="false && !isMobile" />
-    <ModalJunior v-if="false" />
-    <ModalHackStack v-if="false" />
-    <HackstackAutoPromotion v-if="false && !isMobile" />
+    <ModalSalesMeeting /> <!-- should be first -->
+    <CybersecurityAutoPromotion v-if="!isMobile" />
+    <ModalJunior />
+    <ModalHackStack />
+    <HackstackAutoPromotion v-if="!isMobile" />
   </div>
 </template>
 
