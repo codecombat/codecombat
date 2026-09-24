@@ -878,6 +878,11 @@ module.exports = (User = (function () {
       return false
     }
 
+    shouldOverridelastSeenDate (key) {
+      const highPriorityKeys = ['fall-2026-sales-meeting-promotion']
+      return highPriorityKeys.includes(key)
+    }
+
     shouldSeePromotion (key) {
       const manualPromotionKeys = ['end-of-trial-promotion-modal']
       if (!key) {
@@ -897,7 +902,7 @@ module.exports = (User = (function () {
 
       const aWeekAgo = new Date()
       aWeekAgo.setDate(aWeekAgo.getDate() - 7)
-      return latestDate < aWeekAgo
+      return this.shouldOverridelastSeenDate(key) || latestDate < aWeekAgo
     }
 
     setSeenPromotion (key) {
