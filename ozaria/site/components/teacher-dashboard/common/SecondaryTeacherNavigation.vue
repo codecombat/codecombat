@@ -56,7 +56,7 @@ export default {
       guideOptions = [
         { id: 'junior', name: $.i18n.t('nav.coco_junior'), path: '/teachers/guide/junior', gradeBands: [K5, K6] },
         { id: 'codecombat', name: $.i18n.t('new_home.codecombat'), path: '/teachers/guide/codecombat', gradeBands: [K6, K9] },
-        { id: 'ozaria', name: $.i18n.t('new_home.ozaria'), path: utils.ozBaseURL(), type: 'a', hide: me.showChinaResourceInfo(), gradeBands: [K6, K9] },
+        { id: 'ozaria', name: $.i18n.t('new_home.ozaria'), path: '/teachers/guide/ozaria', gradeBands: [K6, K9] },
         { id: 'roblox', name: $.i18n.t('nav.ccw_short'), path: '/teachers/roblox', hide: me.showChinaResourceInfo(), type: 'a', gradeBands: [K5, K6, K9] },
         { id: 'hackstack', name: $.i18n.t('nav.ai_hackstack'), path: '/teachers/guide/hackstack', gradeBands: [K6, K9] },
         { id: 'aileague', name: $.i18n.t('nav.ai_league_esports'), path: '/teachers/ai-league', hide: me.showChinaResourceInfo(), gradeBands: [K6, K9] },
