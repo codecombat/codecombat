@@ -145,7 +145,6 @@ module.exports = {
     }
     csvContent = csvContent.substring(0, csvContent.length - 1)
     const file = new Blob([csvContent], { type: 'text/csv;charset=utf-8' })
-    window.saveAs(file, 'CodeCombat.csv')
-    return csvContent
+    return window.saveAs(file, 'CodeCombat.csv')
   }
 }
