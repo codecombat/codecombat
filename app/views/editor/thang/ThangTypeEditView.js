@@ -241,6 +241,8 @@ module.exports = (ThangTypeEditView = (function () {
         this.files = this.supermodel.loadCollection(new DocumentFiles(this.thangType), 'files').model
         return this.updateFileSize()
       })
+      // The portrait build bails while raster raw images are still loading, so draw it again once they arrive.
+      this.listenTo(this.thangType, 'raster-raw-images-loaded', () => _.defer(() => { if (!this.destroyed) { this.updatePortrait() } }))
       this.listenTo(this.thangType, 'raster-raw-images-load-errored', (thangType, path) => {
         // Otherwise a 404'd asset just renders a placeholder with no explanation.
         noty({ text: `Raster image failed to load: /file/${_.escape(path)}`, type: 'error', timeout: 10000 })
@@ -595,7 +597,8 @@ module.exports = (ThangTypeEditView = (function () {
         img.crossOrigin = 'Anonymous'
         img.onload = () => resolve(img)
         img.onerror = () => reject(new Error(`could not load image /file/${path}`))
-        img.src = `/file/${path}`
+        // Just uploaded, possibly over an existing name: skip the browser's cached copy of the old bytes.
+        img.src = `/file/${path}?t=${Date.now()}`
       })
     }
 
@@ -963,6 +966,12 @@ module.exports = (ThangTypeEditView = (function () {
     uploadPortrait (newThangType, callback) {
       // The palette uses rasterIcon directly (ThangTypeLib.getPortraitURL), no portrait.png needed.
       if (this.thangType.get('rasterIcon')) { return callback() }
+      if (this.thangType.hasRasterRawAssets() && !this.thangType.rasterRawImagesLoaded()) {
+        // Rendering now would produce no portrait and leave the old portrait.png in place.
+        // Load errors settle this event too, so the save cannot hang here.
+        this.listenToOnce(this.thangType, 'raster-raw-images-loaded', () => this.uploadPortrait(newThangType, callback))
+        return this.thangType.loadRasterRawImages()
+      }
       const portraitSource = this.getPortraitSourceForUpload()
       if (!portraitSource || !_.string.startsWith(portraitSource, 'data:')) {
         console.warn(`Portrait not uploaded for ${this.thangType.get('name')}: no rendered portrait; level editor will show the generic wizard`)
