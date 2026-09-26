@@ -73,7 +73,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
         this.finishedStudent = this.students.models[0]
         this.finishedStudentWithPractice = this.students.models[1]
         this.unfinishedStudent = this.students.last()
-        for (level of Array.from(this.levels.models)) {
+        for (level of this.levels.models) {
           sessions.push(factories.makeLevelSession(
             { state: { complete: true }, playtime: 60 },
             { level, creator: this.finishedStudentWithPractice }),
@@ -185,7 +185,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
             const progressData = decodeURI(encodedCSV)
             const lines = progressData.split('\n')
             expect(lines.length).toBe(this.students.length + 1)
-            for (const line of Array.from(lines)) {
+            for (const line of lines) {
               const simplerLine = line.replace(/"[^"]+"/g, '""')
               // Name, Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds), [CS1 Levels, CS1 Playtime, ...], Concepts
               expect(simplerLine.match(/[^,]+/g).length).toBe(6 + (this.releasedCourses.length * 3) + 1)
@@ -221,7 +221,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
         this.finishedStudent = this.students.first()
         this.unfinishedStudent = this.students.last()
         const classLanguage = __guard__(this.classroom.get('aceConfig'), x => x.language)
-        for (level of Array.from(this.levels.models)) {
+        for (level of this.levels.models) {
           if (classLanguage && (classLanguage === level.get('primerLanguage'))) { continue }
           if (level.get('practice')) { continue }
           sessions.push(factories.makeLevelSession(
@@ -256,7 +256,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
             const progressData = decodeURI(encodedCSV)
             const lines = progressData.split('\n')
             expect(lines.length).toBe(this.students.length + 1)
-            for (const line of Array.from(lines)) {
+            for (const line of lines) {
               const simplerLine = line.replace(/"[^"]+"/g, '""')
               // Name, Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds), [CS1 Levels, CS1 Playtime, ...], Concepts
               expect(simplerLine.match(/[^,]+/g).length).toBe(6 + (this.releasedCourses.length * 3) + 1)
@@ -290,7 +290,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
         this.finishedStudent = this.students.first()
         this.unfinishedStudent = this.students.last()
         const classLanguage = __guard__(this.classroom.get('aceConfig'), x => x.language)
-        for (level of Array.from(this.levels.models)) {
+        for (level of this.levels.models) {
           if (classLanguage && (classLanguage === level.get('primerLanguage'))) { continue }
           sessions.push(factories.makeLevelSession(
             { state: { complete: true }, playtime: 60 },
@@ -345,7 +345,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
         this.finishedStudent = this.students.first()
         this.unfinishedStudent = this.students.last()
         const classLanguage = __guard__(this.classroom.get('aceConfig'), x => x.language)
-        for (level of Array.from(this.levels.models)) {
+        for (level of this.levels.models) {
           if (classLanguage && (classLanguage === level.get('primerLanguage'))) { continue }
           sessions.push(factories.makeLevelSession(
             { state: { complete: true }, playtime: 60 },
@@ -585,8 +585,12 @@ describe('lib/studentProgressCalculator', function () {
           const lines = decodeURI(reader.result).split('\n')
           const studentLine = lines.find(line => line.indexOf(this.student.get('email')) !== -1)
           // Total: 2 levels (a + b), 300s (100 + 200 + 0). Course A (has a + b): 2 levels, 300s. Course B (has a only): 1 level, 300s.
-          // Course columns come out in sortedCourses order; assert both orders.
-          expect(studentLine).toMatch(/,2,5 minutes,300,(2,5 minutes,300,1,5 minutes,300|1,5 minutes,300,2,5 minutes,300),/)
+          // Course columns come out in the order sortedCourses returns them.
+          if (this.sortedCourses[0]._id === this.hsCourseIdA) {
+            expect(studentLine).toMatch(/,2,5 minutes,300,2,5 minutes,300,1,5 minutes,300,/)
+          } else {
+            expect(studentLine).toMatch(/,2,5 minutes,300,1,5 minutes,300,2,5 minutes,300,/)
+          }
           const otherLine = lines.find(line => line.indexOf(this.otherStudent.get('email')) !== -1)
           expect(otherLine).toMatch(/0,0,0,0,0,0,0,0,0/)
           done()
