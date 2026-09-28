@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-env jasmine */
 import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 import factories from 'test/app/factories'
 import api from 'core/api'
