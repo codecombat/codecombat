@@ -179,7 +179,7 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
     try {
       const cocoClassroom = factories.makeClassroom({ googleClassroomId: 'id1' })
       await GoogleClassroomHandler.importStudentsToClassroom(cocoClassroom)
-      expect(api.classrooms.importGoogleClassroomStudents).toHaveBeenCalledWith({ classroomID: cocoClassroom._id, accessToken: 'fake-access-token' })
+      expect(api.classrooms.importGoogleClassroomStudents).toHaveBeenCalledWith({ classroomID: cocoClassroom.id, accessToken: 'fake-access-token' })
       done()
     } catch (err) {
       done.fail(new Error('This should not have been called'))
