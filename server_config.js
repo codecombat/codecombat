@@ -29,11 +29,12 @@ if (cluster.worker != null) {
 }
 
 config.unittest = global.testing
-config.proxy = process.env.COCO_PROXY
+// This repo only ever runs as a static-file server + proxy in front of the
+// real (separate, more secure) backend, which handles cookies/sessions/auth itself.
+config.proxy = true
 
 config.timeout = parseInt(process.env.COCO_TIMEOUT) || (60 * 1000)
 
-config.chinaDomain = 'bridge.koudashijie.com;koudashijie.com;ccombat.cn;contributors.codecombat.com'
 config.chinaInfra = process.env.COCO_CHINA_INFRASTRUCTURE || sassFalse
 
 config.port = process.env.COCO_PORT || process.env.COCO_NODE_PORT || process.env.PORT || 3000
@@ -42,18 +43,7 @@ if (config.unittest) {
   config.port += 1
 }
 
-config.cookie_secret = process.env.COCO_COOKIE_SECRET || 'chips ahoy'
-
 config.isProduction = false
-// Domains (without subdomain prefix, with port number) for main hostname (usually codecombat.com)
-// and unsafe web-dev iFrame content (usually codecombatprojects.com).
-config.mainHostname = process.env.COCO_MAIN_HOSTNAME || 'localhost:3000'
-config.unsafeContentHostname = process.env.COCO_UNSAFE_CONTENT_HOSTNAME || 'localhost:3000'
-
-if (!config.unittest && !config.isProduction) {
-  // change artificially slow down non-static requests for testing
-  config.slow_down = false
-}
 
 config.buildInfo = { sha: 'dev' }
 

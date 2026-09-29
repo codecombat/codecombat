@@ -12,7 +12,6 @@ const fs = require('graceful-fs');
 const compressible = require('compressible');
 const compression = require('compression');
 
-const crypto = require('crypto');
 const config = require('./server_config');
 global.tv4 = require('tv4'); // required for TreemaUtils to work
 global.jsondiffpatch = require('jsondiffpatch');
@@ -24,14 +23,9 @@ const timeout = require('connect-timeout');
 const PWD = process.env.PWD || __dirname;
 const devUtils = require('./development/utils');
 const {
-  productSuffix
-} = devUtils;
-const {
   publicFolderName
 } = devUtils;
 const publicPath = path.join(PWD, publicFolderName);
-
-const {countries} = require('./app/core/utils');
 
 const productionLogging = function(tokens, req, res) {
   const status = res.statusCode;
@@ -91,84 +85,13 @@ const setupExpressMiddleware = function(app) {
 
   app.use(express.static(publicPath, {maxAge: 0}));
 
-  setupProxyMiddleware(app); // TODO: Flatten setup into one function. This doesn't fit its function name.
-
-  try {
-    app.use(require('serve-favicon')(path.join(publicPath, 'images', 'favicon', `favicon-${productSuffix}`, 'favicon.ico')));
-  } catch (e) {
-    console.error(`Error. Couldn't find ${path.join(publicPath, 'images', 'favicon', 'favicon-' + productSuffix)}. It is likely that the ${publicFolderName} folder is not built. Try:\n\n  npm run build\n\nfor an initial build, or\n\n  npm run dev\n\nfor live rebuilding of your front-end changes. If those don't work, make sure you are running the correct version of node and have installed all dependencies with:\n\n  npm install --also=dev\n`);
-    process.exit(1);
-  }
-  app.use(require('cookie-parser')());
-  app.use(require('body-parser').json({limit: '25mb', strict: false}));
-  app.use(require('body-parser').urlencoded({extended: true, limit: '25mb'}));
-  app.use(require('method-override')());
-  return app.use(require('cookie-session')({
-    key: 'codecombat.sess',
-    secret: config.cookie_secret
-  })
-  );
+  // setupProxyMiddleware's catch-all handles (and terminates) every request that
+  // isn't already served as a static file above. The real backend — a separate,
+  // more secure server — is responsible for cookies/sessions/auth/etc, so this
+  // repo has no need for its own favicon, cookie/body parsing, or feature-mode
+  // middleware.
+  return setupProxyMiddleware(app); // TODO: Flatten setup into one function. This doesn't fit its function name.
 };
-
-const setupCountryRedirectMiddleware = function(app, country, host) {
-  if (country == null) { country = 'china'; }
-  if (host == null) { host = 'cn.codecombat.com'; }
-  const hosts = host.split(/;/g);
-  const shouldRedirectToCountryServer = function(req) {
-    let left;
-    const reqHost = ((left = req.hostname != null ? req.hostname : req.host) != null ? left : '').toLowerCase();  // Work around express 3.0
-    return (req.country === country) && !Array.from(hosts).includes(reqHost) && (reqHost.indexOf(config.unsafeContentHostname) === -1);
-  };
-
-  return app.use(function(req, res, next) {
-    if (shouldRedirectToCountryServer(req) && hosts.length) {
-      res.writeHead(302, {"Location": 'http://' + hosts[0] + req.url});
-      return res.end();
-    } else {
-      return next();
-    }
-  });
-};
-
-const setupOneSecondDelayMiddleware = function(app) {
-  if(config.slow_down) {
-    return app.use((req, res, next) => setTimeout((() => next()), 1000));
-  }
-};
-
-const setupRedirectMiddleware = app => app.all('/account/profile/*', function(req, res, next) {
-  const nameOrID = req.path.split('/')[3];
-  return res.redirect(301, `/user/${nameOrID}/profile`);
-});
-
-const setupFeaturesMiddleware = app => app.use(function(req, res, next) {
-  // TODO: Share these defaults with run-tests.js
-  let features;
-  req.features = (features = {
-    freeOnly: false
-  });
-
-  if ((req.headers.host === 'brainpop.codecombat.com') || (req.session.featureMode === 'brain-pop')) {
-    features.freeOnly = true;
-    features.campaignSlugs = ['dungeon'];
-    features.playViewsOnly = true;
-    features.noAuth = true;
-    features.brainPop = true;
-    features.noAds = true;
-  }
-
-  if (/(cn\.codecombat\.com|koudashijie|aojiarui)/.test(req.get('host')) || (req.session.featureMode === 'china')) {
-    features.china = true;
-    features.freeOnly = true;
-    features.noAds = true;
-  }
-
-  if (config.chinaInfra) {
-    features.chinaInfra = true;
-  }
-
-  return next();
-});
 
 // When config.TRACE_ROUTES is set, this logs a stack trace every time an endpoint sends a response.
 // It's great for finding where a mystery endpoint is!
@@ -183,57 +106,16 @@ const setupHandlerTraceMiddleware = app => app.use(function(req, res, next) {
   return next();
 });
 
-const setupSecureMiddleware = function(app) {
-  // Cannot use express request `secure` property in production, due to
-  // cluster setup.
-  const isSecure = function() {
-    return this.secure || (this.headers['x-forwarded-proto'] === 'https');
-  };
-
-  return app.use(function(req, res, next) {
-    req.isSecure = isSecure;
-    return next();
-  });
-};
-
 exports.setupMiddleware = function(app) {
   app.use(timeout(config.timeout));
   if (config.TRACE_ROUTES) { setupHandlerTraceMiddleware(app); }
-  setupSecureMiddleware(app);
 
   setupQuickBailToMainHTML(app);
 
-  setupExpressMiddleware(app);
-  setupFeaturesMiddleware(app);
-
-  setupCountryRedirectMiddleware(app, 'china', config.chinaDomain);
-
-  setupOneSecondDelayMiddleware(app);
-  setupRedirectMiddleware(app);
-  setupAjaxCaching(app);
-  return setupJavascript404s(app);
+  return setupExpressMiddleware(app);
 };
 
 /*Routing function implementations*/
-
-var setupAjaxCaching = app => // IE/Edge are more aggressive about caching than other browsers, so we'll override their caching here.
-// Assumes our CDN will override these with its own caching rules.
-app.get('/db/*', function(req, res, next) {
-  if (!req.xhr) { return next(); }
-  // http://stackoverflow.com/questions/19999388/check-if-user-is-using-ie-with-jquery
-  const userAgent = req.header('User-Agent') || "";
-  if ((userAgent.indexOf('MSIE ') > 0) || !!userAgent.match(/Trident.*rv\:11\.|Edge\/\d+/)) {
-    res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
-    res.header('Pragma', 'no-cache');
-    res.header('Expires', 0);
-  }
-  return next();
-});
-
-var setupJavascript404s = function(app) {
-  app.get('/javascripts/*', (req, res) => res.status(404).send('Not found'));
-  return app.get(/^\/?[a-f0-9]{40}/, (req, res) => res.status(404).send('Wrong hash'));
-};
 
 const templates = {};
 const getStaticTemplate = function(file) {
