@@ -18,17 +18,11 @@ if (cluster.worker != null) {
   config.clusterID += `/${cluster.worker.id}`
 }
 
-config.unittest = global.testing
-
 config.timeout = parseInt(process.env.COCO_TIMEOUT) || (60 * 1000)
 
 config.chinaInfra = process.env.COCO_CHINA_INFRASTRUCTURE || sassFalse
 
 config.port = process.env.COCO_PORT || process.env.COCO_NODE_PORT || process.env.PORT || 3000
-
-if (config.unittest) {
-  config.port += 1
-}
 
 // Enables server-side gzip compression for network responses
 // Only use this if testing network response sizes in development

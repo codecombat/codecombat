@@ -41,10 +41,8 @@ const developmentLogging = function (tokens, req, res) {
 }
 
 const setupExpressMiddleware = function (app) {
-  if (!global.testing) {
-    morgan.format('dev', developmentLogging)
-    app.use(morgan('dev'))
-  }
+  morgan.format('dev', developmentLogging)
+  app.use(morgan('dev'))
 
   app.use(function (req, res, next) {
     res.header('X-Cluster-ID', config.clusterID)
