@@ -156,7 +156,7 @@ const setupProxyMiddleware = function (app) {
     return next()
   })
 
-  const httpProxy = require('http-proxy')
+  const httpProxy = require('http-proxy-3')
 
   let target = process.env.COCO_PROXY_TARGET || `https://direct.staging.${config.product}.com`
   const headers = {}
