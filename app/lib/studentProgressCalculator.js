@@ -15,7 +15,7 @@ module.exports = {
     let courseLabels = ''
     const courseIds = ((() => {
       const result = []
-      for (c of Array.from(sortedCourses)) {
+      for (c of sortedCourses) {
         result.push(courses.get(c._id))
       }
       return result
@@ -31,9 +31,9 @@ module.exports = {
     // One scenario can belong to more than one HackStack course, so credit every matching course.
     const hsScenarioCourseIdsMap = {}
     const language = classroom.get('aceConfig')?.language
-    for (trimCourse of Array.from(classroom.getSortedCourses())) {
+    for (trimCourse of classroom.getSortedCourses()) {
       const isHackStackCourse = utils.HACKSTACK_COURSE_IDS.includes(trimCourse._id)
-      for (trimLevel of Array.from(trimCourse.levels)) {
+      for (trimLevel of trimCourse.levels) {
         if (isHackStackCourse) {
           // HackStack course levels are AI scenarios; students play them through AI projects.
           if (hsScenarioCourseIdsMap[trimLevel.original] == null) { hsScenarioCourseIdsMap[trimLevel.original] = [] }
@@ -51,21 +51,21 @@ module.exports = {
       }
     }
     const aiProjectsByUser = {}
-    for (const project of Array.from(aiProjects || [])) {
+    for (const project of aiProjects || []) {
       if (aiProjectsByUser[project.user] == null) { aiProjectsByUser[project.user] = [] }
       aiProjectsByUser[project.user].push(project)
     }
-    for (const student of Array.from(students.models)) {
+    for (const student of students.models) {
       let courseID, level
       let concepts = []
-      for (trimCourse of Array.from(classroom.getSortedCourses())) {
+      for (trimCourse of classroom.getSortedCourses()) {
         course = courses.get(trimCourse._id)
         if (utils.HACKSTACK_COURSE_IDS.includes(trimCourse._id)) {
           continue // bypass the hs courses for now
         }
         const instance = courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
         if (instance && instance.hasMember(student)) {
-          for (trimLevel of Array.from(trimCourse.levels)) {
+          for (trimLevel of trimCourse.levels) {
             level = levels.findWhere({ original: trimLevel.original })
             if (level.get('assessment')) { continue }
             const progress = progressData.get({ classroom, course, level, user: student })
@@ -81,7 +81,7 @@ module.exports = {
       const courseCountsMap = {}
       let levelsCount = 0
       let playtime = 0
-      for (const session of Array.from(classroom.sessions.models)) {
+      for (const session of classroom.sessions.models) {
         if (session.get('creator') !== student.id) { continue }
         if (!session.get('state')?.complete) { continue }
         if (levelPracticeMap[session.get('level').original]) { continue }
@@ -98,7 +98,7 @@ module.exports = {
       }
       const hsScenariosCountedTotal = {}
       const hsScenariosCountedByCourse = {}
-      for (const project of Array.from(aiProjectsByUser[student.id] || [])) {
+      for (const project of aiProjectsByUser[student.id] || []) {
         const courseIDs = hsScenarioCourseIdsMap[project.scenario]
         if (!courseIDs || !courseIDs.length) { continue }
         if (!hsScenariosCountedTotal[project.scenario]) {
@@ -117,11 +117,11 @@ module.exports = {
         }
       }
       const playtimeString = playtime === 0 ? '0' : moment.duration(playtime, 'seconds').humanize()
-      for (course of Array.from(sortedCourses)) {
+      for (course of sortedCourses) {
         if (courseCountsMap[course._id] == null) { courseCountsMap[course._id] = { levels: 0, playtime: 0 } }
       }
       const courseCounts = []
-      for (course of Array.from(sortedCourses)) {
+      for (course of sortedCourses) {
         courseID = course._id
         const data = courseCountsMap[courseID]
         courseCounts.push({
