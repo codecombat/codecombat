@@ -16,7 +16,7 @@ export default Vue.extend({
   mixins: [trackable],
   computed: {
     ...mapGetters({
-      isPaidTeacher: 'me/isPaidTeacher',
+      isPaidTeacher: 'me/isCurrentPaidTeacher',
     }),
     showPromotion () {
       const now = new Date()

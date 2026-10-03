@@ -80,6 +80,25 @@ export default {
       return me.isPremium()
     },
 
+    isCurrentPaidTeacher (_state, _getters, _rootState, rootGetters) {
+      // should fetch prepaids before if they haven't been
+      const prepaids = rootGetters['prepaids/getPrepaidsByTeacher'](me.get('_id'))
+      if (me.isPaidTeacher()) {
+        return true
+      }
+
+      if (!prepaids) {
+        return false
+      }
+
+      const { pending, available } = prepaids
+      if (pending.length + available.length > 0) {
+        return true
+      }
+
+      return me.isPremium()
+    },
+
     userAccessLevel (state, getters) {
       let userAccessLevel = 'free'
       if (getters.isPaidTeacher) {
