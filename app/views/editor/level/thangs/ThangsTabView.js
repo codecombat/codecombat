@@ -1394,7 +1394,7 @@ class ThangNode extends TreemaObjectNode {
 
     const thangType = this.settings.supermodel.getModelByOriginal(ThangType, data.thangType)
     if (thangType) {
-      return valEl.prepend($(`<img class='img-circle' src='${thangType.getPortraitURL()}' />`))
+      return valEl.prepend($(`<img class='img-circle' src='${thangType.getPortraitURL({ versioned: true })}' />`))
     }
   }
 

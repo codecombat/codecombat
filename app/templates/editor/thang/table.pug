@@ -21,7 +21,7 @@ block tableBody
     tr
       td
         - var name = thang.get('name');
-        img(title=`Add ${name}`, src=thang.getPortraitURL(), alt="").portrait
+        img(title=`Add ${name}`, src=thang.getPortraitURL({ versioned: true }), alt="").portrait
       td(title=name).small-name-row
         a(href=`/editor/thang/${thang.get('slug') || thang.id}`)
           | #{name}
