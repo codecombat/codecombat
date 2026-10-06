@@ -61,9 +61,7 @@ _.extend(AIDocumentSchema.properties, {
 AIDocumentSchema.required = ['source']
 
 c.extendBasicProperties(AIDocumentSchema, 'ai_document')
-c.extendSearchableProperties(AIDocumentSchema, 'ai_document')
 c.extendPatchableProperties(AIDocumentSchema, 'ai_document')
 c.extendVersionedProperties(AIDocumentSchema, 'ai_document')
-c.extendTranslationCoverageProperties(AIDocumentSchema, 'ai_document')
 
 module.exports = AIDocumentSchema
