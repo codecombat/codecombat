@@ -743,7 +743,7 @@ module.exports = (LevelEditView = (function () {
 
     async getLevelCompletionRate () {
       if (!me.isAdmin()) { return }
-      this.levelStats = await fetchLevelStats(this.level.get('original'))
+      this.levelStats = await fetchLevelStats(this.level.get('slug')).catch(() => ({}))
       if (this.levelStats.completionRate == null || !this.levelStats.playtime?.p50) {
         return // No stats yet
       }
