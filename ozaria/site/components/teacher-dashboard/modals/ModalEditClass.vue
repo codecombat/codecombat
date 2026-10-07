@@ -510,7 +510,6 @@ export default Vue.extend({
     async handleClassroomImport (savedClassroom, updates) {
       if (this.isGoogleClassroomForm) {
         await GoogleClassroomHandler.markAsImported(this.googleClassId)
-        GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
         try {
           const importedMembers = await GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
           if (importedMembers.length > 0) {
