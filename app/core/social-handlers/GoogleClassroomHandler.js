@@ -113,7 +113,7 @@ module.exports = {
 
       if (classroomNewMembers.length > 0) {
         if (!utils.isCodeCombat) {
-          await store.dispatch('classrooms/addMembersToClassroom', { classroom: cocoClassroom, members: classroomNewMembers, skipApiCall: true })
+          await store.dispatch('classrooms/addMembersToClassroom', { classroom: cocoClassroom, members: classroomNewMembers, skipApiCall: true, componentName: store.getters['teacherDashboard/getComponentName'] })
         }
         noty ( {text: classroomNewMembers.length+' Students imported.', layout: 'topCenter', timeout: 3000, type: 'success' })
         return classroomNewMembers
