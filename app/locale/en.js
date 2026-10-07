@@ -363,6 +363,13 @@ module.exports = {
       promo_modal_title: 'CodeCombat Home',
       promo_modal_subtitle: 'Learn Real Coding Through Epic Gameplay',
       promo_modal_text: 'Dive into real‑world coding with **Python** and **JavaScript**, solving epic puzzles, battling foes, and building a strong coding foundation. Along the way, you’ll learn the skills to **create your own games** and **websites** — all in their browser, no downloads needed.',
+      sales_modal_eyebrow: 'For schools new to CodeCombat',
+      sales_modal_headline: 'Supporting Educators This Fall',
+      sales_modal_body_countdown: 'The first **200 schools receive an extra year free** with purchase',
+      sales_modal_body_alternative: 'We’re giving the first 200 schools an extra year free with purchase',
+      sales_modal_deadline: 'Meet with our team by ',
+      sales_modal_ddl_date: 'Sept. 30',
+      sales_modal_cta: 'Meet With Our Team',
     },
 
     nav: {

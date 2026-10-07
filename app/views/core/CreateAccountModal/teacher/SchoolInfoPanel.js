@@ -70,6 +70,12 @@ const SchoolInfoPanel = {
     'nces-search-input': NcesSearchInput
   },
 
+  computed: {
+    countryHasAdministrativeRegion () {
+      return utils.addressesIncludeAdministrativeRegion(this.country)
+    },
+  },
+
   methods: {
     updateValue (name, value) {
       this[name] = value
@@ -108,8 +114,12 @@ const SchoolInfoPanel = {
     },
 
     onChangeCountry () {
+      if (!this.countryHasAdministrativeRegion) {
+        this.state = ''
+        return
+      }
       if ((this.country === 'United States') && !this.usaStatesAbbreviations.includes(this.state)) {
-        return this.state = ''
+        this.state = ''
       }
     },
 
@@ -127,7 +137,10 @@ const SchoolInfoPanel = {
       if (window.tracker != null) {
         window.tracker.trackEvent('CreateAccountModal Teacher SchoolInfoPanel Continue Clicked', { category: 'Teachers' })
       }
-      const requiredAttrs = _.pick(this, 'district', 'city', 'state', 'country')
+      const requiredKeys = this.countryHasAdministrativeRegion
+        ? ['district', 'city', 'state', 'country']
+        : ['district', 'city', 'country']
+      const requiredAttrs = _.pick(this, requiredKeys)
       if (!_.all(requiredAttrs)) {
         this.showRequired = true
         return
@@ -169,10 +182,6 @@ const SchoolInfoPanel = {
       } else {
         this.country = 'United States'
       }
-    }
-
-    if (!me.addressesIncludeAdministrativeRegion()) {
-      return this.state = ' '
     }
   }
 }
