@@ -42,7 +42,8 @@ module.exports = (AddThangsView = (function () {
 
       this.thangTypes = new Backbone.Collection()
       const thangTypeCollection = new ThangTypeSearchCollection([])
-      if (utils.isOzaria) {
+      const isOzaria = options.level ? options.level.isOzaria() : utils.isOzaria
+      if (isOzaria) {
         thangTypeCollection.url += '&archived=false'
       }
       thangTypeCollection.fetch({ data: { limit: PAGE_SIZE } })

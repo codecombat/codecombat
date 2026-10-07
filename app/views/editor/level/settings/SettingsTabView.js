@@ -24,7 +24,6 @@ require('lib/setupTreema')
 const Concepts = require('collections/Concepts')
 const schemas = require('app/schemas/schemas')
 let concepts = []
-const utils = require('core/utils')
 
 module.exports = (SettingsTabView = (function () {
   SettingsTabView = class SettingsTabView extends CocoView {
@@ -46,7 +45,12 @@ module.exports = (SettingsTabView = (function () {
     constructor (options) {
       super(options)
       this.onSettingsChanged = this.onSettingsChanged.bind(this)
-      this.editableSettings = this.editableSettings.concat(_.keys(_.pick(Level.schema.properties, (value, key) => (value.inEditor === true) || (value.inEditor === utils.getProduct()))))
+    }
+
+    // Properties marked inEditor: 'codecombat' or 'ozaria' follow the level's product, not the site's.
+    static editableSettingsForLevel (level) {
+      const product = level.isOzaria() ? 'ozaria' : 'codecombat'
+      return ['name'].concat(_.keys(_.pick(Level.schema.properties, (value, key) => (value.inEditor === true) || (value.inEditor === product))))
     }
 
     getDataForReplacementView () {
@@ -78,6 +82,7 @@ module.exports = (SettingsTabView = (function () {
 
     onConceptsLoaded (e) {
       this.level = e.level
+      this.editableSettings = this.constructor.editableSettingsForLevel(this.level)
       const data = _.pick(this.level.attributes, (value, key) => Array.from(this.editableSettings).includes(key))
       const schema = _.cloneDeep(Level.schema)
       schema.properties = _.pick(schema.properties, (value, key) => Array.from(this.editableSettings).includes(key))

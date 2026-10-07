@@ -224,7 +224,9 @@ module.exports = (SystemsTabView = (function () {
         { original: '52e953e81b2028d102000004', majorVersion: 0 }, // Effect
         { original: '52f1354370fb890000000005', majorVersion: 0 }, // Magic
       ]
-      if (me.isAdmin() && utils.isCodeCombat) {
+      // Before the level loads this only decides which system models to preload.
+      const isOzaria = this.level ? this.level.isOzaria() : utils.isOzaria
+      if (me.isAdmin() && !isOzaria) {
         // Probably a better way to do this, but non-admins are probably not making Junior levels, and admins are probably usually making Junior levels and can delete this system if not
         systems.push(
           { original: '65b26a9e720a3caed74828bc', majorVersion: 0 }, // Junior

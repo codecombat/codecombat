@@ -297,7 +297,7 @@ module.exports = (Level = (function () {
       }
 
       // Load the user's chosen hero AFTER getting stats from default char
-      if (utils.showOzaria()) {
+      if (utils.showOzaria() || this.isOzaria()) {
         if (/Hero Placeholder/.test(levelThang.id)) {
           if (this.isType('course') && !this.headless && !this.sessionless) {
             heroThangType = __guard__(me.get('ozariaUserOptions'), x2 => x2.isometricThangTypeOriginal)
@@ -590,7 +590,7 @@ module.exports = (Level = (function () {
     getCodeContext (plan) {
       if (!plan) return {}
       let context = utils.i18nCommentContext(plan)
-      if (utils.showOzaria()) {
+      if (utils.showOzaria() || this.isOzaria()) {
         context = _.merge({
           external_ch1_avatar: store.getters?.['me/getCh1Avatar.avatarCodeString']?.crown,
         }, context)
@@ -637,7 +637,7 @@ module.exports = (Level = (function () {
     }
 
     usesSessionHeroInventory () {
-      if (utils.showOzaria()) { return false }
+      if (utils.showOzaria() || this.isOzaria()) { return false }
       if (this.get('product', true) === 'codecombat-junior') { return false }
       if (this.isType('course') && !me.showHeroAndInventoryModalsToStudents()) { return false }
       if (this.isType('course') && this.isAssessment()) { return false }
@@ -652,6 +652,12 @@ module.exports = (Level = (function () {
     isCapstone () { return this.get('ozariaType') === 'capstone' }
 
     isChallenge () { return this.get('ozariaType') === 'challenge' }
+
+    isOzaria () {
+      // An explicit product wins; a level without one keeps the behavior of the site it is opened on.
+      const product = this.get('product')
+      return product ? product === 'ozaria' : utils.isOzaria
+    }
 
     getDisplayContentType () {
       if (this.isCapstone()) { return 'capstone' }

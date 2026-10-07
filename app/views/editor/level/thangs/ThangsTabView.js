@@ -234,7 +234,7 @@ module.exports = (ThangsTabView = (function () {
       $('#thangs-list').bind('mousewheel', this.preventBodyScrollingInThangList)
       this.$el.find('#extant-thangs-filter button:first').button('toggle')
       $(window).on('resize', this.onWindowResize)
-      const addThangsView = this.options.previouslyLoadedData.addThangsView || new AddThangsView({ world: this.world, supermodel: this.supermodel })
+      const addThangsView = this.options.previouslyLoadedData.addThangsView || new AddThangsView({ world: this.world, supermodel: this.supermodel, level: this.level })
       this.addThangsView = this.insertSubView(addThangsView)
       this.buildInterface() // refactor to not have this trigger when this view re-renders?
       if (_.keys(this.thangsTreema.data).length) {

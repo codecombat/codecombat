@@ -25,7 +25,6 @@ const ThangComponentConfigView = require('./ThangComponentConfigView')
 const AddThangComponentsModal = require('./AddThangComponentsModal')
 const nodes = require('../level/treema_nodes')
 require('lib/setupTreema')
-const utils = require('core/utils')
 
 const ThangType = require('models/ThangType')
 const CocoCollection = require('collections/CocoCollection')
@@ -482,7 +481,7 @@ module.exports = (ThangComponentsEditView = (function () {
     checkForMissingSystems () {
       let c
       if (!this.level) { return }
-      if (utils.isOzaria) { return } // Ozaria has different systems and doesn't track relationships between Components and Systems there
+      if (this.level.isOzaria()) { return } // Ozaria has different systems and doesn't track relationships between Components and Systems there
       const extantSystems =
         (() => {
           const result = []
