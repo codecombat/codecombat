@@ -337,8 +337,7 @@ module.exports = Lank = class Lank extends CocoClass
         return unless bounds
         @sprite.scaleX = @thang.width  * Camera.PPM / bounds.width  * (@options.camera.y2x + (1 - @options.camera.y2x) * Math.abs Math.cos @thang.rotation)
         @sprite.scaleY = @thang.height * Camera.PPM / bounds.height * (@options.camera.y2x + (1 - @options.camera.y2x) * Math.abs Math.sin @thang.rotation)
-        @sprite.regX = bounds.width  * 3 / 4  # Why not / 2? I don't know.
-        @sprite.regY = bounds.height * 3 / 4  # Why not / 2? I don't know.
+        # Registration stays where SingularSprite put it: the ThangType's registration point, in frame pixels.
 
         unless @thang.spriteName is 'Beam'
           @sprite.scaleX *= @thangType.get('scale') ? 1

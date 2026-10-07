@@ -7,6 +7,7 @@
 const SuperModel = require('models/SuperModel')
 const Level = require('models/Level')
 const ThangType = require('models/ThangType')
+const utils = require('core/utils')
 
 describe('Level', () => describe('denormalize', function () {
   const level = new Level({
@@ -131,5 +132,21 @@ describe('Level starter-code comment context', function () {
     const level = makeLevel({ nl: { context: { greet: 'Zeg hoi' } } })
     const solution = level.getSolutionForLanguage('python')
     expect(solution.source).toBe('# Zeg hoi\n# Use parentheses\nhero.say("hi")')
+  })
+})
+
+describe('Level product detection', function () {
+  it('is Ozaria when the product says so', function () {
+    expect(new Level({ product: 'ozaria' }).isOzaria()).toBe(true)
+  })
+
+  it('is not Ozaria for the CodeCombat and Junior products', function () {
+    expect(new Level({ product: 'codecombat' }).isOzaria()).toBe(false)
+    expect(new Level({ product: 'codecombat-junior' }).isOzaria()).toBe(false)
+  })
+
+  it('follows the site product when the level has none, whatever else it looks like', function () {
+    expect(new Level({ ozariaType: 'practice', type: 'course' }).isOzaria()).toBe(utils.isOzaria)
+    expect(new Level({ type: 'intro' }).isOzaria()).toBe(utils.isOzaria)
   })
 })
