@@ -140,6 +140,17 @@ export default {
       if (lastPlayedEntity) { lastPlayedString += this.formatDate(lastPlayedEntity.changed) }
       return lastPlayedString
     },
+    showOutcomesReportButton () {
+      if (me.isCodeNinja()) {
+        return false
+      }
+      return true
+    },
+    outcomesReportLink () {
+      const kind = 'student'
+      const org = this.studentId
+      return `/outcomes-report/${kind}/${org}`
+    },
   },
 
   async mounted () {
@@ -201,6 +212,9 @@ export default {
       } finally {
         this.changingPassword = false
       }
+    },
+    clickOutcomesReport () {
+      window.tracker?.trackEvent('Outcomes Report Clicked', { category: 'Students', label: this.studentId })
     },
   },
 }
@@ -268,12 +282,27 @@ export default {
           :use-roblox-id="true"
         />
       </div>
-      <secondary-button
-        class="right-button"
-        @click="closeModalEditStudent"
-      >
-        <b>{{ $t('common.done') }}</b>
-      </secondary-button>
+      <div class="right-button">
+        <a
+          :href="outcomesReportLink"
+          target="_blank"
+        >
+          <primary-button
+            v-if="showOutcomesReportButton"
+            id="outcomes-report-student-btn"
+            class="modal-student-btn"
+            @click="clickOutcomesReport"
+          >
+            {{ $t('outcomes.outcomes_report') }}
+          </primary-button>
+        </a>
+        <secondary-button
+          class="modal-student-btn"
+          @click="closeModalEditStudent"
+        >
+          <b>{{ $t('common.done') }}</b>
+        </secondary-button>
+      </div>
     </div>
   </modal>
 </template>
@@ -310,10 +339,15 @@ export default {
     }
 
     .right-button {
-      min-width: 150px;
-      padding: 11px 12px;
       align-self: end;
       align-self: flex-end;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+    .modal-student-btn {
+      min-width: 150px;
+      padding: 11px 12px;
     }
   }
 ::v-deep {
