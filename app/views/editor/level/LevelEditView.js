@@ -42,7 +42,6 @@ const ScriptsTabView = require('./scripts/ScriptsTabView')
 const ComponentsTabView = require('./components/ComponentsTabView')
 const SystemsTabView = require('./systems/SystemsTabView')
 const KeyThangTabView = require('./thangs/KeyThangTabView')
-const TasksTabView = require('./tasks/TasksTabView')
 const SaveLevelModal = require('./modals/SaveLevelModal')
 const ArtisanGuideModal = require('./modals/ArtisanGuideModal')
 const ForkModal = require('views/editor/ForkModal')
@@ -222,16 +221,12 @@ module.exports = (LevelEditView = (function () {
     afterRender () {
       super.afterRender()
       if (!this.supermodel.finished()) { return }
-      if (!this.fullyRenderedOnce) {
-        this.listenTo(this.level, 'change:tasks', () => this.renderSelectors('#tasks-tab'))
-      }
       this.thangsTabView = this.insertSubView(new ThangsTabView({ world: this.world, supermodel: this.supermodel, level: this.level, previouslyLoadedData: this.previouslyLoadedSubviewData }))
       this.insertSubView(new SettingsTabView({ supermodel: this.supermodel, previouslyLoadedData: this.previouslyLoadedSubviewData }))
       this.insertSubView(new ScriptsTabView({ world: this.world, supermodel: this.supermodel, files: this.files }))
       this.insertSubView(new ComponentsTabView({ supermodel: this.supermodel }))
       this.insertSubView(new SystemsTabView({ supermodel: this.supermodel, world: this.world }))
       this.insertKeyThangTabViews()
-      this.insertSubView(new TasksTabView({ world: this.world, supermodel: this.supermodel, level: this.level }))
       this.insertSubView(new RelatedAchievementsView({ supermodel: this.supermodel, level: this.level }))
       this.insertSubView(new ComponentsDocumentationView({ lazy: true, level: this.level })) // Don't give it the supermodel, it'll pollute it!
       this.insertSubView(new SystemsDocumentationView({ lazy: true })) // Don't give it the supermodel, it'll pollute it!
@@ -731,14 +726,6 @@ module.exports = (LevelEditView = (function () {
       if (emails == null) { emails = [] }
       $('#presence-number').text(emails.length || 0)
       return emails.forEach(email => $('#dropdownPresenceMenu').append(`<li>${email}</li>`))
-    }
-
-    getTaskCompletionRatio () {
-      if ((this.level.get('tasks') == null)) {
-        return '0/0'
-      } else {
-        return _.filter(this.level.get('tasks'), _elem => _elem.complete).length + '/' + this.level.get('tasks').length
-      }
     }
 
     async getLevelCompletionRate () {
