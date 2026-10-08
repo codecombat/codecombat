@@ -693,10 +693,11 @@ module.exports = (ThangsTabView = (function () {
     }
 
     createEssentialComponents (defaultComponents) {
-      // Physical unless the ThangType positions itself with something else (PositionJS), so we don't
-      // hand the thang two position components once the ThangType defaults are merged in.
-      const typeOriginals = positionComponents.positionOriginals(null, defaultComponents)
-      const positionOriginal = typeOriginals.includes(LevelComponent.PhysicalID) || !typeOriginals.length ? LevelComponent.PhysicalID : typeOriginals[0]
+      // Exists and Physical unless the ThangType does those jobs with something else (ExistenceJS,
+      // PositionJS), so we don't hand the thang two of either once the ThangType defaults are merged in.
+      const existenceOriginal = positionComponents.essentialOriginal(LevelComponent.existenceIDs, LevelComponent.ExistsID, defaultComponents)
+      const defaultExistence = _.find(defaultComponents || [], { original: existenceOriginal })
+      const positionOriginal = positionComponents.essentialOriginal(LevelComponent.positionIDs, LevelComponent.PhysicalID, defaultComponents)
       const defaultZ = positionOriginal === LevelComponent.PhysicalID ? 1 : 0
       const positionConfig = { pos: { x: 10, y: 10, z: defaultZ } }
       const defaultComponent = _.find(defaultComponents || [], { original: positionOriginal })
@@ -707,7 +708,7 @@ module.exports = (ThangsTabView = (function () {
         }
       }
       return [
-        { original: LevelComponent.ExistsID, majorVersion: 0, config: {} },
+        { original: existenceOriginal, majorVersion: (defaultExistence != null ? defaultExistence.majorVersion : undefined) || 0, config: {} },
         { original: positionOriginal, majorVersion: (defaultComponent != null ? defaultComponent.majorVersion : undefined) || 0, config: positionConfig }
       ]
     }

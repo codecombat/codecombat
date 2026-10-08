@@ -52,6 +52,25 @@ describe('lib/level-position-components', () => {
     })
   })
 
+  describe('existenceOriginals / essentialOriginal', () => {
+    const EXISTENCE_JS = _.find(LevelComponent.existenceIDs, id => id !== EXISTS)
+
+    it('finds Exists or ExistenceJS on either side', () => {
+      expect(helper.existenceOriginals(thangWith(EXISTS, PHYSICAL), [])).toEqual([EXISTS])
+      expect(helper.existenceOriginals(null, typeWith(POSITION_JS, EXISTENCE_JS))).toEqual([EXISTENCE_JS])
+      expect(helper.existenceOriginals(thangWith(PHYSICAL), typeWith(PHYSICAL))).toEqual([])
+    })
+
+    it('gives a fresh thang the ThangType flavor of the component, CodeCombat one otherwise', () => {
+      expect(helper.essentialOriginal(LevelComponent.existenceIDs, EXISTS, typeWith(EXISTENCE_JS, POSITION_JS))).toBe(EXISTENCE_JS)
+      expect(helper.essentialOriginal(LevelComponent.existenceIDs, EXISTS, typeWith(EXISTS, PHYSICAL))).toBe(EXISTS)
+      expect(helper.essentialOriginal(LevelComponent.existenceIDs, EXISTS, typeWith(PHYSICAL))).toBe(EXISTS)
+      expect(helper.essentialOriginal(LevelComponent.existenceIDs, EXISTS, undefined)).toBe(EXISTS)
+      expect(helper.essentialOriginal(LevelComponent.positionIDs, PHYSICAL, typeWith(POSITION_JS))).toBe(POSITION_JS)
+      expect(helper.essentialOriginal(LevelComponent.positionIDs, PHYSICAL, typeWith(POSITION_JS, PHYSICAL))).toBe(PHYSICAL)
+    })
+  })
+
   describe('shapeOriginals / collisionOriginals', () => {
     it('use their own id lists', () => {
       const SHAPE = _.find(LevelComponent.shapeIDs, id => id !== PHYSICAL)
