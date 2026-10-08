@@ -17,7 +17,6 @@ const template = require('app/templates/editor/level/thang/level-thang-edit-view
 const ThangComponentsEditView = require('views/editor/component/ThangComponentsEditView')
 const ThangType = require('models/ThangType')
 const ace = require('lib/aceContainer')
-const utils = require('core/utils')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
@@ -73,7 +72,7 @@ module.exports = (LevelThangEditView = (function () {
         world: this.world
       }
 
-      if (this.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') || utils.isCodeCombat) { options.thangType = thangType }
+      if (this.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') || !this.level.isOzaria()) { options.thangType = thangType }
 
       this.thangComponentEditView = new ThangComponentsEditView(options)
       this.listenTo(this.thangComponentEditView, 'components-changed', this.onComponentsChanged)

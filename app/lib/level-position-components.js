@@ -1,5 +1,5 @@
-// Which components on a level thang hold its position, shape and collision
-// config. The level editor writes the same value into every one of them so
+// Which components on a level thang hold its existence, position, shape and
+// collision config. The level editor writes the same value into every one of them so
 // the world rebuild lands on the value the user chose, no matter which
 // component the engine attaches last.
 //
@@ -26,6 +26,17 @@ function shapeOriginals (levelThang, thangTypeComponents) {
 
 function collisionOriginals (levelThang, thangTypeComponents) {
   return originalsFor(LevelComponent.collisionIDs, levelThang, thangTypeComponents)
+}
+
+function existenceOriginals (levelThang, thangTypeComponents) {
+  return originalsFor(LevelComponent.existenceIDs, levelThang, thangTypeComponents)
+}
+
+// The component a fresh level thang gets for one of these jobs: the CodeCombat one when the
+// ThangType uses it or has none of them, otherwise the ThangType's own (PositionJS, ExistenceJS).
+function essentialOriginal (ids, cocoOriginal, thangTypeComponents) {
+  const fromType = originalsFor(ids, null, thangTypeComponents)
+  return fromType.includes(cocoOriginal) || !fromType.length ? cocoOriginal : fromType[0]
 }
 
 // The component whose config.pos the engine ends up using: last attached wins.
@@ -55,6 +66,8 @@ module.exports = {
   positionOriginals,
   shapeOriginals,
   collisionOriginals,
+  existenceOriginals,
+  essentialOriginal,
   winningPositionOriginal,
   hasDuplicatePosition,
   positionConfigFor,
