@@ -11,7 +11,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   metaInfo () {
     return {
-      title: 'Competitive AI coding esports from CodeCombat',
+      title: this.$t('league.meta_title'),
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
       ]
