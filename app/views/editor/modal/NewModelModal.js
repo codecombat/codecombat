@@ -41,9 +41,6 @@ module.exports = (NewModelModal = (function () {
       if (!this.hasNoNameProperty) {
         model.set('name', name)
       }
-      if (this.modelClass.name === 'Level') {
-        model.set('tasks', this.modelClass.schema.default.tasks)
-      }
       if (model.schema().properties.permissions) {
         model.set('permissions', [{ access: 'owner', target: me.id }])
       }
