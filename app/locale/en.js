@@ -5337,7 +5337,6 @@ module.exports = {
     },
 
     league: {
-      meta_title: 'Competitive AI coding esports from CodeCombat',
       student_register_1: 'Become the next AI Champion!',
       student_register_2: 'Sign up, create your own team, or join other teams to start competing.',
       student_register_3: 'Provide the information below to be eligible for prizes.',
