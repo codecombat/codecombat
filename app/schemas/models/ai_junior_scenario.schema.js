@@ -31,15 +31,15 @@ _.extend(AIJuniorScenarioSchema.properties, {
   priority: {
     title: 'Priority',
     description: 'Lower numbers will show earlier.',
-    type: 'integer'
+    type: 'integer',
   },
   gradeLevels: c.object({ title: 'Grade Levels', description: 'Grade range this scenario is appropriate for' }, {
     start: { type: 'string', enum: ['Pre-K', 'K', '1', '2', '3', '4', '5'] },
-    end: { type: 'string', enum: ['Pre-K', 'K', '1', '2', '3', '4', '5'] }
+    end: { type: 'string', enum: ['Pre-K', 'K', '1', '2', '3', '4', '5'] },
   }),
   subjects: c.array({ title: 'Subjects', description: 'Subjects this scenario is appropriate for' }, {
     type: 'string',
-    enum: ['math', 'ela', 'science', 'social-studies', 'art', 'technology', 'sel', 'music', 'computer-science', 'misc']
+    enum: ['math', 'ela', 'science', 'social-studies', 'art', 'technology', 'sel', 'music', 'computer-science', 'misc'],
   }),
   concepts: c.array({ title: 'Learning Concepts', uniqueItems: true }, c.concept),
   inputs: c.array({ title: 'Input Elements', description: 'The AI project worksheets are constructed from these input elements' }, c.object({
@@ -56,7 +56,7 @@ _.extend(AIJuniorScenarioSchema.properties, {
     choices: c.array({}, c.object({ required: ['id', 'text'], default: { id: '', text: '' } }, {
       id: c.shortString(),
       text: c.shortString(),
-      i18n: { type: 'object', format: 'i18n', props: ['text'] }
+      i18n: { type: 'object', format: 'i18n', props: ['text'] },
     })),
     freeChoice: { type: 'boolean', description: 'Whether to allow fill-in-the-blank free choice' },
     exampleValue: {
@@ -64,16 +64,16 @@ _.extend(AIJuniorScenarioSchema.properties, {
         { title: 'Value', type: 'string', maxLength: 30 },
         { title: 'Choices', type: 'array', items: { type: 'string' } },
         { title: 'Image', type: 'string', format: 'image-file', minLength: 31 },
-      ]
+      ],
     },
-    i18n: { type: 'object', format: 'i18n', props: ['label', 'text'] }
+    i18n: { type: 'object', format: 'i18n', props: ['label', 'text'] },
   })),
   inputCss: { type: 'string', format: 'code', aceMode: 'ace/mode/css', description: 'Add extra CSS styles here, like .scenario-input-image-field .input-label { font-size: 24px; }' },
   prompts: c.array({ title: 'Prompts', description: 'AI prompts that process the input fields' }, c.object({
-    required: ['id', 'model', 'text']
+    required: ['id', 'model', 'text'],
   }, {
     id: c.shortString(),
-    model: c.shortString(),
+    model: c.shortString({ default: 'gpt-image-2.5-flare' }),
     text: { type: 'string', format: 'markdown' },
     modelOptions: { type: 'object' },
     files: c.array({ title: 'Files', description: 'Files to include with this prompt' }, c.shortString()),
