@@ -11,6 +11,7 @@ require('coffee-script/register')
 const product = process.env.COCO_PRODUCT || 'codecombat'
 const shaTag = process.env.GIT_SHA || 'dev'
 const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
+const isCodecombatCom = product === 'codecombat' && !process.env.COCO_CHINA_INFRASTRUCTURE
 require.extensions[`.${productSuffix}.coffee`] = require.extensions['.coffee']
 const CompileStaticTemplatesPlugin = require('./compile-static-templates')
 const { VueLoaderPlugin } = require('vue-loader')
@@ -309,7 +310,10 @@ module.exports = (env) => {
           { // Static assets
             // Let's use file-loader down the line, but for now, just use URL references.
             from: 'app/assets',
-            to: '.'
+            to: '.',
+            // The sitemap lists codecombat.com pages, so only the codecombat.com build ships it and names it in robots.txt
+            globOptions: { ignore: isCodecombatCom ? [] : ['**/sitemap.xml'] },
+            transform: (content, absoluteFrom) => (!isCodecombatCom && absoluteFrom.endsWith('/robots.txt')) ? content.toString().replace(/^Sitemap:.*\n?/m, '') : content
           }, { // Ace
             context: 'bower_components/ace-builds/src-min-noconflict',
             from: '**/*',

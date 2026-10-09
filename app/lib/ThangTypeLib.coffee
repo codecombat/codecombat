@@ -1,7 +1,10 @@
 utils = require 'core/utils'
 
 ThangTypeLib =
-  getPortraitURL: (thangTypeObj) ->
+  # options.versioned: editors pass this so a re-uploaded portrait.png shows up right away.
+  # The file keeps one URL across versions and /file sends no max-age, so browsers
+  # heuristically keep serving the old bytes for a long time.
+  getPortraitURL: (thangTypeObj, options={}) ->
     return '' if application.testing
     prefix = ''
     if utils.isCodeCombat and window.location.host is 'localhost:3000' and me.get('slug') is 'nick'
@@ -12,7 +15,11 @@ ThangTypeLib =
       return "#{prefix}/file/#{iconURL}"
     if rasterURL = thangTypeObj.raster
       return "#{prefix}/file/#{rasterURL}"
-    "#{prefix}/file/db/thang.type/#{thangTypeObj.original}/portrait.png"
+    url = "#{prefix}/file/db/thang.type/#{thangTypeObj.original}/portrait.png"
+    version = thangTypeObj.version
+    if options.versioned and version?.minor?
+      url += "?v=#{version.major}.#{version.minor}"
+    url
 
   getHeroShortName: (thangTypeObj) ->
     # New way: moved into ThangType model

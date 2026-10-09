@@ -1,3 +1,4 @@
 User-agent: *
 Disallow: /editor
 Disallow: /admin
+Sitemap: https://codecombat.com/sitemap.xml

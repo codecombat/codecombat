@@ -56,6 +56,14 @@ module.exports = {
     }))
   },
 
+  importGoogleClassroomStudents ({ classroomID, accessToken }, options) {
+    if (options == null) { options = {} }
+    return fetchJson(`/db/classroom/${classroomID}/import-google-classroom-students`, _.assign({}, options, {
+      method: 'POST',
+      json: { accessToken },
+    }))
+  },
+
   async fetchByOwner (ownerId, options = {}) {
     let projectionString = ''
     if (Array.isArray(options.project)) {

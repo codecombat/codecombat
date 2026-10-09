@@ -52,110 +52,6 @@ const { saveFile } = require('core/api/files')
 
 const CENTER = { x: 200, y: 400 }
 
-const commonTasks = [
-  'Upload the art.',
-  'Set up the vector icon.'
-]
-
-const displayedThangTypeTasks = [
-  'Configure the idle action.',
-  'Configure the positions (registration point, etc.).',
-  'Set shadow diameter to 0 if needed.',
-  'Set scale to 0.3, 0.5, or whatever is appropriate.',
-  'Set rotation to isometric if needed.',
-  'Set accurate Physical size, shape, and default z.',
-  'Set accurate Collides collision information if needed.',
-  'Double-check that fixedRotation is accurate, if it collides.'
-]
-
-const animatedThangTypeTasks = displayedThangTypeTasks.concat([
-  'Configure the non-idle actions.',
-  'Configure any per-action registration points needed.',
-  'Add flipX per action if needed to face to the right.',
-  'Make sure any death and attack actions do not loop.',
-  'Add defaultSimlish if needed.',
-  'Add selection sounds if needed.',
-  'Add per-action sound triggers.',
-  'Add team color groups.'
-])
-
-const containerTasks = displayedThangTypeTasks.concat([
-  'Select viable terrains if not universal.',
-  'Set Exists stateless: true if needed.'
-])
-
-const purchasableTasks = [
-  'Add a tier, or 10 + desired tier if not ready yet.',
-  'Add a gem cost.',
-  'Write a description.',
-  'Click the Populate i18n button.'
-]
-
-const defaultTasks = {
-  Unit: commonTasks.concat(animatedThangTypeTasks.concat([
-    'Start a new name category in names.coffee if needed.',
-    'Set to Allied to correct team (ogres, humans, or neutral).',
-    'Add AutoTargetsNearest or FightsBack if needed.',
-    'Add other Components like Shoots or Casts if needed.',
-    'Configure other Components, like Moves, Attackable, Attacks, etc.',
-    'Override the HasAPI type if it will not be correctly inferred.',
-    'Add to Existence System power table.'
-  ])),
-  Hero: commonTasks.concat(animatedThangTypeTasks.concat(purchasableTasks.concat([
-    'Set the hero class.',
-    'Add Extended Hero Name.',
-    'Add Short Hero Name.',
-    'Add Hero Gender.',
-    'Upload Hero Doll Images.',
-    'Upload Pose Image.',
-    'Start a new name category in names.coffee.',
-    'Set up hero stats in Equips, Attackable, Moves.',
-    'Set Collects collectRange to 2, Sees visualRange to 60.',
-    'Add any custom hero abilities.',
-    'Add to ThangTypeConstants hard-coded hero ids/classes list.',
-    'Add hero gender.',
-    'Add hero short name.'
-  ]))),
-  Floor: commonTasks.concat(containerTasks.concat([
-    'Add 10 x 8.5 snapping.',
-    'Set fixed rotation.',
-    'Make sure everything is scaled to tile perfectly.',
-    'Adjust SingularSprite floor scale list if necessary.'
-  ])),
-  Wall: commonTasks.concat(containerTasks.concat([
-    'Add 4x4 snapping.',
-    'Set fixed rotation.',
-    'Set up and tune complicated wall-face actions.',
-    'Make sure everything is scaled to tile perfectly.'
-  ])),
-  Doodad: commonTasks.concat(containerTasks.concat([
-    'Add to GenerateTerrainModal logic if needed.'
-  ])),
-  Misc: commonTasks.concat([
-    'Add any misc tasks for this misc ThangType.'
-  ]),
-  Mark: commonTasks.concat([
-    'Check the animation framerate.',
-    'Double-check that bottom of mark is just touching registration point.'
-  ]),
-  Item: commonTasks.concat(purchasableTasks.concat([
-    'Set the hero class if class-specific.',
-    'Upload Paper Doll Images.',
-    'Configure item stats and abilities.'
-  ])),
-  Missile: commonTasks.concat(animatedThangTypeTasks.concat([
-    'Make sure there is a launch sound trigger.',
-    'Make sure there is a hit sound trigger.',
-    'Make sure there is a die animation.',
-    'Add Arrow, Shell, Beam, or other missile Component.',
-    'Choose Missile.leadsShots and Missile.shootsAtGround.',
-    'Choose Moves.maxSpeed and other config.',
-    'Choose Expires.lifespan config if needed.',
-    'Set spriteType: singular if needed for proper rendering.',
-    'Add HasAPI if the missile should show up in findEnemyMissiles.'
-  ]))
-}
-
 module.exports = (ThangTypeEditView = (function () {
   ThangTypeEditView = class ThangTypeEditView extends RootView {
     static initClass () {
@@ -241,6 +137,8 @@ module.exports = (ThangTypeEditView = (function () {
         this.files = this.supermodel.loadCollection(new DocumentFiles(this.thangType), 'files').model
         return this.updateFileSize()
       })
+      // The portrait build bails while raster raw images are still loading, so draw it again once they arrive.
+      this.listenTo(this.thangType, 'raster-raw-images-loaded', () => _.defer(() => { if (!this.destroyed) { this.updatePortrait() } }))
       this.listenTo(this.thangType, 'raster-raw-images-load-errored', (thangType, path) => {
         // Otherwise a 404'd asset just renders a placeholder with no explanation.
         noty({ text: `Raster image failed to load: /file/${_.escape(path)}`, type: 'error', timeout: 10000 })
@@ -595,7 +493,8 @@ module.exports = (ThangTypeEditView = (function () {
         img.crossOrigin = 'Anonymous'
         img.onload = () => resolve(img)
         img.onerror = () => reject(new Error(`could not load image /file/${path}`))
-        img.src = `/file/${path}`
+        // Just uploaded, possibly over an existing name: skip the browser's cached copy of the old bytes.
+        img.src = `/file/${path}?t=${Date.now()}`
       })
     }
 
@@ -963,6 +862,12 @@ module.exports = (ThangTypeEditView = (function () {
     uploadPortrait (newThangType, callback) {
       // The palette uses rasterIcon directly (ThangTypeLib.getPortraitURL), no portrait.png needed.
       if (this.thangType.get('rasterIcon')) { return callback() }
+      if (this.thangType.hasRasterRawAssets() && !this.thangType.rasterRawImagesLoaded()) {
+        // Rendering now would produce no portrait and leave the old portrait.png in place.
+        // Load errors settle this event too, so the save cannot hang here.
+        this.listenToOnce(this.thangType, 'raster-raw-images-loaded', () => this.uploadPortrait(newThangType, callback))
+        return this.thangType.loadRasterRawImages()
+      }
       const portraitSource = this.getPortraitSourceForUpload()
       if (!portraitSource || !_.string.startsWith(portraitSource, 'data:')) {
         console.warn(`Portrait not uploaded for ${this.thangType.get('name')}: no rendered portrait; level editor will show the generic wizard`)
@@ -1031,9 +936,6 @@ module.exports = (ThangTypeEditView = (function () {
         Backbone.Mediator.publish('editor:thang-type-kind-changed', { kind })
         if (['Doodad', 'Floor', 'Wall'].includes(kind) && !this.treema.data.terrains) {
           this.treema.set('/terrains', ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano', 'Junior']) // So editors know to set them.
-        }
-        if (!this.treema.data.tasks) {
-          return this.treema.set('/tasks', (Array.from(defaultTasks[kind]).map((t) => ({ name: t }))))
         }
       }
     }

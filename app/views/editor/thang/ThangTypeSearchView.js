@@ -25,7 +25,7 @@ module.exports = (ThangTypeSearchView = (function () {
       this.prototype.model = require('models/ThangType')
       this.prototype.modelURL = '/db/thang.type'
       this.prototype.tableTemplate = require('app/templates/editor/thang/table')
-      this.prototype.projection = ['original', 'name', 'version', 'description', 'slug', 'kind', 'rasterIcon', 'tasks']
+      this.prototype.projection = ['original', 'name', 'version', 'description', 'slug', 'kind', 'rasterIcon']
       this.prototype.page = 'thang'
       this.prototype.archived = utils.isOzaria ? false : undefined
     }
