@@ -1,7 +1,7 @@
 <script>
 import Modal from '../../common/Modal'
 import PrimaryButton from '../common/buttons/PrimaryButton'
-import SecondaryButton from '../common/buttons/SecondaryButton'
+import PurpleButton from '../common/buttons/PurpleButton'
 import User from 'models/User'
 import Classroom from 'models/Classroom'
 import Level from 'models/Level'
@@ -14,7 +14,7 @@ export default {
   components: {
     Modal,
     PrimaryButton,
-    SecondaryButton,
+    PurpleButton,
     RobloxButton,
   },
 
@@ -140,6 +140,17 @@ export default {
       if (lastPlayedEntity) { lastPlayedString += this.formatDate(lastPlayedEntity.changed) }
       return lastPlayedString
     },
+    showOutcomesReportButton () {
+      if (me.isCodeNinja()) {
+        return false
+      }
+      return true
+    },
+    outcomesReportLink () {
+      const kind = 'student'
+      const org = this.studentId
+      return `/outcomes-report/${kind}/${org}`
+    },
   },
 
   async mounted () {
@@ -202,6 +213,9 @@ export default {
         this.changingPassword = false
       }
     },
+    clickOutcomesReport () {
+      window.tracker?.trackEvent('Outcomes Report Clicked', { category: 'Students', label: this.studentId })
+    },
   },
 }
 </script>
@@ -209,6 +223,7 @@ export default {
 <template>
   <modal
     :title="$t('teacher.student_details')"
+    modal-type="newModal"
     @close="closeModalEditStudent"
   >
     <div
@@ -216,7 +231,24 @@ export default {
       class="style-ozaria teacher-form"
     >
       <div>
-        <p><b>{{ $t('teacher.student_name') }}:</b> {{ studentName }}</p>
+        <div class="name-row">
+          <p>
+            <b>{{ $t('teacher.student_name') }}:</b> {{ studentName }}
+          </p>
+          <a
+            :href="outcomesReportLink"
+            target="_blank"
+          >
+            <primary-button
+              v-if="showOutcomesReportButton"
+              id="outcomes-report-student-btn"
+              class="modal-student-btn"
+              @click="clickOutcomesReport"
+            >
+              {{ $t('outcomes.outcomes_report') }}
+            </primary-button>
+          </a>
+        </div>
         <p><b>{{ $t('general.username') }}:</b> {{ username }}</p>
         <p
           v-if="email"
@@ -268,12 +300,14 @@ export default {
           :use-roblox-id="true"
         />
       </div>
-      <secondary-button
-        class="right-button"
-        @click="closeModalEditStudent"
-      >
-        <b>{{ $t('common.done') }}</b>
-      </secondary-button>
+      <div class="right-button">
+        <purple-button
+          class="modal-student-btn"
+          @click="closeModalEditStudent"
+        >
+          <b>{{ $t('common.done') }}</b>
+        </purple-button>
+      </div>
     </div>
   </modal>
 </template>
@@ -314,6 +348,19 @@ export default {
       padding: 11px 12px;
       align-self: end;
       align-self: flex-end;
+
+      button {
+        width: 100%;
+      }
+    }
+    .name-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .modal-student-btn {
+        padding: 11px 12px;
+      }
     }
   }
 ::v-deep {
