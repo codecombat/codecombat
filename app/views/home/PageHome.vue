@@ -1,5 +1,6 @@
 <template>
   <div id="page-home">
+    <domain-banner />
     <banner-component />
     <div class="container">
       <header-component class="container__header">
@@ -248,6 +249,7 @@ import ModalSalesMeeting from './ModalSalesMeeting'
 import HackstackAutoPromotion from '../ai/HackstackAutoPromotion'
 import CybersecurityAutoPromotion from '../ai/CybersecurityAutoPromotion'
 import BannerComponent from '../../components/common/elements/BannerComponent.vue'
+import DomainBanner from '../../components/common/DomainBanner.vue'
 import { getJuniorUrl } from 'core/utils'
 
 const utils = require('core/utils')
@@ -278,6 +280,7 @@ export default Vue.extend({
     HackstackAutoPromotion,
     CybersecurityAutoPromotion,
     BannerComponent,
+    DomainBanner,
   },
   data () {
     return {
