@@ -24,7 +24,7 @@ const ozCurriculumLink = function () {
   if (isOzaria || me.isTeacher()) {
     return '/teachers/guide/ozaria'
   }
-  // Full URL so the browser loads the page: HomeView picks its template once per page load
+  // Need to have the full URL here for the page load, so HomeView loads fully and picks a template
   return `${window.location.origin}/ozaria`
 }
 
