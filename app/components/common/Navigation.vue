@@ -20,10 +20,6 @@ const cocoPath = function (relativePath) {
   return `${cocoBaseURL()}${relativePath}`
 }
 
-const ozPath = function (relativePath) {
-  return `${ozBaseURL()}${relativePath}`
-}
-
 const ozCurriculumLink = function () {
   if (isOzaria || me.isTeacher()) {
     return '/teachers/guide/ozaria'
@@ -37,7 +33,7 @@ export const items = {
   TEACHER_TOOLKIT_PREVIEW: { url: '/teachers/resources', title: 'nav.teacher_toolkit_preview' },
   TEACHER_TOOLKIT: { url: '/teachers/resources', title: 'nav.teacher_toolkit' },
   STANDARDS: { url: cocoPath('/standards'), title: 'teacher_dashboard.standards_alignment' },
-  EFFICACY: { url: ozPath('/efficacy'), title: 'nav.efficacy_studies' },
+  EFFICACY: { url: '/efficacy', title: 'nav.efficacy_studies' },
   SUCCESS: { url: '/impact', title: 'nav.success_stories' },
   PD: { url: '/pd', title: 'teacher_dashboard.pd' },
   HOC: { url: cocoPath('/teachers/hour-of-code'), title: 'nav.hoc' },

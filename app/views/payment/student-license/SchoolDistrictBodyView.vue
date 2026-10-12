@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     moreInfo () {
-      window.open('https://www.ozaria.com/professional-development#license-interest', '_blank')
+      window.open('/professional-development#license-interest', '_blank')
     },
     showLicenseModal (e) {
       e.preventDefault()

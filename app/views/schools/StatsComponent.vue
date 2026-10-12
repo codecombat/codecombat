@@ -19,7 +19,7 @@
                 Between the pre-assessment and the final assessment, students made an average gain score of +47%
               </p>
               <learn-more-button
-                link="https://www.ozaria.com/efficacy"
+                link="/efficacy"
                 target="_blank"
               >
                 Ozaria Efficacy Report Summary McIntosh Middle School
