@@ -25,7 +25,10 @@ const ozPath = function (relativePath) {
 }
 
 const ozCurriculumLink = function () {
-  return '/teachers/guide/ozaria'
+  if (isOzaria || me.isTeacher()) {
+    return '/teachers/guide/ozaria'
+  }
+  return '/ozaria'
 }
 
 export const items = {

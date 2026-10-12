@@ -339,7 +339,7 @@ export default Vue.extend({
         {
           title: this.$t('schools_page.core_curriculum_1_title'),
           text: this.$t('schools_page.core_curriculum_1_text'),
-          link: 'https://ozaria.com',
+          link: '/ozaria',
           linkText: this.$t('schools_page.core_curriculum_1_link_text'),
           image: '/images/pages/home-v3/engaging-boxes/engaging-ozaria.webp',
         },

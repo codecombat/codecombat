@@ -628,7 +628,7 @@ export default Vue.extend({
         {
           title: this.$t('schools_page.core_curriculum_1_title'),
           text: this.$t('schools_page.core_curriculum_1_text'),
-          link: 'https://ozaria.com',
+          link: '/ozaria',
           linkText: this.$t('schools_page.core_curriculum_1_link_text'),
           video: {
             videoId: '177fb5ba412b8fee21928e3353a9e469',
