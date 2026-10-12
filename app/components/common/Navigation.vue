@@ -43,7 +43,8 @@ export const items = {
   COCO_CLASSROOM: { url: cocoPath('/schools'), title: 'new_home.codecombat' },
   COCO_JUNIOR: { url: getJuniorUrl(), title: 'nav.coco_junior' },
   COCO_HOME: { url: cocoPath('/play'), title: 'nav.codecombat_home' },
-  OZ_CLASSROOM: { url: ozCurriculumLink(), title: 'new_home.ozaria' },
+  // Read on use: the role can change without a page reload
+  get OZ_CLASSROOM () { return { url: ozCurriculumLink(), title: 'new_home.ozaria' } },
   AP_CSP: { url: cocoPath('/apcsp'), title: 'nav.ap_csp' },
   AI_LEAGUE: { url: cocoPath('/league'), title: 'nav.ai_league_esports' },
   ROBLOX: { url: cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' },
