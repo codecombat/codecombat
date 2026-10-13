@@ -16,9 +16,9 @@
                 .btn.btn-primary.btn-lg.uppercase(v-if="!hasLicense" @click="showModal=true") {{ $t('apcsp_marketing.request_access') }}
         .container-fluid.header-part-bottom(ref="header")
           .width-container.row.row-eq-height.preview
-            .col.col-lg-5.col-sm-12
+            .col-lg-5.col-sm-12
               img.img-responsive(src="/images/pages/apcsp/intro-to-ai.webp" :alt="$t('apcsp_marketing.preview_lesson')")
-            .col.col-lg-6.col-sm-12.text-column.col-lg-offset-1
+            .col-lg-6.col-sm-12.text-column.col-lg-offset-1
               h3.text-h3 {{ $t('apcsp_marketing.preview_title') }}
               h4.text-h4 {{ $t('apcsp_marketing.preview_lesson') }}
               p {{ $t('apcsp_marketing.preview_module') }}
@@ -529,7 +529,6 @@ p, .text-p {
     }
 
     .preview {
-      align-items: center;
       row-gap: 20px;
 
       img {
