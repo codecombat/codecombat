@@ -501,6 +501,17 @@ module.exports = (User = (function () {
       }
     }
 
+    juniorPetToRender (heroOriginal) {
+      // What the junior level read path should load for a saved juniorThangType.
+      // A pet that fails the tier gate resolves to the roster's first free pet
+      // rather than being unset: an unset pick falls through to heroConfig.thangType,
+      // which the modal mirrors to the same pet, and juniorHeroReplacements has no
+      // junior keys to swap it - so "unset" would render the gated pet anyway.
+      if (!heroOriginal || this.mayUseJuniorPet(heroOriginal)) { return heroOriginal }
+      const fallback = _.find(ThangTypeConstants.juniorHeroesConfig, pet => pet.access === 'free')
+      return ThangTypeConstants.heroes[fallback.slug]
+    }
+
     items () {
       let left, left1
       return ((left = this.get('earned')?.items) != null ? left : []).concat((left1 = this.get('purchased')?.items) != null ? left1 : []).concat([ThangTypeConstants.items['simple-boots']])
