@@ -425,6 +425,10 @@ module.exports = (JuniorHeroesModal = (function () {
         // heroConfig) survives signup, and the junior read path won't render a
         // signup-tier pet while anonymous, so the fallback pet shows until the
         // account exists. After signup the page reloads and returns here via nextURL.
+        // The level session gets it too, as on the normal path: the read path prefers
+        // the session's pet, so a session that still held an earlier pick would keep
+        // rendering that one after signup.
+        if (this.session && this.updateHeroConfig(this.session, hero)) { this.session.patch() }
         this.updateHeroConfig(me, hero)
         me.patch()
         window.nextURL = window.location.href
