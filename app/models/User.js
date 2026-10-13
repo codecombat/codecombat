@@ -26,9 +26,6 @@ const userUtils = require('lib/user-utils')
 const _ = require('lodash')
 const moment = window.moment
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
-const JUNIOR_PET_ACCESS_EXPERIMENT = 'junior-pet-access'
-// Users created before this date are grandfathered out of junior-pet-access; set to the rollout date before enabling
-const JUNIOR_PET_ACCESS_CUTOFF_DATE = '2026-07-29'
 // GD-861: Latent Space nudges at the HackStack credit wall; assigned by the SPA at first credit exhaustion
 const PLAY_WHILE_YOU_WAIT_EXPERIMENT = 'play-while-you-wait'
 const MANAGE_BILLING_EXPERIMENT = 'manage-billing-ab-test'
@@ -1572,46 +1569,6 @@ module.exports = (User = (function () {
 
     //   return this.tryStartExperiment('template')
     // }
-    getJuniorPetAccessExperimentValue () {
-      // Pre-conditions, re-evaluated on every read, before the query override or
-      // user.experiments: classrooms and China infra never get experiment behavior,
-      // even with a stored assignment. Registered home users keep their assigned
-      // value - signing up is part of the experiment, not an exit from it.
-      if (this.isStudent() || this.isTeacher()) {
-        return 'control'
-      }
-      if (features?.chinaInfra) {
-        return 'control'
-      }
-      return utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery(JUNIOR_PET_ACCESS_EXPERIMENT),
-        this.getExperimentValue(JUNIOR_PET_ACCESS_EXPERIMENT, null),
-      ) ?? null
-    }
-
-    getOrStartJuniorPetAccessExperimentValue () {
-      const value = this.getJuniorPetAccessExperimentValue()
-      if (value != null) {
-        return value
-      }
-      // Assignment Post-conditions: no pre-condition blocked and no value stored
-      // yet - decide whether to really start. Only anonymous home users in
-      // contexts that can actually see the locked-pet upsell enter; everyone
-      // else stays control. Already-assigned users returned above, so a user
-      // assigned while anonymous keeps their cohort after signing up.
-      if (!this.isAnonymous()) {
-        return 'control'
-      }
-      if (this.freeOnly() || this.isInHourOfCode()) {
-        // Locked pets are hidden entirely for these users, so they could never see the upsell
-        return 'control'
-      }
-      if (new Date(this.get('dateCreated')) < new Date(JUNIOR_PET_ACCESS_CUTOFF_DATE)) {
-        return 'control'
-      }
-      return this.tryStartExperiment(JUNIOR_PET_ACCESS_EXPERIMENT)
-    }
-
     getManageBillingExperimentValue () {
       if (this.isStudent() || this.isTeacher()) {
         return 'control'

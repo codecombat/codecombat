@@ -153,7 +153,7 @@ module.exports = (Level = (function () {
             levelThang.components = [] // We have stored the placeholder values, so we can inherit everything else.
             const sessionHeroConfig = __guard__(session != null ? session.get('heroConfig') : undefined, x => x) || {}
             let juniorThangType = utils.isJuniorLevel(this) ? sessionHeroConfig.juniorThangType : undefined
-            if (juniorThangType && !me.mayUseJuniorPet(juniorThangType)) { juniorThangType = undefined } // junior-pet-access: unowned pet falls back to the swap map
+            if (juniorThangType && !me.mayUseJuniorPet(juniorThangType)) { juniorThangType = undefined } // unowned pet falls back to the swap map
             heroThangType = sessionHeroConfig.thangType
             if (juniorThangType) {
               // Junior levels honor the explicitly chosen pet; the swap map below is the fallback for configs without one
@@ -319,7 +319,7 @@ module.exports = (Level = (function () {
             heroThangType = ThangTypeConstants.heroes.knight
           }
           let juniorThangType = utils.isJuniorLevel(this) ? (session.get('heroConfig')?.juniorThangType || me.get('heroConfig')?.juniorThangType) : undefined
-          if (juniorThangType && !me.mayUseJuniorPet(juniorThangType)) { juniorThangType = undefined } // junior-pet-access: unowned pet falls back to the swap map
+          if (juniorThangType && !me.mayUseJuniorPet(juniorThangType)) { juniorThangType = undefined } // unowned pet falls back to the swap map
           if (juniorThangType) {
             // Junior levels honor the explicitly chosen pet; the swap map below is the fallback for configs without one
             levelThang.thangType = juniorThangType
