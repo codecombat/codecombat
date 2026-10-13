@@ -7,15 +7,14 @@
             .row
               .col-lg-12
                 h1.text-h1 {{ $t('apcsp_marketing.page_title') }}
-        .container-fluid.header-part-bottom(ref="header")
-          .width-container.text-center
             .row
               .col-lg-12
                 p.text-p {{ $t('apcsp_marketing.page_description_endorsed') }}
-            .row.row-request-access
+            .row
               .col-lg-12
                 a.btn.btn-primary.btn-lg.uppercase(v-if="hasLicense" href="/apcsportal" :target="checkUsingRoute() ? '_blank' : ''") {{ $t('apcsp_marketing.ap_csp_portal') }}
                 .btn.btn-primary.btn-lg.uppercase(v-if="!hasLicense" @click="showModal=true") {{ $t('apcsp_marketing.request_access') }}
+        .container-fluid.header-part-bottom(ref="header")
           .width-container.row.row-eq-height.preview
             .col.col-lg-5.col-sm-12
               img.img-responsive(src="/images/pages/apcsp/intro-to-ai.webp" :alt="$t('apcsp_marketing.preview_lesson')")
@@ -495,6 +494,7 @@ p, .text-p {
 
         display: flex;
         align-items: center;
+        justify-content: center;
         text-align: center;
         letter-spacing: 1.96px;
 
@@ -506,25 +506,12 @@ p, .text-p {
       .text-h2 {
         margin-top: 21px;
       }
-    }
-
-    .header-part-bottom {
 
       .text-p {
-        font-family: $apcsp-marketing-body-font;
-        font-style: normal;
-        font-weight: 700;
         font-size: 33px;
-        line-height: 62px;
-        /* or 188% */
-
-        text-align: center;
-        letter-spacing: 2.58px;
-
+        line-height: 42px;
         color: #FFFFFF;
-
-        padding-top: 35px;
-        padding-bottom: 12px;
+        text-shadow: 0px 0px 20px #000000;
         @media (max-width: $screen-sm) {
           font-size: 23px;
           line-height: 30px;
@@ -534,12 +521,11 @@ p, .text-p {
           line-height: 24px;
         }
       }
+    }
 
+    .header-part-bottom {
       background: linear-gradient(118.13deg, $teal-dark 0%, $forest 100%);
-
-      .row-request-access {
-        padding-bottom: 72px;
-      }
+      padding: 40px 0;
     }
 
     .preview {
