@@ -16,6 +16,18 @@
               .col-lg-12
                 a.btn.btn-primary.btn-lg.uppercase(v-if="hasLicense" href="/apcsportal" :target="checkUsingRoute() ? '_blank' : ''") {{ $t('apcsp_marketing.ap_csp_portal') }}
                 .btn.btn-primary.btn-lg.uppercase(v-if="!hasLicense" @click="showModal=true") {{ $t('apcsp_marketing.request_access') }}
+          .width-container.row.row-eq-height.preview
+            .col.col-lg-5.col-sm-12
+              img.img-responsive(src="/images/pages/apcsp/intro-to-ai.webp" :alt="$t('apcsp_marketing.preview_lesson')")
+            .col.col-lg-6.col-sm-12.text-column.col-lg-offset-1
+              h3.text-h3 {{ $t('apcsp_marketing.preview_title') }}
+              h4.text-h4 {{ $t('apcsp_marketing.preview_lesson') }}
+              p {{ $t('apcsp_marketing.preview_module') }}
+              p {{ $t('apcsp_marketing.preview_description') }}
+              .preview-buttons
+                a.btn.btn-primary.uppercase(href="https://codecombat.com/file/APCSP/Module1/Lesson1_Intro_to_AI.pdf" target="_blank") {{ $t('teacher.lesson_plan') }}
+                a.btn.btn-primary.uppercase(href="https://codecombat.com/file/APCSP/Module1/mod1_lesson1_worksheet.pdf" target="_blank") {{ $t('apcsp_marketing.worksheet') }}
+                a.btn.btn-primary.uppercase(href="/ai/play/intro-to-ai" target="_blank") {{ $t('apcsp_marketing.preview_intro_to_ai') }}
 
     .container-fluid.vector-flow
       .vector.vector-0
@@ -527,6 +539,42 @@ p, .text-p {
 
       .row-request-access {
         padding-bottom: 72px;
+      }
+    }
+
+    .preview {
+      align-items: center;
+      row-gap: 20px;
+
+      img {
+        border-radius: 20px;
+      }
+
+      .text-h3 {
+        color: $yellow-dark;
+      }
+
+      h4, p {
+        color: #FFFFFF;
+      }
+
+      h4 {
+        font-family: 'Open Sans';
+        font-weight: 700;
+      }
+
+      .preview-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 20px;
+
+        .btn {
+          min-width: 0;
+          margin-left: 0;
+          font-size: 16px;
+          padding: 16px 20px;
+        }
       }
     }
 
