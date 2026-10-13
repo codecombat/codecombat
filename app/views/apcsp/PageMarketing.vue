@@ -340,7 +340,7 @@ export default Vue.extend({
 @import "app/styles/style-flat-variables";
 
 $teal-dark: #0E4C60;
-$apcsp-marketing-body-font: 'Arvo';
+$apcsp-marketing-body-font: $headline-font;
 
 .text-h1 {
   font-family: $apcsp-marketing-body-font;
@@ -406,7 +406,7 @@ $apcsp-marketing-body-font: 'Arvo';
 }
 
 p, .text-p {
-  font-family: 'Open Sans';
+  font-family: $body-font;
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -544,7 +544,7 @@ p, .text-p {
       }
 
       h4 {
-        font-family: 'Open Sans';
+        font-family: $body-font;
         font-weight: 700;
       }
 
@@ -832,7 +832,7 @@ p, .text-p {
     .text-h4 {
       margin-top: 15px;
       margin-bottom: 15px;
-      font-family: 'Open Sans';
+      font-family: $body-font;
       font-style: normal;
       font-weight: 400;
       line-height: 125%;
@@ -849,7 +849,7 @@ p, .text-p {
     }
 
     .mcrel-blurb {
-      font-family: 'Open Sans';
+      font-family: $body-font;
       font-style: normal;
       font-weight: 400;
       font-size: 17px;
@@ -931,7 +931,7 @@ p, .text-p {
     }
 
     .answer {
-      font-family: 'Open Sans';
+      font-family: $body-font;
       font-style: normal;
       font-weight: 400;
       font-size: 24px;
@@ -954,7 +954,7 @@ p, .text-p {
       padding: 35px 35px;
       text-align: left;
 
-      font-family: 'Open Sans';
+      font-family: $body-font;
       font-style: normal;
       font-weight: 400;
       font-size: 24px;
@@ -1147,7 +1147,7 @@ p, .text-p {
         }
 
         &.unit, &.course {
-          font-family: 'Open Sans';
+          font-family: $body-font;
           font-style: normal;
           font-weight: 700;
           font-size: 24px;
@@ -1164,7 +1164,7 @@ p, .text-p {
         }
 
         &.description {
-          font-family: 'Open Sans';
+          font-family: $body-font;
           font-style: normal;
           font-weight: 400;
           font-size: 24px;
@@ -1316,7 +1316,7 @@ p, .text-p {
     }
 
     .text-p {
-      font-family: 'Open Sans';
+      font-family: $body-font;
       font-style: normal;
       font-weight: 400;
       line-height: 125%;
