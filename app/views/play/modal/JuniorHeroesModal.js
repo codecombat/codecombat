@@ -28,7 +28,7 @@ const ChangeLanguageTab = require('views/play/common/ChangeLanguageTab')
 
 // Module-level so the collection comparator survives modal destroy() wiping
 // instance properties while a fetch is still in flight.
-const petAccessBySlug = _.indexBy(ThangTypeConstants.juniorPetAccessConfig, 'slug')
+const petAccessBySlug = _.indexBy(ThangTypeConstants.juniorHeroesConfig, 'slug')
 
 module.exports = (JuniorHeroesModal = (function () {
   JuniorHeroesModal = class JuniorHeroesModal extends ModalView {
@@ -93,7 +93,7 @@ module.exports = (JuniorHeroesModal = (function () {
     loadModuleUnlockCompletions () {
       // Module-tier pets unlock on completing their unlockLevel. Completion lives in
       // level sessions, not on the user doc, so fetch the user's sessions once.
-      const neededLevels = new Set(ThangTypeConstants.juniorPetAccessConfig
+      const neededLevels = new Set(ThangTypeConstants.juniorHeroesConfig
         .filter(pet => pet.access === 'module' && !me.ownsJuniorHero(ThangTypeConstants.heroes[pet.slug]))
         .map(pet => pet.unlockLevel))
       if (!neededLevels.size) { return }
@@ -117,13 +117,13 @@ module.exports = (JuniorHeroesModal = (function () {
     }
 
     onHeroesLoaded () {
-      // Roster membership and order come from juniorPetAccessConfig, not from whatever the server view returns
-      const rosterSlugs = ThangTypeConstants.juniorPetAccessConfig.map(hero => hero.slug)
+      // Roster membership and order come from juniorHeroesConfig, not from whatever the server view returns
+      const rosterSlugs = ThangTypeConstants.juniorHeroesConfig.map(hero => hero.slug)
       const returnedSlugs = this.heroes.map(hero => hero.get('slug'))
       const unknown = _.difference(returnedSlugs, rosterSlugs)
-      if (unknown.length) { console.warn('JuniorHeroesModal: server returned junior heroes missing from juniorPetAccessConfig, hiding:', unknown) }
+      if (unknown.length) { console.warn('JuniorHeroesModal: server returned junior heroes missing from juniorHeroesConfig, hiding:', unknown) }
       const missing = _.difference(rosterSlugs, returnedSlugs)
-      if (missing.length) { console.warn('JuniorHeroesModal: juniorPetAccessConfig heroes not returned by server:', missing) }
+      if (missing.length) { console.warn('JuniorHeroesModal: juniorHeroesConfig heroes not returned by server:', missing) }
       this.heroes.reset(this.heroes.filter(hero => petAccessBySlug[hero.get('slug')] != null))
       for (const hero of this.heroes.models) { this.formatHero(hero) }
       if (me.freeOnly() || application.getHocCampaign()) {
@@ -141,7 +141,7 @@ module.exports = (JuniorHeroesModal = (function () {
       if (hero.name == null) { hero.name = utils.i18n(hero.attributes, 'name') }
       hero.description = utils.i18n(hero.attributes, 'description')
       const original = hero.get('original')
-      // Tiers come from juniorPetAccessConfig
+      // Tiers come from juniorHeroesConfig
       const petAccess = petAccessBySlug[hero.attributes.slug] || {}
       hero.petTier = petAccess.access
       hero.free = petAccess.access === 'free'

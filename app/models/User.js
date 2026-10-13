@@ -466,8 +466,8 @@ module.exports = (User = (function () {
     juniorHeroes () {
       // Union rather than fallback-only-if-absent: a user with legacy junior purchases
       // in purchased.heroes must not lose them once the first juniorHeroes write lands.
-      const juniorHeroIds = ThangTypeConstants.juniorPetAccessConfig.map(h => ThangTypeConstants.heroes[h.slug])
-      const freeJuniorHeroes = ThangTypeConstants.juniorPetAccessConfig
+      const juniorHeroIds = ThangTypeConstants.juniorHeroesConfig.map(h => ThangTypeConstants.heroes[h.slug])
+      const freeJuniorHeroes = ThangTypeConstants.juniorHeroesConfig
         .filter(h => h.access === 'free')
         .map(h => ThangTypeConstants.heroes[h.slug])
       const legacyPurchased = (this.get('purchased')?.heroes || []).filter(id => juniorHeroIds.includes(id))
@@ -489,7 +489,7 @@ module.exports = (User = (function () {
       // a pet that fails here renders the swap-map fallback instead, as if unset.
       if (this.isStudent() || this.isTeacher()) { return true } // classrooms: every pet is unlocked, same as the modal
       if (this.ownsJuniorHero(heroOriginal)) { return true }
-      const petAccess = _.find(ThangTypeConstants.juniorPetAccessConfig, pet => ThangTypeConstants.heroes[pet.slug] === heroOriginal)
+      const petAccess = _.find(ThangTypeConstants.juniorHeroesConfig, pet => ThangTypeConstants.heroes[pet.slug] === heroOriginal)
       if (!petAccess) { return true } // not a roster pet; existing paths handle it
       switch (petAccess.access) {
         case 'signup': return !this.isAnonymous()
