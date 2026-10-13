@@ -469,13 +469,8 @@ module.exports = (User = (function () {
     juniorHeroes () {
       // Union rather than fallback-only-if-absent: a user with legacy junior purchases
       // in purchased.heroes must not lose them once the first juniorHeroes write lands.
-      const juniorHeroIds = ThangTypeConstants.juniorHeroesConfig.map(h => ThangTypeConstants.heroes[h.slug])
-      // junior-pet-access beta shrinks the free set to the experiment's free tier;
-      // earned/purchased/legacy ownership below is arm-independent
-      const freeConfig = this.getJuniorPetAccessExperimentValue() === 'beta'
-        ? ThangTypeConstants.juniorPetAccessConfig
-        : ThangTypeConstants.juniorHeroesConfig
-      const freeJuniorHeroes = freeConfig
+      const juniorHeroIds = ThangTypeConstants.juniorPetAccessConfig.map(h => ThangTypeConstants.heroes[h.slug])
+      const freeJuniorHeroes = ThangTypeConstants.juniorPetAccessConfig
         .filter(h => h.access === 'free')
         .map(h => ThangTypeConstants.heroes[h.slug])
       const legacyPurchased = (this.get('purchased')?.heroes || []).filter(id => juniorHeroIds.includes(id))
@@ -493,16 +488,19 @@ module.exports = (User = (function () {
 
     mayUseJuniorPet (heroOriginal) {
       // Render-time gate for heroConfig.juniorThangType. The field is client-writable,
-      // so the junior level-load read path checks it against the experiment tier rules;
+      // so the junior level-load read path checks it against the roster's tier rules;
       // a pet that fails here renders the swap-map fallback instead, as if unset.
-      if (this.getJuniorPetAccessExperimentValue() !== 'beta') { return true } // control renders anything saved, as today
+      if (this.isStudent() || this.isTeacher()) { return true } // classrooms: every pet is unlocked, same as the modal
       if (this.ownsJuniorHero(heroOriginal)) { return true }
       const petAccess = _.find(ThangTypeConstants.juniorPetAccessConfig, pet => ThangTypeConstants.heroes[pet.slug] === heroOriginal)
-      if (!petAccess) { return true } // not an experiment-managed pet; existing paths handle it
+      if (!petAccess) { return true } // not a roster pet; existing paths handle it
       switch (petAccess.access) {
         case 'signup': return !this.isAnonymous()
         case 'premium': return this.isPremium()
-        default: return false // module pets render only once persisted into purchased.juniorHeroes
+        // Module pets: the unlock is derived live from level sessions in the pet modal,
+        // the only place they can be selected, and nothing persists it yet (GD-770).
+        // Trust the selection-time gate.
+        default: return true
       }
     }
 
