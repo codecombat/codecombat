@@ -126,9 +126,6 @@ module.exports = (JuniorHeroesModal = (function () {
       if (missing.length) { console.warn('JuniorHeroesModal: juniorHeroesConfig heroes not returned by server:', missing) }
       this.heroes.reset(this.heroes.filter(hero => petAccessBySlug[hero.get('slug')] != null))
       for (const hero of this.heroes.models) { this.formatHero(hero) }
-      if (me.freeOnly() || application.getHocCampaign()) {
-        this.heroes.reset(this.heroes.filter(hero => !hero.locked))
-      }
       if (!me.isAdmin()) {
         this.heroes.reset(this.heroes.filter(hero => hero.get('releasePhase') !== 'beta'))
       }
