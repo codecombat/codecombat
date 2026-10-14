@@ -332,6 +332,13 @@ class CampaignView extends RootView {
   }
 
   redirectMiddleware () {
+    const juniorRedirect = () => {
+      if (!this.shouldRedirectJuniorToOdyssey()) { return }
+      window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
+      this.navigateReplacing('/play/odyssey')
+      return true
+    }
+
     const studentRedirect = () => {
       const courseInstanceId = utils.getQueryVariable('course-instance')
       if (!courseInstanceId && me.isStudent() && this.terrain !== 'intro') {
@@ -402,7 +409,15 @@ class CampaignView extends RootView {
       }
     }
 
-    return hocRedirect() || studentRedirect()
+    return juniorRedirect() || hocRedirect() || studentRedirect()
+  }
+
+  // Home users (anonymous included) get the Odyssey module map however they reach /play/junior,
+  // the same rule utils.getJuniorUrl() applies to links. Students and teachers keep the Junior map.
+  // /play/junior?force=junior opens the Junior map anyway, for support and QA.
+  shouldRedirectJuniorToOdyssey () {
+    if (this.terrain !== 'junior' || this.editorMode || !me.isHomeUser()) { return false }
+    return utils.getQueryVariable('force') !== 'junior'
   }
 
   destroy () {
@@ -2671,25 +2686,32 @@ class CampaignView extends RootView {
    */
   executeHackstackRedirect (redirectInfo) {
     if (redirectInfo) {
-      try {
-        // Use URL API to properly merge query parameters and hash
-        const destUrl = new URL(redirectInfo.dest, window.location.origin)
-        const currentUrl = new URL(window.location.href)
-        // Merge query parameters
-        currentUrl.searchParams.forEach((value, key) => {
-          destUrl.searchParams.set(key, value)
-        })
-        // Preserve hash fragment
-        if (currentUrl.hash) {
-          destUrl.hash = currentUrl.hash
-        }
-        application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
-      } catch (e) {
-        // Fallback to simple concatenation if URL API fails
-        const query = location.search || ''
-        const hash = location.hash || ''
-        application.router.navigate(`${redirectInfo.dest}${query}${hash}`, { trigger: true, replace: true })
+      this.navigateReplacing(redirectInfo.dest)
+    }
+  }
+
+  /**
+   * Replace the current page with destPath, keeping the current query string and hash.
+   * `replace: true` so Back does not land on the URL that redirected.
+   * @param {string} destPath - Path to go to, e.g. '/play/odyssey'
+   * @param {string} [currentHref=window.location.href] - URL whose query and hash are kept
+   */
+  navigateReplacing (destPath, currentHref = window.location.href) {
+    try {
+      const destUrl = new URL(destPath, window.location.origin)
+      const currentUrl = new URL(currentHref)
+      currentUrl.searchParams.forEach((value, key) => {
+        destUrl.searchParams.set(key, value)
+      })
+      if (currentUrl.hash) {
+        destUrl.hash = currentUrl.hash
       }
+      application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
+    } catch (e) {
+      // Fallback to simple concatenation if URL API fails
+      const query = location.search || ''
+      const hash = location.hash || ''
+      application.router.navigate(`${destPath}${query}${hash}`, { trigger: true, replace: true })
     }
   }
 
