@@ -335,6 +335,74 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
     })
   })
 
+  describe('junior to odyssey redirect', function () {
+    beforeEach(function () {
+      this.campaignView = new CampaignView()
+      this.campaignView.terrain = 'junior'
+      this.campaignView.editorMode = false
+      spyOn(application.router, 'navigate')
+      this.originalTracker = window.tracker
+      window.tracker = { trackEvent: jasmine.createSpy('trackEvent') }
+    })
+
+    afterEach(function () {
+      window.tracker = this.originalTracker
+    })
+
+    it('redirects a registered home user', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(true)
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(true)
+    })
+
+    it('redirects an anonymous visitor, who counts as a home user', function () {
+      expect(me.isAnonymous()).toBe(true)
+      expect(me.isHomeUser()).toBe(true)
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(true)
+    })
+
+    it('does not redirect a student', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(false)
+      spyOn(me, 'isStudent').and.returnValue(true)
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
+    })
+
+    it('does not redirect a teacher', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(false)
+      spyOn(me, 'isTeacher').and.returnValue(true)
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
+    })
+
+    it('does not redirect the campaign editor preview', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(true)
+      this.campaignView.editorMode = true
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
+    })
+
+    it('leaves other campaigns alone', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(true)
+      this.campaignView.terrain = 'odyssey'
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
+      this.campaignView.terrain = 'dungeon'
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
+    })
+
+    it('replaces the page with /play/odyssey and tracks the redirect', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(true)
+      spyOn(this.campaignView, 'navigateReplacing')
+      expect(this.campaignView.redirectMiddleware()).toBe(true)
+      expect(this.campaignView.navigateReplacing).toHaveBeenCalledWith('/play/odyssey')
+      expect(window.tracker.trackEvent).toHaveBeenCalledWith('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
+    })
+
+    it('does not track or navigate when there is no redirect', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(false)
+      spyOn(this.campaignView, 'navigateReplacing')
+      this.campaignView.redirectMiddleware()
+      expect(this.campaignView.navigateReplacing).not.toHaveBeenCalled()
+      expect(window.tracker.trackEvent).not.toHaveBeenCalled()
+    })
+  })
+
   describe('campaign editor level markers', function () {
     beforeEach(function () {
       this.campaignView = new CampaignView({ editorMode: true }, 'dungeon')

@@ -332,6 +332,13 @@ class CampaignView extends RootView {
   }
 
   redirectMiddleware () {
+    const juniorRedirect = () => {
+      if (!this.shouldRedirectJuniorToOdyssey()) { return }
+      window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
+      this.navigateReplacing('/play/odyssey')
+      return true
+    }
+
     const studentRedirect = () => {
       const courseInstanceId = utils.getQueryVariable('course-instance')
       if (!courseInstanceId && me.isStudent() && this.terrain !== 'intro') {
@@ -402,7 +409,13 @@ class CampaignView extends RootView {
       }
     }
 
-    return hocRedirect() || studentRedirect()
+    return juniorRedirect() || hocRedirect() || studentRedirect()
+  }
+
+  // Home users (anonymous included) get the Odyssey module map however they reach /play/junior,
+  // the same rule utils.getJuniorUrl() applies to links. Students and teachers keep the Junior map.
+  shouldRedirectJuniorToOdyssey () {
+    return this.terrain === 'junior' && !this.editorMode && me.isHomeUser()
   }
 
   destroy () {
