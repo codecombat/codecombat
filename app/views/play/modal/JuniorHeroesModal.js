@@ -28,10 +28,7 @@ const ChangeLanguageTab = require('views/play/common/ChangeLanguageTab')
 
 // Module-level so the collection comparator survives modal destroy() wiping
 // instance properties while a fetch is still in flight.
-const rosterBySlug = _.indexBy(ThangTypeConstants.juniorHeroesConfig, 'slug')
-const rosterOrder = {}
-ThangTypeConstants.juniorHeroesConfig.forEach((hero, index) => { rosterOrder[hero.slug] = index })
-const petAccessBySlug = _.indexBy(ThangTypeConstants.juniorPetAccessConfig, 'slug')
+const petAccessBySlug = _.indexBy(ThangTypeConstants.juniorHeroesConfig, 'slug')
 
 module.exports = (JuniorHeroesModal = (function () {
   JuniorHeroesModal = class JuniorHeroesModal extends ModalView {
@@ -66,24 +63,18 @@ module.exports = (JuniorHeroesModal = (function () {
       this.options = options
       this.animateHeroes = this.animateHeroes.bind(this)
       this.confirmButtonI18N = options.confirmButtonI18N != null ? options.confirmButtonI18N : 'common.save'
-      // Opening this modal is the single assignment trigger for the junior-pet-access experiment
-      this.inPetAccessBeta = me.getOrStartJuniorPetAccessExperimentValue() === 'beta'
-      // Completed unlock levels for module-tier pets; loaded from level sessions when in beta
+      // Completed unlock levels for module-tier pets, loaded from level sessions
       this.completedUnlockLevels = new Set()
       this.heroes = new CocoCollection([], { model: ThangType })
       this.heroes.url = '/db/thang.type?view=heroes-junior'
       this.heroes.setProjection(['original', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'shortName', 'i18n', 'poseImage', 'tier', 'releasePhase', 'kind'])
       this.heroes.comparator = hero => {
-        const slug = hero.get('slug')
-        if (this.inPetAccessBeta) {
-          const position = petAccessBySlug[slug]?.position
-          if (position) { return (position.row * 100) + position.column }
-        }
-        return rosterOrder[slug] != null ? rosterOrder[slug] : 999
+        const position = petAccessBySlug[hero.get('slug')]?.position
+        return position ? (position.row * 100) + position.column : 999
       }
       this.listenToOnce(this.heroes, 'sync', this.onHeroesLoaded)
       this.supermodel.loadCollection(this.heroes, 'heroes')
-      if (this.inPetAccessBeta) { this.loadModuleUnlockCompletions() }
+      this.loadModuleUnlockCompletions()
       this.stages = {}
       this.layers = []
       this.session = options.session
@@ -102,7 +93,7 @@ module.exports = (JuniorHeroesModal = (function () {
     loadModuleUnlockCompletions () {
       // Module-tier pets unlock on completing their unlockLevel. Completion lives in
       // level sessions, not on the user doc, so fetch the user's sessions once.
-      const neededLevels = new Set(ThangTypeConstants.juniorPetAccessConfig
+      const neededLevels = new Set(ThangTypeConstants.juniorHeroesConfig
         .filter(pet => pet.access === 'module' && !me.ownsJuniorHero(ThangTypeConstants.heroes[pet.slug]))
         .map(pet => pet.unlockLevel))
       if (!neededLevels.size) { return }
@@ -119,27 +110,10 @@ module.exports = (JuniorHeroesModal = (function () {
           }
         }
         if (!this.completedUnlockLevels.size) { return }
-        this.persistModuleUnlocks()
         // Re-derive lock state; the render on supermodel loaded-all picks it up
         for (const hero of this.heroes.models) { this.formatHero(hero) }
       })
       this.supermodel.trackRequest(jqxhr)
-    }
-
-    persistModuleUnlocks () {
-      // Interim ownership persistence (GD-875: no achievement wiring yet): completed
-      // module pets are written into purchased.juniorHeroes so ownership flows
-      // through ownsJuniorHero everywhere - this modal, the level-load read path,
-      // and future sessions - without refetching level sessions each time.
-      const newlyUnlocked = ThangTypeConstants.juniorPetAccessConfig
-        .filter(pet => pet.access === 'module' && this.completedUnlockLevels.has(pet.unlockLevel))
-        .map(pet => ThangTypeConstants.heroes[pet.slug])
-        .filter(heroId => !me.ownsJuniorHero(heroId))
-      if (!newlyUnlocked.length) { return }
-      const purchased = _.clone(me.get('purchased')) || {}
-      purchased.juniorHeroes = (purchased.juniorHeroes || []).concat(newlyUnlocked)
-      me.set('purchased', purchased)
-      me.patch()
     }
 
     onHeroesLoaded () {
@@ -150,11 +124,8 @@ module.exports = (JuniorHeroesModal = (function () {
       if (unknown.length) { console.warn('JuniorHeroesModal: server returned junior heroes missing from juniorHeroesConfig, hiding:', unknown) }
       const missing = _.difference(rosterSlugs, returnedSlugs)
       if (missing.length) { console.warn('JuniorHeroesModal: juniorHeroesConfig heroes not returned by server:', missing) }
-      this.heroes.reset(this.heroes.filter(hero => rosterOrder[hero.get('slug')] != null))
+      this.heroes.reset(this.heroes.filter(hero => petAccessBySlug[hero.get('slug')] != null))
       for (const hero of this.heroes.models) { this.formatHero(hero) }
-      if (me.freeOnly() || application.getHocCampaign()) {
-        this.heroes.reset(this.heroes.filter(hero => !hero.locked))
-      }
       if (!me.isAdmin()) {
         this.heroes.reset(this.heroes.filter(hero => hero.get('releasePhase') !== 'beta'))
       }
@@ -167,36 +138,26 @@ module.exports = (JuniorHeroesModal = (function () {
       if (hero.name == null) { hero.name = utils.i18n(hero.attributes, 'name') }
       hero.description = utils.i18n(hero.attributes, 'description')
       const original = hero.get('original')
-      if (this.inPetAccessBeta) {
-        // junior-pet-access beta arm: tiers come from juniorPetAccessConfig
-        const petAccess = petAccessBySlug[hero.attributes.slug] || {}
-        hero.petTier = petAccess.access
-        hero.free = petAccess.access === 'free'
-        hero.unlockBySubscribing = petAccess.access === 'premium'
-        hero.premium = petAccess.access === 'premium'
-        // Signup-tier pets are selectable; saveAndHide routes anonymous users to signup instead of saving
-        hero.requiresSignup = petAccess.access === 'signup' && me.isAnonymous()
-        hero.locked = !me.ownsJuniorHero(original) && !(hero.unlockBySubscribing && me.isPremium())
-        if (petAccess.access === 'signup') { hero.locked = false }
-        if (petAccess.access === 'module' && this.completedUnlockLevels.has(petAccess.unlockLevel)) { hero.locked = false }
-        if (hero.locked && petAccess.access === 'module') { hero.moduleHint = petAccess.hint }
-        hero.petRow = petAccess.position?.row
-        hero.petColumn = petAccess.position?.column
-        hero.purchasable = false // no gem purchases in the experiment tiers; premium tier upsells the subscription
-        // Frames: gem for the premium tier always (hero.premium), silver for locked module pets.
-        // Signup pets keep the plain frame they have once unlocked - they are selectable already,
-        // so the greyed portrait is the only hint they need.
-        hero.silverFrame = hero.locked && petAccess.access !== 'premium'
-      } else {
-        const access = (rosterBySlug[hero.attributes.slug] || {}).access
-        hero.free = access === 'free'
-        hero.unlockBySubscribing = access === 'subscriber'
-        hero.premium = access === 'premium'
-        hero.locked = !me.ownsJuniorHero(original) && !(hero.unlockBySubscribing && me.isPremium())
-        hero.purchasable = hero.locked && me.isPremium()
-        hero.silverFrame = hero.unlockBySubscribing // control keeps today's frames
-      }
-      // Classroom: all pets stay unlocked for students and teachers (also a pre-condition of the experiment)
+      // Tiers come from juniorHeroesConfig
+      const petAccess = petAccessBySlug[hero.attributes.slug] || {}
+      hero.petTier = petAccess.access
+      hero.free = petAccess.access === 'free'
+      hero.unlockBySubscribing = petAccess.access === 'premium'
+      hero.premium = petAccess.access === 'premium'
+      // Signup-tier pets are selectable; saveAndHide routes anonymous users to signup instead of saving
+      hero.requiresSignup = petAccess.access === 'signup' && me.isAnonymous()
+      hero.locked = !me.ownsJuniorHero(original) && !(hero.unlockBySubscribing && me.isPremium())
+      if (petAccess.access === 'signup') { hero.locked = false }
+      if (petAccess.access === 'module' && this.completedUnlockLevels.has(petAccess.unlockLevel)) { hero.locked = false }
+      if (hero.locked && petAccess.access === 'module') { hero.moduleHint = petAccess.hint }
+      hero.petRow = petAccess.position?.row
+      hero.petColumn = petAccess.position?.column
+      hero.purchasable = false // no gem purchases for junior pets; the premium tier upsells the subscription
+      // Frames: gem for the premium tier always (hero.premium), silver for locked module pets.
+      // Signup pets keep the plain frame they have once unlocked - they are selectable already,
+      // so the greyed portrait is the only hint they need.
+      hero.silverFrame = hero.locked && petAccess.access !== 'premium'
+      // Classroom: all pets stay unlocked for students and teachers
       if (me.isStudent() || me.isTeacher()) { hero.locked = false }
       if (this.options.level && (allowedHeroes = this.options.level.get('allowedHeroes'))) {
         let needle
@@ -228,7 +189,6 @@ module.exports = (JuniorHeroesModal = (function () {
       context.level = this.options.level
       context.confirmButtonI18N = this.confirmButtonI18N
       context.visibleHero = this.visibleHero
-      context.inPetAccessBeta = this.inPetAccessBeta
       context.gems = me.gems()
       return context
     }
@@ -459,12 +419,16 @@ module.exports = (JuniorHeroesModal = (function () {
       }
 
       const selectedPet = this.selectedHero || this.visibleHero
-      if (this.inPetAccessBeta && selectedPet?.requiresSignup && me.isAnonymous()) {
+      if (selectedPet?.requiresSignup && me.isAnonymous()) {
         // Signup-tier pet picked by an anonymous user: Save routes to signup instead
         // of closing. Persist the choice on the anonymous doc first - the doc (and
         // heroConfig) survives signup, and the junior read path won't render a
         // signup-tier pet while anonymous, so the fallback pet shows until the
         // account exists. After signup the page reloads and returns here via nextURL.
+        // The level session gets it too, as on the normal path: the read path prefers
+        // the session's pet, so a session that still held an earlier pick would keep
+        // rendering that one after signup.
+        if (this.session && this.updateHeroConfig(this.session, hero)) { this.session.patch() }
         this.updateHeroConfig(me, hero)
         me.patch()
         window.nextURL = window.location.href

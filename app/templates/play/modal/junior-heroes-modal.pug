@@ -1,4 +1,4 @@
-.modal-dialog(class="codecombat-junior" + (inPetAccessBeta ? " pet-access-beta" : ""))
+.modal-dialog.codecombat-junior
   .modal-content
 
     img(src="/images/pages/play/modal/choosehero-background.png", draggable="false")#play-heroes-background
@@ -18,12 +18,10 @@
       .carousel-indicator-container
         ol.carousel-indicators
           for hero, index in heroes
-            //- Beta arm only, so the junior-pet-access control keeps today's look and
-              stays a clean baseline. Roll out to everyone once the experiment closes.
-              Signup pets count as locked here even though hero.locked is false - they
+            //- Signup pets count as locked here even though hero.locked is false - they
               cannot be played until the child has an account.
-            - var showLockBadge = inPetAccessBeta && (hero.locked || hero.requiresSignup)
-            - var signupLocked = inPetAccessBeta && hero.requiresSignup
+            - var showLockBadge = hero.locked || hero.requiresSignup
+            - var signupLocked = hero.requiresSignup
             li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : "") + (hero.silverFrame ? " subscribe-unlock " : "") + (hero.premium ? " premium " : "") + (showLockBadge ? " needs-unlock" : "") + (signupLocked ? " signup-locked" : "") + (hero.petRow != null ? " pet-row-" + hero.petRow + " pet-column-" + hero.petColumn : ""))
               .hero-avatar
               if showLockBadge

@@ -26,9 +26,6 @@ const userUtils = require('lib/user-utils')
 const _ = require('lodash')
 const moment = window.moment
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
-const JUNIOR_PET_ACCESS_EXPERIMENT = 'junior-pet-access'
-// Users created before this date are grandfathered out of junior-pet-access; set to the rollout date before enabling
-const JUNIOR_PET_ACCESS_CUTOFF_DATE = '2026-07-29'
 // GD-861: Latent Space nudges at the HackStack credit wall; assigned by the SPA at first credit exhaustion
 const PLAY_WHILE_YOU_WAIT_EXPERIMENT = 'play-while-you-wait'
 const MANAGE_BILLING_EXPERIMENT = 'manage-billing-ab-test'
@@ -470,12 +467,7 @@ module.exports = (User = (function () {
       // Union rather than fallback-only-if-absent: a user with legacy junior purchases
       // in purchased.heroes must not lose them once the first juniorHeroes write lands.
       const juniorHeroIds = ThangTypeConstants.juniorHeroesConfig.map(h => ThangTypeConstants.heroes[h.slug])
-      // junior-pet-access beta shrinks the free set to the experiment's free tier;
-      // earned/purchased/legacy ownership below is arm-independent
-      const freeConfig = this.getJuniorPetAccessExperimentValue() === 'beta'
-        ? ThangTypeConstants.juniorPetAccessConfig
-        : ThangTypeConstants.juniorHeroesConfig
-      const freeJuniorHeroes = freeConfig
+      const freeJuniorHeroes = ThangTypeConstants.juniorHeroesConfig
         .filter(h => h.access === 'free')
         .map(h => ThangTypeConstants.heroes[h.slug])
       const legacyPurchased = (this.get('purchased')?.heroes || []).filter(id => juniorHeroIds.includes(id))
@@ -493,17 +485,31 @@ module.exports = (User = (function () {
 
     mayUseJuniorPet (heroOriginal) {
       // Render-time gate for heroConfig.juniorThangType. The field is client-writable,
-      // so the junior level-load read path checks it against the experiment tier rules;
+      // so the junior level-load read path checks it against the roster's tier rules;
       // a pet that fails here renders the swap-map fallback instead, as if unset.
-      if (this.getJuniorPetAccessExperimentValue() !== 'beta') { return true } // control renders anything saved, as today
+      if (this.isStudent() || this.isTeacher()) { return true } // classrooms: every pet is unlocked, same as the modal
       if (this.ownsJuniorHero(heroOriginal)) { return true }
-      const petAccess = _.find(ThangTypeConstants.juniorPetAccessConfig, pet => ThangTypeConstants.heroes[pet.slug] === heroOriginal)
-      if (!petAccess) { return true } // not an experiment-managed pet; existing paths handle it
+      const petAccess = _.find(ThangTypeConstants.juniorHeroesConfig, pet => ThangTypeConstants.heroes[pet.slug] === heroOriginal)
+      if (!petAccess) { return true } // not a roster pet; existing paths handle it
       switch (petAccess.access) {
         case 'signup': return !this.isAnonymous()
         case 'premium': return this.isPremium()
-        default: return false // module pets render only once persisted into purchased.juniorHeroes
+        // Module pets: the unlock is derived live from level sessions in the pet modal,
+        // the only place they can be selected, and nothing persists it yet (GD-770).
+        // Trust the selection-time gate.
+        default: return true
       }
+    }
+
+    juniorPetToRender (heroOriginal) {
+      // What the junior level read path should load for a saved juniorThangType.
+      // A pet that fails the tier gate resolves to the roster's first free pet
+      // rather than being unset: an unset pick falls through to heroConfig.thangType,
+      // which the modal mirrors to the same pet, and juniorHeroReplacements has no
+      // junior keys to swap it - so "unset" would render the gated pet anyway.
+      if (!heroOriginal || this.mayUseJuniorPet(heroOriginal)) { return heroOriginal }
+      const fallback = _.find(ThangTypeConstants.juniorHeroesConfig, pet => pet.access === 'free')
+      return ThangTypeConstants.heroes[fallback.slug]
     }
 
     items () {
@@ -1574,46 +1580,6 @@ module.exports = (User = (function () {
 
     //   return this.tryStartExperiment('template')
     // }
-    getJuniorPetAccessExperimentValue () {
-      // Pre-conditions, re-evaluated on every read, before the query override or
-      // user.experiments: classrooms and China infra never get experiment behavior,
-      // even with a stored assignment. Registered home users keep their assigned
-      // value - signing up is part of the experiment, not an exit from it.
-      if (this.isStudent() || this.isTeacher()) {
-        return 'control'
-      }
-      if (features?.chinaInfra) {
-        return 'control'
-      }
-      return utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery(JUNIOR_PET_ACCESS_EXPERIMENT),
-        this.getExperimentValue(JUNIOR_PET_ACCESS_EXPERIMENT, null),
-      ) ?? null
-    }
-
-    getOrStartJuniorPetAccessExperimentValue () {
-      const value = this.getJuniorPetAccessExperimentValue()
-      if (value != null) {
-        return value
-      }
-      // Assignment Post-conditions: no pre-condition blocked and no value stored
-      // yet - decide whether to really start. Only anonymous home users in
-      // contexts that can actually see the locked-pet upsell enter; everyone
-      // else stays control. Already-assigned users returned above, so a user
-      // assigned while anonymous keeps their cohort after signing up.
-      if (!this.isAnonymous()) {
-        return 'control'
-      }
-      if (this.freeOnly() || this.isInHourOfCode()) {
-        // Locked pets are hidden entirely for these users, so they could never see the upsell
-        return 'control'
-      }
-      if (new Date(this.get('dateCreated')) < new Date(JUNIOR_PET_ACCESS_CUTOFF_DATE)) {
-        return 'control'
-      }
-      return this.tryStartExperiment(JUNIOR_PET_ACCESS_EXPERIMENT)
-    }
-
     getManageBillingExperimentValue () {
       if (this.isStudent() || this.isTeacher()) {
         return 'control'
