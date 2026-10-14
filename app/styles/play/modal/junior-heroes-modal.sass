@@ -145,20 +145,7 @@ $heroCanvasHeight: 275px
             margin: 0 calc(-11px * $AV_SCALE) calc(-20px * $AV_SCALE) calc(-11px * $AV_SCALE)
             background-size: 100%
 
-          &:nth-child(15), &:nth-child(16)
-            float: right
-
-            body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
-              float: left
-
-            // junior-pet-access beta uses config-positioned rows; the legacy
-            // 15th/16th-item float would tear pets out of their row. Beta
-            // indicators always carry pet-row-* classes (ancestor-prefixed
-            // .pet-access-beta & would compile with the wrong element order).
-            &[class*="pet-row-"]
-              float: left
-
-          // junior-pet-access beta grid: config rows wrap at each row's first column
+          // Roster grid: rows wrap at each row's first column
           &.pet-row-1.pet-column-0, &.pet-row-2.pet-column-0
             clear: left
 

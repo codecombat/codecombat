@@ -151,14 +151,15 @@ module.exports = class LevelSetupManager extends CocoClass
     PlayLevelView = 'views/play/level/PlayLevelView'
     LadderView = 'views/ladder/LadderView'
     viewClass = if @options.levelPath is 'ladder' then LadderView else PlayLevelView
-    route = "/play/#{@options.levelPath || 'level'}/#{@options.levelID}?"
-    route += "&codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
+    params = []
+    params.push "codeLanguage=#{@level.get('primerLanguage')}" if @level.get('primerLanguage')
     if @options.courseID? and @options.courseInstanceID?
-      route += "&course=#{@options.courseID}&course-instance=#{@options.courseInstanceID}"
+      params.push "course=#{@options.courseID}", "course-instance=#{@options.courseInstanceID}"
     else if @options.courseID?
-      route += "&course=#{@options.courseID}"
-    if @options.fromCampaign?
-      route += "&fromCampaign=#{encodeURIComponent @options.fromCampaign}"
+      params.push "course=#{@options.courseID}"
+    params.push "fromCampaign=#{encodeURIComponent @options.fromCampaign}" if @options.fromCampaign?
+    route = "/play/#{@options.levelPath || 'level'}/#{@options.levelID}"
+    route += "?#{params.join '&'}" if params.length
     @supermodel.registerModel(@session)
     Backbone.Mediator.publish 'router:navigate', {
       route, viewClass
