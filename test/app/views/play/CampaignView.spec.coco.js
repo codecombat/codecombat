@@ -15,6 +15,7 @@ const Level = require('models/Level')
 const LevelSession = require('models/LevelSession')
 const globalVar = require('core/globalVar')
 const storage = require('core/storage')
+const utils = require('core/utils')
 const editorLevelCardTemplate = require('templates/play/campaign-editor-level-card')
 
 describe('CampaignView', () => describe('when 4 earned levels', function () {
@@ -384,6 +385,18 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
       expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
       this.campaignView.terrain = 'dungeon'
       expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
+    })
+
+    it('keeps a home user on the Junior map with ?force=junior', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(true)
+      spyOn(utils, 'getDocumentSearchString').and.returnValue('?force=junior')
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
+    })
+
+    it('ignores other force values', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(true)
+      spyOn(utils, 'getDocumentSearchString').and.returnValue('?force=true')
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(true)
     })
 
     it('replaces the page with /play/odyssey and tracks the redirect', function () {

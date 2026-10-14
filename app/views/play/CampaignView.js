@@ -414,8 +414,10 @@ class CampaignView extends RootView {
 
   // Home users (anonymous included) get the Odyssey module map however they reach /play/junior,
   // the same rule utils.getJuniorUrl() applies to links. Students and teachers keep the Junior map.
+  // /play/junior?force=junior opens the Junior map anyway, for support and QA.
   shouldRedirectJuniorToOdyssey () {
-    return this.terrain === 'junior' && !this.editorMode && me.isHomeUser()
+    if (this.terrain !== 'junior' || this.editorMode || !me.isHomeUser()) { return false }
+    return utils.getQueryVariable('force') !== 'junior'
   }
 
   destroy () {
