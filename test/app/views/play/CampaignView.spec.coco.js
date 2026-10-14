@@ -318,6 +318,23 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
     })
   })
 
+  describe('navigateReplacing', function () {
+    beforeEach(function () {
+      this.campaignView = new CampaignView()
+      spyOn(application.router, 'navigate')
+    })
+
+    it('keeps the current query string and hash on the new path, replacing the history entry', function () {
+      this.campaignView.navigateReplacing('/play/odyssey', 'https://codecombat.com/play/junior?hour_of_code=true&x=1#level-slug')
+      expect(application.router.navigate).toHaveBeenCalledWith('/play/odyssey?hour_of_code=true&x=1#level-slug', { trigger: true, replace: true })
+    })
+
+    it('leaves the path alone when there is nothing to carry over', function () {
+      this.campaignView.navigateReplacing('/play/odyssey', 'https://codecombat.com/play/junior')
+      expect(application.router.navigate).toHaveBeenCalledWith('/play/odyssey', { trigger: true, replace: true })
+    })
+  })
+
   describe('campaign editor level markers', function () {
     beforeEach(function () {
       this.campaignView = new CampaignView({ editorMode: true }, 'dungeon')

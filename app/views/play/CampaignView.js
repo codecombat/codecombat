@@ -2671,25 +2671,32 @@ class CampaignView extends RootView {
    */
   executeHackstackRedirect (redirectInfo) {
     if (redirectInfo) {
-      try {
-        // Use URL API to properly merge query parameters and hash
-        const destUrl = new URL(redirectInfo.dest, window.location.origin)
-        const currentUrl = new URL(window.location.href)
-        // Merge query parameters
-        currentUrl.searchParams.forEach((value, key) => {
-          destUrl.searchParams.set(key, value)
-        })
-        // Preserve hash fragment
-        if (currentUrl.hash) {
-          destUrl.hash = currentUrl.hash
-        }
-        application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
-      } catch (e) {
-        // Fallback to simple concatenation if URL API fails
-        const query = location.search || ''
-        const hash = location.hash || ''
-        application.router.navigate(`${redirectInfo.dest}${query}${hash}`, { trigger: true, replace: true })
+      this.navigateReplacing(redirectInfo.dest)
+    }
+  }
+
+  /**
+   * Replace the current page with destPath, keeping the current query string and hash.
+   * `replace: true` so Back does not land on the URL that redirected.
+   * @param {string} destPath - Path to go to, e.g. '/play/odyssey'
+   * @param {string} [currentHref=window.location.href] - URL whose query and hash are kept
+   */
+  navigateReplacing (destPath, currentHref = window.location.href) {
+    try {
+      const destUrl = new URL(destPath, window.location.origin)
+      const currentUrl = new URL(currentHref)
+      currentUrl.searchParams.forEach((value, key) => {
+        destUrl.searchParams.set(key, value)
+      })
+      if (currentUrl.hash) {
+        destUrl.hash = currentUrl.hash
       }
+      application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
+    } catch (e) {
+      // Fallback to simple concatenation if URL API fails
+      const query = location.search || ''
+      const hash = location.hash || ''
+      application.router.navigate(`${destPath}${query}${hash}`, { trigger: true, replace: true })
     }
   }
 
