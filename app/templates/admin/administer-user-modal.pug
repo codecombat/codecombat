@@ -27,8 +27,8 @@ block modal-header-content
               p.small No NCES #{kind} id on this teacher, so AI cannot be turned off for their #{kind}.
             else if !aiInfo
               p.small Loading the AI setting for this #{kind}...
-            else if aiInfo.missing
-              p.small NCES #{kind} id #{aiNcesIds[kind]} is not in our list, so AI cannot be turned off for it.
+            else if aiInfo.error
+              p.small Could not read the AI setting for NCES #{kind} id #{aiNcesIds[kind]}: #{aiInfo.error}
             else
               label
                 input.ai-disabled-checkbox(type='checkbox', data-kind=kind, checked=!!aiInfo.aiDisabled)

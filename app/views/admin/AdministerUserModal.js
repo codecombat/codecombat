@@ -916,7 +916,7 @@ module.exports = (AdministerUserModal = (function () {
         if (!ncesIds[kind]) { continue }
         fetchJson(`/admin/ai-disabled/${kind}/${ncesIds[kind]}`)
           .then(info => { this.aiDisabled[kind] = info })
-          .catch(() => { this.aiDisabled[kind] = { missing: true } })
+          .catch(err => { this.aiDisabled[kind] = { error: err.message || `error ${err.code}` } })
           .then(() => this.renderSelectors(`#ai-disabled-${kind}`))
       }
     }
