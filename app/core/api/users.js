@@ -11,6 +11,11 @@ const fetchJson = require('./fetch-json')
 module.exports = {
   url (userID, path) { if (path) { return `/db/user/${userID}/${path}` } else { return `/db/user/${userID}` } },
 
+  // { aiDisabled } for the signed-in user: true when their school or district has AI turned off
+  getAiDisabled (options) {
+    return fetchJson('/db/user/-/ai-disabled', options)
+  },
+
   getByHandle (handle, options) {
     return fetchJson(`/db/user/${handle}`, options)
   },

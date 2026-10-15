@@ -1886,6 +1886,7 @@ module.exports = {
       not_allow_to_solution: '# Licenses needed to view solutions',
       classroom_level_chat: 'AI Level Hints',
       classroom_level_chat_blurb: 'Whether students can ask for AI hints and error explanations.',
+      classroom_level_chat_ai_disabled: 'AI is turned off for your school or district.',
       classroom_level_chat_option_free_form: 'Free form',
       classroom_level_chat_option_fixed_prompt_only: 'Fixed prompt only',
       classroom_level_chat_option_none: 'No chat',

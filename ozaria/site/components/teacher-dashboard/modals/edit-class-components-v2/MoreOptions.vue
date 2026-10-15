@@ -110,17 +110,27 @@
       v-if="moreOptions"
       class="form-group row level-chat"
     >
-      <div class="col-xs-12">
+      <div
+        class="col-xs-12"
+        :title="aiDisabledBySchool ? $t('teachers.classroom_level_chat_ai_disabled') : null"
+      >
         <label for="level-chat">
           <span class="control-label"> {{ $t("teachers.classroom_level_chat") }} </span>
         </label>
         <input
+          v-if="aiDisabledBySchool"
+          id="level-chat"
+          type="checkbox"
+          disabled
+        >
+        <input
+          v-else
           id="level-chat"
           v-model="levelChat"
           type="checkbox"
           name="levelChat"
         >
-        <span class="help-block small text-navy">{{ $t("teachers.classroom_level_chat_blurb") }}</span>
+        <span class="help-block small text-navy">{{ aiDisabledBySchool ? $t('teachers.classroom_level_chat_ai_disabled') : $t('teachers.classroom_level_chat_blurb') }}</span>
       </div>
     </div>
     <div
@@ -302,6 +312,7 @@
 
 <script>
 import utils from 'core/utils'
+import usersApi from 'core/api/users'
 import ClassStartEndDateComponent from '../modal-edit-class-components/ClassStartEndDateComponent'
 export default {
   components: {
@@ -317,6 +328,7 @@ export default {
     return {
       // Local UI-only state - whether the advanced section is expanded, not part of the draft.
       moreOptions: false,
+      aiDisabledBySchool: false,
     }
   },
   computed: {
@@ -390,6 +402,9 @@ export default {
       return this.moreOptions ? '&nbsp;&and;' : '&nbsp;&or;'
     },
 
+  },
+  created () {
+    usersApi.getAiDisabled().then(({ aiDisabled }) => { this.aiDisabledBySchool = aiDisabled }).catch(() => {})
   },
   methods: {
     updateDraft (patch) {

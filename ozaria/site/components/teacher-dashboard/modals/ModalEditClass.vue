@@ -12,6 +12,7 @@ import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 import ButtonGoogleClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonGoogleClassroom.vue'
 import ButtonImportClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonImportClassroom.vue'
 import ClassroomsApi from 'app/core/api/classrooms.js'
+import usersApi from 'core/api/users'
 import OAuth2Api from 'app/core/api/oauth2.js'
 import BackgroundJobApi from 'app/core/api/background-job.js'
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
@@ -65,6 +66,7 @@ export default Vue.extend({
       newCodeFormats: typeof cFormats === 'undefined' ? ['text-code'] : cFormats,
       newCodeFormatDefault: typeof cFormatDefault === 'undefined' ? 'text-code' : cFormatDefault,
       newLevelChat: typeof cLevelChat === 'undefined' ? true : cLevelChat === 'fixed_prompt_only',
+      aiDisabledBySchool: false,
       newRemix: this.classroom?.hackstackConfig?.remixAllowed || false,
       cocoDefaultLevelChat: true,
       newClassroomDescription: this.classroom?.description || '',
@@ -234,6 +236,7 @@ export default Vue.extend({
   },
 
   async mounted () {
+    usersApi.getAiDisabled().then(({ aiDisabled }) => { this.aiDisabledBySchool = aiDisabled }).catch(() => {})
     if (!this.classroomInstance?.isNew()) {
       this.newInitialFreeCourses = this.classroomInstance.get('initialFreeCourses') || []
     }
@@ -831,17 +834,27 @@ export default Vue.extend({
           v-if="moreOptions"
           class="form-group row level-chat"
         >
-          <div class="col-xs-12">
+          <div
+            class="col-xs-12"
+            :title="aiDisabledBySchool ? $t('teachers.classroom_level_chat_ai_disabled') : null"
+          >
             <label for="level-chat">
               <span class="control-label"> {{ $t("teachers.classroom_level_chat") }} </span>
             </label>
             <input
+              v-if="aiDisabledBySchool"
+              id="level-chat"
+              type="checkbox"
+              disabled
+            >
+            <input
+              v-else
               id="level-chat"
               v-model="newLevelChat"
               type="checkbox"
               name="levelChat"
             >
-            <span class="help-block small text-navy">{{ $t("teachers.classroom_level_chat_blurb") }}</span>
+            <span class="help-block small text-navy">{{ aiDisabledBySchool ? $t('teachers.classroom_level_chat_ai_disabled') : $t('teachers.classroom_level_chat_blurb') }}</span>
           </div>
         </div>
         <div
