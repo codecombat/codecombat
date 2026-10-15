@@ -6909,6 +6909,7 @@ module.exports = {
       hint_tap_target: 'Tap the item to continue',
       hint_press_escape: 'Press Escape to dismiss.',
       hint_start_this_level: 'Start this level.',
+      hint_course_name: 'This is the course name.',
       hint_latent_space_welcome: 'Take a break and try AI-inspired experiments.',
       hint_level_learn: 'Learn how to chat with HackStack.',
       hint_level_practice: 'Use Practice levels to change existing projects.',
