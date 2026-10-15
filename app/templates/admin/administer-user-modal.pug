@@ -34,7 +34,7 @@ block modal-header-content
                 input.ai-disabled-checkbox(type='checkbox', data-kind=kind, checked=!!aiInfo.aiDisabled)
                 span.p-l-1 Disable AI for this #{kind} (#{aiInfo.name})
               p.small
-                | #{aiInfo.teachers} teachers signed up with this #{kind}. Their students lose AI too.
+                | Teachers signed up with this #{kind}: #{aiInfo.teachers}. Their students lose AI too.
                 if aiInfo.aiDisabledChangedAt
                   |  Last changed #{new Date(aiInfo.aiDisabledChangedAt).toLocaleDateString()}.
       if view.user.get('role')
