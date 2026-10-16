@@ -66,7 +66,7 @@ export default Vue.extend({
       newCodeFormats: typeof cFormats === 'undefined' ? ['text-code'] : cFormats,
       newCodeFormatDefault: typeof cFormatDefault === 'undefined' ? 'text-code' : cFormatDefault,
       newLevelChat: typeof cLevelChat === 'undefined' ? true : cLevelChat === 'fixed_prompt_only',
-      aiDisabledBySchool: false,
+      aiDisabled: false,
       newRemix: this.classroom?.hackstackConfig?.remixAllowed || false,
       cocoDefaultLevelChat: true,
       newClassroomDescription: this.classroom?.description || '',
@@ -236,7 +236,7 @@ export default Vue.extend({
   },
 
   async mounted () {
-    usersApi.getAiDisabled().then(({ aiDisabled }) => { this.aiDisabledBySchool = aiDisabled }).catch(() => {})
+    usersApi.getAiDisabled().then(({ aiDisabled }) => { this.aiDisabled = aiDisabled }).catch(() => {})
     if (!this.classroomInstance?.isNew()) {
       this.newInitialFreeCourses = this.classroomInstance.get('initialFreeCourses') || []
     }
@@ -839,7 +839,7 @@ export default Vue.extend({
               <span class="control-label"> {{ $t("teachers.classroom_level_chat") }} </span>
             </label>
             <div
-              v-if="aiDisabledBySchool"
+              v-if="aiDisabled"
               class="alert alert-info"
             >
               {{ $t('teachers.classroom_level_chat_ai_disabled') }}

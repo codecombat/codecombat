@@ -115,7 +115,7 @@
           <span class="control-label"> {{ $t("teachers.classroom_level_chat") }} </span>
         </label>
         <div
-          v-if="aiDisabledBySchool"
+          v-if="aiDisabled"
           class="alert alert-info"
         >
           {{ $t('teachers.classroom_level_chat_ai_disabled') }}
@@ -326,7 +326,7 @@ export default {
     return {
       // Local UI-only state - whether the advanced section is expanded, not part of the draft.
       moreOptions: false,
-      aiDisabledBySchool: false,
+      aiDisabled: false,
     }
   },
   computed: {
@@ -402,7 +402,7 @@ export default {
 
   },
   created () {
-    usersApi.getAiDisabled().then(({ aiDisabled }) => { this.aiDisabledBySchool = aiDisabled }).catch(() => {})
+    usersApi.getAiDisabled().then(({ aiDisabled }) => { this.aiDisabled = aiDisabled }).catch(() => {})
   },
   methods: {
     updateDraft (patch) {

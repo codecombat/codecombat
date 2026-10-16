@@ -928,6 +928,7 @@ module.exports = (AdministerUserModal = (function () {
       if (!window.confirm(`${aiDisabled ? 'DISABLE' : 'ENABLE'} AI for every teacher and student linked to ${info.name}?`)) {
         return e.preventDefault()
       }
+      this.$(e.target).prop('disabled', true)
       fetchJson(`/admin/ai-disabled/${kind}/${info.ncesId}`, { method: 'PUT', json: { aiDisabled } })
         .then(updated => { this.aiDisabled[kind] = updated })
         .catch(err => noty({ text: `Could not save the AI setting: ${err.message}`, type: 'error', layout: 'topCenter', timeout: 5000 }))
