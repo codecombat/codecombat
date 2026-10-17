@@ -4472,6 +4472,12 @@ module.exports = {
       coco_requirements: 'CodeCombat’s system requirements',
       coco_recognized_blurb: 'CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum.',
       ap_csp_portal: 'AP CSP Portal',
+      preview_title: 'Preview Our New AP CSP Curriculum',
+      preview_lesson: 'Intro to Artificial Intelligence',
+      preview_module: 'Module 1, Lesson 1',
+      preview_description: 'Preview a lesson from our new AP CSP curriculum where students explore classroom-safe artificial intelligence and practice prompt engineering through hands-on activities in CodeCombat’s AI HackStack.',
+      worksheet: 'Worksheet',
+      preview_intro_to_ai: 'Preview Intro to AI',
     },
 
     apcsp_curriculum: {
