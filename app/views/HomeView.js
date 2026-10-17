@@ -83,7 +83,7 @@ module.exports = (HomeView = (function () {
         slides: `<a href='https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing' target='_blank'>${$.i18n.t('new_home.lesson_slides')}</a>`,
         clever: `<a href='/teachers/resources/clever-faq'>${$.i18n.t('new_home_faq.clever_integration_faq')}</a>`,
         contact: me.isTeacher() ? `<a class='contact-modal'>${$.i18n.t('general.contact_us')}</a>` : `<a href="mailto:support@codecombat.com">${$.i18n.t('general.contact_us')}</a>`,
-        funding: `<a href='https://www.ozaria.com/funding' target='_blank'>${$.i18n.t('nav.funding_resources_guide')}</a>`,
+        funding: `<a href='/funding' target='_blank'>${$.i18n.t('nav.funding_resources_guide')}</a>`,
         codecombatHome: `<a href='/premium' target='_blank'>${$.i18n.t('new_home.codecombat_home')}</a>`,
         pd: `<a href='/professional-development'>${$.i18n.t('nav.professional_development')}</a>`,
         maintenanceStartTime: `${context.maintenanceStartTime.calendar()} (${context.maintenanceStartTime.fromNow()})`,
