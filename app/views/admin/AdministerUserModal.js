@@ -65,6 +65,7 @@ module.exports = (AdministerUserModal = (function () {
         'click #school-admin-checkbox': 'onClickSchoolAdminCheckbox',
         'click #online-teacher-checkbox': 'onClickOnlineTeacherCheckbox',
         'click #beta-tester-checkbox': 'onClickBetaTesterCheckbox',
+        'click .ai-disabled-checkbox': 'onClickAiDisabledCheckbox',
         'click #edit-school-admins-link': 'onClickEditSchoolAdmins',
         'click #edit-online-teacher-link': 'onClickEditOnlineTeacher',
         'submit #teacher-search-form': 'onSubmitTeacherSearchForm',
@@ -156,6 +157,7 @@ module.exports = (AdministerUserModal = (function () {
       this.updateStripeStatus()
       this.trialRequest = this.trialRequests.first()
       if (this.trialRequest) { this.models.push(this.trialRequest) }
+      this.fetchAiDisabled()
       this.prepaidTableState = {}
       this.productTableState = {}
       this.foundTeachers = []
@@ -904,6 +906,33 @@ module.exports = (AdministerUserModal = (function () {
       if (!this.updateUserPermission(User.PERMISSIONS.SCHOOL_ADMINISTRATOR, checked)) {
         return e.preventDefault()
       }
+    }
+
+    fetchAiDisabled () {
+      const props = this.trialRequest?.get('properties') || {}
+      const ncesIds = { school: props.nces_id, district: props.nces_district_id }
+      this.aiDisabled = {}
+      for (const kind of ['school', 'district']) {
+        if (!ncesIds[kind]) { continue }
+        fetchJson(`/admin/ai-disabled/${kind}/${ncesIds[kind]}`)
+          .then(info => { this.aiDisabled[kind] = info })
+          .catch(err => { this.aiDisabled[kind] = { error: err.message || `error ${err.code}` } })
+          .then(() => this.renderSelectors(`#ai-disabled-${kind}`))
+      }
+    }
+
+    onClickAiDisabledCheckbox (e) {
+      const kind = this.$(e.target).data('kind')
+      const info = this.aiDisabled[kind]
+      const aiDisabled = this.$(e.target).prop('checked')
+      if (!window.confirm(`${aiDisabled ? 'DISABLE' : 'ENABLE'} AI for every teacher and student linked to ${info.name}?`)) {
+        return e.preventDefault()
+      }
+      this.$(e.target).prop('disabled', true)
+      fetchJson(`/admin/ai-disabled/${kind}/${info.ncesId}`, { method: 'PUT', json: { aiDisabled } })
+        .then(updated => { this.aiDisabled[kind] = updated })
+        .catch(err => noty({ text: `Could not save the AI setting: ${err.message}`, type: 'error', layout: 'topCenter', timeout: 5000 }))
+        .then(() => this.renderSelectors(`#ai-disabled-${kind}`))
     }
 
     onClickBetaTesterCheckbox (e) {

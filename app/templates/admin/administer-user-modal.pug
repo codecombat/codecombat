@@ -19,6 +19,24 @@ block modal-header-content
         - var props = view.trialRequest.get('properties') || {}
         h4 School: #{props.nces_school || props.organization}
         h4 District: #{props.nces_district || props.district}
+        - var aiNcesIds = { school: props.nces_id, district: props.nces_district_id }
+        each kind in ['school', 'district']
+          div(id='ai-disabled-' + kind)
+            - var aiInfo = view.aiDisabled && view.aiDisabled[kind]
+            if !aiNcesIds[kind]
+              p.small No NCES #{kind} id on this teacher, so AI cannot be turned off for their #{kind}.
+            else if !aiInfo
+              p.small Loading the AI setting for this #{kind}...
+            else if aiInfo.error
+              p.small Could not read the AI setting for NCES #{kind} id #{aiNcesIds[kind]}: #{aiInfo.error}
+            else
+              label
+                input.ai-disabled-checkbox(type='checkbox', data-kind=kind, checked=!!aiInfo.aiDisabled)
+                span.p-l-1 Disable AI for this #{kind} (#{aiInfo.name})
+              p.small
+                | Teachers signed up with this #{kind}: #{aiInfo.teachers}. Their students lose AI too.
+                if aiInfo.aiDisabledChangedAt
+                  |  Last changed #{new Date(aiInfo.aiDisabledChangedAt).toLocaleDateString()}.
       if view.user.get('role')
         h4
           - var outcomesReportKind = view.user.isStudent() ? 'student' : view.user.isSchoolAdmin() ? 'school-admin' : 'teacher'
