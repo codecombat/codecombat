@@ -326,7 +326,7 @@ export default {
     return {
       // Local UI-only state - whether the advanced section is expanded, not part of the draft.
       moreOptions: false,
-      aiDisabled: Boolean(this.value?.aiDisabled),
+      aiDisabled: false,
     }
   },
   computed: {
@@ -402,7 +402,7 @@ export default {
 
   },
   created () {
-    usersApi.getAiDisabled().then(({ aiDisabled }) => { this.aiDisabled = this.aiDisabled || aiDisabled }).catch(() => {})
+    usersApi.getAiDisabled().then(({ aiDisabled }) => { this.aiDisabled = aiDisabled }).catch(() => {})
   },
   methods: {
     updateDraft (patch) {
