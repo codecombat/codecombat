@@ -923,16 +923,27 @@ module.exports = (AdministerUserModal = (function () {
 
     onClickAiDisabledCheckbox (e) {
       const kind = this.$(e.target).data('kind')
-      const info = this.aiDisabled[kind]
+      const id = String(this.$(e.target).data('id'))
       const aiDisabled = this.$(e.target).prop('checked')
-      if (!window.confirm(`${aiDisabled ? 'DISABLE' : 'ENABLE'} AI for every teacher and student linked to ${info.name}?`)) {
+      const who = {
+        user: 'this teacher and their students',
+        classroom: 'the students of this class',
+      }[kind] || `every teacher and student linked to ${this.aiDisabled[kind].name}`
+      if (!window.confirm(`${aiDisabled ? 'DISABLE' : 'ENABLE'} AI for ${who}?`)) {
         return e.preventDefault()
       }
       this.$(e.target).prop('disabled', true)
-      fetchJson(`/admin/ai-disabled/${kind}/${info.ncesId}`, { method: 'PUT', json: { aiDisabled } })
-        .then(updated => { this.aiDisabled[kind] = updated })
+      const flagFields = ['aiDisabled', 'aiDisabledChangedAt']
+      fetchJson(`/admin/ai-disabled/${kind}/${id}`, { method: 'PUT', json: { aiDisabled } })
+        .then(updated => {
+          if (kind === 'user') { return this.user.set(_.pick(updated, flagFields)) }
+          if (kind === 'classroom') { return this.classrooms.get(id).set(_.pick(updated, flagFields)) }
+          this.aiDisabled[kind] = updated
+          // A school or district change also sets or clears this teacher's own flag, so re-read it.
+          return fetchJson(`/admin/ai-disabled/user/${this.user.id}`).then(user => this.user.set(_.pick(user, flagFields)))
+        })
         .catch(err => noty({ text: `Could not save the AI setting: ${err.message}`, type: 'error', layout: 'topCenter', timeout: 5000 }))
-        .then(() => this.renderSelectors(`#ai-disabled-${kind}`))
+        .then(() => this.renderSelectors(kind === 'classroom' ? `#ai-disabled-classroom-${id}` : `#ai-disabled-${kind}`, '#ai-disabled-user'))
     }
 
     onClickBetaTesterCheckbox (e) {

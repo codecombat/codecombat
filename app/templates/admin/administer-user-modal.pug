@@ -15,6 +15,15 @@ block modal-header-content
       h4
         span= 'ID: '
         code= view.user.get('_id')
+      if view.user.isTeacher()
+        div#ai-disabled-user
+          label
+            input.ai-disabled-checkbox(type='checkbox', data-kind='user', data-id=view.user.id, checked=!!view.user.get('aiDisabled'))
+            span.p-l-1 Disable AI for this teacher
+          p.small
+            | Their students lose AI too. Turning AI off for their school or district below ticks this box as well.
+            if view.user.get('aiDisabledChangedAt')
+              |  Last changed #{new Date(view.user.get('aiDisabledChangedAt')).toLocaleDateString()}.
       if view.user.isTeacher() && view.trialRequest
         - var props = view.trialRequest.get('properties') || {}
         h4 School: #{props.nces_school || props.organization}
@@ -31,7 +40,7 @@ block modal-header-content
               p.small Could not read the AI setting for NCES #{kind} id #{aiNcesIds[kind]}: #{aiInfo.error}
             else
               label
-                input.ai-disabled-checkbox(type='checkbox', data-kind=kind, checked=!!aiInfo.aiDisabled)
+                input.ai-disabled-checkbox(type='checkbox', data-kind=kind, data-id=aiInfo.ncesId, checked=!!aiInfo.aiDisabled)
                 span.p-l-1 Disable AI for this #{kind} (#{aiInfo.name})
               p.small
                 | Teachers signed up with this #{kind}: #{aiInfo.teachers}. Their students lose AI too.
@@ -382,6 +391,7 @@ block modal-body-content
           th Lang
           th Students
           if view.user.isTeacher()
+            th AI
             th # Levels / Courses
             th
           else
@@ -395,6 +405,11 @@ block modal-body-content
                 i.spl.text-muted (archived)
             td= classroom.capitalLanguage
             td= (classroom.get('members') || []).length
+            if view.user.isTeacher()
+              td(id='ai-disabled-classroom-' + classroom.id)
+                label
+                  input.ai-disabled-checkbox(type='checkbox', data-kind='classroom', data-id=classroom.id, checked=!!classroom.get('aiDisabled'))
+                  span.p-l-1 AI off
             if view.user.isTeacher()
               td #{classroom.getLevels().size()} / #{(classroom.get('courses') || []).length}
               td

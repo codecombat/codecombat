@@ -66,7 +66,7 @@ export default Vue.extend({
       newCodeFormats: typeof cFormats === 'undefined' ? ['text-code'] : cFormats,
       newCodeFormatDefault: typeof cFormatDefault === 'undefined' ? 'text-code' : cFormatDefault,
       newLevelChat: typeof cLevelChat === 'undefined' ? true : cLevelChat === 'fixed_prompt_only',
-      aiDisabled: false,
+      aiDisabled: Boolean(this.classroom?.aiDisabled),
       newRemix: this.classroom?.hackstackConfig?.remixAllowed || false,
       cocoDefaultLevelChat: true,
       newClassroomDescription: this.classroom?.description || '',
@@ -236,7 +236,7 @@ export default Vue.extend({
   },
 
   async mounted () {
-    usersApi.getAiDisabled().then(({ aiDisabled }) => { this.aiDisabled = aiDisabled }).catch(() => {})
+    usersApi.getAiDisabled().then(({ aiDisabled }) => { this.aiDisabled = this.aiDisabled || aiDisabled }).catch(() => {})
     if (!this.classroomInstance?.isNew()) {
       this.newInitialFreeCourses = this.classroomInstance.get('initialFreeCourses') || []
     }
