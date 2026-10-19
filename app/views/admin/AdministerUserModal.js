@@ -943,7 +943,7 @@ module.exports = (AdministerUserModal = (function () {
           return fetchJson(`/admin/ai-disabled/user/${this.user.id}`).then(user => this.user.set(_.pick(user, flagFields)))
         })
         .catch(err => noty({ text: `Could not save the AI setting: ${err.message}`, type: 'error', layout: 'topCenter', timeout: 5000 }))
-        .then(() => this.renderSelectors(kind === 'classroom' ? `#ai-disabled-classroom-${id}` : `#ai-disabled-${kind}`, '#ai-disabled-user'))
+        .then(() => this.renderSelectors(...new Set([kind === 'classroom' ? `#ai-disabled-classroom-${id}` : `#ai-disabled-${kind}`, '#ai-disabled-user'])))
     }
 
     onClickBetaTesterCheckbox (e) {
