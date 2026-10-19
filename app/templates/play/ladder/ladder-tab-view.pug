@@ -24,7 +24,10 @@
             th(colspan=levelType === 'hero-ladder' ? 3 : 2)
             th(data-i18n="general.score") Score
             th(data-i18n="general.name").name-col-cell Name
-            th(data-i18n="general.when") When
+            if levelType === 'hero-ladder'
+              th(data-i18n="ladder.last_match") Last match
+            else
+              th(data-i18n="general.when") When
             th
             th.iconic-cell
               .glyphicon.glyphicon-eye-open
@@ -40,7 +43,7 @@
               td.rank-cell= rank + 1
               td.score-cell= Math.round(view.scoreForDisplay(sessionStats.totalScore || session.get('totalScore') / 2)).toLocaleString()
               td(class='name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(session.get('creatorName')) ? ' ai' : ''))=session.get('fullName') || session.get('creatorName') || "Anonymous"
-              td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
+              td.age-cell(class=view.ageCellClass(session), title=view.ageCellTitle(session))= view.ageCellText(session)
               td.fight-cell
                 a(href=`/play/level/${view.level.get('slug') || view.level.id}?team=${team.otherTeam || 'humans'}&opponent=${session.id}` + (league ? "&league=" + league.id : "") + (tournamentId ? "&tournament="+tournament : ""))
                   span(data-i18n="ladder.fight") Fight!
@@ -61,7 +64,7 @@
                 td.rank-cell= session.rank
                 td.score-cell= Math.round(view.scoreForDisplay(sessionStats.totalScore || session.get('totalScore') / 2)).toLocaleString()
                 td(class='name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
-                td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
+                td.age-cell(class=view.ageCellClass(session), title=view.ageCellTitle(session))= view.ageCellText(session)
                 td.fight-cell
                   a(href='/play/level/' + (view.level.get('slug') || view.level.id) + '?team=' + (team.otherTeam || 'humans') + '&opponent=' + session.id + (league ? "&league=" + league.id : ""))
                     span(data-i18n="ladder.fight") Fight!
