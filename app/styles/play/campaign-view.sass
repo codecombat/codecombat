@@ -26,7 +26,6 @@ $glowingPortalSizeBase: 5px
 $hackstackGlowColor: #2E231F
 $hackstackGlowSizeBase: 5px
 $scenarioDotWidth: 3%
-$scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
 
 +keyframes(portalGlow)
@@ -370,9 +369,10 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       position: absolute
       z-index: 2
       width: $scenarioDotWidth
-      height: $scenarioDotHeight
+      aspect-ratio: 1
+      // Percentage margins resolve against the container width, so half the width is also half the height.
       margin-left: -0.5 * $scenarioDotWidth
-      margin-bottom: -0.5 * $scenarioDotHeight
+      margin-bottom: -0.5 * $scenarioDotWidth
       border-radius: 50%
       box-sizing: border-box
       background-color: #9B59B6

@@ -53,7 +53,6 @@ const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
 const PROMPTED_FOR_SIGNUP = 'prompted-for-signup'
 const PROMPTED_FOR_SUBSCRIPTION = 'prompted-for-subscription'
 const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
-const SCENARIO_MARGIN_COMPENSATION_FACTOR = 0.33 // Compensates for bottom margin when centering scenario elements
 
 const COMPLETE_STATUS = 'complete'
 const STARTED_STATUS = 'started'
@@ -1001,13 +1000,7 @@ class CampaignView extends RootView {
             const bg = $('.map-background')
             const el = $(this)
             const x = ((el.offset().left - bg.offset().left) + (el.outerWidth() / 2)) / bg.width()
-            // Compensate for negative margin-bottom used to center via bottom positioning.
-            // NOTE: Through visual testing, a factor of ~0.33 works best to align the
-            // saved position with the on-screen center. This is due to how the map's
-            // aspect scaling and our scenario circle height interact with bottom+margin
-            // centering. If map scaling logic changes, revisit this factor.
-            const mb = parseFloat(el.css('margin-bottom')) || 0
-            const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2) + (mb * SCENARIO_MARGIN_COMPENSATION_FACTOR)
+            const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2)
             const y = 1 - (yCenterPx / bg.height())
             const e = { position: { x: (100 * x), y: (100 * y) }, scenarioOriginal: $(this).data('scenario-original') }
             if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
