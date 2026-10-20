@@ -47,6 +47,7 @@ const JuniorPromotionModal = require('views/core/JuniorPromotionModal')
 const CCHomePromotionModal = require('views/core/CCHomePromotionModal')
 const WorldsPromotionModal = require('views/core/WorldsPromotionModal') // Roblox modal
 const HackstackPromotionModal = require('views/core/HackstackPromotionModal')
+const { PERCENT_FULL, scenarioConnectionPath } = require('lib/scenario-connection-path')
 require('lib/game-libraries')
 
 const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
@@ -57,6 +58,9 @@ const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
 const COMPLETE_STATUS = 'complete'
 const STARTED_STATUS = 'started'
 const DEFAULT_MAP_SIZE = { width: 1920, height: 1280 } // the classic campaign maps are painted 3:2
+// Same stroke as hackstack's LevelConnections
+const SCENARIO_CONNECTION_OPACITY = 0.7
+const SCENARIO_CONNECTION_WIDTH = 7
 
 // The hub map (/play with no campaign slug) has no campaign document of its own, so hub-level settings such as
 // ambientSound come from this campaign. Referenced by id: campaign slugs re-derive from `name` on every save.
@@ -1548,30 +1552,10 @@ class CampaignView extends RootView {
         }
       }
     }
-    // Also draw lines between AI Scenarios based on explicit connections
-    const scenarios = this.campaign?.get('scenarios') || []
-    if (scenarios.length) {
-      // Map scenarios by original id for fast lookup
-      const scenarioByOriginal = {}
-      for (const s of scenarios) {
-        if (s?.scenario) { scenarioByOriginal[s.scenario] = s }
-      }
-      for (const s of scenarios) {
-        const fromPos = s?.position
-        if (!fromPos) { continue }
-        for (const conn of (s?.connections || [])) {
-          const to = scenarioByOriginal[conn?.toScenario]
-          const toPos = to?.position
-          if (toPos) {
-            // If connection is marked invisible, render as a thinner line instead of skipping
-            this.createLineForEditor(fromPos, toPos, { thin: !!conn?.invisible })
-          }
-        }
-      }
-    }
+    this.createScenarioConnections()
   }
 
-  createLineForEditor (o1, o2, options = {}) {
+  createLineForEditor (o1, o2) {
     const mapHeight = parseFloat($('.map').css('height'))
     const mapWidth = parseFloat($('.map').css('width'))
     if (!(mapHeight > 0)) { return }
@@ -1581,8 +1565,52 @@ class CampaignView extends RootView {
     const length = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
     const angle = (Math.atan2(p1.y - p2.y, p2.x - p1.x) * 180) / Math.PI
     const transform = `translateY(-50%) translateX(-50%) rotate(${angle}deg) translateX(50%)`
-    const line = $('<div>').appendTo('.map').addClass('next-level-line').toggleClass('thin-connection', !!options.thin).css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
+    const line = $('<div>').appendTo('.map').addClass('next-level-line').css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
     return line.append($('<div class="line">')).append($('<div class="point">'))
+  }
+
+  // Mirrors hackstack's LevelConnections: one SVG over the map with a 100x100 viewBox stretched to
+  // it, so the curves scale with the map and the player sees the same bow, side and colour.
+  // Invisible connections are dashed here so authors can see them; players never do.
+  createScenarioConnections () {
+    const scenarios = this.campaign?.get('scenarios') || []
+    const map = this.$el.find('.map')
+    if (!scenarios.length || !map.length) { return }
+    const byOriginal = {}
+    for (const s of scenarios) {
+      if (s?.scenario) { byOriginal[s.scenario] = s }
+    }
+    const svgNS = 'http://www.w3.org/2000/svg'
+    const svg = document.createElementNS(svgNS, 'svg')
+    svg.setAttribute('id', 'scenario-connections-svg')
+    svg.setAttribute('viewBox', `0 0 ${PERCENT_FULL} ${PERCENT_FULL}`)
+    svg.setAttribute('preserveAspectRatio', 'none')
+    let lastColor, lastOpacity
+    for (const s of scenarios) {
+      if (!s?.position) { continue }
+      for (const conn of (s.connections || [])) {
+        const to = byOriginal[conn?.toScenario]
+        if (!to?.position) { continue }
+        const color = conn.color || lastColor || colors.amethyst
+        const opacity = conn.opacity ?? lastOpacity ?? SCENARIO_CONNECTION_OPACITY
+        if (!conn.invisible) {
+          // the player inherits colour and opacity from the last visible connection
+          lastColor = color
+          lastOpacity = opacity
+        }
+        const path = document.createElementNS(svgNS, 'path')
+        path.setAttribute('d', scenarioConnectionPath(s.position, to.position, conn.curveSide))
+        path.setAttribute('fill', 'none')
+        path.setAttribute('stroke', color)
+        path.setAttribute('stroke-opacity', conn.invisible ? opacity / 2 : opacity)
+        path.setAttribute('stroke-width', conn.invisible ? SCENARIO_CONNECTION_WIDTH / 2 : SCENARIO_CONNECTION_WIDTH)
+        path.setAttribute('stroke-linecap', 'round')
+        path.setAttribute('vector-effect', 'non-scaling-stroke')
+        if (conn.invisible) { path.setAttribute('stroke-dasharray', '6 6') }
+        svg.appendChild(path)
+      }
+    }
+    map.append(svg)
   }
 
   createVisualConnections () {
