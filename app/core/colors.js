@@ -29,6 +29,7 @@ module.exports = {
   lightGreen: '#90EE90',
   darkGreen: '#006400',
   mysticViolet: '#AD62F8',
+  amethyst: '#9b59b6',
 
   green: '#00ff00',
   blue: '#0000ff',

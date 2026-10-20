@@ -7,15 +7,26 @@
             .row
               .col-lg-12
                 h1.text-h1 {{ $t('apcsp_marketing.page_title') }}
-        .container-fluid.header-part-bottom(ref="header")
-          .width-container.text-center
             .row
               .col-lg-12
                 p.text-p {{ $t('apcsp_marketing.page_description_endorsed') }}
-            .row.row-request-access
+            .row
               .col-lg-12
                 a.btn.btn-primary.btn-lg.uppercase(v-if="hasLicense" href="/apcsportal" :target="checkUsingRoute() ? '_blank' : ''") {{ $t('apcsp_marketing.ap_csp_portal') }}
                 .btn.btn-primary.btn-lg.uppercase(v-if="!hasLicense" @click="showModal=true") {{ $t('apcsp_marketing.request_access') }}
+        .container-fluid.header-part-bottom(ref="header")
+          .width-container.row.row-eq-height.preview
+            .col-lg-5.col-sm-12
+              img.img-responsive(src="/images/pages/apcsp/intro-to-ai.webp" :alt="$t('apcsp_marketing.preview_lesson')")
+            .col-lg-6.col-sm-12.text-column.col-lg-offset-1
+              h3.text-h3 {{ $t('apcsp_marketing.preview_title') }}
+              h4.text-h4 {{ $t('apcsp_marketing.preview_lesson') }}
+              p {{ $t('apcsp_marketing.preview_module') }}
+              p {{ $t('apcsp_marketing.preview_description') }}
+              .preview-buttons
+                a.btn.btn-primary.uppercase(href="https://codecombat.com/file/APCSP/Module1/Lesson1_Intro_to_AI.pdf" target="_blank") {{ $t('teacher.lesson_plan') }}
+                a.btn.btn-primary.uppercase(href="https://codecombat.com/file/APCSP/Module1/mod1_lesson1_worksheet.pdf" target="_blank") {{ $t('apcsp_marketing.worksheet') }}
+                a.btn.btn-primary.uppercase(href="/ai/play/intro-to-ai" target="_blank") {{ $t('apcsp_marketing.preview_intro_to_ai') }}
 
     .container-fluid.vector-flow
       .vector.vector-0
@@ -329,7 +340,7 @@ export default Vue.extend({
 @import "app/styles/style-flat-variables";
 
 $teal-dark: #0E4C60;
-$apcsp-marketing-body-font: 'Arvo';
+$apcsp-marketing-body-font: $headline-font;
 
 .text-h1 {
   font-family: $apcsp-marketing-body-font;
@@ -395,7 +406,7 @@ $apcsp-marketing-body-font: 'Arvo';
 }
 
 p, .text-p {
-  font-family: 'Open Sans';
+  font-family: $body-font;
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -483,6 +494,7 @@ p, .text-p {
 
         display: flex;
         align-items: center;
+        justify-content: center;
         text-align: center;
         letter-spacing: 1.96px;
 
@@ -494,25 +506,12 @@ p, .text-p {
       .text-h2 {
         margin-top: 21px;
       }
-    }
-
-    .header-part-bottom {
 
       .text-p {
-        font-family: $apcsp-marketing-body-font;
-        font-style: normal;
-        font-weight: 700;
         font-size: 33px;
-        line-height: 62px;
-        /* or 188% */
-
-        text-align: center;
-        letter-spacing: 2.58px;
-
+        line-height: 42px;
         color: #FFFFFF;
-
-        padding-top: 35px;
-        padding-bottom: 12px;
+        text-shadow: 0px 0px 20px #000000;
         @media (max-width: $screen-sm) {
           font-size: 23px;
           line-height: 30px;
@@ -522,11 +521,45 @@ p, .text-p {
           line-height: 24px;
         }
       }
+    }
 
+    .header-part-bottom {
       background: linear-gradient(118.13deg, $teal-dark 0%, $forest 100%);
+      padding: 40px 0;
+    }
 
-      .row-request-access {
-        padding-bottom: 72px;
+    .preview {
+      row-gap: 20px;
+
+      img {
+        border-radius: 20px;
+      }
+
+      .text-h3 {
+        color: $yellow-dark;
+      }
+
+      h4, p {
+        color: #FFFFFF;
+      }
+
+      h4 {
+        font-family: $body-font;
+        font-weight: 700;
+      }
+
+      .preview-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 20px;
+
+        .btn {
+          min-width: 0;
+          margin-left: 0;
+          font-size: 16px;
+          padding: 16px 20px;
+        }
       }
     }
 
@@ -799,7 +832,7 @@ p, .text-p {
     .text-h4 {
       margin-top: 15px;
       margin-bottom: 15px;
-      font-family: 'Open Sans';
+      font-family: $body-font;
       font-style: normal;
       font-weight: 400;
       line-height: 125%;
@@ -816,7 +849,7 @@ p, .text-p {
     }
 
     .mcrel-blurb {
-      font-family: 'Open Sans';
+      font-family: $body-font;
       font-style: normal;
       font-weight: 400;
       font-size: 17px;
@@ -898,7 +931,7 @@ p, .text-p {
     }
 
     .answer {
-      font-family: 'Open Sans';
+      font-family: $body-font;
       font-style: normal;
       font-weight: 400;
       font-size: 24px;
@@ -921,7 +954,7 @@ p, .text-p {
       padding: 35px 35px;
       text-align: left;
 
-      font-family: 'Open Sans';
+      font-family: $body-font;
       font-style: normal;
       font-weight: 400;
       font-size: 24px;
@@ -1114,7 +1147,7 @@ p, .text-p {
         }
 
         &.unit, &.course {
-          font-family: 'Open Sans';
+          font-family: $body-font;
           font-style: normal;
           font-weight: 700;
           font-size: 24px;
@@ -1131,7 +1164,7 @@ p, .text-p {
         }
 
         &.description {
-          font-family: 'Open Sans';
+          font-family: $body-font;
           font-style: normal;
           font-weight: 400;
           font-size: 24px;
@@ -1283,7 +1316,7 @@ p, .text-p {
     }
 
     .text-p {
-      font-family: 'Open Sans';
+      font-family: $body-font;
       font-style: normal;
       font-weight: 400;
       line-height: 125%;

@@ -26,7 +26,6 @@ $glowingPortalSizeBase: 5px
 $hackstackGlowColor: #2E231F
 $hackstackGlowSizeBase: 5px
 $scenarioDotWidth: 3%
-$scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
 
 +keyframes(portalGlow)
@@ -370,9 +369,10 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       position: absolute
       z-index: 2
       width: $scenarioDotWidth
-      height: $scenarioDotHeight
+      aspect-ratio: 1
+      // Percentage margins resolve against the container width, so half the width is also half the height.
       margin-left: -0.5 * $scenarioDotWidth
-      margin-bottom: -0.5 * $scenarioDotHeight
+      margin-bottom: -0.5 * $scenarioDotWidth
       border-radius: 50%
       box-sizing: border-box
       background-color: #9B59B6
@@ -580,15 +580,15 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     stroke: #ffc800
     filter: drop-shadow(0 0 6px rgba(255, 200, 0, 0.9))
 
-  // Render thinner connection lines for invisible connections, with no arrowhead
-  .next-level-line.thin-connection
-    height: 4px
-    .line
-      height: 2px
-      margin-top: 1px
-      margin-bottom: 1px
-      background: repeating-linear-gradient(-45deg, rgba(#AF9F7D, 0.7), rgba(#DFC89C, 0.7) 5px, rgba(#F1EAC0, 0.7) 5px, rgba(#AF9F7D, 0.7) 10px)
-      box-shadow: 0px 0px 2px rgba(0,0,0,0.6)
+  // Scenario connections of graph-map HackStack campaigns, drawn the way hackstack draws them
+  #scenario-connections-svg
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    pointer-events: none
+    z-index: 1
 
   .game-controls
     position: absolute

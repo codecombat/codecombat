@@ -745,7 +745,7 @@ module.exports = class LevelLoader extends CocoClass
     @world.difficulty = @session?.get('state')?.difficulty ? 0
     if @observing
       @world.difficulty = Math.max 0, @world.difficulty - 1  # Show the difficulty they won, not the next one.
-    serializedLevel = @level.serialize {@supermodel, @session, @opponentSession, @headless, @sessionless}
+    serializedLevel = @level.serialize {@supermodel, @session, otherSession: @opponentSession, @headless, @sessionless}
     if me.constrainHeroHealth()
       serializedLevel.constrainHeroHealth = true
     @world.loadFromLevel serializedLevel, false
