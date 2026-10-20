@@ -56,6 +56,7 @@ const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
 
 const COMPLETE_STATUS = 'complete'
 const STARTED_STATUS = 'started'
+const DEFAULT_MAP_SIZE = { width: 1920, height: 1280 } // the classic campaign maps are painted 3:2
 
 // The hub map (/play with no campaign slug) has no campaign document of its own, so hub-level settings such as
 // ambientSound come from this campaign. Referenced by id: campaign slugs re-derive from `name` on every save.
@@ -1873,6 +1874,7 @@ class CampaignView extends RootView {
       })
       utils.injectCSS(rules.join('\n'))
     }
+    this.loadMapImageSize()
     const backgroundColor = this.campaign.get('backgroundColor')
     if (backgroundColor) {
       const backgroundColorTransparent = this.campaign.get('backgroundColorTransparent')
@@ -2128,12 +2130,44 @@ class CampaignView extends RootView {
     this.$levelInfo.css('top', top)
   }
 
+  // hackstack lays a graph-map campaign's image out at the image's own aspect ratio and reads
+  // level positions as percentages of it. The classic map box is 3:2, so a 16:9 image fills only
+  // its top part and the same percentages land somewhere else. In the editor the box follows the
+  // image for those campaigns, so a saved position means the same thing in both places.
+  // Side-scroller campaigns lay their levels out by index, not by saved position.
+  mapFollowsImageAspect () {
+    if (!this.editorMode || !this.campaign) { return false }
+    const isHackstack = this.campaign.get('type') === 'hackstack' || this.campaign.get('isHackstackCampaign')
+    return Boolean(isHackstack && !this.campaign.get('isSideScrollerCampaign'))
+  }
+
+  getMapSize () {
+    const image = this.mapImageSize
+    if (this.mapFollowsImageAspect() && image?.width > 0 && image?.height > 0) {
+      return { width: DEFAULT_MAP_SIZE.width, height: Math.round((DEFAULT_MAP_SIZE.width * image.height) / image.width) }
+    }
+    return DEFAULT_MAP_SIZE
+  }
+
+  loadMapImageSize () {
+    if (!this.mapFollowsImageAspect()) { return }
+    const image = this.campaign.get('backgroundImage')?.[0]?.image // applyCampaignStyles sorts the largest first
+    if (!image || image === this.mapImageSrc) { return }
+    this.mapImageSrc = image
+    const img = new Image()
+    img.onload = () => {
+      if (this.destroyed) { return }
+      this.mapImageSize = { width: img.naturalWidth, height: img.naturalHeight }
+      this.onWindowResize()
+    }
+    img.src = `/file/${image}`
+  }
+
   onWindowResize (e) {
     if (!this.campaign) {
       return
     }
-    const mapHeight = 1280
-    const mapWidth = 1920
+    const { width: mapWidth, height: mapHeight } = this.getMapSize()
     const sideControlsGutter = 240
     const layoutWidth = mapWidth + (sideControlsGutter * 2)
     const $gameplayContainer = this.$el.find('.gameplay-container')

@@ -669,4 +669,35 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
       expect(meFetches().length).toBe(1)
     })
   })
+
+  describe('getMapSize', function () {
+    const Campaign = require('models/Campaign')
+    const viewFor = (attrs, { editorMode = true, imageSize = { width: 1920, height: 1080 } } = {}) => {
+      const view = new CampaignView()
+      view.editorMode = editorMode
+      view.campaign = new Campaign(attrs)
+      view.mapImageSize = imageSize
+      return view
+    }
+
+    it('sizes a graph-map hackstack campaign to its image in the editor', function () {
+      expect(viewFor({ type: 'hackstack' }).getMapSize()).toEqual({ width: 1920, height: 1080 })
+    })
+
+    it('keeps the classic 3:2 box for hero campaigns', function () {
+      expect(viewFor({ type: 'hero' }).getMapSize()).toEqual({ width: 1920, height: 1280 })
+    })
+
+    it('keeps the classic box for side-scroller hackstack campaigns', function () {
+      expect(viewFor({ type: 'hackstack', isSideScrollerCampaign: true }).getMapSize()).toEqual({ width: 1920, height: 1280 })
+    })
+
+    it('keeps the classic box outside the editor', function () {
+      expect(viewFor({ type: 'hackstack' }, { editorMode: false }).getMapSize()).toEqual({ width: 1920, height: 1280 })
+    })
+
+    it('keeps the classic box until the image size is known', function () {
+      expect(viewFor({ type: 'hackstack' }, { imageSize: null }).getMapSize()).toEqual({ width: 1920, height: 1280 })
+    })
+  })
 }))
