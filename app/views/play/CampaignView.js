@@ -1576,6 +1576,7 @@ class CampaignView extends RootView {
     const scenarios = this.campaign?.get('scenarios') || []
     const map = this.$el.find('.map')
     if (!scenarios.length || !map.length) { return }
+    map.find('#scenario-connections-svg').remove()
     const byOriginal = {}
     for (const s of scenarios) {
       if (s?.scenario) { byOriginal[s.scenario] = s }
@@ -2184,11 +2185,20 @@ class CampaignView extends RootView {
     this.mapImageSrc = image
     const img = new Image()
     img.onload = () => {
-      if (this.destroyed) { return }
+      if (this.destroyed || image !== this.mapImageSrc) { return } // a newer background replaced this one while it loaded
       this.mapImageSize = { width: img.naturalWidth, height: img.naturalHeight }
       this.onWindowResize()
+      this.rebuildEditorLines()
     }
     img.src = `/file/${image}`
+  }
+
+  // The level-to-level editor lines are divs sized and rotated for the box they were drawn in,
+  // so a box change needs them drawn again. The scenario SVG scales with the box on its own.
+  rebuildEditorLines () {
+    if (!this.editorMode || !this.fullyRendered || window.currentModal) { return }
+    this.$el.find('.map .next-level-line').remove()
+    this.createLinesForEditor()
   }
 
   onWindowResize (e) {
