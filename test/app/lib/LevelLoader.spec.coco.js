@@ -9,6 +9,8 @@ const LevelSession = require('models/LevelSession');
 const SuperModel = require('models/SuperModel');
 const LevelComponent = require('models/LevelComponent');
 const LevelLoader = require('lib/LevelLoader');
+const World = require('lib/world/world')
+/* global spyOn */
 
 // LEVELS
 
@@ -185,7 +187,7 @@ describe('LevelLoader', function() {
     return expect(Array.from(urls).includes('/db/thang.type/wand/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData')).toBeTruthy();
   });
 
-  return it('loads components for item thang types which are inherited by level thangs from thang type default equips component configs', function() {
+  it('loads components for item thang types which are inherited by level thangs from thang type default equips component configs', function () {
     new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'});
 
     const responses = {
@@ -199,4 +201,23 @@ describe('LevelLoader', function() {
     const urls = (Array.from(requests).map((r) => r.url));
     return expect(Array.from(urls).includes('/db/level.component/poisons/version/0')).toBeTruthy();
   });
-});
+
+  describe('initWorld', function () {
+    it('serializes the level with the opponent session as otherSession', function () {
+      const levelLoader = new LevelLoader({ supermodel: new SuperModel(), sessionID: 'one', opponentSessionID: 'two', levelID: 'id' })
+      levelLoader.level = new Level({ type: 'hero-ladder', thangs: [] })
+      levelLoader.session = new LevelSession({ team: 'humans', heroConfig: { thangType: 'tharin' } })
+      levelLoader.opponentSession = new LevelSession({ team: 'ogres', heroConfig: { thangType: 'anya' } })
+      const serializedLevel = { thangs: [], levelComponents: [], systems: [], thangTypes: [] }
+      spyOn(levelLoader.level, 'serialize').and.returnValue(serializedLevel)
+      spyOn(World.prototype, 'loadFromLevel')
+
+      levelLoader.initWorld()
+
+      const options = levelLoader.level.serialize.calls.mostRecent().args[0]
+      expect(options.session).toBe(levelLoader.session)
+      expect(options.otherSession).toBe(levelLoader.opponentSession)
+      expect(World.prototype.loadFromLevel).toHaveBeenCalledWith(serializedLevel, false)
+    })
+  })
+})
