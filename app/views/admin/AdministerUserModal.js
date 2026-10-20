@@ -157,7 +157,7 @@ module.exports = (AdministerUserModal = (function () {
       this.updateStripeStatus()
       this.trialRequest = this.trialRequests.first()
       if (this.trialRequest) { this.models.push(this.trialRequest) }
-      this.fetchAiDisabled()
+      this.fetchSchoolAndDistrictAiDisabled()
       this.prepaidTableState = {}
       this.productTableState = {}
       this.foundTeachers = []
@@ -908,7 +908,9 @@ module.exports = (AdministerUserModal = (function () {
       }
     }
 
-    fetchAiDisabled () {
+    // The teacher and class flags come with the user and classroom docs. The school and district
+    // flags are on their own records, found by the NCES ids in the teacher's trial request.
+    fetchSchoolAndDistrictAiDisabled () {
       const props = this.trialRequest?.get('properties') || {}
       const ncesIds = { school: props.nces_id, district: props.nces_district_id }
       this.aiDisabled = {}
@@ -922,28 +924,46 @@ module.exports = (AdministerUserModal = (function () {
     }
 
     onClickAiDisabledCheckbox (e) {
-      const kind = this.$(e.target).data('kind')
-      const id = String(this.$(e.target).data('id'))
-      const aiDisabled = this.$(e.target).prop('checked')
-      const who = {
-        user: 'this teacher and their students',
-        classroom: 'the students of this class',
-      }[kind] || `every teacher and student linked to ${this.aiDisabled[kind].name}`
+      const checkbox = this.$(e.target)
+      const kind = checkbox.data('kind')
+      const id = String(checkbox.data('id'))
+      const aiDisabled = checkbox.prop('checked')
+
+      let who
+      if (kind === 'user') {
+        who = 'this teacher and their students'
+      } else if (kind === 'classroom') {
+        who = 'the students of this class'
+      } else {
+        who = `every teacher and student linked to ${this.aiDisabled[kind].name}`
+      }
       if (!window.confirm(`${aiDisabled ? 'DISABLE' : 'ENABLE'} AI for ${who}?`)) {
         return e.preventDefault()
       }
-      this.$(e.target).prop('disabled', true)
+
+      // No second click until this save is done. The re-render at the end puts back an enabled box.
+      checkbox.prop('disabled', true)
+
       const flagFields = ['aiDisabled', 'aiDisabledChangedAt']
       fetchJson(`/admin/ai-disabled/${kind}/${id}`, { method: 'PUT', json: { aiDisabled } })
         .then(updated => {
-          if (kind === 'user') { return this.user.set(_.pick(updated, flagFields)) }
-          if (kind === 'classroom') { return this.classrooms.get(id).set(_.pick(updated, flagFields)) }
-          this.aiDisabled[kind] = updated
-          // A school or district change also sets or clears this teacher's own flag, so re-read it.
-          return fetchJson(`/admin/ai-disabled/user/${this.user.id}`).then(user => this.user.set(_.pick(user, flagFields)))
+          if (kind === 'user') {
+            this.user.set(_.pick(updated, flagFields))
+          } else if (kind === 'classroom') {
+            this.classrooms.get(id).set(_.pick(updated, flagFields))
+          } else {
+            this.aiDisabled[kind] = updated
+            // A school or district change also sets or clears this teacher's own flag, so re-read it.
+            return fetchJson(`/admin/ai-disabled/user/${this.user.id}`).then(user => this.user.set(_.pick(user, flagFields)))
+          }
         })
         .catch(err => noty({ text: `Could not save the AI setting: ${err.message}`, type: 'error', layout: 'topCenter', timeout: 5000 }))
-        .then(() => this.renderSelectors(...new Set([kind === 'classroom' ? `#ai-disabled-classroom-${id}` : `#ai-disabled-${kind}`, '#ai-disabled-user'])))
+        .then(() => {
+          // The teacher box is always re-rendered, because a school or district change can flip it.
+          const box = kind === 'classroom' ? `#ai-disabled-classroom-${id}` : `#ai-disabled-${kind}`
+          const boxes = box === '#ai-disabled-user' ? [box] : [box, '#ai-disabled-user']
+          this.renderSelectors(...boxes)
+        })
     }
 
     onClickBetaTesterCheckbox (e) {
