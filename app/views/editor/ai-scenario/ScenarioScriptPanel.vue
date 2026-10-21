@@ -32,11 +32,12 @@
         {{ $t('editor.scenario_script_live_warning') }}
       </div>
       <div
-        v-if="lint.length"
-        class="alert alert-warning lint-strip"
+        v-if="notes.length"
+        :class="['alert', problems.length ? 'alert-danger' : 'alert-warning', 'lint-strip']"
       >
         <div class="lint-head">
-          <strong>{{ lint.length }} {{ $t('editor.scenario_lint_notes') }}</strong>
+          <strong v-if="problems.length">{{ $t('editor.scenario_script_problems') }} {{ problemText }}</strong>
+          <strong v-else>{{ lint.length }} {{ $t('editor.scenario_lint_notes') }}</strong>
           <button
             class="btn btn-xs btn-default"
             @click="lintOpen = !lintOpen"
@@ -49,7 +50,7 @@
           class="lint-list"
         >
           <li
-            v-for="(f, i) in lint"
+            v-for="(f, i) in notes"
             :key="i"
             :class="f.severity"
           >
@@ -282,33 +283,6 @@
           />
         </div>
       </div>
-
-      <div
-        v-if="!readOnly"
-        :class="['footer', { pending: changes.any }]"
-      >
-        <strong v-if="changes.any">{{ changes.count }} {{ $t('editor.scenario_script_unsaved') }}</strong>
-        <span v-else>{{ $t('editor.scenario_script_all_saved') }}</span>
-        <span class="summary">{{ summary }}</span>
-        <span
-          v-if="problems.length"
-          class="problems"
-        >{{ $t('editor.scenario_script_problems') }} {{ problemText }}</span>
-        <button
-          class="btn btn-default"
-          :disabled="!changes.any"
-          @click="discard"
-        >
-          {{ $t('editor.scenario_script_discard') }}
-        </button>
-        <button
-          class="btn btn-primary"
-          :disabled="!changes.any || problems.length > 0"
-          @click="$emit('save')"
-        >
-          {{ $t('common.save') }}
-        </button>
-      </div>
     </template>
 
     <div
@@ -403,6 +377,11 @@ export default Vue.extend({
     problemText () {
       return this.problems.map(p => `${this.$t('editor.scenario_step_title')} ${p.index + 1}: ${p.message}`).join('; ')
     },
+    // Save blockers first, then the lint findings, in one strip.
+    notes () {
+      const blockers = this.problems.map(p => ({ key: p.key, index: p.index, severity: 'blocker', message: p.message }))
+      return blockers.concat(this.lint)
+    },
     selectedIndex () {
       this.tick // eslint-disable-line no-unused-expressions
       return this.state.steps.findIndex(step => step.key === this.state.selectedKey)
@@ -413,10 +392,12 @@ export default Vue.extend({
     },
   },
   methods: {
-    // Store mutations on nested fields are not always seen by Vue; redraw after each.
+    // Store mutations on nested fields are not always seen by Vue; redraw after each
+    // and tell the editor view, which keeps the navbar Save button's count.
     bump () {
       this.tick += 1
       this.$forceUpdate()
+      this.$emit('changed', this.store.changes(), this.store.validate())
     },
     isDirty (step) {
       this.tick // eslint-disable-line no-unused-expressions
@@ -520,7 +501,9 @@ export default Vue.extend({
       this.store.deleteMessage(step.key)
       this.bump()
     },
+    // Called from the editor's actions dropdown.
     discard () {
+      if (!this.store.changes().any) { return }
       if (!window.confirm(this.$t('editor.scenario_script_discard_confirm'))) { return }
       this.store.discard().then(() => {
         this.backup = null
@@ -576,6 +559,7 @@ export default Vue.extend({
 
       li { margin: 2px 0; }
       li.info { color: #5f594f; }
+      li.blocker { font-weight: 600; }
       a { margin-right: 6px; }
     }
   }
@@ -593,14 +577,14 @@ export default Vue.extend({
     align-items: flex-start;
   }
 
+  // Script and step panel split the width evenly; the panel wraps under the list on narrow screens.
   .steps-column {
-    flex: 999 1 480px;
+    flex: 1 1 480px;
     min-width: 0;
   }
 
   .panel-column {
-    flex: 1 1 360px;
-    max-width: 480px;
+    flex: 1 1 480px;
     min-width: 0;
     position: sticky;
     top: 12px;
@@ -782,37 +766,6 @@ export default Vue.extend({
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 10px;
-  }
-
-  .footer {
-    position: sticky;
-    bottom: 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-    margin-top: 14px;
-    padding: 10px 14px;
-    background: #f3efe6;
-    border: 1px solid #d8d2c4;
-    border-radius: 6px;
-
-    &.pending {
-      background: #1f1c17;
-      color: #f3efe6;
-      border-color: #1f1c17;
-    }
-
-    .summary {
-      flex: 1 1 auto;
-      font-size: 13px;
-    }
-
-    .problems {
-      flex: 1 1 100%;
-      font-size: 13px;
-      color: #ffd9c9;
-    }
   }
 
   .preview-overlay {
