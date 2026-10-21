@@ -127,7 +127,28 @@
                   <div class="text">
                     <!-- markdown through marked, then DOMPurify, in render() -->
                     <!-- eslint-disable-next-line vue/no-v-html -->
-                    <div v-html="render(step.text)" />
+                    <div v-html="render(textWithoutApp(step))" />
+                  </div>
+                  <div
+                    v-if="appOf(step) || linkAttachments(step).length"
+                    class="extras"
+                    @click.stop
+                  >
+                    <button
+                      v-if="appOf(step)"
+                      class="btn btn-xs btn-default output-button"
+                      @click="openPreview(step)"
+                    >
+                      {{ $t('editor.scenario_preview_output') }} · {{ appOf(step).label }}
+                    </button>
+                    <a
+                      v-for="link in linkAttachments(step)"
+                      :key="link.url"
+                      :href="link.url"
+                      target="_blank"
+                      rel="noopener"
+                      class="chip link"
+                    >{{ link.label }}</a>
                   </div>
                   <ul
                     v-if="isQuiz(step)"
@@ -289,6 +310,31 @@
         </button>
       </div>
     </template>
+
+    <div
+      v-if="preview"
+      class="preview-overlay"
+      @click.self="closePreview"
+    >
+      <div class="preview-window">
+        <div class="preview-head">
+          <strong>{{ $t('editor.scenario_preview_title') }} {{ preview.index + 1 }} · {{ preview.label }}</strong>
+          <span class="muted">{{ $t('editor.scenario_preview_sandbox') }}</span>
+          <button
+            class="btn btn-xs btn-default"
+            @click="closePreview"
+          >
+            {{ $t('modal.close') }}
+          </button>
+        </div>
+        <iframe
+          class="preview-frame"
+          sandbox="allow-scripts"
+          :srcdoc="preview.html"
+          :title="preview.label"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -302,6 +348,9 @@ const ScenarioStepPanel = require('./ScenarioStepPanel.vue').default
 const { lintScript, findingsByKey } = require('lib/scenario-lint')
 
 const KINDS = ['teacher', 'quiz', 'model', 'end']
+// The first fenced block of a message; an html document in it is what the player's Output button runs.
+const FENCE = /```(\w*)[ \t]*\n([\s\S]*?)```/
+const HTML_DOC = /^\s*(<!doctype\s+html|<html)/i
 
 export default Vue.extend({
   name: 'ScenarioScriptPanel',
@@ -318,6 +367,7 @@ export default Vue.extend({
       tick: 0,
       backup: this.store.readBackup(),
       lintOpen: false,
+      preview: null,
     }
   },
   computed: {
@@ -377,6 +427,34 @@ export default Vue.extend({
     },
     render (text) {
       return DOMPurify.sanitize(marked(text || ''))
+    },
+    // { html, label } when the step embeds a whole HTML document in a code fence, like the Vibe Coding games.
+    appOf (step) {
+      const match = FENCE.exec(step.text || '')
+      if (!match) { return null }
+      const [, lang, code] = match
+      if (!(lang.toLowerCase() === 'html' || HTML_DOC.test(code))) { return null }
+      const title = /<title>([^<]*)<\/title>/i.exec(code)
+      const label = title && title[1].trim() ? title[1].trim() : `${Math.round(code.length / 1024)} KB html`
+      return { html: code, label }
+    },
+    // The card shows the text the way the player bubble does: the app behind an Output button, not as a wall of code.
+    textWithoutApp (step) {
+      return this.appOf(step) ? (step.text || '').replace(FENCE, '').trim() : step.text
+    },
+    linkAttachments (step) {
+      return (step.documents || []).filter(doc => doc && doc.source && doc.source.url).map(doc => ({
+        url: doc.source.url,
+        label: doc.source.linkText || doc.source.url,
+      }))
+    },
+    openPreview (step) {
+      const app = this.appOf(step)
+      if (!app) { return }
+      this.preview = { html: app.html, label: app.label, index: this.state.steps.indexOf(step) }
+    },
+    closePreview () {
+      this.preview = null
     },
     actorLabel (actor) {
       return this.$t(`editor.scenario_script_actor_${actor}`)
@@ -636,6 +714,21 @@ export default Vue.extend({
       ::v-deep img { max-width: 100%; }
     }
 
+    .extras {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+
+      .chip.link {
+        text-decoration: none;
+        color: #1f5fa8;
+        background: #faf8f3;
+        border: 1px solid #d8d2c4;
+      }
+    }
+
     .choices {
       list-style: none;
       margin: 0;
@@ -720,6 +813,46 @@ export default Vue.extend({
       font-size: 13px;
       color: #ffd9c9;
     }
+  }
+
+  .preview-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(31, 28, 23, 0.6);
+  }
+
+  .preview-window {
+    display: flex;
+    flex-direction: column;
+    width: min(1100px, 100%);
+    height: min(820px, 100%);
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .preview-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #d8d2c4;
+    font-size: 13px;
+
+    .muted { color: #5f594f; }
+    .btn { margin-left: auto; }
+  }
+
+  .preview-frame {
+    flex: 1 1 auto;
+    width: 100%;
+    border: 0;
+    background: #fff;
   }
 }
 </style>
