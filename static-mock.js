@@ -39,6 +39,8 @@ exports.me = {
   hideTopRightNav () { return false },
   hideFooter () { return false },
   useGoogleAnalytics () { return true },
+  useTikTokPixel () { return true },
+  useRedditPixel () { return true },
   showChinaVideo () { return false },
   showForumLink () { return true },
   showChinaResourceInfo () { return false },
