@@ -12,6 +12,7 @@ let AIScenarioEditView
 require('app/styles/editor/ai-scenario/edit.sass')
 const RootView = require('views/core/RootView')
 const VersionHistoryView = require('./AIScenarioVersionsModal')
+const AIScenarioForkModal = require('./AIScenarioForkModal')
 const template = require('app/templates/editor/ai-scenario/edit')
 const AIScenario = require('models/AIScenario')
 const SaveVersionModal = require('views/editor/modal/SaveVersionModal')
@@ -42,6 +43,7 @@ module.exports = (AIScenarioEditView = (function () {
         'click #fix-button': 'onFix',
         'click #diff-button': 'onAddDiff',
         'click #ai-translate-button': 'onAITranslate',
+        'click #fork-button': 'onFork',
       }
     }
 
@@ -97,6 +99,10 @@ module.exports = (AIScenarioEditView = (function () {
       if (me.get('anonymous')) { this.showReadOnly() }
       this.patchesView = this.insertSubView(new PatchesView(this.scenario), this.$el.find('.patches-view'))
       return this.patchesView.load()
+    }
+
+    onFork () {
+      this.openModalView(new AIScenarioForkModal({ scenario: this.scenario }))
     }
 
     onPopulateI18N () {
