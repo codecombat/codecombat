@@ -226,6 +226,10 @@
         <strong v-if="changes.any">{{ changes.count }} {{ $t('editor.scenario_script_unsaved') }}</strong>
         <span v-else>{{ $t('editor.scenario_script_all_saved') }}</span>
         <span class="summary">{{ summary }}</span>
+        <span
+          v-if="problems.length"
+          class="problems"
+        >{{ $t('editor.scenario_script_problems') }} {{ problemText }}</span>
         <button
           class="btn btn-default"
           :disabled="!changes.any"
@@ -235,7 +239,7 @@
         </button>
         <button
           class="btn btn-primary"
-          :disabled="!changes.any"
+          :disabled="!changes.any || problems.length > 0"
           @click="$emit('save')"
         >
           {{ $t('common.save') }}
@@ -288,6 +292,13 @@ export default Vue.extend({
     },
     backupTime () {
       return this.backup && this.backup.at ? new Date(this.backup.at).toLocaleString() : ''
+    },
+    problems () {
+      this.tick // eslint-disable-line no-unused-expressions
+      return this.store.validate()
+    },
+    problemText () {
+      return this.problems.map(p => `${this.$t('editor.scenario_step_title')} ${p.index + 1}: ${p.message}`).join('; ')
     },
     selectedIndex () {
       this.tick // eslint-disable-line no-unused-expressions
@@ -604,6 +615,12 @@ export default Vue.extend({
     .summary {
       flex: 1 1 auto;
       font-size: 13px;
+    }
+
+    .problems {
+      flex: 1 1 100%;
+      font-size: 13px;
+      color: #ffd9c9;
     }
   }
 }

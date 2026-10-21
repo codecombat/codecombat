@@ -17,7 +17,7 @@ const ScenarioScriptPanel = require('./ScenarioScriptPanel.vue').default
 const { createScriptStore } = require('lib/scenario-script')
 const template = require('app/templates/editor/ai-scenario/edit')
 const AIScenario = require('models/AIScenario')
-const SaveVersionModal = require('views/editor/modal/SaveVersionModal')
+const ScenarioSaveVersionModal = require('./ScenarioSaveVersionModal')
 const PatchesView = require('views/editor/PatchesView')
 const ConfirmModal = require('views/core/ConfirmModal')
 const fetchJson = require('core/api/fetch-json')
@@ -205,8 +205,35 @@ module.exports = (AIScenarioEditView = (function () {
       }
     }
 
+    // Lines for the save modal: what saveMessages() will write before the version.
+    scriptSummary () {
+      if (!this.scriptStore) { return [] }
+      const c = this.scriptStore.changes()
+      if (!c.any) { return [] }
+      const t = key => $.i18n.t(`editor.scenario_save_${key}`)
+      const steps = this.scriptStore.state.steps
+      const firstWords = step => (step.text || '').replace(/\s+/g, ' ').trim().slice(0, 40)
+      const lines = []
+      for (const step of c.newSteps) { lines.push(`${t('new_step')} ${steps.indexOf(step) + 1}: ${firstWords(step)}`) }
+      for (const step of c.editedSteps) { lines.push(`${t('edited_step')} ${steps.indexOf(step) + 1} (${step.id}): ${firstWords(step)}`) }
+      for (const id of c.deletedIds) { lines.push(`${t('deleted_message')} ${id}`) }
+      if (c.queueChanged) { lines.push(t('queue_changed')) }
+      return lines
+    }
+
     openSaveModal () {
-      const modal = new SaveVersionModal({ model: this.scenario, noNewMajorVersions: true })
+      const problems = this.scriptStore ? this.scriptStore.validate() : []
+      if (problems.length) {
+        noty({ type: 'error', text: `${$.i18n.t('editor.scenario_save_fix_first')} ${problems.map(p => `${$.i18n.t('editor.scenario_step_title')} ${p.index + 1}: ${p.message}`).join('; ')}`, timeout: 8000 })
+        return
+      }
+      const scriptSummary = this.scriptSummary()
+      const modal = new ScenarioSaveVersionModal({
+        model: this.scenario,
+        noNewMajorVersions: true,
+        scriptSummary,
+        commitMessage: scriptSummary.length ? `${$.i18n.t('editor.scenario_script_tab')}: ${this.scriptStore.changes().count} ${$.i18n.t('editor.scenario_script_unsaved')}` : undefined,
+      })
       this.openModalView(modal)
       this.listenToOnce(modal, 'save-new-version', this.saveNewScenario)
       return this.listenToOnce(modal, 'hidden', function () { return this.stopListening(modal) })
@@ -230,8 +257,9 @@ module.exports = (AIScenarioEditView = (function () {
         this.saveScenarioVersion(e, modal)
       }, err => {
         this.disableModalInProgress(modal)
-        const where = err.step && typeof err.step.key === 'string' ? ` (${err.action || 'write'} of a step)` : ''
-        noty({ type: 'error', text: `Script not saved${where}: ${err.message || err}`, timeout: 8000 })
+        const index = err.step && this.scriptStore ? this.scriptStore.state.steps.indexOf(err.step) : -1
+        const where = index >= 0 ? ` (${$.i18n.t('editor.scenario_step_title')} ${index + 1}, ${err.action || 'write'})` : (err.step && err.step.id ? ` (${err.action || 'write'} ${err.step.id})` : '')
+        noty({ type: 'error', text: `${$.i18n.t('editor.scenario_save_failed')}${where}: ${err.message || err}`, timeout: 8000 })
       })
     }
 
