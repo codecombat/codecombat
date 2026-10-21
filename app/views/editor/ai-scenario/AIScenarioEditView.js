@@ -15,6 +15,20 @@ const VersionHistoryView = require('./AIScenarioVersionsModal')
 const AIScenarioForkModal = require('./AIScenarioForkModal')
 const ScenarioScriptPanel = require('./ScenarioScriptPanel.vue').default
 const { createScriptStore } = require('lib/scenario-script')
+
+// Settings tab order: identity, catalog tags, AI behaviour, evaluation, translations.
+const SETTINGS_ORDER = [
+  'name', 'releasePhase', 'archived',
+  'mode', 'tool', 'task', 'doc', 'persona', 'labels', 'priority', 'coverImage',
+  'promptType', 'additionalSystemPrompts', 'allowFileUpload', 'minMsgs',
+  'evaluationRules', 'evaluationPhase',
+  'i18n',
+]
+// Edited elsewhere (the queue, in the Script tab) or maintained by the server.
+const SETTINGS_HIDDEN = [
+  'initialActionQueue', '_id', '__v', 'index', 'original', 'parent', 'creator', 'created',
+  'version', 'commitMessage', 'watchers', 'patches', 'slug', 'i18nCoverage',
+]
 const template = require('app/templates/editor/ai-scenario/edit')
 const AIScenario = require('models/AIScenario')
 const ScenarioSaveVersionModal = require('./ScenarioSaveVersionModal')
@@ -66,17 +80,26 @@ module.exports = (AIScenarioEditView = (function () {
       this.buildTreema()
       return this.listenTo(this.scenario, 'change', () => {
         this.scenario.updateI18NCoverage()
-        return this.treema.set('/', _.omit(this.scenario.attributes, 'initialActionQueue'))
+        return this.treema.set('/', this.settingsData())
       })
+    }
+
+    // What the Settings treema shows: the scenario without the queue (Script tab)
+    // and without server bookkeeping. Keys left out stay on the model untouched.
+    settingsData () {
+      return _.omit($.extend(true, {}, this.scenario.attributes), SETTINGS_HIDDEN)
     }
 
     buildTreema () {
       if ((this.treema != null) || (!this.scenario.loaded)) { return }
-      // The queue is edited in the Script tab; the treema under Settings holds every other field.
-      const data = _.omit($.extend(true, {}, this.scenario.attributes), 'initialActionQueue')
+      const data = this.settingsData()
       const copySchema = $.extend(true, {}, AIScenario.schema)
-      delete copySchema.properties.initialActionQueue
-      copySchema.required = (copySchema.required || []).filter(key => key !== 'initialActionQueue')
+      // Treema lists properties in schema order: name first, then by how often they matter.
+      const ordered = {}
+      for (const key of SETTINGS_ORDER) { if (copySchema.properties[key]) { ordered[key] = copySchema.properties[key] } }
+      for (const key of Object.keys(copySchema.properties)) { if (!ordered[key] && !SETTINGS_HIDDEN.includes(key)) { ordered[key] = copySchema.properties[key] } }
+      copySchema.properties = ordered
+      copySchema.required = (copySchema.required || []).filter(key => !SETTINGS_HIDDEN.includes(key))
       if (this.scenario.get('mode') === 'use') {
         copySchema.properties.minMsgs.minimum = 1
         copySchema.properties.minMsgs.default = 1
