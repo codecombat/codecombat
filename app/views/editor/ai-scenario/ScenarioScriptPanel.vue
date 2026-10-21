@@ -32,173 +32,191 @@
         {{ $t('editor.scenario_script_live_warning') }}
       </div>
 
-      <ol class="steps">
-        <li
-          v-for="(step, index) in state.steps"
-          :key="step.key"
-          :class="['step', step.kind, { selected: step.key === state.selectedKey, dirty: isDirty(step) }]"
-          @click="select(step)"
-        >
-          <div class="index">
-            {{ index + 1 }}
-          </div>
-          <template v-if="step.kind === 'dead'">
-            <div class="body dead-body">
-              <code>{{ step.id }}</code>
-              <span>{{ $t('editor.scenario_script_dead') }}</span>
-            </div>
-            <div
-              v-if="!readOnly"
-              class="actions"
-              @click.stop
+      <div class="layout">
+        <div class="steps-column">
+          <ol class="steps">
+            <li
+              v-for="(step, index) in state.steps"
+              :key="step.key"
+              :class="['step', step.kind, { selected: step.key === state.selectedKey, dirty: isDirty(step) }]"
+              @click="select(step)"
             >
-              <button
-                class="btn btn-xs btn-default"
-                @click="removeFromQueue(step)"
-              >
-                {{ $t('editor.scenario_script_remove') }}
-              </button>
-            </div>
-          </template>
-          <template v-else>
-            <div class="body">
-              <div class="meta">
-                <span :class="['badge-actor', step.actor]">{{ actorLabel(step.actor) }}</span>
-                <span class="chip">{{ actionLabel(step) }}</span>
-                <span
-                  v-if="step.kind === 'new'"
-                  class="chip pending"
-                >{{ $t('editor.scenario_script_new') }}</span>
-                <span
-                  v-else-if="isDirty(step)"
-                  class="chip pending"
-                >{{ $t('editor.scenario_script_edited') }}</span>
-                <span
-                  v-if="attachmentCount(step)"
-                  class="chip"
-                >{{ attachmentCount(step) }} {{ $t('editor.scenario_script_attachments') }}</span>
-                <span class="langs">{{ languages(step) }}</span>
+              <div class="index">
+                {{ index + 1 }}
               </div>
-              <div class="text">
-                <!-- markdown through marked, then DOMPurify, in render() -->
-                <!-- eslint-disable-next-line vue/no-v-html -->
-                <div v-html="render(step.text)" />
-              </div>
-              <ul
-                v-if="isQuiz(step)"
-                class="choices"
-              >
-                <li
-                  v-for="(choice, i) in step.actionData.choices"
-                  :key="i"
-                  :class="{ correct: i === step.actionData.answerIndex }"
+              <template v-if="step.kind === 'dead'">
+                <div class="body dead-body">
+                  <code>{{ step.id }}</code>
+                  <span>{{ $t('editor.scenario_script_dead') }}</span>
+                </div>
+                <div
+                  v-if="!readOnly"
+                  class="actions"
+                  @click.stop
                 >
-                  <span class="mark">{{ i === step.actionData.answerIndex ? $t('editor.scenario_script_correct') : $t('editor.scenario_script_wrong') }}</span>
-                  <span class="choice-text">{{ choice.text }}</span>
-                  <span class="feedback">{{ choice.responseText }}</span>
-                </li>
-              </ul>
-            </div>
-            <div
-              v-if="!readOnly"
-              class="actions"
-              @click.stop
-            >
-              <button
-                class="btn btn-xs btn-default"
-                :disabled="index === 0"
-                :title="$t('editor.scenario_script_move_up')"
-                @click="move(step, -1)"
-              >
-                &uarr;
-              </button>
-              <button
-                class="btn btn-xs btn-default"
-                :disabled="index === state.steps.length - 1"
-                :title="$t('editor.scenario_script_move_down')"
-                @click="move(step, 1)"
-              >
-                &darr;
-              </button>
-              <div class="btn-group">
-                <button
-                  class="btn btn-xs btn-default dropdown-toggle"
-                  data-toggle="dropdown"
-                >
-                  {{ $t('editor.scenario_script_insert_after') }} <span class="caret" />
-                </button>
-                <ul class="dropdown-menu">
-                  <li
-                    v-for="kind in kinds"
-                    :key="kind"
+                  <button
+                    class="btn btn-xs btn-default"
+                    @click="removeFromQueue(step)"
                   >
-                    <a
-                      href="#"
-                      @click.prevent="insertAfter(step, kind)"
-                    >{{ kindLabel(kind) }}</a>
-                  </li>
-                  <li class="divider" />
-                  <li>
-                    <a
-                      href="#"
-                      @click.prevent="insertCopy(step)"
-                    >{{ $t('editor.scenario_script_insert_copy') }}</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="btn-group">
-                <button
-                  class="btn btn-xs btn-default dropdown-toggle"
-                  data-toggle="dropdown"
-                  :title="$t('editor.scenario_script_more')"
+                    {{ $t('editor.scenario_script_remove') }}
+                  </button>
+                </div>
+              </template>
+              <template v-else>
+                <div class="body">
+                  <div class="meta">
+                    <span :class="['badge-actor', step.actor]">{{ actorLabel(step.actor) }}</span>
+                    <span class="chip">{{ actionLabel(step) }}</span>
+                    <span
+                      v-if="step.kind === 'new'"
+                      class="chip pending"
+                    >{{ $t('editor.scenario_script_new') }}</span>
+                    <span
+                      v-else-if="isDirty(step)"
+                      class="chip pending"
+                    >{{ $t('editor.scenario_script_edited') }}</span>
+                    <span
+                      v-if="attachmentCount(step)"
+                      class="chip"
+                    >{{ attachmentCount(step) }} {{ $t('editor.scenario_script_attachments') }}</span>
+                    <span class="langs">{{ languages(step) }}</span>
+                  </div>
+                  <div class="text">
+                    <!-- markdown through marked, then DOMPurify, in render() -->
+                    <!-- eslint-disable-next-line vue/no-v-html -->
+                    <div v-html="render(step.text)" />
+                  </div>
+                  <ul
+                    v-if="isQuiz(step)"
+                    class="choices"
+                  >
+                    <li
+                      v-for="(choice, i) in step.actionData.choices"
+                      :key="i"
+                      :class="{ correct: i === step.actionData.answerIndex }"
+                    >
+                      <span class="mark">{{ i === step.actionData.answerIndex ? $t('editor.scenario_script_correct') : $t('editor.scenario_script_wrong') }}</span>
+                      <span class="choice-text">{{ choice.text }}</span>
+                      <span class="feedback">{{ choice.responseText }}</span>
+                    </li>
+                  </ul>
+                </div>
+                <div
+                  v-if="!readOnly"
+                  class="actions"
+                  @click.stop
                 >
-                  &hellip;
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li>
-                    <a
-                      href="#"
-                      @click.prevent="duplicate(step)"
-                    >{{ $t('editor.scenario_script_duplicate') }}</a>
-                  </li>
-                  <li v-if="step.id">
-                    <a
-                      :href="'/editor/ai-chat-message/' + step.id"
-                      target="_blank"
-                    >{{ $t('editor.scenario_script_open_message') }}</a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      @click.prevent="removeFromQueue(step)"
-                    >{{ $t('editor.scenario_script_remove') }}</a>
-                  </li>
-                  <li v-if="step.kind === 'live'">
-                    <a
-                      href="#"
-                      class="danger"
-                      @click.prevent="deleteMessage(step)"
-                    >{{ $t('editor.scenario_script_delete') }}</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </template>
-        </li>
-      </ol>
+                  <button
+                    class="btn btn-xs btn-default"
+                    :disabled="index === 0"
+                    :title="$t('editor.scenario_script_move_up')"
+                    @click="move(step, -1)"
+                  >
+                    &uarr;
+                  </button>
+                  <button
+                    class="btn btn-xs btn-default"
+                    :disabled="index === state.steps.length - 1"
+                    :title="$t('editor.scenario_script_move_down')"
+                    @click="move(step, 1)"
+                  >
+                    &darr;
+                  </button>
+                  <div class="btn-group">
+                    <button
+                      class="btn btn-xs btn-default dropdown-toggle"
+                      data-toggle="dropdown"
+                    >
+                      {{ $t('editor.scenario_script_insert_after') }} <span class="caret" />
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li
+                        v-for="kind in kinds"
+                        :key="kind"
+                      >
+                        <a
+                          href="#"
+                          @click.prevent="insertAfter(step, kind)"
+                        >{{ kindLabel(kind) }}</a>
+                      </li>
+                      <li class="divider" />
+                      <li>
+                        <a
+                          href="#"
+                          @click.prevent="insertCopy(step)"
+                        >{{ $t('editor.scenario_script_insert_copy') }}</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="btn-group">
+                    <button
+                      class="btn btn-xs btn-default dropdown-toggle"
+                      data-toggle="dropdown"
+                      :title="$t('editor.scenario_script_more')"
+                    >
+                      &hellip;
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      <li>
+                        <a
+                          href="#"
+                          @click.prevent="duplicate(step)"
+                        >{{ $t('editor.scenario_script_duplicate') }}</a>
+                      </li>
+                      <li v-if="step.id">
+                        <a
+                          :href="'/editor/ai-chat-message/' + step.id"
+                          target="_blank"
+                        >{{ $t('editor.scenario_script_open_message') }}</a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          @click.prevent="removeFromQueue(step)"
+                        >{{ $t('editor.scenario_script_remove') }}</a>
+                      </li>
+                      <li v-if="step.kind === 'live'">
+                        <a
+                          href="#"
+                          class="danger"
+                          @click.prevent="deleteMessage(step)"
+                        >{{ $t('editor.scenario_script_delete') }}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </template>
+            </li>
+          </ol>
 
-      <div
-        v-if="!readOnly"
-        class="add-row"
-      >
-        <button
-          v-for="kind in kinds"
-          :key="kind"
-          class="btn btn-default"
-          @click="append(kind)"
+          <div
+            v-if="!readOnly"
+            class="add-row"
+          >
+            <button
+              v-for="kind in kinds"
+              :key="kind"
+              class="btn btn-default"
+              @click="append(kind)"
+            >
+              {{ $t('editor.scenario_script_add') }} {{ kindLabel(kind) }}
+            </button>
+          </div>
+        </div>
+        <div
+          v-if="selectedStep"
+          class="panel-column"
         >
-          {{ $t('editor.scenario_script_add') }} {{ kindLabel(kind) }}
-        </button>
+          <scenario-step-panel
+            :key="selectedStep.key"
+            :store="store"
+            :step="selectedStep"
+            :index="selectedIndex"
+            :read-only="readOnly"
+            @changed="bump"
+            @close="deselect"
+          />
+        </div>
       </div>
 
       <div
@@ -233,11 +251,13 @@
 // component only calls it and re-renders.
 const marked = require('marked')
 const DOMPurify = require('dompurify')
+const ScenarioStepPanel = require('./ScenarioStepPanel.vue').default
 
 const KINDS = ['teacher', 'quiz', 'model', 'end']
 
 export default Vue.extend({
   name: 'ScenarioScriptPanel',
+  components: { ScenarioStepPanel },
   props: {
     store: { type: Object, required: true },
     readOnly: { type: Boolean, default: false },
@@ -268,6 +288,14 @@ export default Vue.extend({
     },
     backupTime () {
       return this.backup && this.backup.at ? new Date(this.backup.at).toLocaleString() : ''
+    },
+    selectedIndex () {
+      this.tick // eslint-disable-line no-unused-expressions
+      return this.state.steps.findIndex(step => step.key === this.state.selectedKey)
+    },
+    selectedStep () {
+      const step = this.selectedIndex >= 0 ? this.state.steps[this.selectedIndex] : null
+      return step && step.kind !== 'dead' ? step : null
     },
   },
   methods: {
@@ -305,6 +333,10 @@ export default Vue.extend({
     },
     select (step) {
       this.store.select(step.key)
+      this.bump()
+    },
+    deselect () {
+      this.store.select(null)
       this.bump()
     },
     move (step, delta) {
@@ -375,6 +407,26 @@ export default Vue.extend({
     flex-wrap: wrap;
     align-items: center;
     gap: 10px;
+  }
+
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .steps-column {
+    flex: 999 1 480px;
+    min-width: 0;
+  }
+
+  .panel-column {
+    flex: 1 1 360px;
+    max-width: 480px;
+    min-width: 0;
+    position: sticky;
+    top: 12px;
   }
 
   .steps {
