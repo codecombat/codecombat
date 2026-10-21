@@ -63,6 +63,8 @@ module.exports = (AIScenarioEditView = (function () {
         'click #ai-translate-button': 'onAITranslate',
         'click #fork-button': 'onFork',
         'click #play-button': 'onPlay',
+        'click #discard-script-button': 'onDiscardScript',
+        'click .copy-id': 'onCopyId',
       }
     }
 
@@ -152,10 +154,31 @@ module.exports = (AIScenarioEditView = (function () {
           mode: this.scenario.get('mode') || '',
         },
       })
-      this.scriptPanel.$on('save', () => this.openSaveModal())
+      this.scriptPanel.$on('changed', (changes, problems) => this.updateSaveBadge(changes, problems))
       this.scriptStore.load().catch(err => {
         noty({ type: 'error', text: `Could not load the script: ${err.message || err}`, timeout: 8000 })
       })
+    }
+
+    // The navbar Save icon carries the number of pending script changes, red when something blocks Save.
+    updateSaveBadge (changes, problems) {
+      const badge = this.$('#script-change-count')
+      if (!badge.length) { return }
+      const count = changes ? changes.count : 0
+      badge.text(count).toggleClass('hide', count === 0).toggleClass('has-problems', Boolean(problems && problems.length))
+    }
+
+    onCopyId (e) {
+      const value = $(e.currentTarget).data('copy')
+      if (!value || !navigator.clipboard) { return }
+      navigator.clipboard.writeText(String(value)).then(() => {
+        noty({ type: 'success', text: `${$.i18n.t('editor.scenario_copied')} ${value}`, timeout: 2000 })
+      }, () => {})
+    }
+
+    onDiscardScript () {
+      if (me.get('anonymous') || !this.scriptPanel) { return }
+      this.scriptPanel.discard()
     }
 
     destroy () {
@@ -169,7 +192,7 @@ module.exports = (AIScenarioEditView = (function () {
     // Play the saved script as a player: one live project per scenario per user, like the
     // planet, so a second click restarts that project instead of adding another.
     async onPlay () {
-      if (this.playPending) { return }
+      if (me.get('anonymous') || this.playPending) { return }
       // Open the tab inside the click; a tab opened after the awaits gets popup-blocked.
       const playTab = window.open('', '_blank')
       if (!playTab) {
@@ -177,7 +200,7 @@ module.exports = (AIScenarioEditView = (function () {
         return
       }
       this.playPending = true
-      this.$('#play-button').prop('disabled', true)
+      this.$('#play-button').addClass('disabled')
       try {
         const original = this.scenario.get('original')
         const projects = await fetchJson('/db/ai_project?project=scenario,archived&limit=1000&sort=-_id')
@@ -196,7 +219,7 @@ module.exports = (AIScenarioEditView = (function () {
         noty({ type: 'error', text: `Play failed: ${err.message || err} (${err.code || 'network'})` })
       } finally {
         this.playPending = false
-        this.$('#play-button').prop('disabled', false)
+        this.$('#play-button').removeClass('disabled')
       }
     }
 
@@ -211,6 +234,7 @@ module.exports = (AIScenarioEditView = (function () {
     }
 
     onFork () {
+      if (me.get('anonymous')) { return }
       this.openModalView(new AIScenarioForkModal({ scenario: this.scenario }))
     }
 
