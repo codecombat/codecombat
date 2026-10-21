@@ -24,9 +24,11 @@ block modal-header-content
             input.ai-disabled-checkbox(type='checkbox', data-kind='user', data-id=view.user.id, checked=!!view.user.get('aiDisabled'), disabled=offBySchool || offByDistrict)
             span.p-l-1 Disable AI for this teacher
           p.small
-            | Their students lose AI too. Turning AI off for their school or district below ticks and locks this box and their classes, until that is turned back on.
+            | Their students lose AI too. Turning AI off for their school or district below ticks and locks this box and their classes, until that is turned back on. Turning it back on at any level turns everything under it back on, including boxes ticked on their own.
             if view.user.get('aiDisabledChangedAt')
               |  Last changed #{new Date(view.user.get('aiDisabledChangedAt')).toLocaleDateString()}.
+      if !view.user.isTeacher() && view.user.get('aiDisabled')
+        p.small AI is turned off for this student, by a class they are in. It comes back when that class, its teacher or their school or district is turned back on.
       if view.user.isTeacher() && view.trialRequest
         - var props = view.trialRequest.get('properties') || {}
         h4 School: #{props.nces_school || props.organization}

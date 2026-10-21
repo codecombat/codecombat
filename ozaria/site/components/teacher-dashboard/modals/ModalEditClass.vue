@@ -12,7 +12,6 @@ import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 import ButtonGoogleClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonGoogleClassroom.vue'
 import ButtonImportClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonImportClassroom.vue'
 import ClassroomsApi from 'app/core/api/classrooms.js'
-import usersApi from 'core/api/users'
 import OAuth2Api from 'app/core/api/oauth2.js'
 import BackgroundJobApi from 'app/core/api/background-job.js'
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
@@ -236,7 +235,7 @@ export default Vue.extend({
   },
 
   async mounted () {
-    usersApi.getAiDisabled().then(({ aiDisabled }) => { this.aiDisabled = this.aiDisabled || aiDisabled }).catch(() => {})
+    this.aiDisabled = this.aiDisabled || Boolean(me.get('aiDisabled'))
     if (!this.classroomInstance?.isNew()) {
       this.newInitialFreeCourses = this.classroomInstance.get('initialFreeCourses') || []
     }

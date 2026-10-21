@@ -310,7 +310,6 @@
 
 <script>
 import utils from 'core/utils'
-import usersApi from 'core/api/users'
 import ClassStartEndDateComponent from '../modal-edit-class-components/ClassStartEndDateComponent'
 export default {
   components: {
@@ -402,7 +401,7 @@ export default {
 
   },
   created () {
-    usersApi.getAiDisabled().then(({ aiDisabled }) => { this.aiDisabled = aiDisabled }).catch(() => {})
+    this.aiDisabled = Boolean(me.get('aiDisabled'))
   },
   methods: {
     updateDraft (patch) {
