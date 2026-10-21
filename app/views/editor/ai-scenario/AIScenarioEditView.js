@@ -109,6 +109,10 @@ module.exports = (AIScenarioEditView = (function () {
       if (this.playPending) { return }
       // Open the tab inside the click; a tab opened after the awaits gets popup-blocked.
       const playTab = window.open('', '_blank')
+      if (!playTab) {
+        noty({ type: 'error', text: 'The browser blocked the play tab. Allow pop-ups for this site, then click Play again.' })
+        return
+      }
       this.playPending = true
       this.$('#play-button').prop('disabled', true)
       try {
@@ -123,9 +127,9 @@ module.exports = (AIScenarioEditView = (function () {
         projectId = typeof projectId === 'string' ? projectId : projectId && projectId._id
         if (!projectId) { throw new Error('no project id in the response') }
         const url = `/ai/play/project/${projectId}`
-        if (playTab) { playTab.location.href = url } else { window.open(url, '_blank') }
+        playTab.location.href = url
       } catch (err) {
-        if (playTab) { playTab.close() }
+        playTab.close()
         noty({ type: 'error', text: `Play failed: ${err.message || err} (${err.code || 'network'})` })
       } finally {
         this.playPending = false
