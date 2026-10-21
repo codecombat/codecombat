@@ -125,6 +125,7 @@ module.exports = (AIScenarioEditView = (function () {
           store: this.scriptStore,
           readOnly: Boolean(me.get('anonymous')),
           releasePhase: this.scenario.get('releasePhase') || 'draft',
+          mode: this.scenario.get('mode') || '',
         },
       })
       this.scriptPanel.$on('save', () => this.openSaveModal())

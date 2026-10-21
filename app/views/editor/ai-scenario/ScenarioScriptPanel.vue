@@ -31,6 +31,43 @@
       >
         {{ $t('editor.scenario_script_live_warning') }}
       </div>
+      <div
+        v-if="lint.length"
+        class="alert alert-warning lint-strip"
+      >
+        <div class="lint-head">
+          <strong>{{ lint.length }} {{ $t('editor.scenario_lint_notes') }}</strong>
+          <button
+            class="btn btn-xs btn-default"
+            @click="lintOpen = !lintOpen"
+          >
+            {{ lintOpen ? $t('editor.scenario_lint_hide') : $t('editor.scenario_lint_show') }}
+          </button>
+        </div>
+        <ul
+          v-if="lintOpen"
+          class="lint-list"
+        >
+          <li
+            v-for="(f, i) in lint"
+            :key="i"
+            :class="f.severity"
+          >
+            <a
+              v-if="f.key"
+              href="#"
+              @click.prevent="selectKey(f.key)"
+            >{{ $t('editor.scenario_lint_step') }} {{ f.index + 1 }}</a>
+            <span>{{ f.message }}</span>
+          </li>
+        </ul>
+      </div>
+      <div
+        v-else
+        class="lint-clean"
+      >
+        {{ $t('editor.scenario_lint_clean') }}
+      </div>
 
       <div class="layout">
         <div class="steps-column">
@@ -79,6 +116,12 @@
                       v-if="attachmentCount(step)"
                       class="chip"
                     >{{ attachmentCount(step) }} {{ $t('editor.scenario_script_attachments') }}</span>
+                    <span
+                      v-for="f in lintFor(step)"
+                      :key="f.code"
+                      :class="['chip', 'lint', f.severity]"
+                      :title="f.message"
+                    >{{ f.code }}</span>
                     <span class="langs">{{ languages(step) }}</span>
                   </div>
                   <div class="text">
@@ -256,6 +299,7 @@
 const marked = require('marked')
 const DOMPurify = require('dompurify')
 const ScenarioStepPanel = require('./ScenarioStepPanel.vue').default
+const { lintScript, findingsByKey } = require('lib/scenario-lint')
 
 const KINDS = ['teacher', 'quiz', 'model', 'end']
 
@@ -266,16 +310,25 @@ export default Vue.extend({
     store: { type: Object, required: true },
     readOnly: { type: Boolean, default: false },
     releasePhase: { type: String, default: 'draft' },
+    mode: { type: String, default: '' },
   },
   data () {
     return {
       state: this.store.state,
       tick: 0,
       backup: this.store.readBackup(),
+      lintOpen: false,
     }
   },
   computed: {
     kinds () { return KINDS },
+    lint () {
+      this.tick // eslint-disable-line no-unused-expressions
+      return lintScript(this.state.steps, { mode: this.mode })
+    },
+    lintByKey () {
+      return findingsByKey(this.lint)
+    },
     warnLive () { return ['beta', 'released'].includes(this.releasePhase) },
     changes () {
       this.tick // eslint-disable-line no-unused-expressions
@@ -342,8 +395,15 @@ export default Vue.extend({
       const langs = Object.keys(step.i18n || {}).filter(lang => lang !== '-')
       return langs.length ? langs.join(' · ') : this.$t('editor.scenario_script_no_translations')
     },
+    lintFor (step) {
+      return this.lintByKey[step.key] || []
+    },
     select (step) {
       this.store.select(step.key)
+      this.bump()
+    },
+    selectKey (key) {
+      this.store.select(key)
       this.bump()
     },
     deselect () {
@@ -418,6 +478,34 @@ export default Vue.extend({
     flex-wrap: wrap;
     align-items: center;
     gap: 10px;
+  }
+
+  .lint-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .lint-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lint-list {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13px;
+
+      li { margin: 2px 0; }
+      li.info { color: #5f594f; }
+      a { margin-right: 6px; }
+    }
+  }
+
+  .lint-clean {
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #5f594f;
   }
 
   .layout {
@@ -520,6 +608,16 @@ export default Vue.extend({
       background: #fde8e1;
       color: #8a2d0c;
       font-weight: 600;
+    }
+
+    .chip.lint.warning {
+      background: #fdebd0;
+      color: #7a3e00;
+    }
+
+    .chip.lint.info {
+      background: #efece4;
+      color: #5f594f;
     }
 
     .langs {
