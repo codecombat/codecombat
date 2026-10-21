@@ -49,6 +49,7 @@ module.exports = (AIScenarioEditView = (function () {
   AIScenarioEditView = class AIScenarioEditView extends RootView {
     static initClass () {
       this.prototype.id = 'editor-ai-scenario-edit-view'
+      this.prototype.className = 'editor' // full-viewport layout with the editor navbar, like levels and campaigns
       this.prototype.template = template
 
       this.prototype.events = {
@@ -214,10 +215,12 @@ module.exports = (AIScenarioEditView = (function () {
     }
 
     onPopulateI18N () {
+      if (me.get('anonymous')) { return }
       return this.scenario.populateI18N()
     }
 
     async onAITranslate () {
+      if (me.get('anonymous')) { return }
       this.openModalView(new AITranslateConfirmModal(this.scenario))
     }
 
@@ -246,6 +249,7 @@ module.exports = (AIScenarioEditView = (function () {
     }
 
     openSaveModal () {
+      if (me.get('anonymous')) { return }
       const problems = this.scriptStore ? this.scriptStore.validate() : []
       if (problems.length) {
         noty({ type: 'error', text: `${$.i18n.t('editor.scenario_save_fix_first')} ${problems.map(p => `${$.i18n.t('editor.scenario_step_title')} ${p.index + 1}: ${p.message}`).join('; ')}`, timeout: 8000 })

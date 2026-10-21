@@ -1,45 +1,71 @@
 extends /templates/base
 
-block content
-  div
-    ol.breadcrumb
-      li
-        a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
-      li
-        a(href="/editor/ai-scenario", data-i18n="editor.ai_scenario_title")
-      li.active
-        | #{view.scenario.get('_id')}
-
+block header
   - var authorized = !me.get('anonymous');
-  button.ai-scenario-tool-button(data-i18n="general.version_history").btn.btn-primary#history-button Version History
-  button.ai-scenario-tool-button(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert", disabled=authorized === true ? undefined : "true").btn.btn-primary#revert-button Revert
-  button.ai-scenario-tool-button.btn.btn-primary#i18n-button(data-i18n="editor.pop_i18n", disabled=authorized === true ? undefined : "true")
-  button.ai-scenario-tool-button.btn.btn-primary#ai-translate-button(data-i18n="editor.ai_translate", disabled=authorized === true ? undefined : "true")
-  button.ai-scenario-tool-button.btn.btn-primary#delete-button(data-i18n="editor.delete", disabled=me.isAdmin() === true ? undefined : "true")
-  button.ai-scenario-tool-button.btn.btn-primary#play-button(data-i18n="[title]editor.play_scenario_title;editor.play_scenario", disabled=authorized === true ? undefined : "true")
-  button.ai-scenario-tool-button.btn.btn-primary#fork-button(data-i18n="editor.fork_scenario", disabled=authorized === true ? undefined : "true")
-  button.ai-scenario-tool-button.btn.btn-primary#save-button(data-i18n="common.save", disabled=authorized === true ? undefined : "true")
+  - var patches = view.scenario.get('patches');
+  nav.navbar.navbar-default(role='navigation')#ai-scenario-editor-top-nav
+    ul.nav.navbar-nav
+      li
+        a(href="/editor/ai-scenario", data-i18n="[title]editor.ai_scenario_title")
+          span.glyphicon-home.glyphicon
 
-  h3
-    span(data-i18n="editor.ai_scenario_edit_title")
-    |: #{view.scenario.attributes._id}
+    ul.nav.navbar-nav.nav-tabs
+      li.active
+        a(href="#ai-scenario-script-tab", data-toggle="tab", data-i18n="editor.scenario_script_tab") Script
+      li
+        a(href="#ai-scenario-settings-tab", data-toggle="tab", data-i18n="play.settings") Settings
+      li
+        a(href="#ai-scenario-patches-tab", data-toggle="tab")
+          span(data-i18n="resources.patches").spr Patches
+          if patches && patches.length
+            span.badge= patches.length
 
-  p
-    span Original Id
-    |: #{view.scenario.get('original')}
+    .navbar-header
+      span.navbar-brand
+        span.scenario-title= view.scenario.get('name')
+        span.scenario-phase.spl= view.scenario.get('releasePhase')
 
-  ul.nav.nav-tabs#ai-scenario-tabs
-    li.active
-      a(href="#ai-scenario-script-tab", data-toggle="tab", data-i18n="editor.scenario_script_tab") Script
-    li
-      a(href="#ai-scenario-settings-tab", data-toggle="tab", data-i18n="play.settings") Settings
-    li
-      a(href="#ai-scenario-patches-tab", data-toggle="tab", data-i18n="resources.patches") Patches
+    ul.nav.navbar-nav.navbar-right
+      li.navbar-btn
+        button.btn.btn-xs.btn-default#play-button(data-i18n="[title]editor.play_scenario_title;editor.play_scenario", disabled=authorized ? undefined : "true") Play
+      li.navbar-btn
+        button.btn.btn-xs.btn-default#fork-button(data-i18n="editor.fork_scenario", disabled=authorized ? undefined : "true") Fork
+      li.navbar-btn
+        button.btn.btn-xs.btn-primary#save-button(data-i18n="common.save", disabled=authorized ? undefined : "true") Save
+      li.dropdown
+        a(data-toggle='dropdown')
+          span.glyphicon-chevron-down.glyphicon
+        ul.dropdown-menu
+          li.dropdown-header(data-i18n="common.actions") Actions
+          li
+            a#history-button(data-i18n="general.version_history") Version History
+          li(class=authorized ? "" : "disabled")
+            a#revert-button(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert") Revert
+          li(class=authorized ? "" : "disabled")
+            a#i18n-button(data-i18n="editor.pop_i18n") Populate I18N
+          li(class=authorized ? "" : "disabled")
+            a#ai-translate-button(data-i18n="editor.ai_translate") AI Translate
+          if me.isAdmin()
+            li.divider
+            li
+              a#delete-button(data-i18n="editor.delete") Delete
+          li.divider
+          li.dropdown-header(data-i18n="common.info") Info
+          li
+            a.info-line Id: #{view.scenario.get('_id')}
+          li
+            a.info-line Original: #{view.scenario.get('original')}
+          li
+            a.info-line Version: #{view.scenario.get('version') ? view.scenario.get('version').major + '.' + view.scenario.get('version').minor : ''}
 
-  .tab-content
-    .tab-pane.active#ai-scenario-script-tab
-      #scenario-script-panel
-    .tab-pane#ai-scenario-settings-tab
-      #ai-scenario-treema
-    .tab-pane#ai-scenario-patches-tab
-      .patches-view
+block outer_content
+  .outer-content
+    #ai-scenario-editor-tabs.tab-content
+      .tab-pane.active#ai-scenario-script-tab
+        #scenario-script-panel
+      .tab-pane#ai-scenario-settings-tab
+        #ai-scenario-treema
+      .tab-pane#ai-scenario-patches-tab
+        .patches-view
+
+block footer

@@ -1,23 +1,45 @@
 #editor-ai-scenario-edit-view
+  .navbar-brand
+    .scenario-title
+      font-weight: bold
+    .scenario-phase
+      font-size: 12px
+      opacity: 0.8
+
+  .navbar-right
+    li.navbar-btn
+      margin-top: 4px
+
+  .dropdown-menu
+    .info-line
+      color: #999
+      cursor: default
+
+  // Same box the level editor gives its tabs: the whole area under the navbar.
+  #ai-scenario-editor-tabs
+    position: absolute
+    left: 15px
+    right: 15px
+    top: 15px
+    bottom: 15px
+
+    .tab-pane
+      height: 100%
+      overflow: auto
+      padding: 2px
+
   .treema-root
     margin-bottom: 20px
 
-  .ai-scenario-tool-button
-    float: right
-    margin-bottom: 15px
-    margin-left: 10px
+    textarea
+      width: 92%
+      height: 300px
 
   .ai-chat-message-link
-    float: left  
+    float: left
 
   .ai-chat-message-link-text
     overflow: hidden
     text-overflow: ellipsis
     white-space: nowrap
     float: right
-
-  textarea
-    width: 92%
-    height: 300px
-
-
