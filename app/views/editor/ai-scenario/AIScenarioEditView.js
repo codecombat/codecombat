@@ -13,6 +13,8 @@ require('app/styles/editor/ai-scenario/edit.sass')
 const RootView = require('views/core/RootView')
 const VersionHistoryView = require('./AIScenarioVersionsModal')
 const AIScenarioForkModal = require('./AIScenarioForkModal')
+const ScenarioScriptPanel = require('./ScenarioScriptPanel.vue').default
+const { createScriptStore } = require('lib/scenario-script')
 const template = require('app/templates/editor/ai-scenario/edit')
 const AIScenario = require('models/AIScenario')
 const SaveVersionModal = require('views/editor/modal/SaveVersionModal')
@@ -64,14 +66,17 @@ module.exports = (AIScenarioEditView = (function () {
       this.buildTreema()
       return this.listenTo(this.scenario, 'change', () => {
         this.scenario.updateI18NCoverage()
-        return this.treema.set('/', this.scenario.attributes)
+        return this.treema.set('/', _.omit(this.scenario.attributes, 'initialActionQueue'))
       })
     }
 
     buildTreema () {
       if ((this.treema != null) || (!this.scenario.loaded)) { return }
-      const data = $.extend(true, {}, this.scenario.attributes)
+      // The queue is edited in the Script tab; the treema under Settings holds every other field.
+      const data = _.omit($.extend(true, {}, this.scenario.attributes), 'initialActionQueue')
       const copySchema = $.extend(true, {}, AIScenario.schema)
+      delete copySchema.properties.initialActionQueue
+      copySchema.required = (copySchema.required || []).filter(key => key !== 'initialActionQueue')
       if (this.scenario.get('mode') === 'use') {
         copySchema.properties.minMsgs.minimum = 1
         copySchema.properties.minMsgs.default = 1
@@ -100,7 +105,40 @@ module.exports = (AIScenarioEditView = (function () {
       if (!this.supermodel.finished()) { return }
       if (me.get('anonymous')) { this.showReadOnly() }
       this.patchesView = this.insertSubView(new PatchesView(this.scenario), this.$el.find('.patches-view'))
-      return this.patchesView.load()
+      this.patchesView.load()
+      return this.mountScriptPanel()
+    }
+
+    // The Script tab: a Vue panel over lib/scenario-script. Mounted once; a
+    // re-render of this view puts the same panel back (ModalComponent pattern).
+    mountScriptPanel () {
+      const mountPoint = this.$el.find('#scenario-script-panel')
+      if (!mountPoint.length) { return }
+      if (this.scriptPanel) {
+        mountPoint.replaceWith(this.scriptPanel.$el)
+        return
+      }
+      this.scriptStore = createScriptStore({ scenario: this.scenario.attributes })
+      this.scriptPanel = new ScenarioScriptPanel({
+        el: mountPoint[0],
+        propsData: {
+          store: this.scriptStore,
+          readOnly: Boolean(me.get('anonymous')),
+          releasePhase: this.scenario.get('releasePhase') || 'draft',
+        },
+      })
+      this.scriptPanel.$on('save', () => this.openSaveModal())
+      this.scriptStore.load().catch(err => {
+        noty({ type: 'error', text: `Could not load the script: ${err.message || err}`, timeout: 8000 })
+      })
+    }
+
+    destroy () {
+      if (this.scriptPanel) {
+        this.scriptPanel.$destroy()
+        this.scriptPanel = null
+      }
+      return super.destroy()
     }
 
     // Play the saved script as a player: one live project per scenario per user, like the
@@ -179,7 +217,25 @@ module.exports = (AIScenarioEditView = (function () {
       return this.openModalView(new RevertModal())
     }
 
+    // Messages first (new ones need ids for the queue), then the scenario
+    // version. A failed message write stops before the version is saved and
+    // the edit stays pending in the Script tab; a failed version save after
+    // the messages went through leaves them saved and the queue to retry.
     saveNewScenario (e) {
+      const modal = this.$el.find('#save-version-modal')
+      this.enableModalInProgress(modal)
+      const messages = this.scriptStore ? this.scriptStore.saveMessages() : Promise.resolve(null)
+      messages.then(ids => {
+        if (ids) { this.scenario.set('initialActionQueue', ids) }
+        this.saveScenarioVersion(e, modal)
+      }, err => {
+        this.disableModalInProgress(modal)
+        const where = err.step && typeof err.step.key === 'string' ? ` (${err.action || 'write'} of a step)` : ''
+        noty({ type: 'error', text: `Script not saved${where}: ${err.message || err}`, timeout: 8000 })
+      })
+    }
+
+    saveScenarioVersion (e, modal) {
       this.treema.endExistingEdits()
       for (const key in this.treema.data) {
         const value = this.treema.data[key]
@@ -193,9 +249,6 @@ module.exports = (AIScenarioEditView = (function () {
 
       this.scenario.set('commitMessage', e.commitMessage)
       const res = this.scenario.saveNewMinorVersion()
-
-      const modal = this.$el.find('#save-version-modal')
-      this.enableModalInProgress(modal)
 
       res.error((collection, response, options) => {
         return this.disableModalInProgress(modal)

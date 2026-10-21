@@ -28,10 +28,18 @@ block content
     span Original Id
     |: #{view.scenario.get('original')}
 
-  #ai-scenario-treema
+  ul.nav.nav-tabs#ai-scenario-tabs
+    li.active
+      a(href="#ai-scenario-script-tab", data-toggle="tab", data-i18n="editor.scenario_script_tab") Script
+    li
+      a(href="#ai-scenario-settings-tab", data-toggle="tab", data-i18n="play.settings") Settings
+    li
+      a(href="#ai-scenario-patches-tab", data-toggle="tab", data-i18n="resources.patches") Patches
 
-  h3(data-i18n="resources.patches") Patches
-  .patches-view
-  hr
-
-  // TODO: visualize the scenario here
+  .tab-content
+    .tab-pane.active#ai-scenario-script-tab
+      #scenario-script-panel
+    .tab-pane#ai-scenario-settings-tab
+      #ai-scenario-treema
+    .tab-pane#ai-scenario-patches-tab
+      .patches-view
