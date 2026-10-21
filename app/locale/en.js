@@ -3310,6 +3310,8 @@ module.exports = {
       link: 'Link',
       clone_to_new_scenario: 'Clone to New Scenario',
       fork_scenario: 'Fork Scenario',
+      play_scenario: 'Play',
+      play_scenario_title: 'Play the saved version as a player, in a new tab',
       fork_scenario_name: 'Name of the fork',
       fork_scenario_explanation: 'Creates a draft copy of this scenario with a fresh copy of every message in its queue. The original is not changed.',
       translate_warning_content: 'Make sure the doc already Populate the i18n and Saved.',

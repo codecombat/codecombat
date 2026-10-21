@@ -18,6 +18,7 @@ const AIScenario = require('models/AIScenario')
 const SaveVersionModal = require('views/editor/modal/SaveVersionModal')
 const PatchesView = require('views/editor/PatchesView')
 const ConfirmModal = require('views/core/ConfirmModal')
+const fetchJson = require('core/api/fetch-json')
 const AITranslateConfirmModal = require('views/editor/modal/AITranslateConfirmModal')
 
 const nodes = require('views/editor/level/treema_nodes')
@@ -44,6 +45,7 @@ module.exports = (AIScenarioEditView = (function () {
         'click #diff-button': 'onAddDiff',
         'click #ai-translate-button': 'onAITranslate',
         'click #fork-button': 'onFork',
+        'click #play-button': 'onPlay',
       }
     }
 
@@ -99,6 +101,50 @@ module.exports = (AIScenarioEditView = (function () {
       if (me.get('anonymous')) { this.showReadOnly() }
       this.patchesView = this.insertSubView(new PatchesView(this.scenario), this.$el.find('.patches-view'))
       return this.patchesView.load()
+    }
+
+    // Play the saved script as a player: one live project per scenario per user, like the
+    // planet, so a second click restarts that project instead of adding another.
+    async onPlay () {
+      if (this.playPending) { return }
+      // Open the tab inside the click; a tab opened after the awaits gets popup-blocked.
+      const playTab = window.open('', '_blank')
+      if (!playTab) {
+        noty({ type: 'error', text: 'The browser blocked the play tab. Allow pop-ups for this site, then click Play again.' })
+        return
+      }
+      this.playPending = true
+      this.$('#play-button').prop('disabled', true)
+      try {
+        const original = this.scenario.get('original')
+        const projects = await fetchJson('/db/ai_project?project=scenario,archived&limit=1000&sort=-_id')
+        const scenarioOf = (p) => String(p.scenario && p.scenario.original ? p.scenario.original : p.scenario)
+        const existing = (projects || []).find(p => !p.archived && scenarioOf(p) === String(original))
+        let projectId = existing ? await this.restartProject(existing._id) : null
+        if (!projectId) {
+          projectId = await fetchJson('/db/ai_project', { method: 'POST', json: { scenarioOriginal: original } })
+        }
+        projectId = typeof projectId === 'string' ? projectId : projectId && projectId._id
+        if (!projectId) { throw new Error('no project id in the response') }
+        const url = `/ai/play/project/${projectId}`
+        playTab.location.href = url
+      } catch (err) {
+        playTab.close()
+        noty({ type: 'error', text: `Play failed: ${err.message || err} (${err.code || 'network'})` })
+      } finally {
+        this.playPending = false
+        this.$('#play-button').prop('disabled', false)
+      }
+    }
+
+    // A restart answers 403 when the project was archived meanwhile; fall back to a new project then.
+    async restartProject (projectId) {
+      try {
+        return await fetchJson(`/db/ai_project/${projectId}/restart`, { method: 'POST' })
+      } catch (err) {
+        if (err.code === 403 || err.code === 404) { return null }
+        throw err
+      }
     }
 
     onFork () {
