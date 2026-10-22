@@ -347,9 +347,19 @@ module.exports = (AIScenarioEditView = (function () {
 
       return res.success(() => {
         this.scenario.clearBackup()
-        modal.modal('hide')
         const url = `/editor/ai-scenario/${this.scenario.get('slug') || this.scenario.id}`
-        return document.location.href = url
+        const finish = () => {
+          modal.modal('hide')
+          document.location.href = url
+        }
+        if (!this.scriptStore) { return finish() }
+        // Deletes run only now, with the new queue published; the script backup goes with them.
+        this.scriptStore.applyDeletes().then(() => {
+          this.scriptStore.clearBackup()
+        }, err => {
+          this.scriptStore.clearBackup()
+          noty({ type: 'warning', text: `${$.i18n.t('editor.scenario_save_delete_failed')} ${err.message || err}`, timeout: 8000 })
+        }).then(finish)
       })
     }
 

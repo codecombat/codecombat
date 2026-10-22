@@ -5,8 +5,10 @@
  * messages are separate `ai_chat_message` documents. The store loads them into
  * steps, keeps every edit in memory, and writes messages back only in
  * saveMessages(): new steps are POSTed, edited ones PUT (changed fields only),
- * deleted ones DELETEd, in that order, and the queue ids come back for the
- * scenario version the view saves. The store never writes the scenario itself.
+ * and the queue ids come back for the scenario version the view saves.
+ * Deletes wait until that version is saved (applyDeletes), so a failed version
+ * save never leaves the published queue pointing at deleted messages. The
+ * store never writes the scenario itself.
  *
  * Unsaved work is mirrored to localStorage so a reload can offer it back.
  */
@@ -360,20 +362,24 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
     return items.reduce((chain, item) => chain.then(() => fn(item)), Promise.resolve())
   }
 
+  function failAt (step, action) {
+    return err => {
+      throw Object.assign(err instanceof Error ? err : new Error(err && err.message ? err.message : String(err)), { step, action, code: err && err.code })
+    }
+  }
+
   /**
-   * Write every pending message change, in order: new steps POSTed (so the
-   * queue has ids), edited steps PUT with their changed fields, deleted
-   * messages DELETEd. Stops at the first failure; what succeeded stays
-   * clean, the rest stays pending. Resolves with the queue ids.
+   * Write the pending message changes, in order: new steps POSTed (so the
+   * queue has ids), then edited steps PUT with their changed fields. Stops at
+   * the first failure; what succeeded stays clean, the rest stays pending.
+   * Resolves with the queue ids for the scenario version. The backup stays,
+   * now with the saved ids, until the version is in and the view clears it.
    */
   function saveMessages () {
     if (!state.loaded) { return Promise.reject(new Error('the script has not loaded, nothing was written')) }
     const problems = validate()
     if (problems.length) {
       return Promise.reject(Object.assign(new Error(`cannot save: ${problems.map(p => `step ${p.index + 1} ${p.message}`).join(', ')}`), { problems }))
-    }
-    const failAt = (step, action) => err => {
-      throw Object.assign(err instanceof Error ? err : new Error(err && err.message ? err.message : String(err)), { step, action, code: err && err.code })
     }
     return sequence(newSteps(), step => {
       const body = {
@@ -393,15 +399,22 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
       return fetchJson(`/db/ai_chat_message/${step.id}`, { method: 'PUT', json: changedFields(step) }).then(() => {
         markClean(step)
       }, failAt(step, 'update'))
-    })).then(() => sequence(state.deleted.slice(), id => {
+    })).then(() => {
+      writeBackup()
+      return queueIds()
+    })
+  }
+
+  /**
+   * DELETE the messages marked for deletion. Run after the scenario version
+   * with the new queue is saved; a message that fails to delete stays as an
+   * orphan outside every queue, which is harmless.
+   */
+  function applyDeletes () {
+    return sequence(state.deleted.slice(), id => {
       return fetchJson(`/db/ai_chat_message/${id}`, { method: 'DELETE' }).then(() => {
         state.deleted = state.deleted.filter(d => d !== id)
       }, failAt({ id }, 'delete'))
-    })).then(() => {
-      const ids = queueIds()
-      state.loadedQueue = ids.slice()
-      clearBackup()
-      return ids
     })
   }
 
@@ -491,6 +504,7 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
     validate,
     queueIds,
     saveMessages,
+    applyDeletes,
     adoptScenario,
     readBackup,
     restoreFromBackup,

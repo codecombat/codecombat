@@ -201,7 +201,7 @@ describe('lib/scenario-script', function () {
       this.store.load().then(() => done(), done.fail)
     })
 
-    it('creates new steps in order, updates edited ones with their changed fields, deletes, then returns the queue ids', function (done) {
+    it('creates new steps in order, updates edited ones with their changed fields, returns the queue ids, deletes only afterwards', function (done) {
       const [first, dead, quiz, reply] = this.store.state.steps
       this.store.setText(first.key, 'welcome back')
       const inserted = this.store.insertAfter(first.key, 'teacher')
@@ -215,7 +215,6 @@ describe('lib/scenario-script', function () {
           'POST /db/ai_chat_message',
           'PUT /db/ai_chat_message/m1',
           'PUT /db/ai_chat_message/m2',
-          'DELETE /db/ai_chat_message/m3',
         ])
         expect(writes[0].json).toEqual({ parent: 'orig1', parentKind: 'scenario', actor: 'teacher', text: 'new one', actionData: { type: 'continue' }, documents: [] })
         expect(writes[1].json).toEqual({ text: 'welcome back' })
@@ -224,8 +223,40 @@ describe('lib/scenario-script', function () {
         expect(inserted.id).toBe('new2')
         expect(inserted.kind).toBe('live')
         expect(ids).toEqual(['m1', 'new2', 'm2'])
+        // The queue and the delete are still pending until the version is saved; the backup now carries the saved ids.
+        expect(this.store.changes().queueChanged).toBe(true)
+        expect(this.store.changes().deletedIds).toEqual(['m3'])
+        const backup = JSON.parse(this.storage.items['scenario-script-backup:orig1'])
+        expect(backup.steps.map(s => s.id)).toEqual(['m1', 'new2', 'm2'])
+        return this.store.applyDeletes()
+      }).then(() => {
+        expect(this.fetchJson.calls.filter(c => c.method === 'DELETE').map(c => c.url)).toEqual(['/db/ai_chat_message/m3'])
+        expect(this.store.changes().deletedIds).toEqual([])
+        this.store.adoptScenario({ _id: 'version2', original: 'orig1', initialActionQueue: ['m1', 'new2', 'm2'] })
+        this.store.clearBackup()
         expect(this.store.changes().any).toBe(false)
         expect(this.storage.items['scenario-script-backup:orig1']).toBeUndefined()
+      }).then(done, done.fail)
+    })
+
+    it('a restored backup after the message writes does not write them again', function (done) {
+      const [first] = this.store.state.steps
+      this.store.setText(first.key, 'welcome back')
+      const inserted = this.store.append('teacher')
+      this.store.setText(inserted.key, 'new one')
+      this.store.saveMessages().then(() => {
+        const fresh = createScriptStore({ scenario: clone(scenario), fetchJson: this.fetchJson, storage: this.storage })
+        return fresh.load().then(() => {
+          expect(fresh.restoreFromBackup()).toBe(true)
+          expect(fresh.changes().newSteps.length).toBe(0)
+          expect(fresh.changes().editedSteps.length).toBe(0)
+          expect(fresh.changes().queueChanged).toBe(true)
+          const before = this.fetchJson.calls.length
+          return fresh.saveMessages().then(ids => {
+            expect(ids).toEqual(['m1', 'dead1', 'm2', 'm3', 'new2'])
+            expect(this.fetchJson.calls.length).toBe(before)
+          })
+        })
       }).then(done, done.fail)
     })
 
