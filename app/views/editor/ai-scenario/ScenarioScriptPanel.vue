@@ -77,7 +77,7 @@
               v-for="(step, index) in state.steps"
               :key="step.key"
               :class="['step', step.kind, { selected: step.key === state.selectedKey, dirty: isDirty(step) }]"
-              @click="select(step)"
+              @click="onCardClick($event, step)"
             >
               <div class="index">
                 {{ index + 1 }}
@@ -90,7 +90,6 @@
                 <div
                   v-if="!readOnly"
                   class="actions"
-                  @click.stop
                 >
                   <button
                     class="btn btn-xs btn-default"
@@ -133,7 +132,6 @@
                   <div
                     v-if="appOf(step) || linkAttachments(step).length"
                     class="extras"
-                    @click.stop
                   >
                     <button
                       v-if="appOf(step)"
@@ -169,7 +167,6 @@
                 <div
                   v-if="!readOnly"
                   class="actions"
-                  @click.stop
                 >
                   <button
                     class="btn btn-xs btn-default"
@@ -424,7 +421,8 @@ export default Vue.extend({
       return this.appOf(step) ? (step.text || '').replace(FENCE, '').trim() : step.text
     },
     linkAttachments (step) {
-      return (step.documents || []).filter(doc => doc && doc.source && doc.source.url).map(doc => ({
+      // Only web links become chips: a javascript: or data: url in a document must not be clickable here.
+      return (step.documents || []).filter(doc => doc && doc.source && /^https?:\/\//i.test(doc.source.url || '')).map(doc => ({
         url: doc.source.url,
         label: doc.source.linkText || doc.source.url,
       }))
@@ -456,6 +454,11 @@ export default Vue.extend({
     },
     lintFor (step) {
       return this.lintByKey[step.key] || []
+    },
+    // A click on the card selects it; clicks on its controls, menus and links do their own thing.
+    onCardClick (event, step) {
+      if (event.target.closest('.actions, .extras, .dropdown-menu, a, button, input, select, textarea')) { return }
+      this.select(step)
     },
     select (step) {
       this.store.select(step.key)
