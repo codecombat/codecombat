@@ -367,6 +367,7 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
    * clean, the rest stays pending. Resolves with the queue ids.
    */
   function saveMessages () {
+    if (!state.loaded) { return Promise.reject(new Error('the script has not loaded, nothing was written')) }
     const problems = validate()
     if (problems.length) {
       return Promise.reject(Object.assign(new Error(`cannot save: ${problems.map(p => `step ${p.index + 1} ${p.message}`).join(', ')}`), { problems }))

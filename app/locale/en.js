@@ -3385,6 +3385,7 @@ module.exports = {
       scenario_save_queue_changed: 'Queue order or membership changed',
       scenario_save_fix_first: 'Fix the script before saving.',
       scenario_save_failed: 'Script not saved',
+      scenario_save_no_write_access: 'You can submit a patch for the settings, but script changes need write access to this scenario.',
       scenario_script_problems: 'Fix before saving:',
       scenario_lint_clean: 'Lint: nothing to flag',
       scenario_lint_notes: 'lint notes',

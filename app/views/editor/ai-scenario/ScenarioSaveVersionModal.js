@@ -7,7 +7,8 @@ const SaveVersionModal = require('views/editor/modal/SaveVersionModal')
 module.exports = class ScenarioSaveVersionModal extends SaveVersionModal {
   constructor (options) {
     super(options)
-    this.scriptSummary = options.scriptSummary || []
+    // A patch carries only the scenario delta, never message writes; the Script tab is read-only for patchers.
+    this.scriptSummary = this.isPatch ? [] : (options.scriptSummary || [])
     if (this.scriptSummary.length) { this.hasChanges = true }
   }
 

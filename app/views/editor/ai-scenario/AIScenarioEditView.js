@@ -83,6 +83,11 @@ module.exports = (AIScenarioEditView = (function () {
       this.buildTreema()
       return this.listenTo(this.scenario, 'change', () => {
         this.scenario.updateI18NCoverage()
+        if (this.scriptPanel) {
+          // Settings edits to the phase or mode change the live-edit warning and the lint.
+          this.scriptPanel.$props.releasePhase = this.scenario.get('releasePhase') || 'draft'
+          this.scriptPanel.$props.mode = this.scenario.get('mode') || ''
+        }
         return this.treema.set('/', this.settingsData())
       })
     }
@@ -149,7 +154,7 @@ module.exports = (AIScenarioEditView = (function () {
         el: mountPoint[0],
         propsData: {
           store: this.scriptStore,
-          readOnly: Boolean(me.get('anonymous')),
+          readOnly: Boolean(me.get('anonymous')) || !this.scenario.hasWriteAccess(),
           releasePhase: this.scenario.get('releasePhase') || 'draft',
           mode: this.scenario.get('mode') || '',
         },
@@ -274,6 +279,10 @@ module.exports = (AIScenarioEditView = (function () {
 
     openSaveModal () {
       if (me.get('anonymous')) { return }
+      if (!this.scenario.hasWriteAccess() && this.scriptStore && this.scriptStore.changes().any) {
+        noty({ type: 'error', text: $.i18n.t('editor.scenario_save_no_write_access'), timeout: 8000 })
+        return
+      }
       const problems = this.scriptStore ? this.scriptStore.validate() : []
       if (problems.length) {
         noty({ type: 'error', text: `${$.i18n.t('editor.scenario_save_fix_first')} ${problems.map(p => `${$.i18n.t('editor.scenario_step_title')} ${p.index + 1}: ${p.message}`).join('; ')}`, timeout: 8000 })
@@ -303,9 +312,11 @@ module.exports = (AIScenarioEditView = (function () {
     saveNewScenario (e) {
       const modal = this.$el.find('#save-version-modal')
       this.enableModalInProgress(modal)
-      const messages = this.scriptStore ? this.scriptStore.saveMessages() : Promise.resolve(null)
+      // An unloaded script (fetch failed, or Save before it arrived) must not replace the queue with nothing.
+      const scriptLoaded = Boolean(this.scriptStore && this.scriptStore.state.loaded)
+      const messages = scriptLoaded ? this.scriptStore.saveMessages() : Promise.resolve(null)
       messages.then(ids => {
-        if (ids) { this.scenario.set('initialActionQueue', ids) }
+        if (Array.isArray(ids)) { this.scenario.set('initialActionQueue', ids) }
         this.saveScenarioVersion(e, modal)
       }, err => {
         this.disableModalInProgress(modal)

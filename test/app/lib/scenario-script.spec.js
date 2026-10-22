@@ -185,6 +185,17 @@ describe('lib/scenario-script', function () {
     })
   })
 
+  describe('saveMessages before load', function () {
+    it('refuses, so an empty queue is never saved', function (done) {
+      expect(this.store.changes().any).toBe(false)
+      this.store.saveMessages().then(() => done.fail('expected a rejection'), err => {
+        expect(err.message).toContain('not loaded')
+        expect(this.fetchJson.calls.length).toBe(0)
+        done()
+      })
+    })
+  })
+
   describe('saveMessages', function () {
     beforeEach(function (done) {
       this.store.load().then(() => done(), done.fail)
