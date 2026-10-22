@@ -414,7 +414,7 @@ me.storyCharacter = me.object({ title: 'Story Character', description: 'A speake
 me.storyBackground = me.object({ title: 'Story Background', description: 'A scene image the story page can show', required: ['id', 'image'] }, {
   id: { type: 'string', pattern: '^[a-z0-9-]+$', title: 'Id' },
   image: { type: 'string', format: 'image-file', inEditor: 'codecombat', title: 'Image' },
-  focus: me.object({ title: 'Focus point (%)', description: 'Point to keep in view when the image is cropped' }, {
+  focus: me.object({ title: 'Focus point (%)', description: 'Point to keep in view when the image is cropped', required: ['x', 'y'] }, {
     x: { type: 'number', minimum: 0, maximum: 100 },
     y: { type: 'number', minimum: 0, maximum: 100 },
   }),
