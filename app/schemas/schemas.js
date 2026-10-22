@@ -402,6 +402,24 @@ me.activity = me.object({ description: 'Stats on an activity' }, {
 
 me.terrainString = me.shortString({ enum: ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano', 'Junior'], title: 'Terrain', description: 'Which terrain type this is.', inEditor: 'codecombat' })
 
+// HackStack story layer (ai_story_world, ai_scenario): a speaker and a scene image, referenced by id from messages.
+me.storyCharacter = me.object({ title: 'Story Character', description: 'A speaker in the story layer: the player, HackStack, an ally or an NPC', required: ['id', 'name', 'role'] }, {
+  id: { type: 'string', pattern: '^[a-z0-9-]+$', title: 'Id', description: 'Referenced by messages; a nearer definition with the same id overrides a farther one' },
+  name: { type: 'string', title: 'Name', description: 'Bubble label' },
+  role: { type: 'string', enum: ['player', 'hackstack', 'ally', 'npc'], title: 'Role', description: 'player and hackstack are looked up by role for user/model lines; ally and npc by id from a message' },
+  avatar: { type: 'string', format: 'image-file', inEditor: 'codecombat', title: 'Avatar' },
+  i18n: { type: 'object', format: 'i18n', props: ['name'], description: 'Help translate this property' },
+})
+
+me.storyBackground = me.object({ title: 'Story Background', description: 'A scene image the story page can show', required: ['id', 'image'] }, {
+  id: { type: 'string', pattern: '^[a-z0-9-]+$', title: 'Id' },
+  image: { type: 'string', format: 'image-file', inEditor: 'codecombat', title: 'Image' },
+  focus: me.object({ title: 'Focus point (%)', description: 'Point to keep in view when the image is cropped' }, {
+    x: { type: 'number', minimum: 0, maximum: 100 },
+    y: { type: 'number', minimum: 0, maximum: 100 },
+  }),
+})
+
 // All equippable inventory slots. The server strips any heroConfig.inventory key not in this list
 // on save (see codecombat-server User/LevelSession pre-save hooks), so keep it in sync when adding slots.
 me.heroInventorySlots = Object.freeze(['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'programming-book', 'pet', 'minion', 'flag'])
