@@ -1,0 +1,322 @@
+const { createScriptStore } = require('lib/scenario-script')
+
+// A stand-in for core/api/fetch-json: routes "METHOD url" to a handler and records every call.
+function makeFetch (routes) {
+  const calls = []
+  const fetchJson = (url, options = {}) => {
+    const method = options.method || 'GET'
+    calls.push({ method, url, json: options.json })
+    const handler = routes[`${method} ${url}`] || routes[`${method} *`]
+    if (!handler) { return Promise.reject(Object.assign(new Error(`no route for ${method} ${url}`), { code: 404 })) }
+    try {
+      return Promise.resolve(handler({ url, method, json: options.json, calls }))
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }
+  fetchJson.calls = calls
+  return fetchJson
+}
+
+function makeStorage () {
+  const items = {}
+  return {
+    items,
+    getItem: key => (key in items ? items[key] : null),
+    setItem: (key, value) => { items[key] = String(value) },
+    removeItem: key => { delete items[key] },
+  }
+}
+
+const scenario = {
+  _id: 'version1',
+  original: 'orig1',
+  initialActionQueue: ['m1', 'dead1', 'm2', { _id: 'm3' }],
+}
+
+const messages = [
+  { _id: 'm3', actor: 'model', text: 'reply', actionData: { type: 'continue' }, documents: [{ _id: 'doc1', source: { type: 'code' } }], i18n: { he: { text: 'x' } }, ownerID: 'u1' },
+  { _id: 'm1', actor: 'teacher', text: 'welcome', actionData: { type: 'continue' }, documents: [], ownerID: 'u1' },
+  { _id: 'm2', actor: 'user', text: 'Make a game', actionData: { type: 'prompt-quiz', answerIndex: 1, choices: [{ text: 'Make a story', responseText: 'no' }, { text: 'Make a game', responseText: 'yes' }] }, documents: [], ownerID: 'u1' },
+]
+
+function clone (value) { return JSON.parse(JSON.stringify(value)) }
+
+describe('lib/scenario-script', function () {
+  beforeEach(function () {
+    this.routes = {
+      'GET /db/ai_scenario/version1/messages': () => clone(messages),
+      'POST /db/ai_chat_message': ({ json, calls }) => Object.assign({ _id: `new${calls.length}` }, json),
+      'PUT *': ({ json }) => json,
+      'DELETE *': () => '',
+    }
+    this.fetchJson = makeFetch(this.routes)
+    this.storage = makeStorage()
+    this.clock = 1000
+    this.store = createScriptStore({ scenario: clone(scenario), fetchJson: this.fetchJson, storage: this.storage, now: () => this.clock })
+  })
+
+  describe('load', function () {
+    it('orders the steps by the queue, not by the response, and marks dead ids', function (done) {
+      this.store.load().then(steps => {
+        expect(steps.map(s => s.kind)).toEqual(['live', 'dead', 'live', 'live'])
+        expect(steps.map(s => s.id)).toEqual(['m1', 'dead1', 'm2', 'm3'])
+        expect(steps[0].text).toBe('welcome')
+        expect(steps[3].documents[0]._id).toBe('doc1')
+        expect(steps[3].i18n.he.text).toBe('x')
+        expect(this.store.changes().any).toBe(false)
+        expect(this.store.state.loaded).toBe(true)
+      }).then(done, done.fail)
+    })
+  })
+
+  describe('edits', function () {
+    beforeEach(function (done) {
+      this.store.load().then(() => done(), done.fail)
+    })
+
+    it('marks an edited live step dirty and discard reloads it clean', function (done) {
+      const [first] = this.store.state.steps
+      this.store.setText(first.key, 'hello')
+      expect(this.store.isDirty(first)).toBe(true)
+      expect(this.store.changes().editedSteps.length).toBe(1)
+      expect(this.store.changes().count).toBe(1)
+      this.store.setText(first.key, 'welcome')
+      expect(this.store.isDirty(first)).toBe(false)
+      this.store.setActor(first.key, 'model')
+      this.store.discard().then(() => {
+        expect(this.store.state.steps[0].actor).toBe('teacher')
+        expect(this.store.changes().any).toBe(false)
+      }).then(done, done.fail)
+    })
+
+    it('refuses unknown actors and action types', function () {
+      const [first] = this.store.state.steps
+      expect(() => this.store.setActor(first.key, 'robot')).toThrow()
+      expect(() => this.store.setActionType(first.key, 'dance')).toThrow()
+    })
+
+    it('turns a step into a quiz with two empty choices and the text as the first one', function () {
+      const [first] = this.store.state.steps
+      this.store.setActionType(first.key, 'prompt-quiz')
+      expect(first.actionData.type).toBe('prompt-quiz')
+      expect(first.actionData.choices.length).toBe(2)
+      expect(first.actionData.choices[0].text).toBe('welcome')
+      expect(first.actionData.answerIndex).toBe(0)
+      this.store.setActionType(first.key, 'continue')
+      expect(first.actionData).toEqual({ type: 'continue' })
+    })
+
+    it('keeps the message text equal to the correct choice', function () {
+      const quiz = this.store.state.steps[2]
+      this.store.setAnswerIndex(quiz.key, 0)
+      expect(quiz.text).toBe('Make a story')
+      this.store.setChoice(quiz.key, 0, { text: 'Make a poem' })
+      expect(quiz.text).toBe('Make a poem')
+      this.store.setChoice(quiz.key, 1, { responseText: 'later' })
+      expect(quiz.text).toBe('Make a poem')
+      this.store.addChoice(quiz.key)
+      expect(quiz.actionData.choices.length).toBe(3)
+      this.store.removeChoice(quiz.key, 0)
+      expect(quiz.actionData.answerIndex).toBe(0)
+      expect(quiz.text).toBe('Make a game')
+      expect(() => this.store.setAnswerIndex(quiz.key, 9)).toThrow()
+    })
+
+    it('moves, inserts, duplicates and removes steps in the queue', function () {
+      const keys = () => this.store.state.steps.map(s => s.id || s.kind)
+      const [first, dead] = this.store.state.steps
+      expect(this.store.move(first.key, -1)).toBe(false)
+      expect(this.store.move(first.key, 1)).toBe(true)
+      expect(keys()).toEqual(['dead1', 'm1', 'm2', 'm3'])
+      expect(this.store.changes().queueChanged).toBe(true)
+
+      const teacher = this.store.insertAfter(first.key, 'teacher')
+      expect(teacher.kind).toBe('new')
+      expect(teacher.actor).toBe('teacher')
+      expect(this.store.state.steps[2]).toBe(teacher)
+      expect(this.store.state.selectedKey).toBe(teacher.key)
+
+      const copy = this.store.duplicate(this.store.state.steps[4].key)
+      expect(copy.text).toBe('reply')
+      expect(copy.documents[0]._id).toBe('doc1')
+      expect(this.store.state.steps[5]).toBe(copy)
+
+      const end = this.store.append('end')
+      expect(end.actionData.type).toBe('end-of-lesson')
+      expect(this.store.state.steps[this.store.state.steps.length - 1]).toBe(end)
+
+      this.store.removeFromQueue(dead.key)
+      expect(keys()[0]).toBe('m1')
+      expect(this.store.changes().newSteps.length).toBe(3)
+      expect(() => this.store.insertAfter(first.key, 'song')).toThrow()
+    })
+
+    it('inserts a copy of a message fetched by id', function (done) {
+      this.routes['GET /db/ai_chat_message/other'] = () => ({ _id: 'other', actor: 'teacher', text: 'from elsewhere', actionData: { type: 'continue' }, documents: [] })
+      const [first] = this.store.state.steps
+      this.store.insertCopyById(first.key, 'other').then(step => {
+        expect(step.kind).toBe('new')
+        expect(step.id).toBe(null)
+        expect(step.text).toBe('from elsewhere')
+        expect(this.store.state.steps[1]).toBe(step)
+      }).then(done, done.fail)
+    })
+
+    it('deleting a message removes it from the queue and remembers the delete', function () {
+      const quiz = this.store.state.steps[2]
+      this.store.deleteMessage(quiz.key)
+      expect(this.store.state.steps.map(s => s.id)).toEqual(['m1', 'dead1', 'm3'])
+      expect(this.store.changes().deletedIds).toEqual(['m2'])
+    })
+
+    it('blocks saving a step with empty text or an empty choice', function (done) {
+      const teacher = this.store.append('teacher')
+      expect(this.store.validate().map(p => p.message)).toEqual(['empty text'])
+      this.store.setText(teacher.key, 'hi')
+      const quiz = this.store.append('quiz')
+      this.store.setChoice(quiz.key, 0, { text: 'A prompt' })
+      expect(this.store.validate().map(p => p.message)).toEqual(['empty choice'])
+      this.store.saveMessages().then(() => done.fail('expected a rejection'), err => {
+        expect(err.problems.length).toBe(1)
+        expect(this.fetchJson.calls.filter(c => c.method !== 'GET').length).toBe(0)
+        done()
+      })
+    })
+  })
+
+  describe('saveMessages before load', function () {
+    it('refuses, so an empty queue is never saved', function (done) {
+      expect(this.store.changes().any).toBe(false)
+      this.store.saveMessages().then(() => done.fail('expected a rejection'), err => {
+        expect(err.message).toContain('not loaded')
+        expect(this.fetchJson.calls.length).toBe(0)
+        done()
+      })
+    })
+  })
+
+  describe('saveMessages', function () {
+    beforeEach(function (done) {
+      this.store.load().then(() => done(), done.fail)
+    })
+
+    it('creates new steps in order, updates edited ones with their changed fields, returns the queue ids, deletes only afterwards', function (done) {
+      const [first, dead, quiz, reply] = this.store.state.steps
+      this.store.setText(first.key, 'welcome back')
+      const inserted = this.store.insertAfter(first.key, 'teacher')
+      this.store.setText(inserted.key, 'new one')
+      this.store.setAnswerIndex(quiz.key, 0)
+      this.store.deleteMessage(reply.key)
+      this.store.removeFromQueue(dead.key)
+      this.store.saveMessages().then(ids => {
+        const writes = this.fetchJson.calls.filter(c => c.method !== 'GET')
+        expect(writes.map(c => `${c.method} ${c.url}`)).toEqual([
+          'POST /db/ai_chat_message',
+          'PUT /db/ai_chat_message/m1',
+          'PUT /db/ai_chat_message/m2',
+        ])
+        expect(writes[0].json).toEqual({ parent: 'orig1', parentKind: 'scenario', actor: 'teacher', text: 'new one', actionData: { type: 'continue' }, documents: [] })
+        expect(writes[1].json).toEqual({ text: 'welcome back' })
+        expect(Object.keys(writes[2].json)).toEqual(['text', 'actionData'])
+        expect(writes[2].json.actionData.answerIndex).toBe(0)
+        expect(inserted.id).toBe('new2')
+        expect(inserted.kind).toBe('live')
+        expect(ids).toEqual(['m1', 'new2', 'm2'])
+        // The queue and the delete are still pending until the version is saved; the backup now carries the saved ids.
+        expect(this.store.changes().queueChanged).toBe(true)
+        expect(this.store.changes().deletedIds).toEqual(['m3'])
+        const backup = JSON.parse(this.storage.items['scenario-script-backup:orig1'])
+        expect(backup.steps.map(s => s.id)).toEqual(['m1', 'new2', 'm2'])
+        return this.store.applyDeletes()
+      }).then(() => {
+        expect(this.fetchJson.calls.filter(c => c.method === 'DELETE').map(c => c.url)).toEqual(['/db/ai_chat_message/m3'])
+        expect(this.store.changes().deletedIds).toEqual([])
+        this.store.adoptScenario({ _id: 'version2', original: 'orig1', initialActionQueue: ['m1', 'new2', 'm2'] })
+        this.store.clearBackup()
+        expect(this.store.changes().any).toBe(false)
+        expect(this.storage.items['scenario-script-backup:orig1']).toBeUndefined()
+      }).then(done, done.fail)
+    })
+
+    it('a restored backup after the message writes does not write them again', function (done) {
+      const [first] = this.store.state.steps
+      this.store.setText(first.key, 'welcome back')
+      const inserted = this.store.append('teacher')
+      this.store.setText(inserted.key, 'new one')
+      this.store.saveMessages().then(() => {
+        const fresh = createScriptStore({ scenario: clone(scenario), fetchJson: this.fetchJson, storage: this.storage })
+        return fresh.load().then(() => {
+          expect(fresh.restoreFromBackup()).toBe(true)
+          expect(fresh.changes().newSteps.length).toBe(0)
+          expect(fresh.changes().editedSteps.length).toBe(0)
+          expect(fresh.changes().queueChanged).toBe(true)
+          const before = this.fetchJson.calls.length
+          return fresh.saveMessages().then(ids => {
+            expect(ids).toEqual(['m1', 'dead1', 'm2', 'm3', 'new2'])
+            expect(this.fetchJson.calls.length).toBe(before)
+          })
+        })
+      }).then(done, done.fail)
+    })
+
+    it('stops at the first failure and keeps the rest pending', function (done) {
+      this.routes['PUT /db/ai_chat_message/m1'] = () => { throw Object.assign(new Error('forbidden'), { code: 403 }) }
+      const [first, , quiz] = this.store.state.steps
+      const inserted = this.store.append('model')
+      this.store.setText(inserted.key, 'generated')
+      this.store.setText(first.key, 'changed')
+      this.store.setText(quiz.key, 'Make a story')
+      this.store.saveMessages().then(() => done.fail('expected a rejection'), err => {
+        expect(err.action).toBe('update')
+        expect(err.step).toBe(first)
+        expect(err.code).toBe(403)
+        expect(inserted.kind).toBe('live')
+        expect(inserted.id).toBe('new2')
+        expect(this.store.isDirty(first)).toBe(true)
+        expect(this.store.isDirty(quiz)).toBe(true)
+        expect(this.fetchJson.calls.filter(c => c.method === 'PUT').length).toBe(1)
+        expect(this.store.changes().count).toBe(3)
+        done()
+      })
+    })
+  })
+
+  describe('backups', function () {
+    beforeEach(function (done) {
+      this.store.load().then(() => done(), done.fail)
+    })
+
+    it('writes a backup on every change and drops it when nothing is pending', function () {
+      const [first] = this.store.state.steps
+      this.store.setText(first.key, 'edited')
+      const backup = JSON.parse(this.storage.items['scenario-script-backup:orig1'])
+      expect(backup.scenarioId).toBe('version1')
+      expect(backup.at).toBe(1000)
+      expect(backup.steps[0].text).toBe('edited')
+      this.store.setText(first.key, 'welcome')
+      expect(this.storage.items['scenario-script-backup:orig1']).toBeUndefined()
+    })
+
+    it('restores a backup of the same scenario version and ignores one from another', function (done) {
+      const [first] = this.store.state.steps
+      this.store.setText(first.key, 'edited')
+      this.store.append('teacher')
+      const fresh = createScriptStore({ scenario: clone(scenario), fetchJson: this.fetchJson, storage: this.storage })
+      fresh.load().then(() => {
+        expect(fresh.readBackup()).not.toBe(null)
+        expect(fresh.restoreFromBackup()).toBe(true)
+        expect(fresh.state.steps[0].text).toBe('edited')
+        expect(fresh.isDirty(fresh.state.steps[0])).toBe(true)
+        expect(fresh.state.steps.length).toBe(5)
+        expect(fresh.changes().newSteps.length).toBe(1)
+        const added = fresh.append('model')
+        expect(added.key).not.toBe(fresh.state.steps[4].key)
+
+        const other = createScriptStore({ scenario: Object.assign(clone(scenario), { _id: 'version2' }), fetchJson: makeFetch({ 'GET /db/ai_scenario/version2/messages': () => clone(messages) }), storage: this.storage })
+        expect(other.readBackup()).toBe(null)
+        expect(other.restoreFromBackup()).toBe(false)
+      }).then(done, done.fail)
+    })
+  })
+})
