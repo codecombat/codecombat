@@ -49,11 +49,19 @@ class AIStoryWorldEditView extends RootView {
     this.treema.open(3)
   }
 
-  onClickSaveButton () {
+  // Treema edits its own deep copy. Copy it into the model in one set, so the change listener in
+  // onLoaded runs once with every edited value in place, and drop what the author removed.
+  commitDraft () {
     this.treema.endExistingEdits()
-    for (const key in this.treema.data) {
-      this.model.set(key, this.treema.data[key])
+    const draft = $.extend(true, {}, this.treema.data)
+    for (const key of Object.keys(this.model.attributes)) {
+      if (key !== '_id' && !(key in draft)) { this.model.unset(key, { silent: true }) }
     }
+    this.model.set(draft)
+  }
+
+  onClickSaveButton () {
+    this.commitDraft()
     const res = this.model.save()
     if (!res) { return }
     res.fail((jqXHR) => console.error(jqXHR))
@@ -64,6 +72,7 @@ class AIStoryWorldEditView extends RootView {
 
   onPopulateI18N () {
     if (me.get('anonymous')) { return }
+    this.commitDraft()
     this.model.populateI18N()
   }
 

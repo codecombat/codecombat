@@ -33,11 +33,11 @@ class AIStoryWorldSearchView extends SearchView {
       noty({ text: 'Cancelled', timeout: 1000 })
       return
     }
-    this.$el.find(`tr[data-model='${worldId}']`).remove()
     $.ajax({
       type: 'DELETE',
       url: `/db/ai_story_world/${worldId}`,
-      success () {
+      success: () => {
+        this.$el.find(`tr[data-model='${worldId}']`).remove()
         noty({ timeout: 2000, text: 'Aaaand it\'s gone.', type: 'success', layout: 'topCenter' })
       },
       error (jqXHR) {
