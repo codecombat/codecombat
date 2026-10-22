@@ -257,6 +257,8 @@ module.exports = (AdministerUserModal = (function () {
       this.itemCatalog = {}
       this.listenTo(fetcher, 'sync', (collection, response) => this.onItemCatalogPage(fetcher, response))
       this.listenTo(fetcher, 'error', () => {
+        // Null, not a partial map: the search input stays disabled and the next user sync retries the load.
+        this.itemCatalog = null
         this.itemCatalogLoading = false
         this.itemGrantState = 'error'
         this.itemGrantMessage = 'Could not load the item list'
