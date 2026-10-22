@@ -103,8 +103,8 @@ module.exports = (AdministerUserModal = (function () {
       this.classrooms = new Classrooms()
       this.supermodel.trackRequest(this.user.fetch({ cache: false }))
       this.listenTo(this.user, 'sync', () => {
-        // The item picker only renders for admins on home users; load its catalog only then, once.
-        if (me.isAdmin() && this.user.isHomeUser() && !this.itemCatalog) { this.loadItemCatalog() }
+        // The item picker renders for admins and online teachers on home users; load its catalog only then, once.
+        if ((me.isAdmin() || me.isOnlineTeacher()) && this.user.isHomeUser() && !this.itemCatalog) { this.loadItemCatalog() }
         if (this.user.isStudent()) {
           this.supermodel.loadCollection(this.classrooms, { data: { memberID: this.user.id }, cache: false })
           this.listenTo(this.classrooms, 'sync', this.loadClassroomTeacherNames)
