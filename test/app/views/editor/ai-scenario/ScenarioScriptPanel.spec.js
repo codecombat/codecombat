@@ -50,7 +50,6 @@ describe('ScenarioScriptPanel', function () {
     expect(w.findAll('.choices li.correct').length).toBe(1)
     expect(w.find('.output-button').text()).toContain('Merge Game')
     expect(w.find('a.chip.link').attributes('href')).toBe('https://example.com/poem')
-    expect(w.find('.footer').classes()).not.toContain('pending')
   })
 
   it('selects a card, edits its text in the step panel and counts the change', function (done) {
@@ -62,20 +61,21 @@ describe('ScenarioScriptPanel', function () {
       return w.vm.$nextTick()
     }).then(() => {
       expect(this.store.state.steps[0].text).toBe('welcome back')
-      expect(w.find('.footer').classes()).toContain('pending')
-      expect(w.find('.footer strong').text()).toContain('1')
       expect(w.find('.chip.pending').exists()).toBe(true)
-      expect(w.find('.footer .btn-primary').attributes('disabled')).toBeUndefined()
+      const [changes, problems] = w.emitted('changed').slice(-1)[0]
+      expect(changes.count).toBe(1)
+      expect(problems.length).toBe(0)
     }).then(done, done.fail)
   })
 
-  it('blocks Save while a new step has no text, and opens the Output preview in a sandboxed frame', function (done) {
+  it('reports a new step without text as a save blocker, and opens the Output preview in a sandboxed frame', function (done) {
     const w = this.wrapper
     w.findAll('.add-row button').at(0).trigger('click')
     w.vm.$nextTick().then(() => {
       expect(w.findAll('.step').length).toBe(5)
-      expect(w.find('.footer .problems').exists()).toBe(true)
-      expect(w.find('.footer .btn-primary').attributes('disabled')).toBe('disabled')
+      expect(w.find('.lint-strip.alert-danger').exists()).toBe(true)
+      const [, problems] = w.emitted('changed').slice(-1)[0]
+      expect(problems.length).toBe(1)
       w.find('.output-button').trigger('click')
       return w.vm.$nextTick()
     }).then(() => {
