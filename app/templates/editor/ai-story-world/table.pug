@@ -1,0 +1,31 @@
+extends /templates/common/table
+
+block tableResultsHeader
+  tr
+    th(colspan=me.isAdmin() ? 5 : 4)
+      span(data-i18n="general.results")
+        | Results
+      span
+        |: #{documents.length}
+
+block tableHeader
+  tr
+    th(data-i18n="general.name")
+    th Slug
+    th Parent World
+    th(data-i18n="general.description")
+    if me.isAdmin()
+      th(data-i18n="editor.delete")
+
+block tableBody
+  for world in documents
+    tr(data-model=world.get('_id') data-name=world.get('name'))
+      td
+        a(href='/editor/' + page + '/' + (world.get('slug') || world.get('_id')))
+          | #{world.get('name')}
+      td #{world.get('slug')}
+      td #{world.get('parentWorld') || (world.get('slug') === 'galaxy' ? '' : 'galaxy')}
+      td #{world.get('description')}
+      if me.isAdmin()
+        td
+          button.ai-story-world-tool-button.btn.btn-primary.btn-sm#delete-button(data-i18n="editor.delete")

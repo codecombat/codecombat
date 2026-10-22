@@ -223,6 +223,8 @@ module.exports = (CocoRouter = (function () {
         'editor/ai-project/:chatID': go('editor/ai-project/AIProjectEditView'),
         'editor/ai-model': go('editor/ai-model/AIModelSearchView'),
         'editor/ai-model/:modelID': go('editor/ai-model/AIModelEditView'),
+        'editor/ai-story-world': go('editor/ai-story-world/AIStoryWorldSearchView'),
+        'editor/ai-story-world/:worldID': go('editor/ai-story-world/AIStoryWorldEditView'),
         'editor/ai-document': go('editor/ai-document/AIDocumentSearchView'),
         'editor/ai-document/:documentID': go('editor/ai-document/AIDocumentEditView'),
         'editor/ai-chat-message': go('editor/ai-chat-message/AIChatMessageSearchView'),
