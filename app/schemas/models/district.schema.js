@@ -9,6 +9,9 @@ const DistrictSchema = schema.object({ required: ['name'] }, {
   teachers: schema.int({ description: 'Total full time equivalent teachers' }),
   phone: schema.shortString({ description: 'Phone number' }),
   website: schema.shortString({ description: 'Website' }),
+  aiDisabled: { type: 'boolean', description: 'Set by an admin: AI is turned off for teachers and students in this district' },
+  aiDisabledChangedBy: schema.objectId(),
+  aiDisabledChangedAt: schema.date(),
   geo: schema.object(
     {},
     {

@@ -47,6 +47,9 @@ _.extend(ClassroomSchema.properties, {
     default: false,
     description: 'Visual only; determines if the classroom is in the "archived" list of the normal list.'
   },
+  aiDisabled: { type: 'boolean', description: 'Set by an admin: AI is turned off for the members of this classroom' },
+  aiDisabledChangedBy: c.objectId(),
+  aiDisabledChangedAt: c.date(),
   courses: c.array({ title: 'Courses' }, c.object({ title: 'Course' }, {
     _id: c.objectId(),
     updated: c.stringDate(),

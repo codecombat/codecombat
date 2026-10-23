@@ -114,13 +114,21 @@
         <label for="level-chat">
           <span class="control-label"> {{ $t("teachers.classroom_level_chat") }} </span>
         </label>
-        <input
-          id="level-chat"
-          v-model="levelChat"
-          type="checkbox"
-          name="levelChat"
+        <div
+          v-if="aiDisabled"
+          class="alert alert-info"
         >
-        <span class="help-block small text-navy">{{ $t("teachers.classroom_level_chat_blurb") }}</span>
+          {{ $t('teachers.classroom_level_chat_ai_disabled') }}
+        </div>
+        <template v-else>
+          <input
+            id="level-chat"
+            v-model="levelChat"
+            type="checkbox"
+            name="levelChat"
+          >
+          <span class="help-block small text-navy">{{ $t("teachers.classroom_level_chat_blurb") }}</span>
+        </template>
       </div>
     </div>
     <div
@@ -302,6 +310,7 @@
 
 <script>
 import utils from 'core/utils'
+import usersApi from 'core/api/users'
 import ClassStartEndDateComponent from '../modal-edit-class-components/ClassStartEndDateComponent'
 export default {
   components: {
@@ -317,6 +326,7 @@ export default {
     return {
       // Local UI-only state - whether the advanced section is expanded, not part of the draft.
       moreOptions: false,
+      aiDisabled: false,
     }
   },
   computed: {
@@ -390,6 +400,9 @@ export default {
       return this.moreOptions ? '&nbsp;&and;' : '&nbsp;&or;'
     },
 
+  },
+  created () {
+    usersApi.getAiDisabled().then(({ aiDisabled }) => { this.aiDisabled = aiDisabled }).catch(() => {})
   },
   methods: {
     updateDraft (patch) {
