@@ -66,6 +66,50 @@ describe('lib/scenario-lint', function () {
     expect(lintScript(fine, { mode: 'learn to use' })).toEqual([])
   })
 
+  describe('story checks', function () {
+    const story = { isStory: true, characters: [{ id: 'hq', role: 'ally' }, { id: 'local', role: 'npc' }], objectives: [{ id: 'recolor' }], backgrounds: [{ id: 'camp' }], missingWorld: null }
+
+    it('are all skipped without a story context', function () {
+      const steps = [
+        step({ id: 'a', character: 'ghost', objective: 'nope', background: 'void' }),
+        step({ id: 'b', actor: 'user', character: 'local', actionData: { type: 'prompt-input', autoAdvance: 0 } }),
+      ]
+      expect(lintScript(steps, { mode: 'practice' })).toEqual([])
+    })
+
+    it('flag unknown ids, a character on a by-role line and pacing on a non-continue step', function () {
+      const steps = [
+        step({ id: 'a', character: 'local', objective: 'recolor', background: 'camp' }),
+        step({ id: 'b', character: 'ghost' }),
+        step({ id: 'c', objective: 'nope' }),
+        step({ id: 'd', background: 'void' }),
+        step({ id: 'e', actor: 'user', character: 'local' }),
+        step({ id: 'f', actor: 'user', actionData: { type: 'prompt-input', autoAdvance: 0 } }),
+      ]
+      const found = lintScript(steps, { mode: 'practice', story })
+      expect(found.map(f => [f.code, f.index])).toEqual([['unknown-character', 1], ['unknown-objective', 2], ['unknown-background', 3], ['character-by-role', 4], ['auto-advance-ignored', 5]])
+      expect(found.map(f => f.severity)).toEqual(['warning', 'warning', 'warning', 'warning', 'info'])
+      expect(found[0].message).toContain('ghost')
+    })
+
+    it('note a story level without any objective, in the modes that show the chip', function () {
+      const steps = [step({ id: 'a' }), step({ id: 'b', actor: 'model' })]
+      const found = lintScript(steps, { mode: 'practice', story })
+      expect(found.map(f => f.code)).toEqual(['no-objective-chip'])
+      expect(found[0].index).toBeUndefined()
+      expect(lintScript(steps, { mode: 'learn to use', story })).toEqual([])
+      expect(lintScript(steps, { mode: 'practice', story: Object.assign({}, story, { isStory: false }) })).toEqual([])
+      expect(lintScript([step({ id: 'a', objective: 'recolor' })], { mode: 'practice', story })).toEqual([])
+    })
+
+    it('warn once, script-wide, when a world could not be loaded', function () {
+      const found = lintScript([step({ id: 'a' })], { story: Object.assign({}, story, { isStory: false, missingWorld: 'lost' }) })
+      expect(found.map(f => f.code)).toEqual(['missing-world'])
+      expect(found[0].message).toContain('lost')
+      expect(found[0].key).toBeUndefined()
+    })
+  })
+
   it('groups findings by step key', function () {
     const s = step({ id: 'x', text: '' })
     const grouped = findingsByKey(lintScript([s, { key: 'dead', id: 'gone', kind: 'dead' }]))

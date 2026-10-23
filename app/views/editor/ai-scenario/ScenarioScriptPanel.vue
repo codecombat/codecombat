@@ -391,7 +391,7 @@ export default Vue.extend({
     kinds () { return KINDS },
     lint () {
       this.tick // eslint-disable-line no-unused-expressions
-      return lintScript(this.state.steps, { mode: this.mode })
+      return lintScript(this.state.steps, { mode: this.mode, story: this.storyContext || undefined })
     },
     lintByKey () {
       return findingsByKey(this.lint)
