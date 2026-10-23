@@ -70,6 +70,29 @@
         {{ $t('editor.scenario_lint_clean') }}
       </div>
 
+      <div
+        v-if="storyContext && (storyContext.isStory || storyContext.missingWorld)"
+        class="story-summary"
+      >
+        <template v-if="storyContext.isStory">
+          <div><strong>{{ $t('editor.scenario_story_summary_world') }}</strong> {{ worldChainText }}</div>
+          <div><strong>{{ $t('editor.scenario_story_summary_cast') }}</strong> {{ castText }}</div>
+          <div><strong>{{ $t('editor.scenario_story_summary_objectives') }}</strong> {{ objectivesText }}</div>
+          <div><strong>{{ $t('editor.scenario_story_summary_scenes') }}</strong> {{ scenesText }}</div>
+        </template>
+        <div
+          v-if="storyContext.missingWorld"
+          class="missing"
+        >
+          ⚠ {{ $t('editor.scenario_story_summary_missing_world') }} {{ storyContext.missingWorld }}
+        </div>
+        <a
+          href="#"
+          class="edit-link"
+          @click.prevent="openSettings"
+        >{{ $t('editor.scenario_story_summary_edit') }}</a>
+      </div>
+
       <div class="layout">
         <div class="steps-column">
           <ol class="steps">
@@ -122,6 +145,26 @@
                       :class="['chip', 'lint', f.severity]"
                       :title="f.message"
                     >{{ f.code }}</span>
+                    <span
+                      v-if="speakerOf(step)"
+                      :class="['chip', 'story', { unknown: speakerOf(step).unknown }]"
+                      :title="$t('editor.scenario_step_speaker')"
+                    >→ {{ speakerOf(step).label }}</span>
+                    <span
+                      v-if="step.objective"
+                      :class="['chip', 'story', { unknown: !known(storyContext && storyContext.objectives, step.objective) }]"
+                      :title="$t('editor.scenario_step_objective')"
+                    >◎ {{ step.objective }}</span>
+                    <span
+                      v-if="step.background"
+                      :class="['chip', 'story', { unknown: !known(storyContext && storyContext.backgrounds, step.background) }]"
+                      :title="$t('editor.scenario_step_background')"
+                    >▣ {{ step.background }}</span>
+                    <span
+                      v-if="pacingOf(step)"
+                      class="chip story"
+                      :title="$t('editor.scenario_step_pacing')"
+                    >⏱ {{ pacingOf(step) }}</span>
                     <span class="langs">{{ languages(step) }}</span>
                   </div>
                   <div class="text">
@@ -275,6 +318,7 @@
             :step="selectedStep"
             :index="selectedIndex"
             :read-only="readOnly"
+            :story-context="storyContext"
             @changed="bump"
             @close="deselect"
           />
@@ -389,6 +433,21 @@ export default Vue.extend({
       const step = this.selectedIndex >= 0 ? this.state.steps[this.selectedIndex] : null
       return step && step.kind !== 'dead' ? step : null
     },
+    // Farthest world first, the way the inheritance reads: galaxy ← hour-of-ai; a world that failed to load is flagged.
+    worldChainText () {
+      const chain = this.storyContext.worldChain.slice().reverse()
+      if (this.storyContext.missingWorld) { chain.unshift(`⚠ ${this.storyContext.missingWorld}`) }
+      return chain.join(' ← ') || this.$t('editor.scenario_story_summary_none')
+    },
+    castText () {
+      return this.listText(this.storyContext.characters, c => `${c.id} (${c.role})`)
+    },
+    objectivesText () {
+      return this.listText(this.storyContext.objectives, o => o.id)
+    },
+    scenesText () {
+      return this.listText(this.storyContext.backgrounds, b => b.id)
+    },
   },
   methods: {
     // Store mutations on nested fields are not always seen by Vue; redraw after each
@@ -456,6 +515,29 @@ export default Vue.extend({
     },
     lintFor (step) {
       return this.lintByKey[step.key] || []
+    },
+    listText (entries, label) {
+      return entries.length ? entries.map(label).join(' · ') : this.$t('editor.scenario_story_summary_none')
+    },
+    known (entries, id) {
+      return Boolean(entries && entries.some(entry => entry.id === id))
+    },
+    // { label, unknown } for the speaker chip: the character's name, or its id flagged when the context does not know it.
+    speakerOf (step) {
+      if (!step.character) { return null }
+      const character = this.storyContext && this.storyContext.characters.find(c => c.id === step.character)
+      return character ? { label: character.name, unknown: false } : { label: `⚠ ${step.character}`, unknown: true }
+    },
+    pacingOf (step) {
+      const value = step.actionData && step.actionData.autoAdvance
+      if (value === 0) { return this.$t('editor.scenario_step_pacing_wait_short') }
+      if (typeof value === 'number' && value > 0) { return `${value} ms` }
+      return null
+    },
+    // The cast, objectives and scenes are edited in the Settings tab's Treema.
+    openSettings () {
+      const link = document.querySelector('a[href="#ai-scenario-settings-tab"]')
+      if (link && window.$ && window.$.fn && window.$.fn.tab) { window.$(link).tab('show') }
     },
     // A click on the card selects it; clicks on its controls, menus and links do their own thing.
     onCardClick (event, step) {
@@ -575,6 +657,24 @@ export default Vue.extend({
     color: #5f594f;
   }
 
+  .story-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #4a4439;
+    background: #f8f5ee;
+    border: 1px solid #d8d2c4;
+    border-radius: 6px;
+    overflow-wrap: anywhere;
+
+    strong { margin-right: 4px; }
+    .missing { color: #7a3e00; }
+    .edit-link { align-self: flex-start; }
+  }
+
   .layout {
     display: flex;
     flex-wrap: wrap;
@@ -685,6 +785,16 @@ export default Vue.extend({
     .chip.lint.info {
       background: #efece4;
       color: #5f594f;
+    }
+
+    .chip.story {
+      background: #e7f1ef;
+      color: #1d5c4f;
+    }
+
+    .chip.story.unknown {
+      background: #fdebd0;
+      color: #7a3e00;
     }
 
     .langs {
