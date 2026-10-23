@@ -125,6 +125,35 @@ describe('ScenarioScriptPanel', function () {
     }).then(done, done.fail)
   })
 
+  it('turns pacing on for a step that never had it, and the ms field follows', function (done) {
+    const w = this.wrapper
+    w.findAll('.step').at(3).trigger('click') // m3: continue, no autoAdvance
+    w.vm.$nextTick().then(() => {
+      // No story data and no story context: the block starts collapsed.
+      const panel = w.find('.scenario-step-panel')
+      expect(panel.find('.story-fields').exists()).toBe(false)
+      panel.find('.story .toggle').trigger('click')
+      return w.vm.$nextTick()
+    }).then(() => {
+      const panel = w.find('.scenario-step-panel')
+      expect(panel.find('.pacing input[value="derived"]').element.checked).toBe(true)
+      expect(panel.find('.pacing input.ms').element.disabled).toBe(true)
+      panel.find('.pacing input[value="auto"]').setChecked()
+      return w.vm.$nextTick()
+    }).then(() => {
+      const panel = w.find('.scenario-step-panel')
+      expect(this.store.state.steps[3].actionData.autoAdvance).toBe(1000)
+      expect(panel.find('.pacing input[value="auto"]').element.checked).toBe(true)
+      expect(panel.find('.pacing input.ms').element.disabled).toBe(false)
+      panel.find('.pacing input[value="derived"]').setChecked()
+      return w.vm.$nextTick()
+    }).then(() => {
+      expect(this.store.state.steps[3].actionData).toEqual({ type: 'continue' })
+      expect(w.find('.scenario-step-panel .pacing input.ms').element.disabled).toBe(true)
+      expect(w.findAll('.step').at(3).findAll('.chip.story').length).toBe(0)
+    }).then(done, done.fail)
+  })
+
   it('reports a new step without text as a save blocker, and opens the Output preview in a sandboxed frame', function (done) {
     const w = this.wrapper
     w.findAll('.add-row button').at(0).trigger('click')

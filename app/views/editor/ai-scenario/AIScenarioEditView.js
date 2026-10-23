@@ -173,19 +173,23 @@ module.exports = (AIScenarioEditView = (function () {
     }
 
     // The Story controls offer the cast and scenes the story page will resolve: the scenario's own
-    // lists, live from the Settings tab, plus its world chain, fetched once per storyWorld. A world
-    // that fails to load leaves the panel working with what did load (storyContext.missingWorld).
+    // lists, live from the Settings tab, plus its world chain, fetched once per storyWorld and only
+    // for a story scenario (the classic page resolves nothing, so a non-story script must not pick
+    // up a missing-world warning). A world that fails to load leaves the panel working with what
+    // did load (storyContext.missingWorld).
     refreshStoryContext () {
       if (!this.scriptPanel) { return }
-      const slug = this.scenario.get('storyWorld') || ''
+      const slug = this.scenario.get('isStory') ? (this.scenario.get('storyWorld') || '') : null
       if (slug !== this.worldChainSlug) {
         this.worldChainSlug = slug
         this.worldChain = null
-        loadWorldChain(slug, fetchJson).then(chain => {
-          if (!this.scriptPanel || this.worldChainSlug !== slug) { return }
-          this.worldChain = chain
-          this.refreshStoryContext()
-        })
+        if (slug !== null) {
+          loadWorldChain(slug, fetchJson).then(chain => {
+            if (!this.scriptPanel || this.worldChainSlug !== slug) { return }
+            this.worldChain = chain
+            this.refreshStoryContext()
+          })
+        }
       }
       this.scriptPanel.$props.storyContext = buildStoryContext(this.scenario.attributes, this.worldChain)
     }

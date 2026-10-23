@@ -53,6 +53,13 @@ function editableSnapshot (step) {
   return JSON.stringify(picked)
 }
 
+// Every step has every story key, set or not: Vue observes own keys only, and a backup (JSON) drops undefined ones.
+function blankStoryFields () {
+  const fields = {}
+  for (const field of STORY_FIELDS) { fields[field] = undefined }
+  return fields
+}
+
 /** The story fields set on a message or step, non-empty strings only. */
 function storyFieldsOf (source) {
   const fields = {}
@@ -95,10 +102,7 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
       documents: [],
       i18n: undefined,
       ownerID: undefined,
-      character: undefined,
-      objective: undefined,
-      background: undefined,
-    }, clone(fields), extra)
+    }, blankStoryFields(), clone(fields), extra)
     step.snapshot = step.kind === 'live' ? editableSnapshot(step) : null
     return step
   }
@@ -183,10 +187,13 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
   function setAutoAdvance (key, value) {
     const step = stepByKey(key)
     if (!step.actionData || step.actionData.type !== 'continue') { throw new Error(`step ${key} is not a continue action`) }
+    // A new actionData object, not a key added or deleted in place: the panel's Vue watchers only see replaced values.
     if (value === null || value === undefined) {
-      delete step.actionData.autoAdvance
+      const next = Object.assign({}, step.actionData)
+      delete next.autoAdvance
+      step.actionData = next
     } else if (Number.isInteger(value) && value >= 0) {
-      step.actionData.autoAdvance = value
+      step.actionData = Object.assign({}, step.actionData, { autoAdvance: value })
     } else {
       throw new Error(`autoAdvance must be null, 0 or a positive integer of ms, not ${value}`)
     }
@@ -515,7 +522,7 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
   function restoreFromBackup () {
     const backup = readBackup()
     if (!backup) { return false }
-    state.steps = backup.steps
+    state.steps = backup.steps.map(step => Object.assign(blankStoryFields(), step))
     state.deleted = backup.deleted || []
     nextKey = Math.max(nextKey, backup.nextKey || 1)
     state.selectedKey = null

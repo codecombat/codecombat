@@ -250,17 +250,22 @@ describe('lib/scenario-script', function () {
       const fresh = createScriptStore({ scenario: clone(scenario), fetchJson: this.fetchJson, storage: this.storage })
       fresh.load().then(() => {
         expect(fresh.restoreFromBackup()).toBe(true)
-        const [restored] = fresh.state.steps
+        const [restored, , quiz] = fresh.state.steps
         expect(restored.objective).toBe('recolor')
         expect(restored.character).toBe('hq')
         expect(fresh.isDirty(restored)).toBe(true)
+        // JSON dropped the unset keys; the restored step gets them back so it has the same shape as a loaded one.
+        expect(Object.keys(quiz)).toEqual(jasmine.arrayContaining(['character', 'objective', 'background']))
+        expect(quiz.character).toBeUndefined()
       }).then(done, done.fail)
     })
 
     it('setAutoAdvance writes, deletes and refuses non-continue steps and bad values', function () {
       const [first, , quiz] = this.store.state.steps
+      const before = first.actionData
       this.store.setAutoAdvance(first.key, 0)
       expect(first.actionData).toEqual({ type: 'continue', autoAdvance: 0 })
+      expect(first.actionData).not.toBe(before) // replaced, so a Vue watcher on actionData sees it
       expect(this.store.isDirty(first)).toBe(true)
       this.store.setAutoAdvance(first.key, 1500)
       expect(first.actionData.autoAdvance).toBe(1500)
