@@ -16,12 +16,13 @@ const AIScenarioForkModal = require('./AIScenarioForkModal')
 const ScenarioScriptPanel = require('./ScenarioScriptPanel.vue').default
 const { createScriptStore } = require('lib/scenario-script')
 
-// Settings tab order: identity, catalog tags, AI behaviour, evaluation, translations.
+// Settings tab order: identity, catalog tags, AI behaviour, evaluation, story, translations.
 const SETTINGS_ORDER = [
   'name', 'releasePhase', 'archived',
   'mode', 'tool', 'task', 'doc', 'persona', 'labels', 'priority', 'coverImage',
   'promptType', 'additionalSystemPrompts', 'allowFileUpload', 'minMsgs',
   'evaluationRules', 'evaluationPhase',
+  'isStory', 'storyWorld', 'forkOf', 'objectives', 'characters', 'backgrounds',
   'i18n',
 ]
 // Edited elsewhere (the queue, in the Script tab) or maintained by the server.
