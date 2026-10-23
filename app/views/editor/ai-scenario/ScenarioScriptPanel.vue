@@ -331,6 +331,8 @@ export default Vue.extend({
     readOnly: { type: Boolean, default: false },
     releasePhase: { type: String, default: 'draft' },
     mode: { type: String, default: '' },
+    // From lib/story-world-chain buildStoryContext: the cast, objectives and scenes a step can reference.
+    storyContext: { type: Object, default: null },
   },
   data () {
     return {
