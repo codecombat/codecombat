@@ -36,7 +36,7 @@ const scenario = {
 
 const messages = [
   { _id: 'm3', actor: 'model', text: 'reply', actionData: { type: 'continue' }, documents: [{ _id: 'doc1', source: { type: 'code' } }], i18n: { he: { text: 'x' } }, ownerID: 'u1' },
-  { _id: 'm1', actor: 'teacher', text: 'welcome', actionData: { type: 'continue' }, documents: [], ownerID: 'u1' },
+  { _id: 'm1', actor: 'teacher', text: 'welcome', actionData: { type: 'continue' }, documents: [], ownerID: 'u1', character: 'hq', background: 'camp' },
   { _id: 'm2', actor: 'user', text: 'Make a game', actionData: { type: 'prompt-quiz', answerIndex: 1, choices: [{ text: 'Make a story', responseText: 'no' }, { text: 'Make a game', responseText: 'yes' }] }, documents: [], ownerID: 'u1' },
 ]
 
@@ -182,6 +182,106 @@ describe('lib/scenario-script', function () {
         expect(this.fetchJson.calls.filter(c => c.method !== 'GET').length).toBe(0)
         done()
       })
+    })
+  })
+
+  describe('story fields', function () {
+    beforeEach(function (done) {
+      this.store.load().then(() => done(), done.fail)
+    })
+
+    it('loads them, PUTs only the changed ones, and sends null to clear a live field', function (done) {
+      const [first] = this.store.state.steps
+      expect(first.character).toBe('hq')
+      expect(first.background).toBe('camp')
+      expect(this.store.isDirty(first)).toBe(false)
+      this.store.setStoryField(first.key, 'objective', ' recolor ')
+      expect(first.objective).toBe('recolor')
+      this.store.setStoryField(first.key, 'character', '')
+      expect(first.character).toBe(null)
+      expect(this.store.isDirty(first)).toBe(true)
+      expect(() => this.store.setStoryField(first.key, 'mood', 'x')).toThrow()
+      this.store.saveMessages().then(() => {
+        const puts = this.fetchJson.calls.filter(c => c.method === 'PUT')
+        expect(puts.length).toBe(1)
+        expect(puts[0].json).toEqual({ character: null, objective: 'recolor' })
+        expect(this.store.isDirty(first)).toBe(false)
+      }).then(done, done.fail)
+    })
+
+    it('clearing a field that was never set is not a change', function () {
+      const quiz = this.store.state.steps[2]
+      this.store.setStoryField(quiz.key, 'objective', 'recolor')
+      expect(this.store.isDirty(quiz)).toBe(true)
+      this.store.setStoryField(quiz.key, 'objective', null)
+      expect(this.store.isDirty(quiz)).toBe(false)
+      expect(this.store.changes().any).toBe(false)
+    })
+
+    it('a new step POSTs the fields that are set and leaves cleared ones out', function (done) {
+      const step = this.store.append('teacher')
+      this.store.setText(step.key, 'hi')
+      this.store.setStoryField(step.key, 'character', 'local')
+      this.store.setStoryField(step.key, 'background', 'camp')
+      this.store.setStoryField(step.key, 'background', null)
+      this.store.saveMessages().then(() => {
+        const [post] = this.fetchJson.calls.filter(c => c.method === 'POST')
+        expect(post.json).toEqual({ parent: 'orig1', parentKind: 'scenario', actor: 'teacher', text: 'hi', actionData: { type: 'continue' }, documents: [], character: 'local' })
+      }).then(done, done.fail)
+    })
+
+    it('duplicate and copy-by-id keep the fields and the pacing', function (done) {
+      const [first] = this.store.state.steps
+      const copy = this.store.duplicate(first.key)
+      expect(copy.character).toBe('hq')
+      expect(copy.background).toBe('camp')
+      expect(copy.objective).toBeUndefined()
+      this.routes['GET /db/ai_chat_message/other'] = () => ({ _id: 'other', actor: 'teacher', text: 'x', actionData: { type: 'continue', autoAdvance: 1500 }, documents: [], objective: 'recolor' })
+      this.store.insertCopyById(first.key, 'other').then(step => {
+        expect(step.objective).toBe('recolor')
+        expect(step.actionData.autoAdvance).toBe(1500)
+        expect(step.character).toBeUndefined()
+      }).then(done, done.fail)
+    })
+
+    it('backups round-trip the fields', function (done) {
+      const [first] = this.store.state.steps
+      this.store.setStoryField(first.key, 'objective', 'recolor')
+      const fresh = createScriptStore({ scenario: clone(scenario), fetchJson: this.fetchJson, storage: this.storage })
+      fresh.load().then(() => {
+        expect(fresh.restoreFromBackup()).toBe(true)
+        const [restored] = fresh.state.steps
+        expect(restored.objective).toBe('recolor')
+        expect(restored.character).toBe('hq')
+        expect(fresh.isDirty(restored)).toBe(true)
+      }).then(done, done.fail)
+    })
+
+    it('setAutoAdvance writes, deletes and refuses non-continue steps and bad values', function () {
+      const [first, , quiz] = this.store.state.steps
+      this.store.setAutoAdvance(first.key, 0)
+      expect(first.actionData).toEqual({ type: 'continue', autoAdvance: 0 })
+      expect(this.store.isDirty(first)).toBe(true)
+      this.store.setAutoAdvance(first.key, 1500)
+      expect(first.actionData.autoAdvance).toBe(1500)
+      this.store.setAutoAdvance(first.key, null)
+      expect(first.actionData).toEqual({ type: 'continue' })
+      expect(this.store.isDirty(first)).toBe(false)
+      expect(() => this.store.setAutoAdvance(first.key, -5)).toThrow()
+      expect(() => this.store.setAutoAdvance(first.key, 1.5)).toThrow()
+      expect(() => this.store.setAutoAdvance(quiz.key, 0)).toThrow()
+    })
+
+    it('switching the actor to player or AI drops the character those lines resolve by role', function (done) {
+      const [first] = this.store.state.steps
+      this.store.setActor(first.key, 'user')
+      expect(first.character).toBe(null)
+      this.store.setActor(first.key, 'teacher')
+      expect(first.character).toBe(null)
+      this.store.saveMessages().then(() => {
+        const [put] = this.fetchJson.calls.filter(c => c.method === 'PUT')
+        expect(put.json).toEqual({ character: null })
+      }).then(done, done.fail)
     })
   })
 
