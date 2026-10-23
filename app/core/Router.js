@@ -16,7 +16,11 @@ const dynamicRequire = require('lib/dynamicRequire')
 const locale = require('locale/locale')
 const globalVar = require('core/globalVar')
 
-const go = (path, options) => function () { return this.routeDirectly(path, arguments, options) }
+const go = (path, options) => {
+  const route = function () { return this.routeDirectly(path, arguments, options) }
+  route.viewPath = path // read by test/app/core/Router.spec.js to check the view is registered in lib/dynamicRequire
+  return route
+}
 
 // This can be wrapped around existing route functions,
 // to restrict the new teacher dashboard only for admins (using flag newTeacherDashboardActive)
@@ -113,7 +117,6 @@ module.exports = (CocoRouter = (function () {
         'admin/files': go('admin/FilesView'),
         'admin/analytics': go('admin/AnalyticsView'),
         'admin/level-hints': go('admin/AdminLevelHintsView'),
-        'admin/level-sessions': go('admin/LevelSessionsView'),
         'admin/school-counts': go('admin/SchoolCountsView'),
         'admin/school-licenses': go('admin/SchoolLicensesView'),
         'admin/sub-cancellations': go('admin/AdminSubCancellationsView'),
