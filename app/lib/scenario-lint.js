@@ -6,9 +6,13 @@
  * `index` and `key` point at one step; script-wide findings have neither.
  */
 
+const { BY_ROLE_ACTORS } = require('./scenario-script')
+
 const PLACEHOLDER_CHOICE = /^[A-D]$/i
 const PLACEHOLDER_FEEDBACK = /that'?s not right/i
 const INSTRUCTION = /prompt/i
+// Modes whose story page shows the objective chip; a learn level is teacher-led and needs none.
+const OBJECTIVE_MODES = ['practice', 'use', 'capstone']
 
 function isLive (step) {
   return step.kind !== 'dead'
@@ -31,14 +35,37 @@ function finding (code, severity, message, step, index) {
   return f
 }
 
+// Story references are plain ids; the story page ignores what it cannot resolve, so say so here.
+function lintStoryStep (story, step, index, findings) {
+  if (step.character) {
+    if (BY_ROLE_ACTORS.includes(step.actor)) {
+      findings.push(finding('character-by-role', 'warning', `${step.actor} lines are resolved by role; the character ${step.character} is ignored`, step, index))
+    } else if (!story.characters.some(c => c.id === step.character)) {
+      findings.push(finding('unknown-character', 'warning', `character ${step.character} is not in the scenario or its worlds`, step, index))
+    }
+  }
+  if (step.objective && !story.objectives.some(o => o.id === step.objective)) {
+    findings.push(finding('unknown-objective', 'warning', `objective ${step.objective} is not in the scenario's objectives`, step, index))
+  }
+  if (step.background && !story.backgrounds.some(b => b.id === step.background)) {
+    findings.push(finding('unknown-background', 'warning', `scene ${step.background} is not in the scenario or its worlds`, step, index))
+  }
+  const autoAdvance = step.actionData && step.actionData.autoAdvance
+  if (autoAdvance !== undefined && autoAdvance !== null && step.actionData.type !== 'continue') {
+    findings.push(finding('auto-advance-ignored', 'info', 'pacing (autoAdvance) only applies to a Continue step', step, index))
+  }
+}
+
 /**
  * @param {Array<Object>} steps from lib/scenario-script state.steps
- * @param {{mode?: string}} [scenario] mode decides the learn-level ending check
+ * @param {{mode?: string, story?: Object}} [scenario] mode decides the learn-level ending check;
+ *   story (lib/story-world-chain buildStoryContext) turns on the story checks
  * @returns {Array<Object>} findings, in step order, script-wide ones last
  */
 function lintScript (steps, scenario = {}) {
   const findings = []
   const seen = {}
+  const story = scenario.story
 
   steps.forEach((step, index) => {
     if (step.kind === 'dead') {
@@ -68,6 +95,7 @@ function lintScript (steps, scenario = {}) {
         findings.push(finding('placeholder-distractor', 'warning', `${placeholders.length} placeholder choice${placeholders.length === 1 ? '' : 's'} (A/B/C/D or "that's not right")`, step, index))
       }
     }
+    if (story) { lintStoryStep(story, step, index, findings) }
   })
 
   const live = steps.filter(isLive)
@@ -84,6 +112,15 @@ function lintScript (steps, scenario = {}) {
     const last = live[live.length - 1]
     if (last.actor === 'teacher' && INSTRUCTION.test(last.text || '')) {
       findings.push(finding('learn-ends-on-instruction', 'info', 'learn level ends on an instruction; the player sees Level complete with no input', last, steps.indexOf(last)))
+    }
+  }
+
+  if (story) {
+    if (story.missingWorld) {
+      findings.push(finding('missing-world', 'warning', `world ${story.missingWorld} could not be loaded; its characters and scenes are not offered`))
+    }
+    if (story.isStory && OBJECTIVE_MODES.includes(scenario.mode) && live.length && !live.some(step => step.objective)) {
+      findings.push(finding('no-objective-chip', 'info', 'story level with no objective on any step; the player sees no goal chip'))
     }
   }
 
