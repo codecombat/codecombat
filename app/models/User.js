@@ -26,7 +26,7 @@ const userUtils = require('lib/user-utils')
 const _ = require('lodash')
 const moment = window.moment
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
-const { DEEP_API_LIST } = require('core/constants')
+const { DEEP_API_LIST, EDU_DOMAIN_LIST } = require('core/constants')
 const JUNIOR_PET_ACCESS_EXPERIMENT = 'junior-pet-access'
 // Users created before this date are grandfathered out of junior-pet-access; set to the rollout date before enabling
 const JUNIOR_PET_ACCESS_CUTOFF_DATE = '2026-07-29'
@@ -1436,6 +1436,7 @@ module.exports = (User = (function () {
     useSocialSignOn () { return !((features?.chinaUx != null ? features?.chinaUx : false) || (features?.china != null ? features?.china : false)) }
     isTarena () { return features?.Tarena != null ? features?.Tarena : false }
     isDEEPAPI () { return DEEP_API_LIST.includes(this.get('clientCreator') || '') }
+    isEDUDomain () { return EDU_DOMAIN_LIST.includes(window.location.hostname) }
     useTarenaLogo () { return this.isTarena() }
     hideTopRightNav () { return this.isDEEPAPI() || this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
     hideFooter () {

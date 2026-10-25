@@ -88,6 +88,11 @@ const DEEP_API_LIST = [ // Those apiclient doesn't want back-to-classroom button
   '62196f31a1c4ab0018db6df4', // aild-staging
 ]
 
+const EDU_DOMAIN_LIST = [
+  'edu.koudashijie.com',
+  'edu.localhost',
+]
+
 const HTTP_STATUS_CODES = {
   PAYMENT_REQUIRED_CODE: 402
 }
@@ -165,4 +170,5 @@ module.exports = {
   GLOBAL_AI_LEAGUE_CREATORS,
   BD_LEAD_FORM,
   AI_LEAGUE_LEAD_FORM,
+  EDU_DOMAIN_LIST,
 }

@@ -456,6 +456,14 @@ export default Vue.extend({
 
       let chinaNav = {
       }
+      if (me.isEDUDomain()) {
+        chinaNav = {
+          frontpage: {
+            title: '首页',
+            url: '/',
+          },
+        }
+      }
       const chinaEduNav = {
         hackstack: {
           title: 'nav.ai_hackstack',
@@ -593,7 +601,7 @@ export default Vue.extend({
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            .navbar-brand
+            .navbar-brand(v-if="!me.isEDUDomain()")
               a(v-if="isOzaria" :href="homeLink")
                 picture
                   source.logo-img.oz-logo(srcset="/images/ozaria/home/ozaria_home_logo.webp" type="image/webp")
@@ -698,6 +706,7 @@ export default Vue.extend({
 
 #main-nav.navbar {
   background: white;
+  min-height: 71px;
 
   &.floating-nav {
     position: absolute;
