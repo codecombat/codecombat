@@ -55,14 +55,6 @@ module.exports = {
     }))
   },
 
-  signupFromGoogleClassroom (attrs, options) {
-    if (options == null) { options = {} }
-    return fetchJson('/db/user/signup-from-google-classroom', _.assign({}, options, {
-      method: 'POST',
-      json: attrs
-    }))
-  },
-
   put (user, options) {
     if (options == null) { options = {} }
     return fetchJson(this.url(user._id), _.assign({}, options, {

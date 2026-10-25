@@ -49,16 +49,20 @@ const JuniorPromotionModal = require('views/core/JuniorPromotionModal')
 const CCHomePromotionModal = require('views/core/CCHomePromotionModal')
 const WorldsPromotionModal = require('views/core/WorldsPromotionModal') // Roblox modal
 const HackstackPromotionModal = require('views/core/HackstackPromotionModal')
+const { PERCENT_FULL, scenarioConnectionPath } = require('lib/scenario-connection-path')
 require('lib/game-libraries')
 
 const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
 const PROMPTED_FOR_SIGNUP = 'prompted-for-signup'
 const PROMPTED_FOR_SUBSCRIPTION = 'prompted-for-subscription'
 const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
-const SCENARIO_MARGIN_COMPENSATION_FACTOR = 0.33 // Compensates for bottom margin when centering scenario elements
 
 const COMPLETE_STATUS = 'complete'
 const STARTED_STATUS = 'started'
+const DEFAULT_MAP_SIZE = { width: 1920, height: 1280 } // the classic campaign maps are painted 3:2
+// Same stroke as hackstack's LevelConnections
+const SCENARIO_CONNECTION_OPACITY = 0.7
+const SCENARIO_CONNECTION_WIDTH = 7
 
 // The hub map (/play with no campaign slug) has no campaign document of its own, so hub-level settings such as
 // ambientSound come from this campaign. Referenced by id: campaign slugs re-derive from `name` on every save.
@@ -340,6 +344,13 @@ class CampaignView extends RootView {
   }
 
   redirectMiddleware () {
+    const juniorRedirect = () => {
+      if (!this.shouldRedirectJuniorToOdyssey()) { return }
+      window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
+      this.navigateReplacing('/play/odyssey')
+      return true
+    }
+
     const studentRedirect = () => {
       const courseInstanceId = utils.getQueryVariable('course-instance')
       if (!courseInstanceId && me.isStudent() && this.terrain !== 'intro') {
@@ -410,7 +421,15 @@ class CampaignView extends RootView {
       }
     }
 
-    return hocRedirect() || studentRedirect()
+    return juniorRedirect() || hocRedirect() || studentRedirect()
+  }
+
+  // Home users (anonymous included) get the Odyssey module map however they reach /play/junior,
+  // the same rule utils.getJuniorUrl() applies to links. Students and teachers keep the Junior map.
+  // /play/junior?force=junior opens the Junior map anyway, for support and QA.
+  shouldRedirectJuniorToOdyssey () {
+    if (this.terrain !== 'junior' || this.editorMode || !me.isHomeUser()) { return false }
+    return utils.getQueryVariable('force') !== 'junior'
   }
 
   destroy () {
@@ -1004,13 +1023,7 @@ class CampaignView extends RootView {
             const bg = $('.map-background')
             const el = $(this)
             const x = ((el.offset().left - bg.offset().left) + (el.outerWidth() / 2)) / bg.width()
-            // Compensate for negative margin-bottom used to center via bottom positioning.
-            // NOTE: Through visual testing, a factor of ~0.33 works best to align the
-            // saved position with the on-screen center. This is due to how the map's
-            // aspect scaling and our scenario circle height interact with bottom+margin
-            // centering. If map scaling logic changes, revisit this factor.
-            const mb = parseFloat(el.css('margin-bottom')) || 0
-            const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2) + (mb * SCENARIO_MARGIN_COMPENSATION_FACTOR)
+            const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2)
             const y = 1 - (yCenterPx / bg.height())
             const e = { position: { x: (100 * x), y: (100 * y) }, scenarioOriginal: $(this).data('scenario-original') }
             if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
@@ -1567,30 +1580,10 @@ class CampaignView extends RootView {
         }
       }
     }
-    // Also draw lines between AI Scenarios based on explicit connections
-    const scenarios = this.campaign?.get('scenarios') || []
-    if (scenarios.length) {
-      // Map scenarios by original id for fast lookup
-      const scenarioByOriginal = {}
-      for (const s of scenarios) {
-        if (s?.scenario) { scenarioByOriginal[s.scenario] = s }
-      }
-      for (const s of scenarios) {
-        const fromPos = s?.position
-        if (!fromPos) { continue }
-        for (const conn of (s?.connections || [])) {
-          const to = scenarioByOriginal[conn?.toScenario]
-          const toPos = to?.position
-          if (toPos) {
-            // If connection is marked invisible, render as a thinner line instead of skipping
-            this.createLineForEditor(fromPos, toPos, { thin: !!conn?.invisible })
-          }
-        }
-      }
-    }
+    this.createScenarioConnections()
   }
 
-  createLineForEditor (o1, o2, options = {}) {
+  createLineForEditor (o1, o2) {
     const mapHeight = parseFloat($('.map').css('height'))
     const mapWidth = parseFloat($('.map').css('width'))
     if (!(mapHeight > 0)) { return }
@@ -1600,8 +1593,53 @@ class CampaignView extends RootView {
     const length = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
     const angle = (Math.atan2(p1.y - p2.y, p2.x - p1.x) * 180) / Math.PI
     const transform = `translateY(-50%) translateX(-50%) rotate(${angle}deg) translateX(50%)`
-    const line = $('<div>').appendTo('.map').addClass('next-level-line').toggleClass('thin-connection', !!options.thin).css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
+    const line = $('<div>').appendTo('.map').addClass('next-level-line').css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
     return line.append($('<div class="line">')).append($('<div class="point">'))
+  }
+
+  // Mirrors hackstack's LevelConnections: one SVG over the map with a 100x100 viewBox stretched to
+  // it, so the curves scale with the map and the player sees the same bow, side and colour.
+  // Invisible connections are dashed here so authors can see them; players never do.
+  createScenarioConnections () {
+    const scenarios = this.campaign?.get('scenarios') || []
+    const map = this.$el.find('.map')
+    if (!scenarios.length || !map.length) { return }
+    map.find('#scenario-connections-svg').remove()
+    const byOriginal = {}
+    for (const s of scenarios) {
+      if (s?.scenario) { byOriginal[s.scenario] = s }
+    }
+    const svgNS = 'http://www.w3.org/2000/svg'
+    const svg = document.createElementNS(svgNS, 'svg')
+    svg.setAttribute('id', 'scenario-connections-svg')
+    svg.setAttribute('viewBox', `0 0 ${PERCENT_FULL} ${PERCENT_FULL}`)
+    svg.setAttribute('preserveAspectRatio', 'none')
+    let lastColor, lastOpacity
+    for (const s of scenarios) {
+      if (!s?.position) { continue }
+      for (const conn of (s.connections || [])) {
+        const to = byOriginal[conn?.toScenario]
+        if (!to?.position) { continue }
+        const color = conn.color || lastColor || colors.amethyst
+        const opacity = conn.opacity ?? lastOpacity ?? SCENARIO_CONNECTION_OPACITY
+        if (!conn.invisible) {
+          // the player inherits colour and opacity from the last visible connection
+          lastColor = color
+          lastOpacity = opacity
+        }
+        const path = document.createElementNS(svgNS, 'path')
+        path.setAttribute('d', scenarioConnectionPath(s.position, to.position, conn.curveSide))
+        path.setAttribute('fill', 'none')
+        path.setAttribute('stroke', color)
+        path.setAttribute('stroke-opacity', conn.invisible ? opacity / 2 : opacity)
+        path.setAttribute('stroke-width', conn.invisible ? SCENARIO_CONNECTION_WIDTH / 2 : SCENARIO_CONNECTION_WIDTH)
+        path.setAttribute('stroke-linecap', 'round')
+        path.setAttribute('vector-effect', 'non-scaling-stroke')
+        if (conn.invisible) { path.setAttribute('stroke-dasharray', '6 6') }
+        svg.appendChild(path)
+      }
+    }
+    map.append(svg)
   }
 
   createVisualConnections () {
@@ -1893,6 +1931,7 @@ class CampaignView extends RootView {
       })
       utils.injectCSS(rules.join('\n'))
     }
+    this.loadMapImageSize()
     const backgroundColor = this.campaign.get('backgroundColor')
     if (backgroundColor) {
       const backgroundColorTransparent = this.campaign.get('backgroundColorTransparent')
@@ -1990,7 +2029,11 @@ class CampaignView extends RootView {
     if (/requires a subscription to play/.test(error?.responseJSON?.message)) { return } // We handle this with SubscribeModal separately
     const levelElement = this.$el.find('.level-info-container:visible')
     if (session.levelSlug !== levelElement.data('level-slug')) { return }
-    levelElement.find('.level-error-message').text(error.responseJSON?.message || `Cannot load this level--error ${error.statusCode || 500}`)
+    let errorMessage = error.responseJSON?.message || `Cannot load this level--error ${error.statusCode || 500}`
+    if (error.responseJSON?.i18n) {
+      errorMessage = $.i18n.t(error.responseJSON.i18n)
+    }
+    levelElement.find('.level-error-message').text(errorMessage)
     levelElement.toggleClass('has-loading-error', true)
   }
 
@@ -2168,12 +2211,53 @@ class CampaignView extends RootView {
     this.$levelInfo.css('top', top)
   }
 
+  // hackstack lays a graph-map campaign's image out at the image's own aspect ratio and reads
+  // level positions as percentages of it. The classic map box is 3:2, so a 16:9 image fills only
+  // its top part and the same percentages land somewhere else. In the editor the box follows the
+  // image for those campaigns, so a saved position means the same thing in both places.
+  // Side-scroller campaigns lay their levels out by index, not by saved position.
+  mapFollowsImageAspect () {
+    if (!this.editorMode || !this.campaign) { return false }
+    const isHackstack = this.campaign.get('type') === 'hackstack' || this.campaign.get('isHackstackCampaign')
+    return Boolean(isHackstack && !this.campaign.get('isSideScrollerCampaign'))
+  }
+
+  getMapSize () {
+    const image = this.mapImageSize
+    if (this.mapFollowsImageAspect() && image?.width > 0 && image?.height > 0) {
+      return { width: DEFAULT_MAP_SIZE.width, height: Math.round((DEFAULT_MAP_SIZE.width * image.height) / image.width) }
+    }
+    return DEFAULT_MAP_SIZE
+  }
+
+  loadMapImageSize () {
+    if (!this.mapFollowsImageAspect()) { return }
+    const image = this.campaign.get('backgroundImage')?.[0]?.image // applyCampaignStyles sorts the largest first
+    if (!image || image === this.mapImageSrc) { return }
+    this.mapImageSrc = image
+    const img = new Image()
+    img.onload = () => {
+      if (this.destroyed || image !== this.mapImageSrc) { return } // a newer background replaced this one while it loaded
+      this.mapImageSize = { width: img.naturalWidth, height: img.naturalHeight }
+      this.onWindowResize()
+      this.rebuildEditorLines()
+    }
+    img.src = `/file/${image}`
+  }
+
+  // The level-to-level editor lines are divs sized and rotated for the box they were drawn in,
+  // so a box change needs them drawn again. The scenario SVG scales with the box on its own.
+  rebuildEditorLines () {
+    if (!this.editorMode || !this.fullyRendered || window.currentModal) { return }
+    this.$el.find('.map .next-level-line').remove()
+    this.createLinesForEditor()
+  }
+
   onWindowResize (e) {
     if (!this.campaign) {
       return
     }
-    const mapHeight = 1280
-    const mapWidth = 1920
+    const { width: mapWidth, height: mapHeight } = this.getMapSize()
     const sideControlsGutter = 240
     const layoutWidth = mapWidth + (sideControlsGutter * 2)
     const $gameplayContainer = this.$el.find('.gameplay-container')
@@ -2727,25 +2811,32 @@ class CampaignView extends RootView {
    */
   executeHackstackRedirect (redirectInfo) {
     if (redirectInfo) {
-      try {
-        // Use URL API to properly merge query parameters and hash
-        const destUrl = new URL(redirectInfo.dest, window.location.origin)
-        const currentUrl = new URL(window.location.href)
-        // Merge query parameters
-        currentUrl.searchParams.forEach((value, key) => {
-          destUrl.searchParams.set(key, value)
-        })
-        // Preserve hash fragment
-        if (currentUrl.hash) {
-          destUrl.hash = currentUrl.hash
-        }
-        application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
-      } catch (e) {
-        // Fallback to simple concatenation if URL API fails
-        const query = location.search || ''
-        const hash = location.hash || ''
-        application.router.navigate(`${redirectInfo.dest}${query}${hash}`, { trigger: true, replace: true })
+      this.navigateReplacing(redirectInfo.dest)
+    }
+  }
+
+  /**
+   * Replace the current page with destPath, keeping the current query string and hash.
+   * `replace: true` so Back does not land on the URL that redirected.
+   * @param {string} destPath - Path to go to, e.g. '/play/odyssey'
+   * @param {string} [currentHref=window.location.href] - URL whose query and hash are kept
+   */
+  navigateReplacing (destPath, currentHref = window.location.href) {
+    try {
+      const destUrl = new URL(destPath, window.location.origin)
+      const currentUrl = new URL(currentHref)
+      currentUrl.searchParams.forEach((value, key) => {
+        destUrl.searchParams.set(key, value)
+      })
+      if (currentUrl.hash) {
+        destUrl.hash = currentUrl.hash
       }
+      application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
+    } catch (e) {
+      // Fallback to simple concatenation if URL API fails
+      const query = location.search || ''
+      const hash = location.hash || ''
+      application.router.navigate(`${destPath}${query}${hash}`, { trigger: true, replace: true })
     }
   }
 

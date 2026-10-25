@@ -42,7 +42,6 @@ const ScriptsTabView = require('./scripts/ScriptsTabView')
 const ComponentsTabView = require('./components/ComponentsTabView')
 const SystemsTabView = require('./systems/SystemsTabView')
 const KeyThangTabView = require('./thangs/KeyThangTabView')
-const TasksTabView = require('./tasks/TasksTabView')
 const SaveLevelModal = require('./modals/SaveLevelModal')
 const ArtisanGuideModal = require('./modals/ArtisanGuideModal')
 const ForkModal = require('views/editor/ForkModal')
@@ -222,18 +221,14 @@ module.exports = (LevelEditView = (function () {
     afterRender () {
       super.afterRender()
       if (!this.supermodel.finished()) { return }
-      if (!this.fullyRenderedOnce) {
-        this.listenTo(this.level, 'change:tasks', () => this.renderSelectors('#tasks-tab'))
-      }
       this.thangsTabView = this.insertSubView(new ThangsTabView({ world: this.world, supermodel: this.supermodel, level: this.level, previouslyLoadedData: this.previouslyLoadedSubviewData }))
       this.insertSubView(new SettingsTabView({ supermodel: this.supermodel, previouslyLoadedData: this.previouslyLoadedSubviewData }))
       this.insertSubView(new ScriptsTabView({ world: this.world, supermodel: this.supermodel, files: this.files }))
       this.insertSubView(new ComponentsTabView({ supermodel: this.supermodel }))
       this.insertSubView(new SystemsTabView({ supermodel: this.supermodel, world: this.world }))
       this.insertKeyThangTabViews()
-      this.insertSubView(new TasksTabView({ world: this.world, supermodel: this.supermodel, level: this.level }))
       this.insertSubView(new RelatedAchievementsView({ supermodel: this.supermodel, level: this.level }))
-      this.insertSubView(new ComponentsDocumentationView({ lazy: true })) // Don't give it the supermodel, it'll pollute it!
+      this.insertSubView(new ComponentsDocumentationView({ lazy: true, level: this.level })) // Don't give it the supermodel, it'll pollute it!
       this.insertSubView(new SystemsDocumentationView({ lazy: true })) // Don't give it the supermodel, it'll pollute it!
       this.insertSubView(new LevelFeedbackView({ level: this.level }))
       this.$el.find('a[data-toggle="tab"]').on('shown.bs.tab', e => {
@@ -548,7 +543,7 @@ module.exports = (LevelEditView = (function () {
         newClassMode = this.lastNewClassMode
       }
       const newClassLanguage = (this.lastNewClassLanguage = ((left = $(e.target).data('code-language')) != null ? left : this.lastNewClassLanguage) || undefined)
-      if (utils.isOzaria && this.childWindow && (this.childWindow.closed || !this.childWindow.onPlayLevelViewLoaded)) {
+      if (this.level.isOzaria() && this.childWindow && (this.childWindow.closed || !this.childWindow.onPlayLevelViewLoaded)) {
         __guardMethod__(this.childWindow, 'close', o => o.close())
         return noty({ timeout: 4000, text: 'Error: child window disconnected, you will have to reload this page to preview.', type: 'error', layout: 'top' })
       }
@@ -569,8 +564,10 @@ module.exports = (LevelEditView = (function () {
           scratchLevelID += `&course=${this.courseID}`
           scratchLevelID += `&codeLanguage=${this.playClassLanguage}`
         }
-        if (utils.isOzaria) {
-          this.childWindow = window.open(`/play/level/${scratchLevelID}`, 'child_window')
+        if (this.level.isOzaria()) {
+          // Ozaria levels need the Ozaria play page, whichever site the editor runs on.
+          const playPath = this.level.isType('intro') ? '/play/ozaria/intro/' : '/play/ozaria/level/'
+          this.childWindow = window.open(`${playPath}${scratchLevelID}`, 'child_window')
         } else if (me.get('name') === 'Nick') {
           this.childWindow = window.open(`/play/level/${scratchLevelID}`, 'child_window', 'width=2560,height=1080,left=0,top=-1600,location=1,menubar=1,scrollbars=1,status=0,titlebar=1,toolbar=1', true)
         } else {
@@ -731,17 +728,9 @@ module.exports = (LevelEditView = (function () {
       return emails.forEach(email => $('#dropdownPresenceMenu').append(`<li>${email}</li>`))
     }
 
-    getTaskCompletionRatio () {
-      if ((this.level.get('tasks') == null)) {
-        return '0/0'
-      } else {
-        return _.filter(this.level.get('tasks'), _elem => _elem.complete).length + '/' + this.level.get('tasks').length
-      }
-    }
-
     async getLevelCompletionRate () {
       if (!me.isAdmin()) { return }
-      this.levelStats = await fetchLevelStats(this.level.get('original'))
+      this.levelStats = await fetchLevelStats(this.level.get('slug')).catch(() => ({}))
       if (this.levelStats.completionRate == null || !this.levelStats.playtime?.p50) {
         return // No stats yet
       }

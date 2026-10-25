@@ -43,6 +43,10 @@ module.exports = (LevelComponent = (function () {
         '524b75ad7fc0f6d519000001',
         '5f589b061d240e002298f852'
       ]
+      this.existenceIDs = [
+        '524b4150ff92f1f4f8000024', // Exists
+        '5f588e41e9e6100028cfb9a9', // ExistenceJS
+      ]
       this.shapeIDs = [
         '524b75ad7fc0f6d519000001',
         '5f58cbfe3f40380023b02f3c'

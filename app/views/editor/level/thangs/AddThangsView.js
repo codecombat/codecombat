@@ -12,13 +12,12 @@ const CocoView = require('views/core/CocoView')
 const addThangsTemplate = require('app/templates/editor/level/add-thangs-view')
 const ThangType = require('models/ThangType')
 const CocoCollection = require('collections/CocoCollection')
-const utils = require('core/utils')
 
 const PAGE_SIZE = 1000
 
 class ThangTypeSearchCollection extends CocoCollection {
   static initClass () {
-    this.prototype.url = '/db/thang.type?project=original,name,version,description,slug,kind,rasterIcon'
+    this.prototype.url = '/db/thang.type?project=original,name,version,description,slug,kind,rasterIcon&archived=false'
     this.prototype.model = ThangType
   }
 }
@@ -42,9 +41,6 @@ module.exports = (AddThangsView = (function () {
 
       this.thangTypes = new Backbone.Collection()
       const thangTypeCollection = new ThangTypeSearchCollection([])
-      if (utils.isOzaria) {
-        thangTypeCollection.url += '&archived=false'
-      }
       thangTypeCollection.fetch({ data: { limit: PAGE_SIZE } })
       thangTypeCollection.skip = 0
       // should load depended-on Components, too

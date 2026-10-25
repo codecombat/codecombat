@@ -361,8 +361,7 @@ module.exports = class LevelLoader extends CocoClass
     if utils.isJuniorLevel(@level) and not utils.showOzaria()
       juniorThangType = session.get('heroConfig')?.juniorThangType
       juniorThangType ?= me.get('heroConfig')?.juniorThangType if session is @session and not @headless
-      # junior-pet-access: unowned pet falls back to the swap map below
-      juniorThangType = null if juniorThangType and not me.mayUseJuniorPet(juniorThangType)
+      juniorThangType = me.juniorPetToRender(juniorThangType)
     if juniorThangType
       # Junior levels honor the explicitly chosen pet; the swap map below is the fallback for configs without one
       heroThangType = juniorThangType
@@ -746,7 +745,7 @@ module.exports = class LevelLoader extends CocoClass
     @world.difficulty = @session?.get('state')?.difficulty ? 0
     if @observing
       @world.difficulty = Math.max 0, @world.difficulty - 1  # Show the difficulty they won, not the next one.
-    serializedLevel = @level.serialize {@supermodel, @session, @opponentSession, @headless, @sessionless}
+    serializedLevel = @level.serialize {@supermodel, @session, otherSession: @opponentSession, @headless, @sessionless}
     if me.constrainHeroHealth()
       serializedLevel.constrainHeroHealth = true
     @world.loadFromLevel serializedLevel, false

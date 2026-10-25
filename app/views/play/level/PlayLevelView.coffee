@@ -496,7 +496,7 @@ module.exports = class PlayLevelView extends RootView
         return if @destroyed or _.size(e.session.get('heroConfig')?.inventory ? {})
         # TODO: which scenario is this executed for?
         @setupManager?.destroy()
-        @setupManager = new LevelSetupManager({supermodel: @supermodel, level: e.level, levelID: @levelID, parent: @, session: e.session, courseID: @courseID, courseInstanceID: @courseInstanceID})
+        @setupManager = new LevelSetupManager({supermodel: @supermodel, level: e.level, levelID: @levelID, parent: @, session: e.session, courseID: @courseID, courseInstanceID: @courseInstanceID, fromCampaign: @parentCampaign})
         @setupManager.open()
 
   onLoaded: ->
@@ -1209,7 +1209,7 @@ module.exports = class PlayLevelView extends RootView
     if slot and not inventory[slot]
       # Open up the inventory modal so they can equip the new item
       @setupManager?.destroy()
-      @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, hadEverChosenHero: true})
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, hadEverChosenHero: true, fromCampaign: @parentCampaign})
       @setupManager.open()
 
   onCloseSolution: ->

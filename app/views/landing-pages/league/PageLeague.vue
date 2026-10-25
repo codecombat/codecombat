@@ -11,10 +11,11 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   metaInfo () {
     return {
-      title: 'Competitive AI coding esports from CodeCombat',
+      title: this.$t('schools_page.practice_enrichment_1_title'),
       meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
-      ]
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
+        { vmid: 'meta-description', name: 'description', content: this.$t('league.codecombat_ai_league_description') },
+      ],
     }
   },
 

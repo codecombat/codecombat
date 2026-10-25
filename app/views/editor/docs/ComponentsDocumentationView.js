@@ -44,7 +44,8 @@ module.exports = (ComponentsDocumentationView = (function () {
     constructor (options) {
       super(options)
       this.componentDocs = new ComponentDocsCollection()
-      if (utils.isOzaria) {
+      const isOzaria = options.level ? options.level.isOzaria() : utils.isOzaria
+      if (isOzaria) {
         this.componentDocs.url += '&archived=false'
       }
       if (!options.lazy) { this.loadDocs() }

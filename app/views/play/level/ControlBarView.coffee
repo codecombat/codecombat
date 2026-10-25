@@ -185,7 +185,7 @@ module.exports = class ControlBarView extends CocoView
     @openModalView gameMenuModal
     @listenToOnce gameMenuModal, 'change-hero', ->
       @setupManager?.destroy()
-      @setupManager = new LevelSetupManager({@supermodel, @level, @levelID, parent: @, @session, @courseID, @courseInstanceID, classroom: @classroom})
+      @setupManager = new LevelSetupManager({@supermodel, @level, @levelID, parent: @, @session, @courseID, @courseInstanceID, classroom: @classroom, fromCampaign: @parentCampaign})
       @setupManager.open()
 
   onClickHome: (e) ->

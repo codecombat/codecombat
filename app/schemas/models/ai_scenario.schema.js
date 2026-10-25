@@ -115,6 +115,37 @@ _.extend(AIScenarioSchema.properties, {
     description: 'Allow user to upload file or not',
     type: 'boolean',
   },
+  isStory: {
+    title: 'Is Story',
+    type: 'boolean',
+    description: 'Play this scenario on the story (scene) page instead of the classic chat page',
+  },
+  forkOf: {
+    title: 'Fork Of',
+    type: 'string',
+    description: 'Original id of the scenario this one was copied from, whatever the copy is for (joins analytics old ↔ new; provenance for content fixes)',
+  },
+  storyWorld: {
+    title: 'Story World',
+    type: 'string',
+    description: 'Slug of the ai_story_world this level plays in (its planet). Its parent chain (normally galaxy) supplies HQ, HackStack and the shared scenes',
+  },
+  objectives: c.array({
+    title: 'Objectives',
+    description: 'Player-facing goals. A message activates one by id; the page shows the active one (chip) and can list all (goal panel). Criteria may be added per objective later',
+  }, c.object({ title: 'Objective', required: ['id', 'text'] }, {
+    id: { type: 'string', pattern: '^[a-z0-9-]+$' },
+    text: { type: 'string' },
+    i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this property' },
+  })),
+  characters: c.array({
+    title: 'Characters',
+    description: 'One-off characters for this level only; resolved before the world chain. Usually empty',
+  }, c.storyCharacter),
+  backgrounds: c.array({
+    title: 'Backgrounds',
+    description: 'The scenes of this level (level art). The first is shown at start; messages switch by id; ids not found here resolve through the world chain',
+  }, c.storyBackground),
 })
 
 AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue']

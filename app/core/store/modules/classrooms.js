@@ -397,7 +397,9 @@ export default {
       const members = options.members || []
       const memberIds = members.map((m) => m._id)
       const classroom = options.classroom
-      await classroomsApi.addMembers({ classroomID: classroom._id, members: members })
+      if (!options.skipApiCall) {
+        await classroomsApi.addMembers({ classroomID: classroom._id, members: members })
+      }
       const teacherId = getTeacherIdBasedOnSharedWritePermission(classroom)
       commit('addMembersForClassroom', { teacherId, classroomId: classroom._id, memberIds: memberIds })
       // Load classroom data

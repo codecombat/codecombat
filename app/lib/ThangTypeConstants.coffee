@@ -60,45 +60,23 @@ ThangTypeConstants =
     Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'master-wizard']
   items:
     'simple-boots': '53e237bf53457600003e3f05'
-  # Junior pet heroes shown in the pet hero choice modal, in display order.
-  # This is the roster source of truth: membership, ordering, and access tier
-  # (free / subscriber / premium) all come from here, replacing the old
-  # gems-as-sort-key hack. ObjectIDs live in the heroes map above.
-  juniorHeroesConfig: [
-    { slug: 'wolf-pup-hero', access: 'free' }
-    { slug: 'cougar-hero', access: 'free' }
-    { slug: 'polar-bear-cub-hero', access: 'free' }
-    { slug: 'frog-hero', access: 'free' }
-    { slug: 'turtle-hero', access: 'free' }
-    { slug: 'blue-fox-hero', access: 'free' }
-    { slug: 'panther-cub-hero', access: 'free' }
-    { slug: 'brown-rat-hero', access: 'free' }
-    { slug: 'duck-hero', access: 'free' }
-    { slug: 'tiger-cub-hero', access: 'free' }
-    { slug: 'pugicorn-hero', access: 'subscriber' }
-    { slug: 'raven-hero', access: 'subscriber' }
-    { slug: 'baby-griffin-hero', access: 'subscriber' }
-    { slug: 'yetibab-hero', access: 'premium' }
-    { slug: 'mimic-hero', access: 'premium' }
-    { slug: 'phoenix-hero', access: 'premium' }
-    { slug: 'dragonling-hero', access: 'premium' }
-    { slug: 'kindling-elemental-hero', access: 'premium' }
-  ]
-  # junior-pet-access experiment (GD-875), beta arm only. Control keeps using
-  # juniorHeroesConfig above. Same shape as that roster, plus per-pet:
+  # Junior pet heroes shown in the pet hero choice modal. This is the roster
+  # source of truth: membership, grid position and access tier all come from
+  # here. ObjectIDs live in the heroes map above. Per pet:
   #   access: free (anyone) | signup (selectable, Save routes to signup while
   #           anonymous) | premium (subscribers) | module (unlocks when
   #           unlockLevel is completed)
   #   unlockLevel: level.original whose completion unlocks the pet (module
   #                tier only). These are the odyssey modules' levelToUnlock
   #                gates - each lives in the PREVIOUS module and unlocks the
-  #                next one. Completion read from level sessions.
+  #                next one. Completion is read from level sessions.
   #   hint: player-facing locked-pet copy shown in the modal
   #   position: modal grid placement, row/column
-  # Assignment is provisional - PM adjusts by editing this array.
   # Layout: row 0 = free pets, then signup pets, then premium pets;
   #         row 1 = the 11 module-unlockable pets in island order.
-  juniorPetAccessConfig: [
+  # Classrooms (students and teachers) see every pet unlocked regardless of tier.
+  # Tiers and gates are tuned by editing this array.
+  juniorHeroesConfig: [
     { slug: 'wolf-pup-hero', access: 'free', position: { row: 0, column: 0 } }
     { slug: 'cougar-hero', access: 'free', position: { row: 0, column: 1 } }
     { slug: 'duck-hero', access: 'signup', position: { row: 0, column: 2 } }

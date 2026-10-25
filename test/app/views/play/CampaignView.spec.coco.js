@@ -15,6 +15,7 @@ const Level = require('models/Level')
 const LevelSession = require('models/LevelSession')
 const globalVar = require('core/globalVar')
 const storage = require('core/storage')
+const utils = require('core/utils')
 const editorLevelCardTemplate = require('templates/play/campaign-editor-level-card')
 
 describe('CampaignView', () => describe('when 4 earned levels', function () {
@@ -318,6 +319,103 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
     })
   })
 
+  describe('navigateReplacing', function () {
+    beforeEach(function () {
+      this.campaignView = new CampaignView()
+      spyOn(application.router, 'navigate')
+    })
+
+    it('keeps the current query string and hash on the new path, replacing the history entry', function () {
+      this.campaignView.navigateReplacing('/play/odyssey', 'https://codecombat.com/play/junior?hour_of_code=true&x=1#level-slug')
+      expect(application.router.navigate).toHaveBeenCalledWith('/play/odyssey?hour_of_code=true&x=1#level-slug', { trigger: true, replace: true })
+    })
+
+    it('leaves the path alone when there is nothing to carry over', function () {
+      this.campaignView.navigateReplacing('/play/odyssey', 'https://codecombat.com/play/junior')
+      expect(application.router.navigate).toHaveBeenCalledWith('/play/odyssey', { trigger: true, replace: true })
+    })
+  })
+
+  describe('junior to odyssey redirect', function () {
+    beforeEach(function () {
+      this.campaignView = new CampaignView()
+      this.campaignView.terrain = 'junior'
+      this.campaignView.editorMode = false
+      spyOn(application.router, 'navigate')
+      this.originalTracker = window.tracker
+      window.tracker = { trackEvent: jasmine.createSpy('trackEvent') }
+    })
+
+    afterEach(function () {
+      window.tracker = this.originalTracker
+    })
+
+    it('redirects a registered home user', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(true)
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(true)
+    })
+
+    it('redirects an anonymous visitor, who counts as a home user', function () {
+      expect(me.isAnonymous()).toBe(true)
+      expect(me.isHomeUser()).toBe(true)
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(true)
+    })
+
+    it('does not redirect a student', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(false)
+      spyOn(me, 'isStudent').and.returnValue(true)
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
+    })
+
+    it('does not redirect a teacher', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(false)
+      spyOn(me, 'isTeacher').and.returnValue(true)
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
+    })
+
+    it('does not redirect the campaign editor preview', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(true)
+      this.campaignView.editorMode = true
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
+    })
+
+    it('leaves other campaigns alone', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(true)
+      this.campaignView.terrain = 'odyssey'
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
+      this.campaignView.terrain = 'dungeon'
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
+    })
+
+    it('keeps a home user on the Junior map with ?force=junior', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(true)
+      spyOn(utils, 'getDocumentSearchString').and.returnValue('?force=junior')
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(false)
+    })
+
+    it('ignores other force values', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(true)
+      spyOn(utils, 'getDocumentSearchString').and.returnValue('?force=true')
+      expect(this.campaignView.shouldRedirectJuniorToOdyssey()).toBe(true)
+    })
+
+    it('replaces the page with /play/odyssey and tracks the redirect', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(true)
+      spyOn(this.campaignView, 'navigateReplacing')
+      expect(this.campaignView.redirectMiddleware()).toBe(true)
+      expect(this.campaignView.navigateReplacing).toHaveBeenCalledWith('/play/odyssey')
+      expect(window.tracker.trackEvent).toHaveBeenCalledWith('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
+    })
+
+    it('does not track or navigate when there is no redirect', function () {
+      spyOn(me, 'isHomeUser').and.returnValue(false)
+      spyOn(this.campaignView, 'navigateReplacing')
+      this.campaignView.redirectMiddleware()
+      expect(this.campaignView.navigateReplacing).not.toHaveBeenCalled()
+      expect(window.tracker.trackEvent).not.toHaveBeenCalled()
+    })
+  })
+
   describe('campaign editor level markers', function () {
     beforeEach(function () {
       this.campaignView = new CampaignView({ editorMode: true }, 'dungeon')
@@ -569,6 +667,37 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
       expect(earnedAchievementPosts().length).toBe(2)
       earnedAchievementPosts()[1].respondWith({ status: 201, responseText: JSON.stringify({ _id: 'earned-achievement-id' }) })
       expect(meFetches().length).toBe(1)
+    })
+  })
+
+  describe('getMapSize', function () {
+    const Campaign = require('models/Campaign')
+    const viewFor = (attrs, { editorMode = true, imageSize = { width: 1920, height: 1080 } } = {}) => {
+      const view = new CampaignView()
+      view.editorMode = editorMode
+      view.campaign = new Campaign(attrs)
+      view.mapImageSize = imageSize
+      return view
+    }
+
+    it('sizes a graph-map hackstack campaign to its image in the editor', function () {
+      expect(viewFor({ type: 'hackstack' }).getMapSize()).toEqual({ width: 1920, height: 1080 })
+    })
+
+    it('keeps the classic 3:2 box for hero campaigns', function () {
+      expect(viewFor({ type: 'hero' }).getMapSize()).toEqual({ width: 1920, height: 1280 })
+    })
+
+    it('keeps the classic box for side-scroller hackstack campaigns', function () {
+      expect(viewFor({ type: 'hackstack', isSideScrollerCampaign: true }).getMapSize()).toEqual({ width: 1920, height: 1280 })
+    })
+
+    it('keeps the classic box outside the editor', function () {
+      expect(viewFor({ type: 'hackstack' }, { editorMode: false }).getMapSize()).toEqual({ width: 1920, height: 1280 })
+    })
+
+    it('keeps the classic box until the image size is known', function () {
+      expect(viewFor({ type: 'hackstack' }, { imageSize: null }).getMapSize()).toEqual({ width: 1920, height: 1280 })
     })
   })
 }))

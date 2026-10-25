@@ -394,7 +394,7 @@ block modal-body-content
     hr
 
   if view.user.isHomeUser()
-    if me.isAdmin()
+    if me.isAdmin() || me.isOnlineTeacher()
       h3.m-t-3#stripe Modify Subscription
       h4= 'Status: ' + (view.user.hasSubscription() ? 'subscribed' : 'not subscribed')
       .small Use this to grant premium access and gems to this user for the home version.
@@ -408,12 +408,16 @@ block modal-body-content
             label
               input(type="radio" name="stripe-benefit" value="free" checked=view.free)
               | Premium
+              unless me.isAdmin()
+                |  (use this for paid students)
           .radio
             label
               input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
               span Premium Until
               =" "
               input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
+              unless me.isAdmin()
+                |  (use this for trial class students)
         .form-group
           label
             span Gems to add to user
@@ -457,35 +461,6 @@ block modal-body-content
                   else
                     code= row.original
                   span.label(class=row.source === 'earned' ? 'label-info' : 'label-primary')= row.source
-        button#save-changes.btn.btn-primary Save Changes
-      hr
-    else if me.isOnlineTeacher()
-      h3.m-t-3#stripe Modify Subscription
-      h4= 'Status: ' + (view.user.hasSubscription() ? 'subscribed' : 'not subscribed')
-      .small Use this to grant premium access and gems to this user for the home version.
-      .form
-        .form-group
-          .radio
-            label
-              input(type="radio" name="stripe-benefit" value="" checked=view.none)
-              | None
-          .radio
-            label
-              input(type="radio" name="stripe-benefit" value="free" checked=view.free)
-              | Premium (use this for paid students)
-          .radio
-            label
-              input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
-              span Premium Until
-              =" "
-              input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
-              |  (use this for trial class students)
-        .form-group
-          label
-            span Gems to add to user
-            =" "
-            input#stripe-add-gems(type="number", name="addGems", value=0)
-            |  (they have #{view.user.gems().toLocaleString()})
         button#save-changes.btn.btn-primary Save Changes
       hr
 

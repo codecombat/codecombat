@@ -24,6 +24,8 @@ const User = require('models/User')
 const TournamentSubmission = require('models/TournamentSubmission')
 const LeaderboardCollection = require('collections/LeaderboardCollection')
 const { teamDataFromLevel, scoreForDisplay } = require('./utils')
+
+const STALE_MATCH_MONTHS = 3 // hero-ladder rows older than this get the stale marker
 const ModelModal = require('views/modal/ModelModal')
 require('d3/d3.js')
 const CreateAccountModal = require('views/core/CreateAccountModal')
@@ -390,6 +392,34 @@ module.exports = (LadderTabView = (function () {
       }
       sessions.reverse()
       return sessions
+    }
+
+    // Hero ladders show when a session last fought (its last recorded match) instead of when it was submitted.
+    showsLastMatch () {
+      return this.level.isType('hero-ladder')
+    }
+
+    ageCellDate (session) {
+      return (this.showsLastMatch() && session.get('lastMatchDate')) || session.get('submitDate')
+    }
+
+    ageCellText (session) {
+      return moment(this.ageCellDate(session)).fromNow().replace('a few ', '')
+    }
+
+    isStaleMatch (session) {
+      return this.showsLastMatch() && moment().diff(moment(this.ageCellDate(session)), 'months') >= STALE_MATCH_MONTHS
+    }
+
+    ageCellClass (session) {
+      return this.isStaleMatch(session) ? 'stale-match' : ''
+    }
+
+    ageCellTitle (session) {
+      if (!this.showsLastMatch()) { return null }
+      const submitted = $.i18n.t('ladder.rank_last_submitted') + moment(session.get('submitDate')).fromNow()
+      if (!this.isStaleMatch(session)) { return submitted }
+      return $.i18n.t('ladder.stale_match', { months: STALE_MATCH_MONTHS }) + '. ' + submitted
     }
 
     // Admin view of players' code
