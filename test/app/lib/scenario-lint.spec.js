@@ -126,6 +126,15 @@ describe('lib/scenario-lint', function () {
       expect(found.map(f => [f.severity, f.index])).toEqual([['info', 1]])
     })
 
+    it('warn about steps after an end step, with or without exits, which never play', function () {
+      const steps = [step({ id: 'a' }), end([{ kind: 'map' }], { id: 'b' }), step({ id: 'c' }), { key: 'dead', id: 'gone', kind: 'dead' }, step({ id: 'd' })]
+      const found = lintScript(steps, { mode: 'practice' }).filter(f => f.code === 'steps-after-end')
+      expect(found.map(f => [f.severity, f.index])).toEqual([['warning', 1]])
+      expect(found[0].message).toContain('2 steps')
+      expect(lintScript([step({ id: 'a' }), end(undefined, { id: 'b' }), step({ id: 'c' })], { mode: 'practice' }).map(f => f.code)).toEqual(['steps-after-end'])
+      expect(lintScript([step({ id: 'a' }), end([{ kind: 'map' }], { id: 'b' })], { mode: 'practice' })).toEqual([])
+    })
+
     it('warn about a Keep chatting exit in a learn level, where it is not shown', function () {
       const steps = [step({ id: 'a' }), end([{ kind: 'next-level' }, { kind: 'free-chat' }], { id: 'b' })]
       expect(lintScript(steps, { mode: 'learn to use' }).map(f => [f.code, f.index])).toEqual([['free-chat-in-learn', 1]])

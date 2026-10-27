@@ -27,6 +27,10 @@ function isLivePrompt (step) {
   return !!step.actionData && step.actionData.type === 'prompt-live'
 }
 
+function isEnd (step) {
+  return !!step.actionData && step.actionData.type === 'end-of-lesson'
+}
+
 function exitsOf (step) {
   return step.actionData && step.actionData.type === 'end-of-lesson' && Array.isArray(step.actionData.exits) ? step.actionData.exits : []
 }
@@ -75,6 +79,7 @@ function lintScript (steps, scenario = {}) {
   const findings = []
   const seen = {}
   const story = scenario.story
+  const liveIndices = steps.map((step, index) => (isLive(step) ? index : -1)).filter(index => index >= 0)
 
   steps.forEach((step, index) => {
     if (step.kind === 'dead') {
@@ -106,6 +111,10 @@ function lintScript (steps, scenario = {}) {
     }
     if (isLivePrompt(step) && scenario.mode === LEARN_MODE) {
       findings.push(finding('prompt-live-in-learn', 'warning', 'learn levels never call HackStack otherwise; this live prompt works, but each try costs the player a credit', step, index))
+    }
+    const playsAfter = liveIndices.filter(later => later > index).length
+    if (isEnd(step) && playsAfter) {
+      findings.push(finding('steps-after-end', 'warning', `${playsAfter} step${playsAfter === 1 ? '' : 's'} after this end step never play; it finishes the level`, step, index))
     }
     if (scenario.mode === LEARN_MODE && exitsOf(step).some(exit => exit.kind === 'free-chat')) {
       findings.push(finding('free-chat-in-learn', 'warning', 'a learn level ends on Level complete, so the Keep chatting exit is not shown', step, index))
