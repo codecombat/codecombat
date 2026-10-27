@@ -24,7 +24,7 @@
         </option>
       </select>
       <input
-        class="form-control label"
+        class="form-control exit-label"
         type="text"
         :value="exit.label || ''"
         :disabled="readOnly"
@@ -232,7 +232,7 @@ export default Vue.extend({
       flex: 0 0 150px;
     }
 
-    .label {
+    .exit-label {
       flex: 1 1 auto;
     }
   }
