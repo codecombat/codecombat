@@ -171,4 +171,27 @@ describe('ScenarioScriptPanel', function () {
       expect(frame.attributes('srcdoc')).toContain('<title>Merge Game</title>')
     }).then(done, done.fail)
   })
+
+  it('adds a live prompt as a teacher line with its own chip, and fixes the actor in the step panel', function (done) {
+    const w = this.wrapper
+    const addLive = w.findAll('.add-row button').at(1)
+    expect(addLive.text()).toContain(w.vm.$t('editor.scenario_script_kind_prompt'))
+    addLive.trigger('click')
+    w.vm.$nextTick().then(() => {
+      const added = this.store.state.steps[this.store.state.steps.length - 1]
+      expect(added.actor).toBe('teacher')
+      expect(added.actionData).toEqual({ type: 'prompt-live' })
+      expect(w.findAll('.chip.live-prompt').length).toBe(1)
+      expect(w.find('.scenario-step-panel select').attributes('disabled')).toBe('disabled')
+    }).then(done, done.fail)
+  })
+
+  it('shows the exits editor on an end step, starting with Next level', function (done) {
+    const w = this.wrapper
+    w.findAll('.add-row button').at(4).trigger('click')
+    w.vm.$nextTick().then(() => {
+      expect(w.find('.scenario-step-exits').exists()).toBe(true)
+      expect(w.findAll('.scenario-step-exits .exit').length).toBe(1)
+    }).then(done, done.fail)
+  })
 })

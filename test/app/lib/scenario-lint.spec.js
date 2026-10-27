@@ -110,6 +110,51 @@ describe('lib/scenario-lint', function () {
     })
   })
 
+  describe('live prompts and end exits', function () {
+    const live = fields => step(Object.assign({ text: '***prompt*** HackStack to change the star.', actionData: { type: 'prompt-live' } }, fields))
+    const end = (exits, fields) => step(Object.assign({ actor: 'celebrate', text: 'done!', actionData: { type: 'end-of-lesson', exits } }, fields))
+
+    it('warn about a live prompt in a learn level, which costs a credit there', function () {
+      const steps = [live({ id: 'a' }), step({ id: 'b', text: 'nice' })]
+      expect(lintScript(steps, { mode: 'learn to use' }).map(f => [f.code, f.severity, f.index])).toEqual([['prompt-live-in-learn', 'warning', 0]])
+      expect(lintScript(steps, { mode: 'practice' })).toEqual([])
+    })
+
+    it('warn about a live prompt that repeats the last scripted line before it', function () {
+      const repeats = code => lintScript(code, { mode: 'practice' }).filter(f => f.code === 'live-repeats-line')
+      const earlier = step({ id: 'a', text: 'Remix this', objective: 'recolor' })
+      const reply = step({ id: 'b', actor: 'model', text: 'here it is' })
+      const found = repeats([earlier, reply, live({ id: 'c', text: 'Remix this', objective: 'recolor' }), step({ id: 'd' })])
+      expect(found.map(f => [f.severity, f.index])).toEqual([['warning', 2]])
+      expect(found[0].message).toContain('step 1')
+      // another scene, or another scripted line in between, tells them apart
+      expect(repeats([earlier, reply, live({ id: 'c', text: 'Remix this', objective: 'recolor', background: 'camp' }), step({ id: 'd' })])).toEqual([])
+      expect(repeats([earlier, step({ id: 'e', text: 'Now you' }), live({ id: 'c', text: 'Remix this', objective: 'recolor' }), step({ id: 'd' })])).toEqual([])
+    })
+
+    it('note a live prompt as the last step', function () {
+      const steps = [step({ id: 'a' }), live({ id: 'b' }), { key: 'dead', id: 'gone', kind: 'dead' }]
+      const found = lintScript(steps, { mode: 'practice' }).filter(f => f.code === 'prompt-live-last')
+      expect(found.map(f => [f.severity, f.index])).toEqual([['info', 1]])
+    })
+
+    it('warn about steps after an end step, with or without exits, which never play', function () {
+      const steps = [step({ id: 'a' }), end([{ kind: 'map' }], { id: 'b' }), step({ id: 'c' }), { key: 'dead', id: 'gone', kind: 'dead' }, step({ id: 'd' })]
+      const found = lintScript(steps, { mode: 'practice' }).filter(f => f.code === 'steps-after-end')
+      expect(found.map(f => [f.severity, f.index])).toEqual([['warning', 1]])
+      expect(found[0].message).toContain('2 steps')
+      expect(lintScript([step({ id: 'a' }), end(undefined, { id: 'b' }), step({ id: 'c' })], { mode: 'practice' }).map(f => f.code)).toEqual(['steps-after-end'])
+      expect(lintScript([step({ id: 'a' }), end([{ kind: 'map' }], { id: 'b' })], { mode: 'practice' })).toEqual([])
+    })
+
+    it('warn about a Keep chatting exit in a learn level, where it is not shown', function () {
+      const steps = [step({ id: 'a' }), end([{ kind: 'next-level' }, { kind: 'free-chat' }], { id: 'b' })]
+      expect(lintScript(steps, { mode: 'learn to use' }).map(f => [f.code, f.index])).toEqual([['free-chat-in-learn', 1]])
+      expect(lintScript(steps, { mode: 'use' })).toEqual([])
+      expect(lintScript([end(undefined, { id: 'c' })], { mode: 'learn to use' })).toEqual([])
+    })
+  })
+
   it('groups findings by step key', function () {
     const s = step({ id: 'x', text: '' })
     const grouped = findingsByKey(lintScript([s, { key: 'dead', id: 'gone', kind: 'dead' }]))

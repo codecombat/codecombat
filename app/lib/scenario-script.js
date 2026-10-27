@@ -20,7 +20,9 @@
 const ACTORS = ['teacher', 'user', 'model', 'celebrate', 'alert']
 // Player and HackStack lines are resolved by role on the story page; a character id on them is ignored.
 const BY_ROLE_ACTORS = ['user', 'model']
-const ACTION_TYPES = ['continue', 'prompt-quiz', 'prompt-input', 'end-of-lesson']
+const ACTION_TYPES = ['continue', 'prompt-quiz', 'prompt-input', 'end-of-lesson', 'prompt-live']
+// Buttons an end step can offer; a new end step starts with Next level only, authors add the rest.
+const EXIT_KINDS = ['next-level', 'map', 'free-chat']
 const STORY_FIELDS = ['character', 'objective', 'background']
 const EDITABLE_FIELDS = ['actor', 'text', 'actionData', ...STORY_FIELDS]
 const BACKUP_PREFIX = 'scenario-script-backup:'
@@ -34,7 +36,9 @@ const STEP_TEMPLATES = {
     text: '',
     actionData: { type: 'prompt-quiz', answerIndex: 0, choices: [{ text: '', responseText: '' }, { text: '', responseText: '' }] },
   }),
-  end: () => ({ actor: 'celebrate', text: '', actionData: { type: 'end-of-lesson' } }),
+  end: () => ({ actor: 'celebrate', text: '', actionData: { type: 'end-of-lesson', exits: [{ kind: 'next-level' }] } }),
+  // A teacher line with the prompt box attached: the script goes on once HackStack has replied.
+  prompt: () => ({ actor: 'teacher', text: '', actionData: { type: 'prompt-live' } }),
 }
 
 function queueIdOf (item) {
@@ -167,6 +171,7 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
   function setActor (key, actor) {
     if (!ACTORS.includes(actor)) { throw new Error(`unknown actor ${actor}`) }
     const step = stepByKey(key)
+    if (isLivePrompt(step) && actor !== 'teacher') { throw new Error('a live prompt is a teacher line') }
     step.actor = actor
     if (BY_ROLE_ACTORS.includes(actor) && step.character) { step.character = null }
     touch()
@@ -205,7 +210,10 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
     touch()
   }
 
-  /** Switching to a quiz adds two empty choices; switching away keeps only the type. */
+  /**
+   * Switching to a quiz adds two empty choices, to an end step the default exits, to a live prompt makes the line a
+   * teacher's; switching away keeps only the type.
+   */
   function setActionType (key, type) {
     if (!ACTION_TYPES.includes(type)) { throw new Error(`unknown action type ${type}`) }
     const step = stepByKey(key)
@@ -213,9 +221,77 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
     if (type === 'prompt-quiz') {
       step.actionData = STEP_TEMPLATES.quiz().actionData
       if (step.text) { step.actionData.choices[0].text = step.text }
+    } else if (type === 'end-of-lesson') {
+      step.actionData = STEP_TEMPLATES.end().actionData
     } else {
       step.actionData = { type }
     }
+    if (type === 'prompt-live') { step.actor = 'teacher' }
+    touch()
+  }
+
+  function isLivePrompt (step) {
+    return !!step.actionData && step.actionData.type === 'prompt-live'
+  }
+
+  function endOf (step) {
+    if (!step.actionData || step.actionData.type !== 'end-of-lesson') { throw new Error(`step ${step.key} is not an end step`) }
+    return step.actionData
+  }
+
+  // Exits and the next level change a new actionData object: the panel's Vue watchers only see replaced values.
+  function setExits (step, exits) {
+    step.actionData = Object.assign({}, endOf(step), { exits })
+    touch()
+  }
+
+  function exitsOf (step) {
+    return (endOf(step).exits || []).map(exit => Object.assign({}, exit))
+  }
+
+  function addExit (key, kind) {
+    if (!EXIT_KINDS.includes(kind)) { throw new Error(`unknown exit kind ${kind}`) }
+    const step = stepByKey(key)
+    setExits(step, exitsOf(step).concat([{ kind }]))
+  }
+
+  /** `fields`: kind and/or label; a blank label is removed, so the button shows the default for its kind. */
+  function setExit (key, index, fields) {
+    const step = stepByKey(key)
+    const exits = exitsOf(step)
+    if (!exits[index]) { throw new Error(`no exit ${index} on step ${key}`) }
+    if (fields.kind !== undefined && !EXIT_KINDS.includes(fields.kind)) { throw new Error(`unknown exit kind ${fields.kind}`) }
+    const exit = Object.assign(exits[index], fields)
+    if (typeof exit.label === 'string' && !exit.label.trim()) { delete exit.label }
+    setExits(step, exits)
+  }
+
+  function removeExit (key, index) {
+    const step = stepByKey(key)
+    const exits = exitsOf(step)
+    if (!exits[index]) { throw new Error(`no exit ${index} on step ${key}`) }
+    exits.splice(index, 1)
+    setExits(step, exits)
+  }
+
+  function moveExit (key, index, delta) {
+    const step = stepByKey(key)
+    const exits = exitsOf(step)
+    const to = index + delta
+    if (!exits[index] || to < 0 || to >= exits.length) { return false }
+    const [exit] = exits.splice(index, 1)
+    exits.splice(to, 0, exit)
+    setExits(step, exits)
+    return true
+  }
+
+  /** The scenario `next-level` goes to, by its original; null or blank = the map's next level. */
+  function setNextLevel (key, original) {
+    const step = stepByKey(key)
+    const next = Object.assign({}, endOf(step))
+    const trimmed = typeof original === 'string' ? original.trim() : ''
+    if (trimmed) { next.nextLevel = trimmed } else { delete next.nextLevel }
+    step.actionData = next
     touch()
   }
 
@@ -388,6 +464,11 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
         if (!quiz.choices || quiz.choices.length < 2) { problems.push({ key: step.key, index: i, message: 'a quiz needs at least two choices' }) }
         if (quiz.choices && quiz.choices.some(c => !c.text || !c.text.trim())) { problems.push({ key: step.key, index: i, message: 'empty choice' }) }
       }
+      const exits = step.actionData && step.actionData.type === 'end-of-lesson' ? step.actionData.exits : undefined
+      if (Array.isArray(exits)) {
+        if (!exits.length) { problems.push({ key: step.key, index: i, message: 'an end step needs at least one exit' }) }
+        if (exits.some(exit => !EXIT_KINDS.includes(exit && exit.kind))) { problems.push({ key: step.key, index: i, message: 'unknown exit kind' }) }
+      }
     })
     return problems
   }
@@ -539,6 +620,7 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
     ACTORS,
     BY_ROLE_ACTORS,
     ACTION_TYPES,
+    EXIT_KINDS,
     STORY_FIELDS,
     load,
     select,
@@ -551,6 +633,11 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
     addChoice,
     removeChoice,
     setAnswerIndex,
+    addExit,
+    setExit,
+    removeExit,
+    moveExit,
+    setNextLevel,
     move,
     insertAfter,
     append,
@@ -572,4 +659,4 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
   }
 }
 
-module.exports = { createScriptStore, ACTORS, BY_ROLE_ACTORS, ACTION_TYPES, STORY_FIELDS, STEP_TEMPLATES, queueIdOf }
+module.exports = { createScriptStore, ACTORS, BY_ROLE_ACTORS, ACTION_TYPES, EXIT_KINDS, STORY_FIELDS, STEP_TEMPLATES, queueIdOf }

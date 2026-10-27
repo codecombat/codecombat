@@ -62,6 +62,29 @@ _.extend(AIChatMessageSchema.properties, {
           },
         },
       },
+      exits: {
+        type: 'array',
+        description: 'end-of-lesson: the buttons the closing line offers, primary first',
+        items: {
+          type: 'object',
+          additionalProperties: true,
+          properties: {
+            kind: { type: 'string', enum: ['next-level', 'map', 'free-chat'], title: 'Kind' },
+            label: { type: 'string', title: 'Label', description: 'Button text; absent → the default for the kind' },
+            i18n: {
+              type: 'object',
+              format: 'i18n',
+              props: ['label'],
+              description: 'Help translate this property',
+            },
+          },
+        },
+      },
+      nextLevel: {
+        type: 'string',
+        title: 'Next level',
+        description: 'end-of-lesson: original of the scenario next-level goes to; absent → the map connection',
+      },
     },
   },
   i18n: { title: 'I18n', type: 'object', description: 'Help translate this property', format: 'i18n', props: ['text'] },

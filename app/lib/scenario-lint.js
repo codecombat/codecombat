@@ -13,6 +13,9 @@ const PLACEHOLDER_FEEDBACK = /that'?s not right/i
 const INSTRUCTION = /prompt/i
 // Modes whose story page shows the objective chip; a learn level is teacher-led and needs none.
 const OBJECTIVE_MODES = ['practice', 'use', 'capstone']
+const LEARN_MODE = 'learn to use'
+// Actors of the lines HackStack's live prompt compares against when it decides its instruction is already logged
+const SCRIPTED_ACTORS = ['teacher', 'celebrate']
 
 function isLive (step) {
   return step.kind !== 'dead'
@@ -20,6 +23,24 @@ function isLive (step) {
 
 function isQuiz (step) {
   return !!step.actionData && step.actionData.type === 'prompt-quiz'
+}
+
+function isLivePrompt (step) {
+  return !!step.actionData && step.actionData.type === 'prompt-live'
+}
+
+function isEnd (step) {
+  return !!step.actionData && step.actionData.type === 'end-of-lesson'
+}
+
+function exitsOf (step) {
+  return step.actionData && step.actionData.type === 'end-of-lesson' && Array.isArray(step.actionData.exits) ? step.actionData.exits : []
+}
+
+// The same fields HackStack compares (prompt-live-flow sameLine)
+function sameLine (a, b) {
+  return a.actor === b.actor && a.text === b.text &&
+    ['character', 'objective', 'background'].every(field => (a[field] || null) === (b[field] || null))
 }
 
 function languagesOf (step) {
@@ -66,6 +87,7 @@ function lintScript (steps, scenario = {}) {
   const findings = []
   const seen = {}
   const story = scenario.story
+  const liveIndices = steps.map((step, index) => (isLive(step) ? index : -1)).filter(index => index >= 0)
 
   steps.forEach((step, index) => {
     if (step.kind === 'dead') {
@@ -95,6 +117,22 @@ function lintScript (steps, scenario = {}) {
         findings.push(finding('placeholder-distractor', 'warning', `${placeholders.length} placeholder choice${placeholders.length === 1 ? '' : 's'} (A/B/C/D or "that's not right")`, step, index))
       }
     }
+    if (isLivePrompt(step) && scenario.mode === LEARN_MODE) {
+      findings.push(finding('prompt-live-in-learn', 'warning', 'learn levels never call HackStack otherwise; this live prompt works, but each try costs the player a credit', step, index))
+    }
+    if (isLivePrompt(step)) {
+      const before = steps.slice(0, index).filter(isLive).reverse().find(earlier => SCRIPTED_ACTORS.includes(earlier.actor))
+      if (before && sameLine(before, step)) {
+        findings.push(finding('live-repeats-line', 'warning', `same text, speaker, character, objective and scene as step ${steps.indexOf(before) + 1}; players see that line in its place, so change one of them`, step, index))
+      }
+    }
+    const playsAfter = liveIndices.filter(later => later > index).length
+    if (isEnd(step) && playsAfter) {
+      findings.push(finding('steps-after-end', 'warning', `${playsAfter} step${playsAfter === 1 ? '' : 's'} after this end step never play; it finishes the level`, step, index))
+    }
+    if (scenario.mode === LEARN_MODE && exitsOf(step).some(exit => exit.kind === 'free-chat')) {
+      findings.push(finding('free-chat-in-learn', 'warning', 'a learn level ends on Level complete, so the Keep chatting exit is not shown', step, index))
+    }
     if (story) { lintStoryStep(story, step, index, findings) }
   })
 
@@ -108,7 +146,12 @@ function lintScript (steps, scenario = {}) {
     })
   }
 
-  if (scenario.mode === 'learn to use' && live.length) {
+  if (live.length && isLivePrompt(live[live.length - 1])) {
+    const last = live[live.length - 1]
+    findings.push(finding('prompt-live-last', 'info', 'a live prompt as the last step plays like the free chat that follows the script anyway', last, steps.indexOf(last)))
+  }
+
+  if (scenario.mode === LEARN_MODE && live.length) {
     const last = live[live.length - 1]
     if (last.actor === 'teacher' && INSTRUCTION.test(last.text || '')) {
       findings.push(finding('learn-ends-on-instruction', 'info', 'learn level ends on an instruction; the player sees Level complete with no input', last, steps.indexOf(last)))

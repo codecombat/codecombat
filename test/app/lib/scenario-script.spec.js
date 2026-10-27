@@ -185,6 +185,82 @@ describe('lib/scenario-script', function () {
     })
   })
 
+  describe('live prompt and end steps', function () {
+    beforeEach(function (done) {
+      this.store.load().then(() => done(), done.fail)
+    })
+
+    it('inserts a live prompt as a teacher line, and keeps it one', function () {
+      const live = this.store.append('prompt')
+      expect(live.actor).toBe('teacher')
+      expect(live.actionData).toEqual({ type: 'prompt-live' })
+      expect(() => this.store.setActor(live.key, 'user')).toThrow()
+      this.store.setActor(live.key, 'teacher')
+      expect(live.actor).toBe('teacher')
+    })
+
+    it('switching a player line to a live prompt makes it a teacher line', function () {
+      const quiz = this.store.state.steps.find(s => s.id === 'm2')
+      this.store.setActionType(quiz.key, 'prompt-live')
+      expect(quiz.actor).toBe('teacher')
+      expect(quiz.actionData).toEqual({ type: 'prompt-live' })
+    })
+
+    it('a new end step, and a step switched to one, starts with Next level only, no label', function () {
+      const end = this.store.append('end')
+      expect(end.actionData).toEqual({ type: 'end-of-lesson', exits: [{ kind: 'next-level' }] })
+      const first = this.store.state.steps[0]
+      this.store.setActionType(first.key, 'end-of-lesson')
+      expect(first.actionData.exits).toEqual([{ kind: 'next-level' }])
+    })
+
+    it('edits the exits with a new actionData each time: add, label, kind, move, remove', function () {
+      const end = this.store.append('end')
+      const before = end.actionData
+      this.store.addExit(end.key, 'map')
+      expect(end.actionData).not.toBe(before)
+      this.store.addExit(end.key, 'free-chat')
+      this.store.setExit(end.key, 2, { label: 'Continue' })
+      this.store.setExit(end.key, 0, { label: 'Next story' })
+      this.store.setExit(end.key, 0, { label: '  ' })
+      this.store.setExit(end.key, 1, { kind: 'free-chat' })
+      expect(() => this.store.setExit(end.key, 1, { kind: 'shop' })).toThrow()
+      expect(() => this.store.addExit(end.key, 'shop')).toThrow()
+      expect(this.store.moveExit(end.key, 2, -2)).toBe(true)
+      expect(this.store.moveExit(end.key, 0, -1)).toBe(false)
+      this.store.removeExit(end.key, 1)
+      expect(end.actionData.exits).toEqual([{ kind: 'free-chat', label: 'Continue' }, { kind: 'free-chat' }])
+    })
+
+    it('sets and clears the next level, on end steps only', function () {
+      const end = this.store.append('end')
+      this.store.setNextLevel(end.key, ' orig2 ')
+      expect(end.actionData.nextLevel).toBe('orig2')
+      this.store.setNextLevel(end.key, null)
+      expect('nextLevel' in end.actionData).toBe(false)
+      expect(() => this.store.setNextLevel(this.store.state.steps[0].key, 'orig2')).toThrow()
+    })
+
+    it('blocks saving an end step without exits', function () {
+      const end = this.store.append('end')
+      this.store.setText(end.key, 'bye')
+      expect(this.store.validate()).toEqual([])
+      this.store.removeExit(end.key, 0)
+      expect(this.store.validate().map(p => p.message)).toEqual(['an end step needs at least one exit'])
+    })
+
+    it('saves the exits and the next level with the message', function (done) {
+      const end = this.store.append('end')
+      this.store.setText(end.key, 'mission accomplished')
+      this.store.setNextLevel(end.key, 'orig2')
+      this.store.saveMessages().then(() => {
+        const post = this.fetchJson.calls.find(c => c.method === 'POST')
+        expect(post.json.actionData).toEqual({ type: 'end-of-lesson', exits: [{ kind: 'next-level' }], nextLevel: 'orig2' })
+        done()
+      }, done.fail)
+    })
+  })
+
   describe('story fields', function () {
     beforeEach(function (done) {
       this.store.load().then(() => done(), done.fail)
