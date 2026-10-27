@@ -14,6 +14,8 @@ const INSTRUCTION = /prompt/i
 // Modes whose story page shows the objective chip; a learn level is teacher-led and needs none.
 const OBJECTIVE_MODES = ['practice', 'use', 'capstone']
 const LEARN_MODE = 'learn to use'
+// Actors of the lines HackStack's live prompt compares against when it decides its instruction is already logged
+const SCRIPTED_ACTORS = ['teacher', 'celebrate']
 
 function isLive (step) {
   return step.kind !== 'dead'
@@ -33,6 +35,12 @@ function isEnd (step) {
 
 function exitsOf (step) {
   return step.actionData && step.actionData.type === 'end-of-lesson' && Array.isArray(step.actionData.exits) ? step.actionData.exits : []
+}
+
+// The same fields HackStack compares (prompt-live-flow sameLine)
+function sameLine (a, b) {
+  return a.actor === b.actor && a.text === b.text &&
+    ['character', 'objective', 'background'].every(field => (a[field] || null) === (b[field] || null))
 }
 
 function languagesOf (step) {
@@ -111,6 +119,12 @@ function lintScript (steps, scenario = {}) {
     }
     if (isLivePrompt(step) && scenario.mode === LEARN_MODE) {
       findings.push(finding('prompt-live-in-learn', 'warning', 'learn levels never call HackStack otherwise; this live prompt works, but each try costs the player a credit', step, index))
+    }
+    if (isLivePrompt(step)) {
+      const before = steps.slice(0, index).filter(isLive).reverse().find(earlier => SCRIPTED_ACTORS.includes(earlier.actor))
+      if (before && sameLine(before, step)) {
+        findings.push(finding('live-repeats-line', 'warning', `same text, speaker, character, objective and scene as step ${steps.indexOf(before) + 1}; players see that line in its place, so change one of them`, step, index))
+      }
     }
     const playsAfter = liveIndices.filter(later => later > index).length
     if (isEnd(step) && playsAfter) {

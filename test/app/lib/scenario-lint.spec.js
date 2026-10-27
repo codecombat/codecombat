@@ -120,6 +120,18 @@ describe('lib/scenario-lint', function () {
       expect(lintScript(steps, { mode: 'practice' })).toEqual([])
     })
 
+    it('warn about a live prompt that repeats the last scripted line before it', function () {
+      const repeats = code => lintScript(code, { mode: 'practice' }).filter(f => f.code === 'live-repeats-line')
+      const earlier = step({ id: 'a', text: 'Remix this', objective: 'recolor' })
+      const reply = step({ id: 'b', actor: 'model', text: 'here it is' })
+      const found = repeats([earlier, reply, live({ id: 'c', text: 'Remix this', objective: 'recolor' }), step({ id: 'd' })])
+      expect(found.map(f => [f.severity, f.index])).toEqual([['warning', 2]])
+      expect(found[0].message).toContain('step 1')
+      // another scene, or another scripted line in between, tells them apart
+      expect(repeats([earlier, reply, live({ id: 'c', text: 'Remix this', objective: 'recolor', background: 'camp' }), step({ id: 'd' })])).toEqual([])
+      expect(repeats([earlier, step({ id: 'e', text: 'Now you' }), live({ id: 'c', text: 'Remix this', objective: 'recolor' }), step({ id: 'd' })])).toEqual([])
+    })
+
     it('note a live prompt as the last step', function () {
       const steps = [step({ id: 'a' }), live({ id: 'b' }), { key: 'dead', id: 'gone', kind: 'dead' }]
       const found = lintScript(steps, { mode: 'practice' }).filter(f => f.code === 'prompt-live-last')
