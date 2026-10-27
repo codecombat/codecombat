@@ -182,11 +182,10 @@ export default Vue.extend({
     search (term) {
       this.term = term
       clearTimeout(this.searchTimer)
-      if (term.trim().length < 2) {
-        this.searchRequest = (this.searchRequest || 0) + 1 // answers still on their way no longer apply
-        this.results = []
-        return
-      }
+      // A new term at once: answers still on their way and the old term's results no longer apply
+      this.searchRequest = (this.searchRequest || 0) + 1
+      this.results = []
+      if (term.trim().length < 2) { return }
       this.searchTimer = setTimeout(() => this.runSearch(term.trim()), SEARCH_DELAY_MS)
     },
     // Only the latest request may touch the results, whether it succeeds or fails; a counter also tells two requests
