@@ -110,6 +110,30 @@ describe('lib/scenario-lint', function () {
     })
   })
 
+  describe('live prompts and end exits', function () {
+    const live = fields => step(Object.assign({ text: '***prompt*** HackStack to change the star.', actionData: { type: 'prompt-live' } }, fields))
+    const end = (exits, fields) => step(Object.assign({ actor: 'celebrate', text: 'done!', actionData: { type: 'end-of-lesson', exits } }, fields))
+
+    it('warn about a live prompt in a learn level, which costs a credit there', function () {
+      const steps = [live({ id: 'a' }), step({ id: 'b', text: 'nice' })]
+      expect(lintScript(steps, { mode: 'learn to use' }).map(f => [f.code, f.severity, f.index])).toEqual([['prompt-live-in-learn', 'warning', 0]])
+      expect(lintScript(steps, { mode: 'practice' })).toEqual([])
+    })
+
+    it('note a live prompt as the last step', function () {
+      const steps = [step({ id: 'a' }), live({ id: 'b' }), { key: 'dead', id: 'gone', kind: 'dead' }]
+      const found = lintScript(steps, { mode: 'practice' }).filter(f => f.code === 'prompt-live-last')
+      expect(found.map(f => [f.severity, f.index])).toEqual([['info', 1]])
+    })
+
+    it('warn about a Keep chatting exit in a learn level, where it is not shown', function () {
+      const steps = [step({ id: 'a' }), end([{ kind: 'next-level' }, { kind: 'free-chat' }], { id: 'b' })]
+      expect(lintScript(steps, { mode: 'learn to use' }).map(f => [f.code, f.index])).toEqual([['free-chat-in-learn', 1]])
+      expect(lintScript(steps, { mode: 'use' })).toEqual([])
+      expect(lintScript([end(undefined, { id: 'c' })], { mode: 'learn to use' })).toEqual([])
+    })
+  })
+
   it('groups findings by step key', function () {
     const s = step({ id: 'x', text: '' })
     const grouped = findingsByKey(lintScript([s, { key: 'dead', id: 'gone', kind: 'dead' }]))
