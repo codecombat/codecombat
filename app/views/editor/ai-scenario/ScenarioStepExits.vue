@@ -183,16 +183,21 @@ export default Vue.extend({
       this.term = term
       clearTimeout(this.searchTimer)
       if (term.trim().length < 2) {
+        this.searchRequest = (this.searchRequest || 0) + 1 // answers still on their way no longer apply
         this.results = []
         return
       }
       this.searchTimer = setTimeout(() => this.runSearch(term.trim()), SEARCH_DELAY_MS)
     },
+    // Only the latest request may touch the results, whether it succeeds or fails; a counter also tells two requests
+    // for the same term apart.
     runSearch (term) {
+      const request = this.searchRequest = (this.searchRequest || 0) + 1
       this.fetchJson(`/db/ai_scenario?term=${encodeURIComponent(term)}&project=_id,original,name&limit=10`).then(found => {
-        if (term !== this.term.trim()) { return } // a newer search is under way
+        if (request !== this.searchRequest) { return }
         this.results = (found || []).filter(scenario => scenario.original)
       }, () => {
+        if (request !== this.searchRequest) { return }
         this.results = []
       })
     },

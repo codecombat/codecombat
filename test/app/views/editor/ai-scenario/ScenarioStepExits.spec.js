@@ -80,6 +80,28 @@ describe('ScenarioStepExits', function () {
     }, 300)
   })
 
+  it('keeps the newer results when an older search fails afterwards', function (done) {
+    const pending = {}
+    const fetchJson = url => {
+      const term = (url.match(/term=([^&]+)/) || [])[1]
+      if (!term) { return Promise.resolve({}) } // the next level's name
+      return new Promise((resolve, reject) => { pending[term] = { resolve, reject } })
+    }
+    this.wrapper = mount(ScenarioStepExits, { propsData: { store: this.store, step: this.store.state.steps[0], fetchJson } })
+    const w = this.wrapper
+    w.vm.runSearch('old')
+    w.vm.runSearch('remix')
+    pending.remix.resolve([{ _id: 'v3', original: 'orig3', name: 'Remix for Lumis' }])
+    setTimeout(() => {
+      expect(w.vm.results.length).toBe(1)
+      pending.old.reject(new Error('timeout'))
+      setTimeout(() => {
+        expect(w.vm.results.map(r => r.original)).toEqual(['orig3'])
+        done()
+      }, 0)
+    }, 0)
+  })
+
   it('on an old end step without exits says so, and adds the first one', function () {
     const w = mountFor(this, 1)
     expect(w.find('.hint').text()).toBe(w.vm.$t('editor.scenario_step_exits_none'))
