@@ -126,7 +126,7 @@
                 <div class="body">
                   <div class="meta">
                     <span :class="['badge-actor', step.actor]">{{ actorLabel(step.actor) }}</span>
-                    <span class="chip">{{ actionLabel(step) }}</span>
+                    <span :class="['chip', actionClass(step)]">{{ actionLabel(step) }}</span>
                     <span
                       v-if="step.kind === 'new'"
                       class="chip pending"
@@ -362,7 +362,7 @@ const DOMPurify = require('dompurify')
 const ScenarioStepPanel = require('./ScenarioStepPanel.vue').default
 const { lintScript, findingsByKey } = require('lib/scenario-lint')
 
-const KINDS = ['teacher', 'quiz', 'model', 'end']
+const KINDS = ['teacher', 'prompt', 'quiz', 'model', 'end']
 // The first fenced block of a message; an html document in it is what the player's Output button runs.
 const FENCE = /```(\w*)[ \t]*\n([\s\S]*?)```/
 const HTML_DOC = /^\s*(<!doctype\s+html|<html)/i
@@ -505,6 +505,9 @@ export default Vue.extend({
     },
     kindLabel (kind) {
       return this.$t(`editor.scenario_script_kind_${kind}`)
+    },
+    actionClass (step) {
+      return step.actionData && step.actionData.type === 'prompt-live' ? 'live-prompt' : null
     },
     attachmentCount (step) {
       return (step.documents || []).length
@@ -769,6 +772,12 @@ export default Vue.extend({
       &.model { background: #ece3f7; color: #4b2a7a; }
       &.celebrate { background: #fdebd0; color: #7a3e00; }
       &.alert { background: #fde8e1; color: #8a2d0c; }
+    }
+
+    .chip.live-prompt {
+      background: #d6eef0;
+      color: #0d4f57;
+      font-weight: 600;
     }
 
     .chip.pending {
