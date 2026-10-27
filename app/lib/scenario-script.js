@@ -21,7 +21,7 @@ const ACTORS = ['teacher', 'user', 'model', 'celebrate', 'alert']
 // Player and HackStack lines are resolved by role on the story page; a character id on them is ignored.
 const BY_ROLE_ACTORS = ['user', 'model']
 const ACTION_TYPES = ['continue', 'prompt-quiz', 'prompt-input', 'end-of-lesson', 'prompt-live']
-// Buttons an end step can offer; a new end step gets the first two.
+// Buttons an end step can offer; a new end step starts with Next level only, authors add the rest.
 const EXIT_KINDS = ['next-level', 'map', 'free-chat']
 const STORY_FIELDS = ['character', 'objective', 'background']
 const EDITABLE_FIELDS = ['actor', 'text', 'actionData', ...STORY_FIELDS]
@@ -36,7 +36,7 @@ const STEP_TEMPLATES = {
     text: '',
     actionData: { type: 'prompt-quiz', answerIndex: 0, choices: [{ text: '', responseText: '' }, { text: '', responseText: '' }] },
   }),
-  end: () => ({ actor: 'celebrate', text: '', actionData: { type: 'end-of-lesson', exits: [{ kind: 'next-level' }, { kind: 'map' }] } }),
+  end: () => ({ actor: 'celebrate', text: '', actionData: { type: 'end-of-lesson', exits: [{ kind: 'next-level' }] } }),
   // A teacher line with the prompt box attached: the script goes on once HackStack has replied.
   prompt: () => ({ actor: 'teacher', text: '', actionData: { type: 'prompt-live' } }),
 }

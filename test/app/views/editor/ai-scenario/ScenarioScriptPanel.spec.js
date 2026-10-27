@@ -186,12 +186,12 @@ describe('ScenarioScriptPanel', function () {
     }).then(done, done.fail)
   })
 
-  it('shows the exits editor on an end step, with next level then map', function (done) {
+  it('shows the exits editor on an end step, starting with Next level', function (done) {
     const w = this.wrapper
     w.findAll('.add-row button').at(4).trigger('click')
     w.vm.$nextTick().then(() => {
       expect(w.find('.scenario-step-exits').exists()).toBe(true)
-      expect(w.findAll('.scenario-step-exits .exit').length).toBe(2)
+      expect(w.findAll('.scenario-step-exits .exit').length).toBe(1)
     }).then(done, done.fail)
   })
 })

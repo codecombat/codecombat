@@ -206,19 +206,20 @@ describe('lib/scenario-script', function () {
       expect(quiz.actionData).toEqual({ type: 'prompt-live' })
     })
 
-    it('a new end step, and a step switched to one, offers next level then the map', function () {
+    it('a new end step, and a step switched to one, starts with Next level only, no label', function () {
       const end = this.store.append('end')
-      expect(end.actionData).toEqual({ type: 'end-of-lesson', exits: [{ kind: 'next-level' }, { kind: 'map' }] })
+      expect(end.actionData).toEqual({ type: 'end-of-lesson', exits: [{ kind: 'next-level' }] })
       const first = this.store.state.steps[0]
       this.store.setActionType(first.key, 'end-of-lesson')
-      expect(first.actionData.exits.map(e => e.kind)).toEqual(['next-level', 'map'])
+      expect(first.actionData.exits).toEqual([{ kind: 'next-level' }])
     })
 
     it('edits the exits with a new actionData each time: add, label, kind, move, remove', function () {
       const end = this.store.append('end')
       const before = end.actionData
-      this.store.addExit(end.key, 'free-chat')
+      this.store.addExit(end.key, 'map')
       expect(end.actionData).not.toBe(before)
+      this.store.addExit(end.key, 'free-chat')
       this.store.setExit(end.key, 2, { label: 'Continue' })
       this.store.setExit(end.key, 0, { label: 'Next story' })
       this.store.setExit(end.key, 0, { label: '  ' })
@@ -243,7 +244,6 @@ describe('lib/scenario-script', function () {
     it('blocks saving an end step without exits', function () {
       const end = this.store.append('end')
       this.store.setText(end.key, 'bye')
-      this.store.removeExit(end.key, 0)
       expect(this.store.validate()).toEqual([])
       this.store.removeExit(end.key, 0)
       expect(this.store.validate().map(p => p.message)).toEqual(['an end step needs at least one exit'])
@@ -255,7 +255,7 @@ describe('lib/scenario-script', function () {
       this.store.setNextLevel(end.key, 'orig2')
       this.store.saveMessages().then(() => {
         const post = this.fetchJson.calls.find(c => c.method === 'POST')
-        expect(post.json.actionData).toEqual({ type: 'end-of-lesson', exits: [{ kind: 'next-level' }, { kind: 'map' }], nextLevel: 'orig2' })
+        expect(post.json.actionData).toEqual({ type: 'end-of-lesson', exits: [{ kind: 'next-level' }], nextLevel: 'orig2' })
         done()
       }, done.fail)
     })
