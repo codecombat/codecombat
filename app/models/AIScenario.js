@@ -7,6 +7,7 @@ AIScenario.className = 'AIScenario'
 AIScenario.schema = schema
 AIScenario.urlRoot = '/db/ai_scenario'
 AIScenario.prototype.urlRoot = '/db/ai_scenario'
+AIScenario.prototype.editableByArtisans = true // POST /new-version accepts artisans, so the editor saves versions for them instead of patches
 AIScenario.prototype.defaults = {
   releasePhase: 'beta',
   initialActionQueue: []

@@ -65,6 +65,9 @@ _.extend(AIChatMessageSchema.properties, {
     },
   },
   i18n: { title: 'I18n', type: 'object', description: 'Help translate this property', format: 'i18n', props: ['text'] },
+  character: { title: 'Character', type: 'string', description: 'id from characters (scenario, then world chain); who speaks this teacher/celebrate line. Absent or unknown → classic Teacher label' },
+  objective: { title: 'Objective', type: 'string', description: "id from the scenario's objectives; activates (shows) that objective when this message plays" },
+  background: { title: 'Background', type: 'string', description: 'id from backgrounds (scenario, then world chain); switch to that scene when this message plays. Unknown id → no switch' },
   ownerID: { title: 'Owner Id', type: ['object', 'string'], description: 'The user who created this chat message' },
   safetyValidation: {
     title: 'Safety Validation',
