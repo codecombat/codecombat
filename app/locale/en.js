@@ -7045,6 +7045,8 @@ module.exports = {
       learning_modules: 'Learning Modules',
       level_complete: 'You did it! Level complete. Continue your AI journey with the next level.',
       exit_keep_chatting: 'Keep chatting',
+      story_goals: 'Goals',
+      story_goals_progress: 'Goals: __done__ of __total__ done',
       run_code_tour_title: 'Ready to see the magic?',
       run_code_tour_text: 'Press “Output” and watch your project come to life. No experience required!',
       hint_course_map_welcome: 'Explore courses across the AI Galaxy.',
