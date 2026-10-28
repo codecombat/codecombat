@@ -89,6 +89,7 @@ describe('ScenarioScriptPanel', function () {
     w.vm.$nextTick().then(() => {
       expect(w.find('.story-summary').text()).toContain('galaxy ← hour-of-ai')
       expect(w.find('.story-summary').text()).toContain('local (npc) · hq (ally) · you (player)')
+      expect(w.find('.story-summary').text()).toMatch(/recolor · \S+/) // the kind ("next" without one), through whichever $t
       expect(chips()[0]).toBe('→ Local')
       expect(w.findAll('.step').at(0).findAll('.chip.story.unknown').length).toBe(0)
       w.findAll('.step').at(0).trigger('click')

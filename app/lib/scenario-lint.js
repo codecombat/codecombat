@@ -43,6 +43,38 @@ function sameLine (a, b) {
     ['character', 'objective', 'background'].every(field => (a[field] || null) === (b[field] || null))
 }
 
+// After the script, the player prompts freely in every mode but learn, unless an end step with exits finishes the
+// level without a Keep chatting exit
+function hasFreeChat (live, mode) {
+  if (mode === LEARN_MODE) { return false }
+  const end = live.find(isEnd)
+  const exits = end ? exitsOf(end) : []
+  return !exits.length || exits.some(exit => exit.kind === 'free-chat')
+}
+
+const OBJECTIVE_EVENTS = {
+  'quiz-correct': 'a quiz answered correctly',
+  'prompt-replied': "a reply to the player's own prompt",
+  default: 'a quiz answered correctly or a reply to a prompt',
+}
+
+// HackStack completes an objective on the first event of its kind at or after the line that names it
+// (lib/story/objectives): a quiz, or a live prompt or free chat prompt that gets a reply.
+function lintObjectives (story, live, steps, mode, findings) {
+  for (const objective of story.objectives) {
+    const at = live.findIndex(step => step.objective === objective.id)
+    if (at < 0) { continue }
+    const after = live.slice(at)
+    const quiz = after.some(isQuiz)
+    const prompt = after.some(isLivePrompt) || hasFreeChat(live, mode)
+    const completes = objective.kind === 'quiz-correct' ? quiz : objective.kind === 'prompt-replied' ? prompt : quiz || prompt
+    if (!completes) {
+      const event = OBJECTIVE_EVENTS[objective.kind] || OBJECTIVE_EVENTS.default
+      findings.push(finding('objective-never-completes', 'warning', `objective ${objective.id} completes on ${event}, and none can happen after this line; it never gets its ✓`, live[at], steps.indexOf(live[at])))
+    }
+  }
+}
+
 function languagesOf (step) {
   return Object.keys(step.i18n || {}).filter(lang => lang !== '-')
 }
@@ -165,6 +197,7 @@ function lintScript (steps, scenario = {}) {
     if (story.isStory && OBJECTIVE_MODES.includes(scenario.mode) && live.length && !live.some(step => step.objective)) {
       findings.push(finding('no-objective-chip', 'info', 'story level with no objective on any step; the player sees no goal chip'))
     }
+    lintObjectives(story, live, steps, scenario.mode, findings)
   }
 
   return findings
