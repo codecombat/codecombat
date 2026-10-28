@@ -43,6 +43,44 @@ function sameLine (a, b) {
     ['character', 'objective', 'background'].every(field => (a[field] || null) === (b[field] || null))
 }
 
+// The steps a player can reach: everything up to and including the first end step, which finishes the level
+function reachable (live) {
+  const end = live.findIndex(isEnd)
+  return end < 0 ? live : live.slice(0, end + 1)
+}
+
+// After the script the player prompts freely in every mode but learn when no end step stops it, or when the end
+// step offers Keep chatting. An old end step without exits shows Feedback / New Project and never opens free chat.
+function hasFreeChat (played, mode) {
+  if (mode === LEARN_MODE) { return false }
+  const end = played.find(isEnd)
+  return !end || exitsOf(end).some(exit => exit.kind === 'free-chat')
+}
+
+const OBJECTIVE_EVENTS = {
+  'quiz-correct': 'a quiz answered correctly',
+  'prompt-replied': "a reply to the player's own prompt",
+  default: 'a quiz answered correctly or a reply to a prompt',
+}
+
+// HackStack completes an objective on the first event of its kind at or after the line that names it
+// (lib/story/objectives): a quiz, or a live prompt or free chat prompt that gets a reply.
+function lintObjectives (story, live, steps, mode, findings) {
+  const played = reachable(live)
+  for (const objective of story.objectives) {
+    const at = played.findIndex(step => step.objective === objective.id)
+    if (at < 0) { continue }
+    const after = played.slice(at)
+    const quiz = after.some(isQuiz)
+    const prompt = after.some(isLivePrompt) || hasFreeChat(played, mode)
+    const completes = objective.kind === 'quiz-correct' ? quiz : objective.kind === 'prompt-replied' ? prompt : quiz || prompt
+    if (!completes) {
+      const event = OBJECTIVE_EVENTS[objective.kind] || OBJECTIVE_EVENTS.default
+      findings.push(finding('objective-never-completes', 'warning', `objective ${objective.id} completes on ${event}, and none can happen after this line; it never gets its ✓`, played[at], steps.indexOf(played[at])))
+    }
+  }
+}
+
 function languagesOf (step) {
   return Object.keys(step.i18n || {}).filter(lang => lang !== '-')
 }
@@ -165,6 +203,7 @@ function lintScript (steps, scenario = {}) {
     if (story.isStory && OBJECTIVE_MODES.includes(scenario.mode) && live.length && !live.some(step => step.objective)) {
       findings.push(finding('no-objective-chip', 'info', 'story level with no objective on any step; the player sees no goal chip'))
     }
+    lintObjectives(story, live, steps, scenario.mode, findings)
   }
 
   return findings

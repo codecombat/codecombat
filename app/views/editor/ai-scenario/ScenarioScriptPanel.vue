@@ -363,6 +363,12 @@ const ScenarioStepPanel = require('./ScenarioStepPanel.vue').default
 const { lintScript, findingsByKey } = require('lib/scenario-lint')
 
 const KINDS = ['teacher', 'prompt', 'quiz', 'model', 'end']
+// What completes an objective, as the summary strip names it; no kind = whichever of quiz or prompt comes next
+const OBJECTIVE_KIND_LABELS = {
+  'quiz-correct': 'editor.scenario_objective_kind_quiz',
+  'prompt-replied': 'editor.scenario_objective_kind_prompt',
+  default: 'editor.scenario_objective_kind_next',
+}
 // The first fenced block of a message; an html document in it is what the player's Output button runs.
 const FENCE = /```(\w*)[ \t]*\n([\s\S]*?)```/
 const HTML_DOC = /^\s*(<!doctype\s+html|<html)/i
@@ -443,7 +449,7 @@ export default Vue.extend({
       return this.listText(this.storyContext.characters, c => `${c.id} (${c.role})`)
     },
     objectivesText () {
-      return this.listText(this.storyContext.objectives, o => o.id)
+      return this.listText(this.storyContext.objectives, o => `${o.id} · ${this.$t(OBJECTIVE_KIND_LABELS[o.kind] || OBJECTIVE_KIND_LABELS.default)}`)
     },
     scenesText () {
       return this.listText(this.storyContext.backgrounds, b => b.id)

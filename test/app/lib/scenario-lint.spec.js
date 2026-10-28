@@ -102,6 +102,41 @@ describe('lib/scenario-lint', function () {
       expect(lintScript([step({ id: 'a', objective: 'recolor' })], { mode: 'practice', story })).toEqual([])
     })
 
+    it('warn about an objective that nothing after its line can complete', function () {
+      const objectives = [{ id: 'make-a-game', kind: 'quiz-correct' }, { id: 'recolor', kind: 'prompt-replied' }, { id: 'gift', kind: null }]
+      const context = Object.assign({}, story, { objectives })
+      const never = (steps, mode) => lintScript(steps, { mode, story: context }).filter(f => f.code === 'objective-never-completes').map(f => [f.index, f.severity])
+      const answer = quiz('Make a game', [{ text: 'Make a story', responseText: 'no' }, { text: 'Make a game', responseText: 'yes' }], 1)
+      const livePrompt = step({ text: '***prompt*** HackStack to change the star.', actionData: { type: 'prompt-live' } })
+
+      // learn: no free chat, so only the steps after the line count
+      expect(never([step({ objective: 'make-a-game' }), answer], 'learn to use')).toEqual([])
+      expect(never([answer, step({ objective: 'make-a-game' })], 'learn to use')).toEqual([[1, 'warning']])
+      expect(never([step({ objective: 'recolor' }), answer], 'learn to use')).toEqual([[0, 'warning']])
+      expect(never([step({ objective: 'recolor' }), livePrompt], 'learn to use')).toEqual([])
+      expect(never([step({ objective: 'gift' }), answer], 'learn to use')).toEqual([])
+      expect(never([step({ objective: 'gift' })], 'learn to use')).toEqual([[0, 'warning']])
+      // a quiz step that names the objective completes it itself
+      expect(never([quiz('Make a game', [{ text: 'Make a game', responseText: 'yes' }], 0, { objective: 'make-a-game' })], 'learn to use')).toEqual([])
+
+      // practice: free chat follows the script, unless an end step ends the level without Keep chatting
+      expect(never([step({ objective: 'recolor' })], 'practice')).toEqual([])
+      expect(never([step({ objective: 'make-a-game' })], 'practice')).toEqual([[0, 'warning']])
+      const endWith = kinds => step({ actor: 'celebrate', text: 'done', actionData: { type: 'end-of-lesson', exits: kinds.map(kind => ({ kind })) } })
+      expect(never([step({ objective: 'recolor' }), endWith(['next-level', 'map'])], 'practice')).toEqual([[0, 'warning']])
+      expect(never([step({ objective: 'recolor' }), endWith(['next-level', 'free-chat'])], 'practice')).toEqual([])
+      // an old end step without exits shows Feedback / New Project, never free chat
+      const oldEnd = step({ actor: 'celebrate', text: 'done', actionData: { type: 'end-of-lesson' } })
+      expect(never([step({ objective: 'recolor' }), oldEnd], 'practice')).toEqual([[0, 'warning']])
+      // nothing after the first end step plays, so a quiz there completes nothing
+      expect(never([step({ objective: 'make-a-game' }), endWith(['map']), answer], 'practice')).toEqual([[0, 'warning']])
+      expect(never([step({ objective: 'make-a-game' }), answer, endWith(['map'])], 'practice')).toEqual([])
+
+      // an objective no line names gets no warning here
+      expect(never([step()], 'learn to use')).toEqual([])
+      expect(lintScript([step({ objective: 'gift' })], { mode: 'learn to use', story: context })[0].message).toContain('gift')
+    })
+
     it('warn once, script-wide, when a world could not be loaded', function () {
       const found = lintScript([step({ id: 'a' })], { story: Object.assign({}, story, { isStory: false, missingWorld: 'lost' }) })
       expect(found.map(f => f.code)).toEqual(['missing-world'])
