@@ -524,6 +524,16 @@ describe('lib/scenario-script', function () {
       expect(this.store.staleTranslationsOf(quiz)).toEqual([{ at: ['actionData', 'choices', 0], prop: 'responseText', langs: ['he'] }])
     })
 
+    it('lists a choice that moved up and changed, and nothing for one that only moved', function () {
+      const quiz = this.store.state.steps[2]
+      this.store.addChoice(quiz.key)
+      this.store.setChoice(quiz.key, 2, { text: 'Make a song', responseText: 'maybe' })
+      this.store.removeChoice(quiz.key, 0)
+      expect(this.store.staleTranslationsOf(quiz)).toEqual([])
+      this.store.setChoice(quiz.key, 0, { responseText: 'yes, a game!' })
+      expect(this.store.staleTranslationsOf(quiz)).toEqual([{ at: ['actionData', 'choices', 0], prop: 'responseText', langs: ['he'] }])
+    })
+
     it('lists nothing for a speaker change, spaces at the ends, a line without translations or a clean step', function () {
       const [first, , quiz, reply] = this.store.state.steps
       this.store.setStoryField(first.key, 'character', 'local')

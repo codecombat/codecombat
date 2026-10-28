@@ -31,22 +31,28 @@ function nodesAt (prev, next, path, at = []) {
 
 const trimmed = value => (typeof value === 'string' ? value.trim() : '')
 
-/** What saving next over prev clears: [{ at: ['actionData', 'choices', 1], prop: 'responseText', langs: ['he'] }]. */
+const translationOf = (item, lang, prop) => ((item.i18n || {})[lang] || {})[prop]
+
+/**
+ * What saving next over prev clears: [{ at: ['actionData', 'choices', 1], prop: 'responseText', langs: ['he'] }].
+ * A stored translation goes with a changed source, unless a stored item had both (it moved with its text).
+ */
 function staleTranslations (prev, next, paths) {
   const stale = []
   if (!prev || !next) { return stale }
   for (const { path, props } of paths) {
+    const stored = nodesAt(null, prev, path).map(node => node.next)
     for (const node of nodesAt(prev, next, path)) {
       const i18n = node.next.i18n
       if (!i18n || typeof i18n !== 'object') { continue }
-      const before = (node.prev && node.prev.i18n) || {}
       for (const prop of props) {
         const source = node.next[prop]
         if (typeof source !== 'string' || source.trim() === trimmed(node.prev && node.prev[prop])) { continue }
         const langs = Object.keys(i18n).filter(lang => {
           const translations = i18n[lang]
-          return translations && typeof translations === 'object' && prop in translations &&
-            translations[prop] === (before[lang] || {})[prop]
+          if (!translations || typeof translations !== 'object' || !(prop in translations)) { return false }
+          const storedWith = stored.filter(item => translationOf(item, lang, prop) === translations[prop])
+          return storedWith.length > 0 && !storedWith.some(item => trimmed(item[prop]) === source.trim())
         })
         if (langs.length) { stale.push({ at: node.at, prop, langs }) }
       }
