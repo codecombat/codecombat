@@ -18,7 +18,7 @@ describe('lib/stale-translations', function () {
     ])
   })
 
-  it('lists a changed source with the languages whose stored translation it still carries', function () {
+  it('lists every language of a changed source, one re-translated in the same save too', function () {
     const prev = {
       name: 'Remix',
       i18n: { he: { name: 'רמיקס' } },
@@ -30,18 +30,22 @@ describe('lib/stale-translations', function () {
     const next = clone(prev)
     next.objectives[0].text = "Change the star to the locals' colour"
     next.objectives[0].i18n.fr.text = "Change l'étoile à la couleur des locaux"
-    expect(staleTranslations(prev, next, SCENARIO)).toEqual([{ at: ['objectives', 0], prop: 'text', langs: ['he'] }])
+    expect(staleTranslations(prev, next, SCENARIO)).toEqual([{ at: ['objectives', 0], prop: 'text', langs: ['he', 'fr'] }])
   })
 
-  it('lists nothing for spaces at the ends, a translation sent with the new text, a removed source or a new document', function () {
+  it('lists nothing for a new objective sent with its translation, and the leftovers of a source set again', function () {
+    const prev = { name: 'Remix', i18n: { he: { name: 'רמיקס', description: 'צבעו משחק' } } }
+    const next = clone(prev)
+    next.description = 'Recolor a game for the Lumis'
+    next.objectives = [{ id: 'recolor', text: 'Change the star', i18n: { he: { text: 'שנו את הכוכב' } } }]
+    expect(staleTranslations(prev, next, SCENARIO)).toEqual([{ at: [], prop: 'description', langs: ['he'] }])
+  })
+
+  it('lists nothing for spaces at the ends, a removed source or a new document', function () {
     const prev = { text: 'Hello', i18n: { he: { text: 'שלום' } }, actionData: { type: 'end-of-lesson', exits: [{ kind: 'map', label: 'Map', i18n: { he: { label: 'מפה' } } }] } }
     const spaced = clone(prev)
     spaced.text = ' Hello\n'
     expect(staleTranslations(prev, spaced, MESSAGE)).toEqual([])
-    const retranslated = clone(prev)
-    retranslated.text = 'Hi'
-    retranslated.i18n.he.text = 'היי'
-    expect(staleTranslations(prev, retranslated, MESSAGE)).toEqual([])
     const unlabelled = clone(prev)
     delete unlabelled.actionData.exits[0].label
     expect(staleTranslations(prev, unlabelled, MESSAGE)).toEqual([])

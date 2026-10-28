@@ -35,7 +35,8 @@ const translationOf = (item, lang, prop) => ((item.i18n || {})[lang] || {})[prop
 
 /**
  * What saving next over prev clears: [{ at: ['actionData', 'choices', 1], prop: 'responseText', langs: ['he'] }].
- * A stored translation goes with a changed source, unless a stored item had both (it moved with its text).
+ * Every translation of a changed source goes, unless a stored item had both (it moved with its text);
+ * a field or item with no stored text is new and loses only leftovers stored there.
  */
 function staleTranslations (prev, next, paths) {
   const stale = []
@@ -51,8 +52,9 @@ function staleTranslations (prev, next, paths) {
         const langs = Object.keys(i18n).filter(lang => {
           const translations = i18n[lang]
           if (!translations || typeof translations !== 'object' || !(prop in translations)) { return false }
-          const storedWith = stored.filter(item => translationOf(item, lang, prop) === translations[prop])
-          return storedWith.length > 0 && !storedWith.some(item => trimmed(item[prop]) === source.trim())
+          const translation = translations[prop]
+          if (!trimmed(node.prev && node.prev[prop])) { return Boolean(node.prev) && translationOf(node.prev, lang, prop) === translation }
+          return !stored.some(item => trimmed(item[prop]) === source.trim() && translationOf(item, lang, prop) === translation)
         })
         if (langs.length) { stale.push({ at: node.at, prop, langs }) }
       }
