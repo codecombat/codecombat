@@ -13,13 +13,15 @@ module.exports = class ScenarioSaveVersionModal extends SaveVersionModal {
   }
 
   afterRender () {
+    // Before super: it replaces .changes-stub with the delta view, and the list goes above it.
+    if (this.scriptSummary.length) {
+      const list = $('<ul class="script-summary"></ul>')
+      for (const line of this.scriptSummary) { list.append($('<li></li>').text(line)) }
+      const block = $('<div class="alert alert-info"></div>')
+        .append($('<strong></strong>').text($.i18n.t('editor.scenario_save_script_heading')))
+        .append(list)
+      this.$el.find('.changes-stub').before(block)
+    }
     super.afterRender()
-    if (!this.scriptSummary.length) { return }
-    const list = $('<ul class="script-summary"></ul>')
-    for (const line of this.scriptSummary) { list.append($('<li></li>').text(line)) }
-    const block = $('<div class="alert alert-info"></div>')
-      .append($('<strong></strong>').text($.i18n.t('editor.scenario_save_script_heading')))
-      .append(list)
-    this.$el.find('.changes-stub').before(block)
   }
 }
