@@ -4363,6 +4363,7 @@ module.exports = {
       username_taken: 'Username already taken',
       easy_password: 'Password is too easy to guess',
       reused_password: 'Password cannot be reused',
+      enrolled_required: 'You must be enrolled to access this content',
     },
 
     esper: {

@@ -3998,6 +3998,7 @@ module.exports = {
       username_taken: '用户名已注册。',
       easy_password: '密码过于简单',
       reused_password: '与原密码相同',
+      enrolled_required: '你需要一个许可证来访问当前关卡',
     },
 
     esper: {
