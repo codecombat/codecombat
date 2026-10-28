@@ -125,6 +125,12 @@ describe('lib/scenario-lint', function () {
       const endWith = kinds => step({ actor: 'celebrate', text: 'done', actionData: { type: 'end-of-lesson', exits: kinds.map(kind => ({ kind })) } })
       expect(never([step({ objective: 'recolor' }), endWith(['next-level', 'map'])], 'practice')).toEqual([[0, 'warning']])
       expect(never([step({ objective: 'recolor' }), endWith(['next-level', 'free-chat'])], 'practice')).toEqual([])
+      // an old end step without exits shows Feedback / New Project, never free chat
+      const oldEnd = step({ actor: 'celebrate', text: 'done', actionData: { type: 'end-of-lesson' } })
+      expect(never([step({ objective: 'recolor' }), oldEnd], 'practice')).toEqual([[0, 'warning']])
+      // nothing after the first end step plays, so a quiz there completes nothing
+      expect(never([step({ objective: 'make-a-game' }), endWith(['map']), answer], 'practice')).toEqual([[0, 'warning']])
+      expect(never([step({ objective: 'make-a-game' }), answer, endWith(['map'])], 'practice')).toEqual([])
 
       // an objective no line names gets no warning here
       expect(never([step()], 'learn to use')).toEqual([])
