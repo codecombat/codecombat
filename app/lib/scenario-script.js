@@ -26,6 +26,8 @@ const EXIT_KINDS = ['next-level', 'map', 'free-chat']
 const STORY_FIELDS = ['character', 'objective', 'background']
 const EDITABLE_FIELDS = ['actor', 'text', 'actionData', ...STORY_FIELDS]
 const BACKUP_PREFIX = 'scenario-script-backup:'
+const { translatedPaths, staleTranslations } = require('./stale-translations')
+const MESSAGE_TRANSLATED_PATHS = translatedPaths(require('schemas/models/ai_chat_message.schema'))
 
 // Same shapes the HackStack builder creates (useInsertTeacherMessage, End lesson).
 const STEP_TEMPLATES = {
@@ -427,6 +429,13 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
   function newSteps () { return state.steps.filter(s => s.kind === 'new') }
   function editedSteps () { return state.steps.filter(isDirty) }
 
+  /** The translations the server clears when this edited step is saved: those of a text, choice or exit label that changed. */
+  function staleTranslationsOf (step) {
+    if (!isDirty(step)) { return [] }
+    const before = Object.assign(JSON.parse(step.snapshot), { i18n: step.i18n })
+    return staleTranslations(before, { text: step.text, actionData: step.actionData, i18n: step.i18n }, MESSAGE_TRANSLATED_PATHS)
+  }
+
   function queueIds () {
     return state.steps.map(s => s.id)
   }
@@ -648,6 +657,7 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
     discard,
     isDirty,
     changes,
+    staleTranslationsOf,
     validate,
     queueIds,
     saveMessages,
