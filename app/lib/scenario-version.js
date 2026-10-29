@@ -12,7 +12,8 @@ const VERSION_RE = /^\d+\.\d+$/
 function versionFromSearch (search) {
   const match = /[?&]version=([^&#]*)/.exec(search || '')
   if (!match) { return null }
-  const version = decodeURIComponent(match[1])
+  let version
+  try { version = decodeURIComponent(match[1]) } catch (e) { return null } // a stray % in the query
   return VERSION_RE.test(version) ? version : null
 }
 

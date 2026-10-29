@@ -19,6 +19,8 @@ describe('lib/scenario-version', function () {
       expect(versionFromSearch('?version=latest')).toBeNull()
       expect(versionFromSearch('?version=1')).toBeNull()
       expect(versionFromSearch('?version=0.3.1')).toBeNull()
+      expect(versionFromSearch('?version=%')).toBeNull()
+      expect(versionFromSearch('?version=%E0%A4%A')).toBeNull()
     })
   })
 
