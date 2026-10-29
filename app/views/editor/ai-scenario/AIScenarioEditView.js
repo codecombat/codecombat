@@ -98,23 +98,39 @@ module.exports = (AIScenarioEditView = (function () {
     // to the exact document it names, so an original id (the _id of v0.0) gave v0.0: switch to
     // the latest version and put the slug in the URL, so the save builds on the latest and the
     // Slack link of that save (X-Current-Path) is a slug link too. ?version=M.m loads exactly
-    // that version. Any other document is kept. When the check fails the loaded document is kept
-    // too and the latest stays unknown, so the Save modal still asks before replacing it.
+    // that version. Any other document is kept. When the latest cannot be fetched the loaded
+    // document is kept too and the latest stays unknown, so the Save modal still asks before
+    // replacing it. A ?version that is not found keeps the loaded document and says so; the latest
+    // still counts for the banner.
     resolveEditedVersion () {
       const loaded = this.scenario.attributes
-      const load = resolveVersion({ handle: this.scenarioID, loaded, version: this.requestedVersion })
+      const requested = this.requestedVersion
+      const load = resolveVersion({ handle: this.scenarioID, loaded, version: requested })
       const versionUrl = `/db/ai_scenario/${loaded.original}/version`
-      const latest = fetchJson(versionUrl)
-      const target = load === 'exact' ? fetchJson(`${versionUrl}/${this.requestedVersion}`) : latest
-      Promise.all([latest, load ? target : null]).then(([latestDoc, targetDoc]) => {
+      const resource = this.versionResource
+      const latest = fetchJson(versionUrl).catch(err => {
+        console.warn('Could not fetch the latest scenario version:', err)
+        return null
+      })
+      const target = load === 'exact'
+        ? fetchJson(`${versionUrl}/${requested}`).catch(err => {
+          console.warn(`Could not fetch scenario version ${requested}:`, err)
+          if (!this.destroyed) { noty({ type: 'error', text: $.i18n.t('editor.scenario_version_not_found', { version: requested }), timeout: 8000 }) }
+          return null
+        })
+        : (load === 'latest' ? latest : Promise.resolve(null))
+      // The view may be gone by the time the answers arrive (navigated away): nothing to set up then.
+      Promise.all([latest, target]).then(([latestDoc, targetDoc]) => {
+        if (this.destroyed) { return }
         this.latestVersion = latestDoc
+        this.versionCheckFailed = !latestDoc
         this.editScenario(targetDoc && isStale(loaded, targetDoc) ? targetDoc : null)
-        if (load === 'latest') { window.history.replaceState(window.history.state, '', editUrl(this.scenario.attributes)) }
-      }, err => {
-        console.warn('Could not settle which scenario version to edit:', err)
-        this.versionCheckFailed = true
-        this.editScenario(null)
-      }).then(() => this.versionResource.markLoaded())
+        if (load === 'latest' && targetDoc) { window.history.replaceState(window.history.state, '', editUrl(this.scenario.attributes)) }
+      }).catch(err => {
+        console.error('Could not settle which scenario version to edit:', err)
+      }).then(() => {
+        if (!this.destroyed) { resource.markLoaded() }
+      })
     }
 
     // Backups are keyed by version id and go on only now: the loaded document must not restore

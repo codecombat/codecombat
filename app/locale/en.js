@@ -3442,6 +3442,7 @@ module.exports = {
       scenario_version_open_latest: 'Open the latest',
       scenario_version_replace_confirm: 'Replace v__latest__ with this version',
       scenario_version_save_anyway: 'Save anyway',
+      scenario_version_not_found: 'Version __version__ was not found. Showing the version that loaded.',
       scenario_script_problems: 'Fix before saving:',
       scenario_lint_clean: 'Lint: nothing to flag',
       scenario_lint_notes: 'lint notes',

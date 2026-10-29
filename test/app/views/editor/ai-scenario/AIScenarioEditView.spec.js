@@ -16,13 +16,14 @@ function jsonResponse (body) {
   return Promise.resolve({ status: 200, headers: { get: () => 'application/json' }, json: () => Promise.resolve(JSON.parse(JSON.stringify(body))) })
 }
 
-function fakeFetch (routes) {
-  return spyOn(window, 'fetch').and.callFake(url => {
+// Answers after `hold` settles, so a test can destroy the view while a request is in flight.
+function fakeFetch (routes, hold = Promise.resolve()) {
+  return spyOn(window, 'fetch').and.callFake(url => hold.then(() => {
     const path = url.split('?')[0]
     if (path in routes) { return jsonResponse(routes[path]) }
     if (/\/messages$/.test(path)) { return jsonResponse([]) }
-    return Promise.resolve({ status: 404, headers: { get: () => 'text/plain' }, text: () => Promise.resolve(`no route for ${url}`) })
-  })
+    return { status: 404, headers: { get: () => 'text/plain' }, text: () => Promise.resolve(`no route for ${url}`) }
+  }))
 }
 
 // Opens the editor at a handle and answers the model fetch the way the server would.
@@ -103,9 +104,54 @@ describe('AIScenarioEditView', function () {
     settled(this.view).then(() => {
       expect(this.view.scenario.id).toBe(ORIGINAL)
       expect(this.view.versionCheckFailed).toBe(true)
-      expect(this.view.latestVersion).toBeUndefined()
+      expect(this.view.latestVersion).toBeNull()
+      expect(this.view.versionNotice().latest).toBeNull()
       expect(window.history.replaceState).not.toHaveBeenCalled()
       done()
     })
+  })
+
+  it('keeps the loaded document, says so, and still knows the latest when ?version is not found', function (done) {
+    fakeFetch({ [VERSION_URL]: latest })
+    const hadNoty = window.noty // another spec may have left a spy here, so spyOn would refuse
+    const notySpy = jasmine.createSpy('noty')
+    window.noty = notySpy
+    this.view = open(ORIGINAL, v0, '0.9')
+    settled(this.view).then(() => {
+      window.noty = hadNoty
+      expect(this.view.scenario.id).toBe(ORIGINAL)
+      expect(this.view.versionCheckFailed).toBe(false)
+      expect(this.view.versionNotice().latest).toBe('0.15')
+      expect(notySpy).toHaveBeenCalled()
+      expect(window.history.replaceState).not.toHaveBeenCalled()
+      done()
+    })
+  })
+
+  // Navigating away before /version answers: the callbacks find a destroyed view and must not touch it.
+  function destroyedWhile (routes, done) {
+    let release
+    fakeFetch(routes, new Promise(resolve => { release = resolve }))
+    const rejections = jasmine.createSpy('unhandledrejection')
+    window.addEventListener('unhandledrejection', rejections)
+    spyOn(console, 'error')
+    const view = open(ORIGINAL, v0)
+    view.destroy()
+    release()
+    setTimeout(() => {
+      window.removeEventListener('unhandledrejection', rejections)
+      expect(rejections).not.toHaveBeenCalled()
+      expect(console.error).not.toHaveBeenCalled()
+      expect(window.history.replaceState).not.toHaveBeenCalled()
+      done()
+    }, 50)
+  }
+
+  it('does nothing when the editor was destroyed before the latest version arrived', function (done) {
+    destroyedWhile({ [VERSION_URL]: latest }, done)
+  })
+
+  it('does nothing when the editor was destroyed before the version fetch failed', function (done) {
+    destroyedWhile({}, done)
   })
 })
