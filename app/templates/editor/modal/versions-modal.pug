@@ -25,7 +25,8 @@ block modal-body-content
           td
             input(type="checkbox", value=data._id).select
           td
-            a(href='/editor/' + page + '/' + data._id) #{data.version.major}.#{data.version.minor}
+            //- The scenario editor opens an original id as the latest version, and v0.0's _id is the original, so its rows say which version they mean.
+            a(href='/editor/' + page + '/' + data._id + (page === 'ai-scenario' ? '?version=' + data.version.major + '.' + data.version.minor : '')) #{data.version.major}.#{data.version.minor}
           td= moment(data.created).format('l')
           td= data.creator
           td #{data.commitMessage}
