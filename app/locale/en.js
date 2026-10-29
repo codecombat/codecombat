@@ -3435,6 +3435,8 @@ module.exports = {
       scenario_save_failed: 'Script not saved',
       scenario_save_delete_failed: 'Version saved, but a removed message could not be deleted and stays as an orphan:',
       scenario_save_no_write_access: 'You can submit a patch for the settings, but script changes need write access to this scenario.',
+      scenario_save_translations_heading: 'Translations this save clears, because their English changed (run AI Translate after saving)',
+      scenario_save_translations_settings: 'Settings: a changed name, description, objective or character name',
       scenario_script_problems: 'Fix before saving:',
       scenario_lint_clean: 'Lint: nothing to flag',
       scenario_lint_notes: 'lint notes',

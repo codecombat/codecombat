@@ -15,6 +15,7 @@ const VersionHistoryView = require('./AIScenarioVersionsModal')
 const AIScenarioForkModal = require('./AIScenarioForkModal')
 const ScenarioScriptPanel = require('./ScenarioScriptPanel.vue').default
 const { createScriptStore } = require('lib/scenario-script')
+const { translatedPaths, staleTranslations } = require('lib/stale-translations')
 const { loadWorldChain, buildStoryContext } = require('lib/story-world-chain')
 
 // Settings tab order: identity, catalog tags, AI behaviour, evaluation, story, translations.
@@ -33,6 +34,8 @@ const SETTINGS_HIDDEN = [
 ]
 const template = require('app/templates/editor/ai-scenario/edit')
 const AIScenario = require('models/AIScenario')
+const SCENARIO_TRANSLATED_PATHS = translatedPaths(AIScenario.schema)
+const firstWords = step => (step.text || '').replace(/\s+/g, ' ').trim().slice(0, 40)
 const ScenarioSaveVersionModal = require('./ScenarioSaveVersionModal')
 const PatchesView = require('views/editor/PatchesView')
 const ConfirmModal = require('views/core/ConfirmModal')
@@ -297,12 +300,28 @@ module.exports = (AIScenarioEditView = (function () {
       if (!c.any) { return [] }
       const t = key => $.i18n.t(`editor.scenario_save_${key}`)
       const steps = this.scriptStore.state.steps
-      const firstWords = step => (step.text || '').replace(/\s+/g, ' ').trim().slice(0, 40)
       const lines = []
       for (const step of c.newSteps) { lines.push(`${t('new_step')} ${steps.indexOf(step) + 1}: ${firstWords(step)}`) }
       for (const step of c.editedSteps) { lines.push(`${t('edited_step')} ${steps.indexOf(step) + 1} (${step.id}): ${firstWords(step)}`) }
       for (const id of c.deletedIds) { lines.push(`${t('deleted_message')} ${id}`) }
       if (c.queueChanged) { lines.push(t('queue_changed')) }
+      return lines
+    }
+
+    // Lines for the save modal: what the server will clear because its English changed, so AI Translate fills it again.
+    translationSummary () {
+      const lines = []
+      if (this.scriptStore) {
+        const steps = this.scriptStore.state.steps
+        for (const step of this.scriptStore.changes().editedSteps) {
+          if (this.scriptStore.staleTranslationsOf(step).length) {
+            lines.push(`${$.i18n.t('editor.scenario_step_title')} ${steps.indexOf(step) + 1}: ${firstWords(step)}`)
+          }
+        }
+      }
+      if (staleTranslations(this.scenario._revertAttributes, this.scenario.attributes, SCENARIO_TRANSLATED_PATHS).length) {
+        lines.push($.i18n.t('editor.scenario_save_translations_settings'))
+      }
       return lines
     }
 
@@ -322,6 +341,7 @@ module.exports = (AIScenarioEditView = (function () {
         model: this.scenario,
         noNewMajorVersions: true,
         scriptSummary,
+        translationSummary: this.translationSummary(),
         commitMessage: scriptSummary.length ? `${$.i18n.t('editor.scenario_script_tab')}: ${this.scriptStore.changes().count} ${$.i18n.t('editor.scenario_script_unsaved')}` : undefined,
       })
       this.openModalView(modal)

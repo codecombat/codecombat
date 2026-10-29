@@ -500,4 +500,49 @@ describe('lib/scenario-script', function () {
       }).then(done, done.fail)
     })
   })
+
+  describe('staleTranslationsOf', function () {
+    beforeEach(function (done) {
+      const translated = clone(messages)
+      translated[1].i18n = { he: { text: 'ברוכים הבאים' }, 'zh-HANS': { text: '欢迎' } }
+      translated[2].actionData.choices[0].i18n = { he: { text: 'צרו סיפור', responseText: 'לא' } }
+      translated[2].actionData.choices[1].i18n = { he: { text: 'צרו משחק', responseText: 'כן' } }
+      delete translated[0].i18n
+      this.store = createScriptStore({ scenario: clone(scenario), fetchJson: makeFetch({ 'GET /db/ai_scenario/version1/messages': () => translated }), storage: makeStorage() })
+      this.store.load().then(() => done(), done.fail)
+    })
+
+    it('lists the text of an edited line in every language it is translated to', function () {
+      const [first] = this.store.state.steps
+      this.store.setText(first.key, 'welcome back')
+      expect(this.store.staleTranslationsOf(first)).toEqual([{ at: [], prop: 'text', langs: ['he', 'zh-HANS'] }])
+    })
+
+    it('lists only the choice whose feedback changed', function () {
+      const quiz = this.store.state.steps[2]
+      this.store.setChoice(quiz.key, 0, { responseText: 'not quite' })
+      expect(this.store.staleTranslationsOf(quiz)).toEqual([{ at: ['actionData', 'choices', 0], prop: 'responseText', langs: ['he'] }])
+    })
+
+    it('lists a choice that moved up and changed, and nothing for one that only moved', function () {
+      const quiz = this.store.state.steps[2]
+      this.store.addChoice(quiz.key)
+      this.store.setChoice(quiz.key, 2, { text: 'Make a song', responseText: 'maybe' })
+      this.store.removeChoice(quiz.key, 0)
+      expect(this.store.staleTranslationsOf(quiz)).toEqual([])
+      this.store.setChoice(quiz.key, 0, { responseText: 'yes, a game!' })
+      expect(this.store.staleTranslationsOf(quiz)).toEqual([{ at: ['actionData', 'choices', 0], prop: 'responseText', langs: ['he'] }])
+    })
+
+    it('lists nothing for a speaker change, spaces at the ends, a line without translations or a clean step', function () {
+      const [first, , quiz, reply] = this.store.state.steps
+      this.store.setStoryField(first.key, 'character', 'local')
+      expect(this.store.staleTranslationsOf(first)).toEqual([])
+      this.store.setText(first.key, ' welcome ')
+      expect(this.store.staleTranslationsOf(first)).toEqual([])
+      this.store.setText(reply.key, 'another reply')
+      expect(this.store.staleTranslationsOf(reply)).toEqual([])
+      expect(this.store.staleTranslationsOf(quiz)).toEqual([])
+    })
+  })
 })
