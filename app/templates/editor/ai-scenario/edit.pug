@@ -64,7 +64,13 @@ block header
             a.info-line Version: #{version ? version.major + '.' + version.minor : ''}
 
 block outer_content
-  .outer-content
+  - var notice = view.versionNotice()
+  .outer-content(class=notice ? 'has-version-banner' : '')
+    if notice
+      .alert.alert-warning#stale-version-banner
+        strong= notice.text
+        if notice.latestUrl
+          a.spl(href=notice.latestUrl, data-i18n="editor.scenario_version_open_latest") Open the latest
     #ai-scenario-editor-tabs.tab-content
       .tab-pane.active#ai-scenario-script-tab
         #scenario-script-panel
