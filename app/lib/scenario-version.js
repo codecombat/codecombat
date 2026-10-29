@@ -22,6 +22,10 @@ function versionLabel (doc) {
   return version && typeof version.major === 'number' && typeof version.minor === 'number' ? `${version.major}.${version.minor}` : null
 }
 
+// An id handle may be typed in any case; the server answers with the canonical lowercase hex.
+const OBJECT_ID_RE = /^[0-9a-f]{24}$/i
+const sameHandle = (a, b) => (OBJECT_ID_RE.test(String(a)) ? String(a).toLowerCase() === String(b).toLowerCase() : String(a) === String(b))
+
 /**
  * After the handle loaded a document, what the editor should edit instead of it:
  *   'latest'  the handle is the original id (so the document is v0.0) and no version was asked for
@@ -31,7 +35,7 @@ function versionLabel (doc) {
 function resolveVersion ({ handle, loaded, version }) {
   if (!loaded) { return null }
   if (version) { return versionLabel(loaded) === version ? null : 'exact' }
-  return loaded.original && String(handle) === String(loaded.original) ? 'latest' : null
+  return loaded.original && sameHandle(handle, loaded.original) ? 'latest' : null
 }
 
 /** True when the document shown is not the scenario's latest version. */

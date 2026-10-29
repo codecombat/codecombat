@@ -31,8 +31,9 @@ describe('lib/scenario-version', function () {
   })
 
   describe('resolveVersion', function () {
-    it('edits the latest when the handle is the original id', function () {
+    it('edits the latest when the handle is the original id, however it was typed', function () {
       expect(resolveVersion({ handle: ORIGINAL, loaded: v0, version: null })).toBe('latest')
+      expect(resolveVersion({ handle: ORIGINAL.toUpperCase(), loaded: v0, version: null })).toBe('latest')
     })
 
     it('keeps a document loaded by slug', function () {
