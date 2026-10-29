@@ -218,6 +218,7 @@ module.exports = (AIScenarioEditView = (function () {
     afterRender () {
       super.afterRender()
       if (!this.supermodel.finished()) { return }
+      this.updateVersionBanner()
       if (me.get('anonymous')) { this.showReadOnly() }
       this.patchesView = this.insertSubView(new PatchesView(this.scenario), this.$el.find('.patches-view'))
       this.patchesView.load()
@@ -412,18 +413,45 @@ module.exports = (AIScenarioEditView = (function () {
         noty({ type: 'error', text: `${$.i18n.t('editor.scenario_save_fix_first')} ${problems.map(p => `${$.i18n.t('editor.scenario_step_title')} ${p.index + 1}: ${p.message}`).join('; ')}`, timeout: 8000 })
         return
       }
-      const scriptSummary = this.scriptSummary()
-      const modal = new ScenarioSaveVersionModal({
-        model: this.scenario,
-        noNewMajorVersions: true,
-        scriptSummary,
-        translationSummary: this.translationSummary(),
-        versionNotice: this.versionNotice(),
-        commitMessage: scriptSummary.length ? `${$.i18n.t('editor.scenario_script_tab')}: ${this.scriptStore.changes().count} ${$.i18n.t('editor.scenario_script_unsaved')}` : undefined,
+      // Another author may have saved since this page opened: the notice names the latest as of now.
+      return this.refreshLatestVersion().then(() => {
+        if (this.destroyed) { return }
+        const scriptSummary = this.scriptSummary()
+        const modal = new ScenarioSaveVersionModal({
+          model: this.scenario,
+          noNewMajorVersions: true,
+          scriptSummary,
+          translationSummary: this.translationSummary(),
+          versionNotice: this.versionNotice(),
+          commitMessage: scriptSummary.length ? `${$.i18n.t('editor.scenario_script_tab')}: ${this.scriptStore.changes().count} ${$.i18n.t('editor.scenario_script_unsaved')}` : undefined,
+        })
+        this.openModalView(modal)
+        this.listenToOnce(modal, 'save-new-version', this.saveNewScenario)
+        this.listenToOnce(modal, 'hidden', function () { return this.stopListening(modal) })
       })
-      this.openModalView(modal)
-      this.listenToOnce(modal, 'save-new-version', this.saveNewScenario)
-      return this.listenToOnce(modal, 'hidden', function () { return this.stopListening(modal) })
+    }
+
+    // A failed refresh keeps the latest known at open.
+    refreshLatestVersion () {
+      return fetchJson(`/db/ai_scenario/${this.scenario.get('original')}/version`).then(doc => {
+        if (this.destroyed) { return }
+        this.latestVersion = doc
+        this.versionCheckFailed = false
+        this.updateVersionBanner()
+      }, err => console.warn('Could not refresh the latest scenario version:', err))
+    }
+
+    // The banner above the tabs follows the notice; the tabs themselves are left alone, the Script
+    // panel is mounted in them.
+    updateVersionBanner () {
+      const notice = this.versionNotice()
+      const content = this.$el.find('.outer-content')
+      content.find('#stale-version-banner').remove()
+      content.toggleClass('has-version-banner', Boolean(notice))
+      if (!notice) { return }
+      const banner = $('<div class="alert alert-warning" id="stale-version-banner"></div>').append($('<strong></strong>').text(notice.text))
+      if (notice.latestUrl) { banner.append($('<a class="spl"></a>').attr('href', notice.latestUrl).text($.i18n.t('editor.scenario_version_open_latest'))) }
+      content.prepend(banner)
     }
 
     openRevertModal (e) {

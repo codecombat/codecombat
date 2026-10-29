@@ -133,6 +133,44 @@ describe('AIScenarioEditView', function () {
     })
   })
 
+  it('shows the banner for an old version and none for the latest', function (done) {
+    fakeFetch({ [VERSION_URL]: latest })
+    this.view = open(OLD, v3)
+    settled(this.view).then(() => {
+      this.view.render()
+      expect(this.view.$el.find('#stale-version-banner strong').text()).toContain('You are viewing v0.3')
+      expect(this.view.$el.find('#stale-version-banner a').attr('href')).toBe('/editor/ai-scenario/fabricator-training')
+      expect(this.view.$el.find('.outer-content').hasClass('has-version-banner')).toBe(true)
+      this.view.latestVersion = v3
+      this.view.updateVersionBanner()
+      expect(this.view.$el.find('#stale-version-banner').length).toBe(0)
+      expect(this.view.$el.find('.outer-content').hasClass('has-version-banner')).toBe(false)
+      done()
+    })
+  })
+
+  it('refetches the latest when Save opens, so a version saved meanwhile shows up in the banner and the modal', function (done) {
+    const routes = { [VERSION_URL]: latest }
+    fakeFetch(routes)
+    me.set('anonymous', false)
+    spyOn(me, 'isAdmin').and.returnValue(true)
+    this.view = open('fabricator-training', latest)
+    settled(this.view).then(() => {
+      this.view.render()
+      expect(this.view.$el.find('#stale-version-banner').length).toBe(0)
+      routes[VERSION_URL] = Object.assign({}, latest, { _id: '6ae1000000000000000000b0', version: { major: 0, minor: 16 } })
+      spyOn(this.view, 'openModalView')
+      return this.view.openSaveModal()
+    }).then(() => {
+      const modal = this.view.openModalView.calls.mostRecent().args[0]
+      expect(modal.versionNotice.latest).toBe('0.16')
+      expect(modal.versionNotice.text).toBe('You are viewing v0.15. Saving makes it the latest and replaces v0.16.')
+      expect(this.view.$el.find('#stale-version-banner strong').text()).toContain('replaces v0.16')
+      modal.destroy()
+      done()
+    })
+  })
+
   // Navigating away before /version answers: the callbacks find a destroyed view and must not touch it.
   function destroyedWhile (routes, done) {
     let release
