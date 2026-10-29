@@ -32,17 +32,25 @@
       overflow: auto
       padding: 2px
 
-  // Not editing the latest version: the banner takes the top of the tab box.
-  #stale-version-banner
-    position: absolute
-    left: 15px
-    right: 15px
-    top: 15px
-    margin-bottom: 0
-    z-index: 1
+  // Not editing the latest version: the banner sits above the tab box, which fills the rest,
+  // however many lines the banner wraps to.
+  .outer-content.has-version-banner
+    display: flex
+    flex-direction: column
+    padding: 15px
 
-  .outer-content.has-version-banner #ai-scenario-editor-tabs
-    top: 80px
+    #stale-version-banner
+      flex: none
+      margin: 0 0 10px
+
+    #ai-scenario-editor-tabs
+      position: relative
+      top: auto
+      right: auto
+      bottom: auto
+      left: auto
+      flex: 1
+      min-height: 0
 
   .treema-root
     margin-bottom: 20px
