@@ -57,6 +57,7 @@ module.exports = (AIScenarioEditView = (function () {
       this.prototype.id = 'editor-ai-scenario-edit-view'
       this.prototype.className = 'editor' // full-viewport layout with the editor navbar, like levels and campaigns
       this.prototype.template = template
+      this.prototype.latestRefreshLimitMs = 5000
 
       this.prototype.events = {
         'click #history-button': 'showVersionHistory',
@@ -413,8 +414,11 @@ module.exports = (AIScenarioEditView = (function () {
         noty({ type: 'error', text: `${$.i18n.t('editor.scenario_save_fix_first')} ${problems.map(p => `${$.i18n.t('editor.scenario_step_title')} ${p.index + 1}: ${p.message}`).join('; ')}`, timeout: 8000 })
         return
       }
-      // Another author may have saved since this page opened: the notice names the latest as of now.
-      return this.refreshLatestVersion().then(() => {
+      // Another author may have saved since this page opened: the notice names the latest as of
+      // now. A stalled request must not keep Save closed: past the limit the modal opens with the
+      // latest known at open.
+      const limit = new Promise(resolve => setTimeout(resolve, this.latestRefreshLimitMs))
+      return Promise.race([this.refreshLatestVersion(), limit]).then(() => {
         if (this.destroyed) { return }
         const scriptSummary = this.scriptSummary()
         const modal = new ScenarioSaveVersionModal({

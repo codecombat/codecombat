@@ -171,6 +171,25 @@ describe('AIScenarioEditView', function () {
     })
   })
 
+  it('opens the Save modal past a limit when the latest-version request stalls', function (done) {
+    fakeFetch({ [VERSION_URL]: latest })
+    me.set('anonymous', false)
+    spyOn(me, 'isAdmin').and.returnValue(true)
+    this.view = open('fabricator-training', latest)
+    settled(this.view).then(() => {
+      window.fetch.and.callFake(url => (/\/version$/.test(url.split('?')[0]) ? new Promise(() => {}) : jsonResponse([])))
+      this.view.latestRefreshLimitMs = 20
+      spyOn(this.view, 'openModalView')
+      return this.view.openSaveModal()
+    }).then(() => {
+      expect(this.view.openModalView).toHaveBeenCalled()
+      const modal = this.view.openModalView.calls.mostRecent().args[0]
+      expect(modal.versionNotice).toBeNull()
+      modal.destroy()
+      done()
+    })
+  })
+
   // Navigating away before /version answers: the callbacks find a destroyed view and must not touch it.
   function destroyedWhile (routes, done) {
     let release
