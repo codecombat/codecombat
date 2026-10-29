@@ -207,6 +207,7 @@ module.exports = (CocoRouter = (function () {
         'editor/thang': go('editor/thang/ThangTypeSearchView'),
         'editor/thang/:thangID': go('editor/thang/ThangTypeEditView'),
         'editor/campaign/:campaignID(/:campaignPage)': go('editor/campaign/CampaignEditorView'),
+        'editor/ozaria/verifier(/:levelID)': go('editor/verifier/VerifierView'),
         'editor/verifier(/:levelID)': go('editor/verifier/VerifierView'),
         'editor/i18n-verifier(/:levelID)': go('editor/verifier/i18nVerifierView'),
         'editor/course': go('editor/course/CourseSearchView'),
