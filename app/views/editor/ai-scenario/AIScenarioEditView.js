@@ -146,16 +146,18 @@ module.exports = (AIScenarioEditView = (function () {
     }
 
     // The banner and the Save modal's confirm, when this page does not edit the latest version
-    // or could not find out which version that is.
+    // or could not find out which version that is. Only a save replaces the latest; a patch or a
+    // read-only visit gets the plain fact.
     versionNotice () {
       if (!this.versionCheckFailed && !isStale(this.scenario.attributes, this.latestVersion)) { return null }
       const viewing = versionLabel(this.scenario.attributes)
       const latest = this.latestVersion ? versionLabel(this.latestVersion) : null
+      const key = !latest ? 'scenario_version_banner_unknown' : (this.scenario.hasWriteAccess() ? 'scenario_version_banner' : 'scenario_version_banner_readonly')
       return {
         viewing,
         latest,
         latestUrl: this.latestVersion ? editUrl(this.latestVersion) : null,
-        text: latest ? $.i18n.t('editor.scenario_version_banner', { viewing, latest }) : $.i18n.t('editor.scenario_version_banner_unknown', { viewing }),
+        text: $.i18n.t(`editor.${key}`, { viewing, latest }),
       }
     }
 

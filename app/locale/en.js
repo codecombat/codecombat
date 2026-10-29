@@ -3439,6 +3439,7 @@ module.exports = {
       scenario_save_translations_settings: 'Settings: a changed name, description, objective or character name',
       scenario_version_banner: 'You are viewing v__viewing__. Saving makes it the latest and replaces v__latest__.',
       scenario_version_banner_unknown: 'You are viewing v__viewing__. Could not check which version is the latest.',
+      scenario_version_banner_readonly: 'You are viewing v__viewing__, not the latest (v__latest__).',
       scenario_version_open_latest: 'Open the latest',
       scenario_version_replace_confirm: 'Replace v__latest__ with this version',
       scenario_version_save_anyway: 'Save anyway',

@@ -65,13 +65,18 @@ describe('AIScenarioEditView', function () {
     })
   })
 
-  it('keeps an old version opened by its own id, as Version history does', function (done) {
+  it('keeps an old version opened by its own id, as Version history does, and words the notice by write access', function (done) {
     fakeFetch({ [VERSION_URL]: latest })
     this.view = open(OLD, v3)
     settled(this.view).then(() => {
       expect(this.view.scenario.id).toBe(OLD)
       expect(this.view.latestVersion._id).toBe(LATEST)
       expect(window.history.replaceState).not.toHaveBeenCalled()
+      spyOn(this.view.scenario, 'hasWriteAccess').and.returnValue(true)
+      expect(this.view.versionNotice().text).toBe('You are viewing v0.3. Saving makes it the latest and replaces v0.15.')
+      this.view.scenario.hasWriteAccess.and.returnValue(false)
+      expect(this.view.versionNotice().text).toBe('You are viewing v0.3, not the latest (v0.15).')
+      expect(this.view.versionNotice().latestUrl).toBe('/editor/ai-scenario/fabricator-training')
       done()
     })
   })

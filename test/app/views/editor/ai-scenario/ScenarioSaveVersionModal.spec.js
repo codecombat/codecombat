@@ -44,14 +44,15 @@ describe('ScenarioSaveVersionModal', function () {
     expect(this.modal.$el.find('#save-version-button').prop('disabled')).toBe(false)
   })
 
-  it('tells a patcher too, without the tick', function () {
+  it('tells a patcher too, in the words the view picks for a non-writer, without the tick', function () {
     me.isAdmin.and.returnValue(false)
     const model = makeModel()
     model.set('name', 'Renamed')
-    this.modal = new ScenarioSaveVersionModal({ model, versionNotice: notice })
+    const patchNotice = Object.assign({}, notice, { text: 'You are viewing v0.3, not the latest (v0.15).' })
+    this.modal = new ScenarioSaveVersionModal({ model, versionNotice: patchNotice })
     this.modal.render()
     expect(this.modal.isPatch).toBe(true)
-    expect(this.modal.$el.find('.version-notice strong').text()).toBe(notice.text)
+    expect(this.modal.$el.find('.version-notice strong').text()).toBe(patchNotice.text)
     expect(this.modal.$el.find('#replace-latest').length).toBe(0)
   })
 })
