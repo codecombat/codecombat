@@ -16,7 +16,11 @@ const dynamicRequire = require('lib/dynamicRequire')
 const locale = require('locale/locale')
 const globalVar = require('core/globalVar')
 
-const go = (path, options) => function () { return this.routeDirectly(path, arguments, options) }
+const go = (path, options) => {
+  const route = function () { return this.routeDirectly(path, arguments, options) }
+  route.viewPath = path // read by test/app/core/Router.spec.js to check the view is registered in lib/dynamicRequire
+  return route
+}
 
 // This can be wrapped around existing route functions,
 // to restrict the new teacher dashboard only for admins (using flag newTeacherDashboardActive)
@@ -113,7 +117,6 @@ module.exports = (CocoRouter = (function () {
         'admin/files': go('admin/FilesView'),
         'admin/analytics': go('admin/AnalyticsView'),
         'admin/level-hints': go('admin/AdminLevelHintsView'),
-        'admin/level-sessions': go('admin/LevelSessionsView'),
         'admin/school-counts': go('admin/SchoolCountsView'),
         'admin/school-licenses': go('admin/SchoolLicensesView'),
         'admin/sub-cancellations': go('admin/AdminSubCancellationsView'),
@@ -223,6 +226,8 @@ module.exports = (CocoRouter = (function () {
         'editor/ai-project/:chatID': go('editor/ai-project/AIProjectEditView'),
         'editor/ai-model': go('editor/ai-model/AIModelSearchView'),
         'editor/ai-model/:modelID': go('editor/ai-model/AIModelEditView'),
+        'editor/ai-story-world': go('editor/ai-story-world/AIStoryWorldSearchView'),
+        'editor/ai-story-world/:worldID': go('editor/ai-story-world/AIStoryWorldEditView'),
         'editor/ai-document': go('editor/ai-document/AIDocumentSearchView'),
         'editor/ai-document/:documentID': go('editor/ai-document/AIDocumentEditView'),
         'editor/ai-chat-message': go('editor/ai-chat-message/AIChatMessageSearchView'),

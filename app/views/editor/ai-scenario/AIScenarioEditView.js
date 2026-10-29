@@ -15,13 +15,15 @@ const VersionHistoryView = require('./AIScenarioVersionsModal')
 const AIScenarioForkModal = require('./AIScenarioForkModal')
 const ScenarioScriptPanel = require('./ScenarioScriptPanel.vue').default
 const { createScriptStore } = require('lib/scenario-script')
+const { loadWorldChain, buildStoryContext } = require('lib/story-world-chain')
 
-// Settings tab order: identity, catalog tags, AI behaviour, evaluation, translations.
+// Settings tab order: identity, catalog tags, AI behaviour, evaluation, story, translations.
 const SETTINGS_ORDER = [
   'name', 'releasePhase', 'archived',
   'mode', 'tool', 'task', 'doc', 'persona', 'labels', 'priority', 'coverImage',
   'promptType', 'additionalSystemPrompts', 'allowFileUpload', 'minMsgs',
   'evaluationRules', 'evaluationPhase',
+  'isStory', 'storyWorld', 'forkOf', 'objectives', 'characters', 'backgrounds',
   'i18n',
 ]
 // Edited elsewhere (the queue, in the Script tab) or maintained by the server.
@@ -72,6 +74,8 @@ module.exports = (AIScenarioEditView = (function () {
       super(options)
       this.onChange = this.onChange.bind(this)
       this.deleteAIScenario = this.deleteAIScenario.bind(this)
+      // Treema fires a change per keystroke; the story context rebuild waits for a pause.
+      this.scheduleStoryContext = _.debounce(() => this.refreshStoryContext(), 150)
       this.scenarioID = scenarioID
       this.scenario = new AIScenario({ _id: this.scenarioID })
       this.scenario.saveBackups = true
@@ -87,6 +91,7 @@ module.exports = (AIScenarioEditView = (function () {
           // Settings edits to the phase or mode change the live-edit warning and the lint.
           this.scriptPanel.$props.releasePhase = this.scenario.get('releasePhase') || 'draft'
           this.scriptPanel.$props.mode = this.scenario.get('mode') || ''
+          this.scheduleStoryContext()
         }
         return this.treema.set('/', this.settingsData())
       })
@@ -157,12 +162,36 @@ module.exports = (AIScenarioEditView = (function () {
           readOnly: Boolean(me.get('anonymous')) || !this.scenario.hasWriteAccess(),
           releasePhase: this.scenario.get('releasePhase') || 'draft',
           mode: this.scenario.get('mode') || '',
+          storyContext: buildStoryContext(this.scenario.attributes, null),
         },
       })
       this.scriptPanel.$on('changed', (changes, problems) => this.updateSaveBadge(changes, problems))
+      this.refreshStoryContext()
       this.scriptStore.load().catch(err => {
         noty({ type: 'error', text: `Could not load the script: ${err.message || err}`, timeout: 8000 })
       })
+    }
+
+    // The Story controls offer the cast and scenes the story page will resolve: the scenario's own
+    // lists, live from the Settings tab, plus its world chain, fetched once per storyWorld and only
+    // for a story scenario (the classic page resolves nothing, so a non-story script must not pick
+    // up a missing-world warning). A world that fails to load leaves the panel working with what
+    // did load (storyContext.missingWorld).
+    refreshStoryContext () {
+      if (!this.scriptPanel) { return }
+      const slug = this.scenario.get('isStory') ? (this.scenario.get('storyWorld') || '') : null
+      if (slug !== this.worldChainSlug) {
+        this.worldChainSlug = slug
+        this.worldChain = null
+        if (slug !== null) {
+          loadWorldChain(slug, fetchJson).then(chain => {
+            if (!this.scriptPanel || this.worldChainSlug !== slug) { return }
+            this.worldChain = chain
+            this.refreshStoryContext()
+          })
+        }
+      }
+      this.scriptPanel.$props.storyContext = buildStoryContext(this.scenario.attributes, this.worldChain)
     }
 
     // The navbar Save icon carries the number of pending script changes, red when something blocks Save.

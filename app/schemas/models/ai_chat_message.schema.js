@@ -62,9 +62,36 @@ _.extend(AIChatMessageSchema.properties, {
           },
         },
       },
+      exits: {
+        type: 'array',
+        description: 'end-of-lesson: the buttons the closing line offers, primary first',
+        items: {
+          type: 'object',
+          additionalProperties: true,
+          properties: {
+            kind: { type: 'string', enum: ['next-level', 'map', 'free-chat'], title: 'Kind' },
+            label: { type: 'string', title: 'Label', description: 'Button text; absent → the default for the kind' },
+            i18n: {
+              type: 'object',
+              format: 'i18n',
+              props: ['label'],
+              description: 'Help translate this property',
+            },
+          },
+        },
+      },
+      nextLevel: {
+        type: 'string',
+        title: 'Next level',
+        description: 'end-of-lesson: original of the scenario next-level goes to; absent → the map connection',
+      },
     },
   },
   i18n: { title: 'I18n', type: 'object', description: 'Help translate this property', format: 'i18n', props: ['text'] },
+  character: { title: 'Character', type: 'string', description: 'id from characters (scenario, then world chain); who speaks this teacher/celebrate line. Absent or unknown → classic Teacher label' },
+  objective: { title: 'Objective', type: 'string', description: "id from the scenario's objectives; activates (shows) that objective when this message plays" },
+  background: { title: 'Background', type: 'string', description: 'id from backgrounds (scenario, then world chain); switch to that scene when this message plays. Unknown id → no switch' },
+  fromStep: { title: 'From Step', type: 'string', description: 'id of the scenario step that produced this logged player message: a quiz answered correctly, a live prompt or a scripted player line. Absent on free chat' },
   ownerID: { title: 'Owner Id', type: ['object', 'string'], description: 'The user who created this chat message' },
   safetyValidation: {
     title: 'Safety Validation',

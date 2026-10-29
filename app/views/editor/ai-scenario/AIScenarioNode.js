@@ -13,11 +13,12 @@ class HackstackScenarioIDNode extends treemaExt.LatestVersionOriginalReferenceNo
     const data = this.getData()
     if (data) {
       this.getSearchResultsEl().empty().append('Loading scenario...')
-      // Fetch the scenario directly by ID
+      // The stored value is the original; its latest version carries the current name. By id alone the server
+      // answers with the first version (its _id equals the original), named as before any rename.
       const Model = this.model
       const model = new Model()
       model.set('original', data)
-      model.setURL(`/db/ai_scenario/${data}`)
+      model.setURL(`/db/ai_scenario/${data}/version`)
       model.fetch({
         success: () => {
           this.instance = model

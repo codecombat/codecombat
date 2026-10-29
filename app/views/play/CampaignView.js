@@ -2001,7 +2001,11 @@ class CampaignView extends RootView {
     if (/requires a subscription to play/.test(error?.responseJSON?.message)) { return } // We handle this with SubscribeModal separately
     const levelElement = this.$el.find('.level-info-container:visible')
     if (session.levelSlug !== levelElement.data('level-slug')) { return }
-    levelElement.find('.level-error-message').text(error.responseJSON?.message || `Cannot load this level--error ${error.statusCode || 500}`)
+    let errorMessage = error.responseJSON?.message || `Cannot load this level--error ${error.statusCode || 500}`
+    if (error.responseJSON?.i18n) {
+      errorMessage = $.i18n.t(error.responseJSON.i18n)
+    }
+    levelElement.find('.level-error-message').text(errorMessage)
     levelElement.toggleClass('has-loading-error', true)
   }
 

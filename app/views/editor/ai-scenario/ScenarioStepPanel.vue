@@ -26,7 +26,7 @@
         <select
           class="form-control"
           :value="step.actor"
-          :disabled="readOnly"
+          :disabled="readOnly || isLivePrompt"
           @change="setActor($event.target.value)"
         >
           <option
@@ -63,6 +63,10 @@
         v-if="isQuiz"
         class="hint"
       >{{ $t('editor.scenario_step_text_quiz_hint') }}</span>
+      <span
+        v-if="isLivePrompt"
+        class="hint"
+      >{{ $t('editor.scenario_step_text_live_prompt_hint') }}</span>
       <textarea
         class="form-control"
         rows="5"
@@ -127,6 +131,183 @@
       </button>
     </fieldset>
 
+    <scenario-step-exits
+      v-if="actionType === 'end-of-lesson'"
+      class="choices"
+      :store="store"
+      :step="step"
+      :read-only="readOnly"
+      @changed="changed"
+    />
+
+    <div class="section story">
+      <button
+        type="button"
+        class="section-title toggle"
+        @click="storyOpen = !storyOpen"
+      >
+        <span :class="['caret', { open: storyOpen }]" />
+        {{ $t('editor.scenario_step_story') }}
+      </button>
+      <div
+        v-if="storyOpen"
+        class="story-fields"
+      >
+        <label v-if="speakerByRole">
+          <span>{{ $t('editor.scenario_step_speaker') }}</span>
+          <span class="static">{{ $t('editor.scenario_step_speaker_by_role') }} {{ roleLabel }}</span>
+        </label>
+        <label v-else>
+          <span>{{ $t('editor.scenario_step_speaker') }}</span>
+          <select
+            class="form-control speaker"
+            :value="step.character || ''"
+            :disabled="readOnly"
+            @change="setStoryField('character', $event.target.value)"
+          >
+            <option value="">
+              {{ speakerDefaultLabel }}
+            </option>
+            <option
+              v-if="unknownCharacter"
+              :value="step.character"
+            >
+              ⚠ {{ $t('editor.scenario_step_unknown') }} {{ step.character }}
+            </option>
+            <optgroup
+              v-for="group in speakerGroups"
+              :key="group.source"
+              :label="group.source"
+            >
+              <option
+                v-for="c in group.entries"
+                :key="c.id"
+                :value="c.id"
+              >
+                {{ c.name }} · {{ c.id }}
+              </option>
+            </optgroup>
+          </select>
+        </label>
+        <label>
+          <span>{{ $t('editor.scenario_step_objective') }}</span>
+          <select
+            class="form-control objective"
+            :value="step.objective || ''"
+            :disabled="readOnly"
+            @change="setStoryField('objective', $event.target.value)"
+          >
+            <option value="">
+              {{ $t('editor.scenario_step_objective_none') }}
+            </option>
+            <option
+              v-if="unknownObjective"
+              :value="step.objective"
+            >
+              ⚠ {{ $t('editor.scenario_step_unknown') }} {{ step.objective }}
+            </option>
+            <option
+              v-for="o in story.objectives"
+              :key="o.id"
+              :value="o.id"
+            >
+              {{ o.id }} — {{ truncate(o.text) }}
+            </option>
+          </select>
+        </label>
+        <label>
+          <span>{{ $t('editor.scenario_step_background') }}</span>
+          <select
+            class="form-control background"
+            :value="step.background || ''"
+            :disabled="readOnly"
+            @change="setStoryField('background', $event.target.value)"
+          >
+            <option value="">
+              {{ $t('editor.scenario_step_background_none') }}
+            </option>
+            <option
+              v-if="unknownBackground"
+              :value="step.background"
+            >
+              ⚠ {{ $t('editor.scenario_step_unknown') }} {{ step.background }}
+            </option>
+            <optgroup
+              v-for="group in backgroundGroups"
+              :key="group.source"
+              :label="group.source"
+            >
+              <option
+                v-for="b in group.entries"
+                :key="b.id"
+                :value="b.id"
+              >
+                {{ b.id }}
+              </option>
+            </optgroup>
+          </select>
+        </label>
+        <fieldset
+          v-if="actionType === 'continue'"
+          class="pacing"
+        >
+          <legend>{{ $t('editor.scenario_step_pacing') }}</legend>
+          <label class="radio-label">
+            <input
+              type="radio"
+              :name="'pacing-' + step.key"
+              value="derived"
+              :checked="pacing === 'derived'"
+              :disabled="readOnly"
+              @change="setPacing('derived')"
+            >
+            <span>{{ $t('editor.scenario_step_pacing_derived') }}</span>
+          </label>
+          <label class="radio-label">
+            <input
+              type="radio"
+              :name="'pacing-' + step.key"
+              value="wait"
+              :checked="pacing === 'wait'"
+              :disabled="readOnly"
+              @change="setPacing('wait')"
+            >
+            <span>{{ $t('editor.scenario_step_pacing_wait') }}</span>
+          </label>
+          <label class="radio-label auto">
+            <input
+              type="radio"
+              :name="'pacing-' + step.key"
+              value="auto"
+              :checked="pacing === 'auto'"
+              :disabled="readOnly"
+              @change="setPacing('auto')"
+            >
+            <span>{{ $t('editor.scenario_step_pacing_auto_after') }}</span>
+            <input
+              class="form-control ms"
+              type="number"
+              min="100"
+              step="100"
+              :value="autoAdvanceMs"
+              :disabled="readOnly || pacing !== 'auto'"
+              @change="setAutoAdvanceMs($event.target.value)"
+            >
+            <span>ms</span>
+          </label>
+        </fieldset>
+        <p class="hint">
+          {{ $t('editor.scenario_step_story_hint_speaker') }}
+        </p>
+        <p
+          v-if="actionType === 'continue'"
+          class="hint"
+        >
+          {{ $t('editor.scenario_step_story_hint_pacing') }}
+        </p>
+      </div>
+    </div>
+
     <div class="section">
       <div class="section-title">
         {{ $t('editor.scenario_step_attachments') }}
@@ -181,18 +362,85 @@
 </template>
 
 <script>
+const ScenarioStepExits = require('./ScenarioStepExits.vue').default
+
+const EMPTY_STORY = { isStory: false, characters: [], objectives: [], backgrounds: [], defaultAlly: null, missingWorld: null }
+const SPEAKER_ROLES = ['ally', 'npc']
+const DEFAULT_AUTO_ADVANCE_MS = 1000
+
+// Entries grouped by their source (scenario first, then each world), in the order given.
+function groupBySource (entries) {
+  const groups = []
+  for (const entry of entries) {
+    let group = groups.find(g => g.source === entry.source)
+    if (!group) { groups.push(group = { source: entry.source, entries: [] }) }
+    group.entries.push(entry)
+  }
+  return groups
+}
+
 // The selected step, in full: every field the Script tab can change, plus
 // read-only attachments and translations. Writes go through the store; the
 // parent redraws on `changed`.
 export default Vue.extend({
   name: 'ScenarioStepPanel',
+  components: { ScenarioStepExits },
   props: {
     store: { type: Object, required: true },
     step: { type: Object, required: true },
     index: { type: Number, required: true },
     readOnly: { type: Boolean, default: false },
+    // From lib/story-world-chain buildStoryContext; null while the editor has none.
+    storyContext: { type: Object, default: null },
+  },
+  data () {
+    const story = this.storyContext || EMPTY_STORY
+    // Open where the fields matter: story scenarios, and steps that already have a story field or pacing.
+    return { storyOpen: Boolean(story.isStory) || this.hasStoryData() }
   },
   computed: {
+    story () {
+      return this.storyContext || EMPTY_STORY
+    },
+    speakerByRole () {
+      return this.store.BY_ROLE_ACTORS.includes(this.step.actor)
+    },
+    roleLabel () {
+      return this.$t(this.step.actor === 'user' ? 'editor.scenario_step_speaker_role_player' : 'editor.scenario_step_speaker_role_hackstack')
+    },
+    speakers () {
+      return this.story.characters.filter(c => SPEAKER_ROLES.includes(c.role))
+    },
+    speakerGroups () {
+      return groupBySource(this.speakers)
+    },
+    speakerDefaultLabel () {
+      const ally = this.story.defaultAlly && this.story.characters.find(c => c.id === this.story.defaultAlly)
+      if (!ally) { return `(${this.$t('editor.scenario_step_speaker_default')} ${this.$t('editor.scenario_step_speaker_no_ally')})` }
+      return `(${this.$t('editor.scenario_step_speaker_default')} ${ally.name} — ${this.$t('editor.scenario_step_speaker_nearest_ally')})`
+    },
+    unknownCharacter () {
+      return Boolean(this.step.character) && !this.speakers.some(c => c.id === this.step.character)
+    },
+    unknownObjective () {
+      return Boolean(this.step.objective) && !this.story.objectives.some(o => o.id === this.step.objective)
+    },
+    backgroundGroups () {
+      return groupBySource(this.story.backgrounds)
+    },
+    unknownBackground () {
+      return Boolean(this.step.background) && !this.story.backgrounds.some(b => b.id === this.step.background)
+    },
+    // null/absent = derived from the queue by the story page, 0 = wait for Continue, > 0 = auto after that many ms.
+    pacing () {
+      const value = this.step.actionData && this.step.actionData.autoAdvance
+      if (value === 0) { return 'wait' }
+      if (typeof value === 'number' && value > 0) { return 'auto' }
+      return 'derived'
+    },
+    autoAdvanceMs () {
+      return this.pacing === 'auto' ? this.step.actionData.autoAdvance : DEFAULT_AUTO_ADVANCE_MS
+    },
     actionType () {
       return (this.step.actionData && this.step.actionData.type) || 'continue'
     },
@@ -201,6 +449,10 @@ export default Vue.extend({
     },
     isQuiz () {
       return this.actionType === 'prompt-quiz' && Array.isArray(this.step.actionData.choices)
+    },
+    // A live prompt is a teacher line with the prompt box attached; its actor is fixed
+    isLivePrompt () {
+      return this.actionType === 'prompt-live'
     },
     attachments () {
       return (this.step.documents || []).map((doc, i) => {
@@ -214,12 +466,40 @@ export default Vue.extend({
       return Object.keys(this.step.i18n || {}).filter(lang => lang !== '-')
     },
   },
+  watch: {
+    'storyContext.isStory' (isStory) {
+      if (isStory) { this.storyOpen = true }
+    },
+  },
   methods: {
     changed () {
       this.$emit('changed')
     },
+    hasStoryData () {
+      const step = this.step
+      return this.store.STORY_FIELDS.some(field => Boolean(step[field])) || (step.actionData && step.actionData.autoAdvance !== undefined)
+    },
+    truncate (text) {
+      const line = (text || '').replace(/\s+/g, ' ').trim()
+      return line.length > 60 ? `${line.slice(0, 60)}…` : line
+    },
     setActor (actor) {
       this.store.setActor(this.step.key, actor)
+      this.changed()
+    },
+    setStoryField (field, value) {
+      this.store.setStoryField(this.step.key, field, value)
+      this.changed()
+    },
+    setPacing (mode) {
+      const value = mode === 'wait' ? 0 : mode === 'auto' ? this.autoAdvanceMs : null
+      this.store.setAutoAdvance(this.step.key, value)
+      this.changed()
+    },
+    setAutoAdvanceMs (raw) {
+      const ms = parseInt(raw, 10)
+      if (!Number.isInteger(ms)) { return }
+      this.store.setAutoAdvance(this.step.key, Math.max(100, ms))
       this.changed()
     },
     setActionType (type) {
@@ -310,6 +590,90 @@ export default Vue.extend({
   .hint {
     font-weight: 400;
     color: #5f594f;
+  }
+
+  .story {
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0;
+      border: 0;
+      background: none;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      color: #4a4439;
+      cursor: pointer;
+
+      .caret {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-left: 5px solid #4a4439;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        transition: transform 0.15s;
+
+        &.open { transform: rotate(90deg); }
+      }
+    }
+
+    .story-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .static {
+      font-weight: 400;
+      font-size: 13px;
+      color: #4a4439;
+      padding: 6px 0;
+    }
+
+    .pacing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      padding: 10px 12px;
+      border: 1px solid #d8d2c4;
+      border-radius: 6px;
+
+      legend {
+        font-size: 12px;
+        font-weight: 600;
+        color: #4a4439;
+        width: auto;
+        padding: 0 4px;
+        margin: 0;
+        border: 0;
+      }
+
+      .radio-label {
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        font-weight: 400;
+        font-size: 13px;
+        margin: 0;
+
+        input[type="radio"] { margin: 0; }
+      }
+
+      .ms {
+        width: 90px;
+        height: 28px;
+        padding: 2px 6px;
+        font-size: 13px;
+      }
+    }
+
+    p.hint {
+      margin: 0;
+      font-size: 12px;
+    }
   }
 
   .choices {

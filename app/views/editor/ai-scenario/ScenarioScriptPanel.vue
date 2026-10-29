@@ -70,6 +70,29 @@
         {{ $t('editor.scenario_lint_clean') }}
       </div>
 
+      <div
+        v-if="storyContext && (storyContext.isStory || storyContext.missingWorld)"
+        class="story-summary"
+      >
+        <template v-if="storyContext.isStory">
+          <div><strong>{{ $t('editor.scenario_story_summary_world') }}</strong> {{ worldChainText }}</div>
+          <div><strong>{{ $t('editor.scenario_story_summary_cast') }}</strong> {{ castText }}</div>
+          <div><strong>{{ $t('editor.scenario_story_summary_objectives') }}</strong> {{ objectivesText }}</div>
+          <div><strong>{{ $t('editor.scenario_story_summary_scenes') }}</strong> {{ scenesText }}</div>
+        </template>
+        <div
+          v-if="storyContext.missingWorld"
+          class="missing"
+        >
+          ⚠ {{ $t('editor.scenario_story_summary_missing_world') }} {{ storyContext.missingWorld }}
+        </div>
+        <a
+          href="#"
+          class="edit-link"
+          @click.prevent="openSettings"
+        >{{ $t('editor.scenario_story_summary_edit') }}</a>
+      </div>
+
       <div class="layout">
         <div class="steps-column">
           <ol class="steps">
@@ -103,7 +126,7 @@
                 <div class="body">
                   <div class="meta">
                     <span :class="['badge-actor', step.actor]">{{ actorLabel(step.actor) }}</span>
-                    <span class="chip">{{ actionLabel(step) }}</span>
+                    <span :class="['chip', actionClass(step)]">{{ actionLabel(step) }}</span>
                     <span
                       v-if="step.kind === 'new'"
                       class="chip pending"
@@ -122,6 +145,26 @@
                       :class="['chip', 'lint', f.severity]"
                       :title="f.message"
                     >{{ f.code }}</span>
+                    <span
+                      v-if="speakerOf(step)"
+                      :class="['chip', 'story', { unknown: speakerOf(step).unknown }]"
+                      :title="$t('editor.scenario_step_speaker')"
+                    >→ {{ speakerOf(step).label }}</span>
+                    <span
+                      v-if="step.objective"
+                      :class="['chip', 'story', { unknown: !known(storyContext && storyContext.objectives, step.objective) }]"
+                      :title="$t('editor.scenario_step_objective')"
+                    >◎ {{ step.objective }}</span>
+                    <span
+                      v-if="step.background"
+                      :class="['chip', 'story', { unknown: !known(storyContext && storyContext.backgrounds, step.background) }]"
+                      :title="$t('editor.scenario_step_background')"
+                    >▣ {{ step.background }}</span>
+                    <span
+                      v-if="pacingOf(step)"
+                      class="chip story"
+                      :title="$t('editor.scenario_step_pacing')"
+                    >⏱ {{ pacingOf(step) }}</span>
                     <span class="langs">{{ languages(step) }}</span>
                   </div>
                   <div class="text">
@@ -275,6 +318,7 @@
             :step="selectedStep"
             :index="selectedIndex"
             :read-only="readOnly"
+            :story-context="storyContext"
             @changed="bump"
             @close="deselect"
           />
@@ -318,7 +362,13 @@ const DOMPurify = require('dompurify')
 const ScenarioStepPanel = require('./ScenarioStepPanel.vue').default
 const { lintScript, findingsByKey } = require('lib/scenario-lint')
 
-const KINDS = ['teacher', 'quiz', 'model', 'end']
+const KINDS = ['teacher', 'prompt', 'quiz', 'model', 'end']
+// What completes an objective, as the summary strip names it; no kind = whichever of quiz or prompt comes next
+const OBJECTIVE_KIND_LABELS = {
+  'quiz-correct': 'editor.scenario_objective_kind_quiz',
+  'prompt-replied': 'editor.scenario_objective_kind_prompt',
+  default: 'editor.scenario_objective_kind_next',
+}
 // The first fenced block of a message; an html document in it is what the player's Output button runs.
 const FENCE = /```(\w*)[ \t]*\n([\s\S]*?)```/
 const HTML_DOC = /^\s*(<!doctype\s+html|<html)/i
@@ -331,6 +381,8 @@ export default Vue.extend({
     readOnly: { type: Boolean, default: false },
     releasePhase: { type: String, default: 'draft' },
     mode: { type: String, default: '' },
+    // From lib/story-world-chain buildStoryContext: the cast, objectives and scenes a step can reference.
+    storyContext: { type: Object, default: null },
   },
   data () {
     return {
@@ -345,7 +397,7 @@ export default Vue.extend({
     kinds () { return KINDS },
     lint () {
       this.tick // eslint-disable-line no-unused-expressions
-      return lintScript(this.state.steps, { mode: this.mode })
+      return lintScript(this.state.steps, { mode: this.mode, story: this.storyContext || undefined })
     },
     lintByKey () {
       return findingsByKey(this.lint)
@@ -386,6 +438,21 @@ export default Vue.extend({
     selectedStep () {
       const step = this.selectedIndex >= 0 ? this.state.steps[this.selectedIndex] : null
       return step && step.kind !== 'dead' ? step : null
+    },
+    // Farthest world first, the way the inheritance reads: galaxy ← hour-of-ai; a world that failed to load is flagged.
+    worldChainText () {
+      const chain = this.storyContext.worldChain.slice().reverse()
+      if (this.storyContext.missingWorld) { chain.unshift(`⚠ ${this.storyContext.missingWorld}`) }
+      return chain.join(' ← ') || this.$t('editor.scenario_story_summary_none')
+    },
+    castText () {
+      return this.listText(this.storyContext.characters, c => `${c.id} (${c.role})`)
+    },
+    objectivesText () {
+      return this.listText(this.storyContext.objectives, o => `${o.id} · ${this.$t(OBJECTIVE_KIND_LABELS[o.kind] || OBJECTIVE_KIND_LABELS.default)}`)
+    },
+    scenesText () {
+      return this.listText(this.storyContext.backgrounds, b => b.id)
     },
   },
   methods: {
@@ -445,6 +512,9 @@ export default Vue.extend({
     kindLabel (kind) {
       return this.$t(`editor.scenario_script_kind_${kind}`)
     },
+    actionClass (step) {
+      return step.actionData && step.actionData.type === 'prompt-live' ? 'live-prompt' : null
+    },
     attachmentCount (step) {
       return (step.documents || []).length
     },
@@ -454,6 +524,29 @@ export default Vue.extend({
     },
     lintFor (step) {
       return this.lintByKey[step.key] || []
+    },
+    listText (entries, label) {
+      return entries.length ? entries.map(label).join(' · ') : this.$t('editor.scenario_story_summary_none')
+    },
+    known (entries, id) {
+      return Boolean(entries && entries.some(entry => entry.id === id))
+    },
+    // { label, unknown } for the speaker chip: the character's name, or its id flagged when the context does not know it.
+    speakerOf (step) {
+      if (!step.character) { return null }
+      const character = this.storyContext && this.storyContext.characters.find(c => c.id === step.character)
+      return character ? { label: character.name, unknown: false } : { label: `⚠ ${step.character}`, unknown: true }
+    },
+    pacingOf (step) {
+      const value = step.actionData && step.actionData.autoAdvance
+      if (value === 0) { return this.$t('editor.scenario_step_pacing_wait_short') }
+      if (typeof value === 'number' && value > 0) { return `${value} ms` }
+      return null
+    },
+    // The cast, objectives and scenes are edited in the Settings tab's Treema.
+    openSettings () {
+      const link = document.querySelector('a[href="#ai-scenario-settings-tab"]')
+      if (link && window.$ && window.$.fn && window.$.fn.tab) { window.$(link).tab('show') }
     },
     // A click on the card selects it; clicks on its controls, menus and links do their own thing.
     onCardClick (event, step) {
@@ -573,6 +666,24 @@ export default Vue.extend({
     color: #5f594f;
   }
 
+  .story-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #4a4439;
+    background: #f8f5ee;
+    border: 1px solid #d8d2c4;
+    border-radius: 6px;
+    overflow-wrap: anywhere;
+
+    strong { margin-right: 4px; }
+    .missing { color: #7a3e00; }
+    .edit-link { align-self: flex-start; }
+  }
+
   .layout {
     display: flex;
     flex-wrap: wrap;
@@ -669,6 +780,12 @@ export default Vue.extend({
       &.alert { background: #fde8e1; color: #8a2d0c; }
     }
 
+    .chip.live-prompt {
+      background: #d6eef0;
+      color: #0d4f57;
+      font-weight: 600;
+    }
+
     .chip.pending {
       background: #fde8e1;
       color: #8a2d0c;
@@ -683,6 +800,16 @@ export default Vue.extend({
     .chip.lint.info {
       background: #efece4;
       color: #5f594f;
+    }
+
+    .chip.story {
+      background: #e7f1ef;
+      color: #1d5c4f;
+    }
+
+    .chip.story.unknown {
+      background: #fdebd0;
+      color: #7a3e00;
     }
 
     .langs {

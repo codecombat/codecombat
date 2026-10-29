@@ -11,11 +11,20 @@
  * store never writes the scenario itself.
  *
  * Unsaved work is mirrored to localStorage so a reload can offer it back.
+ *
+ * Story fields (character, objective, background) are plain ids on the
+ * message. In the working copy `null` means "cleared": the PUT sends null and
+ * the server removes the field; a new step's POST leaves unset fields out.
  */
 
 const ACTORS = ['teacher', 'user', 'model', 'celebrate', 'alert']
-const ACTION_TYPES = ['continue', 'prompt-quiz', 'prompt-input', 'end-of-lesson']
-const EDITABLE_FIELDS = ['actor', 'text', 'actionData']
+// Player and HackStack lines are resolved by role on the story page; a character id on them is ignored.
+const BY_ROLE_ACTORS = ['user', 'model']
+const ACTION_TYPES = ['continue', 'prompt-quiz', 'prompt-input', 'end-of-lesson', 'prompt-live']
+// Buttons an end step can offer; a new end step starts with Next level only, authors add the rest.
+const EXIT_KINDS = ['next-level', 'map', 'free-chat']
+const STORY_FIELDS = ['character', 'objective', 'background']
+const EDITABLE_FIELDS = ['actor', 'text', 'actionData', ...STORY_FIELDS]
 const BACKUP_PREFIX = 'scenario-script-backup:'
 
 // Same shapes the HackStack builder creates (useInsertTeacherMessage, End lesson).
@@ -27,7 +36,9 @@ const STEP_TEMPLATES = {
     text: '',
     actionData: { type: 'prompt-quiz', answerIndex: 0, choices: [{ text: '', responseText: '' }, { text: '', responseText: '' }] },
   }),
-  end: () => ({ actor: 'celebrate', text: '', actionData: { type: 'end-of-lesson' } }),
+  end: () => ({ actor: 'celebrate', text: '', actionData: { type: 'end-of-lesson', exits: [{ kind: 'next-level' }] } }),
+  // A teacher line with the prompt box attached: the script goes on once HackStack has replied.
+  prompt: () => ({ actor: 'teacher', text: '', actionData: { type: 'prompt-live' } }),
 }
 
 function queueIdOf (item) {
@@ -39,10 +50,27 @@ function clone (value) {
   return value === undefined ? undefined : JSON.parse(JSON.stringify(value))
 }
 
+// A cleared story field (null) and one never set compare equal, so clearing what was never there is no change.
 function editableSnapshot (step) {
   const picked = {}
-  for (const field of EDITABLE_FIELDS) { picked[field] = step[field] }
+  for (const field of EDITABLE_FIELDS) { picked[field] = step[field] === null ? undefined : step[field] }
   return JSON.stringify(picked)
+}
+
+// Every step has every story key, set or not: Vue observes own keys only, and a backup (JSON) drops undefined ones.
+function blankStoryFields () {
+  const fields = {}
+  for (const field of STORY_FIELDS) { fields[field] = undefined }
+  return fields
+}
+
+/** The story fields set on a message or step, non-empty strings only. */
+function storyFieldsOf (source) {
+  const fields = {}
+  for (const field of STORY_FIELDS) {
+    if (typeof source[field] === 'string' && source[field]) { fields[field] = source[field] }
+  }
+  return fields
 }
 
 /**
@@ -78,7 +106,7 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
       documents: [],
       i18n: undefined,
       ownerID: undefined,
-    }, clone(fields), extra)
+    }, blankStoryFields(), clone(fields), extra)
     step.snapshot = step.kind === 'live' ? editableSnapshot(step) : null
     return step
   }
@@ -104,14 +132,14 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
       const id = queueIdOf(item)
       const message = id && byId[id]
       if (!message) { return makeStep({}, { id, kind: 'dead' }) }
-      return makeStep({
+      return makeStep(Object.assign({
         actor: message.actor,
         text: message.text,
         actionData: message.actionData,
         documents: message.documents,
         i18n: message.i18n,
         ownerID: message.ownerID,
-      }, { id, kind: 'live' })
+      }, storyFieldsOf(message)), { id, kind: 'live' })
     })
   }
 
@@ -142,7 +170,38 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
 
   function setActor (key, actor) {
     if (!ACTORS.includes(actor)) { throw new Error(`unknown actor ${actor}`) }
-    stepByKey(key).actor = actor
+    const step = stepByKey(key)
+    if (isLivePrompt(step) && actor !== 'teacher') { throw new Error('a live prompt is a teacher line') }
+    step.actor = actor
+    if (BY_ROLE_ACTORS.includes(actor) && step.character) { step.character = null }
+    touch()
+  }
+
+  /** `value` is an id or null; blanks clear the field. */
+  function setStoryField (key, field, value) {
+    if (!STORY_FIELDS.includes(field)) { throw new Error(`unknown story field ${field}`) }
+    const trimmed = typeof value === 'string' ? value.trim() : ''
+    stepByKey(key)[field] = trimmed || null
+    touch()
+  }
+
+  /**
+   * Pacing of a continue step: null = derived from the queue by the story page,
+   * 0 = wait for Continue, a positive integer = auto-advance after that many ms.
+   */
+  function setAutoAdvance (key, value) {
+    const step = stepByKey(key)
+    if (!step.actionData || step.actionData.type !== 'continue') { throw new Error(`step ${key} is not a continue action`) }
+    // A new actionData object, not a key added or deleted in place: the panel's Vue watchers only see replaced values.
+    if (value === null || value === undefined) {
+      const next = Object.assign({}, step.actionData)
+      delete next.autoAdvance
+      step.actionData = next
+    } else if (Number.isInteger(value) && value >= 0) {
+      step.actionData = Object.assign({}, step.actionData, { autoAdvance: value })
+    } else {
+      throw new Error(`autoAdvance must be null, 0 or a positive integer of ms, not ${value}`)
+    }
     touch()
   }
 
@@ -151,7 +210,10 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
     touch()
   }
 
-  /** Switching to a quiz adds two empty choices; switching away keeps only the type. */
+  /**
+   * Switching to a quiz adds two empty choices, to an end step the default exits, to a live prompt makes the line a
+   * teacher's; switching away keeps only the type.
+   */
   function setActionType (key, type) {
     if (!ACTION_TYPES.includes(type)) { throw new Error(`unknown action type ${type}`) }
     const step = stepByKey(key)
@@ -159,9 +221,77 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
     if (type === 'prompt-quiz') {
       step.actionData = STEP_TEMPLATES.quiz().actionData
       if (step.text) { step.actionData.choices[0].text = step.text }
+    } else if (type === 'end-of-lesson') {
+      step.actionData = STEP_TEMPLATES.end().actionData
     } else {
       step.actionData = { type }
     }
+    if (type === 'prompt-live') { step.actor = 'teacher' }
+    touch()
+  }
+
+  function isLivePrompt (step) {
+    return !!step.actionData && step.actionData.type === 'prompt-live'
+  }
+
+  function endOf (step) {
+    if (!step.actionData || step.actionData.type !== 'end-of-lesson') { throw new Error(`step ${step.key} is not an end step`) }
+    return step.actionData
+  }
+
+  // Exits and the next level change a new actionData object: the panel's Vue watchers only see replaced values.
+  function setExits (step, exits) {
+    step.actionData = Object.assign({}, endOf(step), { exits })
+    touch()
+  }
+
+  function exitsOf (step) {
+    return (endOf(step).exits || []).map(exit => Object.assign({}, exit))
+  }
+
+  function addExit (key, kind) {
+    if (!EXIT_KINDS.includes(kind)) { throw new Error(`unknown exit kind ${kind}`) }
+    const step = stepByKey(key)
+    setExits(step, exitsOf(step).concat([{ kind }]))
+  }
+
+  /** `fields`: kind and/or label; a blank label is removed, so the button shows the default for its kind. */
+  function setExit (key, index, fields) {
+    const step = stepByKey(key)
+    const exits = exitsOf(step)
+    if (!exits[index]) { throw new Error(`no exit ${index} on step ${key}`) }
+    if (fields.kind !== undefined && !EXIT_KINDS.includes(fields.kind)) { throw new Error(`unknown exit kind ${fields.kind}`) }
+    const exit = Object.assign(exits[index], fields)
+    if (typeof exit.label === 'string' && !exit.label.trim()) { delete exit.label }
+    setExits(step, exits)
+  }
+
+  function removeExit (key, index) {
+    const step = stepByKey(key)
+    const exits = exitsOf(step)
+    if (!exits[index]) { throw new Error(`no exit ${index} on step ${key}`) }
+    exits.splice(index, 1)
+    setExits(step, exits)
+  }
+
+  function moveExit (key, index, delta) {
+    const step = stepByKey(key)
+    const exits = exitsOf(step)
+    const to = index + delta
+    if (!exits[index] || to < 0 || to >= exits.length) { return false }
+    const [exit] = exits.splice(index, 1)
+    exits.splice(to, 0, exit)
+    setExits(step, exits)
+    return true
+  }
+
+  /** The scenario `next-level` goes to, by its original; null or blank = the map's next level. */
+  function setNextLevel (key, original) {
+    const step = stepByKey(key)
+    const next = Object.assign({}, endOf(step))
+    const trimmed = typeof original === 'string' ? original.trim() : ''
+    if (trimmed) { next.nextLevel = trimmed } else { delete next.nextLevel }
+    step.actionData = next
     touch()
   }
 
@@ -249,7 +379,7 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
   function duplicate (key) {
     const source = stepByKey(key)
     if (source.kind === 'dead') { throw new Error('cannot duplicate a dead step') }
-    const step = makeStep({ actor: source.actor, text: source.text, actionData: source.actionData, documents: source.documents, i18n: source.i18n })
+    const step = makeStep(Object.assign({ actor: source.actor, text: source.text, actionData: source.actionData, documents: source.documents, i18n: source.i18n }, storyFieldsOf(source)))
     state.steps.splice(indexOfKey(key) + 1, 0, step)
     state.selectedKey = step.key
     touch()
@@ -259,7 +389,7 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
   /** Fetch any message by id and insert a copy of it after `afterKey`. */
   function insertCopyById (afterKey, id) {
     return fetchJson(`/db/ai_chat_message/${id}`).then(message => {
-      const step = makeStep({ actor: message.actor, text: message.text, actionData: message.actionData, documents: message.documents, i18n: message.i18n })
+      const step = makeStep(Object.assign({ actor: message.actor, text: message.text, actionData: message.actionData, documents: message.documents, i18n: message.i18n }, storyFieldsOf(message)))
       const at = afterKey === null || afterKey === undefined ? 0 : indexOfKey(afterKey) + 1
       state.steps.splice(at, 0, step)
       state.selectedKey = step.key
@@ -334,6 +464,11 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
         if (!quiz.choices || quiz.choices.length < 2) { problems.push({ key: step.key, index: i, message: 'a quiz needs at least two choices' }) }
         if (quiz.choices && quiz.choices.some(c => !c.text || !c.text.trim())) { problems.push({ key: step.key, index: i, message: 'empty choice' }) }
       }
+      const exits = step.actionData && step.actionData.type === 'end-of-lesson' ? step.actionData.exits : undefined
+      if (Array.isArray(exits)) {
+        if (!exits.length) { problems.push({ key: step.key, index: i, message: 'an end step needs at least one exit' }) }
+        if (exits.some(exit => !EXIT_KINDS.includes(exit && exit.kind))) { problems.push({ key: step.key, index: i, message: 'unknown exit kind' }) }
+      }
     })
     return problems
   }
@@ -344,7 +479,9 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
     const before = JSON.parse(step.snapshot)
     const body = {}
     for (const field of EDITABLE_FIELDS) {
-      if (JSON.stringify(step[field]) !== JSON.stringify(before[field])) { body[field] = step[field] }
+      const value = step[field] === null ? undefined : step[field]
+      if (JSON.stringify(value) === JSON.stringify(before[field])) { continue }
+      body[field] = value === undefined ? null : value // null asks the server to remove the field
     }
     return body
   }
@@ -382,14 +519,14 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
       return Promise.reject(Object.assign(new Error(`cannot save: ${problems.map(p => `step ${p.index + 1} ${p.message}`).join(', ')}`), { problems }))
     }
     return sequence(newSteps(), step => {
-      const body = {
+      const body = Object.assign({
         parent: scenario.original,
         parentKind: 'scenario',
         actor: step.actor,
         text: step.text,
         actionData: step.actionData,
         documents: documentIds(step),
-      }
+      }, storyFieldsOf(step))
       if (step.i18n) { body.i18n = step.i18n }
       return fetchJson('/db/ai_chat_message', { method: 'POST', json: body }).then(saved => {
         step.id = String(typeof saved === 'string' ? saved : saved._id)
@@ -466,7 +603,7 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
   function restoreFromBackup () {
     const backup = readBackup()
     if (!backup) { return false }
-    state.steps = backup.steps
+    state.steps = backup.steps.map(step => Object.assign(blankStoryFields(), step))
     state.deleted = backup.deleted || []
     nextKey = Math.max(nextKey, backup.nextKey || 1)
     state.selectedKey = null
@@ -481,16 +618,26 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
   return {
     state,
     ACTORS,
+    BY_ROLE_ACTORS,
     ACTION_TYPES,
+    EXIT_KINDS,
+    STORY_FIELDS,
     load,
     select,
     setActor,
     setText,
     setActionType,
+    setStoryField,
+    setAutoAdvance,
     setChoice,
     addChoice,
     removeChoice,
     setAnswerIndex,
+    addExit,
+    setExit,
+    removeExit,
+    moveExit,
+    setNextLevel,
     move,
     insertAfter,
     append,
@@ -512,4 +659,4 @@ function createScriptStore ({ scenario, fetchJson, storage, now } = {}) {
   }
 }
 
-module.exports = { createScriptStore, ACTORS, ACTION_TYPES, STEP_TEMPLATES, queueIdOf }
+module.exports = { createScriptStore, ACTORS, BY_ROLE_ACTORS, ACTION_TYPES, EXIT_KINDS, STORY_FIELDS, STEP_TEMPLATES, queueIdOf }
