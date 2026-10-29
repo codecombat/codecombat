@@ -415,11 +415,16 @@ module.exports = (AIScenarioEditView = (function () {
         return
       }
       // Another author may have saved since this page opened: the notice names the latest as of
-      // now. A stalled request must not keep Save closed: past the limit the modal opens with the
-      // latest known at open.
-      const limit = new Promise(resolve => setTimeout(resolve, this.latestRefreshLimitMs))
-      return Promise.race([this.refreshLatestVersion(), limit]).then(() => {
+      // now. A stalled request must not keep Save closed: past the limit, as after a failed
+      // refresh, the latest counts as unknown for this save and the modal asks before saving.
+      const limit = new Promise(resolve => setTimeout(() => resolve(null), this.latestRefreshLimitMs))
+      return Promise.race([this.refreshLatestVersion(), limit]).then(doc => {
         if (this.destroyed) { return }
+        if (!doc) {
+          this.latestVersion = null
+          this.versionCheckFailed = true
+          this.updateVersionBanner()
+        }
         const scriptSummary = this.scriptSummary()
         const modal = new ScenarioSaveVersionModal({
           model: this.scenario,
@@ -435,14 +440,19 @@ module.exports = (AIScenarioEditView = (function () {
       })
     }
 
-    // A failed refresh keeps the latest known at open.
+    // Resolves with the latest version, or null when the request failed. An answer that comes
+    // late still updates the banner.
     refreshLatestVersion () {
       return fetchJson(`/db/ai_scenario/${this.scenario.get('original')}/version`).then(doc => {
-        if (this.destroyed) { return }
+        if (this.destroyed) { return null }
         this.latestVersion = doc
         this.versionCheckFailed = false
         this.updateVersionBanner()
-      }, err => console.warn('Could not refresh the latest scenario version:', err))
+        return doc
+      }, err => {
+        console.warn('Could not refresh the latest scenario version:', err)
+        return null
+      })
     }
 
     // The banner above the tabs follows the notice; the tabs themselves are left alone, the Script

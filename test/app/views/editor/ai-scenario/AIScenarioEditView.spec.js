@@ -171,12 +171,13 @@ describe('AIScenarioEditView', function () {
     })
   })
 
-  it('opens the Save modal past a limit when the latest-version request stalls', function (done) {
+  it('opens the Save modal past a limit when the latest-version request stalls, with the latest unknown and a tick to save', function (done) {
     fakeFetch({ [VERSION_URL]: latest })
     me.set('anonymous', false)
     spyOn(me, 'isAdmin').and.returnValue(true)
     this.view = open('fabricator-training', latest)
     settled(this.view).then(() => {
+      this.view.render()
       window.fetch.and.callFake(url => (/\/version$/.test(url.split('?')[0]) ? new Promise(() => {}) : jsonResponse([])))
       this.view.latestRefreshLimitMs = 20
       spyOn(this.view, 'openModalView')
@@ -184,7 +185,29 @@ describe('AIScenarioEditView', function () {
     }).then(() => {
       expect(this.view.openModalView).toHaveBeenCalled()
       const modal = this.view.openModalView.calls.mostRecent().args[0]
-      expect(modal.versionNotice).toBeNull()
+      expect(modal.versionNotice.latest).toBeNull()
+      expect(modal.versionNotice.text).toBe('You are viewing v0.15. Could not check which version is the latest.')
+      expect(modal.needsReplaceConfirm()).toBe(true)
+      expect(this.view.$el.find('#stale-version-banner strong').text()).toContain('Could not check')
+      modal.destroy()
+      done()
+    })
+  })
+
+  it('opens the Save modal with the latest unknown when the refresh fails', function (done) {
+    const routes = { [VERSION_URL]: latest }
+    fakeFetch(routes)
+    me.set('anonymous', false)
+    spyOn(me, 'isAdmin').and.returnValue(true)
+    this.view = open('fabricator-training', latest)
+    settled(this.view).then(() => {
+      delete routes[VERSION_URL]
+      spyOn(this.view, 'openModalView')
+      return this.view.openSaveModal()
+    }).then(() => {
+      const modal = this.view.openModalView.calls.mostRecent().args[0]
+      expect(modal.versionNotice.latest).toBeNull()
+      expect(modal.needsReplaceConfirm()).toBe(true)
       modal.destroy()
       done()
     })
