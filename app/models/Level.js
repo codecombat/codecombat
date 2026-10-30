@@ -16,6 +16,7 @@ let Level
 const CocoModel = require('./CocoModel')
 const LevelComponent = require('./LevelComponent')
 const LevelSystem = require('./LevelSystem')
+const schemas = require('app/schemas/schemas')
 const LevelConstants = require('lib/LevelConstants')
 const ThangTypeConstants = require('lib/ThangTypeConstants')
 const utils = require('core/utils')
@@ -114,6 +115,29 @@ module.exports = (Level = (function () {
         }
       }
       return o
+    }
+
+    // The inventory UI fills a slot only with an item that lists it, and equips an item once, but heroConfig can be
+    // written straight through the API. Removes what the UI could not have produced: an item in a slot it does not
+    // list, then a second copy of an item, keeping the first slot in schema order. An item with no loaded ThangType
+    // stays: Equips cannot load it either.
+    dropIllegalInventoryItems (inventory, thangTypesByOriginal) {
+      const slotOrder = slot => {
+        const index = schemas.heroInventorySlots.indexOf(slot)
+        return index === -1 ? schemas.heroInventorySlots.length : index
+      }
+      const equipped = new Set()
+      for (const slot of Object.keys(inventory).sort((a, b) => slotOrder(a) - slotOrder(b))) {
+        const itemOriginal = inventory[slot]
+        if (!itemOriginal) { continue }
+        const allowedSlots = thangTypesByOriginal[itemOriginal]?.getAllowedSlots()
+        if ((allowedSlots && !allowedSlots.includes(slot)) || equipped.has(itemOriginal)) {
+          console.log(`Dropping item ${itemOriginal} from slot ${slot}: not allowed there or already equipped`)
+          delete inventory[slot]
+        } else {
+          equipped.add(itemOriginal)
+        }
+      }
     }
 
     denormalizeThang (levelThang, supermodel, session, otherSession, thangTypesByOriginal) {
@@ -232,7 +256,10 @@ module.exports = (Level = (function () {
       if (utils.isCodeCombat && isHero) {
         const equips = _.find(levelThang.components, { original: LevelComponent.EquipsID })
         if (equips) {
-          const inventory = session?.get('heroConfig')?.inventory || {}
+          // A copy, so every world built from this session starts from the player's loadout, not the previous world's grants.
+          const inventory = { ...session?.get('heroConfig')?.inventory }
+          // Before the required gear checks below, so they judge the real loadout, and in every world, ranked simulations included.
+          this.dropIllegalInventoryItems(inventory, thangTypesByOriginal)
           if (equips.config == null) { equips.config = {} }
           // If we somehow don't have all our required properties, then grant the rest of them.
           if (!this.headless && !this.isEditorPreview) {
