@@ -65,6 +65,7 @@ module.exports = (AdministerUserModal = (function () {
         'click #school-admin-checkbox': 'onClickSchoolAdminCheckbox',
         'click #online-teacher-checkbox': 'onClickOnlineTeacherCheckbox',
         'click #beta-tester-checkbox': 'onClickBetaTesterCheckbox',
+        'click .ai-disabled-checkbox': 'onClickAiDisabledCheckbox',
         'click #edit-school-admins-link': 'onClickEditSchoolAdmins',
         'click #edit-online-teacher-link': 'onClickEditOnlineTeacher',
         'submit #teacher-search-form': 'onSubmitTeacherSearchForm',
@@ -156,6 +157,7 @@ module.exports = (AdministerUserModal = (function () {
       this.updateStripeStatus()
       this.trialRequest = this.trialRequests.first()
       if (this.trialRequest) { this.models.push(this.trialRequest) }
+      this.fetchAiDisabled()
       this.prepaidTableState = {}
       this.productTableState = {}
       this.foundTeachers = []
@@ -906,6 +908,44 @@ module.exports = (AdministerUserModal = (function () {
       if (!this.updateUserPermission(User.PERMISSIONS.SCHOOL_ADMINISTRATOR, checked)) {
         return e.preventDefault()
       }
+    }
+
+    fetchAiDisabled () {
+      const props = this.trialRequest?.get('properties') || {}
+      const ncesIds = { school: props.nces_id, district: props.nces_district_id }
+      this.aiDisabled = {}
+      for (const kind of ['school', 'district']) {
+        if (!ncesIds[kind]) { continue }
+        fetchJson(`/admin/ai-disabled/${kind}/${ncesIds[kind]}`)
+          .then(info => { this.aiDisabled[kind] = info })
+          .catch(err => { this.aiDisabled[kind] = { error: err.message || `error ${err.code}` } })
+          .then(() => this.renderSelectors(`#ai-disabled-${kind}`))
+      }
+    }
+
+    onClickAiDisabledCheckbox (e) {
+      const kind = this.$(e.target).data('kind')
+      const id = String(this.$(e.target).data('id'))
+      const aiDisabled = this.$(e.target).prop('checked')
+      const who = {
+        user: 'this teacher and their students',
+        classroom: 'the students of this class',
+      }[kind] || `every teacher and student linked to ${this.aiDisabled[kind].name}`
+      if (!window.confirm(`${aiDisabled ? 'DISABLE' : 'ENABLE'} AI for ${who}?`)) {
+        return e.preventDefault()
+      }
+      this.$(e.target).prop('disabled', true)
+      const flagFields = ['aiDisabled', 'aiDisabledChangedAt']
+      fetchJson(`/admin/ai-disabled/${kind}/${id}`, { method: 'PUT', json: { aiDisabled } })
+        .then(updated => {
+          if (kind === 'user') { return this.user.set(_.pick(updated, flagFields)) }
+          if (kind === 'classroom') { return this.classrooms.get(id).set(_.pick(updated, flagFields)) }
+          this.aiDisabled[kind] = updated
+          // A school or district change also sets or clears this teacher's own flag, so re-read it.
+          return fetchJson(`/admin/ai-disabled/user/${this.user.id}`).then(user => this.user.set(_.pick(user, flagFields)))
+        })
+        .catch(err => noty({ text: `Could not save the AI setting: ${err.message}`, type: 'error', layout: 'topCenter', timeout: 5000 }))
+        .then(() => this.renderSelectors(...new Set([kind === 'classroom' ? `#ai-disabled-classroom-${id}` : `#ai-disabled-${kind}`, '#ai-disabled-user'])))
     }
 
     onClickBetaTesterCheckbox (e) {

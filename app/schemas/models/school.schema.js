@@ -19,6 +19,9 @@ const SchoolSchema = schema.object(
     teachers: schema.int({ description: 'Full-Time equivalent teachers' }),
     level: schema.shortString({ description: 'School Level' }),
     website: schema.shortString({ description: 'Website' }),
+    aiDisabled: { type: 'boolean', description: 'Set by an admin: AI is turned off for teachers and students at this school' },
+    aiDisabledChangedBy: schema.objectId(),
+    aiDisabledChangedAt: schema.date(),
     geo: schema.object(
       {},
       {
