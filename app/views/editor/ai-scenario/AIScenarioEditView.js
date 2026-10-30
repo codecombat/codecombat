@@ -15,7 +15,9 @@ const VersionHistoryView = require('./AIScenarioVersionsModal')
 const AIScenarioForkModal = require('./AIScenarioForkModal')
 const ScenarioScriptPanel = require('./ScenarioScriptPanel.vue').default
 const { createScriptStore } = require('lib/scenario-script')
+const { translatedPaths, staleTranslations } = require('lib/stale-translations')
 const { loadWorldChain, buildStoryContext } = require('lib/story-world-chain')
+const { versionFromSearch, versionLabel, resolveVersion, isStale, editUrl } = require('lib/scenario-version')
 
 // Settings tab order: identity, catalog tags, AI behaviour, evaluation, story, translations.
 const SETTINGS_ORDER = [
@@ -33,6 +35,8 @@ const SETTINGS_HIDDEN = [
 ]
 const template = require('app/templates/editor/ai-scenario/edit')
 const AIScenario = require('models/AIScenario')
+const SCENARIO_TRANSLATED_PATHS = translatedPaths(AIScenario.schema)
+const firstWords = step => (step.text || '').replace(/\s+/g, ' ').trim().slice(0, 40)
 const ScenarioSaveVersionModal = require('./ScenarioSaveVersionModal')
 const PatchesView = require('views/editor/PatchesView')
 const ConfirmModal = require('views/core/ConfirmModal')
@@ -53,6 +57,7 @@ module.exports = (AIScenarioEditView = (function () {
       this.prototype.id = 'editor-ai-scenario-edit-view'
       this.prototype.className = 'editor' // full-viewport layout with the editor navbar, like levels and campaigns
       this.prototype.template = template
+      this.prototype.latestRefreshLimitMs = 5000
 
       this.prototype.events = {
         'click #history-button': 'showVersionHistory',
@@ -77,9 +82,84 @@ module.exports = (AIScenarioEditView = (function () {
       // Treema fires a change per keystroke; the story context rebuild waits for a pause.
       this.scheduleStoryContext = _.debounce(() => this.refreshStoryContext(), 150)
       this.scenarioID = scenarioID
-      this.scenario = new AIScenario({ _id: this.scenarioID })
+      this.requestedVersion = this.locationVersion()
+      this.scenario = this.supermodel.loadModel(new AIScenario({ _id: this.scenarioID })).model
+      // Holds the page until the version to edit is settled, so the Settings treema, the Script
+      // tab and Save are all built from that version.
+      this.versionResource = this.supermodel.addSomethingResource('scenario-version')
+      if (this.scenario.loaded) { this.resolveEditedVersion() } else { this.listenToOnce(this.scenario, 'sync', this.resolveEditedVersion) }
+    }
+
+    // The Backbone route drops the query, so ?version=M.m (Version history rows) comes from the location.
+    locationVersion () {
+      return versionFromSearch(document.location.search)
+    }
+
+    // Settle which version this page edits before anything is built from it. The handle resolved
+    // to the exact document it names, so an original id (the _id of v0.0) gave v0.0: switch to
+    // the latest version and put the slug in the URL, so the save builds on the latest and the
+    // Slack link of that save (X-Current-Path) is a slug link too. ?version=M.m loads exactly
+    // that version. Any other document is kept. When the latest cannot be fetched the loaded
+    // document is kept too and the latest stays unknown, so the Save modal still asks before
+    // replacing it. A ?version that is not found keeps the loaded document and says so; the latest
+    // still counts for the banner.
+    resolveEditedVersion () {
+      const loaded = this.scenario.attributes
+      const requested = this.requestedVersion
+      const load = resolveVersion({ handle: this.scenarioID, loaded, version: requested })
+      const versionUrl = `/db/ai_scenario/${loaded.original}/version`
+      const resource = this.versionResource
+      const latest = fetchJson(versionUrl).catch(err => {
+        console.warn('Could not fetch the latest scenario version:', err)
+        return null
+      })
+      const target = load === 'exact'
+        ? fetchJson(`${versionUrl}/${requested}`).catch(err => {
+          console.warn(`Could not fetch scenario version ${requested}:`, err)
+          if (!this.destroyed) { noty({ type: 'error', text: $.i18n.t('editor.scenario_version_not_found', { version: requested }), timeout: 8000 }) }
+          return null
+        })
+        : (load === 'latest' ? latest : Promise.resolve(null))
+      // The view may be gone by the time the answers arrive (navigated away): nothing to set up then.
+      Promise.all([latest, target]).then(([latestDoc, targetDoc]) => {
+        if (this.destroyed) { return }
+        this.latestVersion = latestDoc
+        this.versionCheckFailed = !latestDoc
+        this.editScenario(targetDoc && isStale(loaded, targetDoc) ? targetDoc : null)
+        if (load === 'latest' && targetDoc) { window.history.replaceState(window.history.state, '', editUrl(this.scenario.attributes)) }
+      }).catch(err => {
+        console.error('Could not settle which scenario version to edit:', err)
+      }).then(() => {
+        if (!this.destroyed) { resource.markLoaded() }
+      })
+    }
+
+    // Backups are keyed by version id and go on only now: the loaded document must not restore
+    // or write a backup for a version this page does not edit.
+    editScenario (doc) {
+      if (doc) {
+        this.scenario = new AIScenario(doc)
+        this.scenario.loaded = true
+        this.supermodel.registerModel(this.scenario)
+      }
       this.scenario.saveBackups = true
-      this.supermodel.loadModel(this.scenario)
+      this.scenario.loadFromBackup()
+    }
+
+    // The banner and the Save modal's confirm, when this page does not edit the latest version
+    // or could not find out which version that is. Only a save replaces the latest; a patch or a
+    // read-only visit gets the plain fact.
+    versionNotice () {
+      if (!this.versionCheckFailed && !isStale(this.scenario.attributes, this.latestVersion)) { return null }
+      const viewing = versionLabel(this.scenario.attributes)
+      const latest = this.latestVersion ? versionLabel(this.latestVersion) : null
+      const key = !latest ? 'scenario_version_banner_unknown' : (this.scenario.hasWriteAccess() ? 'scenario_version_banner' : 'scenario_version_banner_readonly')
+      return {
+        viewing,
+        latest,
+        latestUrl: this.latestVersion ? editUrl(this.latestVersion) : null,
+        text: $.i18n.t(`editor.${key}`, { viewing, latest }),
+      }
     }
 
     onLoaded () {
@@ -139,6 +219,7 @@ module.exports = (AIScenarioEditView = (function () {
     afterRender () {
       super.afterRender()
       if (!this.supermodel.finished()) { return }
+      this.updateVersionBanner()
       if (me.get('anonymous')) { this.showReadOnly() }
       this.patchesView = this.insertSubView(new PatchesView(this.scenario), this.$el.find('.patches-view'))
       this.patchesView.load()
@@ -297,12 +378,28 @@ module.exports = (AIScenarioEditView = (function () {
       if (!c.any) { return [] }
       const t = key => $.i18n.t(`editor.scenario_save_${key}`)
       const steps = this.scriptStore.state.steps
-      const firstWords = step => (step.text || '').replace(/\s+/g, ' ').trim().slice(0, 40)
       const lines = []
       for (const step of c.newSteps) { lines.push(`${t('new_step')} ${steps.indexOf(step) + 1}: ${firstWords(step)}`) }
       for (const step of c.editedSteps) { lines.push(`${t('edited_step')} ${steps.indexOf(step) + 1} (${step.id}): ${firstWords(step)}`) }
       for (const id of c.deletedIds) { lines.push(`${t('deleted_message')} ${id}`) }
       if (c.queueChanged) { lines.push(t('queue_changed')) }
+      return lines
+    }
+
+    // Lines for the save modal: what the server will clear because its English changed, so AI Translate fills it again.
+    translationSummary () {
+      const lines = []
+      if (this.scriptStore) {
+        const steps = this.scriptStore.state.steps
+        for (const step of this.scriptStore.changes().editedSteps) {
+          if (this.scriptStore.staleTranslationsOf(step).length) {
+            lines.push(`${$.i18n.t('editor.scenario_step_title')} ${steps.indexOf(step) + 1}: ${firstWords(step)}`)
+          }
+        }
+      }
+      if (staleTranslations(this.scenario._revertAttributes, this.scenario.attributes, SCENARIO_TRANSLATED_PATHS).length) {
+        lines.push($.i18n.t('editor.scenario_save_translations_settings'))
+      }
       return lines
     }
 
@@ -317,16 +414,58 @@ module.exports = (AIScenarioEditView = (function () {
         noty({ type: 'error', text: `${$.i18n.t('editor.scenario_save_fix_first')} ${problems.map(p => `${$.i18n.t('editor.scenario_step_title')} ${p.index + 1}: ${p.message}`).join('; ')}`, timeout: 8000 })
         return
       }
-      const scriptSummary = this.scriptSummary()
-      const modal = new ScenarioSaveVersionModal({
-        model: this.scenario,
-        noNewMajorVersions: true,
-        scriptSummary,
-        commitMessage: scriptSummary.length ? `${$.i18n.t('editor.scenario_script_tab')}: ${this.scriptStore.changes().count} ${$.i18n.t('editor.scenario_script_unsaved')}` : undefined,
+      // Another author may have saved since this page opened: the notice names the latest as of
+      // now. A stalled request must not keep Save closed: past the limit, as after a failed
+      // refresh, the latest counts as unknown for this save and the modal asks before saving.
+      const limit = new Promise(resolve => setTimeout(() => resolve(null), this.latestRefreshLimitMs))
+      return Promise.race([this.refreshLatestVersion(), limit]).then(doc => {
+        if (this.destroyed) { return }
+        if (!doc) {
+          this.latestVersion = null
+          this.versionCheckFailed = true
+          this.updateVersionBanner()
+        }
+        const scriptSummary = this.scriptSummary()
+        const modal = new ScenarioSaveVersionModal({
+          model: this.scenario,
+          noNewMajorVersions: true,
+          scriptSummary,
+          translationSummary: this.translationSummary(),
+          versionNotice: this.versionNotice(),
+          commitMessage: scriptSummary.length ? `${$.i18n.t('editor.scenario_script_tab')}: ${this.scriptStore.changes().count} ${$.i18n.t('editor.scenario_script_unsaved')}` : undefined,
+        })
+        this.openModalView(modal)
+        this.listenToOnce(modal, 'save-new-version', this.saveNewScenario)
+        this.listenToOnce(modal, 'hidden', function () { return this.stopListening(modal) })
       })
-      this.openModalView(modal)
-      this.listenToOnce(modal, 'save-new-version', this.saveNewScenario)
-      return this.listenToOnce(modal, 'hidden', function () { return this.stopListening(modal) })
+    }
+
+    // Resolves with the latest version, or null when the request failed. An answer that comes
+    // late still updates the banner.
+    refreshLatestVersion () {
+      return fetchJson(`/db/ai_scenario/${this.scenario.get('original')}/version`).then(doc => {
+        if (this.destroyed) { return null }
+        this.latestVersion = doc
+        this.versionCheckFailed = false
+        this.updateVersionBanner()
+        return doc
+      }, err => {
+        console.warn('Could not refresh the latest scenario version:', err)
+        return null
+      })
+    }
+
+    // The banner above the tabs follows the notice; the tabs themselves are left alone, the Script
+    // panel is mounted in them.
+    updateVersionBanner () {
+      const notice = this.versionNotice()
+      const content = this.$el.find('.outer-content')
+      content.find('#stale-version-banner').remove()
+      content.toggleClass('has-version-banner', Boolean(notice))
+      if (!notice) { return }
+      const banner = $('<div class="alert alert-warning" id="stale-version-banner"></div>').append($('<strong></strong>').text(notice.text))
+      if (notice.latestUrl) { banner.append($('<a class="spl"></a>').attr('href', notice.latestUrl).text($.i18n.t('editor.scenario_version_open_latest'))) }
+      content.prepend(banner)
     }
 
     openRevertModal (e) {
@@ -432,7 +571,7 @@ module.exports = (AIScenarioEditView = (function () {
     }
 
     showVersionHistory (e) {
-      const versionHistoryView = new VersionHistoryView({ scenario: this.scenario }, this.scenarioID)
+      const versionHistoryView = new VersionHistoryView({ scenario: this.scenario }, this.scenario.id)
       this.openModalView(versionHistoryView)
       return Backbone.Mediator.publish('editor:view-switched', {})
     }
