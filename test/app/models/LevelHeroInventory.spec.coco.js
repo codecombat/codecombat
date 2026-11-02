@@ -81,6 +81,10 @@ describe('Level hero inventory rules', function () {
     expect(equip({ feet: 'unknown-item' })).toEqual({ feet: 'unknown-item' })
   })
 
+  it('keeps an inventory value that names an Object.prototype property, without throwing', function () {
+    expect(equip({ feet: 'constructor', waist: '__proto__' })).toEqual({ feet: 'constructor', waist: '__proto__' })
+  })
+
   it('applies in headless worlds, which ranked simulations use', function () {
     const level = makeLevel()
     level.headless = true

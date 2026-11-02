@@ -109,7 +109,8 @@ module.exports = (Level = (function () {
           }
           return result
         })())
-        const thangTypesByOriginal = _.indexBy(thangTypesWithComponents, tt => tt.get('original')) // Optimization
+        // Optimization. No prototype, because inventory values come from the player and can be any string, like 'constructor'.
+        const thangTypesByOriginal = Object.assign(Object.create(null), _.indexBy(thangTypesWithComponents, tt => tt.get('original')))
         for (const levelThang of Array.from(o.thangs)) {
           this.denormalizeThang(levelThang, supermodel, session, otherSession, thangTypesByOriginal)
         }
