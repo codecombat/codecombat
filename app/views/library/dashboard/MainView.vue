@@ -59,6 +59,7 @@ export default {
     ...mapActions({
       fetchClientId: 'apiClient/fetchClientId',
       fetchLicenseStats: 'apiClient/fetchLicenseStats',
+      fetchDummyStats: 'apiClient/fetchDummyStats',
     }),
     onStartDateChanged (val) {
       this.startDate = val
@@ -100,6 +101,9 @@ export default {
     },
   },
   async created () {
+    if (me.get('slug') === 'dummy-library') {
+      return this.fetchDummyStats()
+    }
     this.clientId = await this.fetchClientId()
     this.fetchStats({ initialFetch: true })
   },
