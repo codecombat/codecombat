@@ -53,7 +53,7 @@
                     .stat-label(data-i18n='choose_hero.'+stat)
                     .stat-value
                       .stat-progress
-                        .stat-progress-bar(style="width: " + (parseInt(hero.stats[stat].relative * 100)) + "%")
+                        .stat-progress-bar(style="width: " + Math.round(hero.stats[stat].relative * 100) + "%")
 
       a.left(role="button", data-slide="prev", href="#hero-carousel")
         span.glyphicon.glyphicon-play
