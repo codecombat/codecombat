@@ -116,6 +116,7 @@ module.exports = (AdministerUserModal = (function () {
         } else {
           this.changeAccountUrl = new URL('/students/update-account', window.location.origin).href
         }
+        this.renderSelectors('#change-account-url')
         this.esportsProducts = this.user.getProductsByType('esports')
         this.renderSelectors('#esports-products')
         this.callSalesProducts = this.user.getProductsByType('call-sales')
