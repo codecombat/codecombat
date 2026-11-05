@@ -111,6 +111,11 @@ module.exports = (AdministerUserModal = (function () {
         } else if (this.user.isTeacher()) {
           this.supermodel.trackRequest(this.classrooms.fetchByOwner(this.userHandle))
         }
+        if (this.user.isTeacher()) {
+          this.changeAccountUrl = new URL('/teachers/update-account', window.location.origin).href
+        } else {
+          this.changeAccountUrl = new URL('/students/update-account', window.location.origin).href
+        }
         this.esportsProducts = this.user.getProductsByType('esports')
         this.renderSelectors('#esports-products')
         this.callSalesProducts = this.user.getProductsByType('call-sales')
