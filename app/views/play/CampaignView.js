@@ -57,6 +57,28 @@ const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
 
 const COMPLETE_STATUS = 'complete'
 const STARTED_STATUS = 'started'
+const MAP_ICON_HOVER_EFFECTS = ['scale', 'glow', 'lift', 'none']
+
+// Picks the image of a custom map icon (campaign entry `mapIcon`) for one level. Every state falls
+// back to `default`; locked without its own image is `default` plus the renderer's locked treatment.
+function resolveMapIcon (mapIcon, status, locked) {
+  if (!mapIcon?.default) { return null }
+  let image = mapIcon.default
+  let lockedTreatment = false
+  if (locked) {
+    if (mapIcon.locked) { image = mapIcon.locked } else { lockedTreatment = true }
+  } else if (status === COMPLETE_STATUS && mapIcon.complete) {
+    image = mapIcon.complete
+  } else if (status === STARTED_STATUS && mapIcon.inProgress) {
+    image = mapIcon.inProgress
+  }
+  return {
+    src: `/file/${image}`,
+    scale: mapIcon.scale > 0 ? mapIcon.scale : 1,
+    hoverEffect: MAP_ICON_HOVER_EFFECTS.includes(mapIcon.hoverEffect) ? mapIcon.hoverEffect : 'scale',
+    lockedTreatment,
+  }
+}
 const DEFAULT_MAP_SIZE = { width: 1920, height: 1280 } // the classic campaign maps are painted 3:2
 // Same stroke as hackstack's LevelConnections
 const SCENARIO_CONNECTION_OPACITY = 0.7
@@ -802,6 +824,10 @@ class CampaignView extends RootView {
       this.determineNextLevel(context.levels)
     }
     context.levels = this.collapsePracticeLevels(context.levels)
+    // After determineNextLevel: classroom maps set level.locked there, not in annotateLevels.
+    for (const level of context.levels) {
+      level.mapIconResolved = resolveMapIcon(level.mapIcon, this.levelStatusMap[level.slug], Boolean(level.locked))
+    }
 
     // put lower levels in last, so in the world map they layer over one another properly.
     context.levels = _.sortBy(context.levels, l => l.position.y).reverse()
@@ -816,7 +842,8 @@ class CampaignView extends RootView {
     context.requiresSubscription = this.requiresSubscription
     context.editorMode = this.editorMode
     context.showFullFlags = this.showFullFlags
-    context.scenarios = this.campaign?.get('scenarios') || []
+    // Scenario entries carry no status here (HackStack owns their progress), so a mapIcon shows its default image.
+    context.scenarios = (this.campaign?.get('scenarios') || []).map(scenario => ({ ...scenario, mapIconResolved: resolveMapIcon(scenario.mapIcon, '', false) }))
     // Modules: child campaigns rendered as portals on the map.
     // Enrich each module with locked state: first by premium, then by levelToUnlock (complete that level to unlock).
     const rawModules = this.campaign?.get('modules') || []
@@ -1125,6 +1152,13 @@ class CampaignView extends RootView {
       adminOnly: Boolean(level.adminOnly),
       replayable: Boolean(level.replayable),
       rewards,
+      mapIcon: level.mapIcon?.default
+        ? {
+            states: ['default', 'inProgress', 'complete', 'locked'].filter(state => level.mapIcon[state]),
+            scale: level.mapIcon.scale || 1,
+            hoverEffect: level.mapIcon.hoverEffect || 'scale',
+          }
+        : null,
     }
   }
 
@@ -2908,5 +2942,6 @@ class CampaignView extends RootView {
 }
 
 CampaignView.initClass()
+CampaignView.resolveMapIcon = resolveMapIcon
 
 module.exports = CampaignView
