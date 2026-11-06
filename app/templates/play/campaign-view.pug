@@ -126,31 +126,36 @@ if !editorMode
             if (levelNumber)
               - levelNumber += '. ';
           - var lockedBySubscription = me.isHomeUser() && !me.isPremium() && level.requiresSubscription && campaign.get('type') !== 'hoc'
+          //- A custom map icon is the whole marker: no coloured dot, shadow, flag, chest or portrait around it.
+          - var mapIcon = level.mapIconResolved
           div(
-            style="left: " + level.position.x + "%; bottom: " + level.position.y + "%; background-color: " + level.color,
-            class="level" + (level.next || _.any(level.practiceLevels || [], { next: true }) ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatus,
+            style="left: " + level.position.x + "%; bottom: " + level.position.y + "%; " + (mapIcon ? "--map-icon-scale: " + mapIcon.scale : "background-color: " + level.color),
+            class="level" + (level.next || _.any(level.practiceLevels || [], { next: true }) ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatus + (mapIcon ? " custom-icon hover-" + mapIcon.hoverEffect + (mapIcon.lockedTreatment ? " locked-treatment" : "") : ""),
             data-level-slug=level.slug,
             data-level-original=level.original,
             title=editorMode ? undefined : levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : ""))
           )
-            if level.unlocksHero && (!level.purchasedHero || editorMode) && (level.hidden || levelStatus === 'complete')
+            if mapIcon
+              img.map-icon(src=mapIcon.src, alt="", draggable="false")
+            if !mapIcon && level.unlocksHero && (!level.purchasedHero || editorMode) && (level.hidden || levelStatus === 'complete')
               img.hero-portrait(src="/file/db/thang.type/" + level.unlocksHero + "/portrait.png")
-            if levelStatus === 'complete'
+            if !mapIcon && levelStatus === 'complete'
               img.level-star(src="/images/pages/play/star.png")
             if editorMode
               - var kindKey = ((level.kind && level.kind[0]) || "").toUpperCase();
               //if kindKey
               div(class="level-kind " + level.kind)= kindKey
-              - var acronym = level.name.replace(/(A |The )/g, '').replace(/[^A-Z]/g, '');
-              .level-acronym= acronym
+              if !mapIcon
+                - var acronym = level.name.replace(/(A |The )/g, '').replace(/[^A-Z]/g, '');
+                .level-acronym= acronym
             //- Editor default is a compact marker: no flag banner, only the reward chest. The toggle brings the player flags back.
             - var showFlags = !editorMode || showFullFlags
-            if !level.hidden && !level.noFlag && !level.locked && !showFlags
+            if !mapIcon && !level.hidden && !level.noFlag && !level.locked && !showFlags
               if level.unlocksHero && levelStatus !== 'complete'
                 img.treasure-chest(src="/images/pages/play/gold-chest.png")
               else if level.unlocksItem && levelStatus !== 'complete'
                 img.treasure-chest(src="/images/pages/play/" + (level.requiresSubscription?'silver':'bronze') + "-chest.png")
-            if !level.hidden && !level.noFlag && !level.locked && showFlags
+            if !mapIcon && !level.hidden && !level.noFlag && !level.locked && showFlags
               if level.replayable
                 img.banner(src="/images/pages/play/level-banner-replayable.png")
               else if level.type === 'hero-ladder' || level.type === 'course-ladder' || level.type === 'ladder'
@@ -176,12 +181,13 @@ if !editorMode
                 img.banner(src="/images/pages/play/level-banner-unstarted" + ( lockedBySubscription ? '-grey': '-blue' ) + ".png")
               if levelDifficultyMap[level.slug]
                 .level-difficulty-banner-text= levelDifficultyMap[level.slug]
-            if level.locked
+            if !mapIcon && level.locked
               if level.unlocksItem && !level.unlocksHero
                 img.treasure-chest(src="/images/pages/play/" + (level.requiresSubscription?'silver':'bronze') + "-chest.png")
               else if level.unlocksHero
                 img.treasure-chest(src="/images/pages/play/gold-chest.png")
-          div(style="left: " + level.position.x + "%; bottom: " + level.position.y + "%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + levelStatus)
+          if !mapIcon
+            div(style="left: " + level.position.x + "%; bottom: " + level.position.y + "%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + levelStatus)
           .level-info-container.rtl-allowed(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name, data-level-original=level.original, class=(level.practiceLevels && level.practiceLevels.length && levelStatus == 'complete' ? "has-practice-levels" : ""))
             - var playCount = levelPlayCountMap[level.slug]
             .progress.progress-striped.active.hide

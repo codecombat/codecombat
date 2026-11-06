@@ -35,7 +35,8 @@ $compactDotHeight: math.div($compactDotWidth * $mapWidth, $mapHeight)
     // Compact level markers: the editor default, so 100+ levels stay distinguishable.
     // The player-facing flags come back through the navbar toggle (see CampaignView.showFullFlags).
     #campaign-view.compact-level-markers .map
-      .level
+      // A custom map icon keeps its player size here, so placement in the editor is what players see.
+      .level:not(.custom-icon)
         width: $compactDotWidth
         height: $compactDotHeight
         margin-left: -0.5 * $compactDotWidth
