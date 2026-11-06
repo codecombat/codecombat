@@ -478,6 +478,7 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
           practice: false,
           unlocksItem: 'sword-original',
           rewards: [{ item: 'sword-original' }, { level: 'bonus-original' }, { level: 'on-map-original' }, { hero: 'missing-hero' }],
+          mapIcon: { default: 'db/campaign/c/default.png', complete: 'db/campaign/c/complete.png', scale: 1.5 },
         }]
       })
 
@@ -493,6 +494,13 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
 
       it('returns nothing for a level that is not on the map', function () {
         expect(this.campaignView.getEditorLevelCardData('nope')).toBeNull()
+      })
+
+      it('summarises the custom map icon, and leaves it out when there is none', function () {
+        expect(this.campaignView.getEditorLevelCardData('level-original').mapIcon).toEqual({ states: ['default', 'complete'], scale: 1.5, hoverEffect: 'scale' })
+        expect(this.campaignView.getEditorLevelCardData('on-map-original').mapIcon).toBeNull()
+        const $card = $('<div>').html(editorLevelCardTemplate(this.campaignView.getEditorLevelCardData('level-original')))
+        expect($card.find('.card-facts .map-icon').text()).toBe('default, complete · ×1.5 · hover scale')
       })
 
       it('renders the name, kind and reward names into the card', function () {

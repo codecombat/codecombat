@@ -1151,6 +1151,13 @@ class CampaignView extends RootView {
       adminOnly: Boolean(level.adminOnly),
       replayable: Boolean(level.replayable),
       rewards,
+      mapIcon: level.mapIcon?.default
+        ? {
+            states: ['default', 'inProgress', 'complete', 'locked'].filter(state => level.mapIcon[state]),
+            scale: level.mapIcon.scale || 1,
+            hoverEffect: level.mapIcon.hoverEffect || 'scale',
+          }
+        : null,
     }
   }
 
