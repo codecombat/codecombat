@@ -23,7 +23,7 @@ module.exports = (Campaign = (function () {
       this.schema = schema
       this.prototype.urlRoot = '/db/campaign'
       // Entry-only properties stay off the Level models the editor propagates to; a Level patch carrying one fails its schema.
-      this.denormalizedLevelProperties = _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards', 'first', 'nextLevels', 'campaignPage', 'releasePhase', 'moduleNum', 'mapIcon']))
+      this.denormalizedLevelProperties = _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards', 'first', 'nextLevels', 'campaignPage', 'releasePhase', 'moduleNum', 'mapIcon', 'z', 'anchor']))
       // Properties we denormalize from child campaigns (used by CampaignIDNode, etc.).
       this.denormalizedCampaignProperties = ['name', 'fullName', 'i18n', 'slug', 'description']
       this.nextLevelProperties = ['original', 'name', 'slug', 'type', 'permissions']

@@ -20,6 +20,33 @@ const MapIconSchema = c.object({
   labelScale: { type: 'number', title: 'Number Size', description: 'HackStack maps: height of the level number as a fraction of the icon box, so it grows with the scale. Empty keeps the default (0.34 centred, 0.22 badge).', minimum: 0, exclusiveMinimum: true, maximum: 1 },
 })
 
+// Draw order of everything placed on a map. Items are drawn in z order, equal z in array order, so decimals
+// slot an item between two others. Defaults by kind: background 0, decorations 1, connection lines 2,
+// level markers 3, labels 4; 5 lifts a decoration above the markers. Hover, tooltips and popups stay on top.
+const MapZSchema = { type: 'number', title: 'Z', description: 'Draw order: 0 background, 1 decorations, 2 connections, 3 level markers, 4 labels, 5 above the markers. Decimals allowed; equal z draws in array order.', minimum: 0, maximum: 10 }
+
+// Position relative to a decoration: its centre plus an offset in percent of that decoration's width, so
+// moving or resizing the decoration carries everything anchored to it.
+const MapAnchorSchema = c.object({ title: 'Anchor', description: 'Place this relative to a decoration: its centre plus the offset, in percent of the decoration width (x right, y up).', required: ['id'] }, {
+  id: { type: 'string', title: 'Decoration id' },
+  offset: c.point2d({ title: 'Offset', description: 'Percent of the anchor decoration width; x right, y up.' }),
+})
+
+const MapDecorationSchema = c.object({ title: 'Map Decoration', description: 'An image placed over the map, behind the level markers unless z says otherwise. Never clickable.', required: ['id', 'image', 'position'] }, {
+  id: { type: 'string', title: 'Id', description: 'Unique on this campaign; anchors point at it.' },
+  image: { type: 'string', format: 'image-file', title: 'Image', description: 'PNG or webp with alpha.' },
+  position: c.point2d({ title: 'Position', description: 'Centre of the image, percent of the map, bottom-left origin.' }),
+  width: { type: 'number', title: 'Width', description: 'Fraction of the map width; the height follows the image.', minimum: 0.01, maximum: 1, default: 0.1 },
+  z: MapZSchema,
+  rotation: { type: 'number', title: 'Rotation', description: 'Degrees, clockwise.', default: 0 },
+  opacity: { type: 'number', title: 'Opacity', minimum: 0, maximum: 1, default: 1 },
+  anchor: MapAnchorSchema,
+  showIf: c.object({ title: 'Show if', description: 'Only drawn once this level is complete.', required: ['level'] }, {
+    level: { type: 'string', title: 'Level', description: 'Level original id (Classic) or scenario original id (HackStack).' },
+    status: { type: 'string', title: 'Status', enum: ['complete'], default: 'complete' },
+  }),
+})
+
 const CampaignSchema = c.object({
   default: {
     type: 'hero',
@@ -117,6 +144,8 @@ _.extend(CampaignSchema.properties, {
         // - normal properties
         position: c.point2d(),
         mapIcon: MapIconSchema,
+        z: MapZSchema,
+        anchor: MapAnchorSchema,
 
         // properties relevant for ozaria campaigns
         nextLevels: {
@@ -154,6 +183,8 @@ _.extend(CampaignSchema.properties, {
         moduleNum: { type: 'number', title: 'Module number', default: 5 },
         position: c.point2d(),
         mapIcon: MapIconSchema,
+        z: MapZSchema,
+        anchor: MapAnchorSchema,
         displayName: { type: 'string', title: 'Display Name' },
         firstInSequence: { type: 'boolean', title: 'First in Sequence', default: false },
         connections: {
@@ -176,6 +207,7 @@ _.extend(CampaignSchema.properties, {
   },
   isIsolatedCampaign: { type: 'boolean', description: 'Isolated campaign, can be accessed only by direct link and dont have "back" button', default: false },
   isSideScrollerCampaign: { type: 'boolean', description: 'Side scroller campaign view', default: false },
+  mapDecorations: c.array({ title: 'Map Decorations', description: 'Images placed over the map: planets, rocks, comets. Drawn by every map that shows this campaign.' }, MapDecorationSchema),
   parallaxBackgrounds: {
     type: 'array',
     title: 'Parallax Backgrounds',

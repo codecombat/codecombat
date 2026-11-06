@@ -36,7 +36,7 @@ describe('Campaign', function() {
     it('lists the Level-backed properties and leaves the entry-only ones out', function () {
       expect(Campaign.denormalizedLevelProperties).toContain('name')
       expect(Campaign.denormalizedLevelProperties).toContain('requiresSubscription')
-      for (const entryOnly of ['position', 'rewards', 'mapIcon']) {
+      for (const entryOnly of ['position', 'rewards', 'mapIcon', 'z', 'anchor']) {
         expect(Campaign.denormalizedLevelProperties).not.toContain(entryOnly)
       }
     })
