@@ -317,7 +317,7 @@ if !editorMode
             - var scenarioIcon = scenario.mapIconResolved
             div(
               style="left: " + scenario.position.x + "%; bottom: " + scenario.position.y + "%;" + (scenarioIcon ? " --map-icon-scale: " + scenarioIcon.scale : ""),
-              class="scenario" + (scenarioIcon ? " custom-icon" : ""),
+              class="scenario" + (scenarioIcon ? " custom-icon hover-" + scenarioIcon.hoverEffect : ""),
               data-scenario-original=scenario.scenario,
               title=scenarioName
             )

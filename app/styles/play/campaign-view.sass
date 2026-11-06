@@ -478,6 +478,15 @@ $scenarioIconWidth: 3.54%  // the planet's 68 px marker at 1920 px map width
           height: 100%
           object-fit: contain
           pointer-events: none
+          transition: transform 0.15s ease, filter 0.15s ease
+
+        // Same hover effects as level icons, on the image so the drag drop math on the box is untouched.
+        &.hover-scale:hover img.map-icon
+          transform: scale(1.1)
+        &.hover-glow:hover img.map-icon
+          filter: drop-shadow(0px 0px 12px skyblue)
+        &.hover-lift:hover img.map-icon
+          transform: translateY(-8%)
 
     .tooltip
       z-index: 3
