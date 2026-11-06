@@ -2,6 +2,21 @@ const c = require('./../schemas')
 const LevelSchema = require('./level')
 const colors = require('../../core/colors')
 
+// Custom marker for one campaign entry (level or scenario). The asset is the state: a state without
+// its own image falls back to `default`; locked without `locked` is `default` with the map's locked look.
+const MapIconSchema = c.object({
+  title: 'Map Icon',
+  description: 'Custom marker drawn instead of the default level marker on every map that shows this campaign.',
+  required: ['default'],
+}, {
+  default: { type: 'string', format: 'image-file', title: 'Default', description: 'Not started, and any state without its own image.' },
+  inProgress: { type: 'string', format: 'image-file', title: 'In Progress' },
+  complete: { type: 'string', format: 'image-file', title: 'Complete' },
+  locked: { type: 'string', format: 'image-file', title: 'Locked', description: 'Shown as-is when locked. Without it the default image gets the locked treatment.' },
+  scale: { type: 'number', title: 'Scale', description: 'Icon box relative to the base marker size of the map.', minimum: 0.25, maximum: 4, default: 1 },
+  hoverEffect: { type: 'string', title: 'Hover Effect', enum: ['scale', 'glow', 'lift', 'none'], default: 'scale' },
+})
+
 const CampaignSchema = c.object({
   default: {
     type: 'hero',
@@ -98,6 +113,7 @@ _.extend(CampaignSchema.properties, {
 
         // - normal properties
         position: c.point2d(),
+        mapIcon: MapIconSchema,
 
         // properties relevant for ozaria campaigns
         nextLevels: {
@@ -134,6 +150,7 @@ _.extend(CampaignSchema.properties, {
         scenario: c.stringID({ title: 'AI Scenario Original', format: 'scenario', links: [{ rel: 'db', href: '/db/ai_scenario/{{$}}/version', model: 'AIScenario' }] }),
         moduleNum: { type: 'number', title: 'Module number', default: 5 },
         position: c.point2d(),
+        mapIcon: MapIconSchema,
         displayName: { type: 'string', title: 'Display Name' },
         firstInSequence: { type: 'boolean', title: 'First in Sequence', default: false },
         connections: {
