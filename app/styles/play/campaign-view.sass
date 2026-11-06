@@ -111,9 +111,28 @@ $scenarioIconWidth: 3.54%  // the planet's 68 px marker at 1920 px map width
 
     // Module portals (child campaigns) rendered on top of the map.
     // Wrapper .module-portal is positioned; .module-portal-image fills it; .module-label overlays.
+    // Everything placed on the map paints in DOM order (the template emits it sorted by z, see
+    // lib/map-placement): no z-index on markers, portals, decorations or lines. Each marker is its own
+    // stacking context so its inner layers stay inside; a hovered marker lifts above its neighbours.
+    // The popups, tooltips and editor handles keep their z-index and stay on top.
+    .map-connections
+      position: absolute
+      left: 0
+      top: 0
+      right: 0
+      bottom: 0
+      pointer-events: none
+
+    .map-decoration
+      position: absolute
+      height: auto
+      transform: translate(-50%, 50%) rotate(var(--map-rotation, 0deg))
+      pointer-events: none
+      @include user-select(none)
+
     .module-portal
       position: absolute
-      z-index: 2
+      isolation: isolate
       @include user-select(none)
       @include transition(transform 0.2s ease-out)
       // Don't scale when this extra class is present (used by CampaignView in editor).
@@ -198,7 +217,7 @@ $scenarioIconWidth: 3.54%  // the planet's 68 px marker at 1920 px map width
       transform: scaleY(0.75)
 
     .level
-      z-index: 2
+      isolation: isolate
       width: $levelDotWidth
       height: $levelDotHeight
       margin-left: -0.5 * $levelDotWidth
@@ -337,7 +356,6 @@ $scenarioIconWidth: 3.54%  // the planet's 68 px marker at 1920 px map width
         border-radius: 0
 
     .level-shadow
-      z-index: 1
       width: $levelDotShadowWidth
       height: $levelDotShadowHeight
       margin-left: -0.5 * $levelDotShadowWidth
@@ -354,6 +372,7 @@ $scenarioIconWidth: 3.54%  // the planet's 68 px marker at 1920 px map width
         margin-bottom: math.div(-$levelDotShadowHeight, 3) * 0.67
 
     .level:hover
+      z-index: 1
       -moz-transform: rotate(0)
       margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotHoverZ
       @include box-shadow(0px 0px 35px skyblue)
@@ -417,7 +436,7 @@ $scenarioIconWidth: 3.54%  // the planet's 68 px marker at 1920 px map width
 
     .scenario
       position: absolute
-      z-index: 2
+      isolation: isolate
       width: $scenarioDotWidth
       aspect-ratio: 1
       // Percentage margins resolve against the container width, so half the width is also half the height.

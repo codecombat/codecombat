@@ -19,6 +19,7 @@ const LeaderboardModal = require('views/play/modal/LeaderboardModal')
 const Level = require('models/Level')
 const User = require('models/User')
 const utils = require('core/utils')
+const { MAP_Z, resolveMapPlacements, byDrawOrder, offsetForPosition } = require('lib/map-placement')
 const ShareProgressModal = require('views/play/modal/ShareProgressModal')
 const JuniorOriginalChoiceModal = require('views/core/JuniorOriginalChoiceModal')
 const api = require('core/api')
@@ -938,6 +939,8 @@ class CampaignView extends RootView {
       context.showGameDevAlert = true
     }
 
+    // Last: decorations, anchors and draw order need the levels, modules and scenarios above.
+    context.mapItems = this.buildMapItems(context)
     return context
   }
 
@@ -989,6 +992,67 @@ class CampaignView extends RootView {
     }
   }
 
+  // Decorations, anchored markers and draw order (lib/map-placement), resolved once per render. The
+  // template emits the items in this order, so nothing placed needs a z-index and the UI chrome stays on
+  // top. Anchored levels and scenarios get their resolved position written back for the template, the
+  // editor card and the drag handlers.
+  buildMapItems (context) {
+    const mapSize = this.getMapSize()
+    const slugByOriginal = {}
+    for (const level of context.levels) { slugByOriginal[level.original] = level.slug }
+    const isComplete = original => this.levelOriginalStatusMap?.[original] === COMPLETE_STATUS || this.levelStatusMap[slugByOriginal[original]] === COMPLETE_STATUS
+    const scenarios = context.scenarios.filter(scenario => scenario.position)
+    const placements = resolveMapPlacements({
+      decorations: this.campaign?.get('mapDecorations') || [],
+      markers: [
+        ...context.levels.map(level => ({ key: `level:${level.original}`, position: level.position, z: level.z, anchor: level.anchor })),
+        ...scenarios.map(scenario => ({ key: `scenario:${scenario.scenario}`, position: scenario.position, z: scenario.z, anchor: scenario.anchor })),
+      ],
+      mapAspect: mapSize.width / mapSize.height,
+      isComplete: this.editorMode ? () => true : isComplete,
+    })
+    this.mapPlacements = placements
+    for (const level of context.levels) {
+      const placed = placements.markers[`level:${level.original}`]
+      level.position = { x: placed.x, y: placed.y }
+      level.z = placed.z
+    }
+    for (const scenario of scenarios) {
+      const placed = placements.markers[`scenario:${scenario.scenario}`]
+      scenario.position = { x: placed.x, y: placed.y }
+      scenario.z = placed.z
+    }
+    // Hidden practice levels were skipped by the template loop before; lower markers come later so they overlap higher ones.
+    const shownLevels = _.sortBy(context.levels.filter(level => !((context.campaign.levelIsPractice(level) || !level.unlockedInSameCampaign) && level.hidden)), level => -level.position.y)
+    return [
+      ...placements.decorations.map((decoration, order) => ({ kind: 'decoration', z: decoration.z, order, decoration })),
+      { kind: 'connections', z: MAP_Z.connection, order: 0 },
+      ...context.modules.map((module, order) => ({ kind: 'module', z: MAP_Z.marker, order, module })),
+      ...shownLevels.map((level, order) => ({ kind: 'level', z: level.z, order, level })),
+      ...scenarios.map((scenario, order) => ({ kind: 'scenario', z: scenario.z, order, scenario })),
+    ].sort(byDrawOrder)
+  }
+
+  // A dragged item keeps its anchor: the drop position becomes a new offset from the anchor decoration.
+  movedPlacement (position, anchor) {
+    const parent = anchor?.id ? this.mapPlacements?.decorations.find(decoration => decoration.id === anchor.id) : null
+    if (!parent) { return { position } }
+    const mapSize = this.getMapSize()
+    return { position, anchorOffset: offsetForPosition(parent, position, mapSize.width / mapSize.height) }
+  }
+
+  // The layer the connection lines draw into: below the markers in draw order, above the decorations.
+  connectionsLayer () {
+    const layer = this.$el.find('.map .map-connections')
+    return layer.length ? layer : this.$el.find('.map')
+  }
+
+  // Lines join markers where they were drawn: an anchored marker sits at its resolved spot, not at its saved position.
+  placedPosition (key, fallback) {
+    const placed = this.mapPlacements?.markers?.[key]
+    return placed ? { x: placed.x, y: placed.y } : fallback
+  }
+
   afterRender () {
     super.afterRender()
     if ($.isTouchCapable() && (screen.availHeight < screen.availWidth)) {
@@ -1019,7 +1083,9 @@ class CampaignView extends RootView {
           const bg = $('.map-background')
           const x = (($(this).offset().left - bg.offset().left) + ($(this).outerWidth() / 2)) / bg.width()
           const y = 1 - ((($(this).offset().top - bg.offset().top) + ($(this).outerHeight() / 2)) / bg.height())
-          const e = { position: { x: (100 * x), y: (100 * y) }, levelOriginal: $(this).data('level-original'), campaignID: $(this).data('campaign-id') }
+          const levelOriginal = $(this).data('level-original')
+          const level = levelOriginal ? (view.campaign?.renderedLevels || []).find(l => l.original === levelOriginal) : null
+          const e = { ...view.movedPlacement({ x: (100 * x), y: (100 * y) }, level?.anchor), levelOriginal, campaignID: $(this).data('campaign-id') }
           if (e.levelOriginal) { view.trigger('level-moved', e) }
           if (e.campaignID) { view.trigger('adjacent-campaign-moved', e) }
         })
@@ -1034,9 +1100,42 @@ class CampaignView extends RootView {
             const x = ((el.offset().left - bg.offset().left) + (el.outerWidth() / 2)) / bg.width()
             const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2)
             const y = 1 - (yCenterPx / bg.height())
-            const e = { position: { x: (100 * x), y: (100 * y) }, scenarioOriginal: $(this).data('scenario-original') }
+            const scenarioOriginal = $(this).data('scenario-original')
+            const scenario = (view.campaign?.get('scenarios') || []).find(s => s.scenario === scenarioOriginal)
+            const e = { ...view.movedPlacement({ x: (100 * x), y: (100 * y) }, scenario?.anchor), scenarioOriginal }
             if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
           })
+      })
+      // Decorations: draggable in the editor. They sit on bottom/left with a centring translate; jQuery UI
+      // drags top/left and knows nothing about transforms (it would re-apply the translate on top of the
+      // visual position), so at drag start the translate is folded into top/left and only the rotation
+      // stays inline. On drop the rendered box's centre is read and the stylesheet transform comes back.
+      this.$el.find('.map-decoration').each(function () {
+        if (!me.isAdmin() || !view.editorMode) { return }
+        const el = $(this)
+        el.draggable({
+          scroll: false,
+          containment: '.map',
+          start: function () {
+            const map = $('.map')
+            const width = el.outerWidth()
+            const height = el.outerHeight()
+            const leftPx = parseFloat(el.css('left')) || 0
+            const bottomPx = parseFloat(el.css('bottom')) || 0
+            const rotation = el[0].style.getPropertyValue('--map-rotation') || '0deg'
+            el.css({ left: leftPx - width / 2, top: map.height() - bottomPx - height / 2, bottom: 'auto', transform: `rotate(${rotation})` })
+          },
+          stop: function () {
+            const mapRect = $('.map')[0].getBoundingClientRect()
+            const rect = this.getBoundingClientRect()
+            const x = 100 * ((rect.left + rect.width / 2) - mapRect.left) / mapRect.width
+            const y = 100 * (1 - (((rect.top + rect.height / 2) - mapRect.top) / mapRect.height))
+            el.css({ left: `${x}%`, bottom: `${y}%`, top: 'auto', transform: '' })
+            const decorationId = el.data('decoration-id')
+            const decoration = (view.campaign?.get('mapDecorations') || []).find(d => d.id === decorationId)
+            view.trigger('decoration-moved', { ...view.movedPlacement({ x, y }, decoration?.anchor), decorationId })
+          },
+        })
       })
       // Module portals: in editor, mark with an extra class for CSS targeting,
       // and enable drag that saves the same bottom-left anchor that CSS uses
@@ -1080,6 +1179,7 @@ class CampaignView extends RootView {
       })
     }
     this.$el.toggleClass('compact-level-markers', Boolean(this.editorMode && !this.showFullFlags))
+    this.$el.toggleClass('editor-mode', Boolean(this.editorMode))
     this.updateVolume()
     this.updateHero()
     if (!window.currentModal && this.fullyRendered) {
@@ -1574,7 +1674,7 @@ class CampaignView extends RootView {
       for (const connection of connections) {
         const toLevel = _.find(this.campaign.renderedLevels, { original: connection.toLevel })
         if (toLevel) {
-          this.createLineForEditor(level.position, toLevel.position)
+          this.createLineForEditor(this.placedPosition(`level:${level.original}`, level.position), this.placedPosition(`level:${toLevel.original}`, toLevel.position))
         }
       }
       if (connections.length) continue // If there are connections, we don't need to draw next levels
@@ -1582,7 +1682,7 @@ class CampaignView extends RootView {
       for (const nextLevelOriginal of nextLevels) {
         const nextLevel = _.find(this.campaign.renderedLevels, { original: nextLevelOriginal })
         if (nextLevel) {
-          this.createLineForEditor(level.position, nextLevel.position)
+          this.createLineForEditor(this.placedPosition(`level:${level.original}`, level.position), this.placedPosition(`level:${nextLevelOriginal}`, nextLevel.position))
         }
       }
     }
@@ -1599,7 +1699,7 @@ class CampaignView extends RootView {
     const length = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
     const angle = (Math.atan2(p1.y - p2.y, p2.x - p1.x) * 180) / Math.PI
     const transform = `translateY(-50%) translateX(-50%) rotate(${angle}deg) translateX(50%)`
-    const line = $('<div>').appendTo('.map').addClass('next-level-line').css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
+    const line = $('<div>').appendTo(this.connectionsLayer()).addClass('next-level-line').css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
     return line.append($('<div class="line">')).append($('<div class="point">'))
   }
 
@@ -1634,7 +1734,7 @@ class CampaignView extends RootView {
           lastOpacity = opacity
         }
         const path = document.createElementNS(svgNS, 'path')
-        path.setAttribute('d', scenarioConnectionPath(s.position, to.position, conn.curveSide))
+        path.setAttribute('d', scenarioConnectionPath(this.placedPosition(`scenario:${s.scenario}`, s.position), this.placedPosition(`scenario:${to.scenario}`, to.position), conn.curveSide))
         path.setAttribute('fill', 'none')
         path.setAttribute('stroke', color)
         path.setAttribute('stroke-opacity', conn.invisible ? opacity / 2 : opacity)
@@ -1645,7 +1745,7 @@ class CampaignView extends RootView {
         svg.appendChild(path)
       }
     }
-    map.append(svg)
+    this.connectionsLayer().append(svg)
   }
 
   createVisualConnections () {
@@ -1679,8 +1779,6 @@ class CampaignView extends RootView {
         width: mapWidth,
         height: mapHeight,
         'pointer-events': 'none',
-        // Render visual connections beneath level markers/flags (z-index 2) but above the map background.
-        'z-index': 1,
       })
 
     // Defaults from appearance-based colors; functional meaning only at use site
@@ -1794,8 +1892,9 @@ class CampaignView extends RootView {
         if (conn.unlockLevelOriginal) {
           const level = levels[conn.unlockLevelOriginal]
           if (level?.position) {
-            const lx = mapToSvgX(level.position.x)
-            const ly = mapToSvgY(level.position.y)
+            const placed = this.placedPosition(`level:${conn.unlockLevelOriginal}`, level.position)
+            const lx = mapToSvgX(placed.x)
+            const ly = mapToSvgY(placed.y)
             const helperPath = document.createElementNS(svgNS, 'path')
             $(helperPath).attr({
               d: `M ${x1},${y1} L ${lx},${ly}`,
@@ -1810,8 +1909,9 @@ class CampaignView extends RootView {
         if (conn.completeLevelOriginal) {
           const level = levels[conn.completeLevelOriginal]
           if (level?.position) {
-            const lx = mapToSvgX(level.position.x)
-            const ly = mapToSvgY(level.position.y)
+            const placed = this.placedPosition(`level:${conn.completeLevelOriginal}`, level.position)
+            const lx = mapToSvgX(placed.x)
+            const ly = mapToSvgY(placed.y)
             const helperPath = document.createElementNS(svgNS, 'path')
             $(helperPath).attr({
               d: `M ${x2},${y2} L ${lx},${ly}`,
@@ -1853,7 +1953,7 @@ class CampaignView extends RootView {
       connectionIndex++
     }
 
-    map.append(svg)
+    this.connectionsLayer().append(svg)
 
     // Wire up draggable handles after they exist in the DOM.
     if (this.editorMode && me.isAdmin()) {
