@@ -5146,6 +5146,7 @@ module.exports = {
       coming_soon: 'Coming Soon!',
       add_class: 'Add New Class',
       no_licenses_yet: 'No licenses yet',
+      no_licenses_left: 'No licenses left',
       req_licenses: 'Request Licenses',
       license_ratio_used: '__totalUsedLicenses__ out of __totalSpots__',
       licenses_applied: 'Licenses Applied',
