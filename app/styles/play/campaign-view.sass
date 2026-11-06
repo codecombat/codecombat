@@ -26,6 +26,7 @@ $glowingPortalSizeBase: 5px
 $hackstackGlowColor: #2E231F
 $hackstackGlowSizeBase: 5px
 $scenarioDotWidth: 3%
+$scenarioIconWidth: 3.54%  // the planet's 68 px marker at 1920 px map width
 
 
 +keyframes(portalGlow)
@@ -374,17 +375,20 @@ $scenarioDotWidth: 3%
       background-color: transparent
       box-shadow: none
       opacity: 1
-      transition: transform 0.15s ease, filter 0.15s ease
 
+      // Hover effects live on the image, not on this box: the editor's drop handler reads the box's
+      // offset and size to save the position, so the box itself never transforms.
       img.map-icon
         display: block
         width: 100%
         height: 100%
         object-fit: contain
         pointer-events: none
+        transition: transform 0.15s ease, filter 0.15s ease
 
-      // Locked without its own image: the default image, dimmed. A locked image shows as-is.
-      &.locked-treatment
+      // Locked without its own image, and disabled (coming soon): the default image, dimmed.
+      // A locked image shows as-is.
+      &.locked-treatment, &.disabled
         opacity: 0.7
 
       &.started, &.next
@@ -393,11 +397,11 @@ $scenarioDotWidth: 3%
       &:hover
         margin-bottom: calc(-1 * #{$levelDotWidth} * var(--map-icon-scale, 1))
         box-shadow: none
-      &.hover-scale:hover
+      &.hover-scale:hover img.map-icon
         transform: scale(1.1)
-      &.hover-glow:hover
+      &.hover-glow:hover img.map-icon
         filter: drop-shadow(0px 0px 12px skyblue)
-      &.hover-lift:hover
+      &.hover-lift:hover img.map-icon
         transform: translateY(-8%)
 
       .level-kind
@@ -447,6 +451,33 @@ $scenarioDotWidth: 3%
         display: flex
         align-items: center
         justify-content: center
+
+      // Scenario entry with a custom map icon: the image replaces the purple dot, sized like the planet's
+      // 68 px marker on a full-width 1920 map so editor placement matches what players see.
+      &.custom-icon
+        width: calc(#{$scenarioIconWidth} * var(--map-icon-scale, 1))
+        margin-left: calc(-0.5 * #{$scenarioIconWidth} * var(--map-icon-scale, 1))
+        margin-bottom: calc(-0.5 * #{$scenarioIconWidth} * var(--map-icon-scale, 1))
+        background-color: transparent
+        border: 0
+        border-radius: 0
+
+        // Nothing in flow: the padded click anchor would add its height under the image and break the
+        // square. The anchor covers the whole box instead, and the image fills it.
+        a
+          position: absolute
+          inset: 0
+          padding: 0
+          margin: 0
+          border-radius: 0
+
+        img.map-icon
+          position: absolute
+          inset: 0
+          width: 100%
+          height: 100%
+          object-fit: contain
+          pointer-events: none
 
     .tooltip
       z-index: 3

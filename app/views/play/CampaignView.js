@@ -842,7 +842,8 @@ class CampaignView extends RootView {
     context.requiresSubscription = this.requiresSubscription
     context.editorMode = this.editorMode
     context.showFullFlags = this.showFullFlags
-    context.scenarios = this.campaign?.get('scenarios') || []
+    // Scenario entries carry no status here (HackStack owns their progress), so a mapIcon shows its default image.
+    context.scenarios = (this.campaign?.get('scenarios') || []).map(scenario => ({ ...scenario, mapIconResolved: resolveMapIcon(scenario.mapIcon, '', false) }))
     // Modules: child campaigns rendered as portals on the map.
     // Enrich each module with locked state: first by premium, then by levelToUnlock (complete that level to unlock).
     const rawModules = this.campaign?.get('modules') || []

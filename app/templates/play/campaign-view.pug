@@ -313,14 +313,19 @@ if !editorMode
           if scenario.position
             - var scenarioName = scenario.displayName || "AI Scenario"
             - var scenarioAcronym = (scenarioName.replace(/^(A |The )/i, '').trim().split(/\s+/).map(function(word) { return word[0] ? word[0].toUpperCase() : ''; }).join('')) || 'AI';
+            //- A scenario mapIcon shows here as the planet's not-started image, so placement is what players see.
+            - var scenarioIcon = scenario.mapIconResolved
             div(
-              style="left: " + scenario.position.x + "%; bottom: " + scenario.position.y + "%;",
-              class="scenario",
+              style="left: " + scenario.position.x + "%; bottom: " + scenario.position.y + "%;" + (scenarioIcon ? " --map-icon-scale: " + scenarioIcon.scale : ""),
+              class="scenario" + (scenarioIcon ? " custom-icon" : ""),
               data-scenario-original=scenario.scenario,
               title=scenarioName
             )
               a(href="#", data-scenario-original=scenario.scenario, data-scenario-display-name=scenario.displayName)
-              .scenario-acronym= scenarioAcronym
+              if scenarioIcon
+                img.map-icon(src=scenarioIcon.src, alt="", draggable="false")
+              else
+                .scenario-acronym= scenarioAcronym
 
         for adjacentCampaign in adjacentCampaigns
           a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
