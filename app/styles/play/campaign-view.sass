@@ -358,13 +358,13 @@ $scenarioDotWidth: 3%
       @include box-shadow(0px 0px 35px skyblue)
 
     // Custom map icon (campaign entry mapIcon). The image is the whole marker, centred on the position
-    // point in a box of 2 dots times --map-icon-scale. No dot chrome, no scaleY squash, no status border.
-    $mapIconWidth: calc(2 * #{$levelDotWidth} * var(--map-icon-scale, 1))
-    $mapIconHeight: calc(2 * #{$levelDotHeight} * var(--map-icon-scale, 1))
+    // point in a square box of 2 dots times --map-icon-scale. No dot chrome, no scaleY squash, no status border.
+    // Width, height (through aspect-ratio) and both margins derive from the map width alone, so the box stays
+    // square and centred on maps that are not 3:2 (the editor sizes hackstack campaigns to their image).
     .level.custom-icon
-      width: $mapIconWidth
-      height: $mapIconHeight
-      // Percent margins resolve against the container width, so the vertical offset uses the width dot too.
+      width: calc(2 * #{$levelDotWidth} * var(--map-icon-scale, 1))
+      height: auto
+      aspect-ratio: 1 / 1
       margin-left: calc(-1 * #{$levelDotWidth} * var(--map-icon-scale, 1))
       margin-bottom: calc(-1 * #{$levelDotWidth} * var(--map-icon-scale, 1))
       -webkit-transform: none
