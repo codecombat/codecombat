@@ -15,6 +15,9 @@ const MapIconSchema = c.object({
   locked: { type: 'string', format: 'image-file', title: 'Locked', description: 'Shown as-is when locked. Without it the default image gets the locked treatment.' },
   scale: { type: 'number', title: 'Scale', description: 'Icon box relative to the base marker size of the map.', minimum: 0.25, maximum: 4, default: 1 },
   hoverEffect: { type: 'string', title: 'Hover Effect', enum: ['scale', 'glow', 'lift', 'none'], default: 'scale' },
+  label: { type: 'string', title: 'Number Label', description: 'HackStack maps: the level number centred on the icon as on the default marker, in a bottom-right badge, or hidden.', enum: ['center', 'badge', 'none'], default: 'center' },
+  labelColor: { type: 'string', format: 'color', title: 'Number Colour', description: 'HackStack maps: colour of the level number over this icon. Without it the number keeps its status colour (centre) or the badge text colour.' },
+  labelScale: { type: 'number', title: 'Number Size', description: 'HackStack maps: height of the level number as a fraction of the icon box, so it grows with the scale. Empty keeps the default (0.34 centred, 0.22 badge).', minimum: 0, exclusiveMinimum: true, maximum: 1 },
 })
 
 const CampaignSchema = c.object({
