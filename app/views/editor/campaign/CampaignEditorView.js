@@ -514,6 +514,7 @@ module.exports = (CampaignEditorView = (function () {
       this.listenTo(this.campaignView, 'scenario-moved', this.onCampaignScenarioMoved)
       this.listenTo(this.campaignView, 'adjacent-campaign-moved', this.onAdjacentCampaignMoved)
       this.listenTo(this.campaignView, 'module-moved', this.onModuleMoved)
+      this.listenTo(this.campaignView, 'decoration-moved', this.onDecorationMoved)
       this.listenTo(this.campaignView, 'visual-connection-end-moved', this.onVisualConnectionEndMoved)
       this.listenTo(this.campaignView, 'level-clicked', this.onCampaignLevelClicked)
       this.listenTo(this.campaignView, 'level-double-clicked', this.onCampaignLevelDoubleClicked)
@@ -593,9 +594,19 @@ module.exports = (CampaignEditorView = (function () {
       return this.campaignView.setCampaign(this.campaign)
     }
 
+    // A dragged anchored item keeps its anchor: the drop lands as a new offset, not as a free position.
     onCampaignLevelMoved (e) {
+      if (e.anchorOffset) { return this.treema.set(`levels/${e.levelOriginal}/anchor/offset`, e.anchorOffset) }
       const path = `levels/${e.levelOriginal}/position`
       return this.treema.set(path, e.position)
+    }
+
+    onDecorationMoved (e) {
+      const decorations = this.treema.get('/mapDecorations') || []
+      const idx = _.findIndex(decorations, d => (d && (d.id === e.decorationId)))
+      if (idx < 0) { return null }
+      if (e.anchorOffset) { return this.treema.set(`/mapDecorations/${idx}/anchor/offset`, e.anchorOffset) }
+      return this.treema.set(`/mapDecorations/${idx}/position`, e.position)
     }
 
     onCampaignScenarioMoved (e) {
@@ -603,6 +614,7 @@ module.exports = (CampaignEditorView = (function () {
       const scenarios = this.treema.get('/scenarios') || []
       const idx = _.findIndex(scenarios, s => (s && (s.scenario === e.scenarioOriginal)))
       if (idx >= 0) {
+        if (e.anchorOffset) { return this.treema.set(`/scenarios/${idx}/anchor/offset`, e.anchorOffset) }
         const path = `/scenarios/${idx}/position`
         return this.treema.set(path, e.position)
       }
