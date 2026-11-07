@@ -615,38 +615,51 @@ module.exports = (ThangType = (function () {
         attack: { Warrior: 7.5, Ranger: 5, Wizard: 2.5 },
         health: { Warrior: 7.5, Ranger: 5, Wizard: 3.5 },
       }
-
+      const minDamage = 0.63
+      const maxDamage = 2.0
+      const minHealth = 0.5
+      const maxHealth = 2.0
+      const minSpeed = 4
+      const maxSpeed = 16
       const rawNumbers = {
         attack: equipsConfig.attackDamageFactor ?? 1,
         health: equipsConfig.maxHealthFactor ?? 1,
         speed: movesConfig.maxSpeed,
       }
-
-      const stats = {}
-
-      for (const prop of ['attack', 'health']) {
-        const stat = rawNumbers[prop]
-        const classSpecificScore = stat < 1 ? 10 - (5 / stat) : stat * 5
-        const classAverage = this.classStatAverages[prop][heroClass]
-
-        stats[prop] = {
-          relative: Math.round(2 * ((classAverage - 2.5) + (classSpecificScore / 2))) / 2 / 10,
-          absolute: stat
-        }
-        const pieces = ([1, 2, 3].map((num) => $.i18n.t(`choose_hero.${prop}_${num}`)))
-        const percent = Math.round(stat * 100) + '%'
-        const className = $.i18n.t(`general.${_.string.slugify(this.get('heroClass'))}`)
-        stats[prop].description = [pieces[0], percent, pieces[1], className, pieces[2]].join(' ')
+      const ranges = {
+        attack: { min: minDamage, max: maxDamage },
+        health: { min: minHealth, max: maxHealth },
+        speed: { min: minSpeed, max: maxSpeed },
       }
 
-      const minSpeed = 4
-      const maxSpeed = 16
-      const speedRange = maxSpeed - minSpeed
-      const speedPoints = rawNumbers.speed - minSpeed
-      stats.speed = {
-        relative: Math.round((20 * speedPoints) / speedRange) / 2 / 10,
-        absolute: rawNumbers.speed,
-        description: `${$.i18n.t('choose_hero.speed_1')} ${rawNumbers.speed} ${$.i18n.t('choose_hero.speed_2')}`
+      const stats = {}
+      const className = $.i18n.t(
+        `general.${_.string.slugify(heroClass)}`,
+      )
+
+      for (const prop of ['attack', 'health', 'speed']) {
+        const value = rawNumbers[prop]
+        const { min, max } = ranges[prop]
+
+        stats[prop] = {
+          // Normalize against the range, rounding to 5% increments.
+          relative: Math.round(20 * (value - min) / (max - min)) / 20,
+          absolute: value,
+        }
+
+        if (prop === 'speed') {
+          stats[prop].description =
+            `${$.i18n.t('choose_hero.speed_1')} ${value} ${$.i18n.t('choose_hero.speed_2')}`
+        } else {
+          const pieces = [1, 2, 3].map(num =>
+            $.i18n.t(`choose_hero.${prop}_${num}`),
+          )
+          const percent = Math.round(value * 100) + '%'
+
+          stats[prop].description = [
+            pieces[0], percent, pieces[1], className, pieces[2],
+          ].join(' ')
+        }
       }
 
       stats.skills = programmableConfig.programmableProperties
