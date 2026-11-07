@@ -66,6 +66,17 @@ describe('map-placement', () => {
       expect([a, b].some(d => d.x === 22 || d.x === 5)).toBe(true)
     })
 
+    it('keeps ids off Object.prototype: "constructor" is a decoration, "toString" is a missing anchor', () => {
+      const { decorations, markers, labels } = resolveMapPlacements({
+        decorations: [{ ...planet, id: 'constructor' }],
+        markers: [{ key: 'm', position: { x: 3, y: 4 }, anchor: { id: 'toString', offset: { x: 10, y: 10 } } }],
+        labels: [{ id: 'l', text: 'x', position: { x: 1, y: 2 }, anchor: { id: 'hasOwnProperty', offset: { x: 10, y: 10 } } }],
+      })
+      expect(decorations.map(d => d.id)).toEqual(['constructor'])
+      expect(markers.m).toEqual({ x: 3, y: 4, z: MAP_Z.marker })
+      expect(labels[0]).toEqual(jasmine.objectContaining({ x: 1, y: 2, z: MAP_Z.label }))
+    })
+
     it('drops a decoration whose showIf level is not complete and keeps it once it is', () => {
       const gated = { ...planet, id: 'moon', showIf: { level: 'level-original', status: 'complete' } }
       expect(resolveMapPlacements({ decorations: [planet, gated] }).decorations.map(d => d.id)).toEqual(['planet-green'])
@@ -104,6 +115,13 @@ describe('map-placement', () => {
       expect(labels[0].accentRgb).toBeNull()
       expect(labels[1].scale).toBe(0.25)
       expect(labels[1].style).toBe('chip')
+    })
+
+    it('normalises the accent to six digits so every renderer reads the same colour', () => {
+      const { labels } = resolveMapPlacements({ labels: [{ ...plank, accent: '#fff' }, { ...plank, id: 'b', accent: 'c0d030' }] })
+      expect(labels[0].accent).toBe('#FFFFFF')
+      expect(labels[0].accentRgb).toBe('255, 255, 255')
+      expect(labels[1].accent).toBe('#C0D030')
     })
 
     it('resolves a 9-slice plank image with its caps and padding, filling in missing numbers', () => {

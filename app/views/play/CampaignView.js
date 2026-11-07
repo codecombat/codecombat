@@ -81,6 +81,9 @@ function resolveMapIcon (mapIcon, status, locked) {
   }
 }
 const DEFAULT_MAP_SIZE = { width: 1920, height: 1280 } // the classic campaign maps are painted 3:2
+// A level's shadow is its own map item this far below the marker's z: above the decorations, below the
+// connection lines and under every marker, so a neighbour's shadow never darkens a marker.
+const SHADOW_BELOW_MARKER = 1.5
 // Same stroke as hackstack's LevelConnections
 const SCENARIO_CONNECTION_OPACITY = 0.7
 const SCENARIO_CONNECTION_WIDTH = 7
@@ -1029,6 +1032,7 @@ class CampaignView extends RootView {
       ...placements.decorations.map((decoration, order) => ({ kind: 'decoration', z: decoration.z, order, decoration })),
       { kind: 'connections', z: MAP_Z.connection, order: 0 },
       ...context.modules.map((module, order) => ({ kind: 'module', z: MAP_Z.marker, order, module })),
+      ...shownLevels.filter(level => !level.mapIconResolved).map((level, order) => ({ kind: 'level-shadow', z: level.z - SHADOW_BELOW_MARKER, order, level })),
       ...shownLevels.map((level, order) => ({ kind: 'level', z: level.z, order, level })),
       ...scenarios.map((scenario, order) => ({ kind: 'scenario', z: scenario.z, order, scenario })),
       ...placements.labels.map((label, order) => ({ kind: 'label', z: label.z, order, label: { ...label, css: this.labelCss(label) } })),
@@ -2354,7 +2358,11 @@ class CampaignView extends RootView {
     const img = new Image()
     img.onload = () => {
       if (this.destroyed || image !== this.mapImageSrc) { return } // a newer background replaced this one while it loaded
+      const before = this.getMapSize()
       this.mapImageSize = { width: img.naturalWidth, height: img.naturalHeight }
+      // Anchored offsets convert vertically through the map aspect, so a new aspect moves every anchored
+      // marker and label: render again (placements, markers, labels, lines). Same aspect: resize only.
+      if (this.fullyRendered && this.getMapSize().height !== before.height) { return this.render() }
       this.onWindowResize()
       this.rebuildEditorLines()
     }

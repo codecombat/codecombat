@@ -41,6 +41,12 @@ function hexToRgb (hex) {
   return `${(value >> 16) & 255}, ${(value >> 8) & 255}, ${value & 255}`
 }
 
+// A colour as '#RRGGBB', so every renderer reads the same six digits; null for anything hexToRgb rejects.
+function normalizeHex (hex) {
+  const rgb = hexToRgb(hex)
+  return rgb ? `#${rgb.split(', ').map(n => `0${Number(n).toString(16)}`.slice(-2)).join('').toUpperCase()}` : null
+}
+
 // A custom plank: caps in image pixels, top right bottom left; text inset horizontal, vertical.
 function resolvePlankImage (plankImage) {
   if (!plankImage || typeof plankImage.image !== 'string' || !plankImage.image) { return null }
@@ -53,15 +59,15 @@ function resolvePlankImage (plankImage) {
 //   decorations: the visible ones, each with x, y (resolved centre), z, widthPercent and its array index
 //   markers: by key, { x, y, z } for every marker passed in
 //   labels: in array order, each with x, y, z, the text (and its i18n) and the resolved look: scale, style,
-//           accent (null when the renderer's neutral colour applies), accentRgb, plankImage
+//           accent as '#RRGGBB' (null when the renderer's neutral colour applies), accentRgb, plankImage
 // isComplete(originalOrScenarioId) answers showIf; a missing anchor id or a cycle falls back to the item's
 // own position.
 function resolveMapPlacements ({ decorations = [], markers = [], labels = [], mapAspect = 1.5, isComplete = () => false } = {}) {
-  const byId = {}
+  const byId = Object.create(null) // null-prototype: an id like 'constructor' must not read Object.prototype
   decorations.forEach((decoration, index) => {
     if (decoration && typeof decoration.id === 'string') { byId[decoration.id] = { decoration, index } }
   })
-  const resolved = {}
+  const resolved = Object.create(null)
 
   const resolveDecoration = (id, trail) => {
     if (resolved[id]) { return resolved[id] }
@@ -102,7 +108,7 @@ function resolveMapPlacements ({ decorations = [], markers = [], labels = [], ma
     .filter(d => !d.showIf || !d.showIf.level || isComplete(d.showIf.level))
     .sort((a, b) => a.index - b.index)
 
-  const markerPlacements = {}
+  const markerPlacements = Object.create(null)
   for (const marker of markers) {
     if (!marker || marker.key == null) { continue }
     const own = {
@@ -126,7 +132,7 @@ function resolveMapPlacements ({ decorations = [], markers = [], labels = [], ma
     const anchor = label.anchor
     const parent = anchor && typeof anchor.id === 'string' ? resolved[anchor.id] : null
     const placed = parent ? anchoredPosition(parent, anchor.offset, own.z, mapAspect) : own
-    const accent = typeof label.accent === 'string' && hexToRgb(label.accent) ? label.accent : null
+    const accent = normalizeHex(label.accent)
     labelPlacements.push({
       id: label.id,
       index,

@@ -735,7 +735,9 @@ $scenarioIconWidth: 3.54%  // the planet's 68 px marker at 1920 px map width
     stroke: #ffc800
     filter: drop-shadow(0 0 6px rgba(255, 200, 0, 0.9))
 
-  // Scenario connections of graph-map HackStack campaigns, drawn the way hackstack draws them
+  // Scenario connections of graph-map HackStack campaigns, drawn the way hackstack draws them. It lives in
+  // .map-connections, so its place in the draw order is its stacking: a z-index here would lift it above
+  // the markers (z-index auto) again.
   #scenario-connections-svg
     position: absolute
     left: 0
@@ -743,7 +745,6 @@ $scenarioIconWidth: 3.54%  // the planet's 68 px marker at 1920 px map width
     width: 100%
     height: 100%
     pointer-events: none
-    z-index: 1
 
   .game-controls
     position: absolute

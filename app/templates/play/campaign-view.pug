@@ -8,6 +8,12 @@ mixin mapDecoration(decoration)
 mixin mapLabel(label)
   div(class="map-label map-label-" + label.style + (label.plankImage ? " map-label-image" : ""), dir="auto", data-label-id=label.id, style=label.css)= i18n(label, 'text')
 
+//- A level's shadow is its own map item below every marker (CampaignView.buildMapItems), so a neighbour's
+//- shadow never darkens a marker; a level with a custom icon has none.
+mixin levelShadow(level)
+  - var levelStatus = levelStatusMap[level.slug] || ''
+  div(style="left: " + level.position.x + "%; bottom: " + level.position.y + "%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + levelStatus)
+
 mixin levelMarker(level)
   - var levelStatus = levelStatusMap[level.slug] || ''
   - var levelNumber = '';
@@ -18,9 +24,6 @@ mixin levelMarker(level)
   - var lockedBySubscription = me.isHomeUser() && !me.isPremium() && level.requiresSubscription && campaign.get('type') !== 'hoc'
   //- A custom map icon is the whole marker: no coloured dot, shadow, flag, chest or portrait around it.
   - var mapIcon = level.mapIconResolved
-  //- The shadow comes before the marker so DOM order paints it underneath; a custom icon has none.
-  if !mapIcon
-    div(style="left: " + level.position.x + "%; bottom: " + level.position.y + "%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + levelStatus)
   div(
     style="left: " + level.position.x + "%; bottom: " + level.position.y + "%; " + (mapIcon ? "--map-icon-scale: " + mapIcon.scale : "background-color: " + level.color),
     class="level" + (level.next || _.any(level.practiceLevels || [], { next: true }) ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatus + (mapIcon ? " custom-icon hover-" + mapIcon.hoverEffect + (mapIcon.lockedTreatment ? " locked-treatment" : "") : ""),
@@ -338,9 +341,9 @@ if !editorMode
         .gradient.vertical-gradient.left-gradient
         .map-background(alt="", draggable="false")
 
-        //- Everything placed on the map, in draw order (lib/map-placement): decorations, the connection
-        //- layer, module portals, level and scenario markers, labels. Later items paint over earlier ones; the
-        //- popups, tooltips and editor handles keep their own z-index above all of it.
+        //- Everything placed on the map, in draw order (lib/map-placement): decorations, level shadows, the
+        //- connection layer, module portals, level and scenario markers, labels. Later items paint over earlier
+        //- ones; the popups, tooltips and editor handles keep their own z-index above all of it.
         each item in mapItems
           case item.kind
             when 'decoration'
@@ -349,6 +352,8 @@ if !editorMode
               .map-connections
             when 'module'
               +modulePortal(item.module)
+            when 'level-shadow'
+              +levelShadow(item.level)
             when 'level'
               +levelMarker(item.level)
             when 'scenario'
