@@ -1,4 +1,4 @@
-// Placement of everything drawn on a campaign map: decorations, level and scenario markers, module portals.
+// Placement of everything drawn on a campaign map: decorations, labels, level and scenario markers, module portals.
 // Pure: no DOM, no models. Both renderers (this one and hackstack/src/lib/map-placement.ts) implement the
 // same rules, so a campaign reads the same on every map.
 //
@@ -28,12 +28,35 @@ function clampZ (z, fallback) {
   return Math.min(10, Math.max(0, finiteOr(z, fallback)))
 }
 
-// Resolves decorations first (they can anchor to each other), then the markers. Returns:
+const LABEL_STYLES = ['plank', 'chip', 'none']
+
+// '#abc' or '#aabbcc' to 'r, g, b' for an rgba() with the renderer's own alpha; anything else is null.
+function hexToRgb (hex) {
+  if (typeof hex !== 'string') { return null }
+  const match = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(hex.trim())
+  if (!match) { return null }
+  let digits = match[1]
+  if (digits.length === 3) { digits = digits.split('').map(d => d + d).join('') }
+  const value = parseInt(digits, 16)
+  return `${(value >> 16) & 255}, ${(value >> 8) & 255}, ${value & 255}`
+}
+
+// A custom plank: caps in image pixels, top right bottom left; text inset horizontal, vertical.
+function resolvePlankImage (plankImage) {
+  if (!plankImage || typeof plankImage.image !== 'string' || !plankImage.image) { return null }
+  const slice = [0, 1, 2, 3].map(i => Math.max(0, finiteOr(plankImage.slice?.[i], 0)))
+  const padding = [0, 1].map(i => Math.max(0, finiteOr(plankImage.padding?.[i], 0)))
+  return { image: plankImage.image, slice, padding }
+}
+
+// Resolves decorations first (they can anchor to each other), then the markers and labels. Returns:
 //   decorations: the visible ones, each with x, y (resolved centre), z, widthPercent and its array index
 //   markers: by key, { x, y, z } for every marker passed in
+//   labels: in array order, each with x, y, z, the text (and its i18n) and the resolved look: scale, style,
+//           accent (null when the renderer's neutral colour applies), accentRgb, plankImage
 // isComplete(originalOrScenarioId) answers showIf; a missing anchor id or a cycle falls back to the item's
 // own position.
-function resolveMapPlacements ({ decorations = [], markers = [], mapAspect = 1.5, isComplete = () => false } = {}) {
+function resolveMapPlacements ({ decorations = [], markers = [], labels = [], mapAspect = 1.5, isComplete = () => false } = {}) {
   const byId = {}
   decorations.forEach((decoration, index) => {
     if (decoration && typeof decoration.id === 'string') { byId[decoration.id] = { decoration, index } }
@@ -92,7 +115,35 @@ function resolveMapPlacements ({ decorations = [], markers = [], mapAspect = 1.5
     markerPlacements[marker.key] = parent ? anchoredPosition(parent, anchor.offset, own.z, mapAspect) : own
   }
 
-  return { decorations: visibleDecorations, markers: markerPlacements }
+  const labelPlacements = []
+  ;(labels || []).forEach((label, index) => {
+    if (!label || typeof label.id !== 'string') { return }
+    const own = {
+      x: finiteOr(label.position?.x, 0),
+      y: finiteOr(label.position?.y, 0),
+      z: clampZ(label.z, MAP_Z.label),
+    }
+    const anchor = label.anchor
+    const parent = anchor && typeof anchor.id === 'string' ? resolved[anchor.id] : null
+    const placed = parent ? anchoredPosition(parent, anchor.offset, own.z, mapAspect) : own
+    const accent = typeof label.accent === 'string' && hexToRgb(label.accent) ? label.accent : null
+    labelPlacements.push({
+      id: label.id,
+      index,
+      x: placed.x,
+      y: placed.y,
+      z: placed.z,
+      text: typeof label.text === 'string' ? label.text : '',
+      i18n: label.i18n,
+      scale: Math.min(4, Math.max(0.25, finiteOr(label.scale, 1))),
+      style: LABEL_STYLES.includes(label.style) ? label.style : 'plank',
+      accent,
+      accentRgb: hexToRgb(accent),
+      plankImage: resolvePlankImage(label.plankImage),
+    })
+  })
+
+  return { decorations: visibleDecorations, markers: markerPlacements, labels: labelPlacements }
 }
 
 // Offset is percent of the anchor's width on both axes; width is a fraction of the map width, so the
@@ -121,4 +172,4 @@ function byDrawOrder (a, b) {
   return (a.z - b.z) || (a.order - b.order)
 }
 
-module.exports = { MAP_Z, resolveMapPlacements, anchoredPosition, offsetForPosition, byDrawOrder }
+module.exports = { MAP_Z, LABEL_STYLES, resolveMapPlacements, anchoredPosition, offsetForPosition, byDrawOrder, hexToRgb }

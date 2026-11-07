@@ -1,4 +1,4 @@
-const { MAP_Z, resolveMapPlacements, offsetForPosition, byDrawOrder } = require('lib/map-placement')
+const { MAP_Z, resolveMapPlacements, offsetForPosition, byDrawOrder, hexToRgb } = require('lib/map-placement')
 
 describe('map-placement', () => {
   const planet = { id: 'planet-green', image: 'db/campaign/c/green.webp', position: { x: 22, y: 67 }, width: 0.25 }
@@ -76,6 +76,55 @@ describe('map-placement', () => {
       const { decorations, markers } = resolveMapPlacements({ decorations: [{ image: 'x.png', position: { x: 1, y: 1 } }, planet], markers: [{ position: { x: 1, y: 1 } }] })
       expect(decorations.map(d => d.id)).toEqual(['planet-green'])
       expect(Object.keys(markers)).toEqual([])
+    })
+  })
+
+  describe('labels', () => {
+    const plank = { id: 'plank-green', text: 'Vibe Coding Lab', position: { x: 22, y: 40 }, accent: '#C0D030' }
+
+    it('places a label at its own position with the kind defaults and the resolved look', () => {
+      const { labels } = resolveMapPlacements({ labels: [plank] })
+      expect(labels.length).toBe(1)
+      expect(labels[0]).toEqual(jasmine.objectContaining({ id: 'plank-green', index: 0, x: 22, y: 40, z: MAP_Z.label, text: 'Vibe Coding Lab', scale: 1, style: 'plank', accent: '#C0D030', accentRgb: '192, 208, 48', plankImage: null }))
+    })
+
+    it('anchors a label to a decoration and never draws it under that decoration', () => {
+      const { labels } = resolveMapPlacements({ decorations: [{ ...planet, z: 6 }], labels: [{ ...plank, position: { x: 0, y: 0 }, anchor: { id: 'planet-green', offset: { x: 0, y: -62 } } }], mapAspect: 1.5 })
+      expect(labels[0].x).toBeCloseTo(22, 5)
+      expect(labels[0].y).toBeCloseTo(67 - 15.5 * 1.5, 5)
+      expect(labels[0].z).toBeCloseTo(6.1, 5)
+    })
+
+    it('keeps the text translations, clamps scale, and falls back on an unknown style or a bad colour', () => {
+      const { labels } = resolveMapPlacements({ labels: [{ ...plank, i18n: { de: { text: 'Vibe-Labor' } }, scale: 9, style: 'banner', accent: 'lime' }, { ...plank, id: 'tiny', scale: 0.01, style: 'chip' }] })
+      expect(labels[0].i18n).toEqual({ de: { text: 'Vibe-Labor' } })
+      expect(labels[0].scale).toBe(4)
+      expect(labels[0].style).toBe('plank')
+      expect(labels[0].accent).toBeNull()
+      expect(labels[0].accentRgb).toBeNull()
+      expect(labels[1].scale).toBe(0.25)
+      expect(labels[1].style).toBe('chip')
+    })
+
+    it('resolves a 9-slice plank image with its caps and padding, filling in missing numbers', () => {
+      const { labels } = resolveMapPlacements({ labels: [{ ...plank, plankImage: { image: 'db/campaign/c/plank.png', slice: [24, 40, 24, 40], padding: [12, 4] } }, { ...plank, id: 'bare', plankImage: { image: 'db/campaign/c/plank.png' } }, { ...plank, id: 'none', plankImage: { slice: [1, 1, 1, 1] } }] })
+      expect(labels[0].plankImage).toEqual({ image: 'db/campaign/c/plank.png', slice: [24, 40, 24, 40], padding: [12, 4] })
+      expect(labels[1].plankImage).toEqual({ image: 'db/campaign/c/plank.png', slice: [0, 0, 0, 0], padding: [0, 0] })
+      expect(labels[2].plankImage).toBeNull()
+    })
+
+    it('ignores labels without an id', () => {
+      expect(resolveMapPlacements({ labels: [{ text: 'x', position: { x: 1, y: 1 } }, plank] }).labels.map(l => l.id)).toEqual(['plank-green'])
+    })
+  })
+
+  describe('hexToRgb', () => {
+    it('reads 3- and 6-digit hex colours and rejects the rest', () => {
+      expect(hexToRgb('#C0D030')).toBe('192, 208, 48')
+      expect(hexToRgb('#fff')).toBe('255, 255, 255')
+      expect(hexToRgb('28F8F8')).toBe('40, 248, 248')
+      expect(hexToRgb('lime')).toBeNull()
+      expect(hexToRgb(undefined)).toBeNull()
     })
   })
 

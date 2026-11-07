@@ -47,6 +47,26 @@ const MapDecorationSchema = c.object({ title: 'Map Decoration', description: 'An
   }),
 })
 
+// Text placed over the map: a chain name beside its planet, a hint on a module map. The plank sizes itself
+// from the text so any translation fits; a custom plank is a 9-slice, so its caps keep their pixels while
+// the middle stretches with the text.
+const MapLabelSchema = c.object({ title: 'Map Label', description: 'Text placed over the map, above the markers unless z says otherwise. Never clickable.', required: ['id', 'text', 'position'] }, {
+  id: { type: 'string', title: 'Id', description: 'Unique on this campaign.' },
+  text: { type: 'string', title: 'Text', format: 'long-string', description: 'A line break starts a new line on the map. A label never wraps on its own.' },
+  i18n: { type: 'object', format: 'i18n', props: ['text'], title: 'i18n', description: 'Translations of the text, line breaks included.' },
+  position: c.point2d({ title: 'Position', description: 'Centre of the label, percent of the map, bottom-left origin.' }),
+  z: MapZSchema,
+  anchor: MapAnchorSchema,
+  scale: { type: 'number', title: 'Scale', description: 'Relative to the base plank size of the map (the side-scroller plank at 1).', minimum: 0.25, maximum: 4, default: 1 },
+  style: { type: 'string', title: 'Style', description: 'plank: the dark name plank with an accent border; chip: a small accent pill; none: text only.', enum: ['plank', 'chip', 'none'], default: 'plank' },
+  accent: { type: 'string', format: 'color', title: 'Accent', description: 'Border colour of the plank, fill of the chip. Without it a neutral map grey; never a level status colour.' },
+  plankImage: c.object({ title: 'Plank Image', description: 'Custom plank as a 9-slice: the caps keep their pixels, the middle stretches with the text.', required: ['image', 'slice'] }, {
+    image: { type: 'string', format: 'image-file', title: 'Image' },
+    slice: c.array({ title: 'Slice', description: 'Cap sizes in image pixels: top, right, bottom, left.', minItems: 4, maxItems: 4 }, { type: 'number', minimum: 0 }),
+    padding: c.array({ title: 'Padding', description: 'Text inset inside the caps, in image pixels: horizontal, vertical.', minItems: 2, maxItems: 2 }, { type: 'number', minimum: 0 }),
+  }),
+})
+
 const CampaignSchema = c.object({
   default: {
     type: 'hero',
@@ -208,6 +228,7 @@ _.extend(CampaignSchema.properties, {
   isIsolatedCampaign: { type: 'boolean', description: 'Isolated campaign, can be accessed only by direct link and dont have "back" button', default: false },
   isSideScrollerCampaign: { type: 'boolean', description: 'Side scroller campaign view', default: false },
   mapDecorations: c.array({ title: 'Map Decorations', description: 'Images placed over the map: planets, rocks, comets. Drawn by every map that shows this campaign.' }, MapDecorationSchema),
+  mapLabels: c.array({ title: 'Map Labels', description: 'Text planks placed over the map: chain names, hints. Drawn by every map that shows this campaign.' }, MapLabelSchema),
   parallaxBackgrounds: {
     type: 'array',
     title: 'Parallax Backgrounds',
