@@ -3,6 +3,11 @@
 mixin mapDecoration(decoration)
   img.map-decoration(src="/file/" + decoration.image, alt="", draggable="false", data-decoration-id=decoration.id, style="left: " + decoration.x + "%; bottom: " + decoration.y + "%; width: " + decoration.widthPercent + "%; opacity: " + decoration.opacity + "; --map-rotation: " + decoration.rotation + "deg")
 
+//- Authored text on the map (campaign mapLabels): a plank, chip or bare text centred on its resolved position
+//- and sized from its text, never a click target outside the editor. Emitted in draw order, no z-index.
+mixin mapLabel(label)
+  div(class="map-label map-label-" + label.style + (label.plankImage ? " map-label-image" : ""), dir="auto", data-label-id=label.id, style=label.css)= i18n(label, 'text')
+
 mixin levelMarker(level)
   - var levelStatus = levelStatusMap[level.slug] || ''
   - var levelNumber = '';
@@ -334,7 +339,7 @@ if !editorMode
         .map-background(alt="", draggable="false")
 
         //- Everything placed on the map, in draw order (lib/map-placement): decorations, the connection
-        //- layer, module portals, level and scenario markers. Later items paint over earlier ones; the
+        //- layer, module portals, level and scenario markers, labels. Later items paint over earlier ones; the
         //- popups, tooltips and editor handles keep their own z-index above all of it.
         each item in mapItems
           case item.kind
@@ -348,6 +353,8 @@ if !editorMode
               +levelMarker(item.level)
             when 'scenario'
               +scenarioMarker(item.scenario)
+            when 'label'
+              +mapLabel(item.label)
         for adjacentCampaign in adjacentCampaigns
           a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
             span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id, data-campaign-slug=adjacentCampaign.slug)

@@ -515,6 +515,7 @@ module.exports = (CampaignEditorView = (function () {
       this.listenTo(this.campaignView, 'adjacent-campaign-moved', this.onAdjacentCampaignMoved)
       this.listenTo(this.campaignView, 'module-moved', this.onModuleMoved)
       this.listenTo(this.campaignView, 'decoration-moved', this.onDecorationMoved)
+      this.listenTo(this.campaignView, 'label-moved', this.onLabelMoved)
       this.listenTo(this.campaignView, 'visual-connection-end-moved', this.onVisualConnectionEndMoved)
       this.listenTo(this.campaignView, 'level-clicked', this.onCampaignLevelClicked)
       this.listenTo(this.campaignView, 'level-double-clicked', this.onCampaignLevelDoubleClicked)
@@ -607,6 +608,14 @@ module.exports = (CampaignEditorView = (function () {
       if (idx < 0) { return null }
       if (e.anchorOffset) { return this.treema.set(`/mapDecorations/${idx}/anchor/offset`, e.anchorOffset) }
       return this.treema.set(`/mapDecorations/${idx}/position`, e.position)
+    }
+
+    onLabelMoved (e) {
+      const labels = this.treema.get('/mapLabels') || []
+      const idx = _.findIndex(labels, l => (l && (l.id === e.labelId)))
+      if (idx < 0) { return null }
+      if (e.anchorOffset) { return this.treema.set(`/mapLabels/${idx}/anchor/offset`, e.anchorOffset) }
+      return this.treema.set(`/mapLabels/${idx}/position`, e.position)
     }
 
     onCampaignScenarioMoved (e) {

@@ -1004,6 +1004,7 @@ class CampaignView extends RootView {
     const scenarios = context.scenarios.filter(scenario => scenario.position)
     const placements = resolveMapPlacements({
       decorations: this.campaign?.get('mapDecorations') || [],
+      labels: this.campaign?.get('mapLabels') || [],
       markers: [
         ...context.levels.map(level => ({ key: `level:${level.original}`, position: level.position, z: level.z, anchor: level.anchor })),
         ...scenarios.map(scenario => ({ key: `scenario:${scenario.scenario}`, position: scenario.position, z: scenario.z, anchor: scenario.anchor })),
@@ -1030,7 +1031,26 @@ class CampaignView extends RootView {
       ...context.modules.map((module, order) => ({ kind: 'module', z: MAP_Z.marker, order, module })),
       ...shownLevels.map((level, order) => ({ kind: 'level', z: level.z, order, level })),
       ...scenarios.map((scenario, order) => ({ kind: 'scenario', z: scenario.z, order, scenario })),
+      ...placements.labels.map((label, order) => ({ kind: 'label', z: label.z, order, label: { ...label, css: this.labelCss(label) } })),
     ].sort(byDrawOrder)
+  }
+
+  // Inline look of a label: position, scale and accent as custom properties the stylesheet reads, plus the
+  // 9-slice plank when there is one. Lengths are map units (1% of the map's width on screen, set on resize)
+  // so a label scales with the map like the markers; a plank image's pixels are read against the 1920 px
+  // reference map, as on the planet.
+  labelCss (label) {
+    const parts = [`left: ${label.x}%`, `bottom: ${label.y}%`, `--map-label-scale: ${label.scale}`]
+    if (label.accentRgb) { parts.push(`--map-label-accent-rgb: ${label.accentRgb}`) }
+    const plank = label.plankImage
+    if (plank) {
+      const unit = px => `calc(var(--map-unit, ${DEFAULT_MAP_SIZE.width / 100}px) * ${(px * label.scale) / (DEFAULT_MAP_SIZE.width / 100)})`
+      parts.push(`border-image-source: url("/file/${plank.image}")`)
+      parts.push(`border-image-slice: ${plank.slice.join(' ')} fill`)
+      parts.push(`border-width: ${plank.slice.map(unit).join(' ')}`)
+      parts.push(`padding: ${unit(plank.padding[1])} ${unit(plank.padding[0])}`)
+    }
+    return parts.join('; ')
   }
 
   // A dragged item keeps its anchor: the drop position becomes a new offset from the anchor decoration.
@@ -1106,36 +1126,46 @@ class CampaignView extends RootView {
             if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
           })
       })
-      // Decorations: draggable in the editor. They sit on bottom/left with a centring translate; jQuery UI
-      // drags top/left and knows nothing about transforms (it would re-apply the translate on top of the
-      // visual position), so at drag start the translate is folded into top/left and only the rotation
-      // stays inline. On drop the rendered box's centre is read and the stylesheet transform comes back.
-      this.$el.find('.map-decoration').each(function () {
-        if (!me.isAdmin() || !view.editorMode) { return }
-        const el = $(this)
-        el.draggable({
-          scroll: false,
-          containment: '.map',
-          start: function () {
-            const map = $('.map')
-            const width = el.outerWidth()
-            const height = el.outerHeight()
-            const leftPx = parseFloat(el.css('left')) || 0
-            const bottomPx = parseFloat(el.css('bottom')) || 0
-            const rotation = el[0].style.getPropertyValue('--map-rotation') || '0deg'
-            el.css({ left: leftPx - width / 2, top: map.height() - bottomPx - height / 2, bottom: 'auto', transform: `rotate(${rotation})` })
-          },
-          stop: function () {
-            const mapRect = $('.map')[0].getBoundingClientRect()
-            const rect = this.getBoundingClientRect()
-            const x = 100 * ((rect.left + rect.width / 2) - mapRect.left) / mapRect.width
-            const y = 100 * (1 - (((rect.top + rect.height / 2) - mapRect.top) / mapRect.height))
-            el.css({ left: `${x}%`, bottom: `${y}%`, top: 'auto', transform: '' })
-            const decorationId = el.data('decoration-id')
-            const decoration = (view.campaign?.get('mapDecorations') || []).find(d => d.id === decorationId)
-            view.trigger('decoration-moved', { ...view.movedPlacement({ x, y }, decoration?.anchor), decorationId })
-          },
+      // Decorations and labels: draggable in the editor. They sit on bottom/left with a centring translate;
+      // jQuery UI drags top/left and knows nothing about transforms (it would re-apply the translate on top
+      // of the visual position), so at drag start the translate is folded into top/left and only the
+      // rotation stays inline. On drop the rendered box's centre is read and the stylesheet transform comes back.
+      const placedDraggable = (selector, onDrop) => {
+        this.$el.find(selector).each(function () {
+          if (!me.isAdmin() || !view.editorMode) { return }
+          const el = $(this)
+          el.draggable({
+            scroll: false,
+            containment: '.map',
+            start: function () {
+              const map = $('.map')
+              const width = el.outerWidth()
+              const height = el.outerHeight()
+              const leftPx = parseFloat(el.css('left')) || 0
+              const bottomPx = parseFloat(el.css('bottom')) || 0
+              const rotation = el[0].style.getPropertyValue('--map-rotation') || '0deg'
+              el.css({ left: leftPx - width / 2, top: map.height() - bottomPx - height / 2, bottom: 'auto', transform: `rotate(${rotation})` })
+            },
+            stop: function () {
+              const mapRect = $('.map')[0].getBoundingClientRect()
+              const rect = this.getBoundingClientRect()
+              const x = 100 * ((rect.left + rect.width / 2) - mapRect.left) / mapRect.width
+              const y = 100 * (1 - (((rect.top + rect.height / 2) - mapRect.top) / mapRect.height))
+              el.css({ left: `${x}%`, bottom: `${y}%`, top: 'auto', transform: '' })
+              onDrop(el, { x, y })
+            },
+          })
         })
+      }
+      placedDraggable('.map-decoration', (el, position) => {
+        const decorationId = el.data('decoration-id')
+        const decoration = (view.campaign?.get('mapDecorations') || []).find(d => d.id === decorationId)
+        view.trigger('decoration-moved', { ...view.movedPlacement(position, decoration?.anchor), decorationId })
+      })
+      placedDraggable('.map-label', (el, position) => {
+        const labelId = el.data('label-id')
+        const label = (view.campaign?.get('mapLabels') || []).find(l => l.id === labelId)
+        view.trigger('label-moved', { ...view.movedPlacement(position, label?.anchor), labelId })
       })
       // Module portals: in editor, mark with an extra class for CSS targeting,
       // and enable drag that saves the same bottom-left anchor that CSS uses
@@ -2379,6 +2409,8 @@ class CampaignView extends RootView {
     const mapWidthInLayout = resultingWidth * (mapWidth / layoutWidth)
     const mapMarginX = (resultingWidth - mapWidthInLayout) / 2
     $map.css({ width: mapWidthInLayout, height: resultingHeight, 'margin-left': mapMarginX, 'margin-top': 0 })
+    // One map unit is 1% of the map's width on screen; labels size themselves from it (campaign-view.sass).
+    if ($map[0]) { $map[0].style.setProperty('--map-unit', `${mapWidthInLayout / 100}px`) }
     $portalsContainer.css({ width: '', height: '', 'margin-left': '', 'margin-top': '' })
     if (this.pointerInterval) {
       this.highlightNextLevel()

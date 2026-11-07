@@ -130,6 +130,56 @@ $scenarioIconWidth: 3.54%  // the planet's 68 px marker at 1920 px map width
       pointer-events: none
       @include user-select(none)
 
+    // Authored text on the map (campaign mapLabels). The plank is hackstack's side-scroller plank: slate-900
+    // at 95%, a 1px accent border at 60%, rounded, Tailwind's shadow-xl; the neutral accent is its GRAY_300.
+    // Sizes are in em off a font size in map units (1% of the map's width, set on resize), so the label's
+    // scale and the map scale the whole plank together. Never a click target outside the editor.
+    $map-label-text: #ffffff
+    $map-label-plank-bg: rgba(15, 23, 42, 0.95)
+    $map-label-chip-text: #0f172a
+    $map-label-neutral-rgb: 209, 213, 219
+    .map-label
+      position: absolute
+      transform: translate(-50%, 50%)
+      pointer-events: none
+      // pre: a line break in the text starts a new line, nothing wraps on its own
+      white-space: pre
+      text-align: center
+      box-sizing: border-box
+      font-size: calc(var(--map-unit, 19.2px) * 1.5 * var(--map-label-scale, 1))
+      line-height: 1.25
+      color: $map-label-text
+      --map-label-accent-rgb: #{$map-label-neutral-rgb}
+      @include user-select(none)
+
+    // Tailwind's py-1 px-3 rounded-xl at the side scroller's 1080p font size (29px), in em.
+    .map-label-plank
+      background: $map-label-plank-bg
+      border: 1px solid rgba(var(--map-label-accent-rgb), 0.6)
+      border-radius: 0.42em
+      padding: 0.14em 0.42em
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)
+
+    .map-label-chip
+      font-size: calc(var(--map-unit, 19.2px) * 1.2 * var(--map-label-scale, 1))
+      font-weight: bold
+      background: rgba(var(--map-label-accent-rgb), 0.9)
+      color: $map-label-chip-text
+      border-radius: 1em
+      padding: 0.1em 0.6em
+
+    .map-label-none
+      text-shadow: 0 0 0.3em rgba(0, 0, 0, 0.9), 0 0.05em 0.15em rgba(0, 0, 0, 0.9)
+
+    // A 9-slice plank: the image is the border, its middle fills the text box (border-image-slice ... fill,
+    // caps and padding inline from CampaignView.labelCss).
+    .map-label-image
+      background: none
+      border-style: solid
+      border-color: transparent
+      border-radius: 0
+      box-shadow: none
+
     .module-portal
       position: absolute
       isolation: isolate
