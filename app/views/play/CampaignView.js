@@ -813,6 +813,7 @@ class CampaignView extends RootView {
     if (features.brainPop) {
       context.levels = _.filter(context.levels, level => ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'true-names'].includes(level.slug))
     }
+    this.placeAnchoredLevels(context.levels)
     this.annotateLevels(context.levels, context.campaign)
     const dontCountPracticeLevels = context.campaign?.get('type') === 'junior' || context.campaign?.get('slug') === 'junior'
     const count = this.countLevels(context.levels, context.campaign, dontCountPracticeLevels)
@@ -995,6 +996,22 @@ class CampaignView extends RootView {
     }
   }
 
+  // HoC progression and the next-level choice order levels by position, so an anchored level takes its
+  // resolved position before annotateLevels runs. buildMapItems resolves again with everything else; an
+  // anchored item ignores its saved position, so the second pass lands on the same spot.
+  placeAnchoredLevels (levels) {
+    if (!levels.some(level => level.anchor)) { return }
+    const mapSize = this.getMapSize()
+    const placements = resolveMapPlacements({
+      decorations: this.campaign?.get('mapDecorations') || [],
+      markers: levels.map(level => ({ key: level.original, position: level.position, z: level.z, anchor: level.anchor })),
+      mapAspect: mapSize.width / mapSize.height,
+    })
+    for (const level of levels) {
+      if (level.anchor) { level.position = { x: placements.markers[level.original].x, y: placements.markers[level.original].y } }
+    }
+  }
+
   // Decorations, anchored markers and draw order (lib/map-placement), resolved once per render. The
   // template emits the items in this order, so nothing placed needs a z-index and the UI chrome stays on
   // top. Anchored levels and scenarios get their resolved position written back for the template, the
@@ -1028,15 +1045,19 @@ class CampaignView extends RootView {
     }
     // Hidden practice levels were skipped by the template loop before; lower markers come later so they overlap higher ones.
     const shownLevels = _.sortBy(context.levels.filter(level => !((context.campaign.levelIsPractice(level) || !level.unlockedInSameCampaign) && level.hidden)), level => -level.position.y)
-    return [
-      ...placements.decorations.map((decoration, order) => ({ kind: 'decoration', z: decoration.z, order, decoration })),
-      { kind: 'connections', z: MAP_Z.connection, order: 0 },
-      ...context.modules.map((module, order) => ({ kind: 'module', z: MAP_Z.marker, order, module })),
-      ...shownLevels.filter(level => !level.mapIconResolved).map((level, order) => ({ kind: 'level-shadow', z: level.z - SHADOW_BELOW_MARKER, order, level })),
-      ...shownLevels.map((level, order) => ({ kind: 'level', z: level.z, order, level })),
-      ...scenarios.map((scenario, order) => ({ kind: 'scenario', z: scenario.z, order, scenario })),
-      ...placements.labels.map((label, order) => ({ kind: 'label', z: label.z, order, label: { ...label, css: this.labelCss(label) } })),
-    ].sort(byDrawOrder)
+    // One running order across the kinds, so at equal z the template order before draw-order sorting holds
+    // (decorations, lines, levels, module portals, scenarios, labels) and within a kind the array order.
+    let order = 0
+    const item = (kind, z, props) => ({ kind, z, order: order++, ...props })
+    const decorationItems = placements.decorations.map(decoration => item('decoration', decoration.z, { decoration }))
+    const connectionItems = [item('connections', MAP_Z.connection, {})]
+    const levelItems = shownLevels.map(level => item('level', level.z, { level }))
+    // A level's shadow shares its marker's order, a band below it in z
+    const shadowItems = levelItems.filter(({ level }) => !level.mapIconResolved).map(({ level, order }) => ({ kind: 'level-shadow', z: level.z - SHADOW_BELOW_MARKER, order, level }))
+    const moduleItems = context.modules.map(module => item('module', MAP_Z.marker, { module }))
+    const scenarioItems = scenarios.map(scenario => item('scenario', scenario.z, { scenario }))
+    const labelItems = placements.labels.map(label => item('label', label.z, { label: { ...label, css: this.labelCss(label) } }))
+    return [...decorationItems, ...connectionItems, ...shadowItems, ...levelItems, ...moduleItems, ...scenarioItems, ...labelItems].sort(byDrawOrder)
   }
 
   // Inline look of a label: position, scale and accent as custom properties the stylesheet reads, plus the
@@ -1057,9 +1078,11 @@ class CampaignView extends RootView {
     return parts.join('; ')
   }
 
-  // A dragged item keeps its anchor: the drop position becomes a new offset from the anchor decoration.
-  movedPlacement (position, anchor) {
-    const parent = anchor?.id ? this.mapPlacements?.decorations.find(decoration => decoration.id === anchor.id) : null
+  // A dragged item keeps its anchor: the drop position becomes a new offset from the decoration it was drawn on.
+  // anchorId is the resolved one, so an anchor the resolver ignored (unknown id, self anchor, cycle) saves a
+  // position and the item stays where it was dropped.
+  movedPlacement (position, anchorId) {
+    const parent = anchorId ? this.mapPlacements?.decorations.find(decoration => decoration.id === anchorId) : null
     if (!parent) { return { position } }
     const mapSize = this.getMapSize()
     return { position, anchorOffset: offsetForPosition(parent, position, mapSize.width / mapSize.height) }
@@ -1108,8 +1131,7 @@ class CampaignView extends RootView {
           const x = (($(this).offset().left - bg.offset().left) + ($(this).outerWidth() / 2)) / bg.width()
           const y = 1 - ((($(this).offset().top - bg.offset().top) + ($(this).outerHeight() / 2)) / bg.height())
           const levelOriginal = $(this).data('level-original')
-          const level = levelOriginal ? (view.campaign?.renderedLevels || []).find(l => l.original === levelOriginal) : null
-          const e = { ...view.movedPlacement({ x: (100 * x), y: (100 * y) }, level?.anchor), levelOriginal, campaignID: $(this).data('campaign-id') }
+          const e = { ...view.movedPlacement({ x: (100 * x), y: (100 * y) }, view.mapPlacements?.markers[`level:${levelOriginal}`]?.anchorId), levelOriginal, campaignID: $(this).data('campaign-id') }
           if (e.levelOriginal) { view.trigger('level-moved', e) }
           if (e.campaignID) { view.trigger('adjacent-campaign-moved', e) }
         })
@@ -1125,8 +1147,7 @@ class CampaignView extends RootView {
             const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2)
             const y = 1 - (yCenterPx / bg.height())
             const scenarioOriginal = $(this).data('scenario-original')
-            const scenario = (view.campaign?.get('scenarios') || []).find(s => s.scenario === scenarioOriginal)
-            const e = { ...view.movedPlacement({ x: (100 * x), y: (100 * y) }, scenario?.anchor), scenarioOriginal }
+            const e = { ...view.movedPlacement({ x: (100 * x), y: (100 * y) }, view.mapPlacements?.markers[`scenario:${scenarioOriginal}`]?.anchorId), scenarioOriginal }
             if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
           })
       })
@@ -1145,6 +1166,12 @@ class CampaignView extends RootView {
               const map = $('.map')
               const width = el.outerWidth()
               const height = el.outerHeight()
+              // jQuery UI took the pointer offset from the bounding box, which a rotation widens: rebase it on the
+              // layout box, or the item jumps by half the difference on the first frame and the drop saves that.
+              const rect = el[0].getBoundingClientRect()
+              const click = el.draggable('instance').offset.click
+              click.left -= (rect.width - width) / 2
+              click.top -= (rect.height - height) / 2
               const leftPx = parseFloat(el.css('left')) || 0
               const bottomPx = parseFloat(el.css('bottom')) || 0
               const rotation = el[0].style.getPropertyValue('--map-rotation') || '0deg'
@@ -1161,15 +1188,14 @@ class CampaignView extends RootView {
           })
         })
       }
+      // attr, not data(): jQuery would turn an id like "123" into a number and the editor would not find the entry
       placedDraggable('.map-decoration', (el, position) => {
-        const decorationId = el.data('decoration-id')
-        const decoration = (view.campaign?.get('mapDecorations') || []).find(d => d.id === decorationId)
-        view.trigger('decoration-moved', { ...view.movedPlacement(position, decoration?.anchor), decorationId })
+        const decorationId = el.attr('data-decoration-id')
+        view.trigger('decoration-moved', { ...view.movedPlacement(position, view.mapPlacements?.decorations.find(d => d.id === decorationId)?.anchorId), decorationId })
       })
       placedDraggable('.map-label', (el, position) => {
-        const labelId = el.data('label-id')
-        const label = (view.campaign?.get('mapLabels') || []).find(l => l.id === labelId)
-        view.trigger('label-moved', { ...view.movedPlacement(position, label?.anchor), labelId })
+        const labelId = el.attr('data-label-id')
+        view.trigger('label-moved', { ...view.movedPlacement(position, view.mapPlacements?.labels.find(l => l.id === labelId)?.anchorId), labelId })
       })
       // Module portals: in editor, mark with an extra class for CSS targeting,
       // and enable drag that saves the same bottom-left anchor that CSS uses

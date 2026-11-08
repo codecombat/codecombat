@@ -57,41 +57,55 @@ function resolvePlankImage (plankImage) {
 
 // Resolves decorations first (they can anchor to each other), then the markers and labels. Returns:
 //   decorations: the visible ones, each with x, y (resolved centre), z, widthPercent and its array index
-//   markers: by key, { x, y, z } for every marker passed in
+//   markers: by key, { x, y, z, anchorId } for every marker passed in
 //   labels: in array order, each with x, y, z, the text (and its i18n) and the resolved look: scale, style,
 //           accent as '#RRGGBB' (null when the renderer's neutral colour applies), accentRgb, plankImage
-// isComplete(originalOrScenarioId) answers showIf; a missing anchor id or a cycle falls back to the item's
-// own position.
+// Every item carries anchorId: the decoration it was drawn on, or null when it sits at its own position
+// because it has no anchor, the anchor id is unknown, or the anchor closes a cycle (a self anchor included).
+// An editor reads it to decide whether a drop saves an offset or a position. isComplete(originalOrScenarioId)
+// answers showIf.
 function resolveMapPlacements ({ decorations = [], markers = [], labels = [], mapAspect = 1.5, isComplete = () => false } = {}) {
   const byId = Object.create(null) // null-prototype: an id like 'constructor' must not read Object.prototype
   decorations.forEach((decoration, index) => {
-    if (decoration && typeof decoration.id === 'string') { byId[decoration.id] = { decoration, index } }
+    // The first decoration with an id is the one drawn, as the editor's own lookups find it; a duplicate never draws.
+    if (decoration && typeof decoration.id === 'string' && !byId[decoration.id]) { byId[decoration.id] = { decoration, index } }
   })
+  // The decoration an anchor points at when it exists, else null.
+  const anchorIdOf = id => {
+    const anchor = byId[id].decoration.anchor
+    return anchor && typeof anchor.id === 'string' && byId[anchor.id] ? anchor.id : null
+  }
+  // A decoration whose anchor chain leads back to itself (a self anchor is the shortest chain): every member of
+  // the cycle sits at its own position, whatever the array order.
+  const inCycle = id => {
+    const seen = new Set()
+    for (let next = anchorIdOf(id); next && !seen.has(next); next = anchorIdOf(next)) {
+      if (next === id) { return true }
+      seen.add(next)
+    }
+    return false
+  }
   const resolved = Object.create(null)
 
-  const resolveDecoration = (id, trail) => {
+  // Chains end at an unanchored decoration or at a cycle member, so this never recurses into a cycle.
+  const resolveDecoration = id => {
     if (resolved[id]) { return resolved[id] }
-    const entry = byId[id]
-    if (!entry) { return null }
-    const { decoration, index } = entry
+    const { decoration, index } = byId[id]
     const width = finiteOr(decoration.width, 0.1)
     const own = {
       x: finiteOr(decoration.position?.x, 0),
       y: finiteOr(decoration.position?.y, 0),
       z: clampZ(decoration.z, MAP_Z.decoration),
     }
-    let placed = own
-    const anchor = decoration.anchor
-    if (anchor && typeof anchor.id === 'string' && anchor.id !== id && !trail.includes(anchor.id)) {
-      const parent = resolveDecoration(anchor.id, trail.concat(id))
-      if (parent) { placed = anchoredPosition(parent, anchor.offset, own.z, mapAspect) }
-    }
+    const anchorId = inCycle(id) ? null : anchorIdOf(id)
+    const placed = anchorId ? anchoredPosition(resolveDecoration(anchorId), decoration.anchor.offset, own.z, mapAspect) : own
     resolved[id] = {
       id,
       index,
       x: placed.x,
       y: placed.y,
       z: placed.z,
+      anchorId,
       width,
       widthPercent: width * 100,
       rotation: finiteOr(decoration.rotation, 0),
@@ -102,7 +116,7 @@ function resolveMapPlacements ({ decorations = [], markers = [], labels = [], ma
     return resolved[id]
   }
 
-  Object.keys(byId).forEach(id => resolveDecoration(id, []))
+  Object.keys(byId).forEach(id => resolveDecoration(id))
 
   const visibleDecorations = Object.values(resolved)
     .filter(d => !d.showIf || !d.showIf.level || isComplete(d.showIf.level))
@@ -118,7 +132,7 @@ function resolveMapPlacements ({ decorations = [], markers = [], labels = [], ma
     }
     const anchor = marker.anchor
     const parent = anchor && typeof anchor.id === 'string' ? resolved[anchor.id] : null
-    markerPlacements[marker.key] = parent ? anchoredPosition(parent, anchor.offset, own.z, mapAspect) : own
+    markerPlacements[marker.key] = parent ? { ...anchoredPosition(parent, anchor.offset, own.z, mapAspect), anchorId: parent.id } : { ...own, anchorId: null }
   }
 
   const labelPlacements = []
@@ -139,6 +153,7 @@ function resolveMapPlacements ({ decorations = [], markers = [], labels = [], ma
       x: placed.x,
       y: placed.y,
       z: placed.z,
+      anchorId: parent ? parent.id : null,
       text: typeof label.text === 'string' ? label.text : '',
       i18n: label.i18n,
       scale: Math.min(4, Math.max(0.25, finiteOr(label.scale, 1))),

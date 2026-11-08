@@ -29,6 +29,7 @@ describe('map-placement', () => {
       // 40% of a 25%-wide planet = 10% of the map width; -62% of it = -15.5% of map width = -23.25% of map height on a 3:2 map
       expect(markers.m.x).toBeCloseTo(32, 5)
       expect(markers.m.y).toBeCloseTo(67 - 23.25, 5)
+      expect(markers.m.anchorId).toBe('planet-green')
     })
 
     it('moving the decoration carries its anchored marker', () => {
@@ -48,22 +49,29 @@ describe('map-placement', () => {
       expect(markers.m.z).toBeCloseTo(4.1, 5)
     })
 
-    it('falls back to the own position for an unknown anchor, a self anchor and a cycle', () => {
+    it('falls back to the own position for an unknown anchor, a self anchor and every member of a cycle', () => {
       const { decorations, markers } = resolveMapPlacements({
         decorations: [
           { ...planet, id: 'a', anchor: { id: 'b', offset: { x: 10, y: 10 } } },
           { ...planet, id: 'b', position: { x: 5, y: 5 }, anchor: { id: 'a', offset: { x: 10, y: 10 } } },
           { ...planet, id: 'c', position: { x: 9, y: 9 }, anchor: { id: 'c', offset: { x: 10, y: 10 } } },
+          { ...planet, id: 'd', position: { x: 1, y: 1 }, anchor: { id: 'a', offset: { x: 40, y: 0 } } },
         ],
         markers: [{ key: 'm', position: { x: 3, y: 4 }, anchor: { id: 'nope', offset: { x: 10, y: 10 } } }],
       })
-      const c = decorations.find(d => d.id === 'c')
-      expect(c.x).toBe(9)
-      expect(markers.m).toEqual({ x: 3, y: 4, z: MAP_Z.marker })
-      // a and b break the cycle: one of them resolves from its own position, the other hangs on it
-      const a = decorations.find(d => d.id === 'a')
-      const b = decorations.find(d => d.id === 'b')
-      expect([a, b].some(d => d.x === 22 || d.x === 5)).toBe(true)
+      const byId = {}
+      for (const d of decorations) { byId[d.id] = d }
+      expect([byId.a.x, byId.b.x, byId.c.x]).toEqual([22, 5, 9])
+      expect([byId.a.anchorId, byId.b.anchorId, byId.c.anchorId]).toEqual([null, null, null])
+      // d is outside the cycle: it hangs on a, which sits at its own position
+      expect(byId.d.x).toBeCloseTo(22 + 0.4 * 25, 5)
+      expect(byId.d.anchorId).toBe('a')
+      expect(markers.m).toEqual({ x: 3, y: 4, z: MAP_Z.marker, anchorId: null })
+    })
+
+    it('draws the first of two decorations sharing an id, the one the editor finds', () => {
+      const { decorations } = resolveMapPlacements({ decorations: [planet, { ...planet, position: { x: 50, y: 50 } }] })
+      expect(decorations.map(d => [d.id, d.x, d.index])).toEqual([['planet-green', 22, 0]])
     })
 
     it('keeps ids off Object.prototype: "constructor" is a decoration, "toString" is a missing anchor', () => {
@@ -73,8 +81,8 @@ describe('map-placement', () => {
         labels: [{ id: 'l', text: 'x', position: { x: 1, y: 2 }, anchor: { id: 'hasOwnProperty', offset: { x: 10, y: 10 } } }],
       })
       expect(decorations.map(d => d.id)).toEqual(['constructor'])
-      expect(markers.m).toEqual({ x: 3, y: 4, z: MAP_Z.marker })
-      expect(labels[0]).toEqual(jasmine.objectContaining({ x: 1, y: 2, z: MAP_Z.label }))
+      expect(markers.m).toEqual({ x: 3, y: 4, z: MAP_Z.marker, anchorId: null })
+      expect(labels[0]).toEqual(jasmine.objectContaining({ x: 1, y: 2, z: MAP_Z.label, anchorId: null }))
     })
 
     it('drops a decoration whose showIf level is not complete and keeps it once it is', () => {
@@ -129,6 +137,11 @@ describe('map-placement', () => {
       expect(labels[0].plankImage).toEqual({ image: 'db/campaign/c/plank.png', slice: [24, 40, 24, 40], padding: [12, 4] })
       expect(labels[1].plankImage).toEqual({ image: 'db/campaign/c/plank.png', slice: [0, 0, 0, 0], padding: [0, 0] })
       expect(labels[2].plankImage).toBeNull()
+    })
+
+    it('names the decoration an anchored label hangs on', () => {
+      const { labels } = resolveMapPlacements({ decorations: [planet], labels: [{ id: 'l', text: 'x', position: { x: 0, y: 0 }, anchor: { id: 'planet-green', offset: { x: 0, y: -62 } } }] })
+      expect(labels[0].anchorId).toBe('planet-green')
     })
 
     it('ignores labels without an id', () => {
