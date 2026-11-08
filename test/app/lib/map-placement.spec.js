@@ -69,6 +69,15 @@ describe('map-placement', () => {
       expect(markers.m).toEqual({ x: 3, y: 4, z: MAP_Z.marker, anchorId: null })
     })
 
+    it('treats an empty-string id like any other id', () => {
+      const { decorations, labels } = resolveMapPlacements({
+        decorations: [{ ...planet, id: '' }, { ...planet, id: 'moon', position: { x: 0, y: 0 }, anchor: { id: '', offset: { x: 40, y: 0 } } }],
+        labels: [{ id: 'l', text: 'x', position: { x: 0, y: 0 }, anchor: { id: '', offset: { x: 40, y: 0 } } }],
+      })
+      expect(decorations.map(d => [d.id, d.x, d.anchorId])).toEqual([['', 22, null], ['moon', 32, '']])
+      expect([labels[0].x, labels[0].anchorId]).toEqual([32, ''])
+    })
+
     it('draws the first of two decorations sharing an id, the one the editor finds', () => {
       const { decorations } = resolveMapPlacements({ decorations: [planet, { ...planet, position: { x: 50, y: 50 } }] })
       expect(decorations.map(d => [d.id, d.x, d.index])).toEqual([['planet-green', 22, 0]])

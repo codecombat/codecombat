@@ -6,7 +6,7 @@ mixin mapDecoration(decoration)
 //- Authored text on the map (campaign mapLabels): a plank, chip or bare text centred on its resolved position
 //- and sized from its text, never a click target outside the editor. Emitted in draw order, no z-index.
 mixin mapLabel(label)
-  div(class="map-label map-label-" + label.style + (label.plankImage ? " map-label-image" : ""), dir="auto", data-label-id=label.id, style=label.css)= i18n(label, 'text')
+  div(class="map-label map-label-" + label.style + (label.plankImage ? " map-label-image" : ""), dir="auto", data-label-id=label.id, data-label-index=label.index, style=label.css)= i18n(label, 'text')
 
 //- A level's shadow is its own map item below every marker (CampaignView.buildMapItems), so a neighbour's
 //- shadow never darkens a marker; a level with a custom icon has none.

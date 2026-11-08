@@ -610,10 +610,11 @@ module.exports = (CampaignEditorView = (function () {
       return this.treema.set(`/mapDecorations/${idx}/position`, e.position)
     }
 
+    // By array index, not id: two labels may share an id, and the drag edits the one that moved.
     onLabelMoved (e) {
       const labels = this.treema.get('/mapLabels') || []
-      const idx = _.findIndex(labels, l => (l && (l.id === e.labelId)))
-      if (idx < 0) { return null }
+      const idx = e.labelIndex
+      if (!labels[idx]) { return null }
       if (e.anchorOffset) { return this.treema.set(`/mapLabels/${idx}/anchor/offset`, e.anchorOffset) }
       return this.treema.set(`/mapLabels/${idx}/position`, e.position)
     }

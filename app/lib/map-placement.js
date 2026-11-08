@@ -70,7 +70,8 @@ function resolveMapPlacements ({ decorations = [], markers = [], labels = [], ma
     // The first decoration with an id is the one drawn, as the editor's own lookups find it; a duplicate never draws.
     if (decoration && typeof decoration.id === 'string' && !byId[decoration.id]) { byId[decoration.id] = { decoration, index } }
   })
-  // The decoration an anchor points at when it exists, else null.
+  // The decoration an anchor points at when it exists, else null. An empty string is an id like any other
+  // (a decoration fresh from the editor has one), so the checks below compare with null, never truthiness.
   const anchorIdOf = id => {
     const anchor = byId[id].decoration.anchor
     return anchor && typeof anchor.id === 'string' && byId[anchor.id] ? anchor.id : null
@@ -79,7 +80,7 @@ function resolveMapPlacements ({ decorations = [], markers = [], labels = [], ma
   // the cycle sits at its own position, whatever the array order.
   const inCycle = id => {
     const seen = new Set()
-    for (let next = anchorIdOf(id); next && !seen.has(next); next = anchorIdOf(next)) {
+    for (let next = anchorIdOf(id); next !== null && !seen.has(next); next = anchorIdOf(next)) {
       if (next === id) { return true }
       seen.add(next)
     }
@@ -98,7 +99,7 @@ function resolveMapPlacements ({ decorations = [], markers = [], labels = [], ma
       z: clampZ(decoration.z, MAP_Z.decoration),
     }
     const anchorId = inCycle(id) ? null : anchorIdOf(id)
-    const placed = anchorId ? anchoredPosition(resolveDecoration(anchorId), decoration.anchor.offset, own.z, mapAspect) : own
+    const placed = anchorId !== null ? anchoredPosition(resolveDecoration(anchorId), decoration.anchor.offset, own.z, mapAspect) : own
     resolved[id] = {
       id,
       index,

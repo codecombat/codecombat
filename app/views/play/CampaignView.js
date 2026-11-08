@@ -1004,11 +1004,12 @@ class CampaignView extends RootView {
     const mapSize = this.getMapSize()
     const placements = resolveMapPlacements({
       decorations: this.campaign?.get('mapDecorations') || [],
-      markers: levels.map(level => ({ key: level.original, position: level.position, z: level.z, anchor: level.anchor })),
+      markers: levels.map(level => ({ key: `level:${level.original}`, position: level.position, z: level.z, anchor: level.anchor })),
       mapAspect: mapSize.width / mapSize.height,
     })
     for (const level of levels) {
-      if (level.anchor) { level.position = { x: placements.markers[level.original].x, y: placements.markers[level.original].y } }
+      const placed = placements.markers[`level:${level.original}`]
+      if (level.anchor) { level.position = { x: placed.x, y: placed.y } }
     }
   }
 
@@ -1082,7 +1083,7 @@ class CampaignView extends RootView {
   // anchorId is the resolved one, so an anchor the resolver ignored (unknown id, self anchor, cycle) saves a
   // position and the item stays where it was dropped.
   movedPlacement (position, anchorId) {
-    const parent = anchorId ? this.mapPlacements?.decorations.find(decoration => decoration.id === anchorId) : null
+    const parent = anchorId != null ? this.mapPlacements?.decorations.find(decoration => decoration.id === anchorId) : null
     if (!parent) { return { position } }
     const mapSize = this.getMapSize()
     return { position, anchorOffset: offsetForPosition(parent, position, mapSize.width / mapSize.height) }
@@ -1193,9 +1194,10 @@ class CampaignView extends RootView {
         const decorationId = el.attr('data-decoration-id')
         view.trigger('decoration-moved', { ...view.movedPlacement(position, view.mapPlacements?.decorations.find(d => d.id === decorationId)?.anchorId), decorationId })
       })
+      // Labels by array index: two labels may share an id, and the drag must edit the one that moved.
       placedDraggable('.map-label', (el, position) => {
-        const labelId = el.attr('data-label-id')
-        view.trigger('label-moved', { ...view.movedPlacement(position, view.mapPlacements?.labels.find(l => l.id === labelId)?.anchorId), labelId })
+        const labelIndex = parseInt(el.attr('data-label-index'), 10)
+        view.trigger('label-moved', { ...view.movedPlacement(position, view.mapPlacements?.labels.find(l => l.index === labelIndex)?.anchorId), labelIndex })
       })
       // Module portals: in editor, mark with an extra class for CSS targeting,
       // and enable drag that saves the same bottom-left anchor that CSS uses
