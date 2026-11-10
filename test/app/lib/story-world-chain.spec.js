@@ -90,8 +90,16 @@ describe('lib/story-world-chain', function () {
       ])
       expect(context.defaultAlly).toBe('guide')
       expect(context.backgrounds).toEqual([{ id: 'camp', source: 'scenario' }, { id: 'bridge', source: 'galaxy' }])
-      expect(context.objectives).toEqual([{ id: 'recolor', text: 'Change the star' }])
+      expect(context.objectives).toEqual([{ id: 'recolor', text: 'Change the star', kind: null, hidden: false }])
       expect(context.missingWorld).toBe(null)
+    })
+
+    it('carries what completes each objective and whether it is hidden', function () {
+      const objectives = [{ id: 'gift', text: 'Make a gift', completeOn: { kind: 'prompt-replied' }, hidden: true }, { id: 'a', text: 'A', completeOn: {} }]
+      expect(buildStoryContext({ objectives }, chain).objectives).toEqual([
+        { id: 'gift', text: 'Make a gift', kind: 'prompt-replied', hidden: true },
+        { id: 'a', text: 'A', kind: null, hidden: false },
+      ])
     })
 
     it('falls back to the galaxy ally and copes with no chain yet or a missing world', function () {

@@ -26,7 +26,7 @@
         <select
           class="form-control"
           :value="step.actor"
-          :disabled="readOnly"
+          :disabled="readOnly || isLivePrompt"
           @change="setActor($event.target.value)"
         >
           <option
@@ -63,6 +63,10 @@
         v-if="isQuiz"
         class="hint"
       >{{ $t('editor.scenario_step_text_quiz_hint') }}</span>
+      <span
+        v-if="isLivePrompt"
+        class="hint"
+      >{{ $t('editor.scenario_step_text_live_prompt_hint') }}</span>
       <textarea
         class="form-control"
         rows="5"
@@ -126,6 +130,15 @@
         {{ $t('editor.scenario_step_add_choice') }}
       </button>
     </fieldset>
+
+    <scenario-step-exits
+      v-if="actionType === 'end-of-lesson'"
+      class="choices"
+      :store="store"
+      :step="step"
+      :read-only="readOnly"
+      @changed="changed"
+    />
 
     <div class="section story">
       <button
@@ -349,6 +362,8 @@
 </template>
 
 <script>
+const ScenarioStepExits = require('./ScenarioStepExits.vue').default
+
 const EMPTY_STORY = { isStory: false, characters: [], objectives: [], backgrounds: [], defaultAlly: null, missingWorld: null }
 const SPEAKER_ROLES = ['ally', 'npc']
 const DEFAULT_AUTO_ADVANCE_MS = 1000
@@ -369,6 +384,7 @@ function groupBySource (entries) {
 // parent redraws on `changed`.
 export default Vue.extend({
   name: 'ScenarioStepPanel',
+  components: { ScenarioStepExits },
   props: {
     store: { type: Object, required: true },
     step: { type: Object, required: true },
@@ -433,6 +449,10 @@ export default Vue.extend({
     },
     isQuiz () {
       return this.actionType === 'prompt-quiz' && Array.isArray(this.step.actionData.choices)
+    },
+    // A live prompt is a teacher line with the prompt box attached; its actor is fixed
+    isLivePrompt () {
+      return this.actionType === 'prompt-live'
     },
     attachments () {
       return (this.step.documents || []).map((doc, i) => {

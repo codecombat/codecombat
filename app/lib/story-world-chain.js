@@ -62,7 +62,12 @@ function buildStoryContext (scenario, chain) {
     storyWorld: scenario.storyWorld || null,
     worldChain: worlds.map(w => w.slug),
     characters,
-    objectives: (scenario.objectives || []).filter(o => o && o.id).map(o => ({ id: o.id, text: o.text || '' })),
+    objectives: (scenario.objectives || []).filter(o => o && o.id).map(o => ({
+      id: o.id,
+      text: o.text || '',
+      kind: (o.completeOn && o.completeOn.kind) || null,
+      hidden: Boolean(o.hidden),
+    })),
     backgrounds: nearestFirst(scopes, 'backgrounds', b => ({ id: b.id })),
     defaultAlly: ally ? ally.id : null,
     missingWorld: (chain && chain.missing) || null,

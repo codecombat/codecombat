@@ -149,8 +149,12 @@ export default Vue.extend({
           alt: 'Tecmilenio logo',
         }
       } else if (me.isMtoCodingOlympiad()) {
+        let imageUrl = '/images/pages/partners/coding-olympiad-logo-2026.png'
+        if (this.useDarkMode) {
+          imageUrl = '/images/pages/partners/coding-olympiad-logo-2026-dark.png'
+        }
         return {
-          url: '/images/pages/partners/coding-olympiad-logo-1.png',
+          url: imageUrl,
           className: 'mto-logo',
           alt: 'MTO Coding Olympiad logo',
         }
