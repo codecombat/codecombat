@@ -611,7 +611,7 @@ module.exports = (CampaignEditorView = (function () {
           } else if (_.string.startsWith(path, '/scenarios/')) {
             const parts = path.split('/')
             const index = parts[2]
-            const original = this.campaign.get('scenarios')[index].scenario
+            const original = this.campaign.get('scenarios')[index]?.scenario
             const scenario = this.supermodel.getModelByOriginal(AIScenario, original)
             const campaignScenario = this.treema.get(`/scenarios/${index}`)
             for (key of Array.from(this.denormalizedScenarioProperties)) { scenario.set(key, campaignScenario[key]) }
