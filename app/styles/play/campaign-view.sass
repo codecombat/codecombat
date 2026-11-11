@@ -26,6 +26,7 @@ $glowingPortalSizeBase: 5px
 $hackstackGlowColor: #2E231F
 $hackstackGlowSizeBase: 5px
 $scenarioDotWidth: 3%
+$scenarioIconWidth: 3.54%  // the planet's 68 px marker at 1920 px map width
 
 
 +keyframes(portalGlow)
@@ -110,9 +111,78 @@ $scenarioDotWidth: 3%
 
     // Module portals (child campaigns) rendered on top of the map.
     // Wrapper .module-portal is positioned; .module-portal-image fills it; .module-label overlays.
+    // Everything placed on the map paints in DOM order (the template emits it sorted by z, see
+    // lib/map-placement): no z-index on markers, portals, decorations or lines. Each marker is its own
+    // stacking context so its inner layers stay inside; a hovered marker lifts above its neighbours.
+    // The popups, tooltips and editor handles keep their z-index and stay on top.
+    .map-connections
+      position: absolute
+      left: 0
+      top: 0
+      right: 0
+      bottom: 0
+      pointer-events: none
+
+    .map-decoration
+      position: absolute
+      height: auto
+      transform: translate(-50%, 50%) rotate(var(--map-rotation, 0deg))
+      pointer-events: none
+      @include user-select(none)
+
+    // Authored text on the map (campaign mapLabels). The plank is hackstack's side-scroller plank: slate-900
+    // at 95%, a 1px accent border at 60%, rounded, Tailwind's shadow-xl; the neutral accent is its GRAY_300.
+    // Sizes are in em off a font size in map units (1% of the map's width, set on resize), so the label's
+    // scale and the map scale the whole plank together. Never a click target outside the editor.
+    $map-label-text: #ffffff
+    $map-label-plank-bg: rgba(15, 23, 42, 0.95)
+    $map-label-chip-text: #0f172a
+    $map-label-neutral-rgb: 209, 213, 219
+    .map-label
+      position: absolute
+      transform: translate(-50%, 50%)
+      pointer-events: none
+      // pre: a line break in the text starts a new line, nothing wraps on its own
+      white-space: pre
+      text-align: center
+      box-sizing: border-box
+      font-size: calc(var(--map-unit, 19.2px) * 1.5 * var(--map-label-scale, 1))
+      line-height: 1.25
+      color: $map-label-text
+      --map-label-accent-rgb: #{$map-label-neutral-rgb}
+      @include user-select(none)
+
+    // Tailwind's py-1 px-3 rounded-xl at the side scroller's 1080p font size (29px), in em.
+    .map-label-plank
+      background: $map-label-plank-bg
+      border: 1px solid rgba(var(--map-label-accent-rgb), 0.6)
+      border-radius: 0.42em
+      padding: 0.14em 0.42em
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)
+
+    .map-label-chip
+      font-size: calc(var(--map-unit, 19.2px) * 1.2 * var(--map-label-scale, 1))
+      font-weight: bold
+      background: rgba(var(--map-label-accent-rgb), 0.9)
+      color: $map-label-chip-text
+      border-radius: 1em
+      padding: 0.1em 0.6em
+
+    .map-label-none
+      text-shadow: 0 0 0.3em rgba(0, 0, 0, 0.9), 0 0.05em 0.15em rgba(0, 0, 0, 0.9)
+
+    // A 9-slice plank: the image is the border, its middle fills the text box (border-image-slice ... fill,
+    // caps and padding inline from CampaignView.labelCss).
+    .map-label-image
+      background: none
+      border-style: solid
+      border-color: transparent
+      border-radius: 0
+      box-shadow: none
+
     .module-portal
       position: absolute
-      z-index: 2
+      isolation: isolate
       @include user-select(none)
       @include transition(transform 0.2s ease-out)
       // Don't scale when this extra class is present (used by CampaignView in editor).
@@ -197,7 +267,7 @@ $scenarioDotWidth: 3%
       transform: scaleY(0.75)
 
     .level
-      z-index: 2
+      isolation: isolate
       width: $levelDotWidth
       height: $levelDotHeight
       margin-left: -0.5 * $levelDotWidth
@@ -336,7 +406,6 @@ $scenarioDotWidth: 3%
         border-radius: 0
 
     .level-shadow
-      z-index: 1
       width: $levelDotShadowWidth
       height: $levelDotShadowHeight
       margin-left: -0.5 * $levelDotShadowWidth
@@ -353,9 +422,59 @@ $scenarioDotWidth: 3%
         margin-bottom: math.div(-$levelDotShadowHeight, 3) * 0.67
 
     .level:hover
+      z-index: 1
       -moz-transform: rotate(0)
       margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotHoverZ
       @include box-shadow(0px 0px 35px skyblue)
+
+    // Custom map icon (campaign entry mapIcon). The image is the whole marker, centred on the position
+    // point in a square box of 2 dots times --map-icon-scale. No dot chrome, no scaleY squash, no status border.
+    // Width, height (through aspect-ratio) and both margins derive from the map width alone, so the box stays
+    // square and centred on maps that are not 3:2 (the editor sizes hackstack campaigns to their image).
+    .level.custom-icon
+      width: calc(2 * #{$levelDotWidth} * var(--map-icon-scale, 1))
+      height: auto
+      aspect-ratio: 1 / 1
+      margin-left: calc(-1 * #{$levelDotWidth} * var(--map-icon-scale, 1))
+      margin-bottom: calc(-1 * #{$levelDotWidth} * var(--map-icon-scale, 1))
+      -webkit-transform: none
+      transform: none
+      border: 0
+      border-radius: 0
+      background-color: transparent
+      box-shadow: none
+      opacity: 1
+
+      // Hover effects live on the image, not on this box: the editor's drop handler reads the box's
+      // offset and size to save the position, so the box itself never transforms.
+      img.map-icon
+        display: block
+        width: 100%
+        height: 100%
+        object-fit: contain
+        pointer-events: none
+        transition: transform 0.15s ease, filter 0.15s ease
+
+      // Locked without its own image, and disabled (coming soon): the default image, dimmed.
+      // A locked image shows as-is.
+      &.locked-treatment, &.disabled
+        opacity: 0.7
+
+      &.started, &.next
+        filter: drop-shadow(0px 0px 8px skyblue)
+
+      &:hover
+        margin-bottom: calc(-1 * #{$levelDotWidth} * var(--map-icon-scale, 1))
+        box-shadow: none
+      &.hover-scale:hover img.map-icon
+        transform: scale(1.1)
+      &.hover-glow:hover img.map-icon
+        filter: drop-shadow(0px 0px 12px skyblue)
+      &.hover-lift:hover img.map-icon
+        transform: translateY(-8%)
+
+      .level-kind
+        top: 100%
 
     .level
       a
@@ -367,7 +486,7 @@ $scenarioDotWidth: 3%
 
     .scenario
       position: absolute
-      z-index: 2
+      isolation: isolate
       width: $scenarioDotWidth
       aspect-ratio: 1
       // Percentage margins resolve against the container width, so half the width is also half the height.
@@ -401,6 +520,42 @@ $scenarioDotWidth: 3%
         display: flex
         align-items: center
         justify-content: center
+
+      // Scenario entry with a custom map icon: the image replaces the purple dot, sized like the planet's
+      // 68 px marker on a full-width 1920 map so editor placement matches what players see.
+      &.custom-icon
+        width: calc(#{$scenarioIconWidth} * var(--map-icon-scale, 1))
+        margin-left: calc(-0.5 * #{$scenarioIconWidth} * var(--map-icon-scale, 1))
+        margin-bottom: calc(-0.5 * #{$scenarioIconWidth} * var(--map-icon-scale, 1))
+        background-color: transparent
+        border: 0
+        border-radius: 0
+
+        // Nothing in flow: the padded click anchor would add its height under the image and break the
+        // square. The anchor covers the whole box instead, and the image fills it.
+        a
+          position: absolute
+          inset: 0
+          padding: 0
+          margin: 0
+          border-radius: 0
+
+        img.map-icon
+          position: absolute
+          inset: 0
+          width: 100%
+          height: 100%
+          object-fit: contain
+          pointer-events: none
+          transition: transform 0.15s ease, filter 0.15s ease
+
+        // Same hover effects as level icons, on the image so the drag drop math on the box is untouched.
+        &.hover-scale:hover img.map-icon
+          transform: scale(1.1)
+        &.hover-glow:hover img.map-icon
+          filter: drop-shadow(0px 0px 12px skyblue)
+        &.hover-lift:hover img.map-icon
+          transform: translateY(-8%)
 
     .tooltip
       z-index: 3
@@ -580,7 +735,9 @@ $scenarioDotWidth: 3%
     stroke: #ffc800
     filter: drop-shadow(0 0 6px rgba(255, 200, 0, 0.9))
 
-  // Scenario connections of graph-map HackStack campaigns, drawn the way hackstack draws them
+  // Scenario connections of graph-map HackStack campaigns, drawn the way hackstack draws them. It lives in
+  // .map-connections, so its place in the draw order is its stacking: a z-index here would lift it above
+  // the markers (z-index auto) again.
   #scenario-connections-svg
     position: absolute
     left: 0
@@ -588,7 +745,6 @@ $scenarioDotWidth: 3%
     width: 100%
     height: 100%
     pointer-events: none
-    z-index: 1
 
   .game-controls
     position: absolute

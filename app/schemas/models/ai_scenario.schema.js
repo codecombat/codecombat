@@ -137,6 +137,15 @@ _.extend(AIScenarioSchema.properties, {
     id: { type: 'string', pattern: '^[a-z0-9-]+$' },
     text: { type: 'string' },
     i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this property' },
+    completeOn: c.object({ title: 'Complete when' }, {
+      kind: {
+        type: 'string',
+        enum: ['quiz-correct', 'prompt-replied'],
+        title: 'Kind',
+        description: "quiz-correct: a quiz answered correctly; prompt-replied: a HackStack reply to the player's own prompt. Absent: whichever comes first after the line that names it",
+      },
+    }),
+    hidden: { type: 'boolean', title: 'Hidden', description: 'No pip until a line names it (a surprise goal)' },
   })),
   characters: c.array({
     title: 'Characters',
@@ -146,6 +155,7 @@ _.extend(AIScenarioSchema.properties, {
     title: 'Backgrounds',
     description: 'The scenes of this level (level art). The first is shown at start; messages switch by id; ids not found here resolve through the world chain',
   }, c.storyBackground),
+  requiresSubscription: { title: 'Requires Subscription', description: 'Whether this scenario is available to subscribers only.', type: 'boolean', inEditor: 'codecombat' },
 })
 
 AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue']

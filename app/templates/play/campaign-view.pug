@@ -1,3 +1,228 @@
+//- An authored image on the map (campaign mapDecorations): centred on its resolved position, as wide as its
+//- fraction of the map width, never a click target outside the editor. Emitted in draw order, no z-index.
+mixin mapDecoration(decoration)
+  img.map-decoration(src="/file/" + decoration.image, alt="", draggable="false", data-decoration-id=decoration.id, style="left: " + decoration.x + "%; bottom: " + decoration.y + "%; width: " + decoration.widthPercent + "%; opacity: " + decoration.opacity + "; --map-rotation: " + decoration.rotation + "deg")
+
+//- Authored text on the map (campaign mapLabels): a plank, chip or bare text centred on its resolved position
+//- and sized from its text, never a click target outside the editor. Emitted in draw order, no z-index.
+mixin mapLabel(label)
+  div(class="map-label map-label-" + label.style + (label.plankImage ? " map-label-image" : ""), dir="auto", data-label-id=label.id, data-label-index=label.index, style=label.css)= i18n(label, 'text')
+
+//- A level's shadow is its own map item below every marker (CampaignView.buildMapItems), so a neighbour's
+//- shadow never darkens a marker; a level with a custom icon has none.
+mixin levelShadow(level)
+  - var levelStatus = levelStatusMap[level.slug] || ''
+  div(style="left: " + level.position.x + "%; bottom: " + level.position.y + "%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + levelStatus)
+
+mixin levelMarker(level)
+  - var levelStatus = levelStatusMap[level.slug] || ''
+  - var levelNumber = '';
+  if view.shouldShow('back-to-classroom') && view.classroom
+    - levelNumber = view.campaign.getLevelNumber(level.original, true); // Always uses latest levels
+    if (levelNumber)
+      - levelNumber += '. ';
+  - var lockedBySubscription = me.isHomeUser() && !me.isPremium() && level.requiresSubscription && campaign.get('type') !== 'hoc'
+  //- A custom map icon is the whole marker: no coloured dot, shadow, flag, chest or portrait around it.
+  - var mapIcon = level.mapIconResolved
+  div(
+    style="left: " + level.position.x + "%; bottom: " + level.position.y + "%; " + (mapIcon ? "--map-icon-scale: " + mapIcon.scale : "background-color: " + level.color),
+    class="level" + (level.next || _.any(level.practiceLevels || [], { next: true }) ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatus + (mapIcon ? " custom-icon hover-" + mapIcon.hoverEffect + (mapIcon.lockedTreatment ? " locked-treatment" : "") : ""),
+    data-level-slug=level.slug,
+    data-level-original=level.original,
+    title=editorMode ? undefined : levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : ""))
+  )
+    if mapIcon
+      img.map-icon(src=mapIcon.src, alt="", draggable="false")
+    if !mapIcon && level.unlocksHero && (!level.purchasedHero || editorMode) && (level.hidden || levelStatus === 'complete')
+      img.hero-portrait(src="/file/db/thang.type/" + level.unlocksHero + "/portrait.png")
+    if !mapIcon && levelStatus === 'complete'
+      img.level-star(src="/images/pages/play/star.png")
+    if editorMode
+      - var kindKey = ((level.kind && level.kind[0]) || "").toUpperCase();
+      //if kindKey
+      div(class="level-kind " + level.kind)= kindKey
+      if !mapIcon
+        - var acronym = level.name.replace(/(A |The )/g, '').replace(/[^A-Z]/g, '');
+        .level-acronym= acronym
+    //- Editor default is a compact marker: no flag banner, only the reward chest. The toggle brings the player flags back.
+    - var showFlags = !editorMode || showFullFlags
+    if !mapIcon && !level.hidden && !level.noFlag && !level.locked && !showFlags
+      if level.unlocksHero && levelStatus !== 'complete'
+        img.treasure-chest(src="/images/pages/play/gold-chest.png")
+      else if level.unlocksItem && levelStatus !== 'complete'
+        img.treasure-chest(src="/images/pages/play/" + (level.requiresSubscription?'silver':'bronze') + "-chest.png")
+    if !mapIcon && !level.hidden && !level.noFlag && !level.locked && showFlags
+      if level.replayable
+        img.banner(src="/images/pages/play/level-banner-replayable.png")
+      else if level.type === 'hero-ladder' || level.type === 'course-ladder' || level.type === 'ladder'
+        img.banner(src="/images/pages/play/level-banner-multiplayer.png")
+      else if ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate', 'kithgard-mastery'].indexOf(level.slug) !== -1 && levelStatus !== 'complete'
+        img.banner(src="/images/pages/play/level-banner-special.png")
+      else if level.unlocksHero && levelStatus !== 'complete'
+        img.banner(src="/images/pages/play/level-banner-unlock" + ( lockedBySubscription ? '-grey': '-blue' ) + ".png")
+        img.premium-hero-banner(src="/db/thang.type/" + level.unlocksHero + "/toFile/poseImage")
+        img.treasure-chest(src="/images/pages/play/gold-chest.png")
+      else if level.unlocksItem && levelStatus !== 'complete'
+        img.banner(src="/images/pages/play/level-banner-unlock" + ( lockedBySubscription ? '-grey': '-blue' ) + ".png")
+        if level.unlocksPet
+          img.pet-banner(src="/db/thang.type/" + level.unlocksItem + "/toFile/dollImages.pet")
+        else
+          img.item-portrait.item-portrait-on-banner(src="/file/db/thang.type/" + level.unlocksItem + "/portrait.png")
+        img.treasure-chest(src="/images/pages/play/" + (level.requiresSubscription?'silver':'bronze') + "-chest.png")
+      else if levelStatus !== 'complete' && level.assessment
+        img.banner(src="/images/pages/play/level-banner-unstarted" + ( lockedBySubscription ? '-grey': '-red' ) + ".png")
+      else if levelStatus === 'started'
+        img.banner(src="/images/pages/play/level-banner-started.png")
+      else if levelStatus !== 'complete'
+        img.banner(src="/images/pages/play/level-banner-unstarted" + ( lockedBySubscription ? '-grey': '-blue' ) + ".png")
+      if levelDifficultyMap[level.slug]
+        .level-difficulty-banner-text= levelDifficultyMap[level.slug]
+    if !mapIcon && level.locked
+      if level.unlocksItem && !level.unlocksHero
+        img.treasure-chest(src="/images/pages/play/" + (level.requiresSubscription?'silver':'bronze') + "-chest.png")
+      else if level.unlocksHero
+        img.treasure-chest(src="/images/pages/play/gold-chest.png")
+  .level-info-container.rtl-allowed(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name, data-level-original=level.original, class=(level.practiceLevels && level.practiceLevels.length && levelStatus == 'complete' ? "has-practice-levels" : ""))
+    - var playCount = levelPlayCountMap[level.slug]
+    .progress.progress-striped.active.hide
+      .progress-bar(style="width: 100%")
+    - var showsLeaderboard = view.shouldShow('leaderboard') && (levelStatus === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder', 'ladder'].indexOf(level.type) !== -1));
+
+    div(class="level-info rtl-allowed " + levelStatus + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
+      .level-status.rtl-allowed(dir="auto")
+      - var levelName = levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + (level.lockedByTeacher ? (view.isMto ? 'Locked for GF trainings' : translate('play.locked_by_teacher')) : translate('play.locked')) + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : "")));
+      h3(dir=view.isRTL(levelName) ? "rtl" : "ltr")
+        span= levelName
+        if view.shouldShow('classroom-level-play-button') && level.practiceLevels && level.practiceLevels.length && levelStatus == 'complete'
+          span.course-version.hidden(data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
+            button.btn.btn-md.btn-illustrated(data-i18n="[title]common.play", class=(levelStatus === "complete" ? "btn-primary" : "btn-success"))
+              span.glyphicon.glyphicon-play
+        else if level.practiceLevels && level.practiceLevels.length && levelStatus == 'complete'
+          span.home-version
+            button.btn.btn-md.btn-illustrated(data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name class=(levelStatus === "complete" ? "btn-primary" : "btn-success"))
+              span.glyphicon.glyphicon-play
+      if level.assessment === 'open-ended' && view.levelScoreMap[level.original] && levelStatus === 'complete'
+        - topScore = view.levelScoreMap[level.original]
+        if topScore.thresholdAchieved
+          img.threshold-icon(src="/images/pages/courses/star-" + topScore.thresholdAchieved + ".png")
+      - var description = i18n(level, 'description') || level.description || ""
+      .level-description.rtl-allowed(dir="auto")!= marked(description, {sanitize: true})
+      .level-error-message
+      if level.disabled
+        p
+          span.spr(data-i18n="play.awaiting_levels_adventurer_prefix") We release five levels per week.
+          a.spr(href="/contribute/adventurer")
+            strong(data-i18n="play.awaiting_levels_adventurer") Sign up as an Adventurer
+          span.spl(data-i18n="play.awaiting_levels_adventurer_suffix") to be the first to play new levels.
+      if level.displayConcepts && level.displayConcepts.length
+        p
+          for concept in level.displayConcepts
+            kbd(data-i18n="concepts." + concept)
+
+      if !level.disabled && !level.locked
+        if playCount && playCount.sessions
+          .play-counts.hidden
+            span.spl.spr= playCount.sessions
+            span(data-i18n="play.players") players
+            span.spr , #{Math.round(playCount.playtime / 3600)}
+            span(data-i18n="play.hours_played") hours played
+        if showsLeaderboard
+          button.btn.btn-warning.btn.btn-lg.btn-illustrated.view-solutions(data-level-slug=level.slug)
+            span(data-i18n="leaderboard.scores")
+
+        if view.shouldShow('classroom-level-play-button')
+          if !level.practiceLevels || !level.practiceLevels.length || levelStatus != 'complete'
+            .course-version.hidden(data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
+              button.btn.btn-primary.btn.btn-lg.btn-block.btn-illustrated
+                span(data-i18n="common.play") Play
+        else if !level.practiceLevels || !level.practiceLevels.length || levelStatus != 'complete'
+          if lockedBySubscription
+            button.btn.btn-primary.btn.btn-lg.btn-illustrated.start-level(data-i18n="buy_gems.buy_premium" data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
+          else
+            button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play" data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
+
+        for practiceLevel in level.practiceLevels || []
+          if levelStatus != 'complete'
+            - break
+          - var practiceLevelStatus = levelStatusMap[practiceLevel.slug] || ''
+          .practice-level(class=practiceLevelStatus)
+            - var practiceLevelNumber = view.campaign.getLevelNumber(practiceLevel.original, true);
+            - var practiceLevelName = practiceLevelNumber + '. ' + i18n(practiceLevel, 'name') + (practiceLevel.disabled ? " (" + translate('common.coming_soon') + ")" : (practiceLevel.locked ? " (" + (practiceLevel.lockedByTeacher ? translate('play.locked_by_teacher') : translate('play.locked')) + ")" : (practiceLevel.practice ? " (" + translate('courses.practice') + ")" : "")));
+            - var disabled = practiceLevel.requiresSubscription && !me.isEnrolled() && !practiceLevelStatus
+            h3(dir=view.isRTL(practiceLevelName) ? "rtl" : "ltr")
+              span= practiceLevelName
+              if view.shouldShow('classroom-level-play-button')
+                span.course-version.hidden(data-level-original=practiceLevel.original data-level-slug=practiceLevel.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
+                  button.btn.btn-md.btn-illustrated(data-i18n="[title]common.play", class=(disabled ? "btn-warning disabled" : practiceLevelStatus === "complete" ? "btn-primary" : "btn-success") disabled=disabled)
+                    if disabled
+                      span.glyphicon.glyphicon-lock
+                    else
+                      span.glyphicon.glyphicon-play
+              else
+                span.home-version
+                  button.btn.btn-md.btn-illustrated(data-level-original=practiceLevel.original data-level-slug=practiceLevel.slug data-level-path=level.levelPath || 'level' data-level-name=level.name class=(practiceLevelStatus === "complete" ? "btn-primary" : "btn-success"))
+                    span.glyphicon.glyphicon-play
+            if disabled
+              span.practice-license-message(data-i18n="play.practice_license_required")
+          if practiceLevelStatus !== 'complete'
+            - break
+
+
+mixin modulePortal(module)
+  if module.portalImage && module.position && module.position.x != null && module.position.y != null
+    - var moduleWidthPercent = (module.imageSize != null ? module.imageSize : 0.1) * 100;
+    div.module-portal(
+      class=module.locked ? 'locked' : '',
+      data-module-slug=module.slug,
+      data-lock-reason=module.lockReason || undefined,
+      style="left: " + module.position.x + "%; bottom: " + module.position.y + "%; width: " + moduleWidthPercent + "%;"
+    )
+      img.module-portal-image(
+        src="/file/" + module.portalImage,
+        draggable="false"
+      )
+      if !editorMode
+        .module-label
+          h3.module-name= i18n(module, 'fullName') || i18n(module, 'name') || module.slug || 'Module'
+          h4.module-levels-completed
+            if module.levelsLoading
+              span ?
+              | /
+              span ?
+            else if module.levelsTotal != null
+              span= module.levelsCompleted
+              | /
+              span= module.levelsTotal
+          if module.locked || module.description
+            .module-description-container
+              p.module-description(dir="auto")
+                if module.locked
+                  span.module-description-locked-prefix= "[" + (module.lockReason === 'need-level' ? lockedCampaignLabel : subscribersOnlyLabel) + "]"
+                  if module.description
+                    br
+                if module.description
+                  = i18n(module, 'description')
+
+
+mixin scenarioMarker(scenario)
+  if scenario.position
+    - var scenarioName = scenario.displayName || "AI Scenario"
+    - var scenarioAcronym = (scenarioName.replace(/^(A |The )/i, '').trim().split(/\s+/).map(function(word) { return word[0] ? word[0].toUpperCase() : ''; }).join('')) || 'AI';
+    //- A scenario mapIcon shows here as the planet's not-started image, so placement is what players see.
+    - var scenarioIcon = scenario.mapIconResolved
+    div(
+      style="left: " + scenario.position.x + "%; bottom: " + scenario.position.y + "%;" + (scenarioIcon ? " --map-icon-scale: " + scenarioIcon.scale : ""),
+      class="scenario" + (scenarioIcon ? " custom-icon hover-" + scenarioIcon.hoverEffect : ""),
+      data-scenario-original=scenario.scenario,
+      title=scenarioName
+    )
+      a(href="#", data-scenario-original=scenario.scenario, data-scenario-display-name=scenario.displayName)
+      if scenarioIcon
+        img.map-icon(src=scenarioIcon.src, alt="", draggable="false")
+      else
+        .scenario-acronym= scenarioAcronym
+
+
 if showGameDevAlert
   #game-dev-hoc-license-alert.alert.alert-success
     span(data-i18n="play.get_course_for_class")
@@ -116,206 +341,25 @@ if !editorMode && !(view.DEEP_API_LIST && view.DEEP_API_LIST.includes(me.get('cl
         .gradient.vertical-gradient.left-gradient
         .map-background(alt="", draggable="false")
 
-        each level in levels
-          if ((campaign.levelIsPractice(level) || !level.unlockedInSameCampaign) && level.hidden)
-            - continue;
-          - var levelStatus = levelStatusMap[level.slug] || ''
-          - var levelNumber = '';
-          if view.shouldShow('back-to-classroom') && view.classroom
-            - levelNumber = view.campaign.getLevelNumber(level.original, true); // Always uses latest levels
-            if (levelNumber)
-              - levelNumber += '. ';
-          - var lockedBySubscription = me.isHomeUser() && !me.isPremium() && level.requiresSubscription && campaign.get('type') !== 'hoc'
-          div(
-            style="left: " + level.position.x + "%; bottom: " + level.position.y + "%; background-color: " + level.color,
-            class="level" + (level.next || _.any(level.practiceLevels || [], { next: true }) ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatus,
-            data-level-slug=level.slug,
-            data-level-original=level.original,
-            title=editorMode ? undefined : levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : ""))
-          )
-            if level.unlocksHero && (!level.purchasedHero || editorMode) && (level.hidden || levelStatus === 'complete')
-              img.hero-portrait(src="/file/db/thang.type/" + level.unlocksHero + "/portrait.png")
-            if levelStatus === 'complete'
-              img.level-star(src="/images/pages/play/star.png")
-            if editorMode
-              - var kindKey = ((level.kind && level.kind[0]) || "").toUpperCase();
-              //if kindKey
-              div(class="level-kind " + level.kind)= kindKey
-              - var acronym = level.name.replace(/(A |The )/g, '').replace(/[^A-Z]/g, '');
-              .level-acronym= acronym
-            //- Editor default is a compact marker: no flag banner, only the reward chest. The toggle brings the player flags back.
-            - var showFlags = !editorMode || showFullFlags
-            if !level.hidden && !level.noFlag && !level.locked && !showFlags
-              if level.unlocksHero && levelStatus !== 'complete'
-                img.treasure-chest(src="/images/pages/play/gold-chest.png")
-              else if level.unlocksItem && levelStatus !== 'complete'
-                img.treasure-chest(src="/images/pages/play/" + (level.requiresSubscription?'silver':'bronze') + "-chest.png")
-            if !level.hidden && !level.noFlag && !level.locked && showFlags
-              if level.replayable
-                img.banner(src="/images/pages/play/level-banner-replayable.png")
-              else if level.type === 'hero-ladder' || level.type === 'course-ladder' || level.type === 'ladder'
-                img.banner(src="/images/pages/play/level-banner-multiplayer.png")
-              else if ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate', 'kithgard-mastery'].indexOf(level.slug) !== -1 && levelStatus !== 'complete'
-                img.banner(src="/images/pages/play/level-banner-special.png")
-              else if level.unlocksHero && levelStatus !== 'complete'
-                img.banner(src="/images/pages/play/level-banner-unlock" + ( lockedBySubscription ? '-grey': '-blue' ) + ".png")
-                img.premium-hero-banner(src="/db/thang.type/" + level.unlocksHero + "/toFile/poseImage")
-                img.treasure-chest(src="/images/pages/play/gold-chest.png")
-              else if level.unlocksItem && levelStatus !== 'complete'
-                img.banner(src="/images/pages/play/level-banner-unlock" + ( lockedBySubscription ? '-grey': '-blue' ) + ".png")
-                if level.unlocksPet
-                  img.pet-banner(src="/db/thang.type/" + level.unlocksItem + "/toFile/dollImages.pet")
-                else
-                  img.item-portrait.item-portrait-on-banner(src="/file/db/thang.type/" + level.unlocksItem + "/portrait.png")
-                img.treasure-chest(src="/images/pages/play/" + (level.requiresSubscription?'silver':'bronze') + "-chest.png")
-              else if levelStatus !== 'complete' && level.assessment
-                img.banner(src="/images/pages/play/level-banner-unstarted" + ( lockedBySubscription ? '-grey': '-red' ) + ".png")
-              else if levelStatus === 'started'
-                img.banner(src="/images/pages/play/level-banner-started.png")
-              else if levelStatus !== 'complete'
-                img.banner(src="/images/pages/play/level-banner-unstarted" + ( lockedBySubscription ? '-grey': '-blue' ) + ".png")
-              if levelDifficultyMap[level.slug]
-                .level-difficulty-banner-text= levelDifficultyMap[level.slug]
-            if level.locked
-              if level.unlocksItem && !level.unlocksHero
-                img.treasure-chest(src="/images/pages/play/" + (level.requiresSubscription?'silver':'bronze') + "-chest.png")
-              else if level.unlocksHero
-                img.treasure-chest(src="/images/pages/play/gold-chest.png")
-          div(style="left: " + level.position.x + "%; bottom: " + level.position.y + "%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + levelStatus)
-          .level-info-container.rtl-allowed(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name, data-level-original=level.original, class=(level.practiceLevels && level.practiceLevels.length && levelStatus == 'complete' ? "has-practice-levels" : ""))
-            - var playCount = levelPlayCountMap[level.slug]
-            .progress.progress-striped.active.hide
-              .progress-bar(style="width: 100%")
-            - var showsLeaderboard = view.shouldShow('leaderboard') && (levelStatus === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder', 'ladder'].indexOf(level.type) !== -1));
-
-            div(class="level-info rtl-allowed " + levelStatus + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
-              .level-status.rtl-allowed(dir="auto")
-              - var levelName = levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + (level.lockedByTeacher ? (view.isMto ? 'Locked for GF trainings' : translate('play.locked_by_teacher')) : translate('play.locked')) + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : "")));
-              h3(dir=view.isRTL(levelName) ? "rtl" : "ltr")
-                span= levelName
-                if view.shouldShow('classroom-level-play-button') && level.practiceLevels && level.practiceLevels.length && levelStatus == 'complete'
-                  span.course-version.hidden(data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
-                    button.btn.btn-md.btn-illustrated(data-i18n="[title]common.play", class=(levelStatus === "complete" ? "btn-primary" : "btn-success"))
-                      span.glyphicon.glyphicon-play
-                else if level.practiceLevels && level.practiceLevels.length && levelStatus == 'complete'
-                  span.home-version
-                    button.btn.btn-md.btn-illustrated(data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name class=(levelStatus === "complete" ? "btn-primary" : "btn-success"))
-                      span.glyphicon.glyphicon-play
-              if level.assessment === 'open-ended' && view.levelScoreMap[level.original] && levelStatus === 'complete'
-                - topScore = view.levelScoreMap[level.original]
-                if topScore.thresholdAchieved
-                  img.threshold-icon(src="/images/pages/courses/star-" + topScore.thresholdAchieved + ".png")
-              - var description = i18n(level, 'description') || level.description || ""
-              .level-description.rtl-allowed(dir="auto")!= marked(description, {sanitize: true})
-              .level-error-message
-              if level.disabled
-                p
-                  span.spr(data-i18n="play.awaiting_levels_adventurer_prefix") We release five levels per week.
-                  a.spr(href="/contribute/adventurer")
-                    strong(data-i18n="play.awaiting_levels_adventurer") Sign up as an Adventurer
-                  span.spl(data-i18n="play.awaiting_levels_adventurer_suffix") to be the first to play new levels.
-              if level.displayConcepts && level.displayConcepts.length
-                p
-                  for concept in level.displayConcepts
-                    kbd(data-i18n="concepts." + concept)
-
-              if !level.disabled && !level.locked
-                if playCount && playCount.sessions
-                  .play-counts.hidden
-                    span.spl.spr= playCount.sessions
-                    span(data-i18n="play.players") players
-                    span.spr , #{Math.round(playCount.playtime / 3600)}
-                    span(data-i18n="play.hours_played") hours played
-                if showsLeaderboard
-                  button.btn.btn-warning.btn.btn-lg.btn-illustrated.view-solutions(data-level-slug=level.slug)
-                    span(data-i18n="leaderboard.scores")
-
-                if view.shouldShow('classroom-level-play-button')
-                  if !level.practiceLevels || !level.practiceLevels.length || levelStatus != 'complete'
-                    .course-version.hidden(data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
-                      button.btn.btn-primary.btn.btn-lg.btn-block.btn-illustrated
-                        span(data-i18n="common.play") Play
-                else if !level.practiceLevels || !level.practiceLevels.length || levelStatus != 'complete'
-                  if lockedBySubscription
-                    button.btn.btn-primary.btn.btn-lg.btn-illustrated.start-level(data-i18n="buy_gems.buy_premium" data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
-                  else
-                    button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play" data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
-
-                for practiceLevel in level.practiceLevels || []
-                  if levelStatus != 'complete'
-                    - break
-                  - var practiceLevelStatus = levelStatusMap[practiceLevel.slug] || ''
-                  .practice-level(class=practiceLevelStatus)
-                    - var practiceLevelNumber = view.campaign.getLevelNumber(practiceLevel.original, true);
-                    - var practiceLevelName = practiceLevelNumber + '. ' + i18n(practiceLevel, 'name') + (practiceLevel.disabled ? " (" + translate('common.coming_soon') + ")" : (practiceLevel.locked ? " (" + (practiceLevel.lockedByTeacher ? translate('play.locked_by_teacher') : translate('play.locked')) + ")" : (practiceLevel.practice ? " (" + translate('courses.practice') + ")" : "")));
-                    - var disabled = practiceLevel.requiresSubscription && !me.isEnrolled() && !practiceLevelStatus
-                    h3(dir=view.isRTL(practiceLevelName) ? "rtl" : "ltr")
-                      span= practiceLevelName
-                      if view.shouldShow('classroom-level-play-button')
-                        span.course-version.hidden(data-level-original=practiceLevel.original data-level-slug=practiceLevel.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
-                          button.btn.btn-md.btn-illustrated(data-i18n="[title]common.play", class=(disabled ? "btn-warning disabled" : practiceLevelStatus === "complete" ? "btn-primary" : "btn-success") disabled=disabled)
-                            if disabled
-                              span.glyphicon.glyphicon-lock
-                            else
-                              span.glyphicon.glyphicon-play
-                      else
-                        span.home-version
-                          button.btn.btn-md.btn-illustrated(data-level-original=practiceLevel.original data-level-slug=practiceLevel.slug data-level-path=level.levelPath || 'level' data-level-name=level.name class=(practiceLevelStatus === "complete" ? "btn-primary" : "btn-success"))
-                            span.glyphicon.glyphicon-play
-                    if disabled
-                      span.practice-license-message(data-i18n="play.practice_license_required")
-                  if practiceLevelStatus !== 'complete'
-                    - break
-
-        if modules && modules.length
-          each module in modules
-            if module.portalImage && module.position && module.position.x != null && module.position.y != null
-              - var moduleWidthPercent = (module.imageSize != null ? module.imageSize : 0.1) * 100;
-              div.module-portal(
-                class=module.locked ? 'locked' : '',
-                data-module-slug=module.slug,
-                data-lock-reason=module.lockReason || undefined,
-                style="left: " + module.position.x + "%; bottom: " + module.position.y + "%; width: " + moduleWidthPercent + "%;"
-              )
-                img.module-portal-image(
-                  src="/file/" + module.portalImage,
-                  draggable="false"
-                )
-                if !editorMode
-                  .module-label
-                    h3.module-name= i18n(module, 'fullName') || i18n(module, 'name') || module.slug || 'Module'
-                    h4.module-levels-completed
-                      if module.levelsLoading
-                        span ?
-                        | /
-                        span ?
-                      else if module.levelsTotal != null
-                        span= module.levelsCompleted
-                        | /
-                        span= module.levelsTotal
-                    if module.locked || module.description
-                      .module-description-container
-                        p.module-description(dir="auto")
-                          if module.locked
-                            span.module-description-locked-prefix= "[" + (module.lockReason === 'need-level' ? lockedCampaignLabel : subscribersOnlyLabel) + "]"
-                            if module.description
-                              br
-                          if module.description
-                            = i18n(module, 'description')
-
-        each scenario in scenarios
-          if scenario.position
-            - var scenarioName = scenario.displayName || "AI Scenario"
-            - var scenarioAcronym = (scenarioName.replace(/^(A |The )/i, '').trim().split(/\s+/).map(function(word) { return word[0] ? word[0].toUpperCase() : ''; }).join('')) || 'AI';
-            div(
-              style="left: " + scenario.position.x + "%; bottom: " + scenario.position.y + "%;",
-              class="scenario",
-              data-scenario-original=scenario.scenario,
-              title=scenarioName
-            )
-              a(href="#", data-scenario-original=scenario.scenario, data-scenario-display-name=scenario.displayName)
-              .scenario-acronym= scenarioAcronym
-
+        //- Everything placed on the map, in draw order (lib/map-placement): decorations, level shadows, the
+        //- connection layer, module portals, level and scenario markers, labels. Later items paint over earlier
+        //- ones; the popups, tooltips and editor handles keep their own z-index above all of it.
+        each item in mapItems
+          case item.kind
+            when 'decoration'
+              +mapDecoration(item.decoration)
+            when 'connections'
+              .map-connections
+            when 'module'
+              +modulePortal(item.module)
+            when 'level-shadow'
+              +levelShadow(item.level)
+            when 'level'
+              +levelMarker(item.level)
+            when 'scenario'
+              +scenarioMarker(item.scenario)
+            when 'label'
+              +mapLabel(item.label)
         for adjacentCampaign in adjacentCampaigns
           a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
             span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id, data-campaign-slug=adjacentCampaign.slug)
