@@ -25,14 +25,6 @@ const SuperModel = require('models/SuperModel')
 const Campaigns = require('collections/Campaigns')
 const Level = require('models/Level')
 
-if (utils.showOzaria()) {
-  CocoLegacyCampaigns = ['intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6', 'course-8',
-    'dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano', 'campaign-game-dev-1',
-    'campaign-game-dev-2', 'campaign-game-dev-3', 'hoc-2018']
-} else {
-  CocoLegacyCampaigns = ['chapter-1-the-moon-dancers-temp', 'chapter-2-the-moon-dancers', 'chapter-1-sky-mountain', 'chapter-3-the-phoenix-lands', 'chapter-4-the-final-code']
-}
-
 module.exports = (VerifierView = (function () {
   VerifierView = class VerifierView extends RootView {
     static initClass () {
@@ -54,6 +46,14 @@ module.exports = (VerifierView = (function () {
       this.problem = 0
       this.testCount = 0
       this.utils = utils
+
+      if (utils.showOzaria()) {
+        CocoLegacyCampaigns = ['intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6', 'course-8',
+          'dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano', 'campaign-game-dev-1',
+          'campaign-game-dev-2', 'campaign-game-dev-3', 'hoc-2018']
+      } else {
+        CocoLegacyCampaigns = ['chapter-1-the-moon-dancers-temp', 'chapter-2-the-moon-dancers', 'chapter-1-sky-mountain', 'chapter-3-the-phoenix-lands', 'chapter-4-the-final-code']
+      }
 
       if (utils.getQueryVariable('dev')) {
         this.supermodel.shouldSaveBackups = model => // Make sure to load possibly changed things from localStorage.
@@ -290,7 +290,7 @@ module.exports = (VerifierView = (function () {
       }
 
       const {
-        tasksToRerun
+        tasksToRerun,
       } = this
       this.tasksToRerun = []
       const testSupermodel = new SuperModel()
