@@ -1,5 +1,6 @@
 const c = require('./../schemas')
 const LevelSchema = require('./level')
+const AIScenarioSchema = require('./ai_scenario.schema.js')
 const colors = require('../../core/colors')
 
 // Custom marker for one campaign entry (level or scenario). The asset is the state: a state without
@@ -222,6 +223,7 @@ _.extend(CampaignSchema.properties, {
             },
           },
         },
+      // - denormalized properties from Scenarios are cloned below
       },
     },
   },
@@ -380,6 +382,11 @@ _.extend(CampaignSchema.properties, {
   },
 })
 
+CampaignSchema.denormalizedScenarioProperties = [
+  'original',
+  'requiresSubscription',
+]
+
 CampaignSchema.denormalizedLevelProperties = [
   'name',
   'description',
@@ -442,6 +449,10 @@ CampaignSchema.definitions.classroomSub = _.cloneDeep(LevelSchema.definitions?.c
 
 for (const prop of CampaignSchema.denormalizedLevelProperties) {
   CampaignSchema.properties.levels.additionalProperties.properties[prop] = _.cloneDeep(LevelSchema.properties[prop])
+}
+
+for (const prop of CampaignSchema.denormalizedScenarioProperties) {
+  CampaignSchema.properties.scenarios.items.properties[prop] = _.cloneDeep(AIScenarioSchema.properties[prop])
 }
 for (const hiddenProp of hiddenLevelProperties) {
   CampaignSchema.properties.levels.additionalProperties.properties[hiddenProp].format = 'hidden'
