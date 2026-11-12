@@ -65,6 +65,7 @@ module.exports = (AdministerUserModal = (function () {
         'click #school-admin-checkbox': 'onClickSchoolAdminCheckbox',
         'click #online-teacher-checkbox': 'onClickOnlineTeacherCheckbox',
         'click #beta-tester-checkbox': 'onClickBetaTesterCheckbox',
+        'click .ai-disabled-checkbox': 'onClickAiDisabledCheckbox',
         'click #edit-school-admins-link': 'onClickEditSchoolAdmins',
         'click #edit-online-teacher-link': 'onClickEditOnlineTeacher',
         'submit #teacher-search-form': 'onSubmitTeacherSearchForm',
@@ -156,6 +157,7 @@ module.exports = (AdministerUserModal = (function () {
       this.updateStripeStatus()
       this.trialRequest = this.trialRequests.first()
       if (this.trialRequest) { this.models.push(this.trialRequest) }
+      this.fetchSchoolAndDistrictAiDisabled()
       this.prepaidTableState = {}
       this.productTableState = {}
       this.foundTeachers = []
@@ -906,6 +908,64 @@ module.exports = (AdministerUserModal = (function () {
       if (!this.updateUserPermission(User.PERMISSIONS.SCHOOL_ADMINISTRATOR, checked)) {
         return e.preventDefault()
       }
+    }
+
+    // The teacher and class flags come with the user and classroom docs. The school and district
+    // flags are on their own records, found by the NCES ids in the teacher's trial request.
+    fetchSchoolAndDistrictAiDisabled () {
+      const props = this.trialRequest?.get('properties') || {}
+      const ncesIds = { school: props.nces_id, district: props.nces_district_id }
+      this.aiDisabled = {}
+      for (const kind of ['school', 'district']) {
+        if (!ncesIds[kind]) { continue }
+        fetchJson(`/admin/ai-disabled/${kind}/${ncesIds[kind]}`)
+          .then(info => { this.aiDisabled[kind] = info })
+          .catch(err => { this.aiDisabled[kind] = { error: err.message || `error ${err.code}` } })
+          .then(() => this.renderAiDisabledBoxes())
+      }
+    }
+
+    // Every AI box at once, because a box above locks the boxes under it.
+    renderAiDisabledBoxes () {
+      const classBoxes = this.classrooms.map(c => `#ai-disabled-classroom-${c.id}`)
+      this.renderSelectors('#ai-disabled-user', '#ai-disabled-school', '#ai-disabled-district', ...classBoxes)
+    }
+
+    onClickAiDisabledCheckbox (e) {
+      const checkbox = this.$(e.target)
+      const kind = checkbox.data('kind')
+      const id = String(checkbox.data('id'))
+      const aiDisabled = checkbox.prop('checked')
+
+      let who
+      if (kind === 'user') {
+        who = 'this teacher and their students'
+      } else if (kind === 'classroom') {
+        who = 'the students of this class'
+      } else {
+        who = `every teacher and student linked to ${this.aiDisabled[kind].name}`
+      }
+      if (!window.confirm(`${aiDisabled ? 'DISABLE' : 'ENABLE'} AI for ${who}?`)) {
+        return e.preventDefault()
+      }
+
+      // No second click until this save is done. The re-render at the end puts back an enabled box.
+      checkbox.prop('disabled', true)
+
+      // The server writes the same value onto everything under the record, like nested checkboxes,
+      // so the boxes under this one get it here too instead of being re-read.
+      fetchJson(`/admin/ai-disabled/${kind}/${id}`, { method: 'PUT', json: { aiDisabled } })
+        .then(updated => {
+          const flags = _.pick(updated, 'aiDisabled', 'aiDisabledChangedAt')
+          if (kind === 'classroom') { return this.classrooms.get(id).set(flags) }
+          if (kind === 'district') { this.aiDisabled.district = updated }
+          if (kind === 'district' && this.aiDisabled.school?.ncesId) { Object.assign(this.aiDisabled.school, flags) }
+          if (kind === 'school') { this.aiDisabled.school = updated }
+          this.user.set(flags)
+          this.classrooms.each(c => c.set(flags))
+        })
+        .catch(err => noty({ text: `Could not save the AI setting: ${err.message}`, type: 'error', layout: 'topCenter', timeout: 5000 }))
+        .then(() => this.renderAiDisabledBoxes())
     }
 
     onClickBetaTesterCheckbox (e) {
