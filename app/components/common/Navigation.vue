@@ -21,7 +21,7 @@ const cocoPath = function (relativePath) {
 }
 
 const ozCurriculumLink = function () {
-  if (isOzaria || me.isTeacher()) {
+  if (me.isTeacher()) {
     return '/teachers/guide/ozaria'
   }
   // Need to have the full URL here for the page load, so HomeView loads fully and picks a template
