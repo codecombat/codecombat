@@ -2,6 +2,11 @@ extends /templates/base-flat
 
 block content
   .container
+    div.toggle-product
+      if view.utils.showOzaria()
+        a(href='/editor/verifier') Coco Verifier
+      else
+        a(href='/editor/ozaria/verifier') Ozaria Verifier
     div.row.verifier-row
       div.col-sm-3
         p.alert.alert-success

@@ -1,0 +1,17 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  .modal-header-content
+    h3(data-i18n="editor.fork_scenario")
+
+block modal-body-content
+  .modal-body
+    p(data-i18n="editor.fork_scenario_explanation")
+    .form-group
+      label(for="fork-scenario-name", data-i18n="editor.fork_scenario_name")
+      input#fork-scenario-name.form-control(type="text", value=view.defaultName)
+
+block modal-footer
+  .modal-footer
+    button.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel
+    button.btn.btn-primary#fork-modal-confirm-button(data-i18n="editor.fork_scenario") Fork

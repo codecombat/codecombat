@@ -478,6 +478,7 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
           practice: false,
           unlocksItem: 'sword-original',
           rewards: [{ item: 'sword-original' }, { level: 'bonus-original' }, { level: 'on-map-original' }, { hero: 'missing-hero' }],
+          mapIcon: { default: 'db/campaign/c/default.png', complete: 'db/campaign/c/complete.png', scale: 1.5 },
         }]
       })
 
@@ -493,6 +494,13 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
 
       it('returns nothing for a level that is not on the map', function () {
         expect(this.campaignView.getEditorLevelCardData('nope')).toBeNull()
+      })
+
+      it('summarises the custom map icon, and leaves it out when there is none', function () {
+        expect(this.campaignView.getEditorLevelCardData('level-original').mapIcon).toEqual({ states: ['default', 'complete'], scale: 1.5, hoverEffect: 'scale' })
+        expect(this.campaignView.getEditorLevelCardData('on-map-original').mapIcon).toBeNull()
+        const $card = $('<div>').html(editorLevelCardTemplate(this.campaignView.getEditorLevelCardData('level-original')))
+        expect($card.find('.card-facts .map-icon').text()).toBe('default, complete · ×1.5 · hover scale')
       })
 
       it('renders the name, kind and reward names into the card', function () {
@@ -667,6 +675,76 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
       expect(earnedAchievementPosts().length).toBe(2)
       earnedAchievementPosts()[1].respondWith({ status: 201, responseText: JSON.stringify({ _id: 'earned-achievement-id' }) })
       expect(meFetches().length).toBe(1)
+    })
+  })
+
+  describe('resolveMapIcon', function () {
+    const resolve = CampaignView.resolveMapIcon
+    const all = { default: 'db/campaign/c/default.png', inProgress: 'db/campaign/c/started.png', complete: 'db/campaign/c/complete.png', locked: 'db/campaign/c/locked.png', scale: 2, hoverEffect: 'glow' }
+
+    it('is null without a default image', function () {
+      expect(resolve(undefined, '', false)).toBeNull()
+      expect(resolve({ complete: 'db/campaign/c/complete.png' }, 'complete', false)).toBeNull()
+    })
+
+    it('shows default for every state when only default is set', function () {
+      const only = { default: 'db/campaign/c/default.png' }
+      for (const status of ['', 'started', 'complete']) {
+        expect(resolve(only, status, false)).toEqual({ src: '/file/db/campaign/c/default.png', scale: 1, hoverEffect: 'scale', lockedTreatment: false })
+      }
+    })
+
+    it('picks the image of the state when it exists', function () {
+      expect(resolve(all, '', false).src).toBe('/file/db/campaign/c/default.png')
+      expect(resolve(all, 'started', false).src).toBe('/file/db/campaign/c/started.png')
+      expect(resolve(all, 'complete', false).src).toBe('/file/db/campaign/c/complete.png')
+    })
+
+    it('falls back to default per state, not down a chain', function () {
+      const noStarted = { default: 'db/campaign/c/default.png', complete: 'db/campaign/c/complete.png' }
+      expect(resolve(noStarted, 'started', false).src).toBe('/file/db/campaign/c/default.png')
+      expect(resolve(noStarted, 'complete', false).src).toBe('/file/db/campaign/c/complete.png')
+    })
+
+    it('locked shows the locked image as-is, or default with the locked treatment', function () {
+      expect(resolve(all, 'complete', true)).toEqual(jasmine.objectContaining({ src: '/file/db/campaign/c/locked.png', lockedTreatment: false }))
+      expect(resolve({ default: 'db/campaign/c/default.png' }, '', true)).toEqual(jasmine.objectContaining({ src: '/file/db/campaign/c/default.png', lockedTreatment: true }))
+    })
+
+    it('carries scale and hover effect, with defaults for missing or bad values', function () {
+      expect(resolve(all, '', false)).toEqual(jasmine.objectContaining({ scale: 2, hoverEffect: 'glow' }))
+      expect(resolve({ default: 'db/campaign/c/default.png', scale: 0, hoverEffect: 'spin' }, '', false)).toEqual(jasmine.objectContaining({ scale: 1, hoverEffect: 'scale' }))
+    })
+  })
+
+  describe('getMapSize', function () {
+    const Campaign = require('models/Campaign')
+    const viewFor = (attrs, { editorMode = true, imageSize = { width: 1920, height: 1080 } } = {}) => {
+      const view = new CampaignView()
+      view.editorMode = editorMode
+      view.campaign = new Campaign(attrs)
+      view.mapImageSize = imageSize
+      return view
+    }
+
+    it('sizes a graph-map hackstack campaign to its image in the editor', function () {
+      expect(viewFor({ type: 'hackstack' }).getMapSize()).toEqual({ width: 1920, height: 1080 })
+    })
+
+    it('keeps the classic 3:2 box for hero campaigns', function () {
+      expect(viewFor({ type: 'hero' }).getMapSize()).toEqual({ width: 1920, height: 1280 })
+    })
+
+    it('keeps the classic box for side-scroller hackstack campaigns', function () {
+      expect(viewFor({ type: 'hackstack', isSideScrollerCampaign: true }).getMapSize()).toEqual({ width: 1920, height: 1280 })
+    })
+
+    it('keeps the classic box outside the editor', function () {
+      expect(viewFor({ type: 'hackstack' }, { editorMode: false }).getMapSize()).toEqual({ width: 1920, height: 1280 })
+    })
+
+    it('keeps the classic box until the image size is known', function () {
+      expect(viewFor({ type: 'hackstack' }, { imageSize: null }).getMapSize()).toEqual({ width: 1920, height: 1280 })
     })
   })
 }))

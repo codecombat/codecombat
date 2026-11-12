@@ -97,6 +97,8 @@ module.exports = {
   'views/editor/ai-project/AIProjectEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/ai-project/AIProjectEditView') },
   'views/editor/ai-model/AIModelSearchView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/ai-model/AIModelSearchView') },
   'views/editor/ai-model/AIModelEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/ai-model/AIModelEditView') },
+  'views/editor/ai-story-world/AIStoryWorldSearchView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/ai-story-world/AIStoryWorldSearchView') },
+  'views/editor/ai-story-world/AIStoryWorldEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/ai-story-world/AIStoryWorldEditView') },
   'views/editor/ai-document/AIDocumentSearchView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/ai-document/AIDocumentSearchView') },
   'views/editor/ai-document/AIDocumentEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/ai-document/AIDocumentEditView') },
   'views/editor/ai-chat-message/AIChatMessageSearchView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/ai-chat-message/AIChatMessageSearchView') },

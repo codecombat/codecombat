@@ -19,6 +19,7 @@ const LeaderboardModal = require('views/play/modal/LeaderboardModal')
 const Level = require('models/Level')
 const User = require('models/User')
 const utils = require('core/utils')
+const { MAP_Z, resolveMapPlacements, byDrawOrder, offsetForPosition } = require('lib/map-placement')
 const ShareProgressModal = require('views/play/modal/ShareProgressModal')
 const JuniorOriginalChoiceModal = require('views/core/JuniorOriginalChoiceModal')
 const api = require('core/api')
@@ -47,16 +48,45 @@ const JuniorPromotionModal = require('views/core/JuniorPromotionModal')
 const CCHomePromotionModal = require('views/core/CCHomePromotionModal')
 const WorldsPromotionModal = require('views/core/WorldsPromotionModal') // Roblox modal
 const HackstackPromotionModal = require('views/core/HackstackPromotionModal')
+const { PERCENT_FULL, scenarioConnectionPath } = require('lib/scenario-connection-path')
 require('lib/game-libraries')
 
 const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
 const PROMPTED_FOR_SIGNUP = 'prompted-for-signup'
 const PROMPTED_FOR_SUBSCRIPTION = 'prompted-for-subscription'
 const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
-const SCENARIO_MARGIN_COMPENSATION_FACTOR = 0.33 // Compensates for bottom margin when centering scenario elements
 
 const COMPLETE_STATUS = 'complete'
 const STARTED_STATUS = 'started'
+const MAP_ICON_HOVER_EFFECTS = ['scale', 'glow', 'lift', 'none']
+
+// Picks the image of a custom map icon (campaign entry `mapIcon`) for one level. Every state falls
+// back to `default`; locked without its own image is `default` plus the renderer's locked treatment.
+function resolveMapIcon (mapIcon, status, locked) {
+  if (!mapIcon?.default) { return null }
+  let image = mapIcon.default
+  let lockedTreatment = false
+  if (locked) {
+    if (mapIcon.locked) { image = mapIcon.locked } else { lockedTreatment = true }
+  } else if (status === COMPLETE_STATUS && mapIcon.complete) {
+    image = mapIcon.complete
+  } else if (status === STARTED_STATUS && mapIcon.inProgress) {
+    image = mapIcon.inProgress
+  }
+  return {
+    src: `/file/${image}`,
+    scale: mapIcon.scale > 0 ? mapIcon.scale : 1,
+    hoverEffect: MAP_ICON_HOVER_EFFECTS.includes(mapIcon.hoverEffect) ? mapIcon.hoverEffect : 'scale',
+    lockedTreatment,
+  }
+}
+const DEFAULT_MAP_SIZE = { width: 1920, height: 1280 } // the classic campaign maps are painted 3:2
+// A level's shadow is its own map item this far below the marker's z: above the decorations, below the
+// connection lines and under every marker, so a neighbour's shadow never darkens a marker.
+const SHADOW_BELOW_MARKER = 1.5
+// Same stroke as hackstack's LevelConnections
+const SCENARIO_CONNECTION_OPACITY = 0.7
+const SCENARIO_CONNECTION_WIDTH = 7
 
 // The hub map (/play with no campaign slug) has no campaign document of its own, so hub-level settings such as
 // ambientSound come from this campaign. Referenced by id: campaign slugs re-derive from `name` on every save.
@@ -783,6 +813,7 @@ class CampaignView extends RootView {
     if (features.brainPop) {
       context.levels = _.filter(context.levels, level => ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'true-names'].includes(level.slug))
     }
+    this.placeAnchoredLevels(context.levels)
     this.annotateLevels(context.levels, context.campaign)
     const dontCountPracticeLevels = context.campaign?.get('type') === 'junior' || context.campaign?.get('slug') === 'junior'
     const count = this.countLevels(context.levels, context.campaign, dontCountPracticeLevels)
@@ -798,6 +829,10 @@ class CampaignView extends RootView {
       this.determineNextLevel(context.levels)
     }
     context.levels = this.collapsePracticeLevels(context.levels)
+    // After determineNextLevel: classroom maps set level.locked there, not in annotateLevels.
+    for (const level of context.levels) {
+      level.mapIconResolved = resolveMapIcon(level.mapIcon, this.levelStatusMap[level.slug], Boolean(level.locked))
+    }
 
     // put lower levels in last, so in the world map they layer over one another properly.
     context.levels = _.sortBy(context.levels, l => l.position.y).reverse()
@@ -812,7 +847,8 @@ class CampaignView extends RootView {
     context.requiresSubscription = this.requiresSubscription
     context.editorMode = this.editorMode
     context.showFullFlags = this.showFullFlags
-    context.scenarios = this.campaign?.get('scenarios') || []
+    // Scenario entries carry no status here (HackStack owns their progress), so a mapIcon shows its default image.
+    context.scenarios = (this.campaign?.get('scenarios') || []).map(scenario => ({ ...scenario, mapIconResolved: resolveMapIcon(scenario.mapIcon, '', false) }))
     // Modules: child campaigns rendered as portals on the map.
     // Enrich each module with locked state: first by premium, then by levelToUnlock (complete that level to unlock).
     const rawModules = this.campaign?.get('modules') || []
@@ -907,6 +943,8 @@ class CampaignView extends RootView {
       context.showGameDevAlert = true
     }
 
+    // Last: decorations, anchors and draw order need the levels, modules and scenarios above.
+    context.mapItems = this.buildMapItems(context)
     return context
   }
 
@@ -958,6 +996,111 @@ class CampaignView extends RootView {
     }
   }
 
+  // HoC progression and the next-level choice order levels by position, so an anchored level takes its
+  // resolved position before annotateLevels runs. buildMapItems resolves again with everything else; an
+  // anchored item ignores its saved position, so the second pass lands on the same spot.
+  placeAnchoredLevels (levels) {
+    if (!levels.some(level => level.anchor)) { return }
+    const mapSize = this.getMapSize()
+    const placements = resolveMapPlacements({
+      decorations: this.campaign?.get('mapDecorations') || [],
+      markers: levels.map(level => ({ key: `level:${level.original}`, position: level.position, z: level.z, anchor: level.anchor })),
+      mapAspect: mapSize.width / mapSize.height,
+    })
+    for (const level of levels) {
+      const placed = placements.markers[`level:${level.original}`]
+      if (level.anchor) { level.position = { x: placed.x, y: placed.y } }
+    }
+  }
+
+  // Decorations, anchored markers and draw order (lib/map-placement), resolved once per render. The
+  // template emits the items in this order, so nothing placed needs a z-index and the UI chrome stays on
+  // top. Anchored levels and scenarios get their resolved position written back for the template, the
+  // editor card and the drag handlers.
+  buildMapItems (context) {
+    const mapSize = this.getMapSize()
+    const slugByOriginal = {}
+    for (const level of context.levels) { slugByOriginal[level.original] = level.slug }
+    const isComplete = original => this.levelOriginalStatusMap?.[original] === COMPLETE_STATUS || this.levelStatusMap[slugByOriginal[original]] === COMPLETE_STATUS
+    const scenarios = context.scenarios.filter(scenario => scenario.position)
+    const placements = resolveMapPlacements({
+      decorations: this.campaign?.get('mapDecorations') || [],
+      labels: this.campaign?.get('mapLabels') || [],
+      markers: [
+        ...context.levels.map(level => ({ key: `level:${level.original}`, position: level.position, z: level.z, anchor: level.anchor })),
+        ...scenarios.map(scenario => ({ key: `scenario:${scenario.scenario}`, position: scenario.position, z: scenario.z, anchor: scenario.anchor })),
+      ],
+      mapAspect: mapSize.width / mapSize.height,
+      isComplete: this.editorMode ? () => true : isComplete,
+    })
+    this.mapPlacements = placements
+    for (const level of context.levels) {
+      const placed = placements.markers[`level:${level.original}`]
+      level.position = { x: placed.x, y: placed.y }
+      level.z = placed.z
+    }
+    for (const scenario of scenarios) {
+      const placed = placements.markers[`scenario:${scenario.scenario}`]
+      scenario.position = { x: placed.x, y: placed.y }
+      scenario.z = placed.z
+    }
+    // Hidden practice levels were skipped by the template loop before; lower markers come later so they overlap higher ones.
+    const shownLevels = _.sortBy(context.levels.filter(level => !((context.campaign.levelIsPractice(level) || !level.unlockedInSameCampaign) && level.hidden)), level => -level.position.y)
+    // One running order across the kinds, so at equal z the template order before draw-order sorting holds
+    // (decorations, lines, levels, module portals, scenarios, labels) and within a kind the array order.
+    let order = 0
+    const item = (kind, z, props) => ({ kind, z, order: order++, ...props })
+    const decorationItems = placements.decorations.map(decoration => item('decoration', decoration.z, { decoration }))
+    const connectionItems = [item('connections', MAP_Z.connection, {})]
+    const levelItems = shownLevels.map(level => item('level', level.z, { level }))
+    // A level's shadow shares its marker's order, a band below it in z
+    const shadowItems = levelItems.filter(({ level }) => !level.mapIconResolved).map(({ level, order }) => ({ kind: 'level-shadow', z: level.z - SHADOW_BELOW_MARKER, order, level }))
+    const moduleItems = context.modules.map(module => item('module', MAP_Z.marker, { module }))
+    const scenarioItems = scenarios.map(scenario => item('scenario', scenario.z, { scenario }))
+    const labelItems = placements.labels.map(label => item('label', label.z, { label: { ...label, css: this.labelCss(label) } }))
+    return [...decorationItems, ...connectionItems, ...shadowItems, ...levelItems, ...moduleItems, ...scenarioItems, ...labelItems].sort(byDrawOrder)
+  }
+
+  // Inline look of a label: position, scale and accent as custom properties the stylesheet reads, plus the
+  // 9-slice plank when there is one. Lengths are map units (1% of the map's width on screen, set on resize)
+  // so a label scales with the map like the markers; a plank image's pixels are read against the 1920 px
+  // reference map, as on the planet.
+  labelCss (label) {
+    const parts = [`left: ${label.x}%`, `bottom: ${label.y}%`, `--map-label-scale: ${label.scale}`]
+    if (label.accentRgb) { parts.push(`--map-label-accent-rgb: ${label.accentRgb}`) }
+    const plank = label.plankImage
+    if (plank) {
+      const unit = px => `calc(var(--map-unit, ${DEFAULT_MAP_SIZE.width / 100}px) * ${(px * label.scale) / (DEFAULT_MAP_SIZE.width / 100)})`
+      parts.push(`border-image-source: url("/file/${plank.image}")`)
+      parts.push(`border-image-slice: ${plank.slice.join(' ')} fill`)
+      parts.push(`border-width: ${plank.slice.map(unit).join(' ')}`)
+      parts.push(`padding: ${unit(plank.padding[1])} ${unit(plank.padding[0])}`)
+    }
+    return parts.join('; ')
+  }
+
+  // A dragged item keeps its anchor: the drop position becomes a new offset from the decoration it was drawn on.
+  // anchorId is the resolved one, so an anchor the resolver ignored (unknown id, self anchor, cycle) saves a
+  // position and the item stays where it was dropped.
+  movedPlacement (position, anchorId) {
+    const parent = anchorId != null ? this.mapPlacements?.decorations.find(decoration => decoration.id === anchorId) : null
+    if (!parent) { return { position } }
+    const mapSize = this.getMapSize()
+    return { position, anchorOffset: offsetForPosition(parent, position, mapSize.width / mapSize.height) }
+  }
+
+  // The layer the connection lines draw into: below the markers in draw order, above the decorations.
+  connectionsLayer () {
+    const layer = this.$el.find('.map .map-connections')
+    return layer.length ? layer : this.$el.find('.map')
+  }
+
+  // Lines join markers where they were drawn: an anchored marker sits at its resolved spot, not at its saved position.
+  placedPosition (key, fallback) {
+    const placed = this.mapPlacements?.markers?.[key]
+    return placed ? { x: placed.x, y: placed.y } : fallback
+  }
+
   afterRender () {
     super.afterRender()
     if ($.isTouchCapable() && (screen.availHeight < screen.availWidth)) {
@@ -988,7 +1131,8 @@ class CampaignView extends RootView {
           const bg = $('.map-background')
           const x = (($(this).offset().left - bg.offset().left) + ($(this).outerWidth() / 2)) / bg.width()
           const y = 1 - ((($(this).offset().top - bg.offset().top) + ($(this).outerHeight() / 2)) / bg.height())
-          const e = { position: { x: (100 * x), y: (100 * y) }, levelOriginal: $(this).data('level-original'), campaignID: $(this).data('campaign-id') }
+          const levelOriginal = $(this).data('level-original')
+          const e = { ...view.movedPlacement({ x: (100 * x), y: (100 * y) }, view.mapPlacements?.markers[`level:${levelOriginal}`]?.anchorId), levelOriginal, campaignID: $(this).data('campaign-id') }
           if (e.levelOriginal) { view.trigger('level-moved', e) }
           if (e.campaignID) { view.trigger('adjacent-campaign-moved', e) }
         })
@@ -1001,17 +1145,59 @@ class CampaignView extends RootView {
             const bg = $('.map-background')
             const el = $(this)
             const x = ((el.offset().left - bg.offset().left) + (el.outerWidth() / 2)) / bg.width()
-            // Compensate for negative margin-bottom used to center via bottom positioning.
-            // NOTE: Through visual testing, a factor of ~0.33 works best to align the
-            // saved position with the on-screen center. This is due to how the map's
-            // aspect scaling and our scenario circle height interact with bottom+margin
-            // centering. If map scaling logic changes, revisit this factor.
-            const mb = parseFloat(el.css('margin-bottom')) || 0
-            const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2) + (mb * SCENARIO_MARGIN_COMPENSATION_FACTOR)
+            const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2)
             const y = 1 - (yCenterPx / bg.height())
-            const e = { position: { x: (100 * x), y: (100 * y) }, scenarioOriginal: $(this).data('scenario-original') }
+            const scenarioOriginal = $(this).data('scenario-original')
+            const e = { ...view.movedPlacement({ x: (100 * x), y: (100 * y) }, view.mapPlacements?.markers[`scenario:${scenarioOriginal}`]?.anchorId), scenarioOriginal }
             if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
           })
+      })
+      // Decorations and labels: draggable in the editor. They sit on bottom/left with a centring translate;
+      // jQuery UI drags top/left and knows nothing about transforms (it would re-apply the translate on top
+      // of the visual position), so at drag start the translate is folded into top/left and only the
+      // rotation stays inline. On drop the rendered box's centre is read and the stylesheet transform comes back.
+      const placedDraggable = (selector, onDrop) => {
+        this.$el.find(selector).each(function () {
+          if (!me.isAdmin() || !view.editorMode) { return }
+          const el = $(this)
+          el.draggable({
+            scroll: false,
+            containment: '.map',
+            start: function () {
+              const map = $('.map')
+              const width = el.outerWidth()
+              const height = el.outerHeight()
+              // jQuery UI took the pointer offset from the bounding box, which a rotation widens: rebase it on the
+              // layout box, or the item jumps by half the difference on the first frame and the drop saves that.
+              const rect = el[0].getBoundingClientRect()
+              const click = el.draggable('instance').offset.click
+              click.left -= (rect.width - width) / 2
+              click.top -= (rect.height - height) / 2
+              const leftPx = parseFloat(el.css('left')) || 0
+              const bottomPx = parseFloat(el.css('bottom')) || 0
+              const rotation = el[0].style.getPropertyValue('--map-rotation') || '0deg'
+              el.css({ left: leftPx - width / 2, top: map.height() - bottomPx - height / 2, bottom: 'auto', transform: `rotate(${rotation})` })
+            },
+            stop: function () {
+              const mapRect = $('.map')[0].getBoundingClientRect()
+              const rect = this.getBoundingClientRect()
+              const x = 100 * ((rect.left + rect.width / 2) - mapRect.left) / mapRect.width
+              const y = 100 * (1 - (((rect.top + rect.height / 2) - mapRect.top) / mapRect.height))
+              el.css({ left: `${x}%`, bottom: `${y}%`, top: 'auto', transform: '' })
+              onDrop(el, { x, y })
+            },
+          })
+        })
+      }
+      // attr, not data(): jQuery would turn an id like "123" into a number and the editor would not find the entry
+      placedDraggable('.map-decoration', (el, position) => {
+        const decorationId = el.attr('data-decoration-id')
+        view.trigger('decoration-moved', { ...view.movedPlacement(position, view.mapPlacements?.decorations.find(d => d.id === decorationId)?.anchorId), decorationId })
+      })
+      // Labels by array index: two labels may share an id, and the drag must edit the one that moved.
+      placedDraggable('.map-label', (el, position) => {
+        const labelIndex = parseInt(el.attr('data-label-index'), 10)
+        view.trigger('label-moved', { ...view.movedPlacement(position, view.mapPlacements?.labels.find(l => l.index === labelIndex)?.anchorId), labelIndex })
       })
       // Module portals: in editor, mark with an extra class for CSS targeting,
       // and enable drag that saves the same bottom-left anchor that CSS uses
@@ -1055,6 +1241,7 @@ class CampaignView extends RootView {
       })
     }
     this.$el.toggleClass('compact-level-markers', Boolean(this.editorMode && !this.showFullFlags))
+    this.$el.toggleClass('editor-mode', Boolean(this.editorMode))
     this.updateVolume()
     this.updateHero()
     if (!window.currentModal && this.fullyRendered) {
@@ -1127,6 +1314,13 @@ class CampaignView extends RootView {
       adminOnly: Boolean(level.adminOnly),
       replayable: Boolean(level.replayable),
       rewards,
+      mapIcon: level.mapIcon?.default
+        ? {
+            states: ['default', 'inProgress', 'complete', 'locked'].filter(state => level.mapIcon[state]),
+            scale: level.mapIcon.scale || 1,
+            hoverEffect: level.mapIcon.hoverEffect || 'scale',
+          }
+        : null,
     }
   }
 
@@ -1542,7 +1736,7 @@ class CampaignView extends RootView {
       for (const connection of connections) {
         const toLevel = _.find(this.campaign.renderedLevels, { original: connection.toLevel })
         if (toLevel) {
-          this.createLineForEditor(level.position, toLevel.position)
+          this.createLineForEditor(this.placedPosition(`level:${level.original}`, level.position), this.placedPosition(`level:${toLevel.original}`, toLevel.position))
         }
       }
       if (connections.length) continue // If there are connections, we don't need to draw next levels
@@ -1550,34 +1744,14 @@ class CampaignView extends RootView {
       for (const nextLevelOriginal of nextLevels) {
         const nextLevel = _.find(this.campaign.renderedLevels, { original: nextLevelOriginal })
         if (nextLevel) {
-          this.createLineForEditor(level.position, nextLevel.position)
+          this.createLineForEditor(this.placedPosition(`level:${level.original}`, level.position), this.placedPosition(`level:${nextLevelOriginal}`, nextLevel.position))
         }
       }
     }
-    // Also draw lines between AI Scenarios based on explicit connections
-    const scenarios = this.campaign?.get('scenarios') || []
-    if (scenarios.length) {
-      // Map scenarios by original id for fast lookup
-      const scenarioByOriginal = {}
-      for (const s of scenarios) {
-        if (s?.scenario) { scenarioByOriginal[s.scenario] = s }
-      }
-      for (const s of scenarios) {
-        const fromPos = s?.position
-        if (!fromPos) { continue }
-        for (const conn of (s?.connections || [])) {
-          const to = scenarioByOriginal[conn?.toScenario]
-          const toPos = to?.position
-          if (toPos) {
-            // If connection is marked invisible, render as a thinner line instead of skipping
-            this.createLineForEditor(fromPos, toPos, { thin: !!conn?.invisible })
-          }
-        }
-      }
-    }
+    this.createScenarioConnections()
   }
 
-  createLineForEditor (o1, o2, options = {}) {
+  createLineForEditor (o1, o2) {
     const mapHeight = parseFloat($('.map').css('height'))
     const mapWidth = parseFloat($('.map').css('width'))
     if (!(mapHeight > 0)) { return }
@@ -1587,8 +1761,53 @@ class CampaignView extends RootView {
     const length = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
     const angle = (Math.atan2(p1.y - p2.y, p2.x - p1.x) * 180) / Math.PI
     const transform = `translateY(-50%) translateX(-50%) rotate(${angle}deg) translateX(50%)`
-    const line = $('<div>').appendTo('.map').addClass('next-level-line').toggleClass('thin-connection', !!options.thin).css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
+    const line = $('<div>').appendTo(this.connectionsLayer()).addClass('next-level-line').css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
     return line.append($('<div class="line">')).append($('<div class="point">'))
+  }
+
+  // Mirrors hackstack's LevelConnections: one SVG over the map with a 100x100 viewBox stretched to
+  // it, so the curves scale with the map and the player sees the same bow, side and colour.
+  // Invisible connections are dashed here so authors can see them; players never do.
+  createScenarioConnections () {
+    const scenarios = this.campaign?.get('scenarios') || []
+    const map = this.$el.find('.map')
+    if (!scenarios.length || !map.length) { return }
+    map.find('#scenario-connections-svg').remove()
+    const byOriginal = {}
+    for (const s of scenarios) {
+      if (s?.scenario) { byOriginal[s.scenario] = s }
+    }
+    const svgNS = 'http://www.w3.org/2000/svg'
+    const svg = document.createElementNS(svgNS, 'svg')
+    svg.setAttribute('id', 'scenario-connections-svg')
+    svg.setAttribute('viewBox', `0 0 ${PERCENT_FULL} ${PERCENT_FULL}`)
+    svg.setAttribute('preserveAspectRatio', 'none')
+    let lastColor, lastOpacity
+    for (const s of scenarios) {
+      if (!s?.position) { continue }
+      for (const conn of (s.connections || [])) {
+        const to = byOriginal[conn?.toScenario]
+        if (!to?.position) { continue }
+        const color = conn.color || lastColor || colors.amethyst
+        const opacity = conn.opacity ?? lastOpacity ?? SCENARIO_CONNECTION_OPACITY
+        if (!conn.invisible) {
+          // the player inherits colour and opacity from the last visible connection
+          lastColor = color
+          lastOpacity = opacity
+        }
+        const path = document.createElementNS(svgNS, 'path')
+        path.setAttribute('d', scenarioConnectionPath(this.placedPosition(`scenario:${s.scenario}`, s.position), this.placedPosition(`scenario:${to.scenario}`, to.position), conn.curveSide))
+        path.setAttribute('fill', 'none')
+        path.setAttribute('stroke', color)
+        path.setAttribute('stroke-opacity', conn.invisible ? opacity / 2 : opacity)
+        path.setAttribute('stroke-width', conn.invisible ? SCENARIO_CONNECTION_WIDTH / 2 : SCENARIO_CONNECTION_WIDTH)
+        path.setAttribute('stroke-linecap', 'round')
+        path.setAttribute('vector-effect', 'non-scaling-stroke')
+        if (conn.invisible) { path.setAttribute('stroke-dasharray', '6 6') }
+        svg.appendChild(path)
+      }
+    }
+    this.connectionsLayer().append(svg)
   }
 
   createVisualConnections () {
@@ -1622,8 +1841,6 @@ class CampaignView extends RootView {
         width: mapWidth,
         height: mapHeight,
         'pointer-events': 'none',
-        // Render visual connections beneath level markers/flags (z-index 2) but above the map background.
-        'z-index': 1,
       })
 
     // Defaults from appearance-based colors; functional meaning only at use site
@@ -1737,8 +1954,9 @@ class CampaignView extends RootView {
         if (conn.unlockLevelOriginal) {
           const level = levels[conn.unlockLevelOriginal]
           if (level?.position) {
-            const lx = mapToSvgX(level.position.x)
-            const ly = mapToSvgY(level.position.y)
+            const placed = this.placedPosition(`level:${conn.unlockLevelOriginal}`, level.position)
+            const lx = mapToSvgX(placed.x)
+            const ly = mapToSvgY(placed.y)
             const helperPath = document.createElementNS(svgNS, 'path')
             $(helperPath).attr({
               d: `M ${x1},${y1} L ${lx},${ly}`,
@@ -1753,8 +1971,9 @@ class CampaignView extends RootView {
         if (conn.completeLevelOriginal) {
           const level = levels[conn.completeLevelOriginal]
           if (level?.position) {
-            const lx = mapToSvgX(level.position.x)
-            const ly = mapToSvgY(level.position.y)
+            const placed = this.placedPosition(`level:${conn.completeLevelOriginal}`, level.position)
+            const lx = mapToSvgX(placed.x)
+            const ly = mapToSvgY(placed.y)
             const helperPath = document.createElementNS(svgNS, 'path')
             $(helperPath).attr({
               d: `M ${x2},${y2} L ${lx},${ly}`,
@@ -1796,7 +2015,7 @@ class CampaignView extends RootView {
       connectionIndex++
     }
 
-    map.append(svg)
+    this.connectionsLayer().append(svg)
 
     // Wire up draggable handles after they exist in the DOM.
     if (this.editorMode && me.isAdmin()) {
@@ -1880,6 +2099,7 @@ class CampaignView extends RootView {
       })
       utils.injectCSS(rules.join('\n'))
     }
+    this.loadMapImageSize()
     const backgroundColor = this.campaign.get('backgroundColor')
     if (backgroundColor) {
       const backgroundColorTransparent = this.campaign.get('backgroundColorTransparent')
@@ -1977,7 +2197,11 @@ class CampaignView extends RootView {
     if (/requires a subscription to play/.test(error?.responseJSON?.message)) { return } // We handle this with SubscribeModal separately
     const levelElement = this.$el.find('.level-info-container:visible')
     if (session.levelSlug !== levelElement.data('level-slug')) { return }
-    levelElement.find('.level-error-message').text(error.responseJSON?.message || `Cannot load this level--error ${error.statusCode || 500}`)
+    let errorMessage = error.responseJSON?.message || `Cannot load this level--error ${error.statusCode || 500}`
+    if (error.responseJSON?.i18n) {
+      errorMessage = $.i18n.t(error.responseJSON.i18n)
+    }
+    levelElement.find('.level-error-message').text(errorMessage)
     levelElement.toggleClass('has-loading-error', true)
   }
 
@@ -2135,12 +2359,57 @@ class CampaignView extends RootView {
     this.$levelInfo.css('top', top)
   }
 
+  // hackstack lays a graph-map campaign's image out at the image's own aspect ratio and reads
+  // level positions as percentages of it. The classic map box is 3:2, so a 16:9 image fills only
+  // its top part and the same percentages land somewhere else. In the editor the box follows the
+  // image for those campaigns, so a saved position means the same thing in both places.
+  // Side-scroller campaigns lay their levels out by index, not by saved position.
+  mapFollowsImageAspect () {
+    if (!this.editorMode || !this.campaign) { return false }
+    const isHackstack = this.campaign.get('type') === 'hackstack' || this.campaign.get('isHackstackCampaign')
+    return Boolean(isHackstack && !this.campaign.get('isSideScrollerCampaign'))
+  }
+
+  getMapSize () {
+    const image = this.mapImageSize
+    if (this.mapFollowsImageAspect() && image?.width > 0 && image?.height > 0) {
+      return { width: DEFAULT_MAP_SIZE.width, height: Math.round((DEFAULT_MAP_SIZE.width * image.height) / image.width) }
+    }
+    return DEFAULT_MAP_SIZE
+  }
+
+  loadMapImageSize () {
+    if (!this.mapFollowsImageAspect()) { return }
+    const image = this.campaign.get('backgroundImage')?.[0]?.image // applyCampaignStyles sorts the largest first
+    if (!image || image === this.mapImageSrc) { return }
+    this.mapImageSrc = image
+    const img = new Image()
+    img.onload = () => {
+      if (this.destroyed || image !== this.mapImageSrc) { return } // a newer background replaced this one while it loaded
+      const before = this.getMapSize()
+      this.mapImageSize = { width: img.naturalWidth, height: img.naturalHeight }
+      // Anchored offsets convert vertically through the map aspect, so a new aspect moves every anchored
+      // marker and label: render again (placements, markers, labels, lines). Same aspect: resize only.
+      if (this.fullyRendered && this.getMapSize().height !== before.height) { return this.render() }
+      this.onWindowResize()
+      this.rebuildEditorLines()
+    }
+    img.src = `/file/${image}`
+  }
+
+  // The level-to-level editor lines are divs sized and rotated for the box they were drawn in,
+  // so a box change needs them drawn again. The scenario SVG scales with the box on its own.
+  rebuildEditorLines () {
+    if (!this.editorMode || !this.fullyRendered || window.currentModal) { return }
+    this.$el.find('.map .next-level-line').remove()
+    this.createLinesForEditor()
+  }
+
   onWindowResize (e) {
     if (!this.campaign) {
       return
     }
-    const mapHeight = 1280
-    const mapWidth = 1920
+    const { width: mapWidth, height: mapHeight } = this.getMapSize()
     const sideControlsGutter = 240
     const layoutWidth = mapWidth + (sideControlsGutter * 2)
     const $gameplayContainer = this.$el.find('.gameplay-container')
@@ -2176,6 +2445,8 @@ class CampaignView extends RootView {
     const mapWidthInLayout = resultingWidth * (mapWidth / layoutWidth)
     const mapMarginX = (resultingWidth - mapWidthInLayout) / 2
     $map.css({ width: mapWidthInLayout, height: resultingHeight, 'margin-left': mapMarginX, 'margin-top': 0 })
+    // One map unit is 1% of the map's width on screen; labels size themselves from it (campaign-view.sass).
+    if ($map[0]) { $map[0].style.setProperty('--map-unit', `${mapWidthInLayout / 100}px`) }
     $portalsContainer.css({ width: '', height: '', 'margin-left': '', 'margin-top': '' })
     if (this.pointerInterval) {
       this.highlightNextLevel()
@@ -2839,5 +3110,6 @@ class CampaignView extends RootView {
 }
 
 CampaignView.initClass()
+CampaignView.resolveMapIcon = resolveMapIcon
 
 module.exports = CampaignView

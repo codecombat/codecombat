@@ -18,6 +18,9 @@ dl.card-facts
   if flags.length
     dt Flags
     dd= flags.join(', ')
+  if mapIcon
+    dt Map icon
+    dd.map-icon= mapIcon.states.join(', ') + ' · ×' + mapIcon.scale + ' · hover ' + mapIcon.hoverEffect
 if rewards.length
   .card-rewards
     .card-rewards-title Rewards

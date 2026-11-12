@@ -103,8 +103,8 @@ module.exports = (AdministerUserModal = (function () {
       this.classrooms = new Classrooms()
       this.supermodel.trackRequest(this.user.fetch({ cache: false }))
       this.listenTo(this.user, 'sync', () => {
-        // The item picker only renders for admins on home users; load its catalog only then, once.
-        if (me.isAdmin() && this.user.isHomeUser() && !this.itemCatalog) { this.loadItemCatalog() }
+        // The item picker renders for admins and online teachers on home users; load its catalog only then, once.
+        if ((me.isAdmin() || me.isOnlineTeacher()) && this.user.isHomeUser() && !this.itemCatalog) { this.loadItemCatalog() }
         if (this.user.isStudent()) {
           this.supermodel.loadCollection(this.classrooms, { data: { memberID: this.user.id }, cache: false })
           this.listenTo(this.classrooms, 'sync', this.loadClassroomTeacherNames)
@@ -257,6 +257,8 @@ module.exports = (AdministerUserModal = (function () {
       this.itemCatalog = {}
       this.listenTo(fetcher, 'sync', (collection, response) => this.onItemCatalogPage(fetcher, response))
       this.listenTo(fetcher, 'error', () => {
+        // Null, not a partial map: the search input stays disabled and the next user sync retries the load.
+        this.itemCatalog = null
         this.itemCatalogLoading = false
         this.itemGrantState = 'error'
         this.itemGrantMessage = 'Could not load the item list'

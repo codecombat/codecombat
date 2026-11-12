@@ -16,7 +16,8 @@ export default class ZendeskTracker extends BaseTracker {
 
   get onNoZendeskPage () {
     const { route } = this.store.state
-    return /(\/play|\/certificates)/.test(route.path || '')
+    // No help chat while playing, on certificates, or in the content editors.
+    return /(\/play|\/certificates|\/editor)/.test(route.path || '')
   }
 
   loadZendesk () {

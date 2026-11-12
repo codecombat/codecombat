@@ -32,6 +32,16 @@ describe('Campaign', function() {
     '4': { original: 'e', campaignIndex: 4, slug: 'third', name: 'Third' }
   };
       
+  describe('denormalizedLevelProperties', function () {
+    it('lists the Level-backed properties and leaves the entry-only ones out', function () {
+      expect(Campaign.denormalizedLevelProperties).toContain('name')
+      expect(Campaign.denormalizedLevelProperties).toContain('requiresSubscription')
+      for (const entryOnly of ['position', 'rewards', 'mapIcon', 'z', 'anchor']) {
+        expect(Campaign.denormalizedLevelProperties).not.toContain(entryOnly)
+      }
+    })
+  })
+
   describe('getLevelNumber', () => it('returns the level number taking into account practice levels', function() {
     const campaign = new Campaign({ levels: getLevelNumberData });
     expect(campaign.getLevelNumber('a')).toBe(1);
