@@ -2012,13 +2012,34 @@ module.exports.courseDescription = (includedCourseIDs, credit = undefined) => {
     if (courseSame(includedCourseIDs, LICENSE_PRESETS['CodeCombat(CS, WD, GD, JR)'])) {
       return $.i18n.t('teacher.coco_full_license')
     }
-    if (courseSame(includedCourseIDs, LICENSE_PRESETS['Ozaria'])) {
+    if (courseSame(includedCourseIDs, LICENSE_PRESETS.Ozaria)) {
       return $.i18n.t('teacher.ozar_full_license')
     }
     return $.i18n.t('teacher.customized_license') + ': ' + (includedCourseIDs.map(id => courseAcronyms[id])).join('+')
   } else {
     return $.i18n.t('teacher.full_license')
   }
+}
+
+const getDummyApiData = () => {
+  const { DUMMY_LIBRARY_API_DATA_TEMPLATE } = require('./constants')
+
+  const now = window.dayjs()
+  const startDate = now.subtract(6, 'month').toISOString()
+  const endDate = now.add(3, 'month').toISOString()
+  const month1 = now.subtract(3, 'month').format('YYYY-MM')
+  const month2 = now.subtract(2, 'month').format('YYYY-MM')
+  const month3 = now.subtract(1, 'month').format('YYYY-MM')
+
+  const template = JSON.stringify(DUMMY_LIBRARY_API_DATA_TEMPLATE)
+  const dataString = template.replace('[START_DATE]', startDate)
+    .replace('[END_DATE]', endDate)
+    .replace('[MONTH_1]', month1)
+    .replace('[MONTH_2]', month2)
+    .replace('[MONTH_3]', month3)
+
+  console.log(JSON.parse(dataString))
+  return JSON.parse(dataString)
 }
 
 module.exports = {
@@ -2157,6 +2178,7 @@ module.exports = {
   showOzaria,
   orderedHomeHSCampaignSlugs,
   orderedHomeCampaignSlugs,
+  getDummyApiData,
 }
 
 function __guard__ (value, transform) {
