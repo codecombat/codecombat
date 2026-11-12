@@ -140,7 +140,7 @@
     <div class="footer">
       <div class="footer__text">
         See also our <a
-          href="https://www.ozaria.com/funding"
+          href="/funding"
           target="_blank"
         >Funding Resources Guide</a> for how to leverage CARES Act funding sources like ESSER and GEER.
       </div>
