@@ -2693,6 +2693,7 @@ module.exports = {
       send_recovery_email: 'Send recovery email',
       enter_new_password_below: 'Enter new password below:',
       change_password: 'Change Password',
+      changing: 'Changing...',
       changed: 'Changed',
       available_credits: 'Available Licenses',
       pending_credits: 'Pending Licenses',
