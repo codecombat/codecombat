@@ -838,6 +838,7 @@ module.exports = (CoursesView = (function () {
 
     aiLeagueTiles () {
       const tiles = []
+      if (me.get('aiDisabled')) { return tiles }
       const CNOnly = this.hasOnlyCodeNinjasEsportsCamps() || this.hasOnlyCodeNinjasJuniorCamps()
       if (this.hasCodeNinjasEsportsCamp()) {
         const levelImage = '/images/pages/courses/banners/contributor-archmage.png'

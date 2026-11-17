@@ -47,7 +47,7 @@ module.exports = class SpellTopBarView extends CocoView
     @teacherID = options.teacherID
     @teaching = utils.getQueryVariable 'teaching'
     @showLevelHelp = true
-    if me.isStudent()
+    if me.isStudent() or me.get('aiDisabled')
       @showLevelHelp = options.showLevelHelp and options.showLevelHelp != 'none'
 
     @wsBus = globalVar.application.wsBus

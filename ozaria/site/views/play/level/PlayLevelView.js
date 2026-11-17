@@ -186,18 +186,21 @@ class PlayLevelView extends RootView {
       this.onWorldNecessitiesLoaded
     )
     this.classroomAceConfig = { liveCompletion: true, disablePaste: false } // default (home users, teachers, etc.)
+    if (me.get('aiDisabled')) {
+      this.classroomAceConfig.levelChat = 'none'
+    }
     if (this.courseInstanceID) {
       const fetchAceConfig = $.get(`/db/course_instance/${this.courseInstanceID}/classroom?project=aceConfig,members`)
       this.supermodel.trackRequest(fetchAceConfig)
       fetchAceConfig.then(classroom => {
         this.classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion != null ? classroom.aceConfig.liveCompletion : true
         this.classroomAceConfig.disablePaste = classroom.aceConfig?.disablePaste
-        const levelChat = classroom.aceConfig?.levelChat || 'none'
+        const levelChat = me.get('aiDisabled') ? 'none' : (classroom.aceConfig?.levelChat || 'none')
         this.classroomAceConfig.levelChat = levelChat
         store.commit('game/setAIHintVisible', levelChat !== 'none')
       })
     }
-    if (me.isTeacher()) {
+    if (me.isTeacher() && !me.get('aiDisabled')) {
       store.commit('game/setAIHintVisible', true)
     }
 

@@ -391,8 +391,7 @@ export default Vue.extend({
                 ? [studentCocoClassroom, studentOzarClassroom]
                 : [studentOzarClassroom, studentCocoClassroom]
             ),
-            items.AI_LEAGUE,
-            items.ROBLOX,
+            ...(me.get('aiDisabled') ? [] : [items.AI_LEAGUE, items.ROBLOX]),
           ],
         },
       }
