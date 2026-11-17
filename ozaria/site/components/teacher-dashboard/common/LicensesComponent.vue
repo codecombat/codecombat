@@ -21,8 +21,13 @@ export default {
   computed: {
     ...mapGetters({
       getLicensesStatsByTeacher: 'prepaids/getLicensesStatsByTeacher',
+      getActiveLicensesForTeacher: 'prepaids/getActiveLicensesForTeacher',
       teacherId: 'teacherDashboard/teacherId'
     }),
+
+    totalLicenses () {
+      return this.getActiveLicensesForTeacher(this.currentTeacherId).length
+    },
 
     totalUsedLicenses () {
       return this.getLicensesStatsByTeacher(this.currentTeacherId).usedLicenses
@@ -62,7 +67,8 @@ export default {
       v-if="totalSpots === 0"
       id="license-text"
     >
-      <span>{{ $t('teacher_dashboard.no_licenses_yet') }}</span>
+      <span v-if="totalLicenses === 0"> {{ $t('teacher_dashboard.no_licenses_yet') }}</span>
+      <span v-else>{{ $t('teacher_dashboard.no_licenses_left') }}</span>
       <a
         v-if="showRequestLicense"
         @click="clickRequestLicenses"
