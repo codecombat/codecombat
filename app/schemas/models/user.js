@@ -432,6 +432,10 @@ _.extend(UserSchema.properties, {
     },
   },
 
+  aiDisabled: { type: 'boolean', description: 'Set by an admin: AI is turned off for this user, and for the students in the classes they own' },
+  aiDisabledChangedBy: c.objectId(),
+  aiDisabledChangedAt: c.date(),
+
   features: {
     type: 'object',
     title: 'Feature Flags',
