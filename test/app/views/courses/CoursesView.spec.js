@@ -1,3 +1,4 @@
+/* eslint-env jasmine */
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -18,12 +19,11 @@ describe('CoursesView', function() {
 
   describe('aiLeagueTiles for a Code Ninjas camper', function () {
     beforeEach(function () {
-      me.set(factories.makeUser({ role: 'student', clientCreator: '57fff652b0783842003fed00' }).attributes)
+      me.set(factories.makeUser({ role: 'student' }).attributes)
+      spyOn(me, 'isCodeNinja').and.returnValue(true)
       view = new CoursesView()
       view.classrooms = new Classrooms([factories.makeClassroom({ type: 'camp-esports' }), factories.makeClassroom({ type: 'camp-junior' })])
     })
-
-    afterEach(() => me.unset('aiDisabled'))
 
     it('keeps the Ozaria and camp activities tiles when AI is turned off for the user', function () {
       me.set('aiDisabled', true)
@@ -42,8 +42,6 @@ describe('CoursesView', function() {
   })
 
   describe('calculateAllCompleted for a student with AI turned off', function () {
-    afterEach(() => me.unset('aiDisabled'))
-
     it('skips a hidden HackStack course', function () {
       me.set(factories.makeUser({ role: 'student' }).attributes)
       me.set('aiDisabled', true)
@@ -51,11 +49,13 @@ describe('CoursesView', function() {
       const courseID = view.utils.HACKSTACK_COURSE_IDS[0]
       const classroom = factories.makeClassroom({ courses: [{ _id: courseID, levels: [factories.makeLevelObject()] }] })
       const courseInstance = factories.makeCourseInstance({ courseID, classroomID: classroom.id })
-      courseInstance.sessions = new CourseInstances()
+      courseInstance.sessions = { models: [] }
+      spyOn(classroom, 'statsForSessions').and.returnValue({ levels: { next: factories.makeLevel() }, courseComplete: false })
       view.classrooms = new Classrooms([classroom])
       view.courseInstances = new CourseInstances([courseInstance])
       view.store = { state: { courses: { byId: { [courseID]: { _id: courseID } } } } }
       view.calculateAllCompleted()
+      expect(view.nextLevelInfo).toBeUndefined()
       expect(view.allCompleted).toBe(true)
     })
   })
