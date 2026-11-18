@@ -12,4 +12,31 @@ describe('CocoRouter', () => {
     }
     expect(missing).toEqual([])
   })
+
+  describe('a route marked redirectAiDisabled', () => {
+    let role
+    beforeEach(() => { role = me.get('role') })
+    afterEach(() => {
+      me.unset('aiDisabled')
+      me.set('role', role)
+    })
+
+    it('sends a student or a teacher with AI off home instead of loading the view', () => {
+      for (const userRole of ['student', 'teacher']) {
+        me.set({ aiDisabled: true, role: userRole })
+        const router = { vueRouter: { push: () => Promise.resolve() }, redirectHome: jasmine.createSpy('redirectHome') }
+        CocoRouter.prototype.routeDirectly.call(router, 'ai/AIView', [], { redirectAiDisabled: true })
+        expect(router.redirectHome).toHaveBeenCalled()
+      }
+    })
+
+    it('marks the HackStack and AI Junior pages', () => {
+      const routes = CocoRouter.prototype.routes
+      const aiRoutes = Object.keys(routes).filter(route => /^ai($|\/|-junior)/.test(route))
+      expect(aiRoutes).toEqual(jasmine.arrayContaining(['ai', 'ai/*path', 'ai-junior', 'ai-junior/scan']))
+      const fake = { calls: [], routeDirectly (path, args, options) { this.calls.push(options) } }
+      for (const route of aiRoutes) { routes[route].call(fake) }
+      expect(fake.calls.map(options => Boolean(options?.redirectAiDisabled))).toEqual(aiRoutes.map(() => true))
+    })
+  })
 })
