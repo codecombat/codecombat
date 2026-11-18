@@ -39,10 +39,10 @@ describe('CocoRouter', () => {
       expect(router.vueRouter.push).toHaveBeenCalled()
     })
 
-    it('marks the HackStack and AI Junior pages', () => {
+    it('marks the HackStack and AI Junior pages, the teacher dashboard AI Junior page included', () => {
       const routes = CocoRouter.prototype.routes
-      const aiRoutes = Object.keys(routes).filter(route => /^ai($|\/|-junior)/.test(route))
-      expect(aiRoutes).toEqual(jasmine.arrayContaining(['ai', 'ai/*path', 'ai-junior', 'ai-junior/scan']))
+      const aiRoutes = Object.keys(routes).filter(route => /^(teachers\/)?ai($|\/|-junior)/.test(route))
+      expect(aiRoutes).toEqual(jasmine.arrayContaining(['ai', 'ai/*path', 'ai-junior', 'ai-junior/scan', 'teachers/ai-junior/:classroomId']))
       const fake = { calls: [], routeDirectly (path, args, options) { this.calls.push(options) } }
       for (const route of aiRoutes) { routes[route].call(fake) }
       expect(fake.calls.map(options => Boolean(options?.redirectAiDisabled))).toEqual(aiRoutes.map(() => true))
