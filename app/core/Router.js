@@ -509,7 +509,7 @@ module.exports = (CocoRouter = (function () {
         },
         'teachers/projects/:classroomId': go('core/SingletonAppVueComponentView'),
         'teachers/assessments/:classroomId': go('core/SingletonAppVueComponentView'),
-        'teachers/ai-junior/:classroomId': go('core/SingletonAppVueComponentView'),
+        'teachers/ai-junior/:classroomId': go('core/SingletonAppVueComponentView', { redirectAiDisabled: true }),
         'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true }),
         'teachers/classes/:classroomID' () {
           if (me.showChinaResourceInfo() && !me.isNewDashboardActive()) {
