@@ -257,7 +257,7 @@ module.exports = (CoursesView = (function () {
       this.allCompleted = !_.some(this.classrooms.models, function (classroom) {
         return _.some(this.courseInstances.where({ classroomID: classroom.id }), function (courseInstance) {
           const course = this.store.state.courses.byId[courseInstance.get('courseID')]
-          if (!courseInstance.sessions || !course) {
+          if (!courseInstance.sessions || !course || (me.get('aiDisabled') && utils.HACKSTACK_COURSE_IDS.includes(course._id))) {
             return false
           }
           let stats = classroom.statsForSessions(courseInstance.sessions, course._id)

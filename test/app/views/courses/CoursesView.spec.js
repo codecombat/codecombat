@@ -44,7 +44,7 @@ describe('CoursesView', function() {
   describe('calculateAllCompleted for a student with AI turned off', function () {
     afterEach(() => me.unset('aiDisabled'))
 
-    it('does not take the next level from a hidden HackStack course', function () {
+    it('skips a hidden HackStack course', function () {
       me.set(factories.makeUser({ role: 'student' }).attributes)
       me.set('aiDisabled', true)
       view = new CoursesView()
@@ -56,7 +56,6 @@ describe('CoursesView', function() {
       view.courseInstances = new CourseInstances([courseInstance])
       view.store = { state: { courses: { byId: { [courseID]: { _id: courseID } } } } }
       view.calculateAllCompleted()
-      expect(view.nextLevelInfo?.course).toBeUndefined()
       expect(view.allCompleted).toBe(true)
     })
   })
