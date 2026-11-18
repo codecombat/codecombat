@@ -87,21 +87,21 @@ module.exports = (CocoRouter = (function () {
         'account/subscription': go('account/SubscriptionView', { redirectStudents: true, redirectTeachers: true }),
         'account/prepaid': go('account/PrepaidView'),
 
-        ai: go('ai/AIView'),
-        'ai/*path': go('ai/AIView'),
+        ai: go('ai/AIView', { redirectAiDisabled: true }),
+        'ai/*path': go('ai/AIView', { redirectAiDisabled: true }),
 
-        'ai-junior': go('core/SingletonAppVueComponentView'),
-        'ai-junior/project/:scenarioId': go('core/SingletonAppVueComponentView'),
-        'ai-junior/project/:scenarioId/:userId': go('core/SingletonAppVueComponentView'),
-        'ai-junior/project/:scenarioId/:userId/:projectId': go('core/SingletonAppVueComponentView'),
+        'ai-junior': go('core/SingletonAppVueComponentView', { redirectAiDisabled: true }),
+        'ai-junior/project/:scenarioId': go('core/SingletonAppVueComponentView', { redirectAiDisabled: true }),
+        'ai-junior/project/:scenarioId/:userId': go('core/SingletonAppVueComponentView', { redirectAiDisabled: true }),
+        'ai-junior/project/:scenarioId/:userId/:projectId': go('core/SingletonAppVueComponentView', { redirectAiDisabled: true }),
 
-        'ai-junior/demo': go('core/SingletonAppVueComponentView'),
-        'ai-junior/print/:scenarioHandle': go('core/SingletonAppVueComponentView'),
-        'ai-junior/print/:scenarioHandle/:classroomId': go('core/SingletonAppVueComponentView'),
-        'ai-junior/scan': go('core/SingletonAppVueComponentView'),
-        'ai-junior/scan/:scenarioHandle': go('core/SingletonAppVueComponentView'),
-        'ai-junior/scan/:scenarioHandle/:forUserId': go('core/SingletonAppVueComponentView'),
-        'ai-junior/creation/:projectId': go('core/SingletonAppVueComponentView'),
+        'ai-junior/demo': go('core/SingletonAppVueComponentView', { redirectAiDisabled: true }),
+        'ai-junior/print/:scenarioHandle': go('core/SingletonAppVueComponentView', { redirectAiDisabled: true }),
+        'ai-junior/print/:scenarioHandle/:classroomId': go('core/SingletonAppVueComponentView', { redirectAiDisabled: true }),
+        'ai-junior/scan': go('core/SingletonAppVueComponentView', { redirectAiDisabled: true }),
+        'ai-junior/scan/:scenarioHandle': go('core/SingletonAppVueComponentView', { redirectAiDisabled: true }),
+        'ai-junior/scan/:scenarioHandle/:forUserId': go('core/SingletonAppVueComponentView', { redirectAiDisabled: true }),
+        'ai-junior/creation/:projectId': go('core/SingletonAppVueComponentView', { redirectAiDisabled: true }),
 
         licensor: go('LicensorView'),
 
@@ -653,6 +653,9 @@ module.exports = (CocoRouter = (function () {
         return this.redirectHome()
       }
       if (options.redirectTeachers && me.isTeacher() && !me.isAdmin()) {
+        return this.redirectHome()
+      }
+      if (options.redirectAiDisabled && me.get('aiDisabled')) {
         return this.redirectHome()
       }
       if (options.teachersOnly && !(me.isTeacher() || me.isAdmin())) {
