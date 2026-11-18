@@ -642,6 +642,9 @@ module.exports = (CocoRouter = (function () {
     routeDirectly (path, args, options) {
       if (args == null) { args = [] }
       if (options == null) { options = {} }
+      if (options.redirectAiDisabled && me.get('aiDisabled')) {
+        return this.redirectHome()
+      }
       this.vueRouter.push(`/${Backbone.history.getFragment()}`).catch(e => console.error('vue router push warning:', e))
 
       if (window.alreadyLoadedView) {
@@ -653,9 +656,6 @@ module.exports = (CocoRouter = (function () {
         return this.redirectHome()
       }
       if (options.redirectTeachers && me.isTeacher() && !me.isAdmin()) {
-        return this.redirectHome()
-      }
-      if (options.redirectAiDisabled && me.get('aiDisabled')) {
         return this.redirectHome()
       }
       if (options.teachersOnly && !(me.isTeacher() || me.isAdmin())) {
