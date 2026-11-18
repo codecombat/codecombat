@@ -838,7 +838,6 @@ module.exports = (CoursesView = (function () {
 
     aiLeagueTiles () {
       const tiles = []
-      if (me.get('aiDisabled')) { return tiles }
       const CNOnly = this.hasOnlyCodeNinjasEsportsCamps() || this.hasOnlyCodeNinjasJuniorCamps()
       if (this.hasCodeNinjasEsportsCamp()) {
         const levelImage = '/images/pages/courses/banners/contributor-archmage.png'
@@ -857,20 +856,22 @@ module.exports = (CoursesView = (function () {
       }
       if (this.hasCodeNinjasJuniorCamp()) {
         let levelImage = '/images/pages/roblox/header-bg/bg_1600.webp'
-        tiles.push({
-          a: {
-            href: 'https://www.roblox.com/games/11704713454/',
-            target: '_blank',
-            rel: 'noopener noreferrer',
-          },
-          img: {
-            src: levelImage,
-            alt: $.i18n.t('courses.play_ccw_on_roblox'),
-            class: levelImage ? '' : ' placeholder',
-          },
-          title: $.i18n.t('common.roblox'),
-          text: $.i18n.t('courses.play_ccw_on_roblox'),
-        })
+        if (!me.get('aiDisabled')) {
+          tiles.push({
+            a: {
+              href: 'https://www.roblox.com/games/11704713454/',
+              target: '_blank',
+              rel: 'noopener noreferrer',
+            },
+            img: {
+              src: levelImage,
+              alt: $.i18n.t('courses.play_ccw_on_roblox'),
+              class: levelImage ? '' : ' placeholder',
+            },
+            title: $.i18n.t('common.roblox'),
+            text: $.i18n.t('courses.play_ccw_on_roblox'),
+          })
+        }
         levelImage = '/images/pages/courses/banners/contributor-artisan.png'
         tiles.push({
           a: {
@@ -886,6 +887,7 @@ module.exports = (CoursesView = (function () {
           text: $.i18n.t('courses.view_camp_activities'),
         })
       }
+      if (me.get('aiDisabled')) { return tiles }
       const arenas = (this.activeArenas || []).slice().reverse() // make championship first
       for (const arena of arenas) {
         if (CNOnly) {

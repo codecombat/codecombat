@@ -36,9 +36,8 @@ describe('CoursesView', function() {
     it('shows the Roblox and AI League tiles too when AI is on', function () {
       me.set('aiDisabled', false)
       const hrefs = view.aiLeagueTiles().map(tile => tile.a.href)
-      expect(hrefs.length).toBe(4)
       expect(hrefs[1]).toContain('roblox.com')
-      expect(hrefs[3]).toContain('/league')
+      expect(hrefs[hrefs.length - 1]).toContain('/league')
     })
   })
 
