@@ -2,7 +2,10 @@
   <div
     class="form-group row"
   >
-    <div class="col-md-12">
+    <div
+      class="col-md-12"
+      :class="{'has-error': error}"
+    >
       <label for="type">
         <span class="control-label"> {{ $t("courses.class_type_label") }} </span>
       </label>
@@ -30,14 +33,18 @@
 export default {
   name: 'ClassType',
   props: {
-    classType: {
+    value: {
       type: String,
       default: '',
+    },
+    error: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
     classroomType: {
-      get () { return this.classType },
+      get () { return this.value },
       set (v) { return this.$emit('input', v) },
     },
     isIdeaLab () {

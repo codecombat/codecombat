@@ -184,6 +184,7 @@ export default Vue.extend({
       <ClassType
         v-if="isIdeaLab"
         v-model="$v.classroomType.$model"
+        :error="$v.classroomType.$error"
       />
     </div>
   </div>
