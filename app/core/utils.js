@@ -1891,6 +1891,13 @@ module.exports.MTOClients = {
   MTO_CODING_OLYMPIAD_PROD: '689af7752fce8bc44950b2da',
 }
 
+module.exports.IdeaLabClient = {
+  DEV: '5f63dbe01c4353002265e07f',
+  PROD: '6082ec9996895d00a9b96e90',
+  CAMP_2026: '6afd53308da92031e73ebcfb',
+  IN_SCHOOL_2026: '6afd5383fe8f5ba38d0d519b',
+}
+
 module.exports.secondsToMinutesAndSeconds = function (seconds) {
   if (!seconds) {
     return ''

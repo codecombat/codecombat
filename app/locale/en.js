@@ -2413,6 +2413,8 @@ module.exports = {
       class_type_camp_junior: 'Camp (Roblox)',
       class_type_homeschool: 'Homeschool',
       class_type_other: 'Other',
+      class_type_idea_lab_camp: 'Camp',
+      class_type_idea_lab_in_school: 'In School',
       student_age_range_label: 'Student Age Range',
       student_age_range_younger: 'Younger than 6',
       student_age_range_older: 'Older than 18',
