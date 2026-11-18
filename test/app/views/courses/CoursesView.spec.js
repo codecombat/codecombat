@@ -41,6 +41,26 @@ describe('CoursesView', function() {
     })
   })
 
+  describe('calculateAllCompleted for a student with AI turned off', function () {
+    afterEach(() => me.unset('aiDisabled'))
+
+    it('does not take the next level from a hidden HackStack course', function () {
+      me.set(factories.makeUser({ role: 'student' }).attributes)
+      me.set('aiDisabled', true)
+      view = new CoursesView()
+      const courseID = view.utils.HACKSTACK_COURSE_IDS[0]
+      const classroom = factories.makeClassroom({ courses: [{ _id: courseID, levels: [factories.makeLevelObject()] }] })
+      const courseInstance = factories.makeCourseInstance({ courseID, classroomID: classroom.id })
+      courseInstance.sessions = new CourseInstances()
+      view.classrooms = new Classrooms([classroom])
+      view.courseInstances = new CourseInstances([courseInstance])
+      view.store = { state: { courses: { byId: { [courseID]: { _id: courseID } } } } }
+      view.calculateAllCompleted()
+      expect(view.nextLevelInfo?.course).toBeUndefined()
+      expect(view.allCompleted).toBe(true)
+    })
+  })
+
   return describe('Change Hero button', function() {
     beforeEach(function(done) {
       me.set(factories.makeUser({ role: 'student' }).attributes);
