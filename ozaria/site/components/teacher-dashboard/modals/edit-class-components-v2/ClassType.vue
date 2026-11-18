@@ -45,7 +45,7 @@ export default {
     },
     typeOptions () {
       if (this.isIdeaLab) {
-        return ['idea-lab-in-school', 'idea-lab-camp']
+        return ['after-school', 'camp']
       } else {
         return ['in-school', 'after-school', 'online', 'camp', 'homeschool', 'other']
       }
