@@ -31,6 +31,14 @@ describe('CocoRouter', () => {
       }
     })
 
+    it('lets a student with AI on through', () => {
+      me.set({ aiDisabled: false, role: 'student' })
+      const router = { vueRouter: { push: jasmine.createSpy('push').and.returnValue(Promise.resolve()) }, redirectHome: jasmine.createSpy('redirectHome') }
+      CocoRouter.prototype.routeDirectly.call(router, 'ai/AIView', [], { redirectAiDisabled: true })
+      expect(router.redirectHome).not.toHaveBeenCalled()
+      expect(router.vueRouter.push).toHaveBeenCalled()
+    })
+
     it('marks the HackStack and AI Junior pages', () => {
       const routes = CocoRouter.prototype.routes
       const aiRoutes = Object.keys(routes).filter(route => /^ai($|\/|-junior)/.test(route))
