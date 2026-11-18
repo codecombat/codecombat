@@ -59,7 +59,7 @@ export default Vue.extend({
 
          chinaFooter is standalone so don't worry on China resources.
        */
-      const hideAi = me.isStudent() && Boolean(me.get('aiDisabled'))
+      const hideAi = Boolean(me.get('aiDisabled'))
       const globalFooter = [
         {
           title: 'nav.company',

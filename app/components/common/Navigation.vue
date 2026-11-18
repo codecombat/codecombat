@@ -351,7 +351,7 @@ export default Vue.extend({
             { ...items.EFFICACY, filter: isOzaria },
             { ...items.SUCCESS, filter: isCodeCombat },
             items.PD,
-            items.HOC,
+            { ...items.HOC, hide: Boolean(me.get('aiDisabled')) },
             items.GRANTS,
             items.DEMO,
           ],
@@ -364,10 +364,7 @@ export default Vue.extend({
               : [items.OZ_CLASSROOM, items.COCO_CLASSROOM, items.COCO_JUNIOR]
             ),
             items.AP_CSP,
-            items.AI_LEAGUE,
-            items.ROBLOX,
-            items.AI_HACKSTACK,
-            items.AI_JUNIOR,
+            ...(me.get('aiDisabled') ? [] : [items.AI_LEAGUE, items.ROBLOX, items.AI_HACKSTACK, items.AI_JUNIOR]),
           ],
         },
       }
