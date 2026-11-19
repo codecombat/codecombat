@@ -644,7 +644,8 @@ module.exports = (CocoRouter = (function () {
       if (options == null) { options = {} }
       if (options.redirectAiDisabled && me.get('aiDisabled')) {
         this.redirectHome()
-        // A view closes every noty when it closes, so the message waits until the home page has opened.
+        // redirectHome routes home right away, which sets routeLoad. The message waits for it because a view closes
+        // every noty when it closes. did-load-route would not do: it does not fire when the home page is an open Vue page.
         return Promise.resolve(this.routeLoad).then(() => noty({ text: $.i18n.t('not_found.page_not_available'), layout: 'topCenter', type: 'information', timeout: 5000 }))
       }
       this.vueRouter.push(`/${Backbone.history.getFragment()}`).catch(e => console.error('vue router push warning:', e))
