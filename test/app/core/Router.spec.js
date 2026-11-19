@@ -19,7 +19,10 @@ describe('CocoRouter', () => {
       viewLoad: { setView () {}, record: () => new Promise(() => {}) },
       openView: jasmine.createSpy('openView'),
     }
+    const loadView = dynamicRequire['views/NotFoundView']
+    dynamicRequire['views/NotFoundView'] = () => Promise.resolve(class { render () {} })
     CocoRouter.prototype.routeDirectly.call(router, 'NotFoundView', [], { recursive: true })
+    dynamicRequire['views/NotFoundView'] = loadView
     await router.routeLoad
     expect(router.openView).toHaveBeenCalled()
     done()
