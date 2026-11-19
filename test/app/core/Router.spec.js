@@ -14,9 +14,14 @@ describe('CocoRouter', () => {
   })
 
   describe('a route marked redirectAiDisabled', () => {
-    let role
-    beforeEach(() => { role = me.get('role') })
+    let role, noty
+    beforeEach(() => {
+      role = me.get('role')
+      noty = window.noty
+      window.noty = jasmine.createSpy('noty')
+    })
     afterEach(() => {
+      window.noty = noty
       me.unset('aiDisabled')
       me.set('role', role)
     })
@@ -31,12 +36,26 @@ describe('CocoRouter', () => {
       }
     })
 
+    it('tells the user the page is not available, after the home page has opened', async () => {
+      me.set({ aiDisabled: true, role: 'student' })
+      let homeOpened
+      const router = { vueRouter: { push: jasmine.createSpy('push') } }
+      router.redirectHome = () => { router.routeLoad = new Promise(resolve => { homeOpened = resolve }) }
+      const told = CocoRouter.prototype.routeDirectly.call(router, 'ai/AIView', [], { redirectAiDisabled: true })
+      await Promise.resolve()
+      expect(window.noty).not.toHaveBeenCalled()
+      homeOpened()
+      await told
+      expect(window.noty).toHaveBeenCalledWith(jasmine.objectContaining({ text: "This page isn't available for your account." }))
+    })
+
     it('lets a student with AI on through', () => {
       me.set({ aiDisabled: false, role: 'student' })
       const router = { vueRouter: { push: jasmine.createSpy('push').and.returnValue(Promise.resolve()) }, redirectHome: jasmine.createSpy('redirectHome') }
       CocoRouter.prototype.routeDirectly.call(router, 'ai/AIView', [], { redirectAiDisabled: true })
       expect(router.redirectHome).not.toHaveBeenCalled()
       expect(router.vueRouter.push).toHaveBeenCalled()
+      expect(window.noty).not.toHaveBeenCalled()
     })
 
     it('marks the HackStack and AI Junior pages, the teacher dashboard AI Junior page included', () => {
