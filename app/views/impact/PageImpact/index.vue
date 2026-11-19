@@ -185,7 +185,7 @@
         h2.text-gold.text-center {{ $t('impact.ozaria_impact_title') }}
         h3.text-h3.text-center.text-white
           | {{ $t('impact.ozaria_impact_blurb') }}
-          a(href="https://ozaria.com/efficacy" target="_blank") &nbsp; {{ $t('impact.ozaria_impact_learn_more') }}
+          a(href="/efficacy" target="_blank") &nbsp; {{ $t('impact.ozaria_impact_learn_more') }}
       .col-md-12
         ozaria-stats(framed=true)
 
