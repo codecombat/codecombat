@@ -511,6 +511,7 @@ module.exports = {
 
     not_found: {
       page_not_found: 'Page not found',
+      page_not_available: "This page isn't available for your account.",
     },
 
     diplomat_suggestion: {

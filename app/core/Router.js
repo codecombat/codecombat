@@ -643,7 +643,9 @@ module.exports = (CocoRouter = (function () {
       if (args == null) { args = [] }
       if (options == null) { options = {} }
       if (options.redirectAiDisabled && me.get('aiDisabled')) {
-        return this.redirectHome()
+        this.redirectHome()
+        // A view closes every noty when it closes, so the message waits until the home page has opened.
+        return Promise.resolve(this.routeLoad).then(() => noty({ text: $.i18n.t('not_found.page_not_available'), layout: 'topCenter', type: 'information', timeout: 5000 }))
       }
       this.vueRouter.push(`/${Backbone.history.getFragment()}`).catch(e => console.error('vue router push warning:', e))
 
@@ -685,7 +687,7 @@ module.exports = (CocoRouter = (function () {
       }
 
       if (!_.string.startsWith(path, 'views/')) { path = `views/${path}` }
-      return Promise.all([
+      this.routeLoad = Promise.all([
         dynamicRequire[path](), // Load the view file
         // The locale load is already initialized by `application`, just need the promise
         locale.load(me.get('preferredLanguage', true)),
@@ -741,6 +743,7 @@ module.exports = (CocoRouter = (function () {
         this.viewLoad.setView(view)
         return this.viewLoad.record()
       }).catch(err => console.log(err))
+      return this.routeLoad
     }
 
     redirectHome () {
