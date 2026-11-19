@@ -741,7 +741,7 @@ module.exports = (CocoRouter = (function () {
         }
 
         this.viewLoad.setView(view)
-        return this.viewLoad.record()
+        this.viewLoad.record().catch(err => console.log(err))
       }).catch(err => console.log(err))
       return this.routeLoad
     }
