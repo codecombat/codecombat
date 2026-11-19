@@ -36,7 +36,7 @@ describe('CocoRouter', () => {
       }
     })
 
-    it('tells the user the page is not available, after the home page has opened', async () => {
+    it('tells the user the page is not available, after the home page has opened', async (done) => {
       me.set({ aiDisabled: true, role: 'student' })
       let homeOpened
       const router = { vueRouter: { push: jasmine.createSpy('push') } }
@@ -47,6 +47,7 @@ describe('CocoRouter', () => {
       homeOpened()
       await told
       expect(window.noty).toHaveBeenCalledWith(jasmine.objectContaining({ text: "This page isn't available for your account." }))
+      done()
     })
 
     it('lets a student with AI on through', () => {
