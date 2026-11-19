@@ -29,7 +29,7 @@ describe('CocoRouter', () => {
     it('sends a student or a teacher with AI off home before the Vue router moves', () => {
       for (const userRole of ['student', 'teacher']) {
         me.set({ aiDisabled: true, role: userRole })
-        const router = { vueRouter: { push: jasmine.createSpy('push').and.returnValue(Promise.resolve()) }, redirectHome: jasmine.createSpy('redirectHome') }
+        const router = { vueRouter: { push: jasmine.createSpy('push').and.returnValue(Promise.resolve()) }, redirectHome: jasmine.createSpy('redirectHome'), routeLoad: new Promise(() => {}) }
         CocoRouter.prototype.routeDirectly.call(router, 'ai/AIView', [], { redirectAiDisabled: true })
         expect(router.redirectHome).toHaveBeenCalled()
         expect(router.vueRouter.push).not.toHaveBeenCalled()
