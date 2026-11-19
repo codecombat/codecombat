@@ -161,6 +161,11 @@ export default Vue.extend({
           </div>
         </div>
       </template>
+      <ClassType
+        v-if="isIdeaLab"
+        v-model="$v.classroomType.$model"
+        :error="$v.classroomType.$error"
+      />
       <div
         class="form-group row"
       >
@@ -181,11 +186,6 @@ export default Vue.extend({
           </p>
         </div>
       </div>
-      <ClassType
-        v-if="isIdeaLab"
-        v-model="$v.classroomType.$model"
-        :error="$v.classroomType.$error"
-      />
     </div>
   </div>
 </template>
