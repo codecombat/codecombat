@@ -13,6 +13,18 @@ describe('CocoRouter', () => {
     expect(missing).toEqual([])
   })
 
+  it('counts a page as opened when its view is open, without waiting for its images', async (done) => {
+    const router = {
+      vueRouter: { push: jasmine.createSpy('push').and.returnValue(Promise.resolve()) },
+      viewLoad: { setView () {}, record: () => new Promise(() => {}) },
+      openView: jasmine.createSpy('openView'),
+    }
+    CocoRouter.prototype.routeDirectly.call(router, 'NotFoundView', [], { recursive: true })
+    await router.routeLoad
+    expect(router.openView).toHaveBeenCalled()
+    done()
+  })
+
   describe('a route marked redirectAiDisabled', () => {
     let role, noty
     beforeEach(() => {
