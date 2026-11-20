@@ -256,7 +256,7 @@ module.exports = (SpectateLevelView = (function () {
       if (!goldInDuelStatsView) { this.insertSubView(new GoldView({})) }
       this.insertSubView(new HUDView({ level: this.level }))
       if (this.level.isLadder()) { this.insertSubView(new DuelStatsView({ level: this.level, session: this.session, otherSession: this.otherSession, supermodel: this.supermodel, thangs: this.world.thangs, showsGold: goldInDuelStatsView })) }
-      return this.insertSubView(this.controlBar = new ControlBarView({ worldName: utils.i18n(this.level.attributes, 'name'), session: this.session, level: this.level, supermodel: this.supermodel, spectateGame: true }))
+      return this.insertSubView(this.controlBar = new ControlBarView({ worldName: utils.i18n(this.level.attributes, 'name'), session: this.session, level: this.level, supermodel: this.supermodel, spectateGame: true, classroomAceConfig: me.get('aiDisabled') ? { levelChat: 'none' } : undefined }))
     }
 
     // callbacks

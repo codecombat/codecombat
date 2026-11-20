@@ -1454,6 +1454,11 @@ module.exports = (User = (function () {
       return ids.includes(this.get('clientCreator')) || (this.get('clientPermissions') || []).some(p => ids.includes(p.client))
     }
 
+    isIdeaLab () {
+      const ids = Object.values(utils.IdeaLabClient)
+      return ids.includes(this.get('clientCreator'))
+    }
+
     isMtoStem () {
       return [utils.MTOClients.MTO_STEM_DEV, utils.MTOClients.MTO_STEM_PROD].includes(this.get('clientCreator'))
     }

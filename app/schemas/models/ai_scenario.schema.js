@@ -155,6 +155,7 @@ _.extend(AIScenarioSchema.properties, {
     title: 'Backgrounds',
     description: 'The scenes of this level (level art). The first is shown at start; messages switch by id; ids not found here resolve through the world chain',
   }, c.storyBackground),
+  requiresSubscription: { title: 'Requires Subscription', description: 'Whether this scenario is available to subscribers only.', type: 'boolean', inEditor: 'codecombat' },
 })
 
 AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue']

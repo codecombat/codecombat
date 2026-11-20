@@ -13,6 +13,7 @@
         :classroom="classroom"
         :show-validation="pageFirstShowValidation"
         :valid.sync="pageFirstValid"
+        :is-idea-lab="isIdeaLab"
       />
       <PageSecond
         v-else
@@ -156,6 +157,7 @@ export default Vue.extend({
           name: this.classroom?.name || '',
           initCourse: this.classroom?.initialFreeCourses?.[0] || (utils.isCodeCombat ? utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE : undefined),
           importLink: initialImportLink(this.classroom),
+          classroomType: this.classroom?.type || '',
         },
         pageSecond: initialPageSecond(this.classroom),
       },
@@ -168,6 +170,9 @@ export default Vue.extend({
     }),
     isCodeCombat () {
       return utils.isCodeCombat
+    },
+    isIdeaLab () {
+      return me.isIdeaLab() && me.isTeacher()
     },
     title () {
       let title = ''
@@ -302,6 +307,9 @@ export default Vue.extend({
       this.saving = true
       this.errMsg = ''
       const newClass = { ...this.newClass.pageFirst, ...this.newClass.pageSecond }
+      if (this.isIdeaLab) {
+        newClass.classroomType = this.newClass.pageFirst.classroomType
+      }
       const updates = {}
 
       updates.type = newClass.classroomType

@@ -43,7 +43,13 @@ module.exports = (SaveCampaignModal = (function () {
 
     async onClickSaveButton () {
       this.showLoading()
-      const modelsBeingSaved = (Array.from(this.modelsToSave.models).map((model) => model.patch()))
+      const modelsBeingSaved = (Array.from(this.modelsToSave.models).map((model) => {
+        const options = {}
+        if (model.constructor.className === 'AIScenario') {
+          options.validate = false // patch scenario in campaign missing required keys so skip validation
+        }
+        return model.patch(options)
+      }))
       const totalModels = modelsBeingSaved.length
       let savedCount = 0
 
