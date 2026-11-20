@@ -227,6 +227,26 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
     })
   })
 
+  describe('shouldShow ai-league-menu-icon and roblox-menu-icon', function () {
+    beforeEach(function () {
+      this.campaignView = new CampaignView()
+    })
+
+    afterEach(() => me.unset('aiDisabled'))
+
+    it('hides both icons when AI is turned off for the user', function () {
+      me.set('aiDisabled', true)
+      expect(this.campaignView.shouldShow('ai-league-menu-icon')).toBe(false)
+      expect(this.campaignView.shouldShow('roblox-menu-icon')).toBe(false)
+    })
+
+    it('shows both icons when AI is on', function () {
+      me.set('aiDisabled', false)
+      expect(this.campaignView.shouldShow('ai-league-menu-icon')).toBe(true)
+      expect(this.campaignView.shouldShow('roblox-menu-icon')).toBe(true)
+    })
+  })
+
   describe('maybeAutoShowPromotionModal', function () {
     beforeEach(function () {
       this.campaignView = new CampaignView()

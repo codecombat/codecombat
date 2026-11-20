@@ -59,6 +59,7 @@ export default Vue.extend({
 
          chinaFooter is standalone so don't worry on China resources.
        */
+      const hideAi = Boolean(me.get('aiDisabled'))
       const globalFooter = [
         {
           title: 'nav.company',
@@ -81,10 +82,10 @@ export default Vue.extend({
             items.COCO_JUNIOR,
             items.OZ_CLASSROOM,
             items.AP_CSP,
-            items.AI_LEAGUE,
-            items.ROBLOX,
-            items.AI_HACKSTACK,
-            items.AI_JUNIOR,
+            { ...items.AI_LEAGUE, hide: hideAi },
+            { ...items.ROBLOX, hide: hideAi },
+            { ...items.AI_HACKSTACK, hide: hideAi },
+            { ...items.AI_JUNIOR, hide: hideAi },
           ],
         },
         {
@@ -99,7 +100,7 @@ export default Vue.extend({
             items.EFFICACY,
             items.SUCCESS,
             items.PD,
-            items.HOC,
+            { ...items.HOC, hide: hideAi },
             items.GRANTS,
             { ...items.ACCESSIBILITY, filter: !me.get('country') || me.get('country') === 'united-states' },
             items.PRIVACY,
