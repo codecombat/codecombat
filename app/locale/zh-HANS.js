@@ -1922,7 +1922,7 @@ module.exports = {
       //    schedule_demo_description: "Schedule a demo with our team to unlock more free content and explore our products, curricula, and resources. Let us help you craft a tailored solution for your class, school, or district.",
       //    practice_and_application: "Practice & Application Experiences",
       //    roster_via_csv: "Roster via CSV",
-      //    roster_sub_text: "Supports email, firstName and lastName columns. Required: email and firstName.",
+      roster_sub_text: '支持 email/userName, password, firstName, lastName 列. 无 email 时 password 必填.',
       //    roster_sub_text_2: "In case of log-in without SSO, students will have to reset their password.",
       //    roster_sub_text_3: "Existing students in the classroom are not removed.",
       //    roster_download_example: "Download Example CSV",
