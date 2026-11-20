@@ -8,12 +8,12 @@ export default {
     loading: {
       byLicense: false,
       byPlayTime: false,
-      teachers: false
+      teachers: false,
     },
     clientId: '',
     licenseStats: {},
     playTimeStats: {},
-    createdTeachers: []
+    createdTeachers: [],
   },
 
   mutations: {
@@ -36,7 +36,7 @@ export default {
     },
     addTeachers: (state, teachers) => {
       state.createdTeachers = teachers
-    }
+    },
   },
   getters: {
     getTeachers: (state) => {
@@ -47,13 +47,22 @@ export default {
     },
     getLoadingByLicenseState: (state) => {
       return state.loading.byLicense
-    }
+    },
   },
   actions: {
     fetchClientId: async ({ commit }) => {
       const clientId = await apiclientsApi.getApiClientId()
       commit('setClientId', { id: clientId })
       return clientId
+    },
+    fetchDummyStats: async ({ commit }) => {
+      commit('toggleLoading', 'byLicense')
+      const utils = require('app/core/utils')
+      const stats = utils.getDummyApiData()
+      commit('addLicenseStats', {
+        stats,
+      })
+      commit('toggleLoading', 'byLicense')
     },
     fetchLicenseStats: async ({ commit }, { clientId, startDate, endDate }) => {
       commit('toggleLoading', 'byLicense')
@@ -77,7 +86,7 @@ export default {
         .then(res => {
           if (res) {
             commit('addPlayTimeStats', {
-              stats: res
+              stats: res,
             })
           } else {
             throw new Error('Unexpected response from play-time stats by owner API.')
@@ -100,7 +109,7 @@ export default {
             userPromises.push(
               apiclientsApi.getTeachers(clientId, {
                 skip: lastStartIndex,
-                limit: groupSize
+                limit: groupSize,
               }).then(res => {
                 if (res) {
                   return res
@@ -118,6 +127,6 @@ export default {
             .catch((e) => noty({ text: 'Fetch teachers failure' + e, type: 'error' }))
             .finally(() => commit('toggleLoading', 'teachers'))
         })
-    }
-  }
+    },
+  },
 }
