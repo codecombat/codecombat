@@ -17,6 +17,7 @@ require('app/styles/editor/campaign/campaign-editor-view.sass')
 const RootView = require('views/core/RootView')
 const Campaign = require('models/Campaign')
 const Level = require('models/Level')
+const AIScenario = require('models/AIScenario')
 const Achievement = require('models/Achievement')
 const ThangType = require('models/ThangType')
 const CampaignView = require('views/play/CampaignView')
@@ -81,6 +82,8 @@ module.exports = (CampaignEditorView = (function () {
 
     constructor (options, campaignHandle, campaignPage) {
       super(options)
+
+      this.denormalizedScenarioProperties = Campaign.denormalizedScenarioProperties.filter(x => x !== 'original')
       this.onTreemaChanged = this.onTreemaChanged.bind(this)
       this.onTreemaSelectionChanged = this.onTreemaSelectionChanged.bind(this)
       this.onTreemaDoubleClicked = this.onTreemaDoubleClicked.bind(this)
@@ -106,6 +109,13 @@ module.exports = (CampaignEditorView = (function () {
       })
       this.supermodel.loadCollection(this.levels, 'levels')
 
+      this.scenarios = new CocoCollection([], {
+        model: AIScenario,
+        url: `/db/campaign/${this.campaignHandle}/ai-scenarios`,
+        project: Campaign.denormalizedScenarioProperties,
+      })
+      this.supermodel.loadCollection(this.scenarios, 'ai-scenarios')
+
       this.achievements = new CocoCollection([], {
         model: Achievement,
         url: `/db/campaign/${this.campaignHandle}/achievements`,
@@ -117,6 +127,7 @@ module.exports = (CampaignEditorView = (function () {
       this.listenToOnce(this.campaign, 'sync', this.loadThangTypeNames)
       this.listenToOnce(this.campaign, 'sync', this.onFundamentalLoaded)
       this.listenToOnce(this.levels, 'sync', this.onFundamentalLoaded)
+      this.listenToOnce(this.scenarios, 'sync', this.onFundamentalLoaded)
       this.listenToOnce(this.achievements, 'sync', this.onFundamentalLoaded)
     }
 
@@ -156,7 +167,7 @@ module.exports = (CampaignEditorView = (function () {
 
     onFundamentalLoaded () {
       // Load any levels which haven't been denormalized into our campaign.
-      if (!this.campaign.loaded || !this.levels.loaded || !this.achievements.loaded) { return }
+      if (!this.campaign.loaded || !this.levels.loaded || !this.scenarios.loaded || !this.achievements.loaded) { return }
       return this.loadMissingLevelsAndRelatedModels()
     }
 
@@ -186,11 +197,29 @@ module.exports = (CampaignEditorView = (function () {
           return this.achievements.add(achievementsLoaded.models)
         })
       }
+      for (const scenario of (this.campaign.get('scenarios') || [])) {
+        let model = this.scenarios.findWhere({ original: scenario.scenario })
+        if (model) { continue }
+        model = new AIScenario({})
+        model.setProjection(Campaign.denormalizedScenarioProperties)
+        model.setURL(`/db/ai_scenario/${scenario.scenario}/version`)
+        const scenarioResource = this.supermodel.loadModel(model)
+        this.scenarios.add(scenarioResource.model)
+        // Handle SuperModel's caching, and make sure loaded levels save and notice changes properly
+        if (scenarioResource.jqxhr) {
+          scenarioResource.model.once('sync', function () {
+            this.setURL(`/db/ai_scenario/${this.id}`)
+            return this.markToRevert()
+          })
+          promises.push(scenarioResource.jqxhr)
+        }
+      }
       return Promise.resolve($.when(...Array.from(promises || [])))
     }
 
     onLoaded () {
       this.updateCampaignLevels()
+      this.updateCampaignScenarios()
       this.campaignView.render()
       super.onLoaded()
       if (window.location.hash) {
@@ -271,6 +300,43 @@ module.exports = (CampaignEditorView = (function () {
         if (this.treema) { this.treema.set('/miniGames', miniGames) }
         this.toSave.add(this.campaign)
       })
+    }
+
+    updateCampaignScenarios () {
+      let scenario, model
+      if (this.campaign.hasLocalChanges()) { this.toSave.add(this.campaign) }
+      const existingScenarios = this.campaign.get('scenarios')
+      const hasExistingScenarios = existingScenarios && existingScenarios.length > 0
+
+      // If the user removed scenarios (or it's empty), do not recreate an empty object; unset and exit.
+      if (!hasExistingScenarios) {
+        this.campaign.unset('scenarios')
+        return
+      }
+
+      const campaignScenarios = _.cloneDeep(existingScenarios)
+      for (let scenarioIndex = 0; scenarioIndex < this.scenarios.models.length; scenarioIndex++) {
+        scenario = this.scenarios.models[scenarioIndex]
+        const scenarioOriginal = scenario.get('original')
+        const campaignScenarioIndex = campaignScenarios.findIndex(s => s.scenario === scenarioOriginal)
+        const campaignScenario = campaignScenarios[campaignScenarioIndex]
+        if (!campaignScenario) { continue }
+        $.extend(campaignScenario, _.pick(scenario.attributes, this.denormalizedScenarioProperties))
+        // TODO: better way for it to remember when we intend to not specifically require/restrict gear any more
+        campaignScenarios[campaignScenarioIndex] = campaignScenario
+      }
+      this.campaign.set('scenarios', campaignScenarios)
+
+      for (scenario of campaignScenarios) {
+        if (/test/.test(this.campaign.get('slug'))) { continue } // Don't overwrite scenario stuff for testing Campaigns
+        model = this.scenarios.findWhere({ original: scenario.scenario })
+        // do not propagate campaignIndex for non-course campaigns
+        const propsToPropagate = this.denormalizedScenarioProperties
+        for (const key of Array.from(propsToPropagate)) {
+          if (model.get(key) !== scenario[key]) { model.set(key, scenario[key]) }
+        }
+        if (model.hasLocalChanges()) { this.toSave.add(model) }
+      }
     }
 
     updateCampaignLevels () {
@@ -468,6 +534,7 @@ module.exports = (CampaignEditorView = (function () {
         this.openingModal = false
         this.propagateCampaignIndexes()
         this.updateCampaignLevels()
+        this.updateCampaignScenarios()
         this.toSave.set(this.toSave.filter(m => m.hasLocalChanges()))
         return this.openModalView(new SaveCampaignModal({}, this.toSave))
       })
@@ -541,6 +608,14 @@ module.exports = (CampaignEditorView = (function () {
             const campaignLevel = this.treema.get(`/levels/${original}`)
             for (key of Array.from(Campaign.denormalizedLevelProperties)) { level.set(key, campaignLevel[key]) }
             if (level.hasLocalChanges()) { this.toSave.add(level) }
+          } else if (_.string.startsWith(path, '/scenarios/')) {
+            const parts = path.split('/')
+            const index = parts[2]
+            const original = this.campaign.get('scenarios')[index]?.scenario
+            const scenario = this.supermodel.getModelByOriginal(AIScenario, original)
+            const campaignScenario = this.treema.get(`/scenarios/${index}`)
+            for (key of Array.from(this.denormalizedScenarioProperties)) { scenario.set(key, campaignScenario[key]) }
+            if (scenario.hasLocalChanges()) { this.toSave.add(scenario) }
           }
         }
       }
