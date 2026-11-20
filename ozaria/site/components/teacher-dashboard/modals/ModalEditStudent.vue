@@ -288,7 +288,7 @@ export default {
                 :inactive="displayOnly"
                 @click="changePassword"
               >
-                {{ $t('teacher.change_password') }}
+                {{ changingPassword ? $t('teacher.changing') : $t('teacher.change_password') }}
               </primary-button>
             </div>
           </div>
