@@ -43,7 +43,7 @@ module.exports = (HomeCNView = (function () {
         'click .setup-class-btn': 'onClickSetupClass',
         'click .my-classes-btn': 'onClickTrackEvent',
         'click .my-courses-btn': 'onClickTrackEvent',
-        'click a': 'onClickAnchor'
+        'click a': 'onClickAnchor',
       }
     }
 
@@ -56,7 +56,7 @@ module.exports = (HomeCNView = (function () {
       this.homeCN = {}
       this.mandate = this.supermodel.loadModel(new Mandate()).model
       this.listenTo(this.mandate, 'sync', this.getMandate)
-      // @getBanner()
+      this.getBanner()
       if (me.isTeacher()) {
         this.trialRequests = new TrialRequests()
         this.trialRequests.fetchOwn()
@@ -68,12 +68,12 @@ module.exports = (HomeCNView = (function () {
       return {
         title: $.i18n.t('new_home.title_coco'),
         meta: [
-          { vmid: 'meta-description', name: 'description', content: $.i18n.t('new_home.meta_description_coco') }
+          { vmid: 'meta-description', name: 'description', content: $.i18n.t('new_home.meta_description_coco') },
         ],
         link: [
-          { vmid: 'rel-canonical', rel: 'canonical', href: '/' }
+          { vmid: 'rel-canonical', rel: 'canonical', href: '/' },
 
-        ]
+        ],
       }
     }
 
@@ -83,11 +83,15 @@ module.exports = (HomeCNView = (function () {
     }
 
     getBanner () {
-      return fetchJson('/db/banner', { data: { cacheEdge: true } }).then(data => {
-        this.banner = data
-        const content = utils.i18n(data, 'content')
-        this.banner.display = DOMPurify.sanitize(marked(content != null ? content : ''))
-        return this.banner.display
+      this.banner = null
+      fetchJson('/db/banner', { data: { cacheEdge: true } }).then(data => {
+        if (data) {
+          const banner = data
+          const content = utils.i18n(data, 'content')
+          banner.display = DOMPurify.sanitize(marked(content != null ? content : ''))
+          this.banner = banner
+          this.renderSelectors('.banner')
+        }
       })
     }
 
@@ -139,7 +143,7 @@ module.exports = (HomeCNView = (function () {
       if (extraproperties == null) { extraproperties = {} }
       const defaults = {
         category: 'Homepage',
-        user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser'
+        user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser',
       }
       const properties = _.merge(defaults, extraproperties)
       return (window.tracker != null ? window.tracker.trackEvent(action, properties) : undefined)
@@ -165,7 +169,7 @@ module.exports = (HomeCNView = (function () {
         return this.homePageEvent(`Link: ${anchorText}`, properties || {})
       } else {
         _.extend(properties || {}, {
-          clicked: __guard__(e != null ? e.currentTarget : undefined, x1 => x1.host) || 'unknown'
+          clicked: __guard__(e != null ? e.currentTarget : undefined, x1 => x1.host) || 'unknown',
         })
         return this.homePageEvent('Link:', properties)
       }
