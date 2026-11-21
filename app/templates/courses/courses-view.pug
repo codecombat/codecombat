@@ -223,7 +223,7 @@ mixin classrooms_content()
           - var juniorCourseInstances = courseInstances.filter(ci => view.utils.JUNIOR_COURSE_IDS && view.utils.JUNIOR_COURSE_IDS.includes(ci.get('courseID')));
           - var cocoCourseInstances = courseInstances.filter(ci => view.utils.COCO_COURSE_IDS && view.utils.COCO_COURSE_IDS.includes(ci.get('courseID')));
           - var ozCourseInstances = courseInstances.filter(ci => view.utils.OZ_COURSE_IDS && view.utils.OZ_COURSE_IDS.includes(ci.get('courseID')));
-          - var hackstackCourseInstances = courseInstances.filter(ci => view.utils.HACKSTACK_COURSE_IDS && view.utils.HACKSTACK_COURSE_IDS.includes(ci.get('courseID')));
+          - var hackstackCourseInstances = courseInstances.filter(ci => view.utils.HACKSTACK_COURSE_IDS && view.utils.HACKSTACK_COURSE_IDS.includes(ci.get('courseID')) && !me.get('aiDisabled'));
 
           // Group courseInstances by product: [junior, coco, oz, hackstack]
           - var groupedCourseInstances = [...juniorCourseInstances, ...cocoCourseInstances, ...ozCourseInstances, ...hackstackCourseInstances];
@@ -366,7 +366,7 @@ mixin coco_main_content()
             .school-stats.col-md-3
           else
             .school-stats.col-md-5
-              if view.myClans
+              if view.myClans && !me.get('aiDisabled')
                 h2
                   span(data-i18n="courses.ai_league_team_rankings")
                   if me.get('stats') && me.get('stats').codePoints

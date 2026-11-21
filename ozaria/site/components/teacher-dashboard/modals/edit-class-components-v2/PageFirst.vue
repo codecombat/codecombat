@@ -7,6 +7,7 @@ import CourseSelect from './CourseSelect'
 import GoogleClassroomImportSource from './import-sources/GoogleClassroomImportSource.vue'
 import OtherProductImportSource from './import-sources/OtherProductImportSource.vue'
 import LmsImportSource from './import-sources/LmsImportSource.vue'
+import ClassType from './ClassType.vue'
 
 // Each entry's component owns its own button, fetch, and picker for that source,
 // and emits a normalized `linked` payload: { source, externalId, name, members? }.
@@ -19,6 +20,7 @@ const IMPORT_SOURCES = [
 export default Vue.extend({
   components: {
     CourseSelect,
+    ClassType,
   },
   mixins: [validationMixin],
   props: {
@@ -36,6 +38,10 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
+    isIdeaLab: {
+      type: Boolean,
+      default: false,
+    },
   },
   validations: {
     name: {
@@ -45,6 +51,9 @@ export default Vue.extend({
       externalId: {
         required: requiredIf(function () { return !!this.activeSource }),
       },
+    },
+    classroomType: {
+      required: requiredIf(function () { return this.isIdeaLab }),
     },
   },
   data () {
@@ -69,6 +78,10 @@ export default Vue.extend({
     initCourse: {
       get () { return this.value.initCourse },
       set (val) { this.updateDraft({ initCourse: val }) },
+    },
+    classroomType: {
+      get () { return this.value.classroomType },
+      set (val) { this.updateDraft({ classroomType: val }) },
     },
     importLink: {
       get () { return this.value.importLink || { source: null, externalId: null, members: null } },
@@ -148,6 +161,11 @@ export default Vue.extend({
           </div>
         </div>
       </template>
+      <ClassType
+        v-if="isIdeaLab"
+        v-model="$v.classroomType.$model"
+        :error="$v.classroomType.$error"
+      />
       <div
         class="form-group row"
       >

@@ -114,13 +114,21 @@
         <label for="level-chat">
           <span class="control-label"> {{ $t("teachers.classroom_level_chat") }} </span>
         </label>
-        <input
-          id="level-chat"
-          v-model="levelChat"
-          type="checkbox"
-          name="levelChat"
+        <div
+          v-if="aiDisabled"
+          class="alert alert-info"
         >
-        <span class="help-block small text-navy">{{ $t("teachers.classroom_level_chat_blurb") }}</span>
+          {{ $t('teachers.classroom_level_chat_ai_disabled') }}
+        </div>
+        <template v-else>
+          <input
+            id="level-chat"
+            v-model="levelChat"
+            type="checkbox"
+            name="levelChat"
+          >
+          <span class="help-block small text-navy">{{ $t("teachers.classroom_level_chat_blurb") }}</span>
+        </template>
       </div>
     </div>
     <div
@@ -177,54 +185,10 @@
         </select>
       </div>
     </div>
-    <div
-      v-if="moreOptions && isCodeCombat"
-      class="form-group row"
-    >
-      <div class="col-md-12">
-        <label for="type">
-          <span class="control-label"> {{ $t("courses.class_type_label") }} </span>
-        </label>
-        <select
-          id="type"
-          v-model="classroomType"
-          name="type"
-          class="form-control"
-        >
-          <option value="">
-            {{ $t('courses.avg_student_exp_select') }}
-          </option>
-          <option
-            value="in-school"
-          >
-            {{ $t('courses.class_type_in_school') }}
-          </option>
-          <option value="after-school">
-            {{ $t('courses.class_type_after_school') }}
-          </option>
-          <option
-            value="online"
-          >
-            {{ $t('courses.class_type_online') }}
-          </option>
-          <option
-            value="camp"
-          >
-            {{ $t('courses.class_type_camp') }}
-          </option>
-          <option
-            value="homeschool"
-          >
-            {{ $t('courses.class_type_homeschool') }}
-          </option>
-          <option
-            value="other"
-          >
-            {{ $t('courses.class_type_other') }}
-          </option>
-        </select>
-      </div>
-    </div>
+    <ClassType
+      v-if="!isIdeaLab && moreOptions && isCodeCombat"
+      v-model="classroomType"
+    />
     <class-start-end-date-component
       v-if="moreOptions && isCodeCombat"
       :class-date-start="classDateStart"
@@ -303,9 +267,11 @@
 <script>
 import utils from 'core/utils'
 import ClassStartEndDateComponent from '../modal-edit-class-components/ClassStartEndDateComponent'
+import ClassType from './ClassType.vue'
 export default {
   components: {
     ClassStartEndDateComponent,
+    ClassType,
   },
   props: {
     value: {
@@ -317,9 +283,13 @@ export default {
     return {
       // Local UI-only state - whether the advanced section is expanded, not part of the draft.
       moreOptions: false,
+      aiDisabled: false,
     }
   },
   computed: {
+    isIdeaLab () {
+      return me.isIdeaLab() && me.isTeacher()
+    },
     // Proxies onto the single draft object owned by the parent (this.value) -
     // no local copy, so there is only ever one source of truth for the draft.
     classroomItems: {
@@ -390,6 +360,9 @@ export default {
       return this.moreOptions ? '&nbsp;&and;' : '&nbsp;&or;'
     },
 
+  },
+  created () {
+    this.aiDisabled = Boolean(me.get('aiDisabled'))
   },
   methods: {
     updateDraft (patch) {

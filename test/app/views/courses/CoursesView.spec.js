@@ -1,3 +1,4 @@
+/* eslint-env jasmine */
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -15,6 +16,49 @@ describe('CoursesView', function() {
 
   const modal = null;
   let view = null;
+
+  describe('aiLeagueTiles for a Code Ninjas camper', function () {
+    beforeEach(function () {
+      me.set(factories.makeUser({ role: 'student' }).attributes)
+      spyOn(me, 'isCodeNinja').and.returnValue(true)
+      view = new CoursesView()
+      view.classrooms = new Classrooms([factories.makeClassroom({ type: 'camp-esports' }), factories.makeClassroom({ type: 'camp-junior' })])
+    })
+
+    it('keeps the Ozaria and camp activities tiles when AI is turned off for the user', function () {
+      me.set('aiDisabled', true)
+      const hrefs = view.aiLeagueTiles().map(tile => tile.a.href)
+      expect(hrefs.length).toBe(2)
+      expect(hrefs[0]).toContain('ozaria.com')
+      expect(hrefs[1]).toContain('drive.google.com')
+    })
+
+    it('shows the Roblox and AI League tiles too when AI is on', function () {
+      me.set('aiDisabled', false)
+      const hrefs = view.aiLeagueTiles().map(tile => tile.a.href)
+      expect(hrefs[1]).toContain('roblox.com')
+      expect(hrefs[hrefs.length - 1]).toContain('/league')
+    })
+  })
+
+  describe('calculateAllCompleted for a student with AI turned off', function () {
+    it('skips a hidden HackStack course', function () {
+      me.set(factories.makeUser({ role: 'student' }).attributes)
+      me.set('aiDisabled', true)
+      view = new CoursesView()
+      const courseID = view.utils.HACKSTACK_COURSE_IDS[0]
+      const classroom = factories.makeClassroom({ courses: [{ _id: courseID, levels: [factories.makeLevelObject()] }] })
+      const courseInstance = factories.makeCourseInstance({ courseID, classroomID: classroom.id })
+      courseInstance.sessions = { models: [] }
+      spyOn(classroom, 'statsForSessions').and.returnValue({ levels: { next: factories.makeLevel() }, courseComplete: false })
+      view.classrooms = new Classrooms([classroom])
+      view.courseInstances = new CourseInstances([courseInstance])
+      view.store = { state: { courses: { byId: { [courseID]: { _id: courseID } } } } }
+      view.calculateAllCompleted()
+      expect(view.nextLevelInfo).toBeUndefined()
+      expect(view.allCompleted).toBe(true)
+    })
+  })
 
   return describe('Change Hero button', function() {
     beforeEach(function(done) {

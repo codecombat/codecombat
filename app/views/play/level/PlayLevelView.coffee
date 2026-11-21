@@ -215,6 +215,7 @@ module.exports = class PlayLevelView extends RootView
         'text-code': 'text-code',
         }[codeFormatOverride] or codeFormat
     @classroomAceConfig = { liveCompletion: true, codeFormatDefault: codeFormat, classroomItems: true, disablePaste: false } # default (home users, teachers, etc.)
+    @classroomAceConfig.levelChat = 'none' if me.get('aiDisabled')
     if @courseInstanceID
       fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members,ownerID,classroomItems")
       @supermodel.trackRequest fetchAceConfig
@@ -224,7 +225,7 @@ module.exports = class PlayLevelView extends RootView
         @classroomAceConfig.codeFormatDefault = classroom.aceConfig?.codeFormatDefault ? classroom.aceConfig.defaultCodeFormat ? codeFormat
         @classroomAceConfig.codeFormats = classroom.aceConfig?.codeFormats ? ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code']
         @tome?.determineCodeFormat()
-        @classroomAceConfig.levelChat = classroom.aceConfig?.levelChat ? 'none'
+        @classroomAceConfig.levelChat = if me.get('aiDisabled') then 'none' else classroom.aceConfig?.levelChat ? 'none'
         @classroomAceConfig.classroomItems = classroom?.classroomItems ? (!features?.china) # china classroomitems default to false and global default to true
         @teacherID = classroom.ownerID
 

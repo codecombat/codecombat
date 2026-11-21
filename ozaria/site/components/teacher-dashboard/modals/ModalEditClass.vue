@@ -66,6 +66,7 @@ export default Vue.extend({
       newCodeFormats: typeof cFormats === 'undefined' ? ['text-code'] : cFormats,
       newCodeFormatDefault: typeof cFormatDefault === 'undefined' ? 'text-code' : cFormatDefault,
       newLevelChat: typeof cLevelChat === 'undefined' ? isChinaLevelChat : cLevelChat === 'fixed_prompt_only',
+      aiDisabled: Boolean(this.classroom?.aiDisabled),
       newRemix: this.classroom?.hackstackConfig?.remixAllowed || false,
       cocoDefaultLevelChat: true,
       newClassroomDescription: this.classroom?.description || '',
@@ -235,6 +236,7 @@ export default Vue.extend({
   },
 
   async mounted () {
+    this.aiDisabled = this.aiDisabled || Boolean(me.get('aiDisabled'))
     if (!this.classroomInstance?.isNew()) {
       this.newInitialFreeCourses = this.classroomInstance.get('initialFreeCourses') || []
     }
@@ -836,13 +838,21 @@ export default Vue.extend({
             <label for="level-chat">
               <span class="control-label"> {{ $t("teachers.classroom_level_chat") }} </span>
             </label>
-            <input
-              id="level-chat"
-              v-model="newLevelChat"
-              type="checkbox"
-              name="levelChat"
+            <div
+              v-if="aiDisabled"
+              class="alert alert-info"
             >
-            <span class="help-block small text-navy">{{ $t("teachers.classroom_level_chat_blurb") }}</span>
+              {{ $t('teachers.classroom_level_chat_ai_disabled') }}
+            </div>
+            <template v-else>
+              <input
+                id="level-chat"
+                v-model="newLevelChat"
+                type="checkbox"
+                name="levelChat"
+              >
+              <span class="help-block small text-navy">{{ $t("teachers.classroom_level_chat_blurb") }}</span>
+            </template>
           </div>
         </div>
         <div

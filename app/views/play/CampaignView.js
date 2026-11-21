@@ -1458,7 +1458,7 @@ class CampaignView extends RootView {
   }
 
   showAiLeagueModal () {
-    if (!storage.load(AI_LEAGUE_MODAL_SHOWN)) {
+    if (!storage.load(AI_LEAGUE_MODAL_SHOWN) && !me.get('aiDisabled')) {
       this.openModalView(new AILeaguePromotionModal(), true)
       storage.save(AI_LEAGUE_MODAL_SHOWN, true)
     }
@@ -3146,15 +3146,15 @@ class CampaignView extends RootView {
     }
 
     if (what === 'ai-league-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && !this.editorMode && !me.showChinaResourceInfo()
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode && !me.showChinaResourceInfo() && !me.get('aiDisabled')
     }
 
     if (what === 'roblox-level') {
-      return this.userQualifiesForRobloxModal() && !this.editorMode && !me.showChinaResourceInfo()
+      return this.userQualifiesForRobloxModal() && !this.editorMode && !me.showChinaResourceInfo() && !me.get('aiDsiabled')
     }
 
     if (what === 'roblox-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && !this.editorMode && !me.showChinaResourceInfo()
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode && !me.showChinaResourceInfo() && !me.get('aiDisabled')
     }
 
     if (what === 'hackstack-menu-icon') {

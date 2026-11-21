@@ -12,4 +12,40 @@ describe('CocoRouter', () => {
     }
     expect(missing).toEqual([])
   })
+
+  describe('a route marked redirectAiDisabled', () => {
+    let role
+    beforeEach(() => { role = me.get('role') })
+    afterEach(() => {
+      me.unset('aiDisabled')
+      me.set('role', role)
+    })
+
+    it('sends a student or a teacher with AI off home before the Vue router moves', () => {
+      for (const userRole of ['student', 'teacher']) {
+        me.set({ aiDisabled: true, role: userRole })
+        const router = { vueRouter: { push: jasmine.createSpy('push').and.returnValue(Promise.resolve()) }, redirectHome: jasmine.createSpy('redirectHome') }
+        CocoRouter.prototype.routeDirectly.call(router, 'ai/AIView', [], { redirectAiDisabled: true })
+        expect(router.redirectHome).toHaveBeenCalled()
+        expect(router.vueRouter.push).not.toHaveBeenCalled()
+      }
+    })
+
+    it('lets a student with AI on through', () => {
+      me.set({ aiDisabled: false, role: 'student' })
+      const router = { vueRouter: { push: jasmine.createSpy('push').and.returnValue(Promise.resolve()) }, redirectHome: jasmine.createSpy('redirectHome') }
+      CocoRouter.prototype.routeDirectly.call(router, 'ai/AIView', [], { redirectAiDisabled: true })
+      expect(router.redirectHome).not.toHaveBeenCalled()
+      expect(router.vueRouter.push).toHaveBeenCalled()
+    })
+
+    it('marks the HackStack and AI Junior pages, the teacher dashboard AI Junior page included', () => {
+      const routes = CocoRouter.prototype.routes
+      const aiRoutes = Object.keys(routes).filter(route => /^(teachers\/)?ai($|\/|-junior)/.test(route))
+      expect(aiRoutes).toEqual(jasmine.arrayContaining(['ai', 'ai/*path', 'ai-junior', 'ai-junior/scan', 'teachers/ai-junior/:classroomId']))
+      const fake = { calls: [], routeDirectly (path, args, options) { this.calls.push(options) } }
+      for (const route of aiRoutes) { routes[route].call(fake) }
+      expect(fake.calls.map(options => Boolean(options?.redirectAiDisabled))).toEqual(aiRoutes.map(() => true))
+    })
+  })
 })

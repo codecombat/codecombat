@@ -105,7 +105,7 @@ block content
 
 
     #tournament-status
-      if !view.tournamentState && view.globalAILeagueEnds
+      if !view.tournamentState && view.globalAILeagueEnds && !me.get('aiDisabled')
          .ai-league-info(data-i18n="ladder.ai_league_ends", data-i18n-options={ time: view.globalAILeagueEnds })
       if view.tournamentState == 'initializing'
         #tournament-status
@@ -157,7 +157,7 @@ block content
             // This button could consume a lot of server resources
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.simulate-all-button
               span(data-i18n="play.simulate_all")
-          else if !features.china && !me.isTeacher() && !me.isAnonymous() && !me.isRegisteredForAILeague() && view.isAILeagueArena()
+          else if !features.china && !me.isTeacher() && !me.isAnonymous() && !me.isRegisteredForAILeague() && view.isAILeagueArena() && !me.get('aiDisabled')
             a.btn.btn-illustrated.btn-block.btn-lg.btn-primary.register-for-ai-league-button(href="/league?registering=true")
               span(data-i18n="league.register_for_ai_league")
     else if view.tournament && ['ranking', 'waiting', 'abandoned', 'ended'].indexOf(view.tournamentState) !== -1

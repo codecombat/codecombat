@@ -22,12 +22,12 @@ const cocoPath = function (relativePath) {
   return `${cocoBaseURL()}${relativePath}`
 }
 
-const ozPath = function (relativePath) {
-  return `${ozBaseURL()}${relativePath}`
-}
-
 const ozCurriculumLink = function () {
-  return '/teachers/guide/ozaria'
+  if (me.isTeacher()) {
+    return '/teachers/guide/ozaria'
+  }
+  // Need to have the full URL here for the page load, so HomeView loads fully and picks a template
+  return `${window.location.origin}/ozaria`
 }
 
 export const items = {
@@ -36,7 +36,7 @@ export const items = {
   TEACHER_TOOLKIT_PREVIEW: { url: '/teachers/resources', title: 'nav.teacher_toolkit_preview' },
   TEACHER_TOOLKIT: { url: '/teachers/resources', title: 'nav.teacher_toolkit' },
   STANDARDS: { url: cocoPath('/standards'), title: 'teacher_dashboard.standards_alignment' },
-  EFFICACY: { url: ozPath('/efficacy'), title: 'nav.efficacy_studies' },
+  EFFICACY: { url: '/efficacy', title: 'nav.efficacy_studies' },
   SUCCESS: { url: '/impact', title: 'nav.success_stories' },
   PD: { url: '/pd', title: 'teacher_dashboard.pd' },
   HOC: { url: cocoPath('/teachers/hour-of-code'), title: 'nav.hoc' },
@@ -46,7 +46,8 @@ export const items = {
   COCO_CLASSROOM: { url: cocoPath('/schools'), title: 'new_home.codecombat' },
   COCO_JUNIOR: { url: getJuniorUrl(), title: 'nav.coco_junior' },
   COCO_HOME: { url: cocoPath('/play'), title: 'nav.codecombat_home' },
-  OZ_CLASSROOM: { url: ozCurriculumLink(), title: 'new_home.ozaria' },
+  // Read on use: the role can change without a page reload
+  get OZ_CLASSROOM () { return { url: ozCurriculumLink(), title: 'new_home.ozaria' } },
   AP_CSP: { url: cocoPath('/apcsp'), title: 'nav.ap_csp' },
   AI_LEAGUE: { url: cocoPath('/league'), title: 'nav.ai_league_esports' },
   ROBLOX: { url: cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' },
@@ -367,7 +368,7 @@ export default Vue.extend({
             { ...items.EFFICACY, filter: isOzaria },
             { ...items.SUCCESS, filter: isCodeCombat },
             items.PD,
-            items.HOC,
+            { ...items.HOC, hide: Boolean(me.get('aiDisabled')) },
             items.GRANTS,
             items.DEMO,
           ],
@@ -380,10 +381,7 @@ export default Vue.extend({
               : [items.OZ_CLASSROOM, items.COCO_CLASSROOM, items.COCO_JUNIOR]
             ),
             items.AP_CSP,
-            items.AI_LEAGUE,
-            items.ROBLOX,
-            items.AI_HACKSTACK,
-            items.AI_JUNIOR,
+            ...(me.get('aiDisabled') ? [] : [items.AI_LEAGUE, items.ROBLOX, items.AI_HACKSTACK, items.AI_JUNIOR]),
           ],
         },
       }
@@ -407,8 +405,7 @@ export default Vue.extend({
                 ? [studentCocoClassroom, studentOzarClassroom]
                 : [studentOzarClassroom, studentCocoClassroom]
             ),
-            items.AI_LEAGUE,
-            items.ROBLOX,
+            ...(me.get('aiDisabled') ? [] : [items.AI_LEAGUE, items.ROBLOX]),
           ],
         },
       }

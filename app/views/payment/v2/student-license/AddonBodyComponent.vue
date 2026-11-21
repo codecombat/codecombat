@@ -19,7 +19,7 @@
         </div>
         <div class="license__addon-info-subheading">
           Comprehensive 40-hour online course that allows you to learn anytime, anywhere and at any pace. <a
-            href="https://www.ozaria.com/professional-development"
+            href="/professional-development"
             target="_blank"
           >Learn More.</a>
         </div>
@@ -44,7 +44,7 @@
         </div>
         <div class="license__addon-info-subheading">
           {{ $t('payments.pd_info') }} <a
-            href="https://www.ozaria.com/professional-development"
+            href="/professional-development"
             target="_blank"
             @click.stop
           >Learn More.</a>
